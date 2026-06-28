@@ -46,13 +46,40 @@
   --clr-warning-container: oklch(95% 0.05 75);
   --clr-on-warning-container: oklch(32% 0.14 75);
 
-  /* -- Spacing ---------------------------------------------- */
-  --space-xs: 8px;
-  --space-sm: calc(var(--space-xs) * 2); /* 16px */
-  --space-md: calc(var(--space-xs) * 3); /* 24px */
-  --space-lg: calc(var(--space-xs) * 4); /* 32px */
-  --space-xl: calc(var(--space-xs) * 5); /* 40px */
-  --space-xxl: calc(var(--space-xs) * 6); /* 48px */
+  /* -- Sizing & Spacing ------------------------------------- */
+  --size-0: 0px;
+  --size-1: 1px;
+  --size-1-5: 1.5px;
+  --size-2: 2px;
+  --size-4: 4px;
+  --size-6: 6px;
+  --size-8: 8px;
+  --size-10: 10px;
+  --size-12: 12px;
+  --size-14: 14px;
+  --size-15: 15px;
+  --size-16: 16px;
+  --size-18: 18px;
+  --size-20: 20px;
+  --size-22: 22px;
+  --size-24: 24px;
+  --size-32: 32px;
+  --size-36: 36px;
+  --size-40: 40px;
+  --size-48: 48px;
+  --size-80: 80px;
+  --size-140: 140px;
+  --size-200: 200px;
+  --size-420: 420px;
+  --size-480: 480px;
+
+  --space-2xs: var(--size-4);
+  --space-xs: var(--size-8);
+  --space-sm: var(--size-16);
+  --space-md: var(--size-24);
+  --space-lg: var(--size-32);
+  --space-xl: var(--size-40);
+  --space-xxl: var(--size-48);
 
   /* -- Typography ------------------------------------------- */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -115,6 +142,7 @@
   :root {
     --clr-primary: oklch(72% 0.18 280);
     --clr-primary-light: oklch(82% 0.14 280);
+    --clr-primary-dark: oklch(50% 0.2 280);
     --clr-primary-container: oklch(28% 0.14 280);
     --clr-on-primary: oklch(18% 0.14 280);
     --clr-on-primary-container: oklch(88% 0.1 280);
@@ -169,8 +197,6 @@
 html {
   color-scheme: light dark;
   height: 100%;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
 }
 
 body {
@@ -181,8 +207,6 @@ body {
   background: var(--surface-page);
   color: var(--text-primary);
   height: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ============================================================
@@ -298,6 +322,16 @@ body {
   &:hover:not(:disabled) {
     background: var(--clr-primary-container);
     border-color: var(--clr-primary);
+  }
+}
+
+.btn--ghost.btn--danger {
+  color: var(--clr-error);
+  border-color: var(--clr-error-container);
+
+  &:hover:not(:disabled) {
+    background: var(--clr-error-container);
+    border-color: var(--clr-error);
   }
 }
 

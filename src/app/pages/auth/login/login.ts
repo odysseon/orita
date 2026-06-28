@@ -1,4 +1,4 @@
-import { Component, inject, signal, ViewEncapsulation } from '@angular/core';
+import { Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
 import { form, FormField, required, email } from '@angular/forms/signals';
 import { LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle } from '@lucide/angular';
 import { AuthService } from '../../../core/services/auth.service';
@@ -27,6 +27,7 @@ export class Login {
     email(f.email, { message: 'Enter a valid email address' });
     required(f.password, { message: 'Password is required' });
   });
+  readonly isFormInvalid = computed(() => this.loginForm().invalid());
 
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();

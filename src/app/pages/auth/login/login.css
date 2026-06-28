@@ -1,87 +1,5 @@
-/* ============================================================
- * TOKENS — scoped to login page
- * ============================================================ */
 :host {
-  /* -- Brand ------------------------------------------------ */
-  --clr-primary: oklch(55% 0.22 280);
-  --clr-primary-dark: oklch(30% 0.18 280);
-  --clr-primary-container: oklch(92% 0.06 280);
-  --clr-on-primary: oklch(100% 0 0);
-
-  --clr-accent: oklch(72% 0.18 180);
-  --clr-accent-container: oklch(92% 0.06 180);
-  --clr-on-accent: oklch(100% 0 0);
-
-  --clr-error: oklch(55% 0.22 25);
-  --clr-on-error: oklch(100% 0 0);
-
-  /* -- Surfaces --------------------------------------------- */
-  --surface-page: oklch(98% 0.005 280);
-  --surface-card: oklch(100% 0 0);
-  --surface-input: oklch(95% 0.01 280);
-
-  /* -- Text ------------------------------------------------- */
-  --text-primary: oklch(18% 0.02 280);
-  --text-secondary: oklch(40% 0.04 280);
-  --text-muted: oklch(58% 0.03 280);
-
-  /* -- Borders ---------------------------------------------- */
-  --border-default: oklch(78% 0.04 280);
-  --border-subtle: oklch(88% 0.02 280);
-
-  /* -- Elevation -------------------------------------------- */
-  --shadow-md: 0 4px 12px oklch(18% 0.02 280 / 0.1), 0 2px 4px oklch(18% 0.02 280 / 0.06);
-
-  /* -- Radius ----------------------------------------------- */
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-lg: 16px;
-
-  /* -- Typography ------------------------------------------- */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-size-sm: 12px;
-  --font-size-md: 14px;
-  --font-size-lg: 16px;
-  --font-size-xl: 20px;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --line-height-normal: 1.5;
-
-  /* -- Motion ----------------------------------------------- */
-  --transition-fast: 150ms cubic-bezier(0.2, 0, 0, 1);
-
   display: block;
-}
-
-/* ============================================================
- * DARK MODE
- * ============================================================ */
-@media (prefers-color-scheme: dark) {
-  :host {
-    --clr-primary: oklch(72% 0.18 280);
-    --clr-primary-dark: oklch(50% 0.2 280);
-    --clr-primary-container: oklch(28% 0.14 280);
-    --clr-on-primary: oklch(18% 0.14 280);
-
-    --clr-accent: oklch(78% 0.15 180);
-    --clr-accent-container: oklch(28% 0.12 180);
-    --clr-on-accent: oklch(15% 0.08 180);
-
-    --clr-error: oklch(70% 0.18 25);
-
-    --surface-page: oklch(14% 0.01 280);
-    --surface-card: oklch(18% 0.015 280);
-    --surface-input: oklch(22% 0.02 280);
-
-    --text-primary: oklch(94% 0.005 280);
-    --text-secondary: oklch(75% 0.02 280);
-    --text-muted: oklch(55% 0.03 280);
-
-    --border-default: oklch(36% 0.04 280);
-    --border-subtle: oklch(28% 0.03 280);
-
-    --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.4);
-  }
 }
 
 /* ============================================================
@@ -92,7 +10,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100dvh;
-  padding: 24px;
+  padding: var(--size-24);
   background: var(--surface-page);
   font-family: var(--font-sans);
 }
@@ -102,10 +20,10 @@
  * ============================================================ */
 .login-card {
   width: 100%;
-  max-width: 420px;
+  max-width: var(--size-420);
   background: var(--surface-card);
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
   box-shadow: var(--shadow-md);
   overflow: hidden;
 }
@@ -114,37 +32,37 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 32px 32px 0;
+  padding: var(--size-32) var(--size-32) var(--size-0);
   text-align: center;
 }
 
 .login-card__title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--size-8);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
 }
 
 .login-card__icon {
-  width: 22px;
-  height: 22px;
+  width: var(--size-22);
+  height: var(--size-22);
   color: var(--clr-primary);
 }
 
 .login-card__subtitle {
   font-size: var(--font-size-md);
   color: var(--text-muted);
-  margin-top: 4px;
+  margin-top: var(--size-4);
 }
 
 .login-card__body {
-  padding: 24px 32px;
+  padding: var(--size-24) var(--size-32);
 }
 
 .login-card__footer {
-  padding: 0 32px 24px;
+  padding: var(--size-0) var(--size-32) var(--size-24);
   text-align: center;
   font-size: var(--font-size-md);
   color: var(--text-secondary);
@@ -154,15 +72,15 @@
   color: var(--clr-primary);
   font-weight: var(--font-weight-medium);
   text-decoration: none;
-  margin-left: 4px;
+  margin-left: var(--size-4);
 
   &:hover {
     text-decoration: underline;
   }
 
   &:focus-visible {
-    outline: 2px solid var(--clr-primary);
-    outline-offset: 2px;
+    outline: var(--size-2) solid var(--clr-primary);
+    outline-offset: var(--size-2);
     border-radius: var(--radius-xs);
   }
 }
@@ -173,7 +91,7 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--size-16);
 }
 
 .login-form__row {
@@ -185,7 +103,7 @@
 .login-form__remember {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--size-6);
   font-size: var(--font-size-md);
   color: var(--text-secondary);
   cursor: pointer;
@@ -193,8 +111,8 @@
 }
 
 .login-form__checkbox {
-  width: 15px;
-  height: 15px;
+  width: var(--size-15);
+  height: var(--size-15);
   accent-color: var(--clr-primary);
   cursor: pointer;
 }
@@ -215,7 +133,7 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--size-6);
 }
 
 .field__label {
@@ -232,14 +150,14 @@
 
 .field__input {
   width: 100%;
-  height: 40px;
-  padding: 0 12px;
-  border: 1.5px solid var(--border-default);
+  height: var(--size-40);
+  padding: var(--size-0) var(--size-12);
+  border: var(--size-1-5) solid var(--border-default);
   border-radius: var(--radius-sm);
   font-size: var(--font-size-md);
   font-family: var(--font-sans);
   color: var(--text-primary);
-  background: var(--surface-input);
+  background: var(--surface-container);
   outline: none;
   transition: border-color var(--transition-fast);
 
@@ -253,7 +171,7 @@
 }
 
 .field__input--padded {
-  padding-right: 40px;
+  padding-right: var(--size-40);
 }
 
 .field__input--error {
@@ -268,25 +186,25 @@
 
 .field__toggle {
   position: absolute;
-  right: 10px;
+  right: var(--size-10);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: var(--size-24);
+  height: var(--size-24);
   border: none;
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
-  padding: 0;
+  padding: var(--size-0);
 
   &:hover {
     color: var(--text-secondary);
   }
 
   svg {
-    width: 16px;
-    height: 16px;
+    width: var(--size-16);
+    height: var(--size-16);
   }
 }
 
@@ -294,38 +212,7 @@
  * SUBMIT BUTTON
  * ============================================================ */
 .login-form__submit {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  height: 40px;
-  margin-top: 4px;
-  border: none;
-  border-radius: var(--radius-sm);
-  background: var(--clr-primary);
-  color: var(--clr-on-primary);
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-semibold);
-  font-family: var(--font-sans);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast),
-    opacity var(--transition-fast);
-
-  &:hover:not(:disabled) {
-    background: var(--clr-primary-dark);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--clr-primary);
-    outline-offset: 2px;
-  }
+  margin-top: var(--size-4);
 }
 
 /* ============================================================
@@ -338,7 +225,7 @@
 }
 
 .login-form__spinner {
-  width: 16px;
-  height: 16px;
+  width: var(--size-16);
+  height: var(--size-16);
   animation: spin 0.8s linear infinite;
 }
