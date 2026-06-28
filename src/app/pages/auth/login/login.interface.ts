@@ -1,1 +1,9 @@
-export interface Login {}
+export interface ILogin {
+  email: string;
+  password: string;
+}
+
+export interface ILoginResponse {
+  token: string;
+  expiresAt: string;
+}

@@ -1,6 +1,7 @@
 {
   "name": "orita",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,8 +10,6 @@
     "test": "ng test",
     "serve:ssr:orita": "node dist/orita/server/server.mjs"
   },
-  "private": true,
-  "packageManager": "pnpm@11.5.2",
   "dependencies": {
     "@angular/common": "^22.0.0",
     "@angular/compiler": "^22.0.0",
@@ -20,7 +19,9 @@
     "@angular/platform-server": "^22.0.0",
     "@angular/router": "^22.0.0",
     "@angular/ssr": "^22.0.4",
+    "@lucide/angular": "^1.21.0",
     "express": "^5.1.0",
+    "ngx-toastr": "^20.0.5",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -34,5 +35,17 @@
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
     "vitest": "^4.0.8"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": ">=11.5.0",
+      "onFail": "error"
+    },
+    "runtime": {
+      "name": "node",
+      "version": ">=26.0.0",
+      "onFail": "error"
+    }
   }
 }

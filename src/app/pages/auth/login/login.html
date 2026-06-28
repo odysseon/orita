@@ -1,1 +1,84 @@
-<p>login works!</p>
+<div class="login-page">
+  <div class="login-card">
+    <header class="login-card__header">
+      <h1 class="login-card__title">
+        <svg lucideMapPin class="login-card__icon" aria-hidden="true"></svg>
+        Orita
+      </h1>
+      <p class="login-card__subtitle">Sign in to discover what's near you</p>
+    </header>
+
+    <div class="login-card__body">
+      <form class="login-form" (submit)="onSubmit($event)">
+        <div class="field">
+          <label class="field__label" for="email">Email</label>
+          <input
+            id="email"
+            class="field__input"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            [formField]="loginForm.email"
+            [class.field__input--error]="loginForm.email().touched() && loginForm.email().invalid()"
+          />
+          @if (loginForm.email().touched() && loginForm.email().invalid()) {
+          <p class="field__error">{{ loginForm.email().errors()[0]?.message }}</p>
+          }
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="password">Password</label>
+          <div class="field__input-wrap">
+            <input
+              id="password"
+              class="field__input field__input--padded"
+              [type]="showPassword() ? 'text' : 'password'"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              [formField]="loginForm.password"
+              [class.field__input--error]="loginForm.password().touched() && loginForm.password().invalid()"
+            />
+            <button
+              class="field__toggle"
+              type="button"
+              [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+              (click)="togglePassword()"
+            >
+              @if (showPassword()) {
+              <svg lucideEyeOff aria-hidden="true"></svg>
+              } @else {
+              <svg lucideEye aria-hidden="true"></svg>
+              }
+            </button>
+          </div>
+          @if (loginForm.password().touched() && loginForm.password().invalid()) {
+          <p class="field__error">{{ loginForm.password().errors()[0]?.message }}</p>
+          }
+        </div>
+
+        <div class="login-form__row">
+          <label class="login-form__remember">
+            <input class="login-form__checkbox" type="checkbox" [formField]="loginForm.remember" />
+            <span>Keep me signed in</span>
+          </label>
+          <a href="/auth/forgot-password">Forgot password?</a>
+        </div>
+
+        <button
+          class="btn btn--primary btn--full login-form__submit"
+          type="submit"
+          [disabled]="loading()"
+        >
+          @if (loading()) {
+          <svg lucideLoaderCircle class="login-form__spinner" aria-hidden="true"></svg>
+          Signing in… } @else { Sign in }
+        </button>
+      </form>
+    </div>
+
+    <footer class="login-card__footer">
+      Don't have an account?
+      <a class="login-card__footer-link" href="/auth/register">Create one</a>
+    </footer>
+  </div>
+</div>

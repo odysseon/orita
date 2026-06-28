@@ -1,0 +1,63 @@
+<div class="profile-page">
+  @if (profile.isLoading()) {
+  <div class="profile-skeleton">
+    <div class="skeleton skeleton--avatar"></div>
+    <div class="skeleton skeleton--name"></div>
+    <div class="skeleton skeleton--meta"></div>
+  </div>
+  } @if (profile.error()) {
+  <div class="profile-error">
+    <svg lucideTriangleAlert class="profile-error__icon" aria-hidden="true"></svg>
+    <p class="profile-error__text">Could not load your profile. Please try again.</p>
+  </div>
+  } @if (profile.hasValue()) {
+  <div class="profile-identity">
+    <div class="profile-avatar">
+      @if (profile.value()!.avatarUrl) {
+      <img
+        class="profile-avatar__image"
+        [src]="profile.value()!.avatarUrl!"
+        [alt]="profile.value()!.username"
+      />
+      } @else {
+      <div class="profile-avatar__fallback" aria-hidden="true">
+        <svg lucideUser></svg>
+      </div>
+      }
+    </div>
+
+    <h1 class="profile-identity__username">{{ profile.value()!.username }}</h1>
+    <p class="profile-identity__email">{{ profile.value()!.account.email }}</p>
+
+    <div class="profile-identity__meta">
+      @if (profile.value()!.location) {
+      <span class="profile-meta-chip">
+        <svg lucideMapPin class="profile-meta-chip__icon" aria-hidden="true"></svg>
+        {{ profile.value()!.location!.city ?? profile.value()!.location!.name }}
+      </span>
+      }
+      <span class="profile-meta-chip"> Joined {{ formatDate(profile.value()!.createdAt) }} </span>
+    </div>
+  </div>
+
+  <nav class="profile-nav" aria-label="Profile navigation">
+    @for (item of navItems; track item.route) {
+    <button class="profile-nav__item" (click)="navigate(item.route)">
+      <div class="profile-nav__icon-wrap" aria-hidden="true">
+        <svg [lucideIcon]="item.icon"></svg>
+      </div>
+      <div class="profile-nav__text">
+        <span class="profile-nav__label">{{ item.label }}</span>
+        <span class="profile-nav__description">{{ item.description }}</span>
+      </div>
+      <svg lucideChevronRight class="profile-nav__chevron" aria-hidden="true"></svg>
+    </button>
+    }
+  </nav>
+
+  <button class="profile-logout" (click)="logout()">
+    <svg lucideLogOut class="profile-logout__icon" aria-hidden="true"></svg>
+    Sign out
+  </button>
+  }
+</div>
