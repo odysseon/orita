@@ -1,3 +1,5 @@
+@import 'ngx-toastr/toastr';
+
 /* ============================================================
  * TOKENS — LIGHT MODE (default)
  * ============================================================ */
@@ -5,56 +7,52 @@
   color-scheme: light dark;
 
   /* -- Brand palette ---------------------------------------- */
-  --clr-primary:          oklch(55% 0.22 280);
-  --clr-primary-light:    oklch(70% 0.18 280);
-  --clr-primary-container:oklch(92% 0.06 280);
-  --clr-primary-dark:     oklch(30% 0.18 280);
-  --clr-on-primary:       oklch(100% 0 0);
+  --clr-primary: oklch(55% 0.22 280);
+  --clr-primary-light: oklch(70% 0.18 280);
+  --clr-primary-container: oklch(92% 0.06 280);
+  --clr-primary-dark: oklch(30% 0.18 280);
+  --clr-on-primary: oklch(100% 0 0);
   --clr-on-primary-container: oklch(28% 0.18 280);
 
-  /* -- Neutral palette -------------------------------------- */
-  --clr-white: oklch(100% 0 0);
-  --clr-black: oklch(0% 0 0);
-
   /* -- Surfaces --------------------------------------------- */
-  --surface-page:         oklch(98% 0.005 280);
-  --surface-card:         oklch(100% 0 0);
-  --surface-container:    oklch(95% 0.01 280);
+  --surface-page: oklch(98% 0.005 280);
+  --surface-card: oklch(100% 0 0);
+  --surface-container: oklch(95% 0.01 280);
   --surface-container-high: oklch(91% 0.015 280);
-  --surface-overlay:      oklch(92% 0.06 280);
+  --surface-overlay: oklch(92% 0.06 280);
 
   /* -- Text ------------------------------------------------- */
-  --text-primary:         oklch(18% 0.02 280);
-  --text-secondary:       oklch(40% 0.04 280);
-  --text-muted:           oklch(58% 0.03 280);
-  --text-on-dark:         oklch(98% 0.005 280);
+  --text-primary: oklch(18% 0.02 280);
+  --text-secondary: oklch(40% 0.04 280);
+  --text-muted: oklch(58% 0.03 280);
+  --text-on-dark: oklch(98% 0.005 280);
 
   /* -- Borders ---------------------------------------------- */
-  --border-subtle:        oklch(88% 0.02 280);
-  --border-default:       oklch(78% 0.04 280);
-  --border-strong:        oklch(60% 0.08 280);
+  --border-subtle: oklch(88% 0.02 280);
+  --border-default: oklch(78% 0.04 280);
+  --border-strong: oklch(60% 0.08 280);
 
   /* -- Semantic --------------------------------------------- */
-  --clr-error:            oklch(55% 0.22 25);
-  --clr-error-container:  oklch(93% 0.05 25);
-  --clr-on-error:         oklch(100% 0 0);
+  --clr-error: oklch(55% 0.22 25);
+  --clr-error-container: oklch(93% 0.05 25);
+  --clr-on-error: oklch(100% 0 0);
   --clr-on-error-container: oklch(30% 0.18 25);
 
-  --clr-success:          oklch(52% 0.17 155);
-  --clr-success-container:oklch(92% 0.05 155);
+  --clr-success: oklch(52% 0.17 155);
+  --clr-success-container: oklch(92% 0.05 155);
   --clr-on-success-container: oklch(25% 0.14 155);
 
-  --clr-warning:          oklch(68% 0.18 75);
-  --clr-warning-container:oklch(95% 0.05 75);
+  --clr-warning: oklch(68% 0.18 75);
+  --clr-warning-container: oklch(95% 0.05 75);
   --clr-on-warning-container: oklch(32% 0.14 75);
 
   /* -- Spacing ---------------------------------------------- */
-  --space-xs:  8px;
-  --space-sm:  calc(var(--space-xs) * 2);   /* 16px */
-  --space-md:  calc(var(--space-xs) * 3);   /* 24px */
-  --space-lg:  calc(var(--space-xs) * 4);   /* 32px */
-  --space-xl:  calc(var(--space-xs) * 5);   /* 40px */
-  --space-xxl: calc(var(--space-xs) * 6);   /* 48px */
+  --space-xs: 8px;
+  --space-sm: calc(var(--space-xs) * 2); /* 16px */
+  --space-md: calc(var(--space-xs) * 3); /* 24px */
+  --space-lg: calc(var(--space-xs) * 4); /* 32px */
+  --space-xl: calc(var(--space-xs) * 5); /* 40px */
+  --space-xxl: calc(var(--space-xs) * 6); /* 48px */
 
   /* -- Typography ------------------------------------------- */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -65,14 +63,14 @@
   --font-size-md: 14px;
   --font-size-lg: 16px;
   --font-size-xl: 20px;
-  --font-size-2xl: calc(var(--font-size-xl) * 1.25);  /* 25px */
+  --font-size-2xl: calc(var(--font-size-xl) * 1.25); /* 25px */
   --font-size-3xl: calc(var(--font-size-xl) * 1.5625); /* ~31px */
 
   --font-weight-regular: 400;
-  --font-weight-medium:  500;
+  --font-weight-medium: 500;
   --font-weight-semibold: 600;
 
-  --line-height-tight:  1.2;
+  --line-height-tight: 1.2;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.7;
 
@@ -85,32 +83,29 @@
   --radius-pill: 9999px;
 
   /* -- Elevation -------------------------------------------- */
-  --shadow-sm:  0 1px 3px oklch(18% 0.02 280 / 0.08),
-                0 1px 2px oklch(18% 0.02 280 / 0.06);
-  --shadow-md:  0 4px 12px oklch(18% 0.02 280 / 0.10),
-                0 2px 4px  oklch(18% 0.02 280 / 0.06);
-  --shadow-lg:  0 8px 24px oklch(18% 0.02 280 / 0.12),
-                0 4px 8px  oklch(18% 0.02 280 / 0.06);
+  --shadow-sm: 0 1px 3px oklch(18% 0.02 280 / 0.08), 0 1px 2px oklch(18% 0.02 280 / 0.06);
+  --shadow-md: 0 4px 12px oklch(18% 0.02 280 / 0.1), 0 2px 4px oklch(18% 0.02 280 / 0.06);
+  --shadow-lg: 0 8px 24px oklch(18% 0.02 280 / 0.12), 0 4px 8px oklch(18% 0.02 280 / 0.06);
 
   /* -- Motion ----------------------------------------------- */
-  --duration-fast:     150ms;
-  --duration-normal:   250ms;
-  --duration-slow:     400ms;
-  --ease-standard:     cubic-bezier(0.2, 0, 0, 1);
-  --ease-decelerate:   cubic-bezier(0, 0, 0, 1);
-  --ease-accelerate:   cubic-bezier(0.3, 0, 1, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0, 1);
+  --ease-accelerate: cubic-bezier(0.3, 0, 1, 1);
 
-  --transition-fast:   var(--duration-fast)   var(--ease-standard);
-  --transition-normal: var(--duration-normal)  var(--ease-standard);
-  --transition-slow:   var(--duration-slow)    var(--ease-decelerate);
+  --transition-fast: var(--duration-fast) var(--ease-standard);
+  --transition-normal: var(--duration-normal) var(--ease-standard);
+  --transition-slow: var(--duration-slow) var(--ease-decelerate);
 
   /* -- Z-index scale ---------------------------------------- */
-  --z-base:    0;
-  --z-raised:  10;
+  --z-base: 0;
+  --z-raised: 10;
   --z-overlay: 100;
-  --z-nav:     200;
-  --z-modal:   300;
-  --z-toast:   400;
+  --z-nav: 200;
+  --z-modal: 300;
+  --z-toast: 400;
 }
 
 /* ============================================================
@@ -118,79 +113,51 @@
  * ============================================================ */
 @media (prefers-color-scheme: dark) {
   :root {
-    /* -- Brand ---------------------------------------------- */
-    --clr-primary:           oklch(72% 0.18 280);
-    --clr-primary-light:     oklch(82% 0.14 280);
+    --clr-primary: oklch(72% 0.18 280);
+    --clr-primary-light: oklch(82% 0.14 280);
     --clr-primary-container: oklch(28% 0.14 280);
-    --clr-on-primary:        oklch(18% 0.14 280);
-    --clr-on-primary-container: oklch(88% 0.10 280);
+    --clr-on-primary: oklch(18% 0.14 280);
+    --clr-on-primary-container: oklch(88% 0.1 280);
 
-    /* -- Surfaces ------------------------------------------- */
-    --surface-page:          oklch(14% 0.01 280);
-    --surface-card:          oklch(18% 0.015 280);
-    --surface-container:     oklch(22% 0.02 280);
-    --surface-container-high:oklch(26% 0.025 280);
-    --surface-overlay:       oklch(28% 0.14 280);
+    --surface-page: oklch(14% 0.01 280);
+    --surface-card: oklch(18% 0.015 280);
+    --surface-container: oklch(22% 0.02 280);
+    --surface-container-high: oklch(26% 0.025 280);
+    --surface-overlay: oklch(28% 0.14 280);
 
-    /* -- Text ----------------------------------------------- */
-    --text-primary:          oklch(94% 0.005 280);
-    --text-secondary:        oklch(75% 0.02 280);
-    --text-muted:            oklch(55% 0.03 280);
+    --text-primary: oklch(94% 0.005 280);
+    --text-secondary: oklch(75% 0.02 280);
+    --text-muted: oklch(55% 0.03 280);
 
-    /* -- Borders -------------------------------------------- */
-    --border-subtle:         oklch(28% 0.03 280);
-    --border-default:        oklch(36% 0.04 280);
-    --border-strong:         oklch(50% 0.08 280);
+    --border-subtle: oklch(28% 0.03 280);
+    --border-default: oklch(36% 0.04 280);
+    --border-strong: oklch(50% 0.08 280);
 
-    /* -- Semantic ------------------------------------------- */
-    --clr-error:             oklch(70% 0.18 25);
-    --clr-error-container:   oklch(28% 0.14 25);
-    --clr-on-error:          oklch(18% 0.10 25);
-    --clr-on-error-container:oklch(88% 0.08 25);
+    --clr-error: oklch(70% 0.18 25);
+    --clr-error-container: oklch(28% 0.14 25);
+    --clr-on-error: oklch(18% 0.1 25);
+    --clr-on-error-container: oklch(88% 0.08 25);
 
-    --clr-success:           oklch(68% 0.14 155);
-    --clr-success-container: oklch(25% 0.10 155);
+    --clr-success: oklch(68% 0.14 155);
+    --clr-success-container: oklch(25% 0.1 155);
     --clr-on-success-container: oklch(85% 0.08 155);
 
-    --clr-warning:           oklch(78% 0.15 75);
-    --clr-warning-container: oklch(30% 0.10 75);
+    --clr-warning: oklch(78% 0.15 75);
+    --clr-warning-container: oklch(30% 0.1 75);
     --clr-on-warning-container: oklch(92% 0.08 75);
 
-    /* -- Elevation ------------------------------------------ */
-    --shadow-sm:  0 1px 3px oklch(0% 0 0 / 0.30);
-    --shadow-md:  0 4px 12px oklch(0% 0 0 / 0.40);
-    --shadow-lg:  0 8px 24px oklch(0% 0 0 / 0.50);
+    --shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.3);
+    --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.4);
+    --shadow-lg: 0 8px 24px oklch(0% 0 0 / 0.5);
   }
 }
 
 /* ============================================================
- * COLOR HARMONY — 60 / 30 / 10 RULE
- *
- * 60% — Dominant (page bg, large surfaces)
- *        → --surface-page
- *        → --surface-container
- *
- * 30% — Secondary (cards, inputs, borders)
- *        → --surface-card
- *        → --surface-container-high
- *        → --border-subtle / --border-default
- *
- * 10% — Accent (CTAs, links, active states)
- *        → --clr-primary
- *        → --clr-on-primary
- *
- * SITUATIONAL — not counted toward the ratio:
- *        → --clr-error / --clr-error-container
- *        → --clr-success / --clr-warning
- *
- * Glass surfaces derive from --surface-card
- * and count toward the 30%.
- * ============================================================ */
-
-/* ============================================================
  * RESET
  * ============================================================ */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -219,118 +186,31 @@ body {
 }
 
 /* ============================================================
- * TYPOGRAPHY
+ * SHIMMER
  * ============================================================ */
-h1, .display-header {
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  color: var(--text-primary);
-}
-
-h2, .section-header {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  color: var(--text-primary);
-}
-
-h3, .subsection-header {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-tight);
-  color: var(--text-primary);
-}
-
-h4 {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
-  color: var(--text-primary);
-}
-
-p {
-  font-size: var(--font-size-lg);
-  line-height: var(--line-height-relaxed);
-  color: var(--text-secondary);
-}
-
-small, .text-sm {
-  font-size: var(--font-size-sm);
-  color: var(--text-muted);
-}
-
-a {
-  color: var(--clr-primary);
-  text-decoration: none;
-  transition: text-decoration var(--transition-fast);
-
-  &:hover {
-    text-decoration: underline;
+@keyframes shimmer {
+  from {
+    background-position: -200% center;
   }
-
-  &:focus-visible {
-    outline: 2px solid var(--clr-primary);
-    outline-offset: 2px;
-    border-radius: var(--radius-xs);
+  to {
+    background-position: 200% center;
   }
 }
 
-/* ============================================================
- * LAYOUT UTILITIES
- * ============================================================ */
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--space-sm);
-  width: 100%;
-}
-
-.col-12 { grid-column: span 12; }
-.col-8  { grid-column: span 8; }
-.col-6  { grid-column: span 6; }
-.col-4  { grid-column: span 4; }
-.col-3  { grid-column: span 3; }
-
-@media (max-width: 768px) {
-  .col-8, .col-6, .col-4, .col-3 { grid-column: span 12; }
-  .grid-container { gap: var(--space-xs); }
-}
-
-.stack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.cluster {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xs);
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-container) 25%,
+    var(--surface-container-high) 50%,
+    var(--surface-container) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s var(--ease-standard) infinite;
+  border-radius: var(--radius-xs);
 }
 
 /* ============================================================
- * SURFACE CARD
- * Custom shell for non-Material surfaces.
- * ============================================================ */
-.ui-surface-card {
-  background: var(--surface-card);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-  padding: var(--space-md);
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow var(--transition-normal);
-
-  &:hover {
-    box-shadow: var(--shadow-md);
-  }
-}
-
-/* ============================================================
- * GLASS / GLASSMORPHISM SURFACE VARIANTS
- * Use on elements floating above rich backgrounds.
- * backdrop-filter requires a transparent background to work —
- * the color-mix below is load-bearing, not decorative.
+ * GLASS VARIANTS
  * ============================================================ */
 .glass {
   border: 1px solid color-mix(in oklch, var(--border-default) 40%, transparent);
@@ -340,195 +220,103 @@ a {
     background var(--transition-normal);
 }
 
-/* Heaviest — sidebars, persistent nav */
-.frosted {
+.glass--frosted {
   background: color-mix(in oklch, var(--surface-card) 70%, transparent);
   backdrop-filter: blur(24px) saturate(1.8);
   -webkit-backdrop-filter: blur(24px) saturate(1.8);
 }
 
-/* Mid-weight — floating cards over imagery */
-.blur {
+.glass--blur {
   background: color-mix(in oklch, var(--surface-card) 45%, transparent);
   backdrop-filter: blur(12px) saturate(1.4);
   -webkit-backdrop-filter: blur(12px) saturate(1.4);
 }
 
-/* Lightest — subtle overlays */
-.clear {
+.glass--clear {
   background: color-mix(in oklch, var(--surface-card) 18%, transparent);
   backdrop-filter: blur(4px) saturate(1.1);
   -webkit-backdrop-filter: blur(4px) saturate(1.1);
 }
 
 /* ============================================================
- * UTILITIES
+ * BUTTON — base + intent + appearance
  * ============================================================ */
-.full-width  { width: 100%; }
-.text-center { text-align: center; }
-.text-muted  { color: var(--text-muted); }
-.text-primary-color { color: var(--clr-primary); }
-
-.action-badge {
+.btn {
   display: inline-flex;
   align-items: center;
-  padding: calc(var(--space-xs) / 2) var(--space-xs);
-  border-radius: var(--radius-pill);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  background: var(--surface-overlay);
-  color: var(--clr-on-primary-container);
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* ============================================================
- * SKELETON / SHIMMER
- * ============================================================ */
-@keyframes shimmer {
-  from { background-position: -200% center; }
-  to   { background-position:  200% center; }
-}
-
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--surface-container)      25%,
-    var(--surface-container-high) 50%,
-    var(--surface-container)      75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.6s var(--ease-standard) infinite;
-  border-radius: var(--radius-xs);
-}
-
-/* ============================================================
- * AUTH PAGES — login + register shared surface
- * ============================================================ */
-.auth-container {
-  display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: var(--space-lg);
-  background: var(--surface-page);
-}
-
-.auth-card {
-  width: 100%;
-  max-width: 420px;
-  background: var(--surface-card);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-md);
-  overflow: hidden;
-}
-
-.auth-card-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: var(--space-lg) var(--space-lg) 0;
-  text-align: center;
-}
-
-.auth-card-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
-}
-
-.auth-logo-icon {
-  color: var(--clr-primary);
-}
-
-.auth-card-subtitle {
-  font-size: var(--font-size-md);
-  color: var(--text-muted);
-  margin-top: calc(var(--space-xs) / 2);
-}
-
-.auth-card-content {
-  padding: var(--space-md) var(--space-lg);
-}
-
-.auth-error {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  padding: var(--space-sm);
-  margin-bottom: var(--space-sm);
-  background: var(--clr-error-container);
-  color: var(--clr-on-error-container);
-  border-radius: var(--radius-xs);
-  font-size: var(--font-size-md);
-}
-
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.auth-submit-button {
-  margin-top: var(--space-xs);
-  width: 100%;
-}
-
-.auth-divider {
-  margin: var(--space-md) 0;
+  gap: 8px;
+  height: 40px;
+  padding: 0 20px;
   border: none;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.auth-demo-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: calc(var(--space-xs) / 2);
-  margin-top: var(--space-sm);
-  font-size: var(--font-size-sm);
-  color: var(--text-muted);
-}
-
-.auth-card-footer {
-  padding: 0 var(--space-lg) var(--space-md);
-}
-
-.auth-footer-text {
-  text-align: center;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
   font-size: var(--font-size-md);
-  color: var(--text-secondary);
-}
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    opacity var(--transition-fast),
+    border-color var(--transition-fast);
 
-.auth-footer-link {
-  color: var(--clr-primary);
-  text-decoration: none;
-  font-weight: var(--font-weight-medium);
-  margin-left: calc(var(--space-xs) / 2);
-  transition: text-decoration var(--transition-fast);
-
-  &:hover {
-    text-decoration: underline;
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
   }
 
   &:focus-visible {
     outline: 2px solid var(--clr-primary);
     outline-offset: 2px;
-    border-radius: var(--radius-xs);
   }
+}
+
+/* -- Intent ----------------------------------------------- */
+.btn--primary {
+  background: var(--clr-primary);
+  color: var(--clr-on-primary);
+
+  &:hover:not(:disabled) {
+    background: var(--clr-primary-dark);
+  }
+}
+
+.btn--danger {
+  background: var(--clr-error);
+  color: var(--clr-on-error);
+
+  &:hover:not(:disabled) {
+    background: var(--clr-on-error-container);
+  }
+}
+
+/* -- Appearance ------------------------------------------- */
+.btn--ghost {
+  background: transparent;
+  color: var(--clr-primary);
+  border: 1.5px solid var(--border-default);
+
+  &:hover:not(:disabled) {
+    background: var(--clr-primary-container);
+    border-color: var(--clr-primary);
+  }
+}
+
+.btn--subtle {
+  background: var(--surface-container);
+  color: var(--text-primary);
+
+  &:hover:not(:disabled) {
+    background: var(--surface-container-high);
+  }
+}
+
+/* -- Size ------------------------------------------------- */
+.btn--sm {
+  height: 32px;
+  padding: 0 12px;
+  font-size: var(--font-size-sm);
+}
+
+.btn--full {
+  width: 100%;
 }
