@@ -5,7 +5,8 @@ import { firstValueFrom } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { CookieService } from '../services/cookie';
 import { ILogin, ILoginResponse } from '../../pages/auth/login/login.interface';
-import { environment } from '../../../environments/environment.development';
+import { IRegister } from '../../pages/auth/register/register.interface';
+import { environment } from '../../../environments/environment';
 
 const TOKEN_KEY = 'auth_token';
 
@@ -24,11 +25,7 @@ export class AuthService {
       const res = await firstValueFrom(
         this.#http.post<ILoginResponse>(`${environment.apiUrl}/auth/login`, payload),
       );
-      this.#cookie.set(TOKEN_KEY, res.token, {
-        expires: remember ? new Date(res.expiresAt) : undefined,
-        secure: environment.production,
-      });
-      this.token.set(res.token);
+      this.#setToken(res.token, remember ? new Date(res.expiresAt) : undefined);
       this.#toastr.success('Welcome back!', 'Logged in');
       await this.#router.navigate(['/']);
     } catch (err) {
@@ -40,10 +37,37 @@ export class AuthService {
     }
   }
 
+  async register(credentials: IRegister): Promise<void> {
+    try {
+      await firstValueFrom(this.#http.post(`${environment.apiUrl}/accounts/register`, credentials));
+      // Seamlessly authenticate after registration
+      await this.login({
+        email: credentials.email,
+        password: credentials.password,
+        remember: false,
+      });
+      this.#toastr.success('Welcome to Orita!', 'Account created');
+    } catch (err) {
+      const message =
+        err instanceof HttpErrorResponse
+          ? (err.error?.message ?? 'Registration failed. Please try again.')
+          : 'An unexpected error occurred.';
+      this.#toastr.error(message, 'Error');
+    }
+  }
+
   logout(): void {
     this.#cookie.delete(TOKEN_KEY);
     this.token.set(undefined);
     this.#toastr.info('You have been logged out.', 'Goodbye');
     this.#router.navigate(['/auth/login']);
+  }
+
+  #setToken(token: string, expires?: Date): void {
+    this.#cookie.set(TOKEN_KEY, token, {
+      expires,
+      secure: environment.production,
+    });
+    this.token.set(token);
   }
 }
