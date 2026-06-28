@@ -20,4 +20,5 @@ export interface IProfile {
   location: ILocation | null;
   createdAt: string;
   account: IAccount;
+  businessId: string | null;
 }

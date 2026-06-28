@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {
@@ -25,6 +25,34 @@ interface NavItem {
   route: string;
 }
 
+const ALWAYS_VISIBLE: NavItem[] = [
+  {
+    icon: LucideBookmark,
+    label: 'Saved',
+    description: 'Your saved listings and businesses',
+    route: '/saved',
+  },
+  {
+    icon: LucideShieldCheck,
+    label: 'Privacy & Security',
+    description: 'Edit profile and manage auth methods',
+    route: '/settings/security',
+  },
+  {
+    icon: LucidePaintbrush,
+    label: 'Appearance',
+    description: 'Customise how Orita looks for you',
+    route: '/settings/appearance',
+  },
+];
+
+const MY_BUSINESS: NavItem = {
+  icon: LucideBuilding2,
+  label: 'My Business',
+  description: 'Manage your business profile',
+  route: '/business',
+};
+
 @Component({
   selector: 'app-profile',
   imports: [
@@ -44,32 +72,10 @@ export class Profile {
 
   readonly profile = httpResource<IProfile>(() => `${environment.apiUrl}/users/me`);
 
-  readonly navItems: NavItem[] = [
-    {
-      icon: LucideBuilding2,
-      label: 'My Business',
-      description: 'Manage your business profile',
-      route: '/business',
-    },
-    {
-      icon: LucideBookmark,
-      label: 'Saved',
-      description: 'Your saved listings and businesses',
-      route: '/saved',
-    },
-    {
-      icon: LucideShieldCheck,
-      label: 'Privacy & Security',
-      description: 'Edit profile and manage auth methods',
-      route: '/settings/security',
-    },
-    {
-      icon: LucidePaintbrush,
-      label: 'Appearance',
-      description: 'Customise how Orita looks for you',
-      route: '/settings/appearance',
-    },
-  ];
+  readonly navItems = computed<NavItem[]>(() => {
+    const hasBusiness = !!this.profile.value()?.businessId;
+    return hasBusiness ? [MY_BUSINESS, ...ALWAYS_VISIBLE] : ALWAYS_VISIBLE;
+  });
 
   navigate(route: string): void {
     this.#router.navigate([route]);

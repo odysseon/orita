@@ -41,7 +41,7 @@
   </div>
 
   <nav class="profile-nav" aria-label="Profile navigation">
-    @for (item of navItems; track item.route) {
+    @for (item of navItems(); track item.route) {
     <button class="profile-nav__item" (click)="navigate(item.route)">
       <div class="profile-nav__icon-wrap" aria-hidden="true">
         <svg [lucideIcon]="item.icon"></svg>
