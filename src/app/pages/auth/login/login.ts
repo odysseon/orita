@@ -7,7 +7,7 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-login',
   imports: [FormField, LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle],
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrls: ['../auth.css', './login.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class Login {
@@ -27,6 +27,7 @@ export class Login {
     email(f.email, { message: 'Enter a valid email address' });
     required(f.password, { message: 'Password is required' });
   });
+
   readonly isFormInvalid = computed(() => this.loginForm().invalid());
 
   async onSubmit(event: Event): Promise<void> {
