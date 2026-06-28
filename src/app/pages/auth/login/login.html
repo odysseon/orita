@@ -67,7 +67,7 @@
         <button
           class="btn btn--primary btn--full login-form__submit"
           type="submit"
-          [disabled]="loading()"
+          [disabled]="loading() || isFormInvalid()"
         >
           @if (loading()) {
           <svg lucideLoaderCircle class="login-form__spinner" aria-hidden="true"></svg>
