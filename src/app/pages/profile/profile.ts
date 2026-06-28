@@ -15,8 +15,8 @@ import {
   LucideIconInput,
 } from '@lucide/angular';
 import { IProfile } from './profile.interface';
-import { AuthService } from '../../../core/services/auth.service';
-import { environment } from '../../../../environments/environment';
+import { AuthService } from '../../core/services/auth.service';
+import { environment } from '../../../environments/environment';
 
 interface NavItem {
   icon: LucideIconInput;
