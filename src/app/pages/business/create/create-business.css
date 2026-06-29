@@ -38,30 +38,6 @@
   gap: var(--size-8);
 }
 
-.create-biz-back {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--size-6);
-  align-self: flex-start;
-  background: transparent;
-  border: none;
-  font-family: var(--font-sans);
-  font-size: var(--font-size-md);
-  color: var(--text-secondary);
-  cursor: pointer;
-  padding: var(--size-0);
-  margin-bottom: var(--size-8);
-
-  svg {
-    width: var(--size-16);
-    height: var(--size-16);
-  }
-
-  &:hover {
-    color: var(--text-primary);
-  }
-}
-
 .create-biz-header__icon {
   display: flex;
   align-items: center;
@@ -100,90 +76,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--size-20);
-}
-
-/* ============================================================
- * FIELD
- * ============================================================ */
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-6);
-}
-
-.field__label {
-  display: flex;
-  align-items: center;
-  gap: var(--size-6);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-secondary);
-}
-
-.field__label-hint {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-regular);
-  color: var(--text-muted);
-}
-
-.field__input {
-  width: 100%;
-  height: var(--size-40);
-  padding: var(--size-0) var(--size-12);
-  border: var(--size-1-5) solid var(--border-default);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-md);
-  font-family: var(--font-sans);
-  color: var(--text-primary);
-  background: var(--surface-container);
-  outline: none;
-  transition: border-color var(--transition-fast);
-
-  &::placeholder {
-    color: var(--text-muted);
-  }
-
-  &:focus {
-    border-color: var(--clr-primary);
-  }
-}
-
-.field__input--error {
-  border-color: var(--clr-error);
-}
-
-.field__textarea {
-  width: 100%;
-  padding: var(--size-10) var(--size-12);
-  border: var(--size-1-5) solid var(--border-default);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-md);
-  font-family: var(--font-sans);
-  color: var(--text-primary);
-  background: var(--surface-container);
-  outline: none;
-  resize: vertical;
-  min-height: var(--size-80);
-  line-height: var(--line-height-normal);
-  transition: border-color var(--transition-fast);
-
-  &::placeholder {
-    color: var(--text-muted);
-  }
-
-  &:focus {
-    border-color: var(--clr-primary);
-  }
-}
-
-.field__textarea--error {
-  border-color: var(--clr-error);
-}
-
-.field__error {
-  font-size: var(--font-size-sm);
-  color: var(--clr-error);
-  line-height: var(--line-height-normal);
 }
 
 /* ============================================================

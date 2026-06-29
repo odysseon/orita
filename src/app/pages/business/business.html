@@ -21,7 +21,7 @@
   <!-- No business -->
   @if (!business.isLoading() && !hasBusiness()) {
     <div class="biz-empty">
-      <button class="biz-back" (click)="goBack()">
+      <button class="btn-back" (click)="goBack()">
         <svg lucideArrowLeft aria-hidden="true"></svg>
         Back
       </button>
@@ -33,7 +33,7 @@
         <p class="biz-empty__subtitle">
           Create a business profile to reach customers, manage listings, and grow your presence on Orita.
         </p>
-        <button class="biz-empty__cta" (click)="createBusiness()">
+        <button class="btn btn--primary" (click)="createBusiness()">
           <svg lucidePlus aria-hidden="true"></svg>
           Create business profile
         </button>
@@ -44,7 +44,7 @@
   <!-- Dashboard -->
   @if (hasBusiness()) {
     <div class="biz-header">
-      <button class="biz-back" (click)="goBack()">
+      <button class="btn-back" (click)="goBack()">
         <svg lucideArrowLeft aria-hidden="true"></svg>
         Back
       </button>
@@ -61,11 +61,11 @@
           <div class="biz-identity__row">
             <h1 class="biz-identity__name">{{ business.value()!.name }}</h1>
             <span
-              class="biz-badge"
-              [class.badge--verified]="verificationBadge().cls === 'badge--verified'"
-              [class.badge--pending]="verificationBadge().cls === 'badge--pending'"
-              [class.badge--rejected]="verificationBadge().cls === 'badge--rejected'"
-              [class.badge--unverified]="verificationBadge().cls === 'badge--unverified'"
+              class="badge"
+              [class.badge--success]="verificationBadge().cls === 'badge--verified'"
+              [class.badge--warning]="verificationBadge().cls === 'badge--pending'"
+              [class.badge--error]="verificationBadge().cls === 'badge--rejected'"
+              [class.badge--neutral]="verificationBadge().cls === 'badge--unverified'"
             >
               {{ verificationBadge().label }}
             </span>
@@ -82,26 +82,26 @@
     </div>
 
     <!-- Tabs -->
-    <nav class="biz-tabs" aria-label="Business sections">
+    <nav class="tabs" aria-label="Business sections">
       <button
-        class="biz-tab"
-        [class.biz-tab--active]="activeTab() === 'overview'"
+        class="tab"
+        [class.tab--active]="activeTab() === 'overview'"
         (click)="setTab('overview')"
       >
         <svg lucideChartBar aria-hidden="true"></svg>
         Overview
       </button>
       <button
-        class="biz-tab"
-        [class.biz-tab--active]="activeTab() === 'hours'"
+        class="tab"
+        [class.tab--active]="activeTab() === 'hours'"
         (click)="setTab('hours')"
       >
         <svg lucideClock aria-hidden="true"></svg>
         Hours
       </button>
       <button
-        class="biz-tab"
-        [class.biz-tab--active]="activeTab() === 'listings'"
+        class="tab"
+        [class.tab--active]="activeTab() === 'listings'"
         (click)="setTab('listings')"
       >
         <svg lucideList aria-hidden="true"></svg>
@@ -148,40 +148,40 @@
         }
 
         <!-- Info -->
-        <div class="biz-info-card">
-          <h2 class="biz-info-card__title">Business details</h2>
-          <div class="biz-info-list">
+        <div class="panel">
+          <h2 class="panel__title">Business details</h2>
+          <div class="panel__body">
             @if (business.value()!.description) {
-              <div class="biz-info-row">
+              <div class="panel__row">
                 <span class="biz-info-row__label">About</span>
                 <span class="biz-info-row__value">{{ business.value()!.description }}</span>
               </div>
             }
-            <div class="biz-info-row">
+            <div class="panel__row">
               <span class="biz-info-row__label">Type</span>
               <span class="biz-info-row__value">{{ business.value()!.businessType }}</span>
             </div>
             @if (business.value()!.location) {
-              <div class="biz-info-row">
-                <svg lucideMapPin class="biz-info-row__icon" aria-hidden="true"></svg>
+              <div class="panel__row">
+                <svg lucideMapPin aria-hidden="true"></svg>
                 <span class="biz-info-row__value">{{ business.value()!.location }}</span>
               </div>
             }
             @if (business.value()!.email) {
-              <div class="biz-info-row">
-                <svg lucideMail class="biz-info-row__icon" aria-hidden="true"></svg>
+              <div class="panel__row">
+                <svg lucideMail aria-hidden="true"></svg>
                 <span class="biz-info-row__value">{{ business.value()!.email }}</span>
               </div>
             }
             @if (business.value()!.phoneNumber) {
-              <div class="biz-info-row">
-                <svg lucidePhone class="biz-info-row__icon" aria-hidden="true"></svg>
+              <div class="panel__row">
+                <svg lucidePhone aria-hidden="true"></svg>
                 <span class="biz-info-row__value">{{ business.value()!.phoneNumber }}</span>
               </div>
             }
             @if (business.value()!.websiteUrl) {
-              <div class="biz-info-row">
-                <svg lucideGlobe class="biz-info-row__icon" aria-hidden="true"></svg>
+              <div class="panel__row">
+                <svg lucideGlobe aria-hidden="true"></svg>
                 <a
                   class="biz-info-row__link"
                   [href]="business.value()!.websiteUrl!"
@@ -201,9 +201,9 @@
     @if (activeTab() === 'hours') {
       <div class="biz-section">
         @if (business.value()!.operatingHours?.length) {
-          <div class="biz-hours">
+          <div class="panel">
             @for (hour of business.value()!.operatingHours; track hour.id) {
-              <div class="biz-hours__row">
+              <div class="panel__row biz-hours__row">
                 <span class="biz-hours__day">{{ hour.day }}</span>
                 @if (hour.isClosed) {
                   <span class="biz-hours__closed">Closed</span>
@@ -214,7 +214,7 @@
             }
           </div>
         } @else {
-          <div class="biz-empty-tab">
+          <div class="empty-tab">
             <svg lucideClock aria-hidden="true"></svg>
             <p>No operating hours set yet.</p>
           </div>
@@ -225,7 +225,7 @@
     <!-- Listings tab -->
     @if (activeTab() === 'listings') {
       <div class="biz-section">
-        <div class="biz-empty-tab">
+        <div class="empty-tab">
           <svg lucideList aria-hidden="true"></svg>
           <p>Listings management coming soon.</p>
         </div>
