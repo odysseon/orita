@@ -1,0 +1,38 @@
+:host { display: block; }
+
+.listing-form-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.listing-form-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--size-14) var(--size-16);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.listing-form-card__title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.listing-form-card__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-28);
+  height: var(--size-28);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+
+  svg { width: var(--size-16); height: var(--size-16); }
+  &:hover { background: var(--surface-container); color: var(--text-primary); }
+}

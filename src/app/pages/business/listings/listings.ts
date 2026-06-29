@@ -9,7 +9,6 @@ import {
   LucideEye,
   LucideEyeOff,
   LucideLoaderCircle,
-  LucideX,
 } from '@lucide/angular';
 import { form, FormField, required, minLength, maxLength } from '@angular/forms/signals';
 import { ToastrService } from 'ngx-toastr';
@@ -17,11 +16,13 @@ import { IListing, ICategory, ICreateListing } from './listing.interface';
 import { environment } from '../../../../environments/environment';
 
 import { AppFormField } from '../../../shared/form-field/form-field';
+import { AppListingForm } from './listing-form';
 
 @Component({
   selector: 'app-listings',
   imports: [
     AppFormField,
+    AppListingForm,
     FormField,
     LucidePlus,
     LucidePackage,
@@ -29,7 +30,6 @@ import { AppFormField } from '../../../shared/form-field/form-field';
     LucideEye,
     LucideEyeOff,
     LucideLoaderCircle,
-    LucideX,
   ],
   templateUrl: './listings.html',
   styleUrl: './listings.css',
