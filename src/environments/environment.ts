@@ -1,4 +1,4 @@
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:3000/api',
+  production: true,
+  apiUrl: 'https://inquisitive-ernestine-odysseon-ae88add1.koyeb.app/api',
 };
