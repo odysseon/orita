@@ -6,12 +6,6 @@ export interface ILocation {
   country: string | null;
 }
 
-export interface IAccount {
-  id: string;
-  email: string;
-  createdAt: string;
-}
-
 export interface IProfile {
   id: string;
   username: string;
@@ -19,6 +13,7 @@ export interface IProfile {
   role: 'USER' | 'MODERATOR' | 'ADMIN';
   location: ILocation | null;
   createdAt: string;
-  account: IAccount;
   businessId: string | null;
+  accountId: string;
+  email: string;
 }

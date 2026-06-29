@@ -1,0 +1,236 @@
+<div class="biz-page">
+
+  <!-- Loading -->
+  @if (business.isLoading()) {
+    <div class="biz-skeleton">
+      <div class="biz-skeleton__header">
+        <div class="skeleton skeleton--avatar"></div>
+        <div class="biz-skeleton__lines">
+          <div class="skeleton skeleton--title"></div>
+          <div class="skeleton skeleton--subtitle"></div>
+        </div>
+      </div>
+      <div class="biz-skeleton__stats">
+        @for (i of [1,2,3,4]; track i) {
+          <div class="skeleton skeleton--stat"></div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- No business -->
+  @if (!business.isLoading() && !hasBusiness()) {
+    <div class="biz-empty">
+      <button class="biz-back" (click)="goBack()">
+        <svg lucideArrowLeft aria-hidden="true"></svg>
+        Back
+      </button>
+      <div class="biz-empty__body">
+        <div class="biz-empty__icon-wrap">
+          <svg lucideStore aria-hidden="true"></svg>
+        </div>
+        <h1 class="biz-empty__title">You don't have a business yet</h1>
+        <p class="biz-empty__subtitle">
+          Create a business profile to reach customers, manage listings, and grow your presence on Orita.
+        </p>
+        <button class="biz-empty__cta" (click)="createBusiness()">
+          <svg lucidePlus aria-hidden="true"></svg>
+          Create business profile
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Dashboard -->
+  @if (hasBusiness()) {
+    <div class="biz-header">
+      <button class="biz-back" (click)="goBack()">
+        <svg lucideArrowLeft aria-hidden="true"></svg>
+        Back
+      </button>
+
+      <div class="biz-identity">
+        <div class="biz-avatar">
+          @if (business.value()!.avatarUrl) {
+            <img [src]="business.value()!.avatarUrl" [alt]="business.value()!.name" />
+          } @else {
+            <svg lucideStore aria-hidden="true"></svg>
+          }
+        </div>
+        <div class="biz-identity__text">
+          <div class="biz-identity__row">
+            <h1 class="biz-identity__name">{{ business.value()!.name }}</h1>
+            <span
+              class="biz-badge"
+              [class.badge--verified]="verificationBadge().cls === 'badge--verified'"
+              [class.badge--pending]="verificationBadge().cls === 'badge--pending'"
+              [class.badge--rejected]="verificationBadge().cls === 'badge--rejected'"
+              [class.badge--unverified]="verificationBadge().cls === 'badge--unverified'"
+            >
+              {{ verificationBadge().label }}
+            </span>
+          </div>
+          <p class="biz-identity__slug">orita.app/b/{{ business.value()!.slug }}</p>
+          <span
+            class="biz-visibility"
+            [class.biz-visibility--public]="isPublic()"
+          >
+            {{ isPublic() ? 'Public' : 'Hidden — not visible to others' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <nav class="biz-tabs" aria-label="Business sections">
+      <button
+        class="biz-tab"
+        [class.biz-tab--active]="activeTab() === 'overview'"
+        (click)="setTab('overview')"
+      >
+        <svg lucideChartBar aria-hidden="true"></svg>
+        Overview
+      </button>
+      <button
+        class="biz-tab"
+        [class.biz-tab--active]="activeTab() === 'hours'"
+        (click)="setTab('hours')"
+      >
+        <svg lucideClock aria-hidden="true"></svg>
+        Hours
+      </button>
+      <button
+        class="biz-tab"
+        [class.biz-tab--active]="activeTab() === 'listings'"
+        (click)="setTab('listings')"
+      >
+        <svg lucideList aria-hidden="true"></svg>
+        Listings
+      </button>
+    </nav>
+
+    <!-- Overview tab -->
+    @if (activeTab() === 'overview') {
+      <div class="biz-section">
+
+        <!-- Stats -->
+        @if (stats.hasValue()) {
+          <div class="biz-stats">
+            <div class="biz-stat">
+              <svg lucideEye class="biz-stat__icon" aria-hidden="true"></svg>
+              <span class="biz-stat__value">{{ stats.value()!.profileViews }}</span>
+              <span class="biz-stat__label">Profile views</span>
+            </div>
+            <div class="biz-stat">
+              <svg lucideList class="biz-stat__icon" aria-hidden="true"></svg>
+              <span class="biz-stat__value">{{ stats.value()!.totalListings }}</span>
+              <span class="biz-stat__label">Listings</span>
+            </div>
+            <div class="biz-stat">
+              <svg lucideBookmark class="biz-stat__icon" aria-hidden="true"></svg>
+              <span class="biz-stat__value">{{ stats.value()!.totalSaves }}</span>
+              <span class="biz-stat__label">Saves</span>
+            </div>
+            <div class="biz-stat">
+              <svg lucideMousePointerClick class="biz-stat__icon" aria-hidden="true"></svg>
+              <span class="biz-stat__value">{{ stats.value()!.totalContactClicks }}</span>
+              <span class="biz-stat__label">Contact clicks</span>
+            </div>
+          </div>
+        }
+
+        @if (stats.isLoading()) {
+          <div class="biz-stats">
+            @for (i of [1,2,3,4]; track i) {
+              <div class="skeleton skeleton--stat"></div>
+            }
+          </div>
+        }
+
+        <!-- Info -->
+        <div class="biz-info-card">
+          <h2 class="biz-info-card__title">Business details</h2>
+          <div class="biz-info-list">
+            @if (business.value()!.description) {
+              <div class="biz-info-row">
+                <span class="biz-info-row__label">About</span>
+                <span class="biz-info-row__value">{{ business.value()!.description }}</span>
+              </div>
+            }
+            <div class="biz-info-row">
+              <span class="biz-info-row__label">Type</span>
+              <span class="biz-info-row__value">{{ business.value()!.businessType }}</span>
+            </div>
+            @if (business.value()!.location) {
+              <div class="biz-info-row">
+                <svg lucideMapPin class="biz-info-row__icon" aria-hidden="true"></svg>
+                <span class="biz-info-row__value">{{ business.value()!.location }}</span>
+              </div>
+            }
+            @if (business.value()!.email) {
+              <div class="biz-info-row">
+                <svg lucideMail class="biz-info-row__icon" aria-hidden="true"></svg>
+                <span class="biz-info-row__value">{{ business.value()!.email }}</span>
+              </div>
+            }
+            @if (business.value()!.phoneNumber) {
+              <div class="biz-info-row">
+                <svg lucidePhone class="biz-info-row__icon" aria-hidden="true"></svg>
+                <span class="biz-info-row__value">{{ business.value()!.phoneNumber }}</span>
+              </div>
+            }
+            @if (business.value()!.websiteUrl) {
+              <div class="biz-info-row">
+                <svg lucideGlobe class="biz-info-row__icon" aria-hidden="true"></svg>
+                <a
+                  class="biz-info-row__link"
+                  [href]="business.value()!.websiteUrl!"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{ business.value()!.websiteUrl }}
+                </a>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Hours tab -->
+    @if (activeTab() === 'hours') {
+      <div class="biz-section">
+        @if (business.value()!.operatingHours?.length) {
+          <div class="biz-hours">
+            @for (hour of business.value()!.operatingHours; track hour.id) {
+              <div class="biz-hours__row">
+                <span class="biz-hours__day">{{ hour.day }}</span>
+                @if (hour.isClosed) {
+                  <span class="biz-hours__closed">Closed</span>
+                } @else {
+                  <span class="biz-hours__time">{{ hour.openTime }} – {{ hour.closeTime }}</span>
+                }
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="biz-empty-tab">
+            <svg lucideClock aria-hidden="true"></svg>
+            <p>No operating hours set yet.</p>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Listings tab -->
+    @if (activeTab() === 'listings') {
+      <div class="biz-section">
+        <div class="biz-empty-tab">
+          <svg lucideList aria-hidden="true"></svg>
+          <p>Listings management coming soon.</p>
+        </div>
+      </div>
+    }
+  }
+
+</div>
