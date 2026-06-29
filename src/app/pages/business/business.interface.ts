@@ -1,0 +1,52 @@
+export type VerificationStatus = 'UNVERIFIED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
+export type BusinessType = 'ONLINE' | 'PHYSICAL' | 'HYBRID';
+export type DayOfWeek = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN';
+
+export interface IOperatingHours {
+  id: string;
+  businessProfileId: string;
+  day: DayOfWeek;
+  openTime: string;
+  closeTime: string;
+  isClosed: boolean;
+}
+
+export interface ITag {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+export interface IBusinessProfile {
+  id: string;
+  ownerId: string;
+  name: string;
+  slug: string;
+  isPublic: boolean;
+  verificationStatus: VerificationStatus;
+  businessType: BusinessType;
+  description: string | null;
+  websiteUrl: string | null;
+  phoneNumber: string | null;
+  whatsapp: string | null;
+  email: string | null;
+  location: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  categoryIds: string[];
+  isEmailVerified: boolean;
+  isPhoneVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+  operatingHours?: IOperatingHours[];
+  tags?: ITag[];
+  avatarUrl?: string;
+  coverUrl?: string;
+}
+
+export interface IDashboardStats {
+  totalListings: number;
+  profileViews: number;
+  totalSaves: number;
+  totalContactClicks: number;
+}
