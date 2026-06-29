@@ -469,6 +469,77 @@ body {
   line-height: var(--line-height-normal);
 }
 
+.field__input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.field__input--padded {
+  padding-right: var(--size-40);
+}
+
+.field__input--loading {
+  color: var(--text-muted);
+  cursor: default;
+}
+
+.field__select {
+  width: 100%;
+  height: var(--size-40);
+  padding: 0 var(--size-12);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--surface-container);
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+
+  &:focus {
+    border-color: var(--clr-primary);
+  }
+}
+
+.field__select--error {
+  border-color: var(--clr-error);
+}
+
+.field__toggle {
+  position: absolute;
+  right: var(--size-10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-24);
+  height: var(--size-24);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: var(--size-0);
+
+  &:hover {
+    color: var(--text-secondary);
+  }
+
+  svg {
+    width: var(--size-16);
+    height: var(--size-16);
+  }
+}
+
+/* ============================================================
+ * SPINNER
+ * ============================================================ */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ============================================================
  * PANEL — bordered surface card with rows
  * ============================================================ */
