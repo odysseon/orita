@@ -61,7 +61,7 @@
             <input class="auth-form__checkbox" type="checkbox" [formField]="loginForm.remember" />
             <span>Keep me signed in</span>
           </label>
-          <a class="auth-form__forgot" href="/auth/forgot-password">Forgot password?</a>
+          <a class="auth-form__forgot" routerLink="/auth/forgot-password">Forgot password?</a>
         </div>
 
         <button
@@ -78,7 +78,7 @@
 
     <footer class="auth-card__footer">
       Don't have an account?
-      <a class="auth-card__footer-link" href="/auth/register">Create one</a>
+      <a class="auth-card__footer-link" routerLink="/auth/register">Create one</a>
     </footer>
   </div>
 </div>

@@ -19,7 +19,7 @@ export class AuthService {
 
   readonly token = signal<string | undefined>(this.#cookie.get(TOKEN_KEY));
 
-  async login(credentials: ILogin & { remember: boolean }): Promise<void> {
+  async login(credentials: ILogin & { remember: boolean }): Promise<boolean> {
     try {
       const { remember, ...payload } = credentials;
       const res = await firstValueFrom(
@@ -28,12 +28,14 @@ export class AuthService {
       this.#setToken(res.token, remember ? new Date(res.expiresAt) : undefined);
       this.#toastr.success('Welcome back!', 'Logged in');
       await this.#router.navigate(['/']);
+      return true;
     } catch (err) {
       const message =
         err instanceof HttpErrorResponse
           ? (err.error?.message ?? 'Login failed. Please try again.')
           : 'An unexpected error occurred.';
       this.#toastr.error(message, 'Error');
+      return false;
     }
   }
 
@@ -41,12 +43,14 @@ export class AuthService {
     try {
       await firstValueFrom(this.#http.post(`${environment.apiUrl}/accounts/register`, credentials));
       // Seamlessly authenticate after registration
-      await this.login({
+      const loginSuccess = await this.login({
         email: credentials.email,
         password: credentials.password,
         remember: false,
       });
-      this.#toastr.success('Welcome to Orita!', 'Account created');
+      if (loginSuccess) {
+        this.#toastr.success('Welcome to Orita!', 'Account created');
+      }
     } catch (err) {
       const message =
         err instanceof HttpErrorResponse

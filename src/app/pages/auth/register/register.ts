@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { form, FormField, required, email, minLength } from '@angular/forms/signals';
 import { LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle } from '@lucide/angular';
 import { AuthService } from '../../../core/services/auth.service';
@@ -6,7 +7,7 @@ import { IRegister } from './register.interface';
 
 @Component({
   selector: 'app-register',
-  imports: [FormField, LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle],
+  imports: [FormField, LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle, RouterLink],
   templateUrl: './register.html',
   styleUrls: ['../auth.css', './register.css'],
   encapsulation: ViewEncapsulation.None,

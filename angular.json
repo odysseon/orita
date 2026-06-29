@@ -29,7 +29,16 @@
             "server": "src/main.server.ts",
             "outputMode": "server",
             "security": {
-              "allowedHosts": []
+              "allowedHosts": [
+                "localhost",
+                "*.onrender.com",
+                "*.vercel.app",
+                "*.koyeb.app",
+                "*.railway.app",
+                "*.fly.dev",
+                "*.pages.dev",
+                "*.netlify.app"
+              ]
             },
             "ssr": {
               "entry": "src/server.ts"
