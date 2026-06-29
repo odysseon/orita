@@ -27,7 +27,7 @@ export class AuthService {
       );
       this.#setToken(res.token, remember ? new Date(res.expiresAt) : undefined);
       this.#toastr.success('Welcome back!', 'Logged in');
-      await this.#router.navigate(['/']);
+      await this.#router.navigate(['/profile']);
       return true;
     } catch (err) {
       const message =

@@ -4,7 +4,7 @@ import { authGuard } from '../../core/guards/auth.guard';
 
 export const profileRoutes: Route[] = [
   {
-    path: '',
+    path: 'profile',
     component: Profile,
     canActivate: [authGuard],
   },

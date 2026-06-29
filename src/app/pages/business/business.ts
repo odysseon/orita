@@ -68,11 +68,11 @@ export class Business {
   });
 
   goBack(): void {
-    this.#router.navigate(['/']);
+    this.#router.navigate(['/profile']);
   }
 
   createBusiness(): void {
-    this.#router.navigate(['/business/new']);
+    this.#router.navigate(['/business/create']);
   }
 
   setTab(tab: 'overview' | 'hours' | 'listings'): void {

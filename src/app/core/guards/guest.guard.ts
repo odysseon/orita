@@ -10,5 +10,5 @@ export const guestGuard: CanActivateChildFn = () => {
     return true;
   }
 
-  return router.createUrlTree(['/']);
+  return router.createUrlTree(['/profile']);
 };
