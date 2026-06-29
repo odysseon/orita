@@ -1,0 +1,196 @@
+<div class="listings">
+  <div class="listings__toolbar">
+    <h2 class="listings__title">
+      Listings @if (listings.hasValue()) {
+      <span class="listings__count">{{ listings.value()!.length }}</span>
+      }
+    </h2>
+    <button class="btn btn--sm btn--primary" (click)="openForm()" type="button">
+      <svg lucidePlus aria-hidden="true"></svg>
+      New listing
+    </button>
+  </div>
+
+  <!-- Create form -->
+  @if (showForm()) {
+  <div class="listing-form-card">
+    <div class="listing-form-card__header">
+      <span class="listing-form-card__title">New listing</span>
+      <button class="listing-form-card__close" (click)="closeForm()" type="button">
+        <svg lucideX aria-hidden="true"></svg>
+      </button>
+    </div>
+
+    <form class="listing-form" (submit)="createListing($event)">
+      <app-form-field
+        label="Title"
+        fieldId="title"
+        [touched]="createForm.title().touched()"
+        [invalid]="createForm.title().invalid()"
+        [errorMessage]="createForm.title().errors()[0]?.message"
+      >
+        <input
+          id="title"
+          class="field__input"
+          type="text"
+          placeholder="e.g. iPhone 15 Pro Max"
+          [formField]="createForm.title"
+          [class.field__input--error]="createForm.title().touched() && createForm.title().invalid()"
+        />
+      </app-form-field>
+
+      <app-form-field
+        label="Category"
+        fieldId="category"
+        [touched]="createForm.categoryId().touched()"
+        [invalid]="createForm.categoryId().invalid()"
+        [errorMessage]="createForm.categoryId().errors()[0]?.message"
+      >
+        @if (categories.isLoading()) {
+        <div class="field__input field__input--loading">Loading categories…</div>
+        } @else {
+        <select
+          id="category"
+          class="field__select"
+          [formField]="createForm.categoryId"
+          [class.field__select--error]="createForm.categoryId().touched() && createForm.categoryId().invalid()"
+        >
+          <option value="" disabled selected>Select a category</option>
+          @for (cat of leafCategories(); track cat.id) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+          }
+        </select>
+        }
+      </app-form-field>
+
+      <app-form-field
+        label="Description"
+        fieldId="description"
+        hint="optional"
+        [touched]="createForm.description().touched()"
+        [invalid]="createForm.description().invalid()"
+      >
+        <textarea
+          id="description"
+          class="field__textarea"
+          placeholder="Describe the listing…"
+          rows="3"
+          [formField]="createForm.description"
+        ></textarea>
+      </app-form-field>
+
+      <app-form-field label="Price" fieldId="minPrice" hint="optional">
+        <div class="price-row">
+          <input
+            id="minPrice"
+            class="field__input"
+            type="number"
+            placeholder="Min price"
+            [formField]="createForm.price.minPrice"
+          />
+          <input
+            class="field__input"
+            type="number"
+            placeholder="Max price"
+            [formField]="createForm.price.maxPrice"
+          />
+        </div>
+        <label class="negotiable-label">
+          <input
+            type="checkbox"
+            class="negotiable-label__checkbox"
+            [formField]="createForm.price.isNegotiable"
+          />
+          <span>Price is negotiable</span>
+        </label>
+      </app-form-field>
+
+      <div class="listing-form__actions">
+        <button class="btn btn--ghost" type="button" (click)="closeForm()">Cancel</button>
+        <button
+          class="btn btn--primary"
+          type="submit"
+          [disabled]="submitting() || isFormInvalid()"
+        >
+          @if (submitting()) {
+          <svg lucideLoaderCircle class="listing-item__spinner" aria-hidden="true"></svg>
+          Creating… } @else { Create listing }
+        </button>
+      </div>
+    </form>
+  </div>
+  }
+
+  <!-- Loading -->
+  @if (listings.isLoading()) {
+  <div class="listings__skeletons">
+    @for (i of [1,2,3]; track i) {
+    <div class="skeleton listing-skeleton"></div>
+    }
+  </div>
+  }
+
+  <!-- Empty -->
+  @if (listings.hasValue() && listings.value()!.length === 0) {
+  <div class="listings__empty">
+    <svg lucidePackage aria-hidden="true"></svg>
+    <p>No listings yet. Create your first one.</p>
+  </div>
+  }
+
+  <!-- List -->
+  @if (listings.hasValue() && listings.value()!.length > 0) {
+  <div class="listings__list">
+    @for (listing of listings.value()!; track listing.id) {
+    <div class="listing-item">
+      <div class="listing-item__main">
+        <div class="listing-item__info">
+          <span class="listing-item__title">{{ listing.title }}</span>
+          <span class="listing-item__price">{{ formatPrice(listing) }}</span>
+        </div>
+        <span
+          class="listing-status"
+          [class.listing-status--published]="listing.status === 'PUBLISHED'"
+          [class.listing-status--draft]="listing.status === 'DRAFT'"
+          [class.listing-status--paused]="listing.status === 'PAUSED'"
+          [class.listing-status--archived]="listing.status === 'ARCHIVED'"
+        >
+          {{ listing.status }}
+        </span>
+      </div>
+
+      <div class="listing-item__actions">
+        <button
+          class="listing-item__action"
+          type="button"
+          [title]="listing.status === 'PUBLISHED' ? 'Set to draft' : 'Publish'"
+          [disabled]="togglingId() === listing.id"
+          (click)="toggleStatus(listing)"
+        >
+          @if (togglingId() === listing.id) {
+          <svg lucideLoaderCircle class="listing-item__spinner" aria-hidden="true"></svg>
+          } @else if (listing.status === 'PUBLISHED') {
+          <svg lucideEyeOff aria-hidden="true"></svg>
+          } @else {
+          <svg lucideEye aria-hidden="true"></svg>
+          }
+        </button>
+        <button
+          class="listing-item__action listing-item__action--danger"
+          type="button"
+          title="Delete listing"
+          [disabled]="deletingId() === listing.id"
+          (click)="deleteListing(listing)"
+        >
+          @if (deletingId() === listing.id) {
+          <svg lucideLoaderCircle class="listing-item__spinner" aria-hidden="true"></svg>
+          } @else {
+          <svg lucideTrash2 aria-hidden="true"></svg>
+          }
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+  }
+</div>
