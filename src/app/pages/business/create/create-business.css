@@ -148,12 +148,6 @@
   margin-top: var(--size-4);
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .create-biz-submit__spinner {
   width: var(--size-16);
   height: var(--size-16);

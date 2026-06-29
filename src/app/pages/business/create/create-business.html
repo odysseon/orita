@@ -16,8 +16,13 @@
 
     <form class="create-biz-form" (submit)="onSubmit($event)">
       <!-- Name -->
-      <div class="field">
-        <label class="field__label" for="name">Business name</label>
+      <app-form-field
+        label="Business name"
+        fieldId="name"
+        [touched]="businessForm.name().touched()"
+        [invalid]="businessForm.name().invalid()"
+        [errorMessage]="businessForm.name().errors()[0]?.message"
+      >
         <input
           id="name"
           class="field__input"
@@ -27,14 +32,10 @@
           [formField]="businessForm.name"
           [class.field__input--error]="businessForm.name().touched() && businessForm.name().invalid()"
         />
-        @if (businessForm.name().touched() && businessForm.name().invalid()) {
-        <p class="field__error">{{ businessForm.name().errors()[0]?.message }}</p>
-        }
-      </div>
+      </app-form-field>
 
       <!-- Business type -->
-      <div class="field">
-        <span class="field__label">Business type</span>
+      <app-form-field label="Business type" fieldId="type">
         <div class="type-selector">
           @for (option of typeOptions; track option.value) {
           <button
@@ -49,14 +50,17 @@
           </button>
           }
         </div>
-      </div>
+      </app-form-field>
 
       <!-- Description -->
-      <div class="field">
-        <label class="field__label" for="description">
-          Description
-          <span class="field__label-hint">optional</span>
-        </label>
+      <app-form-field
+        label="Description"
+        fieldId="description"
+        hint="optional"
+        [touched]="businessForm.description().touched()"
+        [invalid]="businessForm.description().invalid()"
+        [errorMessage]="businessForm.description().errors()[0]?.message"
+      >
         <textarea
           id="description"
           class="field__textarea"
@@ -65,10 +69,7 @@
           [formField]="businessForm.description"
           [class.field__textarea--error]="businessForm.description().touched() && businessForm.description().invalid()"
         ></textarea>
-        @if (businessForm.description().touched() && businessForm.description().invalid()) {
-        <p class="field__error">{{ businessForm.description().errors()[0]?.message }}</p>
-        }
-      </div>
+      </app-form-field>
 
       <button class="btn btn--primary btn--full create-biz-submit" type="submit" [disabled]="loading() || isFormInvalid()">
         @if (loading()) {
