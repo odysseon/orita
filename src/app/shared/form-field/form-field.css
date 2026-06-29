@@ -1,0 +1,30 @@
+:host {
+  display: contents;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-6);
+}
+
+.field__label {
+  display: flex;
+  align-items: center;
+  gap: var(--size-6);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+}
+
+.field__label-hint {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  color: var(--text-muted);
+}
+
+.field__error {
+  font-size: var(--font-size-sm);
+  color: var(--clr-error);
+  line-height: var(--line-height-normal);
+}
