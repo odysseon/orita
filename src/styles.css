@@ -359,3 +359,223 @@ body {
 .btn--full {
   width: 100%;
 }
+
+/* ============================================================
+ * BACK BUTTON — ghost nav utility
+ * ============================================================ */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-6);
+  background: transparent;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: var(--size-0);
+
+  svg {
+    width: var(--size-16);
+    height: var(--size-16);
+  }
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+/* ============================================================
+ * FIELD — shared form field utility
+ * ============================================================ */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-6);
+}
+
+.field__label {
+  display: flex;
+  align-items: center;
+  gap: var(--size-6);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+}
+
+.field__label-hint {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  color: var(--text-muted);
+}
+
+.field__input {
+  width: 100%;
+  height: var(--size-40);
+  padding: var(--size-0) var(--size-12);
+  border: var(--size-1-5) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--surface-container);
+  outline: none;
+  transition: border-color var(--transition-fast);
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:focus {
+    border-color: var(--clr-primary);
+  }
+}
+
+.field__input--error {
+  border-color: var(--clr-error);
+}
+
+.field__textarea {
+  width: 100%;
+  padding: var(--size-10) var(--size-12);
+  border: var(--size-1-5) solid var(--border-default);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--surface-container);
+  outline: none;
+  resize: vertical;
+  min-height: var(--size-80);
+  line-height: var(--line-height-normal);
+  transition: border-color var(--transition-fast);
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:focus {
+    border-color: var(--clr-primary);
+  }
+}
+
+.field__textarea--error {
+  border-color: var(--clr-error);
+}
+
+.field__error {
+  font-size: var(--font-size-sm);
+  color: var(--clr-error);
+  line-height: var(--line-height-normal);
+}
+
+/* ============================================================
+ * PANEL — bordered surface card with rows
+ * ============================================================ */
+.panel {
+  background: var(--surface-card);
+  border: var(--size-1) solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.panel__title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  padding: var(--size-14) var(--size-16);
+  border-bottom: var(--size-1) solid var(--border-subtle);
+}
+
+.panel__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel__row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--size-10);
+  padding: var(--size-12) var(--size-16);
+  border-bottom: var(--size-1) solid var(--border-subtle);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  svg {
+    width: var(--size-15);
+    height: var(--size-15);
+    color: var(--text-muted);
+    margin-top: var(--size-2);
+    flex-shrink: 0;
+  }
+}
+
+/* ============================================================
+ * TABS — horizontal tab bar utility
+ * ============================================================ */
+.tabs {
+  display: flex;
+  border-bottom: var(--size-1) solid var(--border-subtle);
+  gap: var(--size-4);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-6);
+  padding: var(--size-10) var(--size-14);
+  background: transparent;
+  border: none;
+  border-bottom: var(--size-2) solid transparent;
+  margin-bottom: calc(-1 * var(--size-1));
+  font-family: var(--font-sans);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+
+  svg { width: var(--size-15); height: var(--size-15); }
+  &:hover { color: var(--text-secondary); }
+}
+
+.tab--active {
+  color: var(--clr-primary);
+  border-bottom-color: var(--clr-primary);
+}
+
+/* ============================================================
+ * BADGE — inline status chip utility
+ * ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--size-2) var(--size-8);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.badge--success { background: var(--clr-success-container); color: var(--clr-on-success-container); }
+.badge--warning { background: var(--clr-warning-container); color: var(--clr-on-warning-container); }
+.badge--error   { background: var(--clr-error-container);   color: var(--clr-on-error-container); }
+.badge--neutral { background: var(--surface-container-high); color: var(--text-muted); }
+
+/* ============================================================
+ * EMPTY TAB — placeholder for empty tab panel content
+ * ============================================================ */
+.empty-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--size-10);
+  padding: var(--size-48) var(--size-24);
+  text-align: center;
+  color: var(--text-muted);
+
+  svg { width: var(--size-32); height: var(--size-32); opacity: 0.5; }
+  p { font-size: var(--font-size-md); color: var(--text-muted); }
+}
