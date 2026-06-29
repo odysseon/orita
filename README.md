@@ -1,59 +1,94 @@
 # Orita
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.4.
+Orita is a local discovery platform connecting people with businesses, services, and opportunities
+around them.
 
-## Development server
+> Discovery-first local commerce infrastructure.
 
-To start a local development server, run:
+## Overview
 
-```bash
-ng serve
+Orita is designed to help businesses and individuals become discoverable to people around them.
+
+The backend provides the foundation for:
+
+- Identity
+- Business Profiles
+- Storefronts
+- Listings
+- Categories
+- Discovery
+
+It intentionally avoids becoming an ERP or ecommerce platform in its initial stages.
+
+---
+
+## Product Philosophy
+
+Orita is not trying to own commerce.
+
+Orita helps people connect for commerce.
+
+Typical flow:
+
+```
+Business
+      ↓
+
+Create Profile
+      ↓
+
+Launch Storefront
+      ↓
+
+Publish Listings
+      ↓
+
+Become Discoverable
+      ↓
+
+Customer Makes Contact
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Transactions happen outside the platform unless future product direction changes.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Core Domain
 
-```bash
-ng generate component component-name
+```
+Account
+    ↓
+
+User
+    ↓
+
+Business Profile
+    ↓
+
+Listings
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Business Profiles represent commercial identities.
 
-```bash
-ng generate --help
-```
+Listings represent commercial offerings.
 
-## Building
+Listings may represent:
 
-To build the project run:
+- Products
+- Services
+- Opportunities
 
-```bash
-ng build
-```
+The system intentionally avoids industry-specific models.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+There are no:
 
-## Running unit tests
+- CarDealer
+- PhoneSeller
+- LogisticsCompany
+- EventCentre
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Business is business.
 
-```bash
-ng test
-```
+Categories and listings provide specialization.
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
