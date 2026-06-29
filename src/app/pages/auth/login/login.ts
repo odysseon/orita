@@ -1,11 +1,12 @@
 import { Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { form, FormField, required, email } from '@angular/forms/signals';
 import { LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle } from '@lucide/angular';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [FormField, LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle],
+  imports: [FormField, LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle, RouterLink],
   templateUrl: './login.html',
   styleUrls: ['../auth.css', './login.css'],
   encapsulation: ViewEncapsulation.None,
