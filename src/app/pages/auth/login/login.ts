@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { form, FormField, required, email } from '@angular/forms/signals';
+import { form, FormField, required, email, pattern } from '@angular/forms/signals';
 import { LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle } from '@lucide/angular';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -27,6 +27,10 @@ export class Login {
     required(f.email, { message: 'Email is required' });
     email(f.email, { message: 'Enter a valid email address' });
     required(f.password, { message: 'Password is required' });
+    pattern(f.password, /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
+      message:
+        'Password must be at least 8 characters long and contain a letter, a number, and a special character.',
+    });
   });
 
   readonly isFormInvalid = computed(() => this.loginForm().invalid());
