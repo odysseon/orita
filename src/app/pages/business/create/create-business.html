@@ -1,0 +1,80 @@
+<div class="create-biz-page">
+  <div class="create-biz-card">
+    <header class="create-biz-header">
+      <button class="create-biz-back" (click)="goBack()" type="button">
+        <svg lucideArrowLeft aria-hidden="true"></svg>
+        Back
+      </button>
+      <div class="create-biz-header__icon">
+        <svg lucideStore aria-hidden="true"></svg>
+      </div>
+      <h1 class="create-biz-header__title">Start your business</h1>
+      <p class="create-biz-header__subtitle">
+        A few details to get you set up. You can fill in the rest later.
+      </p>
+    </header>
+
+    <form class="create-biz-form" (submit)="onSubmit($event)">
+      <!-- Name -->
+      <div class="field">
+        <label class="field__label" for="name">Business name</label>
+        <input
+          id="name"
+          class="field__input"
+          type="text"
+          placeholder="e.g. Tunde's Electronics"
+          autocomplete="organization"
+          [formField]="businessForm.name"
+          [class.field__input--error]="businessForm.name().touched() && businessForm.name().invalid()"
+        />
+        @if (businessForm.name().touched() && businessForm.name().invalid()) {
+        <p class="field__error">{{ businessForm.name().errors()[0]?.message }}</p>
+        }
+      </div>
+
+      <!-- Business type -->
+      <div class="field">
+        <span class="field__label">Business type</span>
+        <div class="type-selector">
+          @for (option of typeOptions; track option.value) {
+          <button
+            class="type-option"
+            type="button"
+            [class.type-option--active]="model().businessType === option.value"
+            (click)="selectType(option.value)"
+          >
+            <svg [lucideIcon]="option.icon" class="type-option__icon" aria-hidden="true"></svg>
+            <span class="type-option__label">{{ option.label }}</span>
+            <span class="type-option__description">{{ option.description }}</span>
+          </button>
+          }
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="field">
+        <label class="field__label" for="description">
+          Description
+          <span class="field__label-hint">optional</span>
+        </label>
+        <textarea
+          id="description"
+          class="field__textarea"
+          placeholder="What does your business do? Keep it short and clear."
+          rows="3"
+          [formField]="businessForm.description"
+          [class.field__textarea--error]="businessForm.description().touched() && businessForm.description().invalid()"
+        ></textarea>
+        @if (businessForm.description().touched() && businessForm.description().invalid()) {
+        <p class="field__error">{{ businessForm.description().errors()[0]?.message }}</p>
+        }
+      </div>
+
+      <button class="btn btn--primary btn--full create-biz-submit" type="submit" [disabled]="loading() || isFormInvalid()">
+        @if (loading()) {
+        <svg lucideLoaderCircle class="create-biz-submit__spinner" aria-hidden="true"></svg>
+        Creating… } @else { Create business }
+      </button>
+    </form>
+  </div>
+</div>

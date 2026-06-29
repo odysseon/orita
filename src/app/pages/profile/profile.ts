@@ -53,6 +53,13 @@ const MY_BUSINESS: NavItem = {
   route: '/business',
 };
 
+const START_BUSINESS: NavItem = {
+  icon: LucideBuilding2,
+  label: 'Start a Business',
+  description: 'Create a profile and reach customers on Orita',
+  route: '/business/create',
+};
+
 @Component({
   selector: 'app-profile',
   imports: [
@@ -73,8 +80,8 @@ export class Profile {
   readonly profile = httpResource<IProfile>(() => `${environment.apiUrl}/users/me`);
 
   readonly navItems = computed<NavItem[]>(() => {
-    const hasBusiness = !!this.profile.value()?.businessId;
-    return hasBusiness ? [MY_BUSINESS, ...ALWAYS_VISIBLE] : ALWAYS_VISIBLE;
+    const businessItem = this.profile.value()?.businessId ? MY_BUSINESS : START_BUSINESS;
+    return [businessItem, ...ALWAYS_VISIBLE];
   });
 
   navigate(route: string): void {
