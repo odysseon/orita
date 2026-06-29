@@ -13,13 +13,7 @@
 
   <!-- Create form -->
   @if (showForm()) {
-  <div class="listing-form-card">
-    <div class="listing-form-card__header">
-      <span class="listing-form-card__title">New listing</span>
-      <button class="listing-form-card__close" (click)="closeForm()" type="button">
-        <svg lucideX aria-hidden="true"></svg>
-      </button>
-    </div>
+  <app-listing-form (closeForm)="closeForm()">
 
     <form class="listing-form" (submit)="createListing($event)">
       <app-form-field
@@ -118,7 +112,7 @@
         </button>
       </div>
     </form>
-  </div>
+  </app-listing-form>
   }
 
   <!-- Loading -->
