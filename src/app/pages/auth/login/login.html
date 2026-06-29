@@ -1,84 +1,53 @@
-<div class="auth-page">
-  <div class="auth-card">
-    <header class="auth-card__header">
-      <h1 class="auth-card__title">
-        <svg lucideMapPin class="auth-card__icon" aria-hidden="true"></svg>
-        Orita
-      </h1>
-      <p class="auth-card__subtitle">Sign in to discover what's near you</p>
-    </header>
+<app-auth-card
+  subtitle="Sign in to discover what's near you"
+  footerText="Don't have an account?"
+  footerLinkLabel="Create one"
+  footerLinkRoute="/auth/register"
+>
+  <form class="auth-form" (submit)="onSubmit($event)">
+    <app-form-field
+      label="Email"
+      fieldId="email"
+      [touched]="loginForm.email().touched()"
+      [invalid]="loginForm.email().invalid()"
+      [errorMessage]="loginForm.email().errors()[0]?.message"
+    >
+      <input
+        id="email"
+        class="field__input"
+        type="email"
+        placeholder="you@example.com"
+        autocomplete="email"
+        [formField]="loginForm.email"
+        [class.field__input--error]="loginForm.email().touched() && loginForm.email().invalid()"
+      />
+    </app-form-field>
 
-    <div class="auth-card__body">
-      <form class="auth-form" (submit)="onSubmit($event)">
-        <div class="field">
-          <label class="field__label" for="email">Email</label>
-          <input
-            id="email"
-            class="field__input"
-            type="email"
-            placeholder="you@example.com"
-            autocomplete="email"
-            [formField]="loginForm.email"
-            [class.field__input--error]="loginForm.email().touched() && loginForm.email().invalid()"
-          />
-          @if (loginForm.email().touched() && loginForm.email().invalid()) {
-          <p class="field__error">{{ loginForm.email().errors()[0]?.message }}</p>
-          }
-        </div>
+    <app-password-field
+      label="Password"
+      fieldId="password"
+      [formField]="loginForm.password"
+      [touched]="loginForm.password().touched()"
+      [invalid]="loginForm.password().invalid()"
+      [errorMessage]="loginForm.password().errors()[0]?.message"
+    ></app-password-field>
 
-        <div class="field">
-          <label class="field__label" for="password">Password</label>
-          <div class="field__input-wrap">
-            <input
-              id="password"
-              class="field__input field__input--padded"
-              [type]="showPassword() ? 'text' : 'password'"
-              placeholder="••••••••"
-              autocomplete="current-password"
-              [formField]="loginForm.password"
-              [class.field__input--error]="loginForm.password().touched() && loginForm.password().invalid()"
-            />
-            <button
-              class="field__toggle"
-              type="button"
-              [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
-              (click)="togglePassword()"
-            >
-              @if (showPassword()) {
-              <svg lucideEyeOff aria-hidden="true"></svg>
-              } @else {
-              <svg lucideEye aria-hidden="true"></svg>
-              }
-            </button>
-          </div>
-          @if (loginForm.password().touched() && loginForm.password().invalid()) {
-          <p class="field__error">{{ loginForm.password().errors()[0]?.message }}</p>
-          }
-        </div>
-
-        <div class="auth-form__row">
-          <label class="auth-form__remember">
-            <input class="auth-form__checkbox" type="checkbox" [formField]="loginForm.remember" />
-            <span>Keep me signed in</span>
-          </label>
-          <a class="auth-form__forgot" routerLink="/auth/forgot-password">Forgot password?</a>
-        </div>
-
-        <button
-          class="btn btn--primary btn--full auth-form__submit"
-          type="submit"
-          [disabled]="loading() || isFormInvalid()"
-        >
-          @if (loading()) {
-          <svg lucideLoaderCircle class="auth-form__spinner" aria-hidden="true"></svg>
-          Signing in… } @else { Sign in }
-        </button>
-      </form>
+    <div class="auth-form__row">
+      <label class="auth-form__remember">
+        <input class="auth-form__checkbox" type="checkbox" [formField]="loginForm.remember" />
+        <span>Keep me signed in</span>
+      </label>
+      <a class="auth-form__forgot" routerLink="/auth/forgot-password">Forgot password?</a>
     </div>
 
-    <footer class="auth-card__footer">
-      Don't have an account?
-      <a class="auth-card__footer-link" routerLink="/auth/register">Create one</a>
-    </footer>
-  </div>
-</div>
+    <button
+      class="btn btn--primary btn--full auth-form__submit"
+      type="submit"
+      [disabled]="loading() || isFormInvalid()"
+    >
+      @if (loading()) {
+      <svg lucideLoaderCircle class="auth-form__spinner" aria-hidden="true"></svg>
+      Signing in… } @else { Sign in }
+    </button>
+  </form>
+</app-auth-card>

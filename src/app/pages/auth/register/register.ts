@@ -1,22 +1,23 @@
-import { Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, computed, inject, signal } from '@angular/core';
 import { form, FormField, required, email, minLength } from '@angular/forms/signals';
-import { LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle } from '@lucide/angular';
+import { LucideLoaderCircle } from '@lucide/angular';
 import { AuthService } from '../../../core/services/auth.service';
 import { IRegister } from './register.interface';
 
+import { AppAuthCard } from '../../../shared/auth-card/auth-card';
+import { AppFormField } from '../../../shared/form-field/form-field';
+import { AppPasswordField } from '../../../shared/password-field/password-field';
+
 @Component({
   selector: 'app-register',
-  imports: [FormField, LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle, RouterLink],
+  imports: [FormField, LucideLoaderCircle, AppAuthCard, AppFormField, AppPasswordField],
   templateUrl: './register.html',
   styleUrls: ['../auth.css', './register.css'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class Register {
   #auth = inject(AuthService);
 
   readonly loading = signal(false);
-  readonly showPassword = signal(false);
 
   readonly model = signal<IRegister>({
     username: '',
@@ -43,7 +44,4 @@ export class Register {
     this.loading.set(false);
   }
 
-  togglePassword(): void {
-    this.showPassword.update((v) => !v);
-  }
 }
