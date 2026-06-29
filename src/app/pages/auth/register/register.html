@@ -1,92 +1,63 @@
-<div class="auth-page">
-  <div class="auth-card">
-    <header class="auth-card__header">
-      <h1 class="auth-card__title">
-        <svg lucideMapPin class="auth-card__icon" aria-hidden="true"></svg>
-        Orita
-      </h1>
-      <p class="auth-card__subtitle">Create an account to get started</p>
-    </header>
+<app-auth-card
+  subtitle="Create an account to get started"
+  footerText="Already have an account?"
+  footerLinkLabel="Sign in"
+  footerLinkRoute="/auth/login"
+>
+  <form class="auth-form" (submit)="onSubmit($event)">
+    <app-form-field
+      label="Username"
+      fieldId="username"
+      [touched]="registerForm.username().touched()"
+      [invalid]="registerForm.username().invalid()"
+      [errorMessage]="registerForm.username().errors()[0]?.message"
+    >
+      <input
+        id="username"
+        class="field__input"
+        type="text"
+        placeholder="hammed_anu"
+        autocomplete="username"
+        [formField]="registerForm.username"
+        [class.field__input--error]="registerForm.username().touched() && registerForm.username().invalid()"
+      />
+    </app-form-field>
 
-    <div class="auth-card__body">
-      <form class="auth-form" (submit)="onSubmit($event)">
-        <div class="field">
-          <label class="field__label" for="username">Username</label>
-          <input
-            id="username"
-            class="field__input"
-            type="text"
-            placeholder="hammed_anu"
-            autocomplete="username"
-            [formField]="registerForm.username"
-            [class.field__input--error]="registerForm.username().touched() && registerForm.username().invalid()"
-          />
-          @if (registerForm.username().touched() && registerForm.username().invalid()) {
-          <p class="field__error">{{ registerForm.username().errors()[0]?.message }}</p>
-          }
-        </div>
+    <app-form-field
+      label="Email"
+      fieldId="email"
+      [touched]="registerForm.email().touched()"
+      [invalid]="registerForm.email().invalid()"
+      [errorMessage]="registerForm.email().errors()[0]?.message"
+    >
+      <input
+        id="email"
+        class="field__input"
+        type="email"
+        placeholder="you@example.com"
+        autocomplete="email"
+        [formField]="registerForm.email"
+        [class.field__input--error]="registerForm.email().touched() && registerForm.email().invalid()"
+      />
+    </app-form-field>
 
-        <div class="field">
-          <label class="field__label" for="email">Email</label>
-          <input
-            id="email"
-            class="field__input"
-            type="email"
-            placeholder="you@example.com"
-            autocomplete="email"
-            [formField]="registerForm.email"
-            [class.field__input--error]="registerForm.email().touched() && registerForm.email().invalid()"
-          />
-          @if (registerForm.email().touched() && registerForm.email().invalid()) {
-          <p class="field__error">{{ registerForm.email().errors()[0]?.message }}</p>
-          }
-        </div>
+    <app-password-field
+      label="Password"
+      fieldId="password"
+      [formField]="registerForm.password"
+      [touched]="registerForm.password().touched()"
+      [invalid]="registerForm.password().invalid()"
+      [errorMessage]="registerForm.password().errors()[0]?.message"
+    ></app-password-field>
 
-        <div class="field">
-          <label class="field__label" for="password">Password</label>
-          <div class="field__input-wrap">
-            <input
-              id="password"
-              class="field__input field__input--padded"
-              [type]="showPassword() ? 'text' : 'password'"
-              placeholder="••••••••"
-              autocomplete="new-password"
-              [formField]="registerForm.password"
-              [class.field__input--error]="registerForm.password().touched() && registerForm.password().invalid()"
-            />
-            <button
-              class="field__toggle"
-              type="button"
-              [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
-              (click)="togglePassword()"
-            >
-              @if (showPassword()) {
-              <svg lucideEyeOff aria-hidden="true"></svg>
-              } @else {
-              <svg lucideEye aria-hidden="true"></svg>
-              }
-            </button>
-          </div>
-          @if (registerForm.password().touched() && registerForm.password().invalid()) {
-          <p class="field__error">{{ registerForm.password().errors()[0]?.message }}</p>
-          }
-        </div>
-
-        <button
-          class="btn btn--primary btn--full auth-form__submit"
-          type="submit"
-          [disabled]="loading() || isFormInvalid()"
-        >
-          @if (loading()) {
-          <svg lucideLoaderCircle class="auth-form__spinner" aria-hidden="true"></svg>
-          Creating account… } @else { Create account }
-        </button>
-      </form>
-    </div>
-
-    <footer class="auth-card__footer">
-      Already have an account?
-      <a class="auth-card__footer-link" routerLink="/auth/login">Sign in</a>
-    </footer>
-  </div>
-</div>
+    <button
+      class="btn btn--primary btn--full auth-form__submit"
+      type="submit"
+      [disabled]="loading() || isFormInvalid()"
+    >
+      @if (loading()) {
+      <svg lucideLoaderCircle class="auth-form__spinner" aria-hidden="true"></svg>
+      Creating account… } @else { Create account }
+    </button>
+  </form>
+</app-auth-card>

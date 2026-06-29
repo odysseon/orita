@@ -1,21 +1,26 @@
 import { Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { form, FormField, required, email, pattern } from '@angular/forms/signals';
-import { LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle } from '@lucide/angular';
+import { LucideLoaderCircle } from '@lucide/angular';
 import { AuthService } from '../../../core/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
+
+import { AppAuthCard } from '../../../shared/auth-card/auth-card';
+import { AppFormField } from '../../../shared/form-field/form-field';
+import { AppPasswordField } from '../../../shared/password-field/password-field';
 
 @Component({
   selector: 'app-login',
-  imports: [FormField, LucideMapPin, LucideEye, LucideEyeOff, LucideLoaderCircle, RouterLink],
+  imports: [RouterLink, FormField, LucideLoaderCircle, AppAuthCard, AppFormField, AppPasswordField],
   templateUrl: './login.html',
   styleUrls: ['../auth.css', './login.css'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class Login {
   #auth = inject(AuthService);
+  #router = inject(Router);
+  #toastr = inject(ToastrService);
 
   readonly loading = signal(false);
-  readonly showPassword = signal(false);
 
   readonly model = signal({
     email: '',
@@ -43,7 +48,4 @@ export class Login {
     this.loading.set(false);
   }
 
-  togglePassword(): void {
-    this.showPassword.update((v) => !v);
-  }
 }
