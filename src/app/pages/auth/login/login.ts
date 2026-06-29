@@ -27,9 +27,9 @@ export class Login {
     required(f.email, { message: 'Email is required' });
     email(f.email, { message: 'Enter a valid email address' });
     required(f.password, { message: 'Password is required' });
-    pattern(f.password, /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
+    pattern(f.password, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
       message:
-        'Password must be at least 8 characters long and contain a letter, a number, and a special character.',
+        'Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, a number, and a special character.',
     });
   });
 
