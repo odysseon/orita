@@ -18,10 +18,12 @@ import {
 } from '@lucide/angular';
 import { IBusinessProfile, IDashboardStats } from './business.interface';
 import { environment } from '../../../environments/environment';
+import { Listings } from './listings/listings';
 
 @Component({
   selector: 'app-business',
   imports: [
+    Listings,
     LucideArrowLeft,
     LucideStore,
     LucidePlus,
@@ -42,7 +44,9 @@ import { environment } from '../../../environments/environment';
 export class Business {
   #router = inject(Router);
 
-  readonly business = httpResource<IBusinessProfile>(() => `${environment.apiUrl}/users/me/business`);
+  readonly business = httpResource<IBusinessProfile>(
+    () => `${environment.apiUrl}/users/me/business`,
+  );
 
   readonly stats = httpResource<IDashboardStats>(() => {
     const biz = this.business.value();
