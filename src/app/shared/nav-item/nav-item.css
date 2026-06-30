@@ -1,0 +1,197 @@
+:host {
+  display: block;
+  flex: 1 1 auto;
+}
+
+:host(.nav-item-vertical) {
+  /* removed max-width so they expand evenly */
+}
+
+:host(.nav-item-horizontal) {
+  max-width: none;
+  width: 100%;
+}
+
+.nav-item-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+
+.nav-item-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Vertical layout (Default) */
+:host(.nav-item-vertical) .nav-item-btn {
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--size-4) 0;
+  gap: var(--size-4);
+}
+
+/* Horizontal layout */
+:host(.nav-item-horizontal) .nav-item-btn {
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: var(--space-sm) var(--space-md);
+  gap: var(--space-sm);
+}
+
+.nav-item-btn:hover:not(:disabled) {
+  background-color: var(--surface-container);
+}
+
+.nav-item-icon-wrapper {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.nav-item-icon-wrapper:has(> *) {
+  display: flex;
+}
+
+/* Icon sizes */
+:host(.nav-item-icon-sm) .nav-item-icon-wrapper {
+  font-size: var(--font-size-md);
+}
+
+:host(.nav-item-icon-md) .nav-item-icon-wrapper {
+  font-size: var(--font-size-xl);
+}
+
+:host(.nav-item-icon-lg) .nav-item-icon-wrapper {
+  font-size: var(--font-size-2xl);
+}
+
+.nav-item-label-wrapper {
+  font-weight: var(--font-weight-medium);
+  transition: color var(--transition-fast);
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+:host(.nav-item-vertical) .nav-item-label-wrapper {
+  font-size: var(--font-size-sm);
+}
+
+:host(.nav-item-horizontal) .nav-item-label-wrapper {
+  font-size: var(--font-size-lg);
+}
+
+:host-context(.nav-list-side:not(.expanded)) .nav-item-label-wrapper {
+  display: none;
+}
+
+:host-context(.nav-list-side:not(.expanded)) .nav-item-btn {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Badge */
+.nav-item-badge-wrapper {
+  position: absolute;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item-badge-wrapper:has(> *) {
+  display: flex;
+}
+
+:host(.nav-item-vertical) .nav-item-badge-wrapper {
+  top: var(--size-4);
+  right: var(--size-4);
+}
+
+:host(.nav-item-horizontal) .nav-item-badge-wrapper {
+  top: 50%;
+  right: var(--space-sm);
+  transform: translateY(-50%);
+}
+
+:host-context(.nav-list-side:not(.expanded)) .nav-item-badge-wrapper {
+  top: var(--size-4);
+  right: var(--size-4);
+  transform: none;
+}
+
+/* Active Styles */
+
+:host(.active) .nav-item-btn {
+  color: var(--clr-primary);
+}
+
+:host(.active) .nav-item-icon-wrapper {
+  color: var(--clr-primary);
+}
+
+:host(.active) .nav-item-btn:hover:not(:disabled) {
+  background: var(--clr-primary-container);
+}
+
+.nav-item-label-wrapper::after {
+  content: '';
+  position: absolute;
+  background-color: var(--clr-primary);
+  transition: transform var(--transition-fast);
+  border-radius: var(--radius-pill);
+}
+
+/* Vertical underline */
+:host(.nav-item-vertical) .nav-item-label-wrapper::after {
+  bottom: calc(-1 * var(--space-2xs));
+  left: 10%;
+  width: 80%;
+  height: var(--size-2);
+  transform: scaleX(0);
+  transform-origin: center;
+}
+
+/* Horizontal underline (left indicator) */
+:host(.nav-item-horizontal) .nav-item-label-wrapper::after {
+  left: calc(-1 * var(--space-md));
+  top: 20%;
+  width: var(--size-4);
+  height: 60%;
+  transform: scaleY(0);
+  transform-origin: center;
+}
+
+/* Activate underline ONLY if there is NO icon projected */
+:host(.nav-item-vertical.active)
+  .nav-item-btn:not(:has(.nav-item-icon-wrapper > *))
+  .nav-item-label-wrapper::after {
+  transform: scaleX(1);
+}
+
+:host(.nav-item-horizontal.active)
+  .nav-item-btn:not(:has(.nav-item-icon-wrapper > *))
+  .nav-item-label-wrapper::after {
+  transform: scaleY(1);
+}
+
+/* Focus */
+.nav-item-btn:focus-visible {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 2px;
+}
