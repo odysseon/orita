@@ -46,6 +46,14 @@
   --clr-warning-container: oklch(95% 0.05 75);
   --clr-on-warning-container: oklch(32% 0.14 75);
 
+  /* -- Landing specific tokens ------------------------------ */
+  --surface-ink: oklch(18% 0.02 280);
+  --clr-accent: oklch(75% 0.16 65);
+  --clr-accent-deep: oklch(60% 0.16 65);
+  --clr-accent-container: oklch(95% 0.05 65);
+  --gradient-hero: linear-gradient(135deg, var(--surface-page) 0%, oklch(95% 0.03 280) 100%);
+  --gradient-ink: linear-gradient(135deg, var(--surface-ink) 0%, oklch(25% 0.03 280) 100%);
+
   /* -- Sizing & Spacing ------------------------------------- */
   --size-0: 0px;
   --size-1: 1px;
