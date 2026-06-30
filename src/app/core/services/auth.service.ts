@@ -2,7 +2,7 @@ import { Service, inject, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
+import { ToastService } from '../services/toast';
 import { CookieService } from '../services/cookie';
 import { ILogin, ILoginResponse } from '../../pages/auth/login/login.interface';
 import { IRegister } from '../../pages/auth/register/register.interface';
@@ -14,7 +14,7 @@ const TOKEN_KEY = 'auth_token';
 export class AuthService {
   #http = inject(HttpClient);
   #router = inject(Router);
-  #toastr = inject(ToastrService);
+  #toast = inject(ToastService);
   #cookie = inject(CookieService);
 
   readonly token = signal<string | undefined>(this.#cookie.get(TOKEN_KEY));
@@ -26,7 +26,7 @@ export class AuthService {
         this.#http.post<ILoginResponse>(`${environment.apiUrl}/auth/login`, payload),
       );
       this.#setToken(res.token, remember ? new Date(res.expiresAt) : undefined);
-      this.#toastr.success('Welcome back!', 'Logged in');
+      this.#toast.success('Logged in', 'Welcome back!');
       await this.#router.navigate(['/profile']);
       return true;
     } catch (err) {
@@ -34,7 +34,7 @@ export class AuthService {
         err instanceof HttpErrorResponse
           ? (err.error?.message ?? 'Login failed. Please try again.')
           : 'An unexpected error occurred.';
-      this.#toastr.error(message, 'Error');
+      this.#toast.error('Error', message);
       return false;
     }
   }
@@ -49,21 +49,21 @@ export class AuthService {
         remember: false,
       });
       if (loginSuccess) {
-        this.#toastr.success('Welcome to Orita!', 'Account created');
+        this.#toast.success('Account created', 'Welcome to Orita!');
       }
     } catch (err) {
       const message =
         err instanceof HttpErrorResponse
           ? (err.error?.message ?? 'Registration failed. Please try again.')
           : 'An unexpected error occurred.';
-      this.#toastr.error(message, 'Error');
+      this.#toast.error('Error', message);
     }
   }
 
   logout(): void {
     this.#cookie.delete(TOKEN_KEY);
     this.token.set(undefined);
-    this.#toastr.info('You have been logged out.', 'Goodbye');
+    this.#toast.info('Goodbye', 'You have been logged out.');
     this.#router.navigate(['/auth/login']);
   }
 

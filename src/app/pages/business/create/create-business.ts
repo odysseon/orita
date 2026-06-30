@@ -13,7 +13,7 @@ import {
   LucideDynamicIcon,
   LucideIconInput,
 } from '@lucide/angular';
-import { ToastrService } from 'ngx-toastr';
+import { ToastService } from '../../../core/services/toast';
 import {
   ICreateBusiness,
   ICreateBusinessResponse,
@@ -39,7 +39,7 @@ interface BusinessTypeOption {
 export class CreateBusiness {
   #http = inject(HttpClient);
   #router = inject(Router);
-  #toastr = inject(ToastrService);
+  #toast = inject(ToastService);
 
   readonly loading = signal(false);
 
@@ -100,14 +100,14 @@ export class CreateBusiness {
       const res = await firstValueFrom(
         this.#http.post<ICreateBusinessResponse>(`${environment.apiUrl}/business`, payload),
       );
-      this.#toastr.success('Your business profile is ready.', 'Business created');
+      this.#toast.success('Business created', 'Your business profile is ready.');
       await this.#router.navigate(['/business']);
     } catch (err) {
       const message =
         err instanceof HttpErrorResponse
           ? (err.error?.message ?? 'Could not create business. Please try again.')
           : 'An unexpected error occurred.';
-      this.#toastr.error(message, 'Error');
+      this.#toast.error('Error', message);
     } finally {
       this.loading.set(false);
     }
