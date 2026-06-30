@@ -3,7 +3,7 @@ import { httpResource, HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
-  LucideArrowLeft,
+
   LucideStore,
   LucideMapPin,
   LucidePhone,
@@ -19,6 +19,7 @@ import { Logo } from '../../shared/logo/logo';
 import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.interface';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
+import { AppPageHeader } from '../../shared/page-header/page-header';
 
 const DAY_LABELS: Record<string, string> = {
   MON: 'Monday',
@@ -34,7 +35,7 @@ const DAY_LABELS: Record<string, string> = {
   selector: 'app-business-detail',
   imports: [
     RouterLink,
-    LucideArrowLeft,
+    AppPageHeader,
     LucideStore,
     LucideMapPin,
     LucidePhone,

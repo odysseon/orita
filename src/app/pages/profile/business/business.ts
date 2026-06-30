@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {
-  LucideArrowLeft,
+
   LucideStore,
   LucidePlus,
   LucideChartBar,
@@ -18,13 +18,14 @@ import {
 } from '@lucide/angular';
 import { IBusinessProfile, IDashboardStats } from './business.interface';
 import { environment } from '../../../../environments/environment';
+import { AppPageHeader } from '../../../shared/page-header/page-header';
 import { Listings } from './listings/listings';
 
 @Component({
   selector: 'app-business',
   imports: [
     Listings,
-    LucideArrowLeft,
+    AppPageHeader,
     LucideStore,
     LucidePlus,
     LucideChartBar,

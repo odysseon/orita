@@ -11,31 +11,7 @@
   padding: var(--size-16) var(--size-16) var(--size-48);
 }
 
-/* ============================================================
- * BACK
- * ============================================================ */
-.listing-detail__back {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--size-6);
-  align-self: flex-start;
-  background: transparent;
-  border: none;
-  font-family: var(--font-sans);
-  font-size: var(--font-size-md);
-  color: var(--text-secondary);
-  cursor: pointer;
-  padding: 0;
 
-  svg {
-    width: var(--size-16);
-    height: var(--size-16);
-  }
-
-  &:hover {
-    color: var(--text-primary);
-  }
-}
 
 /* ============================================================
  * SKELETON / ERROR

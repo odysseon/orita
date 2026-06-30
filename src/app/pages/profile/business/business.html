@@ -20,10 +20,7 @@
   <!-- No business -->
   @if (!business.isLoading() && !hasBusiness()) {
   <div class="biz-empty">
-    <button class="btn-back" (click)="goBack()">
-      <svg lucideArrowLeft aria-hidden="true"></svg>
-      Back
-    </button>
+    <app-page-header backText="Back" (back)="goBack()" />
     <div class="biz-empty__body">
       <div class="biz-empty__icon-wrap">
         <svg lucideStore aria-hidden="true"></svg>
@@ -44,10 +41,7 @@
   <!-- Dashboard -->
   @if (hasBusiness()) {
   <div class="biz-header">
-    <button class="btn-back" (click)="goBack()">
-      <svg lucideArrowLeft aria-hidden="true"></svg>
-      Back
-    </button>
+    <app-page-header backText="Back" (back)="goBack()" />
 
     <div class="biz-identity">
       <div class="biz-avatar">

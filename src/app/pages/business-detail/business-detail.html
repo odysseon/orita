@@ -14,10 +14,7 @@
   </div>
   } @if (business.hasValue()) { @let biz = business.value()!;
 
-  <button class="biz-detail__back" (click)="goBack()" type="button">
-    <svg lucideArrowLeft aria-hidden="true"></svg>
-    Back
-  </button>
+  <app-page-header backText="Back" (back)="goBack()" />
 
   <!-- Banner -->
   <div class="biz-banner">

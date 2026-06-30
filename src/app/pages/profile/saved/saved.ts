@@ -3,7 +3,7 @@ import { httpResource, HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
-  LucideArrowLeft,
+
   LucideStore,
   LucidePackage,
   LucideBookmark,
@@ -12,12 +12,13 @@ import {
 import { ISavedListingItem, ISavedBusinessItem, IPaginated } from './saved.interface';
 import { environment } from '../../../../environments/environment';
 import { ToastService } from '../../../core/services/toast';
+import { AppPageHeader } from '../../../shared/page-header/page-header';
 
 type SavedTab = 'businesses' | 'listings';
 
 @Component({
   selector: 'app-saved',
-  imports: [RouterLink, LucideArrowLeft, LucideStore, LucidePackage, LucideBookmark, LucideX],
+  imports: [RouterLink, AppPageHeader, LucideStore, LucidePackage, LucideBookmark, LucideX],
   templateUrl: './saved.html',
   styleUrl: './saved.css',
 })

@@ -1,10 +1,7 @@
 <div class="create-biz-page">
   <div class="create-biz-card">
     <header class="create-biz-header">
-      <button class="btn-back" (click)="goBack()" type="button">
-        <svg lucideArrowLeft aria-hidden="true"></svg>
-        Back
-      </button>
+      <app-page-header backText="Back" (back)="goBack()" />
       <div class="create-biz-header__icon">
         <svg lucideStore aria-hidden="true"></svg>
       </div>
