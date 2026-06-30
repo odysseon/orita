@@ -1,11 +1,10 @@
 <div class="home">
   <!-- Header -->
-  <header class="home-header">
-    <app-logo />
-    <button class="home-header__avatar" (click)="goToProfile()" aria-label="Profile">
-      <svg lucideMapPin aria-hidden="true"></svg>
-    </button>
-  </header>
+  <ui-home-header 
+    [uiScrollHide]="true"
+    scrollHidePosition="top"
+    (profileClicked)="goToProfile()"
+  />
 
   <!-- Search -->
   <div class="search-bar">
