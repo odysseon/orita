@@ -2,211 +2,114 @@
   display: contents;
 }
 
-/* ============================================================
- * ROOT
- * ============================================================ */
-.drawer-root {
+.drawer-backdrop {
   position: fixed;
   inset: 0;
   z-index: var(--z-modal);
-  pointer-events: auto;
-}
-
-/* ============================================================
- * BACKDROP
- * ============================================================ */
-.drawer-backdrop {
-  position: absolute;
-  inset: 0;
-  border: none;
   background: oklch(18% 0.02 280 / 0.16);
-  opacity: 0;
-  transition: opacity var(--duration-slow) var(--ease-standard);
+  transition: opacity var(--duration-normal) var(--ease-standard);
   cursor: pointer;
 }
 
-.drawer-backdrop--open {
-  opacity: 1;
-}
-
-/* ============================================================
- * PANEL — base
- * ============================================================ */
 .drawer-panel {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
+  position: fixed;
+  z-index: var(--z-modal);
   background: var(--surface-card);
   box-shadow: var(--shadow-lg);
-  border: var(--size-1) solid var(--border-subtle);
-  will-change: transform;
+  display: flex;
+  flex-direction: column;
   transition:
     transform var(--duration-slow) var(--ease-decelerate),
     opacity var(--duration-slow) var(--ease-standard);
-  max-height: 100dvh;
-  outline: none;
+  touch-action: none;
+  will-change: transform;
 }
 
 .drawer-panel--dragging {
   transition: none;
 }
 
-/* ============================================================
- * PANEL — positions (closed state)
- * ============================================================ */
-.drawer-panel--right {
-  top: 0;
-  right: 0;
-  height: 100dvh;
-  width: min(92vw, 440px);
-  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
-  transform: translate3d(100%, 0, 0);
-}
-
+/* Positions — closed state */
 .drawer-panel--left {
   top: 0;
   left: 0;
-  height: 100dvh;
-  width: min(92vw, 440px);
+  bottom: 0;
+  transform: translateX(-100%);
   border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-  transform: translate3d(-100%, 0, 0);
+}
+
+.drawer-panel--right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  transform: translateX(100%);
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
 }
 
 .drawer-panel--top {
   top: 0;
   left: 0;
   right: 0;
-  height: min(88dvh, 640px);
+  transform: translateY(-100%);
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-  transform: translate3d(0, -100%, 0);
 }
 
 .drawer-panel--bottom {
+  bottom: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  height: min(88dvh, 640px);
+  transform: translateY(100%);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  transform: translate3d(0, 100%, 0);
 }
 
 .drawer-panel--center {
   top: 50%;
   left: 50%;
-  transform: translate3d(-50%, -50%, 0) scale(0.96);
+  transform: translate(-50%, -50%) scale(0.96);
   opacity: 0;
-  border-radius: var(--radius-lg);
-  width: min(92vw, 480px);
-  max-height: 90vh;
 }
 
-/* ============================================================
- * PANEL — open state
- * ============================================================ */
+/* Open state */
 .drawer-panel--open.drawer-panel--left,
-.drawer-panel--open.drawer-panel--right,
+.drawer-panel--open.drawer-panel--right {
+  transform: translateX(0);
+}
+
 .drawer-panel--open.drawer-panel--top,
 .drawer-panel--open.drawer-panel--bottom {
-  transform: translate3d(0, 0, 0);
+  transform: translateY(0);
 }
 
 .drawer-panel--open.drawer-panel--center {
-  transform: translate3d(-50%, -50%, 0) scale(1);
+  transform: translate(-50%, -50%) scale(1);
   opacity: 1;
 }
 
-/* ============================================================
- * DRAG HANDLE
- * ============================================================ */
-.drawer-handle {
-  width: 100%;
-  height: var(--size-32);
-  border: none;
-  background: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  touch-action: none;
+/* Drag handle — fixed at top, never scrolls */
+.drawer-drag-handle {
+  flex-shrink: 0;
+  width: var(--size-48);
+  height: var(--size-4);
+  background: var(--border-default);
+  border-radius: var(--radius-pill);
+  margin: var(--space-xs) auto 0 auto;
   cursor: grab;
+  touch-action: none;
 }
 
-.drawer-handle:active {
+.drawer-drag-handle:active {
   cursor: grabbing;
 }
 
-.drawer-handle:disabled {
-  cursor: default;
-}
-
-.drawer-handle__bar {
-  width: var(--size-48);
-  height: var(--size-4);
-  border-radius: var(--radius-pill);
-  background: var(--border-default);
-}
-
-/* ============================================================
- * HEADER
- * ============================================================ */
-.drawer-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: var(--size-48);
-  padding: 0 var(--size-16) var(--size-12);
-  border-bottom: var(--size-1) solid var(--border-subtle);
-  flex-shrink: 0;
-}
-
-.drawer-title {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
-}
-
-.drawer-close {
-  width: var(--size-32);
-  height: var(--size-32);
-  border: none;
-  border-radius: var(--radius-pill);
-  font-size: var(--font-size-xl);
-  line-height: 1;
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.drawer-close:hover:not(:disabled) {
-  background: var(--surface-container);
-  color: var(--text-primary);
-}
-
-/* ============================================================
- * FOCUS
- * ============================================================ */
-.drawer-close:focus-visible,
-.drawer-handle:focus-visible,
-.drawer-panel:focus-visible {
-  outline: 2px solid var(--clr-primary);
-  outline-offset: 2px;
-}
-
-/* ============================================================
- * CONTENT
- * ============================================================ */
-.drawer-content {
-  overflow: auto;
-  padding: 0 var(--size-16) var(--size-16);
-  overscroll-behavior: contain;
+/* Scrollable body — the house */
+.drawer-body {
   flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-height: 0;
 }
 
-/* ============================================================
- * REDUCED MOTION
- * ============================================================ */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .drawer-backdrop,
   .drawer-panel {

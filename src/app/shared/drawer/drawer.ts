@@ -1,19 +1,19 @@
-import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  OnDestroy,
-  afterNextRender,
   computed,
   effect,
+  ElementRef,
   inject,
   input,
   model,
+  OnDestroy,
+  OnInit,
   output,
   signal,
   viewChild,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 import {
   DISTANCE_THRESHOLD,
@@ -21,8 +21,6 @@ import {
   DrawerPosition,
   VELOCITY_THRESHOLD,
 } from './drawer.model';
-
-type DrawerSide = 'left' | 'right' | 'bottom';
 
 interface PointerState {
   startX: number;
@@ -32,53 +30,29 @@ interface PointerState {
   active: boolean;
 }
 
-let openDrawerCount = 0;
-
 @Component({
-  selector: 'app-drawer',
+  selector: 'ui-drawer',
   templateUrl: './drawer.html',
   styleUrl: './drawer.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[attr.data-open]': 'isOpenPhase()',
-  },
 })
-export class AppDrawer implements OnDestroy {
+export class Drawer implements OnInit, OnDestroy {
   private readonly document = inject(DOCUMENT);
   private readonly host = inject(ElementRef<HTMLElement>);
 
-  // -------------------------------------------------------------------------
-  // Inputs
-  // -------------------------------------------------------------------------
   open = model<boolean>(false);
   position = input<DrawerPosition>(DRAWER_DEFAULTS.position);
   size = input<string>(DRAWER_DEFAULTS.size);
   closeOnBackdrop = input<boolean>(DRAWER_DEFAULTS.closeOnBackdrop);
   closeOnEscape = input<boolean>(DRAWER_DEFAULTS.closeOnEscape);
-  dismissible = input<boolean>(DRAWER_DEFAULTS.dismissible);
-  showCloseButton = input<boolean>(DRAWER_DEFAULTS.showCloseButton);
-  title = input<string>();
-  ariaLabel = input<string>(DRAWER_DEFAULTS.ariaLabel);
 
-  // -------------------------------------------------------------------------
-  // Outputs
-  // -------------------------------------------------------------------------
   opened = output<void>();
   closed = output<void>();
-  dismissed = output<void>();
 
-  // -------------------------------------------------------------------------
-  // Template refs
-  // -------------------------------------------------------------------------
   private readonly panelRef = viewChild<ElementRef<HTMLElement>>('panel');
 
-  // -------------------------------------------------------------------------
-  // Internal state
-  // -------------------------------------------------------------------------
-  readonly isRendered = signal(false);
-  readonly isOpenPhase = signal(false);
+  private readonly dragDelta = signal(0);
   readonly isDragging = signal(false);
-  readonly dragOffset = signal(0);
 
   private pointer: PointerState = {
     startX: 0,
@@ -88,128 +62,78 @@ export class AppDrawer implements OnDestroy {
     active: false,
   };
 
-  private lastFocusedElement: HTMLElement | null = null;
-  private removeKeydownListener: (() => void) | null = null;
-
-  // -------------------------------------------------------------------------
-  // Derived
-  // -------------------------------------------------------------------------
   readonly isCenter = computed(() => this.position() === 'center');
   readonly isVertical = computed(() => this.position() === 'top' || this.position() === 'bottom');
 
-  readonly isSideDrawer = computed(
-    () => this.position() === 'left' || this.position() === 'right' || this.position() === 'bottom',
-  );
-
-  readonly showHeader = computed(() => !!this.title() || this.showCloseButton());
-
-  readonly panelTransform = computed(() => {
-    const offset = this.dragOffset();
-    if (offset <= 0) return null;
+  readonly dragTransform = computed(() => {
+    const delta = this.dragDelta();
+    if (delta === 0) return '';
     const pos = this.position();
-    if (pos === 'left') return `translate3d(${-offset}px, 0, 0)`;
-    if (pos === 'bottom') return `translate3d(0, ${offset}px, 0)`;
-    if (pos === 'right') return `translate3d(${offset}px, 0, 0)`;
-    return null;
+    switch (pos) {
+      case 'left':
+        return `translateX(${Math.min(delta, 0)}px)`;
+      case 'right':
+        return `translateX(${Math.max(delta, 0)}px)`;
+      case 'top':
+        return `translateY(${Math.min(delta, 0)}px)`;
+      case 'bottom':
+        return `translateY(${Math.max(delta, 0)}px)`;
+      default:
+        return '';
+    }
   });
 
   readonly backdropOpacity = computed(() => {
-    if (!this.isDragging()) return this.isOpenPhase() ? 1 : 0;
-    const offset = this.dragOffset();
+    if (!this.isDragging()) return this.open() ? 1 : 0;
+    const delta = Math.abs(this.dragDelta());
     const size = this.drawerSizePx();
     if (size === 0) return 1;
-    return Math.max(0, 1 - offset / size);
+    return Math.max(0, 1 - delta / size);
   });
 
-  readonly positionClass = computed(() => `drawer-panel--${this.position()}`);
+  private drawerSizePx(): number {
+    return this.panelRef()?.nativeElement[this.isVertical() ? 'offsetHeight' : 'offsetWidth'] ?? 0;
+  }
 
-  readonly panelStyle = computed(() => {
-    const pos = this.position();
-    const s = this.size();
-    const base: Record<string, string> = {};
-
-    if (pos === 'left' || pos === 'right') {
-      base['width'] = s;
-      base['max-width'] = 'min(92vw, 560px)';
-      base['height'] = '100dvh';
-    } else if (pos === 'top' || pos === 'bottom') {
-      base['width'] = '100%';
-      base['height'] = s;
-      base['max-height'] = 'min(88dvh, 640px)';
-    } else {
-      // center — dialog mode
-      base['width'] = s;
-      base['max-width'] = 'min(92vw, 480px)';
-      base['max-height'] = '90vh';
-    }
-
-    if (this.panelTransform()) {
-      base['transform'] = this.panelTransform()!;
-      base['transition'] = 'none';
-    }
-
-    return base;
-  });
-
-  // -------------------------------------------------------------------------
-  // Lifecycle
-  // -------------------------------------------------------------------------
   constructor() {
     effect(() => {
-      const isOpen = this.open();
-      if (isOpen) {
-        this.openDrawer();
-        return;
-      }
-      if (this.isRendered() && this.isOpenPhase()) {
-        this.beginClose();
+      if (this.open()) {
+        this.document.body.style.overflow = 'hidden';
+        this.opened.emit();
+      } else {
+        this.document.body.style.overflow = '';
+        this.closed.emit();
       }
     });
   }
 
-  ngOnDestroy(): void {
-    this.teardownKeydown();
-    this.unlockBodyScroll();
+  ngOnInit() {
+    this.document.addEventListener('keydown', this.onKeyDown);
   }
 
-  // -------------------------------------------------------------------------
-  // Public API
-  // -------------------------------------------------------------------------
-  close(): void {
-    if (!this.dismissible()) return;
-    this.beginClose();
+  ngOnDestroy() {
+    this.document.removeEventListener('keydown', this.onKeyDown);
+    this.document.body.style.overflow = '';
+  }
+
+  close() {
     this.open.set(false);
-    this.dismissed.emit();
   }
 
-  // -------------------------------------------------------------------------
-  // Backdrop
-  // -------------------------------------------------------------------------
-  onBackdropClick(): void {
-    if (!this.closeOnBackdrop()) return;
-    this.close();
+  onBackdropClick() {
+    if (this.closeOnBackdrop()) this.close();
   }
 
-  // -------------------------------------------------------------------------
-  // Keyboard
-  // -------------------------------------------------------------------------
   private readonly onKeyDown = (event: KeyboardEvent) => {
-    if (event.key !== 'Escape' || !this.isRendered() || !this.dismissible()) return;
-    if (!this.closeOnEscape()) return;
-    event.preventDefault();
-    this.close();
+    if (event.key === 'Escape' && this.closeOnEscape() && this.open()) {
+      this.close();
+    }
   };
 
-  // -------------------------------------------------------------------------
-  // Pointer / drag handling
-  // -------------------------------------------------------------------------
-  onDragStart(event: PointerEvent): void {
-    if (!this.dismissible() || this.isCenter() || event.button !== 0) return;
-
-    const panel = this.panelRef()?.nativeElement;
-    if (!panel) return;
-
-    panel.setPointerCapture(event.pointerId);
+  onPointerDown(event: PointerEvent) {
+    if (this.isCenter()) return;
+    const handle = event.currentTarget as HTMLElement;
+    handle.setPointerCapture(event.pointerId);
     this.pointer = {
       startX: event.clientX,
       startY: event.clientY,
@@ -218,11 +142,9 @@ export class AppDrawer implements OnDestroy {
       active: true,
     };
     this.isDragging.set(true);
-    this.dragOffset.set(0);
-    event.preventDefault();
   }
 
-  onDragMove(event: PointerEvent): void {
+  onPointerMove(event: PointerEvent) {
     if (!this.pointer.active) return;
 
     const rawDelta = this.isVertical()
@@ -231,14 +153,11 @@ export class AppDrawer implements OnDestroy {
 
     const resistedDelta = this.resistDelta(rawDelta);
     this.pointer.currentDelta = resistedDelta;
-    this.dragOffset.set(Math.max(0, resistedDelta));
+    this.dragDelta.set(resistedDelta);
   }
 
-  onDragEnd(event: PointerEvent): void {
+  onPointerUp(event: PointerEvent) {
     if (!this.pointer.active) return;
-
-    const panel = this.panelRef()?.nativeElement;
-    panel?.releasePointerCapture(event.pointerId);
 
     const delta = Math.abs(this.pointer.currentDelta);
     const elapsed = event.timeStamp - this.pointer.startTime;
@@ -250,101 +169,17 @@ export class AppDrawer implements OnDestroy {
 
     if (pastDistance || pastVelocity) {
       this.close();
-    } else {
-      this.dragOffset.set(0);
     }
 
     this.pointer.active = false;
+    this.dragDelta.set(0);
     this.isDragging.set(false);
   }
 
-  onDragCancel(): void {
+  onPointerCancel() {
     this.pointer.active = false;
-    this.dragOffset.set(0);
+    this.dragDelta.set(0);
     this.isDragging.set(false);
-  }
-
-  // -------------------------------------------------------------------------
-  // Transition
-  // -------------------------------------------------------------------------
-  onPanelTransitionEnd(event: TransitionEvent): void {
-    const target = event.target;
-    if (!(target instanceof HTMLElement) || !target.classList.contains('drawer-panel')) return;
-    if (!this.isOpenPhase()) {
-      this.isRendered.set(false);
-      this.dragOffset.set(0);
-      this.teardownKeydown();
-      this.unlockBodyScroll();
-      this.restoreFocus();
-      this.closed.emit();
-    }
-  }
-
-  // -------------------------------------------------------------------------
-  // Private
-  // -------------------------------------------------------------------------
-  private openDrawer(): void {
-    if (this.isRendered() && this.isOpenPhase()) return;
-    this.rememberFocus();
-    this.isRendered.set(true);
-    this.dragOffset.set(0);
-
-    afterNextRender(() => {
-      this.setupKeydown();
-      this.lockBodyScroll();
-      this.isOpenPhase.set(true);
-      this.panelRef()?.nativeElement.focus();
-      this.opened.emit();
-    });
-  }
-
-  private beginClose(): void {
-    if (!this.isRendered()) return;
-    this.isOpenPhase.set(false);
-    this.isDragging.set(false);
-    this.dragOffset.set(0);
-  }
-
-  private setupKeydown(): void {
-    this.teardownKeydown();
-    this.document.addEventListener('keydown', this.onKeyDown);
-    this.removeKeydownListener = () => this.document.removeEventListener('keydown', this.onKeyDown);
-  }
-
-  private teardownKeydown(): void {
-    this.removeKeydownListener?.();
-    this.removeKeydownListener = null;
-  }
-
-  private lockBodyScroll(): void {
-    if (openDrawerCount === 0) {
-      this.document.body.style.overflow = 'hidden';
-    }
-    openDrawerCount += 1;
-  }
-
-  private unlockBodyScroll(): void {
-    if (openDrawerCount <= 0) return;
-    openDrawerCount -= 1;
-    if (openDrawerCount === 0) {
-      this.document.body.style.overflow = '';
-    }
-  }
-
-  private rememberFocus(): void {
-    const active = this.document.activeElement;
-    this.lastFocusedElement = active instanceof HTMLElement ? active : null;
-  }
-
-  private restoreFocus(): void {
-    this.lastFocusedElement?.focus();
-    this.lastFocusedElement = null;
-  }
-
-  private drawerSizePx(): number {
-    const panel = this.panelRef()?.nativeElement;
-    if (!panel) return 1;
-    return this.isVertical() ? panel.offsetHeight : panel.offsetWidth;
   }
 
   private resistDelta(raw: number): number {
@@ -358,4 +193,34 @@ export class AppDrawer implements OnDestroy {
     if (isClosingDirection) return raw;
     return raw * 0.15;
   }
+
+  positionClass = computed(() => `drawer-panel--${this.position()}`);
+
+  panelStyle = computed(() => {
+    const pos = this.position();
+    const s = this.size();
+    const base: Record<string, string> = {};
+
+    if (pos === 'left' || pos === 'right') {
+      base['width'] = s;
+      base['max-width'] = '100vw';
+      base['height'] = '100%';
+    } else if (pos === 'top' || pos === 'bottom') {
+      base['width'] = '100%';
+      base['height'] = s;
+      base['max-height'] = '100vh';
+    } else {
+      base['width'] = s;
+      base['max-width'] = '90vw';
+      base['max-height'] = '90vh';
+      base['border-radius'] = 'var(--radius-lg)';
+    }
+
+    if (this.dragTransform()) {
+      base['transform'] = this.dragTransform();
+      base['transition'] = 'none';
+    }
+
+    return base;
+  });
 }
