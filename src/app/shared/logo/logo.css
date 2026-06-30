@@ -1,0 +1,31 @@
+:host {
+  display: block;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.logo__icon-container {
+  display: grid;
+  width: var(--size-36);
+  height: var(--size-36);
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: var(--surface-ink);
+  color: var(--text-on-dark);
+}
+
+.logo__icon {
+  width: var(--size-20);
+  height: var(--size-20);
+}
+
+.logo__text {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.025em;
+  color: var(--surface-ink);
+}
