@@ -32,6 +32,8 @@ interface PointerState {
   active: boolean;
 }
 
+let openDrawerCount = 0;
+
 @Component({
   selector: 'ui-drawer',
   templateUrl: './drawer.html',
@@ -48,6 +50,10 @@ export class Drawer implements OnInit, OnDestroy {
   size = input<string>(DRAWER_DEFAULTS.size);
   closeOnBackdrop = input<boolean>(DRAWER_DEFAULTS.closeOnBackdrop);
   closeOnEscape = input<boolean>(DRAWER_DEFAULTS.closeOnEscape);
+  dismissible = input<boolean>(DRAWER_DEFAULTS.dismissible);
+  showCloseButton = input<boolean>(DRAWER_DEFAULTS.showCloseButton);
+  title = input<string>();
+  ariaLabel = input<string>(DRAWER_DEFAULTS.ariaLabel);
 
   opened = output<void>();
   closed = output<void>();
@@ -59,6 +65,8 @@ export class Drawer implements OnInit, OnDestroy {
 
   readonly isRendered = signal(false);
   readonly isOpenPhase = signal(false);
+
+  readonly showHeader = computed(() => !!this.title() || this.showCloseButton());
 
   private pointer: PointerState = {
     startX: 0,
@@ -122,19 +130,21 @@ export class Drawer implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.document.removeEventListener('keydown', this.onKeyDown);
-    this.document.body.style.overflow = '';
+    this.unlockBodyScroll();
   }
 
   close() {
+    if (!this.dismissible()) return;
     this.open.set(false);
   }
 
   onBackdropClick() {
-    if (this.closeOnBackdrop()) this.close();
+    if (!this.closeOnBackdrop() || !this.dismissible()) return;
+    this.close();
   }
 
   private readonly onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape' && this.closeOnEscape() && this.open()) {
+    if (event.key === 'Escape' && this.closeOnEscape() && this.dismissible() && this.open()) {
       this.close();
     }
   };
@@ -145,14 +155,14 @@ export class Drawer implements OnInit, OnDestroy {
     if (!this.isOpenPhase()) {
       this.isRendered.set(false);
       this.dragDelta.set(0);
-      this.document.body.style.overflow = '';
+      this.unlockBodyScroll();
       this.restoreFocus();
       this.closed.emit();
     }
   }
 
   onPointerDown(event: PointerEvent) {
-    if (this.isCenter()) return;
+    if (this.isCenter() || !this.dismissible()) return;
     const handle = event.currentTarget as HTMLElement;
     handle.setPointerCapture(event.pointerId);
     this.pointer = {
@@ -253,7 +263,7 @@ export class Drawer implements OnInit, OnDestroy {
 
     afterNextRender(
       () => {
-        this.document.body.style.overflow = 'hidden';
+        this.lockBodyScroll();
         this.isOpenPhase.set(true);
         this.panelRef()?.nativeElement.focus();
         this.opened.emit();
@@ -267,6 +277,21 @@ export class Drawer implements OnInit, OnDestroy {
     this.isOpenPhase.set(false);
     this.isDragging.set(false);
     this.dragDelta.set(0);
+  }
+
+  private lockBodyScroll(): void {
+    if (openDrawerCount === 0) {
+      this.document.body.style.overflow = 'hidden';
+    }
+    openDrawerCount += 1;
+  }
+
+  private unlockBodyScroll(): void {
+    if (openDrawerCount <= 0) return;
+    openDrawerCount -= 1;
+    if (openDrawerCount === 0) {
+      this.document.body.style.overflow = '';
+    }
   }
 
   private rememberFocus(): void {

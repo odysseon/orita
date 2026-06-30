@@ -16,6 +16,7 @@
   [style]="panelStyle()"
   role="dialog"
   [attr.aria-modal]="true"
+  [attr.aria-label]="ariaLabel()"
   [attr.aria-hidden]="!isOpenPhase()"
   tabindex="-1"
   (transitionend)="onPanelTransitionEnd($event)"
@@ -23,11 +24,31 @@
   @if (position() === 'bottom') {
   <div
     class="drawer-drag-handle"
+    [attr.aria-label]="dismissible() ? 'Drag to close' : 'Drawer handle'"
+    [class.drawer-drag-handle--disabled]="!dismissible()"
     (pointerdown)="onPointerDown($event)"
     (pointermove)="onPointerMove($event)"
     (pointerup)="onPointerUp($event)"
     (pointercancel)="onPointerCancel()"
   ></div>
+  } @if (showHeader()) {
+  <header class="drawer-header">
+    @if (title()) {
+    <h2 class="drawer-title">{{ title() }}</h2>
+    } @else {
+    <span></span>
+    } @if (showCloseButton()) {
+    <button
+      class="drawer-close"
+      type="button"
+      aria-label="Close drawer"
+      [disabled]="!dismissible()"
+      (click)="close()"
+    >
+      ×
+    </button>
+    }
+  </header>
   }
 
   <div class="drawer-body">

@@ -107,6 +107,52 @@
   cursor: grabbing;
 }
 
+.drawer-drag-handle--disabled {
+  cursor: default;
+}
+
+/* Header */
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--size-48);
+  padding: 0 var(--space-sm) var(--size-12);
+  border-bottom: var(--size-1) solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.drawer-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.drawer-close {
+  width: var(--size-32);
+  height: var(--size-32);
+  border: none;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xl);
+  line-height: 1;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drawer-close:hover:not(:disabled) {
+  background: var(--surface-container);
+  color: var(--text-primary);
+}
+
+.drawer-close:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 /* Scrollable body — the house */
 .drawer-body {
   flex: 1 1 auto;
@@ -116,7 +162,9 @@
 }
 
 /* Focus */
-.drawer-panel:focus-visible {
+.drawer-panel:focus-visible,
+.drawer-close:focus-visible,
+.drawer-drag-handle:focus-visible {
   outline: 2px solid var(--clr-primary);
   outline-offset: 2px;
 }
