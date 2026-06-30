@@ -1,4 +1,4 @@
-import { Service, inject, PLATFORM_ID } from '@angular/core';
+import { Service, inject, PLATFORM_ID, REQUEST } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 export interface CookieOptions {
@@ -11,10 +11,23 @@ export interface CookieOptions {
 @Service()
 export class CookieService {
   #platformId = inject(PLATFORM_ID);
+  #request = inject(REQUEST, { optional: true }) as any;
 
   get(name: string): string | undefined {
-    if (!isPlatformBrowser(this.#platformId)) return undefined;
-    const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
+    let cookieStr = '';
+    if (isPlatformBrowser(this.#platformId)) {
+      cookieStr = document.cookie;
+    } else if (this.#request) {
+      if (typeof this.#request.headers?.get === 'function') {
+        cookieStr = this.#request.headers.get('cookie') || '';
+      } else {
+        cookieStr = this.#request.headers?.cookie || '';
+      }
+    }
+
+    if (!cookieStr) return undefined;
+    
+    const match = cookieStr.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
     return match ? decodeURIComponent(match[1]) : undefined;
   }
 
