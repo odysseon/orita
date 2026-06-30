@@ -1,0 +1,28 @@
+<div class="toast-stack" role="status" aria-live="polite">
+  @for (toast of toastService.toasts(); track toast.id) {
+  <div
+    class="toast"
+    [class.toast--success]="toast.intent === 'success'"
+    [class.toast--error]="toast.intent === 'error'"
+    [class.toast--info]="toast.intent === 'info'"
+    [class.toast--warning]="toast.intent === 'warning'"
+  >
+    <div class="toast__icon">
+      @switch (toast.intent) { @case ('success') {
+      <svg lucideCircleCheck aria-hidden="true"></svg> } @case ('error') {
+      <svg lucideCircleX aria-hidden="true"></svg> } @case ('warning') {
+      <svg lucideTriangleAlert aria-hidden="true"></svg> } @default {
+      <svg lucideInfo aria-hidden="true"></svg> } }
+    </div>
+    <div class="toast__text">
+      <span class="toast__title">{{ toast.title }}</span>
+      @if (toast.message) {
+      <span class="toast__message">{{ toast.message }}</span>
+      }
+    </div>
+    <button class="toast__close" (click)="dismiss(toast.id)" type="button" aria-label="Dismiss">
+      <svg lucideX aria-hidden="true"></svg>
+    </button>
+  </div>
+  }
+</div>
