@@ -7,8 +7,13 @@
   inset: 0;
   z-index: var(--z-modal);
   background: oklch(18% 0.02 280 / 0.16);
+  opacity: 0;
   transition: opacity var(--duration-normal) var(--ease-standard);
   cursor: pointer;
+}
+
+.drawer-backdrop--open {
+  opacity: 1;
 }
 
 .drawer-panel {
