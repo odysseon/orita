@@ -40,20 +40,25 @@
     </div>
   </div>
 
-  <nav class="profile-nav" aria-label="Profile navigation">
-    @for (item of navItems(); track item.route || item.action) {
-    <button class="profile-nav__item" (click)="navigate(item)">
-      <div class="profile-nav__icon-wrap" aria-hidden="true">
-        <svg [lucideIcon]="item.icon"></svg>
-      </div>
-      <div class="profile-nav__text">
-        <span class="profile-nav__label">{{ item.label }}</span>
-        <span class="profile-nav__description">{{ item.description }}</span>
-      </div>
-      <svg lucideChevronRight class="profile-nav__chevron" aria-hidden="true"></svg>
-    </button>
-    }
-  </nav>
+  @for (group of navGroups(); track group.title) {
+    <div class="profile-nav-group">
+      <h2 class="profile-nav-group__title">{{ group.title }}</h2>
+      <nav class="profile-nav" aria-label="Profile navigation">
+        @for (item of group.items; track item.route || item.action) {
+        <button class="profile-nav__item" (click)="navigate(item)">
+          <div class="profile-nav__icon-wrap" aria-hidden="true">
+            <svg [lucideIcon]="item.icon"></svg>
+          </div>
+          <div class="profile-nav__text">
+            <span class="profile-nav__label">{{ item.label }}</span>
+            <span class="profile-nav__description">{{ item.description }}</span>
+          </div>
+          <svg lucideChevronRight class="profile-nav__chevron" aria-hidden="true"></svg>
+        </button>
+        }
+      </nav>
+    </div>
+  }
 
   <button class="btn btn--ghost btn--danger btn--full profile-logout" (click)="logout()">
     <svg lucideLogOut class="profile-logout__icon" aria-hidden="true"></svg>
