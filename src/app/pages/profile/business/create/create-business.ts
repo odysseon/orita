@@ -9,7 +9,6 @@ import {
   LucideGlobe,
   LucideLayoutGrid,
   LucideLoaderCircle,
-  LucideArrowLeft,
   LucideDynamicIcon,
   LucideIconInput,
 } from '@lucide/angular';
@@ -21,6 +20,7 @@ import {
 } from './create-business.interface';
 import { environment } from '../../../../../environments/environment';
 import { AppFormField } from '../../../../shared/form-field/form-field';
+import { AppPageHeader } from '../../../../shared/page-header/page-header';
 
 interface BusinessTypeOption {
   value: BusinessType;
@@ -31,7 +31,7 @@ interface BusinessTypeOption {
 
 @Component({
   selector: 'app-create-business',
-  imports: [FormField, LucideStore, LucideLoaderCircle, LucideArrowLeft, LucideDynamicIcon, AppFormField],
+  imports: [FormField, LucideStore, LucideLoaderCircle, AppPageHeader, LucideDynamicIcon, AppFormField],
   templateUrl: './create-business.html',
   styleUrl: './create-business.css',
   encapsulation: ViewEncapsulation.None,

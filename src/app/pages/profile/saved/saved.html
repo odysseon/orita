@@ -1,10 +1,5 @@
 <div class="saved-page">
-  <header class="saved-header">
-    <button class="saved-back" (click)="goBack()" type="button">
-      <svg lucideArrowLeft aria-hidden="true"></svg>
-    </button>
-    <h1 class="saved-header__title">Saved</h1>
-  </header>
+  <app-page-header title="Saved" (back)="goBack()" class="saved-header" />
 
   <nav class="saved-tabs" aria-label="Saved items">
     <button

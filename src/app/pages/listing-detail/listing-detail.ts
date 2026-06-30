@@ -3,7 +3,7 @@ import { httpResource, HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
-  LucideArrowLeft,
+
   LucidePackage,
   LucideBookmark,
   LucideStore,
@@ -14,13 +14,14 @@ import {
 } from '@lucide/angular';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
+import { AppPageHeader } from '../../shared/page-header/page-header';
 import { IBusinessLite, IListingDetail } from './listing.detail.interface';
 
 @Component({
   selector: 'app-listing-detail',
   imports: [
     RouterLink,
-    LucideArrowLeft,
+    AppPageHeader,
     LucidePackage,
     LucideBookmark,
     LucideStore,

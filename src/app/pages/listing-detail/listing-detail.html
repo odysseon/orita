@@ -13,10 +13,7 @@
   </div>
   } @if (listing.hasValue()) { @let item = listing.value()!;
 
-  <button class="listing-detail__back" (click)="goBack()" type="button">
-    <svg lucideArrowLeft aria-hidden="true"></svg>
-    Back
-  </button>
+  <app-page-header backText="Back" (back)="goBack()" />
 
   <!-- Cover -->
   <div class="listing-cover">
