@@ -12,6 +12,8 @@ import {
   output,
   signal,
   viewChild,
+  afterNextRender,
+  Injector,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
@@ -39,6 +41,7 @@ interface PointerState {
 export class Drawer implements OnInit, OnDestroy {
   private readonly document = inject(DOCUMENT);
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly injector = inject(Injector);
 
   open = model<boolean>(false);
   position = input<DrawerPosition>(DRAWER_DEFAULTS.position);
@@ -53,6 +56,9 @@ export class Drawer implements OnInit, OnDestroy {
 
   private readonly dragDelta = signal(0);
   readonly isDragging = signal(false);
+
+  readonly isRendered = signal(false);
+  readonly isOpenPhase = signal(false);
 
   private pointer: PointerState = {
     startX: 0,
@@ -84,7 +90,7 @@ export class Drawer implements OnInit, OnDestroy {
   });
 
   readonly backdropOpacity = computed(() => {
-    if (!this.isDragging()) return this.open() ? 1 : 0;
+    if (!this.isDragging()) return this.isOpenPhase() ? 1 : 0;
     const delta = Math.abs(this.dragDelta());
     const size = this.drawerSizePx();
     if (size === 0) return 1;
@@ -97,12 +103,13 @@ export class Drawer implements OnInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      if (this.open()) {
-        this.document.body.style.overflow = 'hidden';
-        this.opened.emit();
-      } else {
-        this.document.body.style.overflow = '';
-        this.closed.emit();
+      const isOpen = this.open();
+      if (isOpen) {
+        this.openDrawer();
+        return;
+      }
+      if (this.isRendered() && this.isOpenPhase()) {
+        this.beginClose();
       }
     });
   }
@@ -129,6 +136,17 @@ export class Drawer implements OnInit, OnDestroy {
       this.close();
     }
   };
+
+  onPanelTransitionEnd(event: TransitionEvent): void {
+    const target = event.target;
+    if (!(target instanceof HTMLElement) || !target.classList.contains('drawer-panel')) return;
+    if (!this.isOpenPhase()) {
+      this.isRendered.set(false);
+      this.dragDelta.set(0);
+      this.document.body.style.overflow = '';
+      this.closed.emit();
+    }
+  }
 
   onPointerDown(event: PointerEvent) {
     if (this.isCenter()) return;
@@ -223,4 +241,23 @@ export class Drawer implements OnInit, OnDestroy {
 
     return base;
   });
+
+  private openDrawer(): void {
+    if (this.isRendered() && this.isOpenPhase()) return;
+    this.isRendered.set(true);
+    this.dragDelta.set(0);
+
+    afterNextRender(() => {
+      this.document.body.style.overflow = 'hidden';
+      this.isOpenPhase.set(true);
+      this.opened.emit();
+    }, { injector: this.injector });
+  }
+
+  private beginClose(): void {
+    if (!this.isRendered()) return;
+    this.isOpenPhase.set(false);
+    this.isDragging.set(false);
+    this.dragDelta.set(0);
+  }
 }
