@@ -19,7 +19,7 @@ export class AuthService {
 
   readonly token = signal<string | undefined>(this.#cookie.get(TOKEN_KEY));
 
-  async login(credentials: ILogin & { remember: boolean }): Promise<boolean> {
+  async login(credentials: ILogin & { remember: boolean }, returnUrl: string = '/home'): Promise<boolean> {
     try {
       const { remember, ...payload } = credentials;
       const res = await firstValueFrom(
@@ -27,7 +27,7 @@ export class AuthService {
       );
       this.#setToken(res.token, remember ? new Date(res.expiresAt) : undefined);
       this.#toast.success('Logged in', 'Welcome back!');
-      await this.#router.navigate(['/home']);
+      await this.#router.navigateByUrl(returnUrl);
       return true;
     } catch (err) {
       const message =
@@ -60,7 +60,7 @@ export class AuthService {
     }
   }
 
-  logout(expired = false): void {
+  logout(expired = false, returnUrl?: string): void {
     this.#cookie.delete(TOKEN_KEY);
     this.token.set(undefined);
     if (expired) {
@@ -68,7 +68,7 @@ export class AuthService {
     } else {
       this.#toast.info('Goodbye', 'You have been logged out.');
     }
-    this.#router.navigate(['/auth/login']);
+    this.#router.navigate(['/auth/login'], returnUrl ? { queryParams: { returnUrl } } : undefined);
   }
 
   #setToken(token: string, expires?: Date): void {
