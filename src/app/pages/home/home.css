@@ -8,39 +8,8 @@
   gap: var(--size-16);
   max-width: 720px;
   margin: 0 auto;
-  padding: var(--size-16) var(--size-16) var(--size-40);
+  padding: calc(64px + var(--size-16)) var(--size-16) var(--size-40);
   background: var(--surface-page);
-}
-
-/* ============================================================
- * HEADER
- * ============================================================ */
-.home-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.home-header__avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--size-36);
-  height: var(--size-36);
-  border-radius: var(--radius-pill);
-  background: var(--surface-container);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  cursor: pointer;
-
-  svg {
-    width: var(--size-18);
-    height: var(--size-18);
-  }
-
-  &:hover {
-    background: var(--surface-container-high);
-  }
 }
 
 /* ============================================================

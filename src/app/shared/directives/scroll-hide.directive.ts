@@ -11,6 +11,9 @@ export class ScrollHideDirective implements OnInit, OnDestroy {
   
   // Optionally disable the directive (e.g., when not in bottom mode)
   uiScrollHide = input<boolean>(true);
+  
+  // Hiding direction: 'top' slides up (-100%), 'bottom' slides down (100%)
+  scrollHidePosition = input<'top' | 'bottom'>('bottom');
 
   private lastScrollY = 0;
   private isHidden = false;
@@ -61,9 +64,11 @@ export class ScrollHideDirective implements OnInit, OnDestroy {
          return;
       }
 
+      const translateValue = this.scrollHidePosition() === 'top' ? '-100%' : '100%';
+
       if (delta > 0 && !this.isHidden) {
-        // Scrolling down -> hide the element by pushing it down by 100% of its height
-        this.#el.nativeElement.style.transform = 'translateY(100%)';
+        // Scrolling down -> hide the element
+        this.#el.nativeElement.style.transform = `translateY(${translateValue})`;
         this.isHidden = true;
       } else if (delta < 0 && this.isHidden) {
         // Scrolling up -> show the element
