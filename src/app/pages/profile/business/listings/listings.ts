@@ -16,13 +16,13 @@ import { IListing, ICategory, ICreateListing } from './listing.interface';
 import { environment } from '../../../../../environments/environment';
 
 import { AppFormField } from '../../../../shared/form-field/form-field';
-import { AppListingForm } from './listing-form';
+import { Drawer } from '../../../../shared/drawer/drawer';
 
 @Component({
   selector: 'app-listings',
   imports: [
     AppFormField,
-    AppListingForm,
+    Drawer,
     FormField,
     LucidePlus,
     LucidePackage,
