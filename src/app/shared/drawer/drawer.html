@@ -17,6 +17,7 @@
   role="dialog"
   [attr.aria-modal]="true"
   [attr.aria-hidden]="!isOpenPhase()"
+  tabindex="-1"
   (transitionend)="onPanelTransitionEnd($event)"
 >
   @if (position() === 'bottom') {
