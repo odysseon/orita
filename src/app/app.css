@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 
+  When the side nav is active (desktop), the nav bar is fixed on the left.
+  We must pad the main content to the right so it doesn't overlap. 
+*/
+.app-layout--with-side-nav .app-main {
+  padding-left: var(--nav-list-side-width, 280px);
+}
+
+/* 
+  When the bottom nav is active (mobile), the nav bar is fixed at the bottom.
+  We must pad the bottom of the main content.
+  The ui-nav-list is about 64px tall + safe area.
+*/
+.app-layout--with-bottom-nav .app-main {
+  padding-bottom: calc(64px + env(safe-area-inset-bottom));
+}

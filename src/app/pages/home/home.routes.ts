@@ -5,5 +5,6 @@ export const homeRoutes: Routes = [
   {
     path: 'home',
     component: Home,
+    data: { isRootAppPage: true },
   },
 ];
