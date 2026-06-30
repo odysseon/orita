@@ -20,7 +20,7 @@ import {
 } from './create-business.interface';
 import { environment } from '../../../../../environments/environment';
 import { AppFormField } from '../../../../shared/form-field/form-field';
-import { AppDrawer } from '../../../../shared/drawer/drawer';
+import { Drawer } from '../../../../shared/drawer/drawer';
 
 interface BusinessTypeOption {
   value: BusinessType;
@@ -31,7 +31,7 @@ interface BusinessTypeOption {
 
 @Component({
   selector: 'app-create-business',
-  imports: [FormField, LucideStore, LucideLoaderCircle, AppDrawer, LucideDynamicIcon, AppFormField],
+  imports: [FormField, LucideStore, LucideLoaderCircle, Drawer, LucideDynamicIcon, AppFormField],
   templateUrl: './create-business.html',
   styleUrl: './create-business.css',
   encapsulation: ViewEncapsulation.None,
