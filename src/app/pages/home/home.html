@@ -66,7 +66,6 @@
     icon="LucideStore" 
     title="No businesses found"
     description="Can't find what you're looking for? Start your own!">
-    <div actions>
       <button class="btn btn--primary btn--full" (click)="isCreateBusinessOpen.set(true)">
         Start a Business
       </button>
@@ -75,7 +74,6 @@
           Clear Filters
         </button>
       }
-    </div>
   </ui-empty-state>
   } @if (businesses.hasValue() && filteredBusinesses().length > 0) {
   <div class="card-grid">
@@ -97,7 +95,6 @@
     icon="LucidePackage" 
     title="No listings found"
     description="There are no products or services here yet.">
-    <div actions>
       <button class="btn btn--primary btn--full" (click)="goToProfile()">
         Showcase what you've got
       </button>
@@ -106,7 +103,6 @@
           Clear Filters
         </button>
       }
-    </div>
   </ui-empty-state>
   } @if (listings.hasValue() && listings.value()!.items.length > 0) {
   <div class="card-grid">
