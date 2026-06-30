@@ -1,0 +1,11 @@
+<button class="nav-item-btn" type="button" [disabled]="disabled()" (click)="clicked.emit()">
+  <div class="nav-item-icon-wrapper">
+    <ng-content select="[icon]" />
+  </div>
+  <div class="nav-item-label-wrapper">
+    <ng-content select="[label]" />
+  </div>
+  <div class="nav-item-badge-wrapper">
+    <ng-content select="[badge]" />
+  </div>
+</button>
