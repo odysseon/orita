@@ -3,11 +3,6 @@
 .biz-page {
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
-  max-width: var(--size-560);
-  margin: var(--size-0) auto;
-  padding: var(--space-md) var(--space-sm) var(--space-xxl);
-  background: var(--surface-page);
   gap: var(--size-24);
 }
 
@@ -49,8 +44,7 @@
 .biz-empty__title { font-size: var(--font-size-xl); font-weight: var(--font-weight-semibold); color: var(--text-primary); }
 .biz-empty__subtitle { font-size: var(--font-size-md); color: var(--text-muted); line-height: var(--line-height-normal); max-width: var(--size-320); }
 
-/* Header */
-.biz-header { display: flex; flex-direction: column; gap: var(--size-16); }
+
 .biz-identity { display: flex; align-items: center; gap: var(--size-14); }
 
 .biz-avatar {

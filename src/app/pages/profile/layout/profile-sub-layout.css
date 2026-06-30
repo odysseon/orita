@@ -1,0 +1,20 @@
+:host {
+  display: block;
+}
+
+.profile-sub-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  max-width: var(--size-640);
+  margin: 0 auto;
+  padding: var(--size-24) var(--size-16) var(--size-48);
+  gap: var(--size-24);
+  background: var(--surface-page);
+}
+
+.profile-sub-layout__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}

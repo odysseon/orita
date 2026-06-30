@@ -3,7 +3,6 @@ import { httpResource, HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
-
   LucideStore,
   LucidePackage,
   LucideBookmark,
@@ -12,13 +11,12 @@ import {
 import { ISavedListingItem, ISavedBusinessItem, IPaginated } from './saved.interface';
 import { environment } from '../../../../environments/environment';
 import { ToastService } from '../../../core/services/toast';
-import { AppPageHeader } from '../../../shared/page-header/page-header';
 
 type SavedTab = 'businesses' | 'listings';
 
 @Component({
   selector: 'app-saved',
-  imports: [RouterLink, AppPageHeader, LucideStore, LucidePackage, LucideBookmark, LucideX],
+  imports: [RouterLink, LucideStore, LucidePackage, LucideBookmark, LucideX],
   templateUrl: './saved.html',
   styleUrl: './saved.css',
 })
@@ -42,9 +40,7 @@ export class Saved {
     this.activeTab.set(tab);
   }
 
-  goBack(): void {
-    this.#router.navigate(['/profile']);
-  }
+
 
   formatPrice(item: ISavedListingItem['listing']): string {
     if (!item.minPrice) return item.isNegotiable ? 'Negotiable' : '—';

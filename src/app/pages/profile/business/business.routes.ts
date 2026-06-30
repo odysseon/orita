@@ -5,7 +5,7 @@ import { Business } from './business';
 
 export const businessRoutes: Routes = [
   {
-    path: 'profile/business',
+    path: 'business',
     canActivate: [authGuard],
     component: Business,
   },

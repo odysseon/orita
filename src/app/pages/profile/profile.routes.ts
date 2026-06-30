@@ -3,6 +3,7 @@ import { Profile } from './profile';
 import { authGuard } from '../../core/guards/auth.guard';
 import { Saved } from './saved/saved';
 import { businessRoutes } from './business/business.routes';
+import { ProfileSubLayout } from './layout/profile-sub-layout';
 
 export const profileRoutes: Route[] = [
   {
@@ -11,9 +12,16 @@ export const profileRoutes: Route[] = [
     canActivate: [authGuard],
   },
   {
-    path: 'profile/saved',
-    component: Saved,
+    path: 'profile',
     canActivate: [authGuard],
+    component: ProfileSubLayout,
+    children: [
+      {
+        path: 'saved',
+        component: Saved,
+        data: { title: 'Saved' },
+      },
+      ...businessRoutes,
+    ],
   },
-  ...businessRoutes,
 ];
