@@ -57,6 +57,7 @@ export class Drawer implements OnInit, OnDestroy {
 
   opened = output<void>();
   closed = output<void>();
+  dismissed = output<void>();
 
   private readonly panelRef = viewChild<ElementRef<HTMLElement>>('panel');
 
@@ -133,19 +134,28 @@ export class Drawer implements OnInit, OnDestroy {
     this.unlockBodyScroll();
   }
 
+  /** Programmatic close — does NOT emit dismissed */
   close() {
     if (!this.dismissible()) return;
     this.open.set(false);
   }
 
+  /** User-initiated close — emits dismissed */
+  requestClose(): void {
+    if (!this.dismissible()) return;
+    this.open.set(false);
+    this.dismissed.emit();
+  }
+
   onBackdropClick() {
     if (!this.closeOnBackdrop() || !this.dismissible()) return;
-    this.close();
+    this.requestClose();
   }
 
   private readonly onKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape' && this.closeOnEscape() && this.dismissible() && this.open()) {
-      this.close();
+      event.preventDefault();
+      this.requestClose();
     }
   };
 
@@ -199,7 +209,7 @@ export class Drawer implements OnInit, OnDestroy {
     const pastVelocity = velocity > VELOCITY_THRESHOLD;
 
     if (pastDistance || pastVelocity) {
-      this.close();
+      this.requestClose();
     }
 
     this.pointer.active = false;
