@@ -1,2 +1,31 @@
-<router-outlet />
+<div class="app-layout" [class.app-layout--with-side-nav]="showNav() && isDesktop()" [class.app-layout--with-bottom-nav]="showNav() && !isDesktop()">
+  <main class="app-main">
+    <router-outlet />
+  </main>
+
+  @if (showNav()) {
+    <ui-nav-list [position]="isDesktop() ? 'side' : 'bottom'" [justify]="isDesktop() ? 'start' : 'around'">
+      <ui-nav-item 
+        [layout]="isDesktop() ? 'horizontal' : 'vertical'" 
+        iconSize="md" 
+        [active]="isActive('/home')" 
+        (clicked)="go('/home')"
+      >
+        <svg lucideHome aria-hidden="true"></svg>
+        Home
+      </ui-nav-item>
+      
+      <ui-nav-item 
+        [layout]="isDesktop() ? 'horizontal' : 'vertical'" 
+        iconSize="md" 
+        [active]="isActive('/profile')" 
+        (clicked)="go('/profile')"
+      >
+        <svg lucideUser aria-hidden="true"></svg>
+        Profile
+      </ui-nav-item>
+    </ui-nav-list>
+  }
+</div>
+
 <app-toast-container />

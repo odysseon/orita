@@ -10,6 +10,7 @@ export const profileRoutes: Route[] = [
     path: 'profile',
     component: Profile,
     canActivate: [authGuard],
+    data: { isRootAppPage: true },
   },
   {
     path: 'profile',
