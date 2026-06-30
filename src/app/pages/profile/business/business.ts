@@ -17,7 +17,7 @@ import {
   LucideGlobe,
 } from '@lucide/angular';
 import { IBusinessProfile, IDashboardStats } from './business.interface';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import { Listings } from './listings/listings';
 
 @Component({
@@ -72,7 +72,7 @@ export class Business {
   }
 
   createBusiness(): void {
-    this.#router.navigate(['/business/create']);
+    this.#router.navigate(['/profile/business/create']);
   }
 
   setTab(tab: 'overview' | 'hours' | 'listings'): void {

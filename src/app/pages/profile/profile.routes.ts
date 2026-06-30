@@ -2,6 +2,7 @@ import { Route } from '@angular/router';
 import { Profile } from './profile';
 import { authGuard } from '../../core/guards/auth.guard';
 import { Saved } from './saved/saved';
+import { businessRoutes } from './business/business.routes';
 
 export const profileRoutes: Route[] = [
   {
@@ -14,4 +15,5 @@ export const profileRoutes: Route[] = [
     component: Saved,
     canActivate: [authGuard],
   },
+  ...businessRoutes,
 ];

@@ -13,14 +13,14 @@ import {
   LucideDynamicIcon,
   LucideIconInput,
 } from '@lucide/angular';
-import { ToastService } from '../../../core/services/toast';
+import { ToastService } from '../../../../core/services/toast';
 import {
   ICreateBusiness,
   ICreateBusinessResponse,
   BusinessType,
 } from './create-business.interface';
-import { environment } from '../../../../environments/environment';
-import { AppFormField } from '../../../shared/form-field/form-field';
+import { environment } from '../../../../../environments/environment';
+import { AppFormField } from '../../../../shared/form-field/form-field';
 
 interface BusinessTypeOption {
   value: BusinessType;
@@ -101,7 +101,7 @@ export class CreateBusiness {
         this.#http.post<ICreateBusinessResponse>(`${environment.apiUrl}/business`, payload),
       );
       this.#toast.success('Business created', 'Your business profile is ready.');
-      await this.#router.navigate(['/business']);
+      await this.#router.navigate(['/profile/business']);
     } catch (err) {
       const message =
         err instanceof HttpErrorResponse

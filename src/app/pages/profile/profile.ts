@@ -50,14 +50,14 @@ const MY_BUSINESS: NavItem = {
   icon: LucideBuilding2,
   label: 'My Business',
   description: 'Manage your business profile',
-  route: '/business',
+  route: '/profile/business',
 };
 
 const START_BUSINESS: NavItem = {
   icon: LucideBuilding2,
   label: 'Start a Business',
   description: 'Create a profile and reach customers on Orita',
-  route: '/business/create',
+  route: '/profile/business/create',
 };
 
 @Component({
