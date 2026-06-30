@@ -5,13 +5,20 @@ export interface DrawerConfig {
   size?: string;
   closeOnBackdrop?: boolean;
   closeOnEscape?: boolean;
+  dismissible?: boolean;
+  showCloseButton?: boolean;
+  title?: string;
+  ariaLabel?: string;
 }
 
-export const DRAWER_DEFAULTS: Required<DrawerConfig> = {
+export const DRAWER_DEFAULTS: Required<Omit<DrawerConfig, 'title'>> = {
   position: 'right',
   size: '400px',
   closeOnBackdrop: true,
   closeOnEscape: true,
+  dismissible: true,
+  showCloseButton: true,
+  ariaLabel: 'Drawer',
 };
 
 export const VELOCITY_THRESHOLD = 0.4;
