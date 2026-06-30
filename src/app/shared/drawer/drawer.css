@@ -28,6 +28,7 @@
     opacity var(--duration-slow) var(--ease-standard);
   touch-action: none;
   will-change: transform;
+  outline: none;
 }
 
 .drawer-panel--dragging {
@@ -112,6 +113,12 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   min-height: 0;
+}
+
+/* Focus */
+.drawer-panel:focus-visible {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 2px;
 }
 
 /* Reduced motion */

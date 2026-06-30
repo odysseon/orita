@@ -68,6 +68,8 @@ export class Drawer implements OnInit, OnDestroy {
     active: false,
   };
 
+  private lastFocusedElement: HTMLElement | null = null;
+
   readonly isCenter = computed(() => this.position() === 'center');
   readonly isVertical = computed(() => this.position() === 'top' || this.position() === 'bottom');
 
@@ -144,6 +146,7 @@ export class Drawer implements OnInit, OnDestroy {
       this.isRendered.set(false);
       this.dragDelta.set(0);
       this.document.body.style.overflow = '';
+      this.restoreFocus();
       this.closed.emit();
     }
   }
@@ -244,14 +247,19 @@ export class Drawer implements OnInit, OnDestroy {
 
   private openDrawer(): void {
     if (this.isRendered() && this.isOpenPhase()) return;
+    this.rememberFocus();
     this.isRendered.set(true);
     this.dragDelta.set(0);
 
-    afterNextRender(() => {
-      this.document.body.style.overflow = 'hidden';
-      this.isOpenPhase.set(true);
-      this.opened.emit();
-    }, { injector: this.injector });
+    afterNextRender(
+      () => {
+        this.document.body.style.overflow = 'hidden';
+        this.isOpenPhase.set(true);
+        this.panelRef()?.nativeElement.focus();
+        this.opened.emit();
+      },
+      { injector: this.injector },
+    );
   }
 
   private beginClose(): void {
@@ -259,5 +267,15 @@ export class Drawer implements OnInit, OnDestroy {
     this.isOpenPhase.set(false);
     this.isDragging.set(false);
     this.dragDelta.set(0);
+  }
+
+  private rememberFocus(): void {
+    const active = this.document.activeElement;
+    this.lastFocusedElement = active instanceof HTMLElement ? active : null;
+  }
+
+  private restoreFocus(): void {
+    this.lastFocusedElement?.focus();
+    this.lastFocusedElement = null;
   }
 }
