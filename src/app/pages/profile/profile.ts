@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {
@@ -17,12 +17,14 @@ import {
 import { IProfile } from './profile.interface';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
+import { CreateBusiness } from './business/create/create-business';
 
 interface NavItem {
   icon: LucideIconInput;
   label: string;
   description: string;
-  route: string;
+  route?: string;
+  action?: string;
 }
 
 const ALWAYS_VISIBLE: NavItem[] = [
@@ -57,7 +59,7 @@ const START_BUSINESS: NavItem = {
   icon: LucideBuilding2,
   label: 'Start a Business',
   description: 'Create a profile and reach customers on Orita',
-  route: '/profile/business/create',
+  action: 'create-business',
 };
 
 @Component({
@@ -69,6 +71,7 @@ const START_BUSINESS: NavItem = {
     LucideChevronRight,
     LucideLogOut,
     LucideTriangleAlert,
+    CreateBusiness,
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
@@ -78,14 +81,26 @@ export class Profile {
   #router = inject(Router);
 
   readonly profile = httpResource<IProfile>(() => `${environment.apiUrl}/users/me`);
+  readonly isCreateBusinessOpen = signal(false);
 
   readonly navItems = computed<NavItem[]>(() => {
     const businessItem = this.profile.value()?.businessId ? MY_BUSINESS : START_BUSINESS;
     return [businessItem, ...ALWAYS_VISIBLE];
   });
 
-  navigate(route: string): void {
-    this.#router.navigate([route]);
+  navigate(item: NavItem): void {
+    if (item.action === 'create-business') {
+      this.isCreateBusinessOpen.set(true);
+      return;
+    }
+    if (item.route) {
+      this.#router.navigate([item.route]);
+    }
+  }
+
+  onBusinessCreated(): void {
+    this.profile.reload();
+    this.#router.navigate(['/profile/business']);
   }
 
   logout(): void {

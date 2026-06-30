@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
+import { Component, computed, inject, signal, ViewEncapsulation, model, output } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -20,7 +20,7 @@ import {
 } from './create-business.interface';
 import { environment } from '../../../../../environments/environment';
 import { AppFormField } from '../../../../shared/form-field/form-field';
-import { AppPageHeader } from '../../../../shared/page-header/page-header';
+import { AppDrawer } from '../../../../shared/drawer/drawer';
 
 interface BusinessTypeOption {
   value: BusinessType;
@@ -31,7 +31,7 @@ interface BusinessTypeOption {
 
 @Component({
   selector: 'app-create-business',
-  imports: [FormField, LucideStore, LucideLoaderCircle, AppPageHeader, LucideDynamicIcon, AppFormField],
+  imports: [FormField, LucideStore, LucideLoaderCircle, AppDrawer, LucideDynamicIcon, AppFormField],
   templateUrl: './create-business.html',
   styleUrl: './create-business.css',
   encapsulation: ViewEncapsulation.None,
@@ -40,7 +40,8 @@ export class CreateBusiness {
   #http = inject(HttpClient);
   #router = inject(Router);
   #toast = inject(ToastService);
-
+  readonly isOpen = model<boolean>(false);
+  readonly created = output<void>();
   readonly loading = signal(false);
 
   readonly model = signal<ICreateBusiness>({
@@ -83,8 +84,8 @@ export class CreateBusiness {
     this.model.update((m) => ({ ...m, businessType: type }));
   }
 
-  goBack(): void {
-    this.#router.navigate(['/profile']);
+  closeDrawer(): void {
+    this.isOpen.set(false);
   }
 
   async onSubmit(event: Event): Promise<void> {
@@ -101,7 +102,8 @@ export class CreateBusiness {
         this.#http.post<ICreateBusinessResponse>(`${environment.apiUrl}/business`, payload),
       );
       this.#toast.success('Business created', 'Your business profile is ready.');
-      await this.#router.navigate(['/profile/business']);
+      this.created.emit();
+      this.closeDrawer();
     } catch (err) {
       const message =
         err instanceof HttpErrorResponse

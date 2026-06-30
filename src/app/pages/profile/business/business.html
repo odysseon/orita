@@ -209,4 +209,6 @@
     <app-listings [businessId]="business.value()!.id" />
   </div>
   } }
+
+  <app-create-business [(isOpen)]="isCreateBusinessOpen" (created)="onBusinessCreated()" />
 </div>
