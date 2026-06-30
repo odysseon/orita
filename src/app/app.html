@@ -11,8 +11,8 @@
         [active]="isActive('/home')" 
         (clicked)="go('/home')"
       >
-        <svg lucideHome aria-hidden="true"></svg>
-        Home
+        <svg icon lucideHome aria-hidden="true"></svg>
+        <span label>Home</span>
       </ui-nav-item>
       
       <ui-nav-item 
@@ -21,8 +21,8 @@
         [active]="isActive('/profile')" 
         (clicked)="go('/profile')"
       >
-        <svg lucideUser aria-hidden="true"></svg>
-        Profile
+        <svg icon lucideUser aria-hidden="true"></svg>
+        <span label>Profile</span>
       </ui-nav-item>
     </ui-nav-list>
   }
