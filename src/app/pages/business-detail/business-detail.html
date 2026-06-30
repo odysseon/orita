@@ -1,0 +1,160 @@
+<div class="biz-detail">
+  @if (business.isLoading()) {
+  <div class="biz-detail__skeleton">
+    <div class="skeleton skeleton--banner"></div>
+    <div class="skeleton skeleton--avatar"></div>
+    <div class="skeleton skeleton--title"></div>
+    <div class="skeleton skeleton--text"></div>
+  </div>
+  } @if (business.error()) {
+  <div class="biz-detail__error">
+    <svg lucideStore aria-hidden="true"></svg>
+    <p>This business could not be found.</p>
+    <button (click)="goBack()">Go back</button>
+  </div>
+  } @if (business.hasValue()) { @let biz = business.value()!;
+
+  <button class="biz-detail__back" (click)="goBack()" type="button">
+    <svg lucideArrowLeft aria-hidden="true"></svg>
+    Back
+  </button>
+
+  <!-- Banner -->
+  <div class="biz-banner">
+    @if (biz.coverUrl) {
+    <img [src]="biz.coverUrl" [alt]="biz.name" />
+    }
+  </div>
+
+  <!-- Identity -->
+  <div class="biz-identity">
+    <div class="biz-identity__avatar">
+      @if (biz.avatarUrl) {
+      <img [src]="biz.avatarUrl" [alt]="biz.name" />
+      } @else {
+      <svg lucideStore aria-hidden="true"></svg>
+      }
+    </div>
+
+    <div class="biz-identity__main">
+      <div class="biz-identity__row">
+        <h1 class="biz-identity__name">{{ biz.name }}</h1>
+        @if (verificationBadge(); as badge) {
+        <span class="biz-badge" [class]="badge.cls">
+          <svg lucideBadgeCheck aria-hidden="true"></svg>
+          {{ badge.label }}
+        </span>
+        }
+      </div>
+      @if (biz.location) {
+      <span class="biz-identity__location">
+        <svg lucideMapPin aria-hidden="true"></svg>
+        {{ biz.location }}
+      </span>
+      }
+    </div>
+
+    <button
+      class="biz-save-btn"
+      [class.biz-save-btn--active]="biz.isSaved"
+      [disabled]="saving()"
+      (click)="toggleSave()"
+      type="button"
+      [attr.aria-label]="biz.isSaved ? 'Remove from saved' : 'Save business'"
+    >
+      <svg lucideBookmark aria-hidden="true"></svg>
+    </button>
+  </div>
+
+  <!-- Description -->
+  @if (biz.description) {
+  <p class="biz-description">{{ biz.description }}</p>
+  }
+
+  <!-- Contact actions -->
+  <div class="biz-actions">
+    @if (biz.phoneNumber) {
+    <button class="biz-action" (click)="callPhone(biz.phoneNumber)" type="button">
+      <svg lucidePhone aria-hidden="true"></svg>
+      Call
+    </button>
+    } @if (biz.whatsapp) {
+    <button class="biz-action" (click)="openWhatsapp(biz.whatsapp)" type="button">
+      <svg lucideMessageCircle aria-hidden="true"></svg>
+      WhatsApp
+    </button>
+    } @if (biz.email) {
+    <button class="biz-action" (click)="sendEmail(biz.email)" type="button">
+      <svg lucideMail aria-hidden="true"></svg>
+      Email
+    </button>
+    }
+  </div>
+
+  <!-- Hours -->
+  @if (groupedHours().length > 0) {
+  <section class="biz-section">
+    <h2 class="biz-section__title">
+      <svg lucideClock aria-hidden="true"></svg>
+      Hours
+    </h2>
+    <div class="biz-hours">
+      @for (hour of groupedHours(); track hour.id) {
+      <div class="biz-hours__row">
+        <span class="biz-hours__day">{{ dayLabel(hour.day) }}</span>
+        @if (hour.isClosed) {
+        <span class="biz-hours__closed">Closed</span>
+        } @else {
+        <span class="biz-hours__time">{{ hour.openTime }} – {{ hour.closeTime }}</span>
+        }
+      </div>
+      }
+    </div>
+  </section>
+  }
+
+  <!-- Listings -->
+  <section class="biz-section">
+    <h2 class="biz-section__title">
+      <svg lucidePackage aria-hidden="true"></svg>
+      Listings @if (listings.hasValue()) {
+      <span class="biz-section__count">{{ listings.value()!.total }}</span>
+      }
+    </h2>
+
+    @if (listings.isLoading()) {
+    <div class="biz-listing-grid">
+      @for (i of [1,2,3,4]; track i) {
+      <div class="skeleton biz-listing-skeleton"></div>
+      }
+    </div>
+    } @if (listings.hasValue() && listings.value()!.items.length === 0) {
+    <p class="biz-section__empty">No listings yet.</p>
+    } @if (listings.hasValue() && listings.value()!.items.length > 0) {
+    <div class="biz-listing-grid">
+      @for (item of listings.value()!.items; track item.id) {
+      <a class="biz-listing-card" [routerLink]="['/l', item.slug]">
+        <div class="biz-listing-card__cover">
+          @if (item.coverUrl) {
+          <img [src]="item.coverUrl" [alt]="item.title" />
+          } @else {
+          <svg lucidePackage aria-hidden="true"></svg>
+          }
+        </div>
+        <div class="biz-listing-card__body">
+          <span class="biz-listing-card__title">{{ item.title }}</span>
+          <span class="biz-listing-card__price">{{ formatPrice(item) }}</span>
+        </div>
+      </a>
+      }
+    </div>
+    }
+  </section>
+
+  @if (biz.websiteUrl) {
+  <a class="biz-website-link" [href]="biz.websiteUrl" target="_blank" rel="noopener noreferrer">
+    <svg lucideGlobe aria-hidden="true"></svg>
+    Visit website
+  </a>
+  } }
+</div>
