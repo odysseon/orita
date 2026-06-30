@@ -1,4 +1,4 @@
-export interface IBusiness {
+export interface IBusinessSummary {
   id: string;
   name: string;
   slug: string;
@@ -8,10 +8,28 @@ export interface IBusiness {
   latitude: number | null;
   longitude: number | null;
   categoryIds: string[];
+  distanceKm?: number;
+  isSaved?: boolean;
 }
 
-export interface IBusinessPage {
-  items: IBusiness[];
+export interface IListingSummary {
+  id: string;
+  businessProfileId: string;
+  businessProfileSlug?: string;
+  title: string;
+  slug: string;
+  description: string | null;
+  minPrice: string | null;
+  maxPrice: string | null;
+  currencyCode: string | null;
+  categoryId: string | null;
+  isNegotiable: boolean;
+  coverUrl?: string;
+  isSaved?: boolean;
+}
+
+export interface IPaginated<T> {
+  items: T[];
   total: number;
   page: number;
   limit: number;
@@ -24,5 +42,5 @@ export interface ICategory {
   description: string | null;
   order: number;
   isActive: boolean;
-  children: ICategory[];
+  children?: ICategory[];
 }

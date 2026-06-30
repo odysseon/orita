@@ -1,14 +1,15 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import {
   LucideSearch,
   LucideMapPin,
   LucideStore,
   LucidePackage,
-  LucideBookmark,
 } from '@lucide/angular';
 import { Logo } from '../../shared/logo/logo';
+import { AppBizCard } from '../../shared/biz-card/biz-card';
+import { AppListingCard } from '../../shared/listing-card/listing-card';
 import { IBusinessSummary, IListingSummary, IPaginated, ICategory } from './home.interface';
 import { environment } from '../../../environments/environment';
 
@@ -18,12 +19,12 @@ type ExploreTab = 'businesses' | 'listings';
   selector: 'app-home',
   imports: [
     Logo,
-    RouterLink,
+    AppBizCard,
+    AppListingCard,
     LucideSearch,
     LucideMapPin,
     LucideStore,
     LucidePackage,
-    LucideBookmark,
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',
@@ -78,11 +79,4 @@ export class Home {
     this.#router.navigate(['/profile']);
   }
 
-  formatPrice(item: IListingSummary): string {
-    if (!item.minPrice) return item.isNegotiable ? 'Negotiable' : '—';
-    const currency = item.currencyCode ?? 'NGN';
-    const min = Number(item.minPrice).toLocaleString();
-    const max = item.maxPrice ? Number(item.maxPrice).toLocaleString() : null;
-    return max ? `${currency} ${min} – ${max}` : `${currency} ${min}`;
-  }
 }
