@@ -1,22 +1,23 @@
-@if (open()) {
+@if (isRendered()) {
 <div
   class="drawer-backdrop"
+  [class.drawer-backdrop--open]="isOpenPhase()"
   [style.opacity]="backdropOpacity()"
   (click)="onBackdropClick()"
   aria-hidden="true"
 ></div>
-}
 
 <div
   #panel
   class="drawer-panel"
   [class]="positionClass()"
-  [class.drawer-panel--open]="open()"
+  [class.drawer-panel--open]="isOpenPhase()"
   [class.drawer-panel--dragging]="isDragging()"
   [style]="panelStyle()"
   role="dialog"
   [attr.aria-modal]="true"
-  [attr.aria-hidden]="!open()"
+  [attr.aria-hidden]="!isOpenPhase()"
+  (transitionend)="onPanelTransitionEnd($event)"
 >
   @if (position() === 'bottom') {
   <div
@@ -32,3 +33,4 @@
     <ng-content />
   </div>
 </div>
+}
