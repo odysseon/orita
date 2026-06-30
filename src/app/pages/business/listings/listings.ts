@@ -11,7 +11,7 @@ import {
   LucideLoaderCircle,
 } from '@lucide/angular';
 import { form, FormField, required, minLength, maxLength } from '@angular/forms/signals';
-import { ToastrService } from 'ngx-toastr';
+import { ToastService } from '../../../core/services/toast';
 import { IListing, ICategory, ICreateListing } from './listing.interface';
 import { environment } from '../../../../environments/environment';
 
@@ -36,7 +36,7 @@ import { AppListingForm } from './listing-form';
 })
 export class Listings {
   #http = inject(HttpClient);
-  #toastr = inject(ToastrService);
+  #toast = inject(ToastService);
 
   readonly businessId = input.required<string>();
 
@@ -113,7 +113,7 @@ export class Listings {
       await firstValueFrom(
         this.#http.post(`${environment.apiUrl}/businesses/${this.businessId()}/listings`, payload),
       );
-      this.#toastr.success('Listing created.', 'Done');
+      this.#toast.success('Done', 'Listing created.');
       this.closeForm();
       this.listings.reload();
     } catch (err) {
@@ -121,7 +121,7 @@ export class Listings {
         err instanceof HttpErrorResponse
           ? (err.error?.message ?? 'Could not create listing.')
           : 'An unexpected error occurred.';
-      this.#toastr.error(message, 'Error');
+      this.#toast.error('Error', message);
     } finally {
       this.submitting.set(false);
     }
@@ -138,7 +138,7 @@ export class Listings {
       );
       this.listings.reload();
     } catch {
-      this.#toastr.error('Could not update listing status.', 'Error');
+      this.#toast.error('Error', 'Could not update listing status.');
     } finally {
       this.togglingId.set(null);
     }
@@ -148,10 +148,10 @@ export class Listings {
     this.deletingId.set(listing.id);
     try {
       await firstValueFrom(this.#http.delete(`${environment.apiUrl}/listings/${listing.id}`));
-      this.#toastr.success('Listing deleted.', 'Done');
+      this.#toast.success('Done', 'Listing deleted.');
       this.listings.reload();
     } catch {
-      this.#toastr.error('Could not delete listing.', 'Error');
+      this.#toast.error('Error', 'Could not delete listing.');
     } finally {
       this.deletingId.set(null);
     }

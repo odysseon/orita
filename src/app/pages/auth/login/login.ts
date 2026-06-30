@@ -3,7 +3,6 @@ import { Router, RouterLink } from '@angular/router';
 import { form, FormField, required, email, pattern } from '@angular/forms/signals';
 import { LucideLoaderCircle } from '@lucide/angular';
 import { AuthService } from '../../../core/services/auth.service';
-import { ToastrService } from 'ngx-toastr';
 
 import { AppAuthCard } from '../../../shared/auth-card/auth-card';
 import { AppFormField } from '../../../shared/form-field/form-field';
@@ -18,7 +17,6 @@ import { AppPasswordField } from '../../../shared/password-field/password-field'
 export class Login {
   #auth = inject(AuthService);
   #router = inject(Router);
-  #toastr = inject(ToastrService);
 
   readonly loading = signal(false);
 
