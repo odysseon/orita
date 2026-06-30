@@ -27,13 +27,12 @@ interface NavItem {
   action?: string;
 }
 
-const ALWAYS_VISIBLE: NavItem[] = [
-  {
-    icon: LucideBookmark,
-    label: 'Saved',
-    description: 'Your saved listings and businesses',
-    route: '/profile/saved',
-  },
+interface NavGroup {
+  title: string;
+  items: NavItem[];
+}
+
+const ALWAYS_VISIBLE_SETTINGS: NavItem[] = [
   {
     icon: LucideShieldCheck,
     label: 'Privacy & Security',
@@ -47,6 +46,13 @@ const ALWAYS_VISIBLE: NavItem[] = [
     route: '/settings/appearance',
   },
 ];
+
+const SAVED_ITEM: NavItem = {
+  icon: LucideBookmark,
+  label: 'Saved',
+  description: 'Your saved listings and businesses',
+  route: '/profile/saved',
+};
 
 const MY_BUSINESS: NavItem = {
   icon: LucideBuilding2,
@@ -83,9 +89,18 @@ export class Profile {
   readonly profile = httpResource<IProfile>(() => `${environment.apiUrl}/users/me`);
   readonly isCreateBusinessOpen = signal(false);
 
-  readonly navItems = computed<NavItem[]>(() => {
+  readonly navGroups = computed<NavGroup[]>(() => {
     const businessItem = this.profile.value()?.businessId ? MY_BUSINESS : START_BUSINESS;
-    return [businessItem, ...ALWAYS_VISIBLE];
+    return [
+      {
+        title: 'Workspace',
+        items: [businessItem, SAVED_ITEM],
+      },
+      {
+        title: 'Account Settings',
+        items: ALWAYS_VISIBLE_SETTINGS,
+      },
+    ];
   });
 
   navigate(item: NavItem): void {
