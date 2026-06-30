@@ -1,0 +1,226 @@
+:host {
+  display: block;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-16);
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--size-16) var(--size-16) var(--size-40);
+  background: var(--surface-page);
+}
+
+/* ============================================================
+ * HEADER
+ * ============================================================ */
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home-header__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-36);
+  height: var(--size-36);
+  border-radius: var(--radius-pill);
+  background: var(--surface-container);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+
+  svg {
+    width: var(--size-18);
+    height: var(--size-18);
+  }
+
+  &:hover {
+    background: var(--surface-container-high);
+  }
+}
+
+/* ============================================================
+ * SEARCH
+ * ============================================================ */
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar__icon {
+  position: absolute;
+  left: var(--size-12);
+  width: var(--size-16);
+  height: var(--size-16);
+  color: var(--text-muted);
+}
+
+.search-bar__input {
+  width: 100%;
+  height: var(--size-40);
+  padding: 0 var(--size-12) 0 var(--size-36);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-md);
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--surface-container);
+  outline: none;
+  transition: border-color var(--transition-fast);
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:focus {
+    border-color: var(--clr-primary);
+  }
+}
+
+/* ============================================================
+ * CATEGORY RAIL
+ * ============================================================ */
+.category-rail {
+  display: flex;
+  gap: var(--size-8);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: var(--size-2);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.category-chip {
+  flex-shrink: 0;
+  height: var(--size-32);
+  padding: 0 var(--size-14);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-pill);
+  background: var(--surface-card);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+
+  &:hover {
+    border-color: var(--clr-primary);
+  }
+}
+
+.category-chip--active {
+  background: var(--clr-primary);
+  border-color: var(--clr-primary);
+  color: var(--clr-on-primary);
+}
+
+/* ============================================================
+ * TABS
+ * ============================================================ */
+.explore-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-subtle);
+  gap: var(--size-4);
+}
+
+.explore-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-6);
+  padding: var(--size-10) var(--size-14);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+
+  svg {
+    width: var(--size-15);
+    height: var(--size-15);
+  }
+
+  &:hover {
+    color: var(--text-secondary);
+  }
+}
+
+.explore-tab--active {
+  color: var(--clr-primary);
+  border-bottom-color: var(--clr-primary);
+}
+
+/* ============================================================
+ * GRID
+ * ============================================================ */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--size-12);
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% center;
+  }
+  to {
+    background-position: 200% center;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-container) 25%,
+    var(--surface-container-high) 50%,
+    var(--surface-container) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s cubic-bezier(0.2, 0, 0, 1) infinite;
+  border-radius: var(--radius-md);
+}
+
+.biz-card-skeleton,
+.listing-card-skeleton {
+  height: 160px;
+}
+
+/* ============================================================
+ * EMPTY
+ * ============================================================ */
+.explore-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--size-10);
+  padding: var(--size-48) var(--size-24);
+  text-align: center;
+  color: var(--text-muted);
+  grid-column: 1 / -1;
+
+  svg {
+    width: var(--size-32);
+    height: var(--size-32);
+    opacity: 0.4;
+  }
+}
+
+

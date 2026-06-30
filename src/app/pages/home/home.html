@@ -1,1 +1,96 @@
-<p>home works!</p>
+<div class="home">
+  <!-- Header -->
+  <header class="home-header">
+    <app-logo />
+    <button class="home-header__avatar" (click)="goToProfile()" aria-label="Profile">
+      <svg lucideMapPin aria-hidden="true"></svg>
+    </button>
+  </header>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <svg lucideSearch class="search-bar__icon" aria-hidden="true"></svg>
+    <input
+      class="search-bar__input"
+      type="search"
+      placeholder="Search businesses, products…"
+      [value]="searchQuery()"
+      (input)="searchQuery.set($any($event.target).value)"
+    />
+  </div>
+
+  <!-- Category chips -->
+  @if (categories.hasValue()) {
+  <div class="category-rail">
+    @for (cat of leafCategories(); track cat.id) {
+    <button
+      class="category-chip"
+      [class.category-chip--active]="activeCategorySlug() === cat.slug"
+      (click)="selectCategory(cat.slug)"
+    >
+      {{ cat.name }}
+    </button>
+    }
+  </div>
+  }
+
+  <!-- Tabs -->
+  <nav class="explore-tabs" aria-label="Explore">
+    <button
+      class="explore-tab"
+      [class.explore-tab--active]="activeTab() === 'businesses'"
+      (click)="setTab('businesses')"
+    >
+      <svg lucideStore aria-hidden="true"></svg>
+      Businesses
+    </button>
+    <button
+      class="explore-tab"
+      [class.explore-tab--active]="activeTab() === 'listings'"
+      (click)="setTab('listings')"
+    >
+      <svg lucidePackage aria-hidden="true"></svg>
+      Listings
+    </button>
+  </nav>
+
+  <!-- Businesses tab -->
+  @if (activeTab() === 'businesses') { @if (businesses.isLoading()) {
+  <div class="card-grid">
+    @for (i of [1,2,3,4]; track i) {
+    <div class="skeleton biz-card-skeleton"></div>
+    }
+  </div>
+  } @if (businesses.hasValue() && filteredBusinesses().length === 0) {
+  <div class="explore-empty">
+    <svg lucideStore aria-hidden="true"></svg>
+    <p>No businesses found.</p>
+  </div>
+  } @if (businesses.hasValue() && filteredBusinesses().length > 0) {
+  <div class="card-grid">
+    @for (biz of filteredBusinesses(); track biz.id) {
+    <app-biz-card [biz]="biz" />
+    }
+  </div>
+  } }
+
+  <!-- Listings tab -->
+  @if (activeTab() === 'listings') { @if (listings.isLoading()) {
+  <div class="card-grid">
+    @for (i of [1,2,3,4]; track i) {
+    <div class="skeleton listing-card-skeleton"></div>
+    }
+  </div>
+  } @if (listings.hasValue() && listings.value()!.items.length === 0) {
+  <div class="explore-empty">
+    <svg lucidePackage aria-hidden="true"></svg>
+    <p>No listings found.</p>
+  </div>
+  } @if (listings.hasValue() && listings.value()!.items.length > 0) {
+  <div class="card-grid">
+    @for (item of listings.value()!.items; track item.id) {
+    <app-listing-card [item]="item" />
+    }
+  </div>
+  } }
+</div>

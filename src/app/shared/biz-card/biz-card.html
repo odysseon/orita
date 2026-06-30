@@ -1,0 +1,19 @@
+<a class="biz-card" [routerLink]="['/b', biz().slug]">
+  <div class="biz-card__avatar">
+    <svg lucideStore aria-hidden="true"></svg>
+  </div>
+  <div class="biz-card__body">
+    <span class="biz-card__name">{{ biz().name }}</span>
+    @if (biz().description) {
+    <span class="biz-card__desc">{{ biz().description }}</span>
+    } @if (biz().location) {
+    <span class="biz-card__location">
+      <svg lucideMapPin aria-hidden="true"></svg>
+      {{ biz().location }}
+    </span>
+    }
+  </div>
+  @if (biz().isSaved) {
+  <svg lucideBookmark class="biz-card__saved" aria-hidden="true"></svg>
+  }
+</a>

@@ -1,0 +1,16 @@
+<a class="listing-card" [routerLink]="['/l', item().slug]">
+  <div class="listing-card__cover">
+    @if (item().coverUrl) {
+    <img [src]="item().coverUrl" [alt]="item().title" />
+    } @else {
+    <svg lucidePackage aria-hidden="true"></svg>
+    }
+  </div>
+  <div class="listing-card__body">
+    <span class="listing-card__title">{{ item().title }}</span>
+    <span class="listing-card__price">{{ formatPrice(item()) }}</span>
+  </div>
+  @if (item().isSaved) {
+  <svg lucideBookmark class="listing-card__saved" aria-hidden="true"></svg>
+  }
+</a>

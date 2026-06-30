@@ -7,6 +7,6 @@ import { LucideMapPin } from '@lucide/angular';
   templateUrl: './logo.html',
   styleUrl: './logo.css',
 })
-export class LogoComponent {
+export class Logo {
   readonly className = input<string>('');
 }
