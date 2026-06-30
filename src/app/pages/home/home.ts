@@ -10,6 +10,8 @@ import {
 import { Logo } from '../../shared/logo/logo';
 import { AppBizCard } from '../../shared/biz-card/biz-card';
 import { AppListingCard } from '../../shared/listing-card/listing-card';
+import { EmptyState } from '../../shared/empty-state/empty-state';
+import { CreateBusiness } from '../profile/business/create/create-business';
 import { IBusinessSummary, IListingSummary, IPaginated, ICategory } from './home.interface';
 import { environment } from '../../../environments/environment';
 
@@ -25,6 +27,8 @@ type ExploreTab = 'businesses' | 'listings';
     LucideMapPin,
     LucideStore,
     LucidePackage,
+    EmptyState,
+    CreateBusiness,
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',
@@ -35,6 +39,7 @@ export class Home {
   readonly activeTab = signal<ExploreTab>('businesses');
   readonly activeCategorySlug = signal<string | null>(null);
   readonly searchQuery = signal('');
+  readonly isCreateBusinessOpen = signal(false);
 
   readonly categories = httpResource<ICategory[]>(() => `${environment.apiUrl}/categories`);
 
@@ -77,6 +82,11 @@ export class Home {
 
   goToProfile(): void {
     this.#router.navigate(['/profile']);
+  }
+
+  onBusinessCreated(): void {
+    this.businesses.reload();
+    this.#router.navigate(['/profile/business']);
   }
 
 }

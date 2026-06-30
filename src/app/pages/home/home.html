@@ -62,10 +62,21 @@
     }
   </div>
   } @if (businesses.hasValue() && filteredBusinesses().length === 0) {
-  <div class="explore-empty">
-    <svg lucideStore aria-hidden="true"></svg>
-    <p>No businesses found.</p>
-  </div>
+  <ui-empty-state 
+    icon="LucideStore" 
+    title="No businesses found"
+    description="Can't find what you're looking for? Start your own!">
+    <div actions>
+      <button class="btn btn--primary btn--full" (click)="isCreateBusinessOpen.set(true)">
+        Start a Business
+      </button>
+      @if (searchQuery() || activeCategorySlug()) {
+        <button class="btn btn--ghost btn--full" (click)="searchQuery.set(''); activeCategorySlug.set(null)">
+          Clear Filters
+        </button>
+      }
+    </div>
+  </ui-empty-state>
   } @if (businesses.hasValue() && filteredBusinesses().length > 0) {
   <div class="card-grid">
     @for (biz of filteredBusinesses(); track biz.id) {
@@ -82,10 +93,21 @@
     }
   </div>
   } @if (listings.hasValue() && listings.value()!.items.length === 0) {
-  <div class="explore-empty">
-    <svg lucidePackage aria-hidden="true"></svg>
-    <p>No listings found.</p>
-  </div>
+  <ui-empty-state 
+    icon="LucidePackage" 
+    title="No listings found"
+    description="There are no products or services here yet.">
+    <div actions>
+      <button class="btn btn--primary btn--full" (click)="goToProfile()">
+        Showcase what you've got
+      </button>
+      @if (searchQuery() || activeCategorySlug()) {
+        <button class="btn btn--ghost btn--full" (click)="searchQuery.set(''); activeCategorySlug.set(null)">
+          Clear Filters
+        </button>
+      }
+    </div>
+  </ui-empty-state>
   } @if (listings.hasValue() && listings.value()!.items.length > 0) {
   <div class="card-grid">
     @for (item of listings.value()!.items; track item.id) {
@@ -94,3 +116,10 @@
   </div>
   } }
 </div>
+
+@if (isCreateBusinessOpen()) {
+<app-create-business 
+  (closed)="isCreateBusinessOpen.set(false)" 
+  (created)="onBusinessCreated()" 
+/>
+}
