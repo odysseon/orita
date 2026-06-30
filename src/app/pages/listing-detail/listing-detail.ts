@@ -39,6 +39,7 @@ export class ListingDetail {
   #http = inject(HttpClient);
   #toast = inject(ToastService);
 
+  readonly Math = Math;
   readonly saving = signal(false);
 
   readonly slug = computed(() => this.#route.snapshot.paramMap.get('slug') ?? '');

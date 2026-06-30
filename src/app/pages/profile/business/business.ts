@@ -20,12 +20,14 @@ import { IBusinessProfile, IDashboardStats } from './business.interface';
 import { environment } from '../../../../environments/environment';
 import { AppPageHeader } from '../../../shared/page-header/page-header';
 import { Listings } from './listings/listings';
+import { CreateBusiness } from './create/create-business';
 
 @Component({
   selector: 'app-business',
   imports: [
     Listings,
     AppPageHeader,
+    CreateBusiness,
     LucideStore,
     LucidePlus,
     LucideChartBar,
@@ -55,7 +57,7 @@ export class Business {
   });
 
   readonly activeTab = signal<'overview' | 'hours' | 'listings'>('overview');
-
+  readonly isCreateBusinessOpen = signal(false);
   readonly hasBusiness = computed(() => !!this.business.value());
 
   readonly isPublic = computed(() => this.business.value()?.isPublic ?? false);
@@ -73,7 +75,11 @@ export class Business {
   }
 
   createBusiness(): void {
-    this.#router.navigate(['/profile/business/create']);
+    this.isCreateBusinessOpen.set(true);
+  }
+
+  onBusinessCreated(): void {
+    this.business.reload();
   }
 
   setTab(tab: 'overview' | 'hours' | 'listings'): void {

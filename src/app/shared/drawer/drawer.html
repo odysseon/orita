@@ -1,0 +1,65 @@
+@if (isRendered()) {
+<div
+  class="drawer-root"
+  [class.drawer-root--open]="isOpenPhase()"
+  [class.drawer-root--dragging]="isDragging()"
+>
+  <button
+    type="button"
+    class="drawer-backdrop"
+    [class.drawer-backdrop--open]="isOpenPhase()"
+    [style.opacity]="backdropOpacity()"
+    (click)="onBackdropClick()"
+    tabindex="-1"
+    aria-hidden="true"
+  ></button>
+
+  <section
+    #panel
+    class="drawer-panel"
+    [class]="positionClass()"
+    [class.drawer-panel--open]="isOpenPhase()"
+    [class.drawer-panel--dragging]="isDragging()"
+    [style]="panelStyle()"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="ariaLabel()"
+    tabindex="-1"
+    (transitionend)="onPanelTransitionEnd($event)"
+  >
+    @if (!isCenter()) {
+    <button
+      type="button"
+      class="drawer-handle"
+      [attr.aria-label]="dismissible() ? 'Drag to close' : 'Drawer handle'"
+      [disabled]="!dismissible()"
+      (pointerdown)="onDragStart($event)"
+    >
+      <span class="drawer-handle__bar" aria-hidden="true"></span>
+    </button>
+    } @if (showHeader()) {
+    <header class="drawer-header">
+      @if (title()) {
+      <h2 class="drawer-title">{{ title() }}</h2>
+      } @else {
+      <span></span>
+      } @if (showCloseButton()) {
+      <button
+        class="drawer-close"
+        type="button"
+        aria-label="Close drawer"
+        [disabled]="!dismissible()"
+        (click)="close()"
+      >
+        ×
+      </button>
+      }
+    </header>
+    }
+
+    <div class="drawer-content">
+      <ng-content />
+    </div>
+  </section>
+</div>
+}
