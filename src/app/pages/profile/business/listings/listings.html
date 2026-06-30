@@ -12,8 +12,7 @@
   </div>
 
   <!-- Create form -->
-  @if (showForm()) {
-  <app-listing-form (closeForm)="closeForm()">
+  <ui-drawer [open]="showForm()" (dismissed)="closeForm()" position="right" title="New listing">
 
     <form class="listing-form" (submit)="createListing($event)">
       <app-form-field
@@ -112,8 +111,7 @@
         </button>
       </div>
     </form>
-  </app-listing-form>
-  }
+  </ui-drawer>
 
   <!-- Loading -->
   @if (listings.isLoading()) {
