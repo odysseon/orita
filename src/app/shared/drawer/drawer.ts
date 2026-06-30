@@ -16,34 +16,24 @@ import {
   Injector,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-
-import {
-  DISTANCE_THRESHOLD,
-  DRAWER_DEFAULTS,
-  DrawerPosition,
-  VELOCITY_THRESHOLD,
-} from './drawer.model';
-
-interface PointerState {
-  startX: number;
-  startY: number;
-  startTime: number;
-  currentDelta: number;
-  active: boolean;
-}
-
-let openDrawerCount = 0;
+import { DRAWER_DEFAULTS, DrawerPosition } from './drawer.model';
+import { DrawerScrollService } from './drawer-scroll.service';
+import { DrawerFocusService } from './drawer-focus.service';
+import { DrawerDragService } from './drawer-drag.service';
 
 @Component({
   selector: 'ui-drawer',
   templateUrl: './drawer.html',
   styleUrl: './drawer.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DrawerFocusService, DrawerDragService],
 })
 export class Drawer implements OnInit, OnDestroy {
   private readonly document = inject(DOCUMENT);
-  private readonly host = inject(ElementRef<HTMLElement>);
   private readonly injector = inject(Injector);
+  private readonly scrollService = inject(DrawerScrollService);
+  private readonly focusService = inject(DrawerFocusService);
+  readonly dragService = inject(DrawerDragService);
 
   open = model<boolean>(false);
   position = input<DrawerPosition>(DRAWER_DEFAULTS.position);
@@ -61,179 +51,21 @@ export class Drawer implements OnInit, OnDestroy {
 
   private readonly panelRef = viewChild<ElementRef<HTMLElement>>('panel');
 
-  private readonly dragDelta = signal(0);
-  readonly isDragging = signal(false);
-
   readonly isRendered = signal(false);
   readonly isOpenPhase = signal(false);
 
   readonly showHeader = computed(() => !!this.title() || this.showCloseButton());
 
-  private pointer: PointerState = {
-    startX: 0,
-    startY: 0,
-    startTime: 0,
-    currentDelta: 0,
-    active: false,
-  };
-
-  private lastFocusedElement: HTMLElement | null = null;
-
   readonly isCenter = computed(() => this.position() === 'center');
   readonly isVertical = computed(() => this.position() === 'top' || this.position() === 'bottom');
 
-  readonly dragTransform = computed(() => {
-    const delta = this.dragDelta();
-    if (delta === 0) return '';
-    const pos = this.position();
-    switch (pos) {
-      case 'left':
-        return `translateX(${Math.min(delta, 0)}px)`;
-      case 'right':
-        return `translateX(${Math.max(delta, 0)}px)`;
-      case 'top':
-        return `translateY(${Math.min(delta, 0)}px)`;
-      case 'bottom':
-        return `translateY(${Math.max(delta, 0)}px)`;
-      default:
-        return '';
-    }
-  });
-
   readonly backdropOpacity = computed(() => {
-    if (!this.isDragging()) return this.isOpenPhase() ? 1 : 0;
-    const delta = Math.abs(this.dragDelta());
+    if (!this.dragService.isDragging()) return this.isOpenPhase() ? 1 : 0;
+    const delta = Math.abs(this.dragService.dragDelta());
     const size = this.drawerSizePx();
     if (size === 0) return 1;
     return Math.max(0, 1 - delta / size);
   });
-
-  private drawerSizePx(): number {
-    return this.panelRef()?.nativeElement[this.isVertical() ? 'offsetHeight' : 'offsetWidth'] ?? 0;
-  }
-
-  constructor() {
-    effect(() => {
-      const isOpen = this.open();
-      if (isOpen) {
-        this.openDrawer();
-        return;
-      }
-      if (this.isRendered() && this.isOpenPhase()) {
-        this.beginClose();
-      }
-    });
-  }
-
-  ngOnInit() {
-    this.document.addEventListener('keydown', this.onKeyDown);
-  }
-
-  ngOnDestroy() {
-    this.document.removeEventListener('keydown', this.onKeyDown);
-    this.unlockBodyScroll();
-  }
-
-  /** Programmatic close — does NOT emit dismissed */
-  close() {
-    if (!this.dismissible()) return;
-    this.open.set(false);
-  }
-
-  /** User-initiated close — emits dismissed */
-  requestClose(): void {
-    if (!this.dismissible()) return;
-    this.open.set(false);
-    this.dismissed.emit();
-  }
-
-  onBackdropClick() {
-    if (!this.closeOnBackdrop() || !this.dismissible()) return;
-    this.requestClose();
-  }
-
-  private readonly onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape' && this.closeOnEscape() && this.dismissible() && this.open()) {
-      event.preventDefault();
-      this.requestClose();
-    }
-  };
-
-  onPanelTransitionEnd(event: TransitionEvent): void {
-    const target = event.target;
-    if (!(target instanceof HTMLElement) || !target.classList.contains('drawer-panel')) return;
-    if (!this.isOpenPhase()) {
-      this.isRendered.set(false);
-      this.dragDelta.set(0);
-      this.unlockBodyScroll();
-      this.restoreFocus();
-      this.closed.emit();
-    }
-  }
-
-  onPointerDown(event: PointerEvent) {
-    if (this.isCenter() || !this.dismissible()) return;
-    const handle = event.currentTarget as HTMLElement;
-    handle.setPointerCapture(event.pointerId);
-    this.pointer = {
-      startX: event.clientX,
-      startY: event.clientY,
-      startTime: event.timeStamp,
-      currentDelta: 0,
-      active: true,
-    };
-    this.isDragging.set(true);
-  }
-
-  onPointerMove(event: PointerEvent) {
-    if (!this.pointer.active) return;
-
-    const rawDelta = this.isVertical()
-      ? event.clientY - this.pointer.startY
-      : event.clientX - this.pointer.startX;
-
-    const resistedDelta = this.resistDelta(rawDelta);
-    this.pointer.currentDelta = resistedDelta;
-    this.dragDelta.set(resistedDelta);
-  }
-
-  onPointerUp(event: PointerEvent) {
-    if (!this.pointer.active) return;
-
-    const delta = Math.abs(this.pointer.currentDelta);
-    const elapsed = event.timeStamp - this.pointer.startTime;
-    const velocity = elapsed > 0 ? delta / elapsed : 0;
-    const size = this.drawerSizePx();
-
-    const pastDistance = size > 0 && delta / size > DISTANCE_THRESHOLD;
-    const pastVelocity = velocity > VELOCITY_THRESHOLD;
-
-    if (pastDistance || pastVelocity) {
-      this.requestClose();
-    }
-
-    this.pointer.active = false;
-    this.dragDelta.set(0);
-    this.isDragging.set(false);
-  }
-
-  onPointerCancel() {
-    this.pointer.active = false;
-    this.dragDelta.set(0);
-    this.isDragging.set(false);
-  }
-
-  private resistDelta(raw: number): number {
-    const pos = this.position();
-    const isClosingDirection =
-      (pos === 'left' && raw < 0) ||
-      (pos === 'right' && raw > 0) ||
-      (pos === 'top' && raw < 0) ||
-      (pos === 'bottom' && raw > 0);
-
-    if (isClosingDirection) return raw;
-    return raw * 0.15;
-  }
 
   positionClass = computed(() => `drawer-panel--${this.position()}`);
 
@@ -257,23 +89,90 @@ export class Drawer implements OnInit, OnDestroy {
       base['border-radius'] = 'var(--radius-lg)';
     }
 
-    if (this.dragTransform()) {
-      base['transform'] = this.dragTransform();
+    const dragTrans = this.dragService.dragTransform();
+    if (dragTrans) {
+      base['transform'] = dragTrans;
       base['transition'] = 'none';
     }
 
     return base;
   });
 
+  constructor() {
+    this.dragService.init({
+      position: this.position,
+      isCenter: this.isCenter,
+      isVertical: this.isVertical,
+      dismissible: this.dismissible,
+      drawerSizePx: () => this.drawerSizePx(),
+      requestClose: () => this.requestClose(),
+    });
+
+    effect(() => {
+      const isOpen = this.open();
+      if (isOpen) {
+        this.openDrawer();
+        return;
+      }
+      if (this.isRendered() && this.isOpenPhase()) {
+        this.beginClose();
+      }
+    });
+  }
+
+  ngOnInit() {
+    this.document.addEventListener('keydown', this.onKeyDown);
+  }
+
+  ngOnDestroy() {
+    this.document.removeEventListener('keydown', this.onKeyDown);
+    this.scrollService.unlock();
+  }
+
+  close() {
+    if (!this.dismissible()) return;
+    this.open.set(false);
+  }
+
+  requestClose(): void {
+    if (!this.dismissible()) return;
+    this.open.set(false);
+    this.dismissed.emit();
+  }
+
+  onBackdropClick() {
+    if (!this.closeOnBackdrop() || !this.dismissible()) return;
+    this.requestClose();
+  }
+
+  private readonly onKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape' && this.closeOnEscape() && this.dismissible() && this.open()) {
+      event.preventDefault();
+      this.requestClose();
+    }
+  };
+
+  onPanelTransitionEnd(event: TransitionEvent): void {
+    const target = event.target;
+    if (!(target instanceof HTMLElement) || !target.classList.contains('drawer-panel')) return;
+    if (!this.isOpenPhase()) {
+      this.isRendered.set(false);
+      this.dragService.reset();
+      this.scrollService.unlock();
+      this.focusService.restore();
+      this.closed.emit();
+    }
+  }
+
   private openDrawer(): void {
     if (this.isRendered() && this.isOpenPhase()) return;
-    this.rememberFocus();
+    this.focusService.remember();
     this.isRendered.set(true);
-    this.dragDelta.set(0);
+    this.dragService.reset();
 
     afterNextRender(
       () => {
-        this.lockBodyScroll();
+        this.scrollService.lock();
         this.isOpenPhase.set(true);
         this.panelRef()?.nativeElement.focus();
         this.opened.emit();
@@ -285,32 +184,10 @@ export class Drawer implements OnInit, OnDestroy {
   private beginClose(): void {
     if (!this.isRendered()) return;
     this.isOpenPhase.set(false);
-    this.isDragging.set(false);
-    this.dragDelta.set(0);
+    this.dragService.reset();
   }
 
-  private lockBodyScroll(): void {
-    if (openDrawerCount === 0) {
-      this.document.body.style.overflow = 'hidden';
-    }
-    openDrawerCount += 1;
-  }
-
-  private unlockBodyScroll(): void {
-    if (openDrawerCount <= 0) return;
-    openDrawerCount -= 1;
-    if (openDrawerCount === 0) {
-      this.document.body.style.overflow = '';
-    }
-  }
-
-  private rememberFocus(): void {
-    const active = this.document.activeElement;
-    this.lastFocusedElement = active instanceof HTMLElement ? active : null;
-  }
-
-  private restoreFocus(): void {
-    this.lastFocusedElement?.focus();
-    this.lastFocusedElement = null;
+  private drawerSizePx(): number {
+    return this.panelRef()?.nativeElement[this.isVertical() ? 'offsetHeight' : 'offsetWidth'] ?? 0;
   }
 }
