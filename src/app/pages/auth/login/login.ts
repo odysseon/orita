@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { form, FormField, required, email, pattern } from '@angular/forms/signals';
 import { LucideLoaderCircle } from '@lucide/angular';
 import { AuthService } from '../../../core/services/auth.service';
@@ -16,6 +16,7 @@ import { AppPasswordField } from '../../../shared/password-field/password-field'
 })
 export class Login {
   #auth = inject(AuthService);
+  #route = inject(ActivatedRoute);
   #router = inject(Router);
 
   readonly loading = signal(false);
@@ -42,7 +43,8 @@ export class Login {
     event.preventDefault();
     if (this.loginForm().invalid()) return;
     this.loading.set(true);
-    await this.#auth.login(this.model());
+    const returnUrl = this.#route.snapshot.queryParams['returnUrl'] || '/home';
+    await this.#auth.login(this.model(), returnUrl);
     this.loading.set(false);
   }
 

@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
@@ -9,6 +10,7 @@ const SKIP_ENDPOINTS = ['/auth/login', '/accounts/register'];
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
+  const router = inject(Router);
   const token = authService.token();
   const isApi = req.url.startsWith(environment.apiUrl);
   const isSkipped = SKIP_ENDPOINTS.some((endpoint) => req.url.includes(endpoint));
@@ -20,7 +22,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && !isSkipped) {
-        authService.logout(true);
+        authService.logout(true, router.url);
       }
       return throwError(() => error);
     })
