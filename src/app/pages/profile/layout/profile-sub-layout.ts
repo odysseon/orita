@@ -11,11 +11,10 @@ import { filter, map } from 'rxjs';
   styleUrl: './profile-sub-layout.css',
 })
 export class ProfileSubLayout {
-  #router = inject(Router);
   #route = inject(ActivatedRoute);
 
   readonly title = toSignal(
-    this.#router.events.pipe(
+    inject(Router).events.pipe(
       filter((e) => e instanceof NavigationEnd),
       map(() => this.getDeepestTitle(this.#route.snapshot)),
     ),
@@ -28,9 +27,5 @@ export class ProfileSubLayout {
       current = current.firstChild;
     }
     return current.data?.['title'];
-  }
-
-  goBack(): void {
-    this.#router.navigate(['/profile']);
   }
 }
