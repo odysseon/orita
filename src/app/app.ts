@@ -6,11 +6,12 @@ import { filter, map } from 'rxjs';
 import { ToastContainer } from './core/components/toast-container/toast-container';
 import { NavList } from './shared/nav-list/nav-list';
 import { NavItem } from './shared/nav-item/nav-item';
+import { ScrollHideDirective } from './shared/directives/scroll-hide.directive';
 import { LucideHome, LucideUser } from '@lucide/angular';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ToastContainer, NavList, NavItem, LucideHome, LucideUser],
+  imports: [RouterOutlet, ToastContainer, NavList, NavItem, ScrollHideDirective, LucideHome, LucideUser],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

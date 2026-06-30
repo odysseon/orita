@@ -4,7 +4,11 @@
   </main>
 
   @if (showNav()) {
-    <ui-nav-list [position]="isDesktop() ? 'side' : 'bottom'" [justify]="isDesktop() ? 'start' : 'around'">
+    <ui-nav-list 
+      [position]="isDesktop() ? 'side' : 'bottom'" 
+      [justify]="isDesktop() ? 'start' : 'around'"
+      [uiScrollHide]="!isDesktop()"
+    >
       <ui-nav-item 
         [layout]="isDesktop() ? 'horizontal' : 'vertical'" 
         iconSize="md" 
