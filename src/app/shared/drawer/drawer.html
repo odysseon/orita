@@ -12,7 +12,7 @@
   class="drawer-panel"
   [class]="positionClass()"
   [class.drawer-panel--open]="isOpenPhase()"
-  [class.drawer-panel--dragging]="isDragging()"
+  [class.drawer-panel--dragging]="dragService.isDragging()"
   [style]="panelStyle()"
   role="dialog"
   [attr.aria-modal]="true"
@@ -26,10 +26,10 @@
     class="drawer-drag-handle"
     [attr.aria-label]="dismissible() ? 'Drag to close' : 'Drawer handle'"
     [class.drawer-drag-handle--disabled]="!dismissible()"
-    (pointerdown)="onPointerDown($event)"
-    (pointermove)="onPointerMove($event)"
-    (pointerup)="onPointerUp($event)"
-    (pointercancel)="onPointerCancel()"
+    (pointerdown)="dragService.onPointerDown($event)"
+    (pointermove)="dragService.onPointerMove($event)"
+    (pointerup)="dragService.onPointerUp($event)"
+    (pointercancel)="dragService.onPointerCancel()"
   ></div>
   } @if (showHeader()) {
   <header class="drawer-header">
