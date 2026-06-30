@@ -60,10 +60,14 @@ export class AuthService {
     }
   }
 
-  logout(): void {
+  logout(expired = false): void {
     this.#cookie.delete(TOKEN_KEY);
     this.token.set(undefined);
-    this.#toast.info('Goodbye', 'You have been logged out.');
+    if (expired) {
+      this.#toast.error('Session Expired', 'Please log in again to continue.');
+    } else {
+      this.#toast.info('Goodbye', 'You have been logged out.');
+    }
     this.#router.navigate(['/auth/login']);
   }
 
