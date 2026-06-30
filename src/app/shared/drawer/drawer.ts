@@ -146,9 +146,19 @@ export class Drawer implements OnInit, OnDestroy {
   }
 
   private readonly onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape' && this.closeOnEscape() && this.dismissible() && this.open()) {
+    if (!this.open()) return;
+
+    if (event.key === 'Escape' && this.closeOnEscape() && this.dismissible()) {
       event.preventDefault();
       this.requestClose();
+      return;
+    }
+
+    if (event.key === 'Tab') {
+      const panel = this.panelRef()?.nativeElement;
+      if (panel) {
+        this.focusService.trapFocus(panel, event);
+      }
     }
   };
 
