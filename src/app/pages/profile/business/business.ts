@@ -18,7 +18,6 @@ import {
 } from '@lucide/angular';
 import { IBusinessProfile, IDashboardStats } from './business.interface';
 import { environment } from '../../../../environments/environment';
-import { AppPageHeader } from '../../../shared/page-header/page-header';
 import { Listings } from './listings/listings';
 import { CreateBusiness } from './create/create-business';
 
@@ -26,7 +25,6 @@ import { CreateBusiness } from './create/create-business';
   selector: 'app-business',
   imports: [
     Listings,
-    AppPageHeader,
     CreateBusiness,
     LucideStore,
     LucidePlus,
@@ -70,9 +68,7 @@ export class Business {
     return { label: 'Unverified', cls: 'badge--unverified' };
   });
 
-  goBack(): void {
-    this.#router.navigate(['/profile']);
-  }
+
 
   createBusiness(): void {
     this.isCreateBusinessOpen.set(true);
