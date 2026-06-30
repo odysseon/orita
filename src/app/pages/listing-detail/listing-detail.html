@@ -38,7 +38,7 @@
     @if (avgRating(); as rating) {
     <div class="listing-rating">
       <div class="listing-rating__stars">
-        @for (filled of starArray(item.reviews![0] ? +rating : 0); track $index) {
+        @for (filled of starArray(Math.round(+rating)); track $index) {
         <svg lucideStar [class.star--filled]="filled" aria-hidden="true"></svg>
         }
       </div>
