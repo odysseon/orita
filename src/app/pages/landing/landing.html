@@ -1,1 +1,62 @@
-<p>landing works!</p>
+<div class="landing-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Discover Local Businesses & Unique Services</h1>
+      <p class="hero-subtitle">
+        Orita connects you with the best businesses, products, and services in your area. Find what you need, or showcase what you've got.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn--primary btn--large" (click)="getStarted()">
+          Get Started
+          <svg lucideArrowRight aria-hidden="true"></svg>
+        </button>
+        <button class="btn btn--ghost btn--large" (click)="explore()">
+          Explore Businesses
+        </button>
+      </div>
+    </div>
+    <div class="hero-image-wrapper">
+      <img src="/hero_mockup.png" alt="Orita App Interface Mockup" class="hero-image" />
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <h2 class="section-title">Everything you need in one place</h2>
+    <div class="features-grid">
+      <div class="feature-card glass">
+        <div class="feature-icon-wrapper">
+          <svg lucideStore aria-hidden="true"></svg>
+        </div>
+        <h3 class="feature-title">Find Exactly What You Need</h3>
+        <p class="feature-text">Search and filter through a curated directory of local businesses and service providers.</p>
+      </div>
+      
+      <div class="feature-card glass">
+        <div class="feature-icon-wrapper">
+          <svg lucideMessageCircle aria-hidden="true"></svg>
+        </div>
+        <h3 class="feature-title">Connect Instantly</h3>
+        <p class="feature-text">Reach out to sellers directly via phone or WhatsApp to get your questions answered.</p>
+      </div>
+      
+      <div class="feature-card glass">
+        <div class="feature-icon-wrapper">
+          <svg lucideTrendingUp aria-hidden="true"></svg>
+        </div>
+        <h3 class="feature-title">Grow Your Business</h3>
+        <p class="feature-text">Create your own business profile, list your products, and reach more customers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section glass glass--frosted">
+    <h2 class="cta-title">Ready to join the community?</h2>
+    <p class="cta-text">Create your free account today and start discovering.</p>
+    <button class="btn btn--primary btn--large" (click)="getStarted()">
+      Sign Up Now
+    </button>
+  </section>
+</div>
