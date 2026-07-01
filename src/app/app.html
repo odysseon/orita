@@ -11,6 +11,7 @@
       [position]="isLanding() ? 'top' : (isDesktop() ? 'side' : 'bottom')" 
       [justify]="isLanding() ? 'center' : (isDesktop() ? 'start' : 'around')"
       [uiScrollHide]="!isDesktop() && !isLanding()"
+      [expanded]="false"
     >
       <ui-nav-item 
         [layout]="isLanding() ? 'horizontal' : (isDesktop() ? 'horizontal' : 'vertical')" 

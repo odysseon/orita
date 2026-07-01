@@ -20,7 +20,7 @@
   We must pad the main content to the right so it doesn't overlap. 
 */
 .app-layout--with-side-nav .app-main {
-  padding-left: var(--nav-list-side-width, 280px);
+  padding-left: 80px;
 }
 
 /* 
