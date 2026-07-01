@@ -5,6 +5,7 @@ import { homeRoutes } from './pages/home/home.routes';
 import { landingRoutes } from './pages/landing/landing.route';
 import { businessDetailRoutes } from './pages/business-detail/business-detail.routes';
 import { listingDetailRoutes } from './pages/listing-detail/listing-detail.routes';
+import { NotFound } from './pages/not-found/not-found';
 export const routes: Routes = [
   ...authRoutes,
   ...businessDetailRoutes,
@@ -14,6 +15,6 @@ export const routes: Routes = [
   ...profileRoutes,
   {
     path: '**',
-    loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFound),
-  }
+    component: NotFound,
+  },
 ];

@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
+import { BusinessDetail } from './business-detail';
 
 export const businessDetailRoutes: Routes = [
   {
     path: 'b/:slug',
-    loadComponent: () => import('./business-detail').then(m => m.BusinessDetail),
+    component: BusinessDetail,
   },
 ];
