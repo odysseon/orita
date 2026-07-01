@@ -3,6 +3,10 @@
   flex: 1 1 auto;
 }
 
+:host-context(.nav-list-side) {
+  flex: 0 0 auto;
+}
+
 :host(.nav-item-vertical) {
   /* removed max-width so they expand evenly */
 }
