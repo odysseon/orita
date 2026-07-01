@@ -1,7 +1,7 @@
 import { Service, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
-@Service
+@Service()
 export class DrawerScrollService {
   private document = inject(DOCUMENT);
   private count = 0;
