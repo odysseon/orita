@@ -1,8 +1,6 @@
-import { ListingDetail } from './listing-detail';
-
 export const listingDetailRoutes = [
   {
     path: 'l/:slug',
-    component: ListingDetail,
+    loadComponent: () => import('./listing-detail').then(m => m.ListingDetail),
   },
 ];

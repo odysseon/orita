@@ -16,26 +16,7 @@
 /* ============================================================
  * SKELETON / ERROR
  * ============================================================ */
-@keyframes shimmer {
-  from {
-    background-position: -200% center;
-  }
-  to {
-    background-position: 200% center;
-  }
-}
 
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--surface-container) 25%,
-    var(--surface-container-high) 50%,
-    var(--surface-container) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.6s cubic-bezier(0.2, 0, 0, 1) infinite;
-  border-radius: var(--radius-md);
-}
 
 .biz-detail__skeleton {
   display: flex;
@@ -63,34 +44,7 @@
   width: 80%;
 }
 
-.biz-detail__error {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--size-12);
-  padding: var(--size-48) var(--size-24);
-  text-align: center;
-  color: var(--text-muted);
 
-  svg {
-    width: var(--size-32);
-    height: var(--size-32);
-    opacity: 0.4;
-  }
-
-  button {
-    margin-top: var(--size-8);
-    height: var(--size-36);
-    padding: 0 var(--size-16);
-    border: 1.5px solid var(--border-default);
-    border-radius: var(--radius-sm);
-    background: transparent;
-    font-family: var(--font-sans);
-    font-size: var(--font-size-md);
-    color: var(--text-primary);
-    cursor: pointer;
-  }
-}
 
 /* ============================================================
  * BANNER
@@ -180,72 +134,9 @@
   }
 }
 
-/* -- Badge -------------------------------------------------- */
-.biz-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--size-4);
-  padding: var(--size-2) var(--size-8);
-  border-radius: var(--radius-pill);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
 
-  svg {
-    width: var(--size-12);
-    height: var(--size-12);
-  }
-}
 
-.badge--verified {
-  background: var(--clr-success-container);
-  color: var(--clr-on-success-container);
-}
 
-.badge--pending {
-  background: var(--clr-warning-container);
-  color: var(--clr-on-warning-container);
-}
-
-/* -- Save button ---------------------------------------------- */
-.biz-save-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--size-40);
-  height: var(--size-40);
-  border-radius: var(--radius-pill);
-  border: 1.5px solid var(--border-default);
-  background: var(--surface-card);
-  color: var(--text-muted);
-  cursor: pointer;
-  flex-shrink: 0;
-  margin-top: var(--size-32);
-  transition:
-    background var(--transition-fast),
-    border-color var(--transition-fast),
-    color var(--transition-fast);
-
-  svg {
-    width: var(--size-18);
-    height: var(--size-18);
-  }
-
-  &:hover:not(:disabled) {
-    border-color: var(--clr-primary);
-    color: var(--clr-primary);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-}
-
-.biz-save-btn--active {
-  background: var(--clr-primary-container);
-  border-color: var(--clr-primary);
-  color: var(--clr-primary);
-}
 
 /* ============================================================
  * DESCRIPTION
@@ -264,35 +155,7 @@
   gap: var(--size-8);
 }
 
-.biz-action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--size-6);
-  flex: 1;
-  height: var(--size-40);
-  border: 1.5px solid var(--border-default);
-  border-radius: var(--radius-sm);
-  background: var(--surface-card);
-  font-family: var(--font-sans);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast),
-    border-color var(--transition-fast);
 
-  svg {
-    width: var(--size-15);
-    height: var(--size-15);
-  }
-
-  &:hover {
-    background: var(--surface-container);
-    border-color: var(--clr-primary);
-  }
-}
 
 /* ============================================================
  * SECTION
@@ -318,62 +181,9 @@
   }
 }
 
-.biz-section__count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: var(--size-20);
-  height: var(--size-20);
-  padding: 0 var(--size-6);
-  background: var(--surface-container-high);
-  border-radius: var(--radius-pill);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-secondary);
-}
 
-.biz-section__empty {
-  font-size: var(--font-size-md);
-  color: var(--text-muted);
-}
 
-/* ============================================================
- * HOURS
- * ============================================================ */
-.biz-hours {
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
 
-.biz-hours__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--size-10) var(--size-14);
-  border-bottom: 1px solid var(--border-subtle);
-
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-.biz-hours__day {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-secondary);
-}
-
-.biz-hours__time {
-  font-size: var(--font-size-sm);
-  color: var(--text-primary);
-}
-
-.biz-hours__closed {
-  font-size: var(--font-size-sm);
-  color: var(--text-muted);
-}
 
 /* ============================================================
  * LISTING GRID
@@ -449,23 +259,4 @@
   color: var(--clr-primary);
 }
 
-/* ============================================================
- * WEBSITE LINK
- * ============================================================ */
-.biz-website-link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--size-6);
-  font-size: var(--font-size-md);
-  color: var(--clr-primary);
-  text-decoration: none;
 
-  svg {
-    width: var(--size-15);
-    height: var(--size-15);
-  }
-
-  &:hover {
-    text-decoration: underline;
-  }
-}

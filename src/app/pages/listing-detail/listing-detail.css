@@ -16,26 +16,7 @@
 /* ============================================================
  * SKELETON / ERROR
  * ============================================================ */
-@keyframes shimmer {
-  from {
-    background-position: -200% center;
-  }
-  to {
-    background-position: 200% center;
-  }
-}
 
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--surface-container) 25%,
-    var(--surface-container-high) 50%,
-    var(--surface-container) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.6s cubic-bezier(0.2, 0, 0, 1) infinite;
-  border-radius: var(--radius-md);
-}
 
 .listing-detail__skeleton {
   display: flex;
@@ -57,34 +38,7 @@
   width: 30%;
 }
 
-.listing-detail__error {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--size-12);
-  padding: var(--size-48) var(--size-24);
-  text-align: center;
-  color: var(--text-muted);
 
-  svg {
-    width: var(--size-32);
-    height: var(--size-32);
-    opacity: 0.4;
-  }
-
-  button {
-    margin-top: var(--size-8);
-    height: var(--size-36);
-    padding: 0 var(--size-16);
-    border: 1.5px solid var(--border-default);
-    border-radius: var(--radius-sm);
-    background: transparent;
-    font-family: var(--font-sans);
-    font-size: var(--font-size-md);
-    color: var(--text-primary);
-    cursor: pointer;
-  }
-}
 
 /* ============================================================
  * COVER
@@ -113,44 +67,7 @@
   }
 }
 
-.listing-save-btn {
-  position: absolute;
-  top: var(--size-12);
-  right: var(--size-12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--size-36);
-  height: var(--size-36);
-  border-radius: var(--radius-pill);
-  border: none;
-  background: var(--surface-card);
-  color: var(--text-muted);
-  cursor: pointer;
-  box-shadow: var(--shadow-sm);
-  transition:
-    color var(--transition-fast),
-    background var(--transition-fast);
 
-  svg {
-    width: var(--size-16);
-    height: var(--size-16);
-  }
-
-  &:hover:not(:disabled) {
-    color: var(--clr-primary);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-}
-
-.listing-save-btn--active {
-  background: var(--clr-primary-container);
-  color: var(--clr-primary);
-}
 
 /* ============================================================
  * MAIN
@@ -198,19 +115,7 @@
   color: var(--text-muted);
 }
 
-/* ============================================================
- * STARS (shared)
- * ============================================================ */
-svg[lucideStar] {
-  width: var(--size-14);
-  height: var(--size-14);
-  color: var(--border-default);
-}
 
-svg[lucideStar].star--filled {
-  color: var(--clr-warning);
-  fill: var(--clr-warning);
-}
 
 /* ============================================================
  * DESCRIPTION
@@ -298,32 +203,7 @@ svg[lucideStar].star--filled {
   gap: var(--size-8);
 }
 
-.listing-action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--size-6);
-  flex: 1;
-  height: var(--size-40);
-  border: none;
-  border-radius: var(--radius-sm);
-  background: var(--clr-primary);
-  color: var(--clr-on-primary);
-  font-family: var(--font-sans);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-  transition: background var(--transition-fast);
 
-  svg {
-    width: var(--size-15);
-    height: var(--size-15);
-  }
-
-  &:hover {
-    background: var(--clr-primary-dark);
-  }
-}
 
 /* ============================================================
  * REVIEWS
@@ -343,19 +223,7 @@ svg[lucideStar].star--filled {
   color: var(--text-primary);
 }
 
-.listing-reviews__count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: var(--size-20);
-  height: var(--size-20);
-  padding: 0 var(--size-6);
-  background: var(--surface-container-high);
-  border-radius: var(--radius-pill);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-secondary);
-}
+
 
 .listing-reviews__list {
   display: flex;

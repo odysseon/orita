@@ -20,6 +20,7 @@ import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
 import { AppPageHeader } from '../../shared/page-header/page-header';
+import { EmptyState } from '../../shared/empty-state/empty-state';
 
 const DAY_LABELS: Record<string, string> = {
   MON: 'Monday',
@@ -36,6 +37,7 @@ const DAY_LABELS: Record<string, string> = {
   imports: [
     RouterLink,
     AppPageHeader,
+    EmptyState,
     LucideStore,
     LucideMapPin,
     LucidePhone,
@@ -73,9 +75,9 @@ export class BusinessDetail {
   readonly verificationBadge = computed(() => {
     switch (this.business.value()?.verificationStatus) {
       case 'VERIFIED':
-        return { label: 'Verified', cls: 'badge--verified' };
+        return { label: 'Verified', cls: 'badge--success' };
       case 'PENDING':
-        return { label: 'Pending review', cls: 'badge--pending' };
+        return { label: 'Pending review', cls: 'badge--warning' };
       default:
         return null;
     }

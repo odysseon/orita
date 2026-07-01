@@ -682,3 +682,56 @@ body {
     color: var(--text-muted);
   }
 }
+
+/* ============================================================
+ * STARS (shared)
+ * ============================================================ */
+svg[lucideStar] {
+  width: var(--size-14);
+  height: var(--size-14);
+  color: var(--border-default);
+}
+
+svg[lucideStar].star--filled {
+  color: var(--clr-warning);
+  fill: var(--clr-warning);
+}
+
+/* ============================================================
+ * ICON BUTTON
+ * ============================================================ */
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-36);
+  height: var(--size-36);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--surface-card);
+  color: var(--text-muted);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.btn-icon svg {
+  width: var(--size-16);
+  height: var(--size-16);
+}
+
+.btn-icon:hover:not(:disabled) {
+  color: var(--clr-primary);
+}
+
+.btn-icon:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-icon--active {
+  background: var(--clr-primary-container);
+  color: var(--clr-primary);
+}
