@@ -1,28 +1,15 @@
 /// <reference types="google.accounts" />
-import { Component, ElementRef, ViewChild, AfterViewInit, inject, signal } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, inject, viewChild } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-google-sign-in',
-  standalone: true,
-  template: `
-    <div class="google-sign-in-container">
-      <div #googleBtnRef></div>
-    </div>
-  `,
-  styles: [
-    `
-      .google-sign-in-container {
-        display: flex;
-        justify-content: center;
-        margin: 1rem 0;
-      }
-    `,
-  ],
+  templateUrl: './google-sign-in.html',
+  styleUrl: './google-sign-in.css',
 })
 export class AppGoogleSignIn implements AfterViewInit {
-  @ViewChild('googleBtnRef') googleBtnRef!: ElementRef<HTMLDivElement>;
+  googleBtnRef = viewChild.required<ElementRef<HTMLDivElement>>('googleBtnRef');
 
   #auth = inject(AuthService);
 
@@ -34,7 +21,7 @@ export class AppGoogleSignIn implements AfterViewInit {
         callback: (response: google.accounts.id.CredentialResponse) =>
           this.handleCredentialResponse(response),
       });
-      google.accounts.id.renderButton(this.googleBtnRef.nativeElement, {
+      google.accounts.id.renderButton(this.googleBtnRef().nativeElement, {
         theme: 'outline',
         size: 'large',
         type: 'standard',
