@@ -3,10 +3,6 @@ import { authGuard } from '../../core/guards/auth.guard';
 import { businessRoutes } from './business/business.routes';
 import { Profile } from './profile';
 import { ProfileSubLayout } from './layout/profile-sub-layout';
-import { Saved } from './saved/saved';
-import { Appearance } from './appearance/appearance';
-import { Security } from './security/security';
-import { EditProfile } from './edit/edit-profile';
 
 export const profileRoutes: Route[] = [
   {
@@ -22,23 +18,23 @@ export const profileRoutes: Route[] = [
     children: [
       {
         path: 'appearance',
-        component: Appearance,
         data: { title: 'Appearance' },
+        loadComponent: () => import('./appearance/appearance').then((m) => m.Appearance),
       },
       {
         path: 'security',
-        component: Security,
         data: { title: 'Privacy & Security' },
+        loadComponent: () => import('./security/security').then((m) => m.Security),
       },
       {
         path: 'edit',
-        component: EditProfile,
         data: { title: 'Edit Profile' },
+        loadComponent: () => import('./edit/edit-profile').then((m) => m.EditProfile),
       },
       {
         path: 'saved',
-        component: Saved,
         data: { title: 'Saved' },
+        loadComponent: () => import('./saved/saved').then((m) => m.Saved),
       },
       ...businessRoutes,
     ],
