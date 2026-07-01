@@ -1,0 +1,45 @@
+:host {
+  display: block;
+}
+
+.edit-profile-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-20);
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--size-16) var(--size-16) var(--size-48);
+}
+
+.edit-profile-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-8);
+  padding: var(--size-48);
+  color: var(--text-muted);
+}
+
+.edit-profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-20);
+}
+
+.edit-profile-panel-body {
+  padding: var(--size-20);
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-16);
+}
+
+.edit-profile-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.spinner {
+  width: var(--size-16);
+  height: var(--size-16);
+  animation: spin 0.8s linear infinite;
+}

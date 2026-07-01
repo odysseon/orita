@@ -1,0 +1,72 @@
+<div class="edit-profile-page">
+  @if (profile.isLoading()) {
+    <div class="edit-profile-loading">
+      <svg lucideLoaderCircle class="spinner" aria-hidden="true"></svg>
+      Loading profile...
+    </div>
+  } @else if (profile.hasValue()) {
+    <form class="edit-profile-content" (ngSubmit)="onSubmit($event)">
+      <div class="panel">
+        <h2 class="panel__title">Profile Information</h2>
+        <div class="panel__body edit-profile-panel-body">
+          <div class="field">
+            <span class="field__label">Profile Picture</span>
+            <app-media-selector
+              [multiple]="false"
+              [initialUrls]="profile.value()?.avatarUrl || ''"
+              (filesChanged)="onAvatarChanged($event)"
+              (mediaRemoved)="onAvatarRemoved()"
+            ></app-media-selector>
+          </div>
+
+          <app-form-field
+            fieldId="username"
+            label="Username"
+            [touched]="profileForm.username().touched()"
+            [invalid]="profileForm.username().invalid()"
+            [errorMessage]="profileForm.username().errors()[0]?.message"
+          >
+            <input
+              type="text"
+              id="username"
+              class="field__input"
+              [class.field__input--error]="profileForm.username().touched() && profileForm.username().invalid()"
+              [formField]="profileForm.username"
+              placeholder="e.g. johndoe"
+              autocomplete="username"
+            />
+          </app-form-field>
+
+          <app-form-field
+            fieldId="email"
+            label="Email Address"
+            [touched]="profileForm.email().touched()"
+            [invalid]="profileForm.email().invalid()"
+            [errorMessage]="profileForm.email().errors()[0]?.message"
+          >
+            <input
+              type="email"
+              id="email"
+              class="field__input"
+              [class.field__input--error]="profileForm.email().touched() && profileForm.email().invalid()"
+              [formField]="profileForm.email"
+              placeholder="e.g. john@example.com"
+              autocomplete="email"
+            />
+          </app-form-field>
+        </div>
+      </div>
+
+      <div class="edit-profile-actions">
+        <button type="submit" class="btn btn--primary" [disabled]="loading()">
+          @if (loading()) {
+            <svg lucideLoaderCircle class="spinner" aria-hidden="true"></svg>
+            Saving...
+          } @else {
+            Save Changes
+          }
+        </button>
+      </div>
+    </form>
+  }
+</div>

@@ -6,6 +6,7 @@ import { ProfileSubLayout } from './layout/profile-sub-layout';
 import { Saved } from './saved/saved';
 import { Appearance } from './appearance/appearance';
 import { Security } from './security/security';
+import { EditProfile } from './edit/edit-profile';
 
 export const profileRoutes: Route[] = [
   {
@@ -28,6 +29,11 @@ export const profileRoutes: Route[] = [
         path: 'security',
         component: Security,
         data: { title: 'Privacy & Security' },
+      },
+      {
+        path: 'edit',
+        component: EditProfile,
+        data: { title: 'Edit Profile' },
       },
       {
         path: 'saved',

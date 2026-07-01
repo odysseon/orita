@@ -4,128 +4,67 @@
       <h1 class="edit-biz-title">Privacy & Security</h1>
     </div>
     <p class="edit-biz-description">
-      Manage your personal information, authentication methods, and account security.
+      Manage authentication methods and account security. Profile details are edited on a dedicated edit page.
     </p>
   </div>
 
-  @if (profile.isLoading()) {
-    <div class="edit-biz-loading">
-      <svg lucideLoaderCircle class="spinner" aria-hidden="true"></svg>
-      Loading profile...
+  <div class="edit-biz-content">
+    <div class="panel">
+      <h2 class="panel__title">Profile Information</h2>
+      <div class="panel__body edit-biz-panel-body">
+        <div class="field-toggle-row">
+          <div class="field-toggle-info">
+            <span class="field-toggle-title">Edit profile details</span>
+            <span class="field-toggle-desc">Update your avatar, username, and email on your dedicated edit page.</span>
+          </div>
+          <button type="button" class="btn btn--outline" routerLink="/profile/edit">Open Edit Profile</button>
+        </div>
+      </div>
     </div>
-  } @else if (profile.hasValue()) {
-    <form class="edit-biz-content" (ngSubmit)="onSubmitProfile($event)">
-      
-      <!-- Profile Information -->
-      <div class="panel">
-        <h2 class="panel__title">Profile Information</h2>
-        <div class="panel__body edit-biz-panel-body">
-          
-          <div class="field">
-            <span class="field__label">Profile Picture</span>
-            <app-media-selector
-              [multiple]="false"
-              [initialUrls]="profile.value()?.avatarUrl || ''"
-              (filesChanged)="onAvatarChanged($event)"
-              (mediaRemoved)="onAvatarRemoved()"
-            ></app-media-selector>
+
+    <div class="panel">
+      <h2 class="panel__title">Authentication & Security</h2>
+      <div class="panel__body edit-biz-panel-body">
+        <div class="field-toggle-row">
+          <div class="field-toggle-info">
+            <span class="field-toggle-title">Password</span>
+            <span class="field-toggle-desc">Change or reset your password</span>
           </div>
+          <button type="button" class="btn btn--outline" (click)="isPasswordDrawerOpen.set(true)">
+            <svg lucideKey class="icon" aria-hidden="true"></svg>
+            Manage Password
+          </button>
+        </div>
 
-          <app-form-field
-            fieldId="username"
-            label="Username"
-            [touched]="profileForm.username().touched()"
-            [invalid]="profileForm.username().invalid()"
-            [errorMessage]="profileForm.username().errors()[0]?.message"
-          >
-            <input
-              type="text"
-              id="username"
-              class="field__input"
-              [class.field__input--error]="profileForm.username().touched() && profileForm.username().invalid()"
-              [formField]="profileForm.username"
-              placeholder="e.g. johndoe"
-            />
-          </app-form-field>
-
-          <app-form-field
-            fieldId="email"
-            label="Email Address"
-            [touched]="profileForm.email().touched()"
-            [invalid]="profileForm.email().invalid()"
-            [errorMessage]="profileForm.email().errors()[0]?.message"
-          >
-            <input
-              type="email"
-              id="email"
-              class="field__input"
-              [class.field__input--error]="profileForm.email().touched() && profileForm.email().invalid()"
-              [formField]="profileForm.email"
-              placeholder="e.g. john@example.com"
-            />
-          </app-form-field>
+        <div class="field-toggle-row" style="margin-top: var(--size-16)">
+          <div class="field-toggle-info">
+            <span class="field-toggle-title">Google Account</span>
+            <span class="field-toggle-desc">Link or unlink your Google account for easier sign-in</span>
+          </div>
+          <button type="button" class="btn btn--outline" (click)="isGoogleDrawerOpen.set(true)">
+            <svg lucideLink class="icon" aria-hidden="true"></svg>
+            Manage Google
+          </button>
         </div>
       </div>
+    </div>
 
-      <!-- Security Actions -->
-      <div class="panel">
-        <h2 class="panel__title">Authentication & Security</h2>
-        <div class="panel__body edit-biz-panel-body">
-          
-          <div class="field-toggle-row">
-            <div class="field-toggle-info">
-              <span class="field-toggle-title">Password</span>
-              <span class="field-toggle-desc">Change or reset your password</span>
-            </div>
-            <button type="button" class="btn btn--outline" (click)="isPasswordDrawerOpen.set(true)">
-              <svg lucideKey class="icon" aria-hidden="true"></svg>
-              Manage Password
-            </button>
+    <div class="panel panel--danger" style="border-color: var(--text-danger); background: rgba(239, 68, 68, 0.05)">
+      <h2 class="panel__title" style="color: var(--text-danger)">Danger Zone</h2>
+      <div class="panel__body edit-biz-panel-body">
+        <div class="field-toggle-row">
+          <div class="field-toggle-info">
+            <span class="field-toggle-title">Delete Account</span>
+            <span class="field-toggle-desc">Permanently remove your account and all associated data. This action cannot be undone.</span>
           </div>
-
-          <div class="field-toggle-row" style="margin-top: var(--size-16)">
-            <div class="field-toggle-info">
-              <span class="field-toggle-title">Google Account</span>
-              <span class="field-toggle-desc">Link or unlink your Google account for easier sign-in</span>
-            </div>
-            <button type="button" class="btn btn--outline" (click)="isGoogleDrawerOpen.set(true)">
-              <svg lucideLink class="icon" aria-hidden="true"></svg>
-              Manage Google
-            </button>
-          </div>
-
+          <button type="button" class="btn btn--danger" disabled (click)="onDeleteAccount()">
+            <svg lucideTrash2 class="icon" aria-hidden="true"></svg>
+            Delete Account
+          </button>
         </div>
       </div>
-
-      <!-- Danger Zone -->
-      <div class="panel panel--danger" style="border-color: var(--text-danger); background: rgba(239, 68, 68, 0.05)">
-        <h2 class="panel__title" style="color: var(--text-danger)">Danger Zone</h2>
-        <div class="panel__body edit-biz-panel-body">
-          <div class="field-toggle-row">
-            <div class="field-toggle-info">
-              <span class="field-toggle-title">Delete Account</span>
-              <span class="field-toggle-desc">Permanently remove your account and all associated data. This action cannot be undone.</span>
-            </div>
-            <button type="button" class="btn btn--danger" disabled (click)="onDeleteAccount()">
-              <svg lucideTrash2 class="icon" aria-hidden="true"></svg>
-              Delete Account
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="edit-biz-actions">
-        <button type="submit" class="btn btn--primary" [disabled]="loading()">
-          @if (loading()) {
-            <svg lucideLoaderCircle class="spinner" aria-hidden="true"></svg>
-            Saving...
-          } @else {
-            Save Changes
-          }
-        </button>
-      </div>
-    </form>
-  }
+    </div>
+  </div>
 </div>
 
 <!-- Password Drawer -->
@@ -172,10 +111,7 @@
     </p>
 
     <div class="drawer-actions" style="flex-direction: column; gap: var(--size-12)">
-      <button type="button" class="btn btn--primary btn--full" (click)="onLinkGoogle()">
-        <svg lucideLink class="icon" aria-hidden="true"></svg>
-        Link Google Account
-      </button>
+      <app-google-sign-in [autoLogin]="false" (idTokenReceived)="onGoogleIdTokenReceived($event)"></app-google-sign-in>
       <button type="button" class="btn btn--ghost btn--danger btn--full" (click)="onUnlinkGoogle()">
         <svg lucideUnlink class="icon" aria-hidden="true"></svg>
         Unlink Google Account
