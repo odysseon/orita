@@ -2,4 +2,18 @@
   display: flex;
   justify-content: center;
   margin: var(--size-16) 0;
+  width: 100%;
+}
+
+.google-btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  --google-btn-width: var(--size-320);
+}
+
+@media (max-width: 480px) {
+  .google-btn-wrapper {
+    --google-btn-width: var(--size-200);
+  }
 }

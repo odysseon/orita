@@ -21,11 +21,15 @@ export class AppGoogleSignIn implements AfterViewInit {
         callback: (response: google.accounts.id.CredentialResponse) =>
           this.handleCredentialResponse(response),
       });
-      google.accounts.id.renderButton(this.googleBtnRef().nativeElement, {
+      const wrapper = this.googleBtnRef().nativeElement;
+      const computedWidth = getComputedStyle(wrapper).getPropertyValue('--google-btn-width');
+      const width = computedWidth ? parseInt(computedWidth.trim(), 10) : 320;
+
+      google.accounts.id.renderButton(wrapper, {
         theme: 'outline',
         size: 'large',
         type: 'standard',
-        width: 320,
+        width: width,
       });
     } else {
       console.warn('Google Sign-In script not loaded or Client ID is missing.');
