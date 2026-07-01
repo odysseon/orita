@@ -192,6 +192,98 @@
 }
 
 /* ============================================================
+ * THEME OVERRIDES
+ * data-theme="light" forces light regardless of OS setting
+ * data-theme="dark" forces dark regardless of OS setting
+ * No attribute = system default (media query applies)
+ * ============================================================ */
+[data-theme='light'] {
+  --clr-primary: oklch(55% 0.22 280);
+  --clr-primary-light: oklch(70% 0.18 280);
+  --clr-primary-container: oklch(92% 0.06 280);
+  --clr-primary-dark: oklch(30% 0.18 280);
+  --clr-on-primary: oklch(100% 0 0);
+  --clr-on-primary-container: oklch(28% 0.18 280);
+
+  --surface-page: oklch(98% 0.005 280);
+  --surface-card: oklch(100% 0 0);
+  --surface-container: oklch(95% 0.01 280);
+  --surface-container-high: oklch(91% 0.015 280);
+  --surface-overlay: oklch(92% 0.06 280);
+
+  --text-primary: oklch(18% 0.02 280);
+  --text-secondary: oklch(40% 0.04 280);
+  --text-muted: oklch(58% 0.03 280);
+  --text-on-dark: oklch(98% 0.005 280);
+
+  --border-subtle: oklch(88% 0.02 280);
+  --border-default: oklch(78% 0.04 280);
+  --border-strong: oklch(60% 0.08 280);
+
+  --clr-error: oklch(55% 0.22 25);
+  --clr-error-container: oklch(93% 0.05 25);
+  --clr-on-error: oklch(100% 0 0);
+  --clr-on-error-container: oklch(30% 0.18 25);
+
+  --clr-success: oklch(52% 0.17 155);
+  --clr-success-container: oklch(92% 0.05 155);
+  --clr-on-success-container: oklch(25% 0.14 155);
+
+  --clr-warning: oklch(68% 0.18 75);
+  --clr-warning-container: oklch(95% 0.05 75);
+  --clr-on-warning-container: oklch(32% 0.14 75);
+
+  --shadow-sm: 0 1px 3px oklch(18% 0.02 280 / 0.08), 0 1px 2px oklch(18% 0.02 280 / 0.06);
+  --shadow-md: 0 4px 12px oklch(18% 0.02 280 / 0.1), 0 2px 4px oklch(18% 0.02 280 / 0.06);
+  --shadow-lg: 0 8px 24px oklch(18% 0.02 280 / 0.12), 0 4px 8px oklch(18% 0.02 280 / 0.06);
+
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --clr-primary: oklch(72% 0.18 280);
+  --clr-primary-light: oklch(82% 0.14 280);
+  --clr-primary-dark: oklch(50% 0.2 280);
+  --clr-primary-container: oklch(28% 0.14 280);
+  --clr-on-primary: oklch(18% 0.14 280);
+  --clr-on-primary-container: oklch(88% 0.1 280);
+
+  --surface-page: oklch(14% 0.01 280);
+  --surface-card: oklch(18% 0.015 280);
+  --surface-container: oklch(22% 0.02 280);
+  --surface-container-high: oklch(26% 0.025 280);
+  --surface-overlay: oklch(28% 0.14 280);
+
+  --text-primary: oklch(94% 0.005 280);
+  --text-secondary: oklch(75% 0.02 280);
+  --text-muted: oklch(55% 0.03 280);
+  --text-on-dark: oklch(98% 0.005 280);
+
+  --border-subtle: oklch(28% 0.03 280);
+  --border-default: oklch(36% 0.04 280);
+  --border-strong: oklch(50% 0.08 280);
+
+  --clr-error: oklch(70% 0.18 25);
+  --clr-error-container: oklch(28% 0.14 25);
+  --clr-on-error: oklch(18% 0.1 25);
+  --clr-on-error-container: oklch(88% 0.08 25);
+
+  --clr-success: oklch(68% 0.14 155);
+  --clr-success-container: oklch(25% 0.1 155);
+  --clr-on-success-container: oklch(85% 0.08 155);
+
+  --clr-warning: oklch(78% 0.15 75);
+  --clr-warning-container: oklch(30% 0.1 75);
+  --clr-on-warning-container: oklch(92% 0.08 75);
+
+  --shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.3);
+  --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.4);
+  --shadow-lg: 0 8px 24px oklch(0% 0 0 / 0.5);
+
+  color-scheme: dark;
+}
+
+/* ============================================================
  * RESET
  * ============================================================ */
 *,
@@ -621,6 +713,7 @@ body {
     width: var(--size-15);
     height: var(--size-15);
   }
+
   &:hover {
     color: var(--text-secondary);
   }
@@ -647,14 +740,17 @@ body {
   background: var(--clr-success-container);
   color: var(--clr-on-success-container);
 }
+
 .badge--warning {
   background: var(--clr-warning-container);
   color: var(--clr-on-warning-container);
 }
+
 .badge--error {
   background: var(--clr-error-container);
   color: var(--clr-on-error-container);
 }
+
 .badge--neutral {
   background: var(--surface-container-high);
   color: var(--text-muted);
@@ -677,6 +773,7 @@ body {
     height: var(--size-32);
     opacity: 0.5;
   }
+
   p {
     font-size: var(--font-size-md);
     color: var(--text-muted);
