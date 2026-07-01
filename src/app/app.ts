@@ -1,4 +1,4 @@
-import { Component, signal, inject, PLATFORM_ID } from '@angular/core';
+import { Component, signal, computed, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -7,11 +7,12 @@ import { ToastContainer } from './core/components/toast-container/toast-containe
 import { NavList } from './shared/nav-list/nav-list';
 import { NavItem } from './shared/nav-item/nav-item';
 import { ScrollHideDirective } from './shared/directives/scroll-hide.directive';
-import { LucideHome, LucideUser } from '@lucide/angular';
+import { LucideHome, LucideUser, LucideLogIn } from '@lucide/angular';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ToastContainer, NavList, NavItem, ScrollHideDirective, LucideHome, LucideUser],
+  imports: [RouterOutlet, ToastContainer, NavList, NavItem, ScrollHideDirective, LucideHome, LucideUser, LucideLogIn],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -21,6 +22,9 @@ export class App {
   #router = inject(Router);
   #route = inject(ActivatedRoute);
   #platformId = inject(PLATFORM_ID);
+  #auth = inject(AuthService);
+
+  readonly isAuthenticated = computed(() => !!this.#auth.token());
 
   readonly showNav = toSignal(
     this.#router.events.pipe(
