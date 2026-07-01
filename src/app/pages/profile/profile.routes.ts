@@ -5,6 +5,7 @@ import { Profile } from './profile';
 import { ProfileSubLayout } from './layout/profile-sub-layout';
 import { Saved } from './saved/saved';
 import { Appearance } from './appearance/appearance';
+import { Security } from './security/security';
 
 export const profileRoutes: Route[] = [
   {
@@ -25,7 +26,7 @@ export const profileRoutes: Route[] = [
       },
       {
         path: 'security',
-        loadComponent: () => import('./security/security').then((m) => m.Security),
+        component: Security,
         data: { title: 'Privacy & Security' },
       },
       {
