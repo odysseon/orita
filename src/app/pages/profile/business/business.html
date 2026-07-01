@@ -68,6 +68,9 @@
         <span class="biz-visibility" [class.biz-visibility--public]="isPublic()">
           {{ isPublic() ? 'Public' : 'Hidden — not visible to others' }}
         </span>
+        <button class="btn btn--subtle btn--sm" style="margin-top: var(--size-8); align-self: flex-start;" (click)="editBusiness()">
+          Edit Profile
+        </button>
       </div>
     </div>
   </div>

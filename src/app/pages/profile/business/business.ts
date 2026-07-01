@@ -74,6 +74,10 @@ export class Business {
     this.isCreateBusinessOpen.set(true);
   }
 
+  editBusiness(): void {
+    this.#router.navigate(['/profile/business/edit']);
+  }
+
   onBusinessCreated(): void {
     this.business.reload();
   }

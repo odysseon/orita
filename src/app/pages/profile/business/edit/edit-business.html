@@ -1,0 +1,194 @@
+<div class="edit-biz-page">
+  @if (business.isLoading()) {
+    <div class="edit-biz-skeleton">
+      <div class="skeleton skeleton--title"></div>
+      <div class="skeleton skeleton--text"></div>
+      <div class="skeleton skeleton--text" style="height: 120px;"></div>
+    </div>
+  } @else if (business.hasValue()) {
+    <form (submit)="onSubmit($event)" class="edit-biz-form">
+      <div class="panel">
+        <h2 class="panel__title">General Information</h2>
+        <div class="panel__body edit-biz-panel-body">
+          <app-form-field
+            label="Business Name"
+            fieldId="name"
+            [touched]="businessForm.name().touched()"
+            [invalid]="businessForm.name().invalid()"
+            [errorMessage]="businessForm.name().errors()[0]?.message"
+          >
+            <input
+              id="name"
+              class="field__input"
+              [class.field__input--error]="businessForm.name().touched() && businessForm.name().invalid()"
+              type="text"
+              [formField]="businessForm.name"
+              placeholder="e.g. Acme Services"
+            />
+          </app-form-field>
+
+          <div class="field">
+            <span class="field__label">Business Type</span>
+            <div class="biz-type-grid">
+              @for (option of typeOptions; track option.value) {
+                <button
+                  type="button"
+                  class="biz-type-card"
+                  [class.biz-type-card--selected]="model().businessType === option.value"
+                  (click)="selectType(option.value)"
+                >
+                  <span class="biz-type-card__label">{{ option.label }}</span>
+                  <span class="biz-type-card__desc">{{ option.description }}</span>
+                </button>
+              }
+            </div>
+          </div>
+
+          <app-form-field
+            label="Description"
+            fieldId="description"
+            [touched]="businessForm.description().touched()"
+            [invalid]="businessForm.description().invalid()"
+            [errorMessage]="businessForm.description().errors()[0]?.message"
+          >
+            <textarea
+              id="description"
+              class="field__textarea"
+              [class.field__textarea--error]="businessForm.description().touched() && businessForm.description().invalid()"
+              [formField]="businessForm.description"
+              placeholder="Tell your customers about what you do..."
+            ></textarea>
+          </app-form-field>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel__title">Contact & Location</h2>
+        <div class="panel__body edit-biz-panel-body">
+          <app-form-field
+            label="Website URL"
+            fieldId="websiteUrl"
+            [touched]="businessForm.websiteUrl().touched()"
+            [invalid]="businessForm.websiteUrl().invalid()"
+            [errorMessage]="businessForm.websiteUrl().errors()[0]?.message"
+          >
+            <input
+              id="websiteUrl"
+              class="field__input"
+              [class.field__input--error]="businessForm.websiteUrl().touched() && businessForm.websiteUrl().invalid()"
+              type="url"
+              [formField]="businessForm.websiteUrl"
+              placeholder="https://example.com"
+            />
+          </app-form-field>
+
+          <app-form-field
+            label="Phone Number"
+            fieldId="phoneNumber"
+            [touched]="businessForm.phoneNumber().touched()"
+            [invalid]="businessForm.phoneNumber().invalid()"
+            [errorMessage]="businessForm.phoneNumber().errors()[0]?.message"
+          >
+            <input
+              id="phoneNumber"
+              class="field__input"
+              [class.field__input--error]="businessForm.phoneNumber().touched() && businessForm.phoneNumber().invalid()"
+              type="tel"
+              [formField]="businessForm.phoneNumber"
+              placeholder="+1234567890"
+            />
+          </app-form-field>
+
+          <app-form-field
+            label="WhatsApp Number"
+            fieldId="whatsapp"
+            [touched]="businessForm.whatsapp().touched()"
+            [invalid]="businessForm.whatsapp().invalid()"
+            [errorMessage]="businessForm.whatsapp().errors()[0]?.message"
+          >
+            <input
+              id="whatsapp"
+              class="field__input"
+              [class.field__input--error]="businessForm.whatsapp().touched() && businessForm.whatsapp().invalid()"
+              type="tel"
+              [formField]="businessForm.whatsapp"
+              placeholder="+1234567890"
+            />
+          </app-form-field>
+
+          <app-form-field
+            label="Email Address"
+            fieldId="email"
+            [touched]="businessForm.email().touched()"
+            [invalid]="businessForm.email().invalid()"
+            [errorMessage]="businessForm.email().errors()[0]?.message"
+          >
+            <input
+              id="email"
+              class="field__input"
+              [class.field__input--error]="businessForm.email().touched() && businessForm.email().invalid()"
+              type="email"
+              [formField]="businessForm.email"
+              placeholder="hello@example.com"
+            />
+          </app-form-field>
+
+          <app-form-field
+            label="Location Address"
+            fieldId="location"
+            [touched]="businessForm.location().touched()"
+            [invalid]="businessForm.location().invalid()"
+            [errorMessage]="businessForm.location().errors()[0]?.message"
+          >
+            <input
+              id="location"
+              class="field__input"
+              [class.field__input--error]="businessForm.location().touched() && businessForm.location().invalid()"
+              type="text"
+              [formField]="businessForm.location"
+              placeholder="e.g. 123 Main St, New York"
+            />
+          </app-form-field>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel__title">Settings</h2>
+        <div class="panel__body edit-biz-panel-body">
+          <div class="field-toggle-row">
+            <div class="field-toggle-text">
+              <span class="field-toggle-label">Public Visibility</span>
+              <span class="field-toggle-hint">Make this business visible to visitors on Orita</span>
+            </div>
+            <label class="toggle-switch">
+              <input
+                type="checkbox"
+                [formField]="businessForm.isPublic"
+              />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn btn--primary"
+          [disabled]="isFormInvalid() || loading()"
+        >
+          @if (loading()) {
+            <svg lucideLoaderCircle class="spinner" aria-hidden="true"></svg>
+            Saving Changes...
+          } @else {
+            Save Changes
+          }
+        </button>
+      </div>
+    </form>
+  } @else {
+    <div class="edit-biz-error">
+      <p>Could not load business profile. Please try again.</p>
+    </div>
+  }
+</div>

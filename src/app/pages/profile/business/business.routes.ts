@@ -7,4 +7,10 @@ export const businessRoutes: Routes = [
     canActivate: [authGuard],
     loadComponent: () => import('./business').then(m => m.Business),
   },
+  {
+    path: 'business/edit',
+    canActivate: [authGuard],
+    loadComponent: () => import('./edit/edit-business').then(m => m.EditBusiness),
+    data: { title: 'Edit Business' },
+  },
 ];
