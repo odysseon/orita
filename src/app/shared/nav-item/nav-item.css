@@ -109,6 +109,10 @@
   margin: 0 auto;
 }
 
+:host-context(.nav-list-side) :host(.nav-item--footer) {
+  margin-top: auto;
+}
+
 /* Badge */
 .nav-item-badge-wrapper {
   position: absolute;

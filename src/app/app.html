@@ -29,6 +29,7 @@
           iconSize="md" 
           [active]="isActive('/profile')" 
           (clicked)="go('/profile')"
+          class="nav-item--footer"
         >
           <svg icon lucideUser aria-hidden="true"></svg>
           <span label>Profile</span>
@@ -39,6 +40,7 @@
           iconSize="md" 
           [active]="isActive('/auth/login')" 
           (clicked)="go('/auth/login')"
+          class="nav-item--footer"
         >
           <svg icon lucideLogIn aria-hidden="true"></svg>
           <span label>Login</span>
