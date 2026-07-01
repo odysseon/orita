@@ -12,4 +12,8 @@ export const routes: Routes = [
   ...landingRoutes,
   ...listingDetailRoutes,
   ...profileRoutes,
+  {
+    path: '**',
+    loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFound),
+  }
 ];
