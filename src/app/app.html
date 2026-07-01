@@ -19,15 +19,27 @@
         <span label>Home</span>
       </ui-nav-item>
       
-      <ui-nav-item 
-        [layout]="isDesktop() ? 'horizontal' : 'vertical'" 
-        iconSize="md" 
-        [active]="isActive('/profile')" 
-        (clicked)="go('/profile')"
-      >
-        <svg icon lucideUser aria-hidden="true"></svg>
-        <span label>Profile</span>
-      </ui-nav-item>
+      @if (isAuthenticated()) {
+        <ui-nav-item 
+          [layout]="isDesktop() ? 'horizontal' : 'vertical'" 
+          iconSize="md" 
+          [active]="isActive('/profile')" 
+          (clicked)="go('/profile')"
+        >
+          <svg icon lucideUser aria-hidden="true"></svg>
+          <span label>Profile</span>
+        </ui-nav-item>
+      } @else {
+        <ui-nav-item 
+          [layout]="isDesktop() ? 'horizontal' : 'vertical'" 
+          iconSize="md" 
+          [active]="isActive('/auth/login')" 
+          (clicked)="go('/auth/login')"
+        >
+          <svg icon lucideLogIn aria-hidden="true"></svg>
+          <span label>Login</span>
+        </ui-nav-item>
+      }
     </ui-nav-list>
   }
 </div>
