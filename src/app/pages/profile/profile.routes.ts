@@ -24,6 +24,11 @@ export const profileRoutes: Route[] = [
         data: { title: 'Appearance' },
       },
       {
+        path: 'security',
+        loadComponent: () => import('./security/security').then((m) => m.Security),
+        data: { title: 'Privacy & Security' },
+      },
+      {
         path: 'saved',
         component: Saved,
         data: { title: 'Saved' },

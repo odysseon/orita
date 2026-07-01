@@ -37,7 +37,7 @@ const ALWAYS_VISIBLE_SETTINGS: NavItem[] = [
     icon: LucideShieldCheck,
     label: 'Privacy & Security',
     description: 'Edit profile and manage auth methods',
-    route: '/profile/settings/security',
+    route: '/profile/security',
   },
   {
     icon: LucidePaintbrush,
