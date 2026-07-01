@@ -39,6 +39,27 @@ export class AuthService {
     }
   }
 
+  async loginWithGoogle(idToken: string, returnUrl: string = '/home'): Promise<boolean> {
+    try {
+      const res = await firstValueFrom(
+        this.#http.post<ILoginResponse>(`${environment.apiUrl}/auth/google`, { idToken }),
+      );
+      // Let's assume Google tokens have a server-defined expiry and we want to remember it automatically
+      // since Google sessions are typically persistent.
+      this.#setToken(res.token, new Date(res.expiresAt));
+      this.#toast.success('Logged in', 'Welcome to Orita!');
+      await this.#router.navigateByUrl(returnUrl);
+      return true;
+    } catch (err) {
+      const message =
+        err instanceof HttpErrorResponse
+          ? (err.error?.message ?? 'Google Sign-In failed. Please try again.')
+          : 'An unexpected error occurred.';
+      this.#toast.error('Error', message);
+      return false;
+    }
+  }
+
   async register(credentials: IRegister): Promise<void> {
     try {
       await firstValueFrom(this.#http.post(`${environment.apiUrl}/accounts/register`, credentials));

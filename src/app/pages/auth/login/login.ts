@@ -7,10 +7,11 @@ import { AuthService } from '../../../core/services/auth.service';
 import { AppAuthCard } from '../../../shared/auth-card/auth-card';
 import { AppFormField } from '../../../shared/form-field/form-field';
 import { AppPasswordField } from '../../../shared/password-field/password-field';
+import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterLink, FormField, LucideLoaderCircle, AppAuthCard, AppFormField, AppPasswordField],
+  imports: [RouterLink, FormField, LucideLoaderCircle, AppAuthCard, AppFormField, AppPasswordField, AppGoogleSignIn],
   templateUrl: './login.html',
   styleUrls: ['../auth.css', './login.css'],
 })
