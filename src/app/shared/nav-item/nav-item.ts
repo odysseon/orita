@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 
 export type NavItemLayout = 'vertical' | 'horizontal';
 export type NavItemIconSize = 'sm' | 'md' | 'lg';
 
 @Component({
   selector: 'ui-nav-item',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './nav-item.html',
   styleUrl: './nav-item.css',
   host: {

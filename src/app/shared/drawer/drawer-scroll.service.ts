@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
-@Injectable({ providedIn: 'root' })
+@Service
 export class DrawerScrollService {
   private document = inject(DOCUMENT);
   private count = 0;
