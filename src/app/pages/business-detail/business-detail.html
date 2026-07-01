@@ -7,11 +7,9 @@
     <div class="skeleton skeleton--text"></div>
   </div>
   } @if (business.error()) {
-  <div class="biz-detail__error">
-    <svg lucideStore aria-hidden="true"></svg>
-    <p>This business could not be found.</p>
-    <button (click)="goBack()">Go back</button>
-  </div>
+  <ui-empty-state icon="store" title="This business could not be found.">
+    <button class="btn btn--ghost" (click)="goBack()">Go back</button>
+  </ui-empty-state>
   } @if (business.hasValue()) { @let biz = business.value()!;
 
   <app-page-header backText="Back" (back)="goBack()" />
@@ -37,8 +35,8 @@
       <div class="biz-identity__row">
         <h1 class="biz-identity__name">{{ biz.name }}</h1>
         @if (verificationBadge(); as badge) {
-        <span class="biz-badge" [class]="badge.cls">
-          <svg lucideBadgeCheck aria-hidden="true"></svg>
+        <span class="badge" [class]="badge.cls" style="gap: var(--size-4)">
+          <svg lucideBadgeCheck style="width: var(--size-12); height: var(--size-12)" aria-hidden="true"></svg>
           {{ badge.label }}
         </span>
         }
@@ -52,8 +50,9 @@
     </div>
 
     <button
-      class="biz-save-btn"
-      [class.biz-save-btn--active]="biz.isSaved"
+      class="btn-icon"
+      style="margin-top: var(--size-32); width: var(--size-40); height: var(--size-40); border: 1.5px solid var(--border-default);"
+      [class.btn-icon--active]="biz.isSaved"
       [disabled]="saving()"
       (click)="toggleSave()"
       type="button"
@@ -71,18 +70,18 @@
   <!-- Contact actions -->
   <div class="biz-actions">
     @if (biz.phoneNumber) {
-    <button class="biz-action" (click)="callPhone(biz.phoneNumber)" type="button">
-      <svg lucidePhone aria-hidden="true"></svg>
+    <button class="btn btn--ghost" style="flex: 1" (click)="callPhone(biz.phoneNumber)" type="button">
+      <svg lucidePhone style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
       Call
     </button>
     } @if (biz.whatsapp) {
-    <button class="biz-action" (click)="openWhatsapp(biz.whatsapp)" type="button">
-      <svg lucideMessageCircle aria-hidden="true"></svg>
+    <button class="btn btn--ghost" style="flex: 1" (click)="openWhatsapp(biz.whatsapp)" type="button">
+      <svg lucideMessageCircle style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
       WhatsApp
     </button>
     } @if (biz.email) {
-    <button class="biz-action" (click)="sendEmail(biz.email)" type="button">
-      <svg lucideMail aria-hidden="true"></svg>
+    <button class="btn btn--ghost" style="flex: 1" (click)="sendEmail(biz.email)" type="button">
+      <svg lucideMail style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
       Email
     </button>
     }
@@ -95,14 +94,14 @@
       <svg lucideClock aria-hidden="true"></svg>
       Hours
     </h2>
-    <div class="biz-hours">
+    <div class="panel">
       @for (hour of groupedHours(); track hour.id) {
-      <div class="biz-hours__row">
-        <span class="biz-hours__day">{{ dayLabel(hour.day) }}</span>
+      <div class="panel__row" style="align-items: center; justify-content: space-between;">
+        <span style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--text-secondary)">{{ dayLabel(hour.day) }}</span>
         @if (hour.isClosed) {
-        <span class="biz-hours__closed">Closed</span>
+        <span style="font-size: var(--font-size-sm); color: var(--text-muted)">Closed</span>
         } @else {
-        <span class="biz-hours__time">{{ hour.openTime }} – {{ hour.closeTime }}</span>
+        <span style="font-size: var(--font-size-sm); color: var(--text-primary)">{{ hour.openTime }} – {{ hour.closeTime }}</span>
         }
       </div>
       }
@@ -115,7 +114,7 @@
     <h2 class="biz-section__title">
       <svg lucidePackage aria-hidden="true"></svg>
       Listings @if (listings.hasValue()) {
-      <span class="biz-section__count">{{ listings.value()!.total }}</span>
+      <span class="badge badge--neutral" style="min-width: 20px; height: 20px; display: inline-flex; justify-content: center;">{{ listings.value()!.total }}</span>
       }
     </h2>
 
@@ -126,7 +125,7 @@
       }
     </div>
     } @if (listings.hasValue() && listings.value()!.items.length === 0) {
-    <p class="biz-section__empty">No listings yet.</p>
+    <p style="font-size: var(--font-size-md); color: var(--text-muted)">No listings yet.</p>
     } @if (listings.hasValue() && listings.value()!.items.length > 0) {
     <div class="biz-listing-grid">
       @for (item of listings.value()!.items; track item.id) {
@@ -149,8 +148,8 @@
   </section>
 
   @if (biz.websiteUrl) {
-  <a class="biz-website-link" [href]="biz.websiteUrl" target="_blank" rel="noopener noreferrer">
-    <svg lucideGlobe aria-hidden="true"></svg>
+  <a style="display: inline-flex; align-items: center; gap: var(--size-6); font-size: var(--font-size-md); color: var(--clr-primary); text-decoration: none;" [href]="biz.websiteUrl" target="_blank" rel="noopener noreferrer">
+    <svg lucideGlobe style="width: var(--size-15); height: var(--size-15)" aria-hidden="true"></svg>
     Visit website
   </a>
   } }

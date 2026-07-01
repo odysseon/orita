@@ -69,7 +69,7 @@
         Start a Business
       </button>
       @if (searchQuery() || activeCategorySlug()) {
-        <button class="btn btn--ghost btn--full" (click)="searchQuery.set(''); activeCategorySlug.set(null)">
+        <button class="btn btn--ghost btn--full" style="margin-top: var(--size-8);" (click)="searchQuery.set(''); activeCategorySlug.set(null)">
           Clear Filters
         </button>
       }
@@ -98,7 +98,7 @@
         Showcase what you've got
       </button>
       @if (searchQuery() || activeCategorySlug()) {
-        <button class="btn btn--ghost btn--full" (click)="searchQuery.set(''); activeCategorySlug.set(null)">
+        <button class="btn btn--ghost btn--full" style="margin-top: var(--size-8);" (click)="searchQuery.set(''); activeCategorySlug.set(null)">
           Clear Filters
         </button>
       }

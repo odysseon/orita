@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
-import { Home } from './home';
 
 export const homeRoutes: Routes = [
   {
     path: 'home',
-    component: Home,
+    loadComponent: () => import('./home').then(m => m.Home),
     data: { isRootAppPage: true },
   },
 ];

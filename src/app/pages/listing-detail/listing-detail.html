@@ -6,11 +6,9 @@
     <div class="skeleton skeleton--price"></div>
   </div>
   } @if (listing.error()) {
-  <div class="listing-detail__error">
-    <svg lucidePackage aria-hidden="true"></svg>
-    <p>This listing could not be found.</p>
-    <button (click)="goBack()">Go back</button>
-  </div>
+  <ui-empty-state icon="package" title="This listing could not be found.">
+    <button class="btn btn--ghost" (click)="goBack()">Go back</button>
+  </ui-empty-state>
   } @if (listing.hasValue()) { @let item = listing.value()!;
 
   <app-page-header backText="Back" (back)="goBack()" />
@@ -19,8 +17,9 @@
   <div class="listing-cover">
     <svg lucidePackage aria-hidden="true"></svg>
     <button
-      class="listing-save-btn"
-      [class.listing-save-btn--active]="item.isSaved"
+      class="btn-icon"
+      style="position: absolute; top: var(--size-12); right: var(--size-12);"
+      [class.btn-icon--active]="item.isSaved"
       [disabled]="saving()"
       (click)="toggleSave()"
       type="button"
@@ -77,13 +76,13 @@
   <!-- Contact actions -->
   <div class="listing-actions">
     @if (biz.phoneNumber) {
-    <button class="listing-action" (click)="callPhone(biz.phoneNumber)" type="button">
-      <svg lucidePhone aria-hidden="true"></svg>
+    <button class="btn btn--primary" style="flex: 1" (click)="callPhone(biz.phoneNumber)" type="button">
+      <svg lucidePhone style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
       Call seller
     </button>
     } @if (biz.whatsapp) {
-    <button class="listing-action" (click)="openWhatsapp(biz.whatsapp)" type="button">
-      <svg lucideMessageCircle aria-hidden="true"></svg>
+    <button class="btn btn--primary" style="flex: 1" (click)="openWhatsapp(biz.whatsapp)" type="button">
+      <svg lucideMessageCircle style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
       WhatsApp
     </button>
     }
@@ -95,7 +94,7 @@
   <section class="listing-reviews">
     <h2 class="listing-reviews__title">
       Reviews
-      <span class="listing-reviews__count">{{ item.reviews.length }}</span>
+      <span class="badge badge--neutral" style="min-width: 20px; height: 20px; display: inline-flex; justify-content: center;">{{ item.reviews.length }}</span>
     </h2>
     <div class="listing-reviews__list">
       @for (review of item.reviews; track review.id) {
