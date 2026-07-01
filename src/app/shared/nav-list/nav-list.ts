@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 export type NavListPosition = 'bottom' | 'top' | 'side' | 'static';
 export type NavListJustify = 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
 
 @Component({
   selector: 'ui-nav-list',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './nav-list.html',
   styleUrl: './nav-list.css',
   host: {
