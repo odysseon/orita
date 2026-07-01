@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -25,7 +24,6 @@ import { DrawerDragService } from './drawer-drag.service';
   selector: 'ui-drawer',
   templateUrl: './drawer.html',
   styleUrl: './drawer.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DrawerFocusService, DrawerDragService],
 })
 export class Drawer implements OnInit, OnDestroy {
