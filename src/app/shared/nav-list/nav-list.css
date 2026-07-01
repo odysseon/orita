@@ -89,3 +89,9 @@
 :host(.nav-list-side) .nav-list-content {
   padding-left: calc(var(--space-md) + env(safe-area-inset-left));
 }
+
+:host(.nav-list-side:not(.expanded)) .nav-list-content {
+  padding-left: 0;
+  padding-right: 0;
+  align-items: center;
+}

@@ -102,8 +102,11 @@
 
 :host-context(.nav-list-side:not(.expanded)) .nav-item-btn {
   justify-content: center;
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
+  width: var(--size-48);
+  height: var(--size-48);
+  border-radius: var(--radius-lg);
+  margin: 0 auto;
 }
 
 /* Badge */
