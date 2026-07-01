@@ -7,10 +7,11 @@ import { IRegister } from './register.interface';
 import { AppAuthCard } from '../../../shared/auth-card/auth-card';
 import { AppFormField } from '../../../shared/form-field/form-field';
 import { AppPasswordField } from '../../../shared/password-field/password-field';
+import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
 
 @Component({
   selector: 'app-register',
-  imports: [FormField, LucideLoaderCircle, AppAuthCard, AppFormField, AppPasswordField],
+  imports: [FormField, LucideLoaderCircle, AppAuthCard, AppFormField, AppPasswordField, AppGoogleSignIn],
   templateUrl: './register.html',
   styleUrls: ['../auth.css', './register.css'],
 })
