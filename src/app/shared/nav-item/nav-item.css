@@ -122,6 +122,11 @@
   margin-top: auto;
 }
 
+:host-context(.nav-list-top).nav-item--footer,
+:host-context(.nav-list-bottom).nav-item--footer {
+  margin-left: auto;
+}
+
 /* Badge */
 .nav-item-badge-wrapper {
   position: absolute;
