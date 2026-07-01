@@ -15,6 +15,7 @@ import { ToastService } from '../../../../core/services/toast';
 import { IBusinessProfile, BusinessType } from '../business.interface';
 import { environment } from '../../../../../environments/environment';
 import { AppFormField } from '../../../../shared/form-field/form-field';
+import { MediaSelector } from '../../../../shared/media-selector/media-selector';
 
 interface BusinessTypeOption {
   value: BusinessType;
@@ -37,7 +38,7 @@ export interface IEditBusinessForm {
 
 @Component({
   selector: 'app-edit-business',
-  imports: [FormField, LucideLoaderCircle, AppFormField],
+  imports: [FormField, LucideLoaderCircle, AppFormField, MediaSelector],
   templateUrl: './edit-business.html',
   styleUrl: './edit-business.css',
 })
@@ -51,6 +52,8 @@ export class EditBusiness {
   );
 
   readonly loading = signal(false);
+  readonly avatarFile = signal<File | null>(null);
+  readonly coverFile = signal<File | null>(null);
 
   readonly model = signal<IEditBusinessForm>({
     name: '',
@@ -122,6 +125,22 @@ export class EditBusiness {
     this.model.update((m) => ({ ...m, businessType: type }));
   }
 
+  onAvatarChanged(files: File[]): void {
+    this.avatarFile.set(files[0] || null);
+  }
+
+  onAvatarRemoved(): void {
+    this.avatarFile.set(null);
+  }
+
+  onCoverChanged(files: File[]): void {
+    this.coverFile.set(files[0] || null);
+  }
+
+  onCoverRemoved(): void {
+    this.coverFile.set(null);
+  }
+
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
     if (this.businessForm().invalid()) return;
@@ -130,20 +149,29 @@ export class EditBusiness {
 
     this.loading.set(true);
     try {
-      const payload = {
-        name: this.model().name,
-        businessType: this.model().businessType,
-        description: this.model().description || null,
-        websiteUrl: this.model().websiteUrl || null,
-        phoneNumber: this.model().phoneNumber || null,
-        whatsapp: this.model().whatsapp || null,
-        email: this.model().email || null,
-        location: this.model().location || null,
-        isPublic: this.model().isPublic,
-      };
+      const formData = new FormData();
+      formData.append('name', this.model().name);
+      formData.append('businessType', this.model().businessType);
+      formData.append('description', this.model().description || '');
+      formData.append('websiteUrl', this.model().websiteUrl || '');
+      formData.append('phoneNumber', this.model().phoneNumber || '');
+      formData.append('whatsapp', this.model().whatsapp || '');
+      formData.append('email', this.model().email || '');
+      formData.append('location', this.model().location || '');
+      formData.append('isPublic', String(this.model().isPublic));
+
+      const avatar = this.avatarFile();
+      if (avatar) {
+        formData.append('avatar', avatar);
+      }
+
+      const cover = this.coverFile();
+      if (cover) {
+        formData.append('cover', cover);
+      }
 
       await firstValueFrom(
-        this.#http.patch(`${environment.apiUrl}/business/${biz.id}`, payload)
+        this.#http.patch(`${environment.apiUrl}/business/${biz.id}`, formData)
       );
 
       this.#toast.success('Profile updated', 'Your business profile has been updated.');

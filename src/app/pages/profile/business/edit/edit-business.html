@@ -153,6 +153,31 @@
       </div>
 
       <div class="panel">
+        <h2 class="panel__title">Business Images</h2>
+        <div class="panel__body edit-biz-panel-body">
+          <div class="field">
+            <span class="field__label">Logo / Avatar</span>
+            <app-media-selector
+              [multiple]="false"
+              [initialUrls]="business.value()?.avatarUrl || ''"
+              (filesChanged)="onAvatarChanged($event)"
+              (mediaRemoved)="onAvatarRemoved()"
+            ></app-media-selector>
+          </div>
+
+          <div class="field">
+            <span class="field__label">Cover Photo</span>
+            <app-media-selector
+              [multiple]="false"
+              [initialUrls]="business.value()?.coverUrl || ''"
+              (filesChanged)="onCoverChanged($event)"
+              (mediaRemoved)="onCoverRemoved()"
+            ></app-media-selector>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
         <h2 class="panel__title">Settings</h2>
         <div class="panel__body edit-biz-panel-body">
           <div class="field-toggle-row">

@@ -1,0 +1,53 @@
+<div class="media-selector">
+  <!-- Drop area / Input triggers -->
+  <div
+    class="media-drop-zone"
+    [class.media-drop-zone--dragging]="isDragging()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+    (click)="fileInput.click()"
+  >
+    <input
+      #fileInput
+      type="file"
+      class="media-hidden-input"
+      [multiple]="multiple()"
+      [accept]="accept()"
+      (change)="onFileSelected($event)"
+    />
+
+    <div class="media-drop-zone__content">
+      <svg lucideUpload class="media-drop-zone__icon" aria-hidden="true"></svg>
+      <span class="media-drop-zone__label">
+        @if (isDragging()) {
+          Drop files here
+        } @else {
+          Drag & drop images here or <strong>browse</strong>
+        }
+      </span>
+      <span class="media-drop-zone__hint">
+        Supports {{ accept() }} up to {{ maxSizeMb() }}MB
+      </span>
+    </div>
+  </div>
+
+  <!-- Previews Grid -->
+  @if (previews().length > 0) {
+    <div class="media-previews-grid" [class.media-previews-grid--multiple]="multiple()">
+      @for (preview of previews(); track preview.url) {
+        <div class="media-preview-card glass">
+          <img [src]="preview.url" alt="Uploaded media preview" class="media-preview-image" />
+          <button
+            type="button"
+            class="media-preview-remove"
+            (click)="removePreview(preview)"
+            aria-label="Remove image"
+          >
+            <svg lucideX aria-hidden="true"></svg>
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>
