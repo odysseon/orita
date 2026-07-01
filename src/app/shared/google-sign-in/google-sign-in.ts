@@ -1,6 +1,7 @@
 /// <reference types="google.accounts" />
-import { Component, ElementRef, AfterViewInit, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, inject, input, output, viewChild } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
+import { GoogleAuthService } from '../../core/services/google-auth.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -10,8 +11,11 @@ import { environment } from '../../../environments/environment';
 })
 export class AppGoogleSignIn implements AfterViewInit {
   googleBtnRef = viewChild.required<ElementRef<HTMLDivElement>>('googleBtnRef');
+  autoLogin = input(true);
+  idTokenReceived = output<string>();
 
   #auth = inject(AuthService);
+  #googleAuth = inject(GoogleAuthService);
 
   ngAfterViewInit() {
     // Only initialize if the global google object is loaded and clientId is configured
@@ -37,8 +41,10 @@ export class AppGoogleSignIn implements AfterViewInit {
   }
 
   private handleCredentialResponse(response: google.accounts.id.CredentialResponse) {
-    if (response.credential) {
-      this.#auth.loginWithGoogle(response.credential);
+    const idToken = this.#googleAuth.getIdTokenFromCredentialResponse(response);
+    this.idTokenReceived.emit(idToken);
+    if (this.autoLogin()) {
+      this.#auth.loginWithGoogle(idToken);
     }
   }
 }
