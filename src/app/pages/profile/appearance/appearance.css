@@ -11,44 +11,6 @@
   padding: var(--size-16) var(--size-16) var(--size-48);
 }
 
-/* ============================================================
- * HEADER
- * ============================================================ */
-.appearance-header {
-  display: flex;
-  align-items: center;
-  gap: var(--size-12);
-}
-
-.appearance-back {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--size-32);
-  height: var(--size-32);
-  border: none;
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-
-  svg {
-    width: var(--size-18);
-    height: var(--size-18);
-  }
-
-  &:hover {
-    background: var(--surface-container);
-    color: var(--text-primary);
-  }
-}
-
-.appearance-header__title {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
-}
-
 .appearance-hint {
   font-size: var(--font-size-md);
   color: var(--text-muted);

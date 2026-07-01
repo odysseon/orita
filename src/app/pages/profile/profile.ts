@@ -37,13 +37,13 @@ const ALWAYS_VISIBLE_SETTINGS: NavItem[] = [
     icon: LucideShieldCheck,
     label: 'Privacy & Security',
     description: 'Edit profile and manage auth methods',
-    route: '/settings/security',
+    route: '/profile/settings/security',
   },
   {
     icon: LucidePaintbrush,
     label: 'Appearance',
     description: 'Customise how Orita looks for you',
-    route: '/settings/appearance',
+    route: '/profile/appearance',
   },
 ];
 

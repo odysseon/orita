@@ -1,6 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { LucideArrowLeft, LucideSun, LucideMoon, LucideMonitor, LucideDynamicIcon, LucideIconInput } from '@lucide/angular';
+import {
+  LucideSun,
+  LucideMoon,
+  LucideMonitor,
+  LucideDynamicIcon,
+  LucideIconInput,
+} from '@lucide/angular';
 import { ThemeService, ThemePreference } from '../../../core/services/theme.service';
 
 interface ThemeOption {
@@ -12,12 +17,11 @@ interface ThemeOption {
 
 @Component({
   selector: 'app-appearance',
-  imports: [LucideArrowLeft, LucideDynamicIcon],
+  imports: [LucideDynamicIcon],
   templateUrl: './appearance.html',
   styleUrl: './appearance.css',
 })
 export class Appearance {
-  #router = inject(Router);
   readonly theme = inject(ThemeService);
 
   readonly options: ThemeOption[] = [
@@ -43,9 +47,5 @@ export class Appearance {
 
   select(value: ThemePreference): void {
     this.theme.set(value);
-  }
-
-  goBack(): void {
-    this.#router.navigate(['/profile']);
   }
 }
