@@ -1,18 +1,16 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '../../../core/guards/auth.guard';
-import { Business } from './business';
-import { EditBusiness } from './edit/edit-business';
 
 export const businessRoutes: Routes = [
   {
     path: 'business',
     canActivate: [authGuard],
-    component: Business,
+    loadComponent: () => import('./business').then((m) => m.Business),
   },
   {
     path: 'business/edit',
     canActivate: [authGuard],
-    component: EditBusiness,
+    loadComponent: () => import('./edit/edit-business').then((m) => m.EditBusiness),
     data: { title: 'Edit Business' },
   },
 ];
