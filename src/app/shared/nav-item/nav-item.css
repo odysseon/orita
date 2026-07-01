@@ -100,16 +100,21 @@
   display: none;
 }
 
+:host-context(.nav-list-side:not(.expanded)) {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 :host-context(.nav-list-side:not(.expanded)) .nav-item-btn {
   justify-content: center;
   padding: 0;
   width: var(--size-48);
   height: var(--size-48);
   border-radius: var(--radius-lg);
-  margin: 0 auto;
 }
 
-:host-context(.nav-list-side) :host(.nav-item--footer) {
+:host-context(.nav-list-side).nav-item--footer {
   margin-top: auto;
 }
 
