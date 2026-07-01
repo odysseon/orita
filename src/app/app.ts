@@ -34,6 +34,14 @@ export class App {
     { initialValue: this.getDeepestIsRoot(this.#route.snapshot) }
   );
 
+  readonly isLanding = toSignal(
+    this.#router.events.pipe(
+      filter((e) => e instanceof NavigationEnd),
+      map(() => this.getDeepestIsLanding(this.#route.snapshot)),
+    ),
+    { initialValue: this.getDeepestIsLanding(this.#route.snapshot) }
+  );
+
   readonly isDesktop = signal<boolean>(false);
 
   constructor() {
@@ -53,6 +61,14 @@ export class App {
       current = current.firstChild;
     }
     return current.data?.['isRootAppPage'] === true;
+  }
+
+  private getDeepestIsLanding(route: any): boolean {
+    let current = route;
+    while (current.firstChild) {
+      current = current.firstChild;
+    }
+    return current.data?.['isLandingPage'] === true;
   }
 
   isActive(path: string): boolean {

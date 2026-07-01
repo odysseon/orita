@@ -1,16 +1,19 @@
-<div class="app-layout" [class.app-layout--with-side-nav]="showNav() && isDesktop()" [class.app-layout--with-bottom-nav]="showNav() && !isDesktop()">
+<div class="app-layout" 
+     [class.app-layout--with-side-nav]="showNav() && isDesktop() && !isLanding()" 
+     [class.app-layout--with-bottom-nav]="showNav() && !isDesktop() && !isLanding()"
+     [class.app-layout--with-top-nav]="showNav() && isLanding()">
   <main class="app-main">
     <router-outlet />
   </main>
 
   @if (showNav()) {
     <ui-nav-list 
-      [position]="isDesktop() ? 'side' : 'bottom'" 
-      [justify]="isDesktop() ? 'start' : 'around'"
-      [uiScrollHide]="!isDesktop()"
+      [position]="isLanding() ? 'top' : (isDesktop() ? 'side' : 'bottom')" 
+      [justify]="isLanding() ? 'center' : (isDesktop() ? 'start' : 'around')"
+      [uiScrollHide]="!isDesktop() && !isLanding()"
     >
       <ui-nav-item 
-        [layout]="isDesktop() ? 'horizontal' : 'vertical'" 
+        [layout]="isLanding() ? 'horizontal' : (isDesktop() ? 'horizontal' : 'vertical')" 
         iconSize="md" 
         [active]="isActive('/home')" 
         (clicked)="go('/home')"
@@ -21,7 +24,7 @@
       
       @if (isAuthenticated()) {
         <ui-nav-item 
-          [layout]="isDesktop() ? 'horizontal' : 'vertical'" 
+          [layout]="isLanding() ? 'horizontal' : (isDesktop() ? 'horizontal' : 'vertical')" 
           iconSize="md" 
           [active]="isActive('/profile')" 
           (clicked)="go('/profile')"
@@ -31,7 +34,7 @@
         </ui-nav-item>
       } @else {
         <ui-nav-item 
-          [layout]="isDesktop() ? 'horizontal' : 'vertical'" 
+          [layout]="isLanding() ? 'horizontal' : (isDesktop() ? 'horizontal' : 'vertical')" 
           iconSize="md" 
           [active]="isActive('/auth/login')" 
           (clicked)="go('/auth/login')"
