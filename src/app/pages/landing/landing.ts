@@ -1,10 +1,25 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { LucideStore, LucideMessageCircle, LucideTrendingUp, LucideArrowRight } from '@lucide/angular';
+import { Router, RouterLink } from '@angular/router';
+import {
+  LucideStore,
+  LucideMessageCircle,
+  LucideTrendingUp,
+  LucideArrowRight,
+  LucideSearch,
+  LucideMapPin,
+} from '@lucide/angular';
 
 @Component({
   selector: 'app-landing',
-  imports: [LucideStore, LucideMessageCircle, LucideTrendingUp, LucideArrowRight],
+  imports: [
+    RouterLink,
+    LucideStore,
+    LucideMessageCircle,
+    LucideTrendingUp,
+    LucideArrowRight,
+    LucideSearch,
+    LucideMapPin,
+  ],
   templateUrl: './landing.html',
   styleUrl: './landing.css',
 })
@@ -13,6 +28,10 @@ export class Landing {
 
   getStarted() {
     this.#router.navigate(['/auth/register']);
+  }
+
+  login() {
+    this.#router.navigate(['/auth/login']);
   }
 
   explore() {
