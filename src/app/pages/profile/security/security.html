@@ -89,8 +89,7 @@
   @if (hasPassword()) {
   <form
     class="drawer-form-content"
-    [formGroup]="changePasswordForm"
-    (ngSubmit)="onSubmitPassword($event)"
+    (submit)="onSubmitPassword($event)"
   >
     <p class="edit-biz-description" style="margin-bottom: var(--size-24)">
       Change the password used to sign in to your account.
@@ -99,17 +98,17 @@
     <app-form-field
       label="Current Password"
       fieldId="currentPassword"
-      [touched]="changePasswordForm.controls.currentPassword.touched"
-      [invalid]="changePasswordForm.controls.currentPassword.invalid"
-      [errorMessage]="currentPasswordError()"
+      [touched]="changePasswordForm.currentPassword().touched()"
+      [invalid]="changePasswordForm.currentPassword().invalid()"
+      [errorMessage]="changePasswordForm.currentPassword().errors()[0]?.message"
     >
       <div class="field__input-wrap">
         <input
           id="currentPassword"
           class="field__input field__input--padded"
           [type]="showCurrentPassword() ? 'text' : 'password'"
-          formControlName="currentPassword"
-          [class.field__input--error]="changePasswordForm.controls.currentPassword.touched && changePasswordForm.controls.currentPassword.invalid"
+          [formField]="changePasswordForm.currentPassword"
+          [class.field__input--error]="changePasswordForm.currentPassword().touched() && changePasswordForm.currentPassword().invalid()"
         />
         <button
           class="field__toggle"
@@ -129,17 +128,17 @@
     <app-form-field
       label="New Password"
       fieldId="newPassword"
-      [touched]="changePasswordForm.controls.newPassword.touched"
-      [invalid]="changePasswordForm.controls.newPassword.invalid"
-      [errorMessage]="newPasswordError()"
+      [touched]="changePasswordForm.newPassword().touched()"
+      [invalid]="changePasswordForm.newPassword().invalid()"
+      [errorMessage]="changePasswordForm.newPassword().errors()[0]?.message"
     >
       <div class="field__input-wrap">
         <input
           id="newPassword"
           class="field__input field__input--padded"
           [type]="showNewPassword() ? 'text' : 'password'"
-          formControlName="newPassword"
-          [class.field__input--error]="changePasswordForm.controls.newPassword.touched && changePasswordForm.controls.newPassword.invalid"
+          [formField]="changePasswordForm.newPassword"
+          [class.field__input--error]="changePasswordForm.newPassword().touched() && changePasswordForm.newPassword().invalid()"
         />
         <button
           class="field__toggle"
@@ -166,8 +165,7 @@
   } @else {
   <form
     class="drawer-form-content"
-    [formGroup]="addPasswordForm"
-    (ngSubmit)="onSubmitPassword($event)"
+    (submit)="onSubmitPassword($event)"
   >
     <p class="edit-biz-description" style="margin-bottom: var(--size-24)">
       Add a password to your account to sign in directly with your email.
@@ -176,17 +174,17 @@
     <app-form-field
       label="Password"
       fieldId="addPassword"
-      [touched]="addPasswordForm.controls.password.touched"
-      [invalid]="addPasswordForm.controls.password.invalid"
-      [errorMessage]="addPasswordError()"
+      [touched]="addPasswordForm.password().touched()"
+      [invalid]="addPasswordForm.password().invalid()"
+      [errorMessage]="addPasswordForm.password().errors()[0]?.message"
     >
       <div class="field__input-wrap">
         <input
           id="addPassword"
           class="field__input field__input--padded"
           [type]="showAddPassword() ? 'text' : 'password'"
-          formControlName="password"
-          [class.field__input--error]="addPasswordForm.controls.password.touched && addPasswordForm.controls.password.invalid"
+          [formField]="addPasswordForm.password"
+          [class.field__input--error]="addPasswordForm.password().touched() && addPasswordForm.password().invalid()"
         />
         <button
           class="field__toggle"

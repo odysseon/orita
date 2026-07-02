@@ -1,14 +1,9 @@
-import { Component, inject, signal, computed } from '@angular/core';
+/// <reference types="google.accounts" />
+import { Component, inject, signal, computed, effect } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { httpResource } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-  AbstractControl,
-  ValidationErrors,
-} from '@angular/forms';
+import { form, FormField, required } from '@angular/forms/signals';
 import {
   LucideKey,
   LucideTrash2,
@@ -24,18 +19,21 @@ import { IProfile } from '../profile.interface';
 import { Drawer } from '../../../shared/drawer/drawer';
 import { AppFormField } from '../../../shared/form-field/form-field';
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
+import { ValidationService } from '../../../core/services/validation.service';
 
-function strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
-  const value = control.value as string;
-  if (!value) return null;
-  const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-  return pattern.test(value) ? null : { weakPassword: true };
+interface IChangePassword {
+  currentPassword: string;
+  newPassword: string;
+}
+
+interface IAddPassword {
+  password: string;
 }
 
 @Component({
   selector: 'app-security',
   imports: [
-    ReactiveFormsModule,
+    FormField,
     RouterLink,
     LucideKey,
     LucideTrash2,
@@ -53,7 +51,7 @@ function strongPasswordValidator(control: AbstractControl): ValidationErrors | n
 export class Security {
   #http = inject(HttpClient);
   #toast = inject(ToastService);
-  #fb = inject(FormBuilder);
+  #validation = inject(ValidationService);
 
   readonly profile = httpResource<IProfile>(() => `${environment.apiUrl}/users/me`);
   readonly loading = signal(false);
@@ -69,37 +67,44 @@ export class Security {
   readonly showNewPassword = signal(false);
   readonly showAddPassword = signal(false);
 
-  // Change Password Form
-  readonly changePasswordForm = this.#fb.nonNullable.group({
-    currentPassword: ['', [Validators.required]],
-    newPassword: ['', [Validators.required, Validators.minLength(8)]],
+  // Models for Signal Forms
+  readonly changePasswordModel = signal<IChangePassword>({
+    currentPassword: '',
+    newPassword: '',
   });
 
-  // Add Password Form
-  readonly addPasswordForm = this.#fb.nonNullable.group({
-    password: ['', [Validators.required, strongPasswordValidator]],
+  readonly addPasswordModel = signal<IAddPassword>({
+    password: '',
   });
 
-  currentPasswordError(): string | undefined {
-    const c = this.changePasswordForm.controls.currentPassword;
-    if (c.errors?.['required']) return 'Current password is required';
-    return undefined;
-  }
+  // Signal Forms
+  readonly changePasswordForm = form(this.changePasswordModel, (f) => {
+    required(f.currentPassword, { message: 'Current password is required' });
+    this.#validation.validatePassword(f.newPassword);
+  });
 
-  newPasswordError(): string | undefined {
-    const c = this.changePasswordForm.controls.newPassword;
-    if (c.errors?.['required']) return 'New password is required';
-    if (c.errors?.['minlength']) return 'Must be at least 8 characters';
-    return undefined;
-  }
+  readonly addPasswordForm = form(this.addPasswordModel, (f) => {
+    this.#validation.validatePassword(f.password);
+  });
 
-  addPasswordError(): string | undefined {
-    const c = this.addPasswordForm.controls.password;
-    if (c.errors?.['required']) return 'Password is required';
-    if (c.errors?.['weakPassword']) {
-      return 'Password must be at least 8 characters and contain an uppercase letter, a lowercase letter, a number, and a special character.';
-    }
-    return undefined;
+  constructor() {
+    effect(() => {
+      const isOpen = this.isPasswordDrawerOpen();
+      if (!isOpen) {
+        // Reset models
+        this.changePasswordModel.set({ currentPassword: '', newPassword: '' });
+        this.addPasswordModel.set({ password: '' });
+
+        // Reset form signals state
+        this.changePasswordForm().reset();
+        this.addPasswordForm().reset();
+
+        // Reset visibility toggles
+        this.showCurrentPassword.set(false);
+        this.showNewPassword.set(false);
+        this.showAddPassword.set(false);
+      }
+    });
   }
 
   async onGoogleIdTokenReceived(idToken: string): Promise<void> {
@@ -140,8 +145,8 @@ export class Security {
     event.preventDefault();
 
     if (this.hasPassword()) {
-      if (this.changePasswordForm.invalid) {
-        this.changePasswordForm.markAllAsTouched();
+      if (this.changePasswordForm().invalid()) {
+        this.changePasswordForm().markAsTouched();
         return;
       }
       this.loading.set(true);
@@ -149,12 +154,11 @@ export class Security {
         await firstValueFrom(
           this.#http.post(
             `${environment.apiUrl}/auth/password/change`,
-            this.changePasswordForm.getRawValue(),
+            this.changePasswordModel(),
           ),
         );
         this.#toast.success('Success', 'Password has been changed.');
         this.isPasswordDrawerOpen.set(false);
-        this.changePasswordForm.reset();
       } catch (err) {
         const message =
           err instanceof HttpErrorResponse
@@ -165,8 +169,8 @@ export class Security {
         this.loading.set(false);
       }
     } else {
-      if (this.addPasswordForm.invalid) {
-        this.addPasswordForm.markAllAsTouched();
+      if (this.addPasswordForm().invalid()) {
+        this.addPasswordForm().markAsTouched();
         return;
       }
       this.loading.set(true);
@@ -174,12 +178,11 @@ export class Security {
         await firstValueFrom(
           this.#http.post(
             `${environment.apiUrl}/auth/password/add`,
-            this.addPasswordForm.getRawValue(),
+            this.addPasswordModel(),
           ),
         );
         this.#toast.success('Success', 'Password has been added.');
         this.isPasswordDrawerOpen.set(false);
-        this.addPasswordForm.reset();
         this.profile.reload(); // needed so hasPassword() flips to true afterward
       } catch (err) {
         const message =

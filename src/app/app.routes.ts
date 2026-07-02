@@ -3,26 +3,29 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./pages/landing/landing.route').then((m) => m.landingRoutes),
+    pathMatch: 'full',
+    loadComponent: () => import('./pages/landing/landing').then((m) => m.Landing),
+    data: { isRootAppPage: true, isLandingPage: true },
   },
   {
-    path: '',
+    path: 'auth',
     loadChildren: () => import('./pages/auth/auth.routes').then((m) => m.authRoutes),
   },
   {
-    path: '',
-    loadChildren: () => import('./pages/business-detail/business-detail.routes').then((m) => m.businessDetailRoutes),
+    path: 'b/:slug',
+    loadComponent: () => import('./pages/business-detail/business-detail').then((m) => m.BusinessDetail),
   },
   {
-    path: '',
-    loadChildren: () => import('./pages/home/home.routes').then((m) => m.homeRoutes),
+    path: 'home',
+    loadComponent: () => import('./pages/home/home').then((m) => m.Home),
+    data: { isRootAppPage: true },
   },
   {
-    path: '',
-    loadChildren: () => import('./pages/listing-detail/listing-detail.routes').then((m) => m.listingDetailRoutes),
+    path: 'l/:slug',
+    loadComponent: () => import('./pages/listing-detail/listing-detail').then((m) => m.ListingDetail),
   },
   {
-    path: '',
+    path: 'profile',
     loadChildren: () => import('./pages/profile/profile.routes').then((m) => m.profileRoutes),
   },
   {
