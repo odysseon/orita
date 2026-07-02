@@ -1,32 +1,50 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { httpResource } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { form, required, minLength } from '@angular/forms/signals';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import {
   LucideKey,
   LucideTrash2,
   LucideLink,
   LucideUnlink,
+  LucideEye,
+  LucideEyeOff,
 } from '@lucide/angular';
 import { RouterLink } from '@angular/router';
 import { ToastService } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
 import { IProfile } from '../profile.interface';
 import { Drawer } from '../../../shared/drawer/drawer';
-import { AppPasswordField } from '../../../shared/password-field/password-field';
+import { AppFormField } from '../../../shared/form-field/form-field';
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
+
+function strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value as string;
+  if (!value) return null;
+  const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  return pattern.test(value) ? null : { weakPassword: true };
+}
 
 @Component({
   selector: 'app-security',
   imports: [
+    ReactiveFormsModule,
     RouterLink,
     LucideKey,
     LucideTrash2,
     LucideLink,
     LucideUnlink,
+    LucideEye,
+    LucideEyeOff,
     Drawer,
-    AppPasswordField,
+    AppFormField,
     AppGoogleSignIn,
   ],
   templateUrl: './security.html',
@@ -35,21 +53,54 @@ import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
 export class Security {
   #http = inject(HttpClient);
   #toast = inject(ToastService);
+  #fb = inject(FormBuilder);
 
   readonly profile = httpResource<IProfile>(() => `${environment.apiUrl}/users/me`);
   readonly loading = signal(false);
+
+  readonly hasPassword = computed(() => this.profile.value()?.hasPassword ?? false);
 
   // Drawers
   readonly isPasswordDrawerOpen = signal(false);
   readonly isGoogleDrawerOpen = signal(false);
 
-  // Password Form
-  readonly passwordModel = signal({ currentPassword: '', newPassword: '' });
-  readonly passwordFormObj = form(this.passwordModel, (f) => {
-    required(f.currentPassword, { message: 'Current password is required' });
-    required(f.newPassword, { message: 'New password is required' });
-    minLength(f.newPassword, 8, { message: 'Must be at least 8 characters' });
+  // Password visibility toggles
+  readonly showCurrentPassword = signal(false);
+  readonly showNewPassword = signal(false);
+  readonly showAddPassword = signal(false);
+
+  // Change Password Form
+  readonly changePasswordForm = this.#fb.nonNullable.group({
+    currentPassword: ['', [Validators.required]],
+    newPassword: ['', [Validators.required, Validators.minLength(8)]],
   });
+
+  // Add Password Form
+  readonly addPasswordForm = this.#fb.nonNullable.group({
+    password: ['', [Validators.required, strongPasswordValidator]],
+  });
+
+  currentPasswordError(): string | undefined {
+    const c = this.changePasswordForm.controls.currentPassword;
+    if (c.errors?.['required']) return 'Current password is required';
+    return undefined;
+  }
+
+  newPasswordError(): string | undefined {
+    const c = this.changePasswordForm.controls.newPassword;
+    if (c.errors?.['required']) return 'New password is required';
+    if (c.errors?.['minlength']) return 'Must be at least 8 characters';
+    return undefined;
+  }
+
+  addPasswordError(): string | undefined {
+    const c = this.addPasswordForm.controls.password;
+    if (c.errors?.['required']) return 'Password is required';
+    if (c.errors?.['weakPassword']) {
+      return 'Password must be at least 8 characters and contain an uppercase letter, a lowercase letter, a number, and a special character.';
+    }
+    return undefined;
+  }
 
   async onGoogleIdTokenReceived(idToken: string): Promise<void> {
     try {
@@ -87,38 +138,62 @@ export class Security {
 
   async onSubmitPassword(event: Event): Promise<void> {
     event.preventDefault();
-    if (this.passwordFormObj().invalid()) return;
-    
-    this.loading.set(true);
-    try {
-      // Assuming a standard change password endpoint
-      await firstValueFrom(this.#http.patch(`${environment.apiUrl}/users/me/password`, this.passwordModel()));
-      this.#toast.success('Success', 'Password has been changed.');
-      this.isPasswordDrawerOpen.set(false);
-      this.passwordModel.set({ currentPassword: '', newPassword: '' });
-    } catch (err) {
-      this.#toast.error('Error', 'Could not change password.');
-    } finally {
-      this.loading.set(false);
-    }
-  }
 
-  async onResetPassword(): Promise<void> {
-    // If they only have Google auth, they can reset password
-    this.loading.set(true);
-    try {
-      await firstValueFrom(this.#http.post(`${environment.apiUrl}/auth/reset-password`, { email: this.profile.value()?.email }));
-      this.#toast.success('Email Sent', 'Check your email for reset instructions.');
-      this.isPasswordDrawerOpen.set(false);
-    } catch (err) {
-      this.#toast.error('Error', 'Could not send reset email.');
-    } finally {
-      this.loading.set(false);
+    if (this.hasPassword()) {
+      if (this.changePasswordForm.invalid) {
+        this.changePasswordForm.markAllAsTouched();
+        return;
+      }
+      this.loading.set(true);
+      try {
+        await firstValueFrom(
+          this.#http.post(
+            `${environment.apiUrl}/auth/password/change`,
+            this.changePasswordForm.getRawValue(),
+          ),
+        );
+        this.#toast.success('Success', 'Password has been changed.');
+        this.isPasswordDrawerOpen.set(false);
+        this.changePasswordForm.reset();
+      } catch (err) {
+        const message =
+          err instanceof HttpErrorResponse
+            ? (err.error?.message ?? 'Could not change password.')
+            : 'Could not change password.';
+        this.#toast.error('Error', message);
+      } finally {
+        this.loading.set(false);
+      }
+    } else {
+      if (this.addPasswordForm.invalid) {
+        this.addPasswordForm.markAllAsTouched();
+        return;
+      }
+      this.loading.set(true);
+      try {
+        await firstValueFrom(
+          this.#http.post(
+            `${environment.apiUrl}/auth/password/add`,
+            this.addPasswordForm.getRawValue(),
+          ),
+        );
+        this.#toast.success('Success', 'Password has been added.');
+        this.isPasswordDrawerOpen.set(false);
+        this.addPasswordForm.reset();
+        this.profile.reload(); // needed so hasPassword() flips to true afterward
+      } catch (err) {
+        const message =
+          err instanceof HttpErrorResponse
+            ? (err.error?.message ?? 'Could not add password.')
+            : 'Could not add password.';
+        this.#toast.error('Error', message);
+      } finally {
+        this.loading.set(false);
+      }
     }
   }
 
   onDeleteAccount(): void {
-    // Disabled for now as per instructions
     this.#toast.info('Not available', 'Account deletion is currently disabled.');
   }
 }
