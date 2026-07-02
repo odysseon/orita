@@ -7,18 +7,27 @@ import { ToastContainer } from './core/components/toast-container/toast-containe
 import { NavList } from './shared/nav-list/nav-list';
 import { NavItem } from './shared/nav-item/nav-item';
 import { ScrollHideDirective } from './shared/directives/scroll-hide.directive';
-import { LucideHome, LucideUser, LucideLogIn } from '@lucide/angular';
+import { LucideHouse, LucideUser, LucideLogIn } from '@lucide/angular';
 import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ToastContainer, NavList, NavItem, ScrollHideDirective, LucideHome, LucideUser, LucideLogIn],
+  imports: [
+    RouterOutlet,
+    ToastContainer,
+    NavList,
+    NavItem,
+    ScrollHideDirective,
+    LucideHouse,
+    LucideUser,
+    LucideLogIn,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('orita');
-  
+
   #router = inject(Router);
   #route = inject(ActivatedRoute);
   #platformId = inject(PLATFORM_ID);
@@ -31,7 +40,7 @@ export class App {
       filter((e) => e instanceof NavigationEnd),
       map(() => this.getDeepestIsRoot(this.#route.snapshot)),
     ),
-    { initialValue: this.getDeepestIsRoot(this.#route.snapshot) }
+    { initialValue: this.getDeepestIsRoot(this.#route.snapshot) },
   );
 
   readonly isLanding = toSignal(
@@ -39,7 +48,7 @@ export class App {
       filter((e) => e instanceof NavigationEnd),
       map(() => this.getDeepestIsLanding(this.#route.snapshot)),
     ),
-    { initialValue: this.getDeepestIsLanding(this.#route.snapshot) }
+    { initialValue: this.getDeepestIsLanding(this.#route.snapshot) },
   );
 
   readonly isDesktop = signal<boolean>(false);
@@ -48,7 +57,7 @@ export class App {
     if (isPlatformBrowser(this.#platformId)) {
       const mediaQuery = window.matchMedia('(min-width: 768px)');
       this.isDesktop.set(mediaQuery.matches);
-      
+
       mediaQuery.addEventListener('change', (e) => {
         this.isDesktop.set(e.matches);
       });

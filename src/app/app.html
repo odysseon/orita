@@ -1,52 +1,53 @@
-<div class="app-layout" 
-     [class.app-layout--with-side-nav]="showNav() && isDesktop() && !isLanding()" 
-     [class.app-layout--with-bottom-nav]="showNav() && !isDesktop() && !isLanding()"
-     [class.app-layout--with-top-nav]="showNav() && isLanding()">
+<div
+  class="app-layout"
+  [class.app-layout--with-side-nav]="showNav() && isDesktop() && !isLanding()"
+  [class.app-layout--with-bottom-nav]="showNav() && !isDesktop() && !isLanding()"
+>
   <main class="app-main">
     <router-outlet />
   </main>
 
-  @if (showNav()) {
-    <ui-nav-list 
-      [position]="isLanding() ? 'top' : (isDesktop() ? 'side' : 'bottom')" 
-      [justify]="isLanding() ? 'center' : (isDesktop() ? 'start' : 'around')"
-      [uiScrollHide]="!isDesktop() && !isLanding()"
-      [expanded]="false"
+  @if (showNav() && !isLanding()) {
+  <ui-nav-list
+    [position]="isDesktop() ? 'side' : 'bottom'"
+    [justify]="isDesktop() ? 'start' : 'around'"
+    [uiScrollHide]="!isDesktop()"
+    [expanded]="false"
+  >
+    <ui-nav-item
+      [layout]="isDesktop() ? 'horizontal' : 'vertical'"
+      iconSize="md"
+      [active]="isActive('/home')"
+      (clicked)="go('/home')"
     >
-      <ui-nav-item 
-        [layout]="isLanding() ? 'horizontal' : (isDesktop() ? 'horizontal' : 'vertical')" 
-        iconSize="md" 
-        [active]="isActive('/home')" 
-        (clicked)="go('/home')"
-      >
-        <svg icon lucideHome aria-hidden="true"></svg>
-        <span label>Home</span>
-      </ui-nav-item>
-      
-      @if (isAuthenticated()) {
-        <ui-nav-item 
-          [layout]="isLanding() ? 'horizontal' : (isDesktop() ? 'horizontal' : 'vertical')" 
-          iconSize="md" 
-          [active]="isActive('/profile')" 
-          (clicked)="go('/profile')"
-          class="nav-item--footer"
-        >
-          <svg icon lucideUser aria-hidden="true"></svg>
-          <span label>Profile</span>
-        </ui-nav-item>
-      } @else {
-        <ui-nav-item 
-          [layout]="isLanding() ? 'horizontal' : (isDesktop() ? 'horizontal' : 'vertical')" 
-          iconSize="md" 
-          [active]="isActive('/auth/login')" 
-          (clicked)="go('/auth/login')"
-          class="nav-item--footer"
-        >
-          <svg icon lucideLogIn aria-hidden="true"></svg>
-          <span label>Login</span>
-        </ui-nav-item>
-      }
-    </ui-nav-list>
+      <svg icon lucideHouse aria-hidden="true"></svg>
+      <span label>Home</span>
+    </ui-nav-item>
+
+    @if (isAuthenticated()) {
+    <ui-nav-item
+      [layout]="isDesktop() ? 'horizontal' : 'vertical'"
+      iconSize="md"
+      [active]="isActive('/profile')"
+      (clicked)="go('/profile')"
+      class="nav-item--footer"
+    >
+      <svg icon lucideUser aria-hidden="true"></svg>
+      <span label>Profile</span>
+    </ui-nav-item>
+    } @else {
+    <ui-nav-item
+      [layout]="isDesktop() ? 'horizontal' : 'vertical'"
+      iconSize="md"
+      [active]="isActive('/auth/login')"
+      (clicked)="go('/auth/login')"
+      class="nav-item--footer"
+    >
+      <svg icon lucideLogIn aria-hidden="true"></svg>
+      <span label>Login</span>
+    </ui-nav-item>
+    }
+  </ui-nav-list>
   }
 </div>
 

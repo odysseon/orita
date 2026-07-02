@@ -1,28 +1,76 @@
 <div class="landing-page">
+  <!-- Nav -->
+  <header class="nav glass glass--frosted">
+    <div class="nav-inner">
+      <a class="nav-brand" routerLink="/">
+        <span class="nav-brand-dot"></span>
+        Orita
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a routerLink="/home">Explore</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#features">Features</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn btn--ghost btn--sm" (click)="login()">Log in</button>
+        <button class="btn btn--primary btn--sm" (click)="getStarted()">Get Started</button>
+      </div>
+    </div>
+  </header>
+
   <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-content">
+      <span class="hero-eyebrow">
+        <svg lucideMapPin aria-hidden="true"></svg>
+        Built for busy neighborhoods
+      </span>
       <h1 class="hero-title">Discover Local Businesses & Unique Services</h1>
       <p class="hero-subtitle">
-        Orita connects you with the best businesses, products, and services in your area. Find what you need, or showcase what you've got.
+        Orita connects you with the best businesses, products, and services in your area. Find what
+        you need, or showcase what you've got.
       </p>
       <div class="hero-actions">
         <button class="btn btn--primary btn--large" (click)="getStarted()">
           Get Started
           <svg lucideArrowRight aria-hidden="true"></svg>
         </button>
-        <button class="btn btn--ghost btn--large" (click)="explore()">
-          Explore Businesses
-        </button>
+        <button class="btn btn--ghost btn--large" (click)="explore()">Explore Businesses</button>
       </div>
+      <ul class="category-strip" aria-label="Popular categories">
+        <li class="category-chip">Restaurants</li>
+        <li class="category-chip">Salons &amp; Spas</li>
+        <li class="category-chip">Home Repairs</li>
+        <li class="category-chip">Fashion</li>
+        <li class="category-chip">Electronics</li>
+        <li class="category-chip">Fitness</li>
+      </ul>
     </div>
     <div class="hero-image-wrapper">
       <img src="/hero_mockup.png" alt="Orita App Interface Mockup" class="hero-image" />
     </div>
   </section>
 
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat">
+        <span class="stat-value">2,400+</span>
+        <span class="stat-label">Businesses listed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">18</span>
+        <span class="stat-label">Cities covered</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">50k+</span>
+        <span class="stat-label">Searches every month</span>
+      </div>
+    </div>
+  </section>
+
   <!-- Features Section -->
-  <section class="features-section">
+  <section class="features-section" id="features">
     <h2 class="section-title">Everything you need in one place</h2>
     <div class="features-grid">
       <div class="feature-card glass">
@@ -30,23 +78,66 @@
           <svg lucideStore aria-hidden="true"></svg>
         </div>
         <h3 class="feature-title">Find Exactly What You Need</h3>
-        <p class="feature-text">Search and filter through a curated directory of local businesses and service providers.</p>
+        <p class="feature-text">
+          Search and filter through a curated directory of local businesses and service providers.
+        </p>
       </div>
-      
+
       <div class="feature-card glass">
-        <div class="feature-icon-wrapper">
+        <div class="feature-icon-wrapper feature-icon-wrapper--accent">
           <svg lucideMessageCircle aria-hidden="true"></svg>
         </div>
         <h3 class="feature-title">Connect Instantly</h3>
-        <p class="feature-text">Reach out to sellers directly via phone or WhatsApp to get your questions answered.</p>
+        <p class="feature-text">
+          Reach out to sellers directly via phone or WhatsApp to get your questions answered.
+        </p>
       </div>
-      
+
       <div class="feature-card glass">
         <div class="feature-icon-wrapper">
           <svg lucideTrendingUp aria-hidden="true"></svg>
         </div>
         <h3 class="feature-title">Grow Your Business</h3>
-        <p class="feature-text">Create your own business profile, list your products, and reach more customers.</p>
+        <p class="feature-text">
+          Create your own business profile, list your products, and reach more customers.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works Section -->
+  <section class="steps-section" id="how-it-works">
+    <h2 class="section-title">Three steps to your next favorite spot</h2>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-top">
+          <div class="step-icon">
+            <svg lucideSearch aria-hidden="true"></svg>
+          </div>
+          <span class="step-number">01</span>
+        </div>
+        <h3 class="step-title">Search nearby</h3>
+        <p class="step-text">Filter by category, location, or what you're in the mood for.</p>
+      </div>
+      <div class="step">
+        <div class="step-top">
+          <div class="step-icon">
+            <svg lucideMessageCircle aria-hidden="true"></svg>
+          </div>
+          <span class="step-number">02</span>
+        </div>
+        <h3 class="step-title">Reach out directly</h3>
+        <p class="step-text">Call or message the business, no middleman, no waiting on a form.</p>
+      </div>
+      <div class="step">
+        <div class="step-top">
+          <div class="step-icon">
+            <svg lucideMapPin aria-hidden="true"></svg>
+          </div>
+          <span class="step-number">03</span>
+        </div>
+        <h3 class="step-title">Visit or order</h3>
+        <p class="step-text">Get directions and go, or arrange delivery straight from the chat.</p>
       </div>
     </div>
   </section>
@@ -55,8 +146,22 @@
   <section class="cta-section glass glass--frosted">
     <h2 class="cta-title">Ready to join the community?</h2>
     <p class="cta-text">Create your free account today and start discovering.</p>
-    <button class="btn btn--primary btn--large" (click)="getStarted()">
-      Sign Up Now
-    </button>
+    <button class="btn btn--primary btn--large" (click)="getStarted()">Sign Up Now</button>
   </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" routerLink="/">
+        <span class="nav-brand-dot"></span>
+        Orita
+      </a>
+      <nav class="footer-links" aria-label="Footer">
+        <a routerLink="/home">Explore</a>
+        <a href="#how-it-works">How it works</a>
+        <a routerLink="/auth/register">List your business</a>
+      </nav>
+      <p class="footer-copy">&copy; 2026 Orita. Made for local businesses.</p>
+    </div>
+  </footer>
 </div>
