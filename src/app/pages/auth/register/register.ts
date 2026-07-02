@@ -8,15 +8,24 @@ import { AppAuthCard } from '../../../shared/auth-card/auth-card';
 import { AppFormField } from '../../../shared/form-field/form-field';
 import { AppPasswordField } from '../../../shared/password-field/password-field';
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
+import { ValidationService } from '../../../core/services/validation.service';
 
 @Component({
   selector: 'app-register',
-  imports: [FormField, LucideLoaderCircle, AppAuthCard, AppFormField, AppPasswordField, AppGoogleSignIn],
+  imports: [
+    FormField,
+    LucideLoaderCircle,
+    AppAuthCard,
+    AppFormField,
+    AppPasswordField,
+    AppGoogleSignIn,
+  ],
   templateUrl: './register.html',
   styleUrls: ['../auth.css', './register.css'],
 })
 export class Register {
   #auth = inject(AuthService);
+  #validation = inject(ValidationService);
 
   readonly loading = signal(false);
 
@@ -31,8 +40,7 @@ export class Register {
     minLength(f.username, 2, { message: 'Username must be at least 2 characters' });
     required(f.email, { message: 'Email is required' });
     email(f.email, { message: 'Enter a valid email address' });
-    required(f.password, { message: 'Password is required' });
-    minLength(f.password, 8, { message: 'Password must be at least 8 characters' });
+    this.#validation.validatePassword(f.password);
   });
 
   readonly isFormInvalid = computed(() => this.registerForm().invalid());
@@ -44,5 +52,4 @@ export class Register {
     await this.#auth.register(this.model());
     this.loading.set(false);
   }
-
 }
