@@ -4,13 +4,13 @@ import { businessRoutes } from './business/business.routes';
 
 export const profileRoutes: Route[] = [
   {
-    path: 'profile',
+    path: '',
     canActivate: [authGuard],
     loadComponent: () => import('./profile').then((m) => m.Profile),
     data: { isRootAppPage: true },
   },
   {
-    path: 'profile',
+    path: '',
     canActivate: [authGuard],
     loadComponent: () => import('./layout/profile-sub-layout').then((m) => m.ProfileSubLayout),
     children: [
