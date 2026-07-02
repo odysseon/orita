@@ -1,5 +1,5 @@
 /// <reference types="google.accounts" />
-import { Component, ElementRef, AfterViewInit, inject, input, output, viewChild } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, inject, input, output, viewChild, OnDestroy } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { GoogleAuthService } from '../../core/services/google-auth.service';
 import { environment } from '../../../environments/environment';
@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './google-sign-in.html',
   styleUrl: './google-sign-in.css',
 })
-export class AppGoogleSignIn implements AfterViewInit {
+export class AppGoogleSignIn implements AfterViewInit, OnDestroy {
   googleBtnRef = viewChild.required<ElementRef<HTMLDivElement>>('googleBtnRef');
   autoLogin = input(true);
   idTokenReceived = output<string>();
@@ -17,14 +17,13 @@ export class AppGoogleSignIn implements AfterViewInit {
   #auth = inject(AuthService);
   #googleAuth = inject(GoogleAuthService);
 
+  private credentialCallback = (response: google.accounts.id.CredentialResponse) => {
+    this.handleCredentialResponse(response);
+  };
+
   ngAfterViewInit() {
-    // Only initialize if the global google object is loaded and clientId is configured
     if (typeof window !== 'undefined' && window.google && environment.googleClientId) {
-      google.accounts.id.initialize({
-        client_id: environment.googleClientId,
-        callback: (response: google.accounts.id.CredentialResponse) =>
-          this.handleCredentialResponse(response),
-      });
+      this.#googleAuth.initialize(this.credentialCallback);
       const wrapper = this.googleBtnRef().nativeElement;
       const computedWidth = getComputedStyle(wrapper).getPropertyValue('--google-btn-width');
       const width = computedWidth ? parseInt(computedWidth.trim(), 10) : 320;
@@ -38,6 +37,10 @@ export class AppGoogleSignIn implements AfterViewInit {
     } else {
       console.warn('Google Sign-In script not loaded or Client ID is missing.');
     }
+  }
+
+  ngOnDestroy() {
+    this.#googleAuth.unregister(this.credentialCallback);
   }
 
   private handleCredentialResponse(response: google.accounts.id.CredentialResponse) {

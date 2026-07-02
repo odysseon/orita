@@ -110,3 +110,19 @@
   gap: var(--size-12);
   padding-top: var(--size-24);
 }
+
+@media (max-width: 520px) {
+  .field-toggle-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--size-12);
+  }
+
+  .field-toggle-row .btn {
+    width: 100%;
+  }
+
+  .edit-biz-panel-body {
+    padding: var(--size-16);
+  }
+}
