@@ -4,7 +4,8 @@
       <h1 class="edit-biz-title">Privacy & Security</h1>
     </div>
     <p class="edit-biz-description">
-      Manage authentication methods and account security. Profile details are edited on a dedicated edit page.
+      Manage authentication methods and account security. Profile details are edited on a dedicated
+      edit page.
     </p>
   </div>
 
@@ -15,9 +16,13 @@
         <div class="field-toggle-row">
           <div class="field-toggle-info">
             <span class="field-toggle-title">Edit profile details</span>
-            <span class="field-toggle-desc">Update your avatar, username, and email on your dedicated edit page.</span>
+            <span class="field-toggle-desc"
+              >Update your avatar, username, and email on your dedicated edit page.</span
+            >
           </div>
-          <button type="button" class="btn btn--outline" routerLink="/profile/edit">Open Edit Profile</button>
+          <button type="button" class="btn btn--outline" routerLink="/profile/edit">
+            Open Edit Profile
+          </button>
         </div>
       </div>
     </div>
@@ -28,7 +33,7 @@
         <div class="field-toggle-row">
           <div class="field-toggle-info">
             <span class="field-toggle-title">Password</span>
-            <span class="field-toggle-desc">Change or reset your password</span>
+            <span class="field-toggle-desc">Change your password or add password credentials</span>
           </div>
           <button type="button" class="btn btn--outline" (click)="isPasswordDrawerOpen.set(true)">
             <svg lucideKey class="icon" aria-hidden="true"></svg>
@@ -39,7 +44,9 @@
         <div class="field-toggle-row" style="margin-top: var(--size-16)">
           <div class="field-toggle-info">
             <span class="field-toggle-title">Google Account</span>
-            <span class="field-toggle-desc">Link or unlink your Google account for easier sign-in</span>
+            <span class="field-toggle-desc"
+              >Link or unlink your Google account for easier sign-in</span
+            >
           </div>
           <button type="button" class="btn btn--outline" (click)="isGoogleDrawerOpen.set(true)">
             <svg lucideLink class="icon" aria-hidden="true"></svg>
@@ -49,13 +56,19 @@
       </div>
     </div>
 
-    <div class="panel panel--danger" style="border-color: var(--text-danger); background: rgba(239, 68, 68, 0.05)">
+    <div
+      class="panel panel--danger"
+      style="border-color: var(--text-danger); background: rgba(239, 68, 68, 0.05)"
+    >
       <h2 class="panel__title" style="color: var(--text-danger)">Danger Zone</h2>
       <div class="panel__body edit-biz-panel-body">
         <div class="field-toggle-row">
           <div class="field-toggle-info">
             <span class="field-toggle-title">Delete Account</span>
-            <span class="field-toggle-desc">Permanently remove your account and all associated data. This action cannot be undone.</span>
+            <span class="field-toggle-desc"
+              >Permanently remove your account and all associated data. This action cannot be
+              undone.</span
+            >
           </div>
           <button type="button" class="btn btn--danger" disabled (click)="onDeleteAccount()">
             <svg lucideTrash2 class="icon" aria-hidden="true"></svg>
@@ -68,50 +81,151 @@
 </div>
 
 <!-- Password Drawer -->
-<ui-drawer [(open)]="isPasswordDrawerOpen" position="right" title="Manage Password">
-  <form class="drawer-form-content" (ngSubmit)="onSubmitPassword($event)">
+<ui-drawer
+  [(open)]="isPasswordDrawerOpen"
+  position="right"
+  [title]="hasPassword() ? 'Change Password' : 'Add Password'"
+>
+  @if (hasPassword()) {
+  <form
+    class="drawer-form-content"
+    [formGroup]="changePasswordForm"
+    (ngSubmit)="onSubmitPassword($event)"
+  >
     <p class="edit-biz-description" style="margin-bottom: var(--size-24)">
-      If you signed up with Google, you may not have a password. You can send a reset link to set one.
+      Change the password used to sign in to your account.
     </p>
 
-    <app-password-field
-      fieldId="currentPassword"
+    <app-form-field
       label="Current Password"
-      [formField]="passwordFormObj.currentPassword"
-      [touched]="passwordFormObj.currentPassword().touched()"
-      [invalid]="passwordFormObj.currentPassword().invalid()"
-      [errorMessage]="passwordFormObj.currentPassword().errors()[0]?.message"
-    ></app-password-field>
+      fieldId="currentPassword"
+      [touched]="changePasswordForm.controls.currentPassword.touched"
+      [invalid]="changePasswordForm.controls.currentPassword.invalid"
+      [errorMessage]="currentPasswordError()"
+    >
+      <div class="field__input-wrap">
+        <input
+          id="currentPassword"
+          class="field__input field__input--padded"
+          [type]="showCurrentPassword() ? 'text' : 'password'"
+          formControlName="currentPassword"
+          [class.field__input--error]="changePasswordForm.controls.currentPassword.touched && changePasswordForm.controls.currentPassword.invalid"
+        />
+        <button
+          class="field__toggle"
+          type="button"
+          [attr.aria-label]="showCurrentPassword() ? 'Hide password' : 'Show password'"
+          (click)="showCurrentPassword.set(!showCurrentPassword())"
+        >
+          @if (showCurrentPassword()) {
+          <svg lucideEyeOff aria-hidden="true"></svg>
+          } @else {
+          <svg lucideEye aria-hidden="true"></svg>
+          }
+        </button>
+      </div>
+    </app-form-field>
 
-    <app-password-field
-      fieldId="newPassword"
+    <app-form-field
       label="New Password"
-      [formField]="passwordFormObj.newPassword"
-      [touched]="passwordFormObj.newPassword().touched()"
-      [invalid]="passwordFormObj.newPassword().invalid()"
-      [errorMessage]="passwordFormObj.newPassword().errors()[0]?.message"
-    ></app-password-field>
+      fieldId="newPassword"
+      [touched]="changePasswordForm.controls.newPassword.touched"
+      [invalid]="changePasswordForm.controls.newPassword.invalid"
+      [errorMessage]="newPasswordError()"
+    >
+      <div class="field__input-wrap">
+        <input
+          id="newPassword"
+          class="field__input field__input--padded"
+          [type]="showNewPassword() ? 'text' : 'password'"
+          formControlName="newPassword"
+          [class.field__input--error]="changePasswordForm.controls.newPassword.touched && changePasswordForm.controls.newPassword.invalid"
+        />
+        <button
+          class="field__toggle"
+          type="button"
+          [attr.aria-label]="showNewPassword() ? 'Hide password' : 'Show password'"
+          (click)="showNewPassword.set(!showNewPassword())"
+        >
+          @if (showNewPassword()) {
+          <svg lucideEyeOff aria-hidden="true"></svg>
+          } @else {
+          <svg lucideEye aria-hidden="true"></svg>
+          }
+        </button>
+      </div>
+    </app-form-field>
 
     <div class="drawer-actions">
-      <button type="button" class="btn btn--ghost" (click)="onResetPassword()">
-        Reset via Email
+      <button type="button" class="btn btn--ghost" (click)="isPasswordDrawerOpen.set(false)">
+        Cancel
       </button>
-      <button type="submit" class="btn btn--primary" [disabled]="loading()">
-        Change Password
-      </button>
+      <button type="submit" class="btn btn--primary" [disabled]="loading()">Change Password</button>
     </div>
   </form>
+  } @else {
+  <form
+    class="drawer-form-content"
+    [formGroup]="addPasswordForm"
+    (ngSubmit)="onSubmitPassword($event)"
+  >
+    <p class="edit-biz-description" style="margin-bottom: var(--size-24)">
+      Add a password to your account to sign in directly with your email.
+    </p>
+
+    <app-form-field
+      label="Password"
+      fieldId="addPassword"
+      [touched]="addPasswordForm.controls.password.touched"
+      [invalid]="addPasswordForm.controls.password.invalid"
+      [errorMessage]="addPasswordError()"
+    >
+      <div class="field__input-wrap">
+        <input
+          id="addPassword"
+          class="field__input field__input--padded"
+          [type]="showAddPassword() ? 'text' : 'password'"
+          formControlName="password"
+          [class.field__input--error]="addPasswordForm.controls.password.touched && addPasswordForm.controls.password.invalid"
+        />
+        <button
+          class="field__toggle"
+          type="button"
+          [attr.aria-label]="showAddPassword() ? 'Hide password' : 'Show password'"
+          (click)="showAddPassword.set(!showAddPassword())"
+        >
+          @if (showAddPassword()) {
+          <svg lucideEyeOff aria-hidden="true"></svg>
+          } @else {
+          <svg lucideEye aria-hidden="true"></svg>
+          }
+        </button>
+      </div>
+    </app-form-field>
+
+    <div class="drawer-actions">
+      <button type="button" class="btn btn--ghost" (click)="isPasswordDrawerOpen.set(false)">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn--primary" [disabled]="loading()">Add Password</button>
+    </div>
+  </form>
+  }
 </ui-drawer>
 
 <!-- Google Auth Drawer -->
 <ui-drawer [(open)]="isGoogleDrawerOpen" position="right" title="Google Auth">
   <div class="drawer-form-content">
     <p class="edit-biz-description" style="margin-bottom: var(--size-24)">
-      Link your Google account to sign in with one click. If you only use a password, linking Google provides an alternative.
+      Link your Google account to sign in with one click. If you only use a password, linking Google
+      provides an alternative.
     </p>
 
     <div class="drawer-actions" style="flex-direction: column; gap: var(--size-12)">
-      <app-google-sign-in [autoLogin]="false" (idTokenReceived)="onGoogleIdTokenReceived($event)"></app-google-sign-in>
+      <app-google-sign-in
+        [autoLogin]="false"
+        (idTokenReceived)="onGoogleIdTokenReceived($event)"
+      ></app-google-sign-in>
       <button type="button" class="btn btn--ghost btn--danger btn--full" (click)="onUnlinkGoogle()">
         <svg lucideUnlink class="icon" aria-hidden="true"></svg>
         Unlink Google Account

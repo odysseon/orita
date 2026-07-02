@@ -16,4 +16,5 @@ export interface IProfile {
   businessId: string | null;
   accountId: string;
   email: string;
+  hasPassword?: boolean;
 }
