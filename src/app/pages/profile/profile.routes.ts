@@ -1,20 +1,18 @@
 import { Route } from '@angular/router';
 import { authGuard } from '../../core/guards/auth.guard';
 import { businessRoutes } from './business/business.routes';
-import { Profile } from './profile';
-import { ProfileSubLayout } from './layout/profile-sub-layout';
 
 export const profileRoutes: Route[] = [
   {
     path: 'profile',
     canActivate: [authGuard],
-    component: Profile,
+    loadComponent: () => import('./profile').then((m) => m.Profile),
     data: { isRootAppPage: true },
   },
   {
     path: 'profile',
     canActivate: [authGuard],
-    component: ProfileSubLayout,
+    loadComponent: () => import('./layout/profile-sub-layout').then((m) => m.ProfileSubLayout),
     children: [
       {
         path: 'appearance',
