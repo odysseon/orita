@@ -157,16 +157,23 @@
   }
 }
 
-.recent-searches {
+.empty-state-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   max-width: 600px;
   margin: 0 auto;
 }
 
-.recent-searches h3 {
-  font-size: 1rem;
+.empty-state-dashboard h3 {
+  font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: var(--text-muted);
+  color: var(--text);
+}
+
+.recent-searches {
+  /* Inherits from empty-state-dashboard */
 }
 
 .recent-list {
@@ -196,6 +203,40 @@
 
 .recent-list button:hover {
   background: var(--surface-hover);
+}
+
+.recent-list svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--text-muted);
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.trending-cat-card {
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  color: var(--text);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.trending-cat-card:hover {
+  background: var(--surface-hover);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.popular-businesses-section {
+  /* Container for popular businesses */
 }
 
 .recent-list svg {
@@ -250,6 +291,47 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* ============================================================
+ * CATEGORY RAIL
+ * ============================================================ */
+.category-rail {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0.5rem 1rem;
+  margin: 0 -1rem; /* Full bleed padding inside search page container */
+}
+
+.category-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.category-chip {
+  flex-shrink: 0;
+  height: 2rem;
+  padding: 0 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.category-chip:hover {
+  border-color: var(--primary);
+}
+
+.category-chip.category-chip--active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
 }
 
 .active-filters {

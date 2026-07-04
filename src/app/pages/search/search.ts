@@ -44,6 +44,8 @@ export class Search {
   readonly appliedLng = computed(() => Number(this.queryParamMap()?.get('lng')) || undefined);
   readonly appliedRadius = computed(() => Number(this.queryParamMap()?.get('radius')) || 10);
   readonly appliedCategoryId = computed(() => this.queryParamMap()?.get('categoryId') || undefined);
+  readonly appliedSort = computed(() => this.queryParamMap()?.get('sort') || 'relevance');
+  readonly appliedLimit = computed(() => Number(this.queryParamMap()?.get('limit')) || 20);
 
   // Local Search Input
   readonly rawQuery = signal(this.#route.snapshot.queryParamMap.get('q') || '');
@@ -58,6 +60,7 @@ export class Search {
   readonly tempLocationName = signal('');
   readonly tempRadius = signal(10);
   readonly tempCategoryId = signal('');
+  readonly tempSort = signal('relevance');
   readonly recentLocations = signal<GeocodeResult[]>(this.loadLocalStorage('orita_recent_locations'));
 
   // Derived API Parameters
@@ -69,7 +72,9 @@ export class Search {
       lat: this.appliedLat(),
       lng: this.appliedLng(),
       radius: this.appliedRadius(),
-      categoryId: this.appliedCategoryId()
+      categoryId: this.appliedCategoryId(),
+      sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
+      limit: this.appliedLimit() !== 20 ? this.appliedLimit() : undefined
     };
   });
 
@@ -81,12 +86,17 @@ export class Search {
       lat: this.appliedLat(),
       lng: this.appliedLng(),
       radius: this.appliedRadius(),
-      categoryId: this.appliedCategoryId()
+      categoryId: this.appliedCategoryId(),
+      sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
+      limit: this.appliedLimit() !== 20 ? this.appliedLimit() : undefined
     };
   });
 
   readonly listingsResource = this.#searchService.getListingsResource(this.listingParams);
   readonly businessesResource = this.#searchService.getBusinessesResource(this.businessParams);
+  
+  // Empty State Data
+  readonly popularBusinessesResource = this.#searchService.getBusinessesResource(computed(() => ({ limit: 10 })));
 
   constructor() {
     toObservable(this.rawQuery).pipe(
@@ -108,10 +118,23 @@ export class Search {
 
   clearSearch() {
     this.rawQuery.set('');
+    this.updateUrl({ limit: null });
   }
 
   setSearchType(type: 'listing' | 'business') {
-    this.updateUrl({ tab: type });
+    this.updateUrl({ tab: type, limit: null });
+  }
+
+  setCategory(categoryId: string | null) {
+    this.updateUrl({ categoryId, limit: null });
+  }
+
+  clearCategory() {
+    this.updateUrl({ categoryId: null, limit: null });
+  }
+
+  loadMore() {
+    this.updateUrl({ limit: this.appliedLimit() + 20 });
   }
 
   applyRecentSearch(query: string) {
@@ -123,6 +146,7 @@ export class Search {
     this.tempLocationName.set(this.appliedLocationName());
     this.tempRadius.set(this.appliedRadius());
     this.tempCategoryId.set(this.appliedCategoryId() || '');
+    this.tempSort.set(this.appliedSort());
     this.isFiltersOpen.set(true);
   }
 
@@ -194,7 +218,9 @@ export class Search {
       lng: null,
       locationName: null,
       radius: null,
-      categoryId: null
+      categoryId: null,
+      sort: null,
+      limit: null
     });
     this.isFiltersOpen.set(false);
   }
@@ -211,7 +237,9 @@ export class Search {
       lng: lng || null,
       locationName: locationName || null,
       radius: this.tempRadius() !== 10 ? this.tempRadius() : null,
-      categoryId: this.tempCategoryId() || null
+      categoryId: this.tempCategoryId() || null,
+      sort: this.tempSort() !== 'relevance' ? this.tempSort() : null,
+      limit: null // Reset limit on new filter
     });
   }
 

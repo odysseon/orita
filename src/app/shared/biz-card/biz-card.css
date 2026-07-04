@@ -72,11 +72,38 @@
   }
 }
 
-.biz-card__saved {
+.biz-card__save-btn {
   position: absolute;
-  top: var(--size-10);
-  right: var(--size-10);
-  width: var(--size-16);
-  height: var(--size-16);
-  color: var(--clr-primary);
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  border: none;
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  z-index: 2;
+}
+
+.biz-card__save-btn:hover {
+  background: var(--surface);
+  color: var(--primary);
+  transform: scale(1.1);
+}
+
+.biz-card__saved {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: transparent;
+  transition: all 0.2s;
+}
+
+.biz-card__saved.is-saved {
+  fill: currentColor;
+  color: var(--primary);
 }

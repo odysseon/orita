@@ -13,7 +13,7 @@
     </span>
     }
   </div>
-  @if (biz().isSaved) {
-  <svg lucideBookmark class="biz-card__saved" aria-hidden="true"></svg>
-  }
+  <button class="biz-card__save-btn" (click)="toggleSave($event)" aria-label="Save">
+    <svg lucideBookmark class="biz-card__saved" [class.is-saved]="biz().isSaved" aria-hidden="true"></svg>
+  </button>
 </a>
