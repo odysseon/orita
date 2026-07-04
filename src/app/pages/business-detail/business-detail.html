@@ -147,6 +147,35 @@
     }
   </section>
 
+  <!-- Store Tours -->
+  @if (tours.hasValue() && tours.value()!.items.length > 0) {
+  <section class="biz-section">
+    <h2 class="biz-section__title">
+      <svg lucideImage aria-hidden="true"></svg>
+      Store Tours
+      <span class="badge badge--neutral" style="min-width: 20px; height: 20px; display: inline-flex; justify-content: center;">{{ tours.value()!.total }}</span>
+    </h2>
+
+    <div class="biz-listing-grid">
+      @for (tour of tours.value()!.items; track tour.id) {
+      <a class="biz-listing-card" [routerLink]="['/tours', tour.id]">
+        <div class="biz-listing-card__cover">
+          @if (tour.media && tour.media.length > 0) {
+          <img [src]="tour.media[0].url" [alt]="tour.title" />
+          } @else {
+          <svg lucideImage aria-hidden="true"></svg>
+          }
+        </div>
+        <div class="biz-listing-card__body">
+          <span class="biz-listing-card__title">{{ tour.title }}</span>
+          <span class="biz-listing-card__price">{{ tour.visitDate | date:'mediumDate' }}</span>
+        </div>
+      </a>
+      }
+    </div>
+  </section>
+  }
+
   @if (biz.websiteUrl) {
   <a style="display: inline-flex; align-items: center; gap: var(--size-6); font-size: var(--font-size-md); color: var(--clr-primary); text-decoration: none;" [href]="biz.websiteUrl" target="_blank" rel="noopener noreferrer">
     <svg lucideGlobe style="width: var(--size-15); height: var(--size-15)" aria-hidden="true"></svg>

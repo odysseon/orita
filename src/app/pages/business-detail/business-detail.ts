@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { httpResource, HttpClient } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
@@ -14,6 +15,7 @@ import {
   LucideBookmark,
   LucidePackage,
   LucideBadgeCheck,
+  LucideImage,
 } from '@lucide/angular';
 import { Logo } from '../../shared/logo/logo';
 import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.interface';
@@ -21,6 +23,7 @@ import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
 import { AppPageHeader } from '../../shared/page-header/page-header';
 import { EmptyState } from '../../shared/empty-state/empty-state';
+import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
 
 const DAY_LABELS: Record<string, string> = {
   MON: 'Monday',
@@ -48,6 +51,8 @@ const DAY_LABELS: Record<string, string> = {
     LucideBookmark,
     LucidePackage,
     LucideBadgeCheck,
+    LucideImage,
+    DatePipe,
   ],
   templateUrl: './business-detail.html',
   styleUrl: './business-detail.css',
@@ -57,6 +62,7 @@ export class BusinessDetail {
   #router = inject(Router);
   #http = inject(HttpClient);
   #toast = inject(ToastService);
+  #tourService = inject(BusinessTourService);
 
   readonly saving = signal(false);
 
@@ -70,6 +76,12 @@ export class BusinessDetail {
     const slug = this.slug();
     if (!slug) return undefined;
     return `${environment.apiUrl}/businesses/${slug}/listings`;
+  });
+
+  readonly tours = httpResource<{ items: IBusinessTour[]; total: number }>(() => {
+    const bizId = this.business.value()?.id;
+    if (!bizId) return undefined;
+    return `${environment.apiUrl}/business-profiles/${bizId}/business-tours?status=PUBLISHED&limit=20`;
   });
 
   readonly verificationBadge = computed(() => {

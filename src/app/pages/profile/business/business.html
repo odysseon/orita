@@ -97,6 +97,14 @@
       <svg lucideList aria-hidden="true"></svg>
       Listings
     </button>
+    <button
+      class="tab"
+      [class.tab--active]="activeTab() === 'tours'"
+      (click)="setTab('tours')"
+    >
+      <svg lucideImage aria-hidden="true"></svg>
+      Store Tours
+    </button>
   </nav>
 
   <!-- Overview tab -->
@@ -210,6 +218,13 @@
   @if (activeTab() === 'listings') {
   <div class="biz-section">
     <app-listings [businessId]="business.value()!.id" />
+  </div>
+  } 
+
+  <!-- Tours tab -->
+  @if (activeTab() === 'tours') {
+  <div class="biz-section">
+    <app-business-tours [businessId]="business.value()!.id" />
   </div>
   } }
 

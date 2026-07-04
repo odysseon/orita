@@ -1,11 +1,12 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   LucideSearch,
   LucideMapPin,
   LucideStore,
   LucidePackage,
+  LucideImage,
 } from '@lucide/angular';
 import { AppBizCard } from '../../shared/biz-card/biz-card';
 import { AppListingCard } from '../../shared/listing-card/listing-card';
@@ -16,17 +17,20 @@ import { CreateBusiness } from '../profile/business/create/create-business';
 import { IBusinessSummary, IListingSummary, IPaginated, ICategory } from './home.interface';
 import { environment } from '../../../environments/environment';
 import { CategoryService } from '../../core/services/category.service';
+import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
 
-type ExploreTab = 'businesses' | 'listings';
+type ExploreTab = 'businesses' | 'listings' | 'tours';
 
 @Component({
   selector: 'app-home',
   imports: [
+    RouterLink,
     AppBizCard,
     AppListingCard,
     LucideSearch,
     LucideStore,
     LucidePackage,
+    LucideImage,
     EmptyState,
     CreateBusiness,
     HomeHeader,
@@ -38,6 +42,7 @@ type ExploreTab = 'businesses' | 'listings';
 export class Home {
   #router = inject(Router);
   #categoryService = inject(CategoryService);
+  #tourService = inject(BusinessTourService);
 
   readonly activeTab = signal<ExploreTab>('businesses');
   readonly activeCategorySlug = signal<string | null>(null);
@@ -60,6 +65,14 @@ export class Home {
     if (this.activeCategorySlug()) params.set('categorySlug', this.activeCategorySlug()!);
     const qs = params.toString();
     return `${environment.apiUrl}/listings${qs ? `?${qs}` : ''}`;
+  });
+
+  readonly tours = httpResource<IPaginated<IBusinessTour>>(() => {
+    const params = new URLSearchParams();
+    params.set('status', 'PUBLISHED');
+    if (this.searchQuery().trim()) params.set('search', this.searchQuery().trim());
+    const qs = params.toString();
+    return `${environment.apiUrl}/business-tours${qs ? `?${qs}` : ''}`;
   });
 
   readonly filteredBusinesses = computed(() => {
