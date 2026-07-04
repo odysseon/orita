@@ -3,18 +3,7 @@ import { httpResource } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 import { IListingSummary, IBusinessSummary, IPaginated } from '../../pages/home/home.interface';
-
-export interface SearchQueryParams {
-  q?: string;
-  lat?: number;
-  lng?: number;
-  radius?: number;
-  categoryId?: string;
-  filter?: string[];
-  sort?: string;
-  limit?: number;
-  offset?: number;
-}
+import { SearchFilters } from '../models/search.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +11,7 @@ export interface SearchQueryParams {
 export class SearchService {
   #apiUrl = `${environment.apiUrl}/search`;
 
-  private buildUrl(base: string, params: SearchQueryParams | null): string | undefined {
+  private buildUrl(base: string, params: SearchFilters | null): string | undefined {
     if (!params) return undefined;
 
     const urlParams = new URLSearchParams();
@@ -43,13 +32,13 @@ export class SearchService {
     return `${base}${qs ? `?${qs}` : ''}`;
   }
 
-  getListingsResource(paramsSignal: Signal<SearchQueryParams | null>) {
+  getListingsResource(paramsSignal: Signal<SearchFilters | null>) {
     return httpResource<IPaginated<IListingSummary>>(() => 
       this.buildUrl(`${this.#apiUrl}/listings`, paramsSignal())
     );
   }
 
-  getBusinessesResource(paramsSignal: Signal<SearchQueryParams | null>) {
+  getBusinessesResource(paramsSignal: Signal<SearchFilters | null>) {
     return httpResource<IPaginated<IBusinessSummary>>(() => 
       this.buildUrl(`${this.#apiUrl}/businesses`, paramsSignal())
     );

@@ -15,6 +15,7 @@ import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directi
 import { CreateBusiness } from '../profile/business/create/create-business';
 import { IBusinessSummary, IListingSummary, IPaginated, ICategory } from './home.interface';
 import { environment } from '../../../environments/environment';
+import { CategoryService } from '../../core/services/category.service';
 
 type ExploreTab = 'businesses' | 'listings';
 
@@ -36,18 +37,15 @@ type ExploreTab = 'businesses' | 'listings';
 })
 export class Home {
   #router = inject(Router);
+  #categoryService = inject(CategoryService);
 
   readonly activeTab = signal<ExploreTab>('businesses');
   readonly activeCategorySlug = signal<string | null>(null);
   readonly searchQuery = signal('');
   readonly isCreateBusinessOpen = signal(false);
 
-  readonly categories = httpResource<ICategory[]>(() => `${environment.apiUrl}/categories`);
-
-  readonly leafCategories = computed<ICategory[]>(() => {
-    const cats = this.categories.value() ?? [];
-    return cats.flatMap((root) => (root.children ?? []).filter((c) => c.isActive));
-  });
+  readonly categories = this.#categoryService.categories;
+  readonly leafCategories = this.#categoryService.leafCategories;
 
   readonly businesses = httpResource<IPaginated<IBusinessSummary>>(() => {
     const params = new URLSearchParams();
