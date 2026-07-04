@@ -50,6 +50,14 @@
       <svg lucidePackage aria-hidden="true"></svg>
       Listings
     </button>
+    <button
+      class="explore-tab"
+      [class.explore-tab--active]="activeTab() === 'tours'"
+      (click)="setTab('tours')"
+    >
+      <svg lucideImage aria-hidden="true"></svg>
+      Tours
+    </button>
   </nav>
 
   <!-- Businesses tab -->
@@ -106,6 +114,46 @@
   <div class="card-grid">
     @for (item of listings.value()!.items; track item.id) {
     <app-listing-card [item]="item" />
+    }
+  </div>
+  } }
+
+  <!-- Tours tab -->
+  @if (activeTab() === 'tours') { @if (tours.isLoading()) {
+  <div class="card-grid">
+    @for (i of [1,2,3,4]; track i) {
+    <div class="skeleton listing-card-skeleton"></div>
+    }
+  </div>
+  } @if (tours.hasValue() && tours.value()!.items.length === 0) {
+  <ui-empty-state 
+    icon="LucideImage" 
+    title="No tours found"
+    description="No businesses have uploaded a store tour yet.">
+      @if (searchQuery() || activeCategorySlug()) {
+        <button class="btn btn--ghost btn--full" style="margin-top: var(--size-8);" (click)="searchQuery.set(''); activeCategorySlug.set(null)">
+          Clear Filters
+        </button>
+      }
+  </ui-empty-state>
+  } @if (tours.hasValue() && tours.value()!.items.length > 0) {
+  <div class="card-grid">
+    @for (tour of tours.value()!.items; track tour.id) {
+    <a class="biz-listing-card" style="text-decoration: none; color: inherit;" [routerLink]="['/tours', tour.id]">
+      <div class="biz-listing-card__cover" style="aspect-ratio: 4/3; background: var(--surface-hover);">
+        @if (tour.media && tour.media.length > 0) {
+        <img style="width: 100%; height: 100%; object-fit: cover;" [src]="tour.media[0].url" [alt]="tour.title" />
+        } @else {
+        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--border);">
+          <svg lucideImage aria-hidden="true"></svg>
+        </div>
+        }
+      </div>
+      <div class="biz-listing-card__body" style="padding: 1rem;">
+        <span class="biz-listing-card__title" style="font-weight: 600; display: block;">{{ tour.title }}</span>
+        <span class="biz-listing-card__price" style="font-size: 0.875rem; color: var(--text-muted);">{{ tour.summary }}</span>
+      </div>
+    </a>
     }
   </div>
   } }

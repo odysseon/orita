@@ -1,0 +1,62 @@
+<div class="tour-detail">
+  <app-page-header backText="Back" (back)="goBack()" />
+
+  @if (tourResource.isLoading()) {
+    <div class="tour-skeleton">
+      <div class="skeleton tour-skeleton__cover"></div>
+      <div class="skeleton tour-skeleton__title"></div>
+      <div class="skeleton tour-skeleton__text"></div>
+    </div>
+  } @else if (tourResource.error()) {
+    <ui-empty-state icon="image" title="Tour not found">
+      <button class="btn btn--outline" (click)="goBack()">Go back</button>
+    </ui-empty-state>
+  } @else if (tourResource.hasValue()) {
+    @let tour = tourResource.value()!;
+    
+    <div class="tour-header">
+      <h1 class="tour-title">{{ tour.title }}</h1>
+      <div class="tour-meta">
+        <span class="tour-date">
+          <svg lucideCalendar aria-hidden="true"></svg>
+          {{ tour.visitDate | date:'longDate' }}
+        </span>
+      </div>
+    </div>
+
+    @if (tour.summary) {
+      <div class="tour-summary">
+        <p>{{ tour.summary }}</p>
+      </div>
+    }
+
+    @if (tour.media && tour.media.length > 0) {
+      <div class="tour-gallery">
+        @for (media of tour.media; track media.id) {
+          <div class="tour-gallery__item">
+            <img [src]="media.url" [alt]="tour.title" loading="lazy" />
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="tour-no-media">
+        <svg lucideImage aria-hidden="true"></svg>
+        <p>No media uploaded for this tour yet.</p>
+      </div>
+    }
+
+    @if (tour.highlights && tour.highlights.length > 0) {
+      <div class="tour-highlights">
+        <h2>Highlights</h2>
+        <ul class="highlights-list">
+          @for (hl of tour.highlights; track hl.id) {
+            <li>
+              <svg lucideCheckCircle aria-hidden="true"></svg>
+              <span>{{ hl.value }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  }
+</div>

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {
 
   LucideStore,
+  LucideImage,
   LucidePlus,
   LucideChartBar,
   LucideClock,
@@ -18,15 +19,16 @@ import {
 } from '@lucide/angular';
 import { IBusinessProfile, IDashboardStats } from './business.interface';
 import { environment } from '../../../../environments/environment';
-import { Listings } from './listings/listings';
 import { CreateBusiness } from './create/create-business';
+import { Listings } from './listings/listings';
+import { AppBusinessTours } from './tours/tours';
 
 @Component({
-  selector: 'app-business',
+  selector: 'app-page-business',
   imports: [
-    Listings,
-    CreateBusiness,
     LucideStore,
+    LucideImage,
+    LucideMapPin,
     LucidePlus,
     LucideChartBar,
     LucideClock,
@@ -34,10 +36,12 @@ import { CreateBusiness } from './create/create-business';
     LucideEye,
     LucideBookmark,
     LucideMousePointerClick,
-    LucideMapPin,
+    LucideGlobe,
     LucideMail,
     LucidePhone,
-    LucideGlobe,
+    CreateBusiness,
+    Listings,
+    AppBusinessTours,
   ],
   templateUrl: './business.html',
   styleUrl: './business.css',
@@ -54,7 +58,7 @@ export class Business {
     return biz ? `${environment.apiUrl}/business/${biz.id}/dashboard-stats` : undefined;
   });
 
-  readonly activeTab = signal<'overview' | 'hours' | 'listings'>('overview');
+  readonly activeTab = signal<'overview' | 'hours' | 'listings' | 'tours'>('overview');
   readonly isCreateBusinessOpen = signal(false);
   readonly hasBusiness = computed(() => !!this.business.value());
 
@@ -82,7 +86,7 @@ export class Business {
     this.business.reload();
   }
 
-  setTab(tab: 'overview' | 'hours' | 'listings'): void {
+  setTab(tab: 'overview' | 'hours' | 'listings' | 'tours'): void {
     this.activeTab.set(tab);
   }
 }

@@ -1,0 +1,160 @@
+.tour-detail {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 4rem;
+  max-width: var(--container-max-width, 800px);
+  margin: 0 auto;
+}
+
+.tour-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+}
+
+.tour-skeleton__cover {
+  height: 400px;
+  border-radius: var(--radius-lg);
+}
+
+.tour-skeleton__title {
+  height: 32px;
+  width: 60%;
+  border-radius: var(--radius-sm);
+}
+
+.tour-skeleton__text {
+  height: 20px;
+  width: 90%;
+  border-radius: var(--radius-sm);
+}
+
+.tour-header {
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tour-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.tour-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.tour-date {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.tour-date svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tour-summary {
+  padding: 0 1rem 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.tour-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem;
+}
+
+.tour-gallery__item {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface-hover);
+  aspect-ratio: 4/3;
+}
+
+.tour-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 640px) {
+  .tour-gallery {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .tour-gallery__item {
+    flex: 1 1 45%;
+  }
+}
+
+.tour-no-media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  margin: 0 1rem;
+  color: var(--text-muted);
+  gap: 1rem;
+}
+
+.tour-no-media svg {
+  width: 3rem;
+  height: 3rem;
+  color: var(--border);
+}
+
+.tour-highlights {
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tour-highlights h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.highlights-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.highlights-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.highlights-list svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--success, #10b981);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}

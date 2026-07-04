@@ -1,0 +1,59 @@
+<div class="tours-container">
+  <div class="tours-header">
+    <h2>Store Tours</h2>
+    <button class="btn btn--primary btn--sm" (click)="createTourMock()" [disabled]="isCreating()">
+      <svg lucidePlus aria-hidden="true"></svg>
+      New Tour
+    </button>
+  </div>
+
+  @if (toursResource.isLoading()) {
+    <div class="tours-grid">
+      @for (i of [1,2,3]; track i) {
+        <div class="skeleton tour-skeleton"></div>
+      }
+    </div>
+  } @else if (toursResource.hasValue()) {
+    @if (toursResource.value()!.items.length === 0) {
+      <div class="empty-state">
+        <svg lucideImage aria-hidden="true"></svg>
+        <p>You haven't uploaded any store tours yet.</p>
+        <button class="btn btn--outline" (click)="createTourMock()">Create your first tour</button>
+      </div>
+    } @else {
+      <div class="tours-grid">
+        @for (tour of toursResource.value()!.items; track tour.id) {
+          <div class="tour-card">
+            <div class="tour-card__cover">
+              @if (tour.media && tour.media.length > 0) {
+                <img [src]="tour.media[0].url" [alt]="tour.title" />
+              } @else {
+                <div class="tour-card__placeholder">
+                  <svg lucideImage aria-hidden="true"></svg>
+                </div>
+              }
+            </div>
+            <div class="tour-card__body">
+              <div class="tour-card__title-row">
+                <span class="tour-card__title">{{ tour.title }}</span>
+                <span class="badge" [class.badge--success]="tour.status === 'PUBLISHED'" [class.badge--neutral]="tour.status === 'DRAFT'">
+                  {{ tour.status }}
+                </span>
+              </div>
+              <span class="tour-card__date">{{ tour.visitDate | date:'mediumDate' }}</span>
+              <p class="tour-card__summary">{{ tour.summary || 'No summary provided.' }}</p>
+            </div>
+            <div class="tour-card__actions">
+              <button class="btn-icon" aria-label="Edit tour" title="Edit">
+                <svg lucideEdit3 aria-hidden="true"></svg>
+              </button>
+              <button class="btn-icon btn-icon--danger" aria-label="Delete tour" title="Delete" (click)="deleteTour(tour.id)">
+                <svg lucideTrash2 aria-hidden="true"></svg>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

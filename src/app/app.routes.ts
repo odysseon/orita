@@ -30,6 +30,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/listing-detail/listing-detail').then((m) => m.ListingDetail),
   },
   {
+    path: 'tours/:id',
+    loadComponent: () => import('./pages/tour-detail/tour-detail').then((m) => m.TourDetail),
+  },
+  {
     path: 'profile',
     loadChildren: () => import('./pages/profile/profile.routes').then((m) => m.profileRoutes),
   },
