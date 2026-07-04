@@ -1,0 +1,57 @@
+import { Injectable, Signal } from '@angular/core';
+import { httpResource } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+
+import { IListingSummary, IBusinessSummary, IPaginated } from '../../pages/home/home.interface';
+
+export interface SearchQueryParams {
+  q?: string;
+  lat?: number;
+  lng?: number;
+  radius?: number;
+  categoryId?: string;
+  filter?: string[];
+  sort?: string;
+  limit?: number;
+  offset?: number;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SearchService {
+  #apiUrl = `${environment.apiUrl}/search`;
+
+  private buildUrl(base: string, params: SearchQueryParams | null): string | undefined {
+    if (!params) return undefined;
+
+    const urlParams = new URLSearchParams();
+    
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        if (Array.isArray(value)) {
+          value.forEach(v => {
+            urlParams.append(key, v);
+          });
+        } else {
+          urlParams.append(key, String(value));
+        }
+      }
+    });
+
+    const qs = urlParams.toString();
+    return `${base}${qs ? `?${qs}` : ''}`;
+  }
+
+  getListingsResource(paramsSignal: Signal<SearchQueryParams | null>) {
+    return httpResource<IPaginated<IListingSummary>>(() => 
+      this.buildUrl(`${this.#apiUrl}/listings`, paramsSignal())
+    );
+  }
+
+  getBusinessesResource(paramsSignal: Signal<SearchQueryParams | null>) {
+    return httpResource<IPaginated<IBusinessSummary>>(() => 
+      this.buildUrl(`${this.#apiUrl}/businesses`, paramsSignal())
+    );
+  }
+}

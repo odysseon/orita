@@ -1,0 +1,100 @@
+<div class="search-page page-container fade-in">
+  <div class="search-header">
+    <h1>Search</h1>
+    <div class="search-controls">
+      <div class="search-bar">
+        <input 
+          type="text" 
+          [value]="rawQuery()"
+          (input)="onSearchInput($event)"
+          placeholder="Search for something..." 
+        />
+        <svg icon lucideSearch class="icon-search" aria-hidden="true"></svg>
+        
+        @if (rawQuery()) {
+          <button class="clear-btn" (click)="clearSearch()" aria-label="Clear search">
+            <svg icon lucideX aria-hidden="true"></svg>
+          </button>
+        }
+      </div>
+      
+      <div class="search-tabs">
+        <button 
+          class="tab-btn" 
+          [class.active]="searchType() === 'listing'"
+          (click)="setSearchType('listing')"
+        >
+          Listings
+          @if (listingsResource.hasValue() && searchType() === 'listing' && !isDebouncing()) {
+            <span class="count">({{ listingsResource.value()?.total || 0 }})</span>
+          }
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="searchType() === 'business'"
+          (click)="setSearchType('business')"
+        >
+          Businesses
+          @if (businessesResource.hasValue() && searchType() === 'business' && !isDebouncing()) {
+            <span class="count">({{ businessesResource.value()?.total || 0 }})</span>
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-results">
+    @if (!searchQuery() && !rawQuery()) {
+      <!-- Empty Query State (Recent Searches) -->
+      <div class="recent-searches">
+        <h3>Recent Searches</h3>
+        @if (recentSearches().length > 0) {
+          <ul class="recent-list">
+            @for (term of recentSearches(); track term) {
+              <li>
+                <button (click)="applyRecent(term)">
+                  <svg icon lucideClock aria-hidden="true"></svg>
+                  {{ term }}
+                </button>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty-state-text">No recent searches.</p>
+        }
+      </div>
+    } @else if (isDebouncing() || listingsResource.isLoading() || businessesResource.isLoading()) {
+      <!-- Loading State -->
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Searching...</p>
+      </div>
+    } @else if (searchType() === 'listing') {
+      <!-- Listing Results -->
+      <div class="results-grid">
+        @for (item of listingsResource.value()?.items || []; track item.id) {
+          <app-listing-card [item]="item" />
+        }
+      </div>
+      @if ((listingsResource.value()?.items?.length || 0) === 0) {
+        <div class="no-results-state">
+          <p>No listings found for "{{ searchQuery() }}"</p>
+          <p class="subtitle">Try a different search term or category.</p>
+        </div>
+      }
+    } @else {
+      <!-- Business Results -->
+      <div class="results-grid">
+        @for (biz of businessesResource.value()?.items || []; track biz.id) {
+          <app-biz-card [biz]="biz" />
+        }
+      </div>
+      @if ((businessesResource.value()?.items?.length || 0) === 0) {
+        <div class="no-results-state">
+          <p>No businesses found for "{{ searchQuery() }}"</p>
+          <p class="subtitle">Try a different search term or category.</p>
+        </div>
+      }
+    }
+  </div>
+</div>

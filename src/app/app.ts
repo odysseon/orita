@@ -7,7 +7,7 @@ import { ToastContainer } from './core/components/toast-container/toast-containe
 import { NavList } from './shared/nav-list/nav-list';
 import { NavItem } from './shared/nav-item/nav-item';
 import { ScrollHideDirective } from './shared/directives/scroll-hide.directive';
-import { LucideHouse, LucideUser, LucideLogIn } from '@lucide/angular';
+import { LucideHouse, LucideUser, LucideLogIn, LucideSearch } from '@lucide/angular';
 import { AuthService } from './core/services/auth.service';
 
 @Component({
@@ -21,6 +21,7 @@ import { AuthService } from './core/services/auth.service';
     LucideHouse,
     LucideUser,
     LucideLogIn,
+    LucideSearch,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

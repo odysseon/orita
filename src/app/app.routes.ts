@@ -21,6 +21,11 @@ export const routes: Routes = [
     data: { isRootAppPage: true },
   },
   {
+    path: 'search',
+    loadComponent: () => import('./pages/search/search').then((m) => m.Search),
+    data: { isRootAppPage: true },
+  },
+  {
     path: 'l/:slug',
     loadComponent: () => import('./pages/listing-detail/listing-detail').then((m) => m.ListingDetail),
   },
