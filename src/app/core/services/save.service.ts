@@ -1,0 +1,22 @@
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SaveService {
+  #http = inject(HttpClient);
+  #apiUrl = environment.apiUrl;
+
+  toggleSaveBusiness(id: string, currentlySaved: boolean): Observable<any> {
+    const url = `${this.#apiUrl}/business-profiles/${id}/save`;
+    return currentlySaved ? this.#http.delete(url) : this.#http.post(url, {});
+  }
+
+  toggleSaveListing(id: string, currentlySaved: boolean): Observable<any> {
+    const url = `${this.#apiUrl}/listings/${id}/save`;
+    return currentlySaved ? this.#http.delete(url) : this.#http.post(url, {});
+  }
+}

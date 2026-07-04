@@ -57,31 +57,86 @@
             </span>
           }
           @if (appliedCategoryId()) {
-            <span class="filter-chip">Category Applied</span>
+            <span class="filter-chip">
+              Category applied
+              <button class="clear-btn" style="position: static; margin-left: 4px;" (click)="clearCategory()" aria-label="Clear category">
+                <svg icon lucideX aria-hidden="true"></svg>
+              </button>
+            </span>
           }
         </div>
       }
+
+      <!-- Category Rail -->
+      <div class="category-rail">
+        <button
+          class="category-chip"
+          [class.category-chip--active]="!appliedCategoryId()"
+          (click)="setCategory(null)"
+        >
+          All
+        </button>
+        @for (cat of categories(); track cat.id) {
+          <button
+            class="category-chip"
+            [class.category-chip--active]="appliedCategoryId() === cat.id"
+            (click)="setCategory(cat.id)"
+          >
+            {{ cat.name }}
+          </button>
+        }
+      </div>
     </div>
   </div>
 
   <div class="search-results">
     @if (!searchQuery() && !rawQuery() && !appliedLocationName() && !appliedCategoryId()) {
-      <div class="recent-searches">
-        <h3>Recent Searches</h3>
-        @if (recentSearches().length > 0) {
-          <ul class="recent-list">
-            @for (term of recentSearches(); track term) {
-              <li>
-                <button (click)="applyRecentSearch(term)">
-                  <svg icon lucideClock aria-hidden="true"></svg>
-                  {{ term }}
-                </button>
-              </li>
+      <div class="empty-state-dashboard">
+        <div class="recent-searches">
+          <h3>Recent Searches</h3>
+          @if (recentSearches().length > 0) {
+            <ul class="recent-list">
+              @for (term of recentSearches(); track term) {
+                <li>
+                  <button (click)="applyRecentSearch(term)">
+                    <svg icon lucideClock aria-hidden="true"></svg>
+                    {{ term }}
+                  </button>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="empty-state-text">Search Oríta to discover amazing local businesses.</p>
+          }
+        </div>
+
+        <div class="trending-section">
+          <h3>Trending Categories</h3>
+          <div class="category-grid">
+            <!-- Show top 6 categories as trending for now -->
+            @for (cat of categories()?.slice(0, 6) || []; track cat.id) {
+              <button class="trending-cat-card" (click)="setCategory(cat.id)">
+                {{ cat.name }}
+              </button>
             }
-          </ul>
-        } @else {
-          <p class="empty-state-text">Search Oríta to discover amazing local businesses.</p>
-        }
+          </div>
+        </div>
+
+        <div class="popular-businesses-section">
+          <h3>Popular Businesses</h3>
+          @if (popularBusinessesResource.isLoading()) {
+            <div class="results-grid">
+              <div class="skeleton biz-card-skeleton"></div>
+              <div class="skeleton biz-card-skeleton"></div>
+            </div>
+          } @else if (popularBusinessesResource.hasValue()) {
+            <div class="results-grid">
+              @for (biz of popularBusinessesResource.value()?.items || []; track biz.id) {
+                <app-biz-card [biz]="biz" />
+              }
+            </div>
+          }
+        </div>
       </div>
     } @else if (isDebouncing() || listingsResource.isLoading() || businessesResource.isLoading()) {
       <div class="loading-state">
@@ -99,6 +154,10 @@
           <p>No listings found.</p>
           <p class="subtitle">Try a different search term or expanding your radius.</p>
         </div>
+      } @else if ((listingsResource.value()?.items?.length || 0) < (listingsResource.value()?.total || 0)) {
+        <div style="text-align: center; margin-top: 2rem;">
+          <button class="btn btn-outline" (click)="loadMore()">Load More</button>
+        </div>
       }
     } @else {
       <div class="results-grid">
@@ -110,6 +169,10 @@
         <div class="no-results-state">
           <p>No businesses found.</p>
           <p class="subtitle">Try a different search term or expanding your radius.</p>
+        </div>
+      } @else if ((businessesResource.value()?.items?.length || 0) < (businessesResource.value()?.total || 0)) {
+        <div style="text-align: center; margin-top: 2rem;">
+          <button class="btn btn-outline" (click)="loadMore()">Load More</button>
         </div>
       }
     }
@@ -174,6 +237,22 @@
           <option value="">All Categories</option>
           @for (cat of categories(); track cat.id) {
             <option [value]="cat.id">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Sort Section -->
+      <div class="filter-section">
+        <label>Sort By</label>
+        <select [(ngModel)]="tempSort" class="form-input">
+          <option value="relevance">Best Match</option>
+          <option value="distance">Distance</option>
+          @if (searchType() === 'listing') {
+            <option value="newest">Newest</option>
+            <option value="price_low">Price (Low to High)</option>
+            <option value="price_high">Price (High to Low)</option>
+          } @else {
+            <option value="popular">Popularity</option>
           }
         </select>
       </div>
