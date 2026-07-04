@@ -2,20 +2,26 @@
   <div class="search-header">
     <h1>Search</h1>
     <div class="search-controls">
-      <div class="search-bar">
-        <input 
-          type="text" 
-          [value]="rawQuery()"
-          (input)="onSearchInput($event)"
-          placeholder="Search for something..." 
-        />
-        <svg icon lucideSearch class="icon-search" aria-hidden="true"></svg>
+      <div class="search-bar-row">
+        <div class="search-bar">
+          <input 
+            type="text" 
+            [value]="rawQuery()"
+            (input)="onSearchInput($event)"
+            placeholder="Search for something..." 
+          />
+          <svg icon lucideSearch class="icon-search" aria-hidden="true"></svg>
+          
+          @if (rawQuery()) {
+            <button class="clear-btn" (click)="clearSearch()" aria-label="Clear search">
+              <svg icon lucideX aria-hidden="true"></svg>
+            </button>
+          }
+        </div>
         
-        @if (rawQuery()) {
-          <button class="clear-btn" (click)="clearSearch()" aria-label="Clear search">
-            <svg icon lucideX aria-hidden="true"></svg>
-          </button>
-        }
+        <button class="filter-toggle-btn" (click)="openFilters()" [class.has-filters]="appliedLocationName() || appliedCategoryId()">
+          <svg icon lucideSlidersHorizontal aria-hidden="true"></svg>
+        </button>
       </div>
       
       <div class="search-tabs">
@@ -40,19 +46,33 @@
           }
         </button>
       </div>
+
+      <!-- Active Filter Chips (optional view) -->
+      @if (appliedLocationName() || appliedCategoryId()) {
+        <div class="active-filters">
+          @if (appliedLocationName()) {
+            <span class="filter-chip">
+              <svg icon lucideMapPin aria-hidden="true"></svg>
+              {{ appliedLocationName() }} ({{ appliedRadius() }}km)
+            </span>
+          }
+          @if (appliedCategoryId()) {
+            <span class="filter-chip">Category Applied</span>
+          }
+        </div>
+      }
     </div>
   </div>
 
   <div class="search-results">
-    @if (!searchQuery() && !rawQuery()) {
-      <!-- Empty Query State (Recent Searches) -->
+    @if (!searchQuery() && !rawQuery() && !appliedLocationName() && !appliedCategoryId()) {
       <div class="recent-searches">
         <h3>Recent Searches</h3>
         @if (recentSearches().length > 0) {
           <ul class="recent-list">
             @for (term of recentSearches(); track term) {
               <li>
-                <button (click)="applyRecent(term)">
+                <button (click)="applyRecentSearch(term)">
                   <svg icon lucideClock aria-hidden="true"></svg>
                   {{ term }}
                 </button>
@@ -60,17 +80,15 @@
             }
           </ul>
         } @else {
-          <p class="empty-state-text">No recent searches.</p>
+          <p class="empty-state-text">Search Oríta to discover amazing local businesses.</p>
         }
       </div>
     } @else if (isDebouncing() || listingsResource.isLoading() || businessesResource.isLoading()) {
-      <!-- Loading State -->
       <div class="loading-state">
         <div class="spinner"></div>
         <p>Searching...</p>
       </div>
     } @else if (searchType() === 'listing') {
-      <!-- Listing Results -->
       <div class="results-grid">
         @for (item of listingsResource.value()?.items || []; track item.id) {
           <app-listing-card [item]="item" />
@@ -78,12 +96,11 @@
       </div>
       @if ((listingsResource.value()?.items?.length || 0) === 0) {
         <div class="no-results-state">
-          <p>No listings found for "{{ searchQuery() }}"</p>
-          <p class="subtitle">Try a different search term or category.</p>
+          <p>No listings found.</p>
+          <p class="subtitle">Try a different search term or expanding your radius.</p>
         </div>
       }
     } @else {
-      <!-- Business Results -->
       <div class="results-grid">
         @for (biz of businessesResource.value()?.items || []; track biz.id) {
           <app-biz-card [biz]="biz" />
@@ -91,10 +108,84 @@
       </div>
       @if ((businessesResource.value()?.items?.length || 0) === 0) {
         <div class="no-results-state">
-          <p>No businesses found for "{{ searchQuery() }}"</p>
-          <p class="subtitle">Try a different search term or category.</p>
+          <p>No businesses found.</p>
+          <p class="subtitle">Try a different search term or expanding your radius.</p>
         </div>
       }
     }
   </div>
+
+  <!-- Filters Drawer -->
+  <ui-drawer [(open)]="isFiltersOpen" position="bottom" size="auto" title="Filters" [showCloseButton]="true">
+    <div class="drawer-content">
+      
+      <!-- Location Section -->
+      <div class="filter-section">
+        <label>Location</label>
+        
+        <button class="current-location-btn" (click)="useCurrentLocation()" [disabled]="isGeocoding()">
+          <svg icon lucideNavigation aria-hidden="true"></svg>
+          {{ isGeocoding() ? 'Locating...' : 'Use Current Location' }}
+        </button>
+
+        <div class="location-input-wrapper">
+          <svg icon lucideMapPin aria-hidden="true" class="icon-input"></svg>
+          <input 
+            type="text" 
+            [(ngModel)]="tempLocationName"
+            placeholder="e.g. Ikeja, Lagos"
+            class="form-input"
+          />
+        </div>
+
+        @if (recentLocations().length > 0 && !tempLocationName()) {
+          <div class="recent-locations">
+            <h4>Recent Locations</h4>
+            <ul class="recent-list mini">
+              @for (loc of recentLocations(); track loc.displayName) {
+                <li>
+                  <button (click)="applyRecentLocation(loc)">
+                    <svg icon lucideClock aria-hidden="true"></svg>
+                    {{ loc.displayName }}
+                  </button>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+
+      <!-- Radius Section -->
+      <div class="filter-section">
+        <label>Distance</label>
+        <select [(ngModel)]="tempRadius" class="form-input">
+          <option [ngValue]="5">Within 5 km</option>
+          <option [ngValue]="10">Within 10 km</option>
+          <option [ngValue]="25">Within 25 km</option>
+          <option [ngValue]="50">Within 50 km</option>
+          <option [ngValue]="100">Within 100 km</option>
+        </select>
+      </div>
+
+      <!-- Category Section -->
+      <div class="filter-section">
+        <label>Category</label>
+        <select [(ngModel)]="tempCategoryId" class="form-input">
+          <option value="">All Categories</option>
+          @for (cat of categories(); track cat.id) {
+            <option [value]="cat.id">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Drawer Footer Actions -->
+    <div class="drawer-footer">
+      <button class="btn btn-outline" (click)="clearFilters()">Clear</button>
+      <button class="btn btn-primary" (click)="applyFilters()" [disabled]="isGeocoding()">
+        {{ isGeocoding() ? 'Applying...' : 'Apply Filters' }}
+      </button>
+    </div>
+  </ui-drawer>
 </div>
