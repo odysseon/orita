@@ -24,6 +24,16 @@
       <span label>Home</span>
     </ui-nav-item>
 
+    <ui-nav-item
+      [layout]="isDesktop() ? 'horizontal' : 'vertical'"
+      iconSize="md"
+      [active]="isActive('/search')"
+      (clicked)="go('/search')"
+    >
+      <svg icon lucideSearch aria-hidden="true"></svg>
+      <span label>Search</span>
+    </ui-nav-item>
+
     @if (isAuthenticated()) {
     <ui-nav-item
       [layout]="isDesktop() ? 'horizontal' : 'vertical'"
