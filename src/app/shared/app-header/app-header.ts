@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Logo } from '../logo/logo';
 
 @Component({
@@ -7,4 +7,6 @@ import { Logo } from '../logo/logo';
   templateUrl: './app-header.html',
   styleUrl: './app-header.css',
 })
-export class AppHeader {}
+export class AppHeader {
+  readonly showLogo = input<boolean>(true);
+}

@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, effect, resource } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -13,12 +13,13 @@ import { Drawer } from '../../shared/drawer/drawer';
 import { AppHeader } from '../../shared/app-header/app-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { FormsModule } from '@angular/forms';
+import { AppFormField } from '../../shared/form-field/form-field';
 
 @Component({
   selector: 'app-search',
   imports: [
     LucideSearch, LucideX, LucideClock, LucideSlidersHorizontal, LucideMapPin, LucideNavigation,
-    AppListingCard, AppBizCard, Drawer, AppHeader, ScrollHideDirective, FormsModule
+    AppListingCard, AppBizCard, Drawer, AppHeader, ScrollHideDirective, FormsModule, AppFormField
   ],
   templateUrl: './search.html',
   styleUrl: './search.css',
@@ -48,6 +49,25 @@ export class Search {
   readonly appliedCategoryId = computed(() => this.queryParamMap()?.get('categoryId') || undefined);
   readonly appliedSort = computed(() => this.queryParamMap()?.get('sort') || 'relevance');
   readonly appliedLimit = computed(() => Number(this.queryParamMap()?.get('limit')) || 20);
+  readonly appliedMinPrice = computed(() => {
+    const val = this.queryParamMap()?.get('minPrice');
+    return val ? Number(val) : undefined;
+  });
+  readonly appliedMaxPrice = computed(() => {
+    const val = this.queryParamMap()?.get('maxPrice');
+    return val ? Number(val) : undefined;
+  });
+  readonly appliedFilters = computed(() => {
+    const filters = this.queryParamMap()?.getAll('filter') || [];
+    const obj: Record<string, string> = {};
+    for (const f of filters) {
+      const parts = f.split(':');
+      if (parts.length >= 2) {
+        obj[parts[0]] = parts.slice(1).join(':');
+      }
+    }
+    return obj;
+  });
 
   // Local Search Input
   readonly rawQuery = signal(this.#route.snapshot.queryParamMap.get('q') || '');
@@ -63,7 +83,18 @@ export class Search {
   readonly tempRadius = signal(10);
   readonly tempCategoryId = signal('');
   readonly tempSort = signal('relevance');
+  readonly tempMinPrice = signal<number | null>(null);
+  readonly tempMaxPrice = signal<number | null>(null);
+  readonly tempFilters = signal<Record<string, string>>({});
   readonly recentLocations = signal<GeocodeResult[]>(this.loadLocalStorage('orita_recent_locations'));
+
+  readonly categoryAttributesResource = resource({
+    params: () => ({ categoryId: this.tempCategoryId() }),
+    loader: async ({ params }) => {
+      if (!params.categoryId) return [];
+      return this.#categoryService.getCategoryAttributes(params.categoryId);
+    }
+  });
 
   // Derived API Parameters
   readonly listingParams = computed<SearchFilters | null>(() => {
@@ -76,7 +107,10 @@ export class Search {
       radius: this.appliedRadius(),
       categoryId: this.appliedCategoryId(),
       sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
-      limit: this.appliedLimit() !== 20 ? this.appliedLimit() : undefined
+      limit: this.appliedLimit() !== 20 ? this.appliedLimit() : undefined,
+      minPrice: this.appliedMinPrice(),
+      maxPrice: this.appliedMaxPrice(),
+      filter: this.queryParamMap()?.getAll('filter') || []
     };
   });
 
@@ -149,6 +183,9 @@ export class Search {
     this.tempRadius.set(this.appliedRadius());
     this.tempCategoryId.set(this.appliedCategoryId() || '');
     this.tempSort.set(this.appliedSort());
+    this.tempMinPrice.set(this.appliedMinPrice() || null);
+    this.tempMaxPrice.set(this.appliedMaxPrice() || null);
+    this.tempFilters.set({ ...this.appliedFilters() });
     this.isFiltersOpen.set(true);
   }
 
@@ -169,7 +206,6 @@ export class Search {
           },
           error: () => {
             this.isGeocoding.set(false);
-            // Fallback if reverse geocode fails
             this.applyLocationResult({ displayName: 'Current Location', lat, lng });
           }
         });
@@ -186,19 +222,25 @@ export class Search {
   }
 
   applyFilters() {
+    const filtersArray: string[] = [];
+    const currentFilters = this.tempFilters();
+    for (const key of Object.keys(currentFilters)) {
+      if (currentFilters[key]) {
+        filtersArray.push(`${key}:${currentFilters[key]}`);
+      }
+    }
+
     const locName = this.tempLocationName().trim();
     
-    // If location changed and doesn't match current, we need to geocode
     if (locName && locName !== this.appliedLocationName()) {
       this.isGeocoding.set(true);
       this.#geocodingService.geocode(locName).subscribe({
         next: (res) => {
           this.isGeocoding.set(false);
           if (res) {
-            this.applyLocationResult(res);
+            this.applyLocationResult(res, filtersArray);
           } else {
-            // No result found, just apply other filters
-            this.pushFiltersToUrl(undefined, undefined, undefined);
+            this.pushFiltersToUrl(undefined, undefined, undefined, filtersArray);
             this.isFiltersOpen.set(false);
           }
         },
@@ -208,13 +250,19 @@ export class Search {
         }
       });
     } else {
-      // Location hasn't changed, just apply radius/category
-      this.pushFiltersToUrl(this.appliedLat(), this.appliedLng(), locName || undefined);
+      this.pushFiltersToUrl(this.appliedLat(), this.appliedLng(), locName || undefined, filtersArray);
       this.isFiltersOpen.set(false);
     }
   }
 
   clearFilters() {
+    this.tempLocationName.set('');
+    this.tempRadius.set(10);
+    this.tempCategoryId.set('');
+    this.tempSort.set('relevance');
+    this.tempMinPrice.set(null);
+    this.tempMaxPrice.set(null);
+    this.tempFilters.set({});
     this.updateUrl({
       lat: null,
       lng: null,
@@ -222,18 +270,21 @@ export class Search {
       radius: null,
       categoryId: null,
       sort: null,
-      limit: null
+      limit: null,
+      minPrice: null,
+      maxPrice: null,
+      filter: null
     });
     this.isFiltersOpen.set(false);
   }
 
-  private applyLocationResult(res: GeocodeResult) {
+  private applyLocationResult(res: GeocodeResult, filters?: string[]) {
     this.saveToLocalList('orita_recent_locations', res, this.recentLocations, (a, b) => a.displayName === b.displayName);
-    this.pushFiltersToUrl(res.lat, res.lng, res.displayName);
+    this.pushFiltersToUrl(res.lat, res.lng, res.displayName, filters);
     this.isFiltersOpen.set(false);
   }
 
-  private pushFiltersToUrl(lat?: number, lng?: number, locationName?: string) {
+  private pushFiltersToUrl(lat?: number, lng?: number, locationName?: string, filters?: string[]) {
     this.updateUrl({
       lat: lat || null,
       lng: lng || null,
@@ -241,8 +292,18 @@ export class Search {
       radius: this.tempRadius() !== 10 ? this.tempRadius() : null,
       categoryId: this.tempCategoryId() || null,
       sort: this.tempSort() !== 'relevance' ? this.tempSort() : null,
-      limit: null // Reset limit on new filter
+      minPrice: this.tempMinPrice(),
+      maxPrice: this.tempMaxPrice(),
+      filter: filters || null,
+      limit: null
     });
+  }
+
+  onFilterChange(key: string, value: any) {
+    this.tempFilters.update(filters => ({
+      ...filters,
+      [key]: value
+    }));
   }
 
   private updateUrl(params: any) {
