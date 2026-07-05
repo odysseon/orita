@@ -7,10 +7,10 @@ import { Component, input } from '@angular/core';
   styleUrl: './logo.css',
 })
 export class Logo {
-  readonly width = input<string | number>('15%');
+  readonly width = input<string | number>('32');
 
   /** Height of the SVG (default: 'auto') */
-  readonly height = input<string | number>('10%');
+  readonly height = input<string | number>('32');
 
   /** Additional CSS classes to apply */
   readonly className = input<string>('');
