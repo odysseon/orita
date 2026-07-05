@@ -5,6 +5,40 @@ import { environment } from '../../../environments/environment';
 
 export type DiscoveryItemType = 'BUSINESS' | 'LISTING' | 'TOUR' | 'PROMOTION';
 
+export interface FeedMedia {
+  id: string;
+  url: string;
+  type: string;
+  role: string;
+}
+
+export interface FeedBusiness {
+  id: string;
+  name: string;
+  slug: string;
+  logoUrl?: string;
+  coverUrl?: string;
+  description?: string;
+}
+
+export interface FeedListing {
+  id: string;
+  title: string;
+  slug: string;
+  description?: string;
+  minPrice?: number | string;
+  currencyCode?: string;
+  media?: FeedMedia[];
+}
+
+export interface FeedTour {
+  id: string;
+  title: string;
+  slug?: string;
+  summary?: string;
+  media?: FeedMedia[];
+}
+
 export interface FeedItemView {
   id: string;
   itemType: DiscoveryItemType;
@@ -13,9 +47,9 @@ export interface FeedItemView {
   score: number;
   distanceMeters: number;
   createdAt: string;
-  business?: any;
-  listing?: any;
-  tour?: any;
+  business?: FeedBusiness;
+  listing?: FeedListing;
+  tour?: FeedTour;
 }
 
 @Injectable({
