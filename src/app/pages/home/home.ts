@@ -1,38 +1,21 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { httpResource } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import {
-  LucideSearch,
   LucideMapPin,
-  LucideStore,
-  LucidePackage,
-  LucideImage,
 } from '@lucide/angular';
-import { AppBizCard } from '../../shared/biz-card/biz-card';
-import { AppListingCard } from '../../shared/listing-card/listing-card';
+import { AppFeedCard } from '../../shared/feed-card/feed-card';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { HomeHeader } from '../../shared/home-header/home-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
-import { CreateBusiness } from '../profile/business/create/create-business';
-import { IBusinessSummary, IListingSummary, IPaginated, ICategory } from './home.interface';
-import { environment } from '../../../environments/environment';
-import { CategoryService } from '../../core/services/category.service';
-import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
-
-type ExploreTab = 'businesses' | 'listings' | 'tours';
+import { FeedService, FeedItemView } from '../../core/services/feed.service';
+import { ToastService } from '../../core/services/toast';
 
 @Component({
   selector: 'app-home',
   imports: [
     RouterLink,
-    AppBizCard,
-    AppListingCard,
-    LucideSearch,
-    LucideStore,
-    LucidePackage,
-    LucideImage,
+    AppFeedCard,
     EmptyState,
-    CreateBusiness,
     HomeHeader,
     ScrollHideDirective,
   ],
@@ -40,65 +23,78 @@ type ExploreTab = 'businesses' | 'listings' | 'tours';
   styleUrl: './home.css',
 })
 export class Home {
-  #router = inject(Router);
-  #categoryService = inject(CategoryService);
-  #tourService = inject(BusinessTourService);
+  #feedService = inject(FeedService);
+  #toast = inject(ToastService);
 
-  readonly activeTab = signal<ExploreTab>('businesses');
-  readonly activeCategorySlug = signal<string | null>(null);
-  readonly searchQuery = signal('');
-  readonly isCreateBusinessOpen = signal(false);
+  readonly feedItems = signal<FeedItemView[]>([]);
+  readonly isLoading = signal(true);
+  readonly isLoadingMore = signal(false);
+  readonly hasMore = signal(true);
 
-  readonly categories = this.#categoryService.categories;
-  readonly leafCategories = this.#categoryService.leafCategories;
+  // Grouped editorial sections for the view
+  readonly editorialSections = computed(() => {
+    const items = this.feedItems();
+    if (items.length === 0) return [];
 
-  readonly businesses = httpResource<IPaginated<IBusinessSummary>>(() => {
-    const params = new URLSearchParams();
-    if (this.searchQuery().trim()) params.set('search', this.searchQuery().trim());
-    const qs = params.toString();
-    return `${environment.apiUrl}/businesses${qs ? `?${qs}` : ''}`;
+    // Simple grouping logic: every 5 items creates a section
+    // In a real app, this could be driven by backend flags
+    const groups: { title?: string; items: FeedItemView[] }[] = [];
+    const titles = ["Just Opened Nearby", "Fresh Listings", "Popular This Week", "Explore Your Neighborhood"];
+    let titleIndex = 0;
+
+    for (let i = 0; i < items.length; i += 5) {
+      const slice = items.slice(i, i + 5);
+      if (i === 0) {
+        groups.push({ items: slice }); // First group has no header, just raw feed
+      } else {
+        groups.push({ title: titles[titleIndex % titles.length], items: slice });
+        titleIndex++;
+      }
+    }
+    return groups;
   });
 
-  readonly listings = httpResource<IPaginated<IListingSummary>>(() => {
-    const params = new URLSearchParams();
-    if (this.searchQuery().trim()) params.set('search', this.searchQuery().trim());
-    if (this.activeCategorySlug()) params.set('categorySlug', this.activeCategorySlug()!);
-    const qs = params.toString();
-    return `${environment.apiUrl}/listings${qs ? `?${qs}` : ''}`;
-  });
-
-  readonly tours = httpResource<IPaginated<IBusinessTour>>(() => {
-    const params = new URLSearchParams();
-    params.set('status', 'PUBLISHED');
-    if (this.searchQuery().trim()) params.set('search', this.searchQuery().trim());
-    const qs = params.toString();
-    return `${environment.apiUrl}/business-tours${qs ? `?${qs}` : ''}`;
-  });
-
-  readonly filteredBusinesses = computed(() => {
-    const items = this.businesses.value()?.items ?? [];
-    const catSlug = this.activeCategorySlug();
-    if (!catSlug) return items;
-    const cat = this.leafCategories().find((c) => c.slug === catSlug);
-    if (!cat) return items;
-    return items.filter((b) => b.categoryIds.includes(cat.id));
-  });
-
-  setTab(tab: ExploreTab): void {
-    this.activeTab.set(tab);
+  constructor() {
+    this.loadInitialFeed();
   }
 
-  selectCategory(slug: string): void {
-    this.activeCategorySlug.update((current) => (current === slug ? null : slug));
+  loadInitialFeed() {
+    this.isLoading.set(true);
+    this.#feedService.getFeed({ limit: 15 }).subscribe({
+      next: (items) => {
+        this.feedItems.set(items);
+        this.hasMore.set(items.length === 15);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.#toast.error('Failed to load feed');
+        this.isLoading.set(false);
+      }
+    });
   }
 
-  goToProfile(): void {
-    this.#router.navigate(['/profile']);
-  }
+  loadMore() {
+    if (this.isLoadingMore() || !this.hasMore()) return;
 
-  onBusinessCreated(): void {
-    this.businesses.reload();
-    this.#router.navigate(['/profile/business']);
-  }
+    const currentItems = this.feedItems();
+    const lastItem = currentItems[currentItems.length - 1];
+    if (!lastItem) return;
 
+    this.isLoadingMore.set(true);
+    this.#feedService.getFeed({ 
+      limit: 15, 
+      cursorScore: lastItem.score, 
+      cursorId: lastItem.id 
+    }).subscribe({
+      next: (newItems) => {
+        this.feedItems.update(items => [...items, ...newItems]);
+        this.hasMore.set(newItems.length === 15);
+        this.isLoadingMore.set(false);
+      },
+      error: () => {
+        this.#toast.error('Failed to load more items');
+        this.isLoadingMore.set(false);
+      }
+    });
+  }
 }
