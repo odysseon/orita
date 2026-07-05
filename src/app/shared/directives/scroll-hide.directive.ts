@@ -70,10 +70,16 @@ export class ScrollHideDirective implements OnInit, OnDestroy {
         // Scrolling down -> hide the element
         this.#el.nativeElement.style.transform = `translateY(${translateValue})`;
         this.isHidden = true;
+        if (this.scrollHidePosition() === 'top') {
+          document.body.classList.add('top-header-hidden');
+        }
       } else if (delta < 0 && this.isHidden) {
         // Scrolling up -> show the element
         this.#el.nativeElement.style.transform = 'translateY(0)';
         this.isHidden = false;
+        if (this.scrollHidePosition() === 'top') {
+          document.body.classList.remove('top-header-hidden');
+        }
       }
       
       this.lastScrollY = currentScrollY;
@@ -89,6 +95,7 @@ export class ScrollHideDirective implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (isPlatformBrowser(this.#platformId)) {
       window.removeEventListener('scroll', this.scrollListener);
+      document.body.classList.remove('top-header-hidden');
     }
   }
 }

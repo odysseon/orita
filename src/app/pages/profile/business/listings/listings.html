@@ -152,6 +152,13 @@
       </div>
 
       <div class="listing-item__actions">
+        <a
+          class="listing-item__action"
+          [routerLink]="['/profile/business/listings', listing.id, 'edit']"
+          title="Edit Details & Media"
+        >
+          <svg lucidePencil aria-hidden="true"></svg>
+        </a>
         <button
           class="listing-item__action"
           type="button"

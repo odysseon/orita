@@ -1,28 +1,31 @@
 <div class="search-page page-container fade-in">
-  <div class="search-header">
-    <h1>Search</h1>
-    <div class="search-controls">
-      <div class="search-bar-row">
-        <div class="search-bar">
-          <input 
-            type="text" 
-            [value]="rawQuery()"
-            (input)="onSearchInput($event)"
-            placeholder="Search for something..." 
-          />
-          <svg icon lucideSearch class="icon-search" aria-hidden="true"></svg>
-          
-          @if (rawQuery()) {
-            <button class="clear-btn" (click)="clearSearch()" aria-label="Clear search">
-              <svg icon lucideX aria-hidden="true"></svg>
-            </button>
-          }
-        </div>
-        
-        <button class="filter-toggle-btn" (click)="openFilters()" [class.has-filters]="appliedLocationName() || appliedCategoryId()">
-          <svg icon lucideSlidersHorizontal aria-hidden="true"></svg>
+  <ui-app-header
+    [uiScrollHide]="true"
+    scrollHidePosition="top"
+  >
+    <div class="search-bar">
+      <input 
+        type="text" 
+        [value]="rawQuery()"
+        (input)="onSearchInput($event)"
+        placeholder="Search for something..." 
+      />
+      <svg icon lucideSearch class="icon-search" aria-hidden="true"></svg>
+      
+      @if (rawQuery()) {
+        <button class="clear-btn" (click)="clearSearch()" aria-label="Clear search">
+          <svg icon lucideX aria-hidden="true"></svg>
         </button>
-      </div>
+      }
+    </div>
+    
+    <button class="filter-toggle-btn" (click)="openFilters()" [class.has-filters]="appliedLocationName() || appliedCategoryId()">
+      <svg icon lucideSlidersHorizontal aria-hidden="true"></svg>
+    </button>
+  </ui-app-header>
+  
+  <div class="search-header">
+    <div class="search-controls">
       
       <div class="search-tabs">
         <button 
@@ -67,25 +70,7 @@
         </div>
       }
 
-      <!-- Category Rail -->
-      <div class="category-rail">
-        <button
-          class="category-chip"
-          [class.category-chip--active]="!appliedCategoryId()"
-          (click)="setCategory(null)"
-        >
-          All
-        </button>
-        @for (cat of categories(); track cat.id) {
-          <button
-            class="category-chip"
-            [class.category-chip--active]="appliedCategoryId() === cat.id"
-            (click)="setCategory(cat.id)"
-          >
-            {{ cat.name }}
-          </button>
-        }
-      </div>
+
     </div>
   </div>
 
