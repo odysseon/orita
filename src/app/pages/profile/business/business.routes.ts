@@ -13,4 +13,10 @@ export const businessRoutes: Routes = [
     loadComponent: () => import('./edit/edit-business').then((m) => m.EditBusiness),
     data: { title: 'Edit Business' },
   },
+  {
+    path: 'business/listings/:listingId/edit',
+    canActivate: [authGuard],
+    loadComponent: () => import('./listings/edit/edit-listing').then((m) => m.EditListing),
+    data: { title: 'Edit Listing' },
+  },
 ];

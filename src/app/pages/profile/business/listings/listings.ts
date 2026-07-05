@@ -2,6 +2,7 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { httpResource } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { Router, RouterLink } from '@angular/router';
 import {
   LucidePlus,
   LucidePackage,
@@ -9,6 +10,7 @@ import {
   LucideEye,
   LucideEyeOff,
   LucideLoaderCircle,
+  LucidePencil,
 } from '@lucide/angular';
 import { form, FormField, required, minLength, maxLength } from '@angular/forms/signals';
 import { ToastService } from '../../../../core/services/toast';
@@ -24,12 +26,14 @@ import { Drawer } from '../../../../shared/drawer/drawer';
     AppFormField,
     Drawer,
     FormField,
+    RouterLink,
     LucidePlus,
     LucidePackage,
     LucideTrash2,
     LucideEye,
     LucideEyeOff,
     LucideLoaderCircle,
+    LucidePencil,
   ],
   templateUrl: './listings.html',
   styleUrl: './listings.css',
@@ -37,6 +41,7 @@ import { Drawer } from '../../../../shared/drawer/drawer';
 export class Listings {
   #http = inject(HttpClient);
   #toast = inject(ToastService);
+  #router = inject(Router);
 
   readonly businessId = input.required<string>();
 
@@ -110,12 +115,13 @@ export class Listings {
             }
           : {}),
       };
-      await firstValueFrom(
-        this.#http.post(`${environment.apiUrl}/businesses/${this.businessId()}/listings`, payload),
+      const createdListing = await firstValueFrom(
+        this.#http.post<IListing>(`${environment.apiUrl}/businesses/${this.businessId()}/listings`, payload),
       );
       this.#toast.success('Done', 'Listing created.');
       this.closeForm();
       this.listings.reload();
+      this.#router.navigate(['/profile/business/listings', createdListing.id, 'edit']);
     } catch (err) {
       const message =
         err instanceof HttpErrorResponse

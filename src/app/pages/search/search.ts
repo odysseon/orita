@@ -10,13 +10,15 @@ import { SearchFilters } from '../../core/models/search.model';
 import { AppListingCard } from '../../shared/listing-card/listing-card';
 import { AppBizCard } from '../../shared/biz-card/biz-card';
 import { Drawer } from '../../shared/drawer/drawer';
+import { AppHeader } from '../../shared/app-header/app-header';
+import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search',
   imports: [
     LucideSearch, LucideX, LucideClock, LucideSlidersHorizontal, LucideMapPin, LucideNavigation,
-    AppListingCard, AppBizCard, Drawer, FormsModule
+    AppListingCard, AppBizCard, Drawer, AppHeader, ScrollHideDirective, FormsModule
   ],
   templateUrl: './search.html',
   styleUrl: './search.css',

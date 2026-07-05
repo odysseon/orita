@@ -5,7 +5,7 @@ import {
 } from '@lucide/angular';
 import { AppFeedCard } from '../../shared/feed-card/feed-card';
 import { EmptyState } from '../../shared/empty-state/empty-state';
-import { HomeHeader } from '../../shared/home-header/home-header';
+import { AppHeader } from '../../shared/app-header/app-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { FeedService, FeedItemView } from '../../core/services/feed.service';
 import { ToastService } from '../../core/services/toast';
@@ -16,7 +16,7 @@ import { ToastService } from '../../core/services/toast';
     RouterLink,
     AppFeedCard,
     EmptyState,
-    HomeHeader,
+    AppHeader,
     ScrollHideDirective,
   ],
   templateUrl: './home.html',
