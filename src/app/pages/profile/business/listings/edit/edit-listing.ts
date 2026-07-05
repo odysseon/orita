@@ -14,15 +14,7 @@ import { ToastService } from '../../../../../core/services/toast';
 import { IListing, ICategory } from '../listing.interface';
 import { FormsModule } from '@angular/forms';
 import { AppFormField } from '../../../../../shared/form-field/form-field';
-
-interface ICategoryAttribute {
-  id: string;
-  key: string;
-  label: string;
-  type: 'STRING' | 'NUMBER' | 'BOOLEAN' | 'SELECT';
-  isRequired: boolean;
-  options: string[] | null;
-}
+import { CategoryService, ICategoryAttribute } from '../../../../../core/services/category.service';
 
 interface IMedia {
   id: string;
@@ -50,6 +42,7 @@ export class EditListing implements OnInit {
   #toast = inject(ToastService);
   #route = inject(ActivatedRoute);
   #router = inject(Router);
+  #categoryService = inject(CategoryService);
 
   readonly listingId = signal<string>('');
   readonly listing = signal<IListing | null>(null);
@@ -120,24 +113,11 @@ export class EditListing implements OnInit {
   }
 
   async loadCategoryAttributes(catId: string) {
-    const cats = this.categories();
-    let slug = '';
-    
-    // Find category slug
-    for (const root of cats) {
-      if (root.id === catId) slug = root.slug;
-      for (const child of root.children || []) {
-        if (child.id === catId) slug = child.slug;
-      }
-    }
-
-    if (slug) {
-      try {
-        const attrs = await firstValueFrom(this.#http.get<ICategoryAttribute[]>(`${environment.apiUrl}/categories/${slug}/attributes`));
-        this.attributes.set(attrs);
-      } catch {
-        this.attributes.set([]);
-      }
+    if (catId) {
+      const attrs = await this.#categoryService.getCategoryAttributes(catId);
+      this.attributes.set(attrs);
+    } else {
+      this.attributes.set([]);
     }
   }
 

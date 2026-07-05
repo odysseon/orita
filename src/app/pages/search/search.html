@@ -1,5 +1,6 @@
 <div class="search-page page-container fade-in">
   <ui-app-header
+    [showLogo]="false"
     [uiScrollHide]="true"
     scrollHidePosition="top"
   >
@@ -241,6 +242,56 @@
           }
         </select>
       </div>
+
+      <!-- Price Range & Attributes (Listings Only) -->
+      @if (searchType() === 'listing') {
+        <div class="filter-section">
+          <label>Price Range (NGN)</label>
+          <div style="display: flex; gap: 8px;">
+            <input 
+              type="number" 
+              [(ngModel)]="tempMinPrice"
+              placeholder="Min Price"
+              class="form-input"
+            />
+            <input 
+              type="number" 
+              [(ngModel)]="tempMaxPrice"
+              placeholder="Max Price"
+              class="form-input"
+            />
+          </div>
+        </div>
+
+        @if (categoryAttributesResource.hasValue() && categoryAttributesResource.value()?.length) {
+          <div class="filter-section">
+            <label>Features</label>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 4px;">
+              @for (attr of categoryAttributesResource.value(); track attr.id) {
+                <app-form-field [label]="attr.label" [fieldId]="'filter-' + attr.key">
+                  @if (attr.type === 'SELECT' && attr.options) {
+                    <select class="form-input" [ngModel]="tempFilters()[attr.key]" (ngModelChange)="onFilterChange(attr.key, $event)">
+                      <option [ngValue]="undefined">Any</option>
+                      @for (opt of attr.options; track opt) {
+                        <option [value]="opt">{{ opt }}</option>
+                      }
+                    </select>
+                  } @else if (attr.type === 'BOOLEAN') {
+                    <label class="checkbox-label">
+                      <input type="checkbox" [ngModel]="tempFilters()[attr.key]" (ngModelChange)="onFilterChange(attr.key, $event)" />
+                      <span>Yes</span>
+                    </label>
+                  } @else if (attr.type === 'NUMBER') {
+                    <input class="form-input" type="number" [ngModel]="tempFilters()[attr.key]" (ngModelChange)="onFilterChange(attr.key, $event)" placeholder="e.g. 5" />
+                  } @else {
+                    <input class="form-input" type="text" [ngModel]="tempFilters()[attr.key]" (ngModelChange)="onFilterChange(attr.key, $event)" placeholder="e.g. value" />
+                  }
+                </app-form-field>
+              }
+            </div>
+          </div>
+        }
+      }
 
     </div>
 
