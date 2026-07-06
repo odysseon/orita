@@ -1,22 +1,5 @@
 <div class="edit-tour-page">
-  <header class="edit-tour-header">
-    <div class="header-content">
-      <a [routerLink]="['../../']" class="back-link">
-        <svg lucideArrowLeft aria-hidden="true"></svg>
-        Back to Tours
-      </a>
-      <h2>{{ tourId() ? 'Edit Tour' : 'Create Tour' }}</h2>
-    </div>
-    <div class="header-actions">
-      <button class="btn btn--outline" (click)="saveChanges()" [disabled]="isSaving()">
-        <svg lucideSave aria-hidden="true"></svg>
-        {{ isSaving() ? 'Saving...' : 'Save Draft' }}
-      </button>
-      <button class="btn btn--primary" (click)="publishTour()" [disabled]="isSaving()">
-        Publish Tour
-      </button>
-    </div>
-  </header>
+
 
   @if (isLoading()) {
     <div class="skeleton-form">
@@ -86,6 +69,16 @@
             </div>
           </div>
         </section>
+
+        <div class="form-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
+          <button class="btn btn--outline" (click)="saveChanges()" [disabled]="isSaving()">
+            <svg lucideSave aria-hidden="true"></svg>
+            {{ isSaving() ? 'Saving...' : 'Save Draft' }}
+          </button>
+          <button class="btn btn--primary" (click)="publishTour()" [disabled]="isSaving()">
+            Publish Tour
+          </button>
+        </div>
       </div>
     </div>
   }

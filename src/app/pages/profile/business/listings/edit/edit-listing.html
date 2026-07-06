@@ -1,25 +1,5 @@
 <div class="edit-listing-page fade-in">
-  <!-- Header -->
-  <header class="edit-header">
-    <div class="header-left">
-      <button class="back-btn" routerLink="../">
-        <svg icon lucideArrowLeft aria-hidden="true"></svg>
-      </button>
-      <div>
-        <h1>Edit Listing</h1>
-        <p class="subtitle">{{ title() || 'Draft' }}</p>
-      </div>
-    </div>
-    
-    <button 
-      class="btn btn-primary" 
-      [disabled]="isSaving() || isLoading()"
-      (click)="saveChanges()"
-    >
-      <svg icon lucideSave aria-hidden="true"></svg>
-      {{ isSaving() ? 'Saving...' : 'Save Changes' }}
-    </button>
-  </header>
+
 
   @if (isLoading()) {
     <div class="loading-state">
@@ -99,6 +79,22 @@
             </div>
           </section>
         }
+
+        <div class="form-actions" style="margin-top: 1rem;">
+          <button 
+            class="btn btn--primary" 
+            [disabled]="isSaving() || isLoading()"
+            (click)="saveChanges()"
+          >
+            @if (isSaving()) {
+              <div class="spinner"></div>
+              Saving...
+            } @else {
+              <svg icon lucideSave aria-hidden="true"></svg>
+              Save Changes
+            }
+          </button>
+        </div>
       </div>
 
       <!-- Right Column: Media -->
