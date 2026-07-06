@@ -9,17 +9,20 @@ import { GeocodingService, GeocodeResult } from '../../core/services/geocoding.s
 import { SearchFilters } from '../../core/models/search.model';
 import { AppListingCard } from '../../shared/listing-card/listing-card';
 import { AppBizCard } from '../../shared/biz-card/biz-card';
-import { Drawer } from '../../shared/drawer/drawer';
 import { AppHeader } from '../../shared/app-header/app-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
-import { FormsModule } from '@angular/forms';
-import { AppFormField } from '../../shared/form-field/form-field';
+import { AppSection } from '../../shared/section/section';
+import { AppGrid } from '../../shared/grid/grid';
+import { SearchFiltersComponent, SearchFilterState } from './components/search-filters/search-filters';
+import { RecentSearches } from './components/recent-searches/recent-searches';
+import { TrendingCategories } from './components/trending-categories/trending-categories';
 
 @Component({
   selector: 'app-search',
   imports: [
-    LucideSearch, LucideX, LucideClock, LucideSlidersHorizontal, LucideMapPin, LucideNavigation,
-    AppListingCard, AppBizCard, Drawer, AppHeader, ScrollHideDirective, FormsModule, AppFormField
+    LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
+    AppListingCard, AppBizCard, AppHeader, ScrollHideDirective,
+    AppSection, AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories
   ],
   templateUrl: './search.html',
   styleUrl: './search.css',
@@ -76,24 +79,19 @@ export class Search {
 
   // Drawer & Filter State
   readonly isFiltersOpen = signal(false);
-  readonly isGeocoding = signal(false);
   
-  // Temporary Filter State (before applying)
-  readonly tempLocationName = signal('');
-  readonly tempRadius = signal(10);
-  readonly tempCategoryId = signal('');
-  readonly tempSort = signal('relevance');
-  readonly tempMinPrice = signal<number | null>(null);
-  readonly tempMaxPrice = signal<number | null>(null);
-  readonly tempFilters = signal<Record<string, string>>({});
-  readonly recentLocations = signal<GeocodeResult[]>(this.loadLocalStorage('orita_recent_locations'));
-
-  readonly categoryAttributesResource = resource({
-    params: () => ({ categoryId: this.tempCategoryId() }),
-    loader: async ({ params }) => {
-      if (!params.categoryId) return [];
-      return this.#categoryService.getCategoryAttributes(params.categoryId);
-    }
+  readonly currentFiltersState = computed<SearchFilterState>(() => {
+    return {
+      locationName: this.appliedLocationName() || null,
+      lat: this.appliedLat() || null,
+      lng: this.appliedLng() || null,
+      radius: this.appliedRadius() || 10,
+      categoryId: this.appliedCategoryId() || null,
+      sort: this.appliedSort() || 'relevance',
+      minPrice: this.appliedMinPrice() || null,
+      maxPrice: this.appliedMaxPrice() || null,
+      filters: this.queryParamMap()?.getAll('filter') || null
+    };
   });
 
   // Derived API Parameters
@@ -177,133 +175,23 @@ export class Search {
     this.rawQuery.set(query);
   }
 
-  // Drawer Actions
   openFilters() {
-    this.tempLocationName.set(this.appliedLocationName());
-    this.tempRadius.set(this.appliedRadius());
-    this.tempCategoryId.set(this.appliedCategoryId() || '');
-    this.tempSort.set(this.appliedSort());
-    this.tempMinPrice.set(this.appliedMinPrice() || null);
-    this.tempMaxPrice.set(this.appliedMaxPrice() || null);
-    this.tempFilters.set({ ...this.appliedFilters() });
     this.isFiltersOpen.set(true);
   }
 
-  useCurrentLocation() {
-    if (!navigator.geolocation) return;
-    
-    this.isGeocoding.set(true);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const lat = pos.coords.latitude;
-        const lng = pos.coords.longitude;
-        this.#geocodingService.reverseGeocode(lat, lng).subscribe({
-          next: (res) => {
-            if (res) {
-              this.applyLocationResult(res);
-            }
-            this.isGeocoding.set(false);
-          },
-          error: () => {
-            this.isGeocoding.set(false);
-            this.applyLocationResult({ displayName: 'Current Location', lat, lng });
-          }
-        });
-      },
-      () => {
-        this.isGeocoding.set(false);
-      }
-    );
-  }
-
-  applyRecentLocation(loc: GeocodeResult) {
-    this.tempLocationName.set(loc.displayName);
-    this.applyLocationResult(loc);
-  }
-
-  applyFilters() {
-    const filtersArray: string[] = [];
-    const currentFilters = this.tempFilters();
-    for (const key of Object.keys(currentFilters)) {
-      if (currentFilters[key]) {
-        filtersArray.push(`${key}:${currentFilters[key]}`);
-      }
-    }
-
-    const locName = this.tempLocationName().trim();
-    
-    if (locName && locName !== this.appliedLocationName()) {
-      this.isGeocoding.set(true);
-      this.#geocodingService.geocode(locName).subscribe({
-        next: (res) => {
-          this.isGeocoding.set(false);
-          if (res) {
-            this.applyLocationResult(res, filtersArray);
-          } else {
-            this.pushFiltersToUrl(undefined, undefined, undefined, filtersArray);
-            this.isFiltersOpen.set(false);
-          }
-        },
-        error: () => {
-          this.isGeocoding.set(false);
-          this.isFiltersOpen.set(false);
-        }
-      });
-    } else {
-      this.pushFiltersToUrl(this.appliedLat(), this.appliedLng(), locName || undefined, filtersArray);
-      this.isFiltersOpen.set(false);
-    }
-  }
-
-  clearFilters() {
-    this.tempLocationName.set('');
-    this.tempRadius.set(10);
-    this.tempCategoryId.set('');
-    this.tempSort.set('relevance');
-    this.tempMinPrice.set(null);
-    this.tempMaxPrice.set(null);
-    this.tempFilters.set({});
+  onApplyFilters(filters: SearchFilterState) {
     this.updateUrl({
-      lat: null,
-      lng: null,
-      locationName: null,
-      radius: null,
-      categoryId: null,
-      sort: null,
-      limit: null,
-      minPrice: null,
-      maxPrice: null,
-      filter: null
-    });
-    this.isFiltersOpen.set(false);
-  }
-
-  private applyLocationResult(res: GeocodeResult, filters?: string[]) {
-    this.saveToLocalList('orita_recent_locations', res, this.recentLocations, (a, b) => a.displayName === b.displayName);
-    this.pushFiltersToUrl(res.lat, res.lng, res.displayName, filters);
-    this.isFiltersOpen.set(false);
-  }
-
-  private pushFiltersToUrl(lat?: number, lng?: number, locationName?: string, filters?: string[]) {
-    this.updateUrl({
-      lat: lat || null,
-      lng: lng || null,
-      locationName: locationName || null,
-      radius: this.tempRadius() !== 10 ? this.tempRadius() : null,
-      categoryId: this.tempCategoryId() || null,
-      sort: this.tempSort() !== 'relevance' ? this.tempSort() : null,
-      minPrice: this.tempMinPrice(),
-      maxPrice: this.tempMaxPrice(),
-      filter: filters || null,
+      lat: filters.lat || null,
+      lng: filters.lng || null,
+      locationName: filters.locationName || null,
+      radius: filters.radius !== 10 ? filters.radius : null,
+      categoryId: filters.categoryId || null,
+      sort: filters.sort !== 'relevance' ? filters.sort : null,
+      minPrice: filters.minPrice || null,
+      maxPrice: filters.maxPrice || null,
+      filter: filters.filters || null,
       limit: null
     });
-  }
-
-  onFilterChange(key: string, value: any) {
-    this.tempFilters.update(filters => ({
-      ...filters,
-      [key]: value
-    }));
   }
 
   private updateUrl(params: any) {

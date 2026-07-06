@@ -1,0 +1,7 @@
+<div class="category-grid">
+  @for (cat of categories(); track cat.id) {
+    <button class="trending-cat-card" (click)="categorySelected.emit(cat.id)">
+      {{ cat.name }}
+    </button>
+  }
+</div>

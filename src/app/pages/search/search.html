@@ -79,49 +79,36 @@
     @if (!searchQuery() && !rawQuery() && !appliedLocationName() && !appliedCategoryId()) {
       <div class="empty-state-dashboard">
         <div class="recent-searches">
-          <h3>Recent Searches</h3>
-          @if (recentSearches().length > 0) {
-            <ul class="recent-list">
-              @for (term of recentSearches(); track term) {
-                <li>
-                  <button (click)="applyRecentSearch(term)">
-                    <svg icon lucideClock aria-hidden="true"></svg>
-                    {{ term }}
-                  </button>
-                </li>
-              }
-            </ul>
-          } @else {
-            <p class="empty-state-text">Search Oríta to discover amazing local businesses.</p>
-          }
+          <app-section title="Recent Searches">
+            <app-recent-searches 
+              [searches]="recentSearches()" 
+              (recentSelected)="applyRecentSearch($event)" 
+            />
+          </app-section>
         </div>
 
         <div class="trending-section">
-          <h3>Trending Categories</h3>
-          <div class="category-grid">
-            <!-- Show top 6 categories as trending for now -->
-            @for (cat of categories()?.slice(0, 6) || []; track cat.id) {
-              <button class="trending-cat-card" (click)="setCategory(cat.id)">
-                {{ cat.name }}
-              </button>
-            }
-          </div>
+          <app-section title="Trending Categories">
+            <app-trending-categories 
+              [categories]="categories()?.slice(0, 6) || []" 
+              (categorySelected)="setCategory($event)" 
+            />
+          </app-section>
         </div>
 
         <div class="popular-businesses-section">
-          <h3>Popular Businesses</h3>
-          @if (popularBusinessesResource.isLoading()) {
-            <div class="results-grid">
-              <div class="skeleton biz-card-skeleton"></div>
-              <div class="skeleton biz-card-skeleton"></div>
-            </div>
-          } @else if (popularBusinessesResource.hasValue()) {
-            <div class="results-grid">
-              @for (biz of popularBusinessesResource.value()?.items || []; track biz.id) {
-                <app-biz-card [biz]="biz" />
+          <app-section title="Popular Businesses">
+            <app-grid>
+              @if (popularBusinessesResource.isLoading()) {
+                <div class="skeleton biz-card-skeleton"></div>
+                <div class="skeleton biz-card-skeleton"></div>
+              } @else if (popularBusinessesResource.hasValue()) {
+                @for (biz of popularBusinessesResource.value()?.items || []; track biz.id) {
+                  <app-biz-card [biz]="biz" />
+                }
               }
-            </div>
-          }
+            </app-grid>
+          </app-section>
         </div>
       </div>
     } @else if (isDebouncing() || listingsResource.isLoading() || businessesResource.isLoading()) {
@@ -130,11 +117,11 @@
         <p>Searching...</p>
       </div>
     } @else if (searchType() === 'listing') {
-      <div class="results-grid">
+      <app-grid>
         @for (item of listingsResource.value()?.items || []; track item.id) {
           <app-listing-card [item]="item" />
         }
-      </div>
+      </app-grid>
       @if ((listingsResource.value()?.items?.length || 0) === 0) {
         <div class="no-results-state">
           <p>No listings found.</p>
@@ -146,11 +133,11 @@
         </div>
       }
     } @else {
-      <div class="results-grid">
+      <app-grid>
         @for (biz of businessesResource.value()?.items || []; track biz.id) {
           <app-biz-card [biz]="biz" />
         }
-      </div>
+      </app-grid>
       @if ((businessesResource.value()?.items?.length || 0) === 0) {
         <div class="no-results-state">
           <p>No businesses found.</p>
@@ -164,143 +151,12 @@
     }
   </div>
 
-  <!-- Filters Drawer -->
-  <ui-drawer [(open)]="isFiltersOpen" position="bottom" size="auto" title="Filters" [showCloseButton]="true">
-    <div class="drawer-content">
-      
-      <!-- Location Section -->
-      <div class="filter-section">
-        <label>Location</label>
-        
-        <button class="current-location-btn" (click)="useCurrentLocation()" [disabled]="isGeocoding()">
-          <svg icon lucideNavigation aria-hidden="true"></svg>
-          {{ isGeocoding() ? 'Locating...' : 'Use Current Location' }}
-        </button>
-
-        <div class="location-input-wrapper">
-          <svg icon lucideMapPin aria-hidden="true" class="icon-input"></svg>
-          <input 
-            type="text" 
-            [(ngModel)]="tempLocationName"
-            placeholder="e.g. Ikeja, Lagos"
-            class="form-input"
-          />
-        </div>
-
-        @if (recentLocations().length > 0 && !tempLocationName()) {
-          <div class="recent-locations">
-            <h4>Recent Locations</h4>
-            <ul class="recent-list mini">
-              @for (loc of recentLocations(); track loc.displayName) {
-                <li>
-                  <button (click)="applyRecentLocation(loc)">
-                    <svg icon lucideClock aria-hidden="true"></svg>
-                    {{ loc.displayName }}
-                  </button>
-                </li>
-              }
-            </ul>
-          </div>
-        }
-      </div>
-
-      <!-- Radius Section -->
-      <div class="filter-section">
-        <label>Distance</label>
-        <select [(ngModel)]="tempRadius" class="form-input">
-          <option [ngValue]="5">Within 5 km</option>
-          <option [ngValue]="10">Within 10 km</option>
-          <option [ngValue]="25">Within 25 km</option>
-          <option [ngValue]="50">Within 50 km</option>
-          <option [ngValue]="100">Within 100 km</option>
-        </select>
-      </div>
-
-      <!-- Category Section -->
-      <div class="filter-section">
-        <label>Category</label>
-        <select [(ngModel)]="tempCategoryId" class="form-input">
-          <option value="">All Categories</option>
-          @for (cat of categories(); track cat.id) {
-            <option [value]="cat.id">{{ cat.name }}</option>
-          }
-        </select>
-      </div>
-
-      <!-- Sort Section -->
-      <div class="filter-section">
-        <label>Sort By</label>
-        <select [(ngModel)]="tempSort" class="form-input">
-          <option value="relevance">Best Match</option>
-          <option value="distance">Distance</option>
-          @if (searchType() === 'listing') {
-            <option value="newest">Newest</option>
-            <option value="price_low">Price (Low to High)</option>
-            <option value="price_high">Price (High to Low)</option>
-          } @else {
-            <option value="popular">Popularity</option>
-          }
-        </select>
-      </div>
-
-      <!-- Price Range & Attributes (Listings Only) -->
-      @if (searchType() === 'listing') {
-        <div class="filter-section">
-          <label>Price Range (NGN)</label>
-          <div style="display: flex; gap: 8px;">
-            <input 
-              type="number" 
-              [(ngModel)]="tempMinPrice"
-              placeholder="Min Price"
-              class="form-input"
-            />
-            <input 
-              type="number" 
-              [(ngModel)]="tempMaxPrice"
-              placeholder="Max Price"
-              class="form-input"
-            />
-          </div>
-        </div>
-
-        @if (categoryAttributesResource.hasValue() && categoryAttributesResource.value()?.length) {
-          <div class="filter-section">
-            <label>Features</label>
-            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 4px;">
-              @for (attr of categoryAttributesResource.value(); track attr.id) {
-                <app-form-field [label]="attr.label" [fieldId]="'filter-' + attr.key">
-                  @if (attr.type === 'SELECT' && attr.options) {
-                    <select class="form-input" [ngModel]="tempFilters()[attr.key]" (ngModelChange)="onFilterChange(attr.key, $event)">
-                      <option [ngValue]="undefined">Any</option>
-                      @for (opt of attr.options; track opt) {
-                        <option [value]="opt">{{ opt }}</option>
-                      }
-                    </select>
-                  } @else if (attr.type === 'BOOLEAN') {
-                    <label class="checkbox-label">
-                      <input type="checkbox" [ngModel]="tempFilters()[attr.key]" (ngModelChange)="onFilterChange(attr.key, $event)" />
-                      <span>Yes</span>
-                    </label>
-                  } @else if (attr.type === 'NUMBER') {
-                    <input class="form-input" type="number" [ngModel]="tempFilters()[attr.key]" (ngModelChange)="onFilterChange(attr.key, $event)" placeholder="e.g. 5" />
-                  } @else {
-                    <input class="form-input" type="text" [ngModel]="tempFilters()[attr.key]" (ngModelChange)="onFilterChange(attr.key, $event)" placeholder="e.g. value" />
-                  }
-                </app-form-field>
-              }
-            </div>
-          </div>
-        }
-      }
-
-    </div>
-
-    <!-- Drawer Footer Actions -->
-    <div class="drawer-footer">
-      <button class="btn btn-outline" (click)="clearFilters()">Clear</button>
-      <button class="btn btn-primary" (click)="applyFilters()" [disabled]="isGeocoding()">
-        {{ isGeocoding() ? 'Applying...' : 'Apply Filters' }}
-      </button>
-    </div>
-  </ui-drawer>
+  <app-search-filters
+    [isOpen]="isFiltersOpen()"
+    (isOpenChange)="isFiltersOpen.set($event)"
+    [searchType]="searchType()"
+    [categories]="categories() || []"
+    [currentFilters]="currentFiltersState()"
+    (applyFilters)="onApplyFilters($event)"
+  />
 </div>

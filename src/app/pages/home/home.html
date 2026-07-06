@@ -23,15 +23,13 @@
   } @else {
     <div class="feed-container">
       @for (group of editorialSections(); track group.title || $index) {
-        @if (group.title) {
-          <div class="feed-editorial-header">
-            <h2>{{ group.title }}</h2>
-          </div>
-        }
-        
-        @for (item of group.items; track item.id) {
-          <app-feed-card [item]="item"></app-feed-card>
-        }
+        <app-section [title]="group.title">
+          <app-grid>
+            @for (item of group.items; track item.id) {
+              <app-feed-card [item]="item"></app-feed-card>
+            }
+          </app-grid>
+        </app-section>
       }
 
       @if (isLoadingMore()) {

@@ -1,0 +1,23 @@
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.trending-cat-card {
+  padding: 1rem;
+  background: var(--surface, var(--surface-card));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  color: var(--text);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.trending-cat-card:hover {
+  background: var(--surface-hover, var(--surface-container));
+  border-color: var(--primary, var(--clr-primary));
+  color: var(--primary, var(--clr-primary));
+}

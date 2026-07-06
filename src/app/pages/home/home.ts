@@ -7,6 +7,8 @@ import { AppFeedCard } from '../../shared/feed-card/feed-card';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { AppHeader } from '../../shared/app-header/app-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
+import { AppSection } from '../../shared/section/section';
+import { AppGrid } from '../../shared/grid/grid';
 import { FeedService, FeedItemView } from '../../core/services/feed.service';
 import { ToastService } from '../../core/services/toast';
 
@@ -18,6 +20,8 @@ import { ToastService } from '../../core/services/toast';
     EmptyState,
     AppHeader,
     ScrollHideDirective,
+    AppSection,
+    AppGrid,
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',

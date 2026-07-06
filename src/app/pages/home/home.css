@@ -10,22 +10,7 @@
 }
 
 .feed-container {
-  max-width: 600px;
-  margin: 0 auto;
-  width: 100%;
-  padding: 0 0 5rem 0; /* Padding for bottom nav */
-}
-
-.feed-editorial-header {
-  padding: 2rem 1rem 1rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.feed-editorial-header h2 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text);
-  margin: 0;
+  padding: 1.5rem 1rem 5rem 1rem; /* Padding for bottom nav */
 }
 
 .load-more-container {

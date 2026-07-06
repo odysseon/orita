@@ -1,0 +1,141 @@
+<ui-drawer [open]="isOpen()" (openChange)="isOpenChange.emit($event)" position="bottom" size="auto" title="Filters" [showCloseButton]="true">
+  <div class="drawer-content">
+    
+    <!-- Location Section -->
+    <div class="filter-section">
+      <label>Location</label>
+      
+      <button class="current-location-btn" (click)="useCurrentLocation()" [disabled]="isGeocoding()">
+        <svg icon lucideNavigation aria-hidden="true"></svg>
+        {{ isGeocoding() ? 'Locating...' : 'Use Current Location' }}
+      </button>
+
+      <div class="location-input-wrapper">
+        <svg icon lucideMapPin aria-hidden="true" class="icon-input"></svg>
+        <input 
+          type="text" 
+          [ngModel]="draftLocationName()"
+          (ngModelChange)="draftLocationName.set($event)"
+          placeholder="e.g. Ikeja, Lagos"
+          class="form-input"
+        />
+      </div>
+
+      @if (recentLocations().length > 0 && !draftLocationName()) {
+        <div class="recent-locations">
+          <h4>Recent Locations</h4>
+          <ul class="recent-list mini">
+            @for (loc of recentLocations(); track loc.displayName) {
+              <li>
+                <button (click)="applyRecentLocation(loc)">
+                  <svg icon lucideClock aria-hidden="true"></svg>
+                  {{ loc.displayName }}
+                </button>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+
+    <!-- Radius Section -->
+    <div class="filter-section">
+      <label>Distance</label>
+      <select [ngModel]="draftRadius()" (ngModelChange)="draftRadius.set($event)" class="form-input">
+        <option [ngValue]="5">Within 5 km</option>
+        <option [ngValue]="10">Within 10 km</option>
+        <option [ngValue]="25">Within 25 km</option>
+        <option [ngValue]="50">Within 50 km</option>
+        <option [ngValue]="100">Within 100 km</option>
+      </select>
+    </div>
+
+    <!-- Category Section -->
+    <div class="filter-section">
+      <label>Category</label>
+      <select [ngModel]="draftCategoryId()" (ngModelChange)="draftCategoryId.set($event)" class="form-input">
+        <option value="">All Categories</option>
+        @for (cat of categories(); track cat.id) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Sort Section -->
+    <div class="filter-section">
+      <label>Sort By</label>
+      <select [ngModel]="draftSort()" (ngModelChange)="draftSort.set($event)" class="form-input">
+        <option value="relevance">Best Match</option>
+        <option value="distance">Distance</option>
+        @if (searchType() === 'listing') {
+          <option value="newest">Newest</option>
+          <option value="price_low">Price (Low to High)</option>
+          <option value="price_high">Price (High to Low)</option>
+        } @else {
+          <option value="popular">Popularity</option>
+        }
+      </select>
+    </div>
+
+    <!-- Price Range & Attributes (Listings Only) -->
+    @if (searchType() === 'listing') {
+      <div class="filter-section">
+        <label>Price Range (NGN)</label>
+        <div style="display: flex; gap: 8px;">
+          <input 
+            type="number" 
+            [ngModel]="draftMinPrice()"
+            (ngModelChange)="draftMinPrice.set($event)"
+            placeholder="Min Price"
+            class="form-input"
+          />
+          <input 
+            type="number" 
+            [ngModel]="draftMaxPrice()"
+            (ngModelChange)="draftMaxPrice.set($event)"
+            placeholder="Max Price"
+            class="form-input"
+          />
+        </div>
+      </div>
+
+      @if (categoryAttributesResource.hasValue() && categoryAttributesResource.value()?.length) {
+        <div class="filter-section">
+          <label>Features</label>
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 4px;">
+            @for (attr of categoryAttributesResource.value(); track attr.id) {
+              <app-form-field [label]="attr.label" [fieldId]="'filter-' + attr.key">
+                @if (attr.type === 'SELECT' && attr.options) {
+                  <select class="form-input" [ngModel]="draftFilters()[attr.key]" (ngModelChange)="onFilterChange(attr.key, $event)">
+                    <option [ngValue]="undefined">Any</option>
+                    @for (opt of attr.options; track opt) {
+                      <option [value]="opt">{{ opt }}</option>
+                    }
+                  </select>
+                } @else if (attr.type === 'BOOLEAN') {
+                  <label class="checkbox-label">
+                    <input type="checkbox" [ngModel]="draftFilters()[attr.key]" (ngModelChange)="onFilterChange(attr.key, $event)" />
+                    <span>Yes</span>
+                  </label>
+                } @else if (attr.type === 'NUMBER') {
+                  <input class="form-input" type="number" [ngModel]="draftFilters()[attr.key]" (ngModelChange)="onFilterChange(attr.key, $event)" placeholder="e.g. 5" />
+                } @else {
+                  <input class="form-input" type="text" [ngModel]="draftFilters()[attr.key]" (ngModelChange)="onFilterChange(attr.key, $event)" placeholder="e.g. value" />
+                }
+              </app-form-field>
+            }
+          </div>
+        </div>
+      }
+    }
+
+  </div>
+
+  <!-- Drawer Footer Actions -->
+  <div class="drawer-footer">
+    <button class="btn btn-outline" (click)="clearFilters()">Clear</button>
+    <button class="btn btn-primary" (click)="onApply()" [disabled]="isGeocoding()">
+      {{ isGeocoding() ? 'Applying...' : 'Apply Filters' }}
+    </button>
+  </div>
+</ui-drawer>

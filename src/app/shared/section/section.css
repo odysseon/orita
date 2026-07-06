@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.section__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary, var(--text));
+  margin-bottom: 1rem;
+}

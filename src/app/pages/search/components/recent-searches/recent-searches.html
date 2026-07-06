@@ -1,0 +1,14 @@
+@if (searches().length > 0) {
+  <ul class="recent-list">
+    @for (term of searches(); track term) {
+      <li>
+        <button (click)="recentSelected.emit(term)">
+          <svg icon lucideClock aria-hidden="true"></svg>
+          {{ term }}
+        </button>
+      </li>
+    }
+  </ul>
+} @else {
+  <p class="empty-state-text">Search Oríta to discover amazing local businesses.</p>
+}
