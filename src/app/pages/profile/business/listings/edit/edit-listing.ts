@@ -25,10 +25,8 @@ interface IMedia {
 @Component({
   selector: 'app-edit-listing',
   imports: [
-    RouterLink,
     FormsModule,
     AppFormField,
-    LucideArrowLeft,
     LucideTrash2,
     LucideSave,
     LucideImagePlus,

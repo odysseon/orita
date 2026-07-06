@@ -8,9 +8,51 @@
   min-height: 100dvh;
   max-width: var(--size-640);
   margin: 0 auto;
-  padding: var(--size-24) var(--size-16) var(--size-48);
+  padding: calc(64px + var(--size-24)) var(--size-16) var(--size-48);
   gap: var(--size-24);
   background: var(--surface-page);
+}
+
+.sub-layout-header {
+  display: flex;
+  align-items: center;
+  gap: var(--size-16);
+  width: 100%;
+}
+
+.btn-back {
+  background: transparent;
+  border: none;
+  padding: var(--size-8);
+  margin-left: calc(var(--size-8) * -1);
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+  font-family: inherit;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.btn-back:hover {
+  background-color: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.btn-back svg {
+  width: var(--size-20);
+  height: var(--size-20);
+}
+
+.page-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: var(--line-height-tight);
 }
 
 .profile-sub-layout__content {

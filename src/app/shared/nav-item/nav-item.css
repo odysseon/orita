@@ -118,14 +118,6 @@
   border-radius: var(--radius-lg);
 }
 
-:host-context(.nav-list-side).nav-item--footer {
-  margin-top: auto;
-}
-
-:host-context(.nav-list-top).nav-item--footer,
-:host-context(.nav-list-bottom).nav-item--footer {
-  margin-left: auto;
-}
 
 /* Badge */
 .nav-item-badge-wrapper {

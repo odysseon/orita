@@ -18,10 +18,8 @@ import { BusinessTourService, IBusinessTour, BusinessTourStatus, IBusinessTourMe
 @Component({
   selector: 'app-edit-tour',
   imports: [
-    RouterLink,
     FormsModule,
     AppFormField,
-    LucideArrowLeft,
     LucideSave,
     LucideImagePlus,
     LucideX,
