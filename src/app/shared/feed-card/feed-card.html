@@ -1,78 +1,92 @@
 <article class="feed-card">
   <!-- Business Identity -->
   <header class="feed-card__header">
-    <div class="feed-card__avatar">
-      @if (item().business?.logoUrl) {
-        <img [src]="item().business.logoUrl" [alt]="item().business.name" />
-      } @else {
-        <div class="avatar-placeholder">{{ item().business?.name?.charAt(0) || 'B' }}</div>
-      }
-    </div>
-    <div class="feed-card__meta">
-      <a class="feed-card__business-name" [routerLink]="['/b', item().business?.slug]">{{ item().business?.name }}</a>
-      <span class="feed-card__distance">
-        <svg lucideMapPin aria-hidden="true"></svg>
-        {{ distanceText }}
-      </span>
-    </div>
+    @if (item().business; as business) {
+      <div class="feed-card__avatar">
+        @if (business.logoUrl) {
+          <img [src]="business.logoUrl" [alt]="business.name" />
+        } @else {
+          <div class="avatar-placeholder">{{ business.name?.charAt(0) || 'B' }}</div>
+        }
+      </div>
+      <div class="feed-card__meta">
+        <a class="feed-card__business-name" [routerLink]="['/b', business.slug]">{{ business.name }}</a>
+        <span class="feed-card__distance">
+          <svg lucideMapPin aria-hidden="true"></svg>
+          {{ distanceText }}
+        </span>
+      </div>
+    }
   </header>
 
   <!-- Main Content -->
   <div class="feed-card__media">
-    @if (item().itemType === 'TOUR' && item().tour) {
-      @if (item().tour.media && item().tour.media.length > 0) {
-        @if (item().tour.media[0].type === 'VIDEO') {
-          <video #videoElement class="feed-card__video" [src]="item().tour.media[0].url" loop muted playsinline></video>
+    @if (item().itemType === 'TOUR') {
+      @if (item().tour; as tour) {
+        @if (tour.media && tour.media.length > 0) {
+          @if (tour.media[0].type === 'VIDEO') {
+            <video #videoElement class="feed-card__video" [src]="tour.media[0].url" loop muted playsinline></video>
+          } @else {
+            <img class="feed-card__img" [src]="tour.media[0].url" [alt]="tour.title" />
+          }
         } @else {
-          <img class="feed-card__img" [src]="item().tour.media[0].url" [alt]="item().tour.title" />
+          <div class="feed-card__placeholder">
+            <svg lucideImage aria-hidden="true"></svg>
+          </div>
         }
-      } @else {
-        <div class="feed-card__placeholder">
-          <svg lucideImage aria-hidden="true"></svg>
-        </div>
       }
     }
 
-    @if (item().itemType === 'LISTING' && item().listing) {
-      @if (item().listing.media && item().listing.media.length > 0) {
-        <img class="feed-card__img" [src]="item().listing.media[0].url" [alt]="item().listing.title" />
-      } @else {
-        <div class="feed-card__placeholder">
-          <svg lucideImage aria-hidden="true"></svg>
-        </div>
-      }
-      @if (item().listing.minPrice) {
-        <div class="feed-card__price-tag">
-          {{ item().listing.currencyCode || 'USD' }} {{ item().listing.minPrice }}
-        </div>
+    @if (item().itemType === 'LISTING') {
+      @if (item().listing; as listing) {
+        @if (listing.media && listing.media.length > 0) {
+          <img class="feed-card__img" [src]="listing.media[0].url" [alt]="listing.title" />
+        } @else {
+          <div class="feed-card__placeholder">
+            <svg lucideImage aria-hidden="true"></svg>
+          </div>
+        }
+        @if (listing.minPrice) {
+          <div class="feed-card__price-tag">
+            {{ listing.currencyCode || 'USD' }} {{ listing.minPrice }}
+          </div>
+        }
       }
     }
 
-    @if (item().itemType === 'BUSINESS' && item().business) {
-      @if (item().business.coverUrl) {
-        <img class="feed-card__img" [src]="item().business.coverUrl" [alt]="item().business.name" />
-      } @else {
-        <div class="feed-card__placeholder">
-          <svg lucideImage aria-hidden="true"></svg>
-        </div>
+    @if (item().itemType === 'BUSINESS') {
+      @if (item().business; as business) {
+        @if (business.coverUrl) {
+          <img class="feed-card__img" [src]="business.coverUrl" [alt]="business.name" />
+        } @else {
+          <div class="feed-card__placeholder">
+            <svg lucideImage aria-hidden="true"></svg>
+          </div>
+        }
       }
     }
   </div>
 
   <!-- Context -->
   <div class="feed-card__context">
-    @if (item().itemType === 'TOUR' && item().tour) {
-      <h3 class="feed-card__title">{{ item().tour.title }}</h3>
-      <p class="feed-card__summary">{{ item().tour.summary }}</p>
+    @if (item().itemType === 'TOUR') {
+      @if (item().tour; as tour) {
+        <h3 class="feed-card__title">{{ tour.title }}</h3>
+        <p class="feed-card__summary">{{ tour.summary }}</p>
+      }
     }
     
-    @if (item().itemType === 'LISTING' && item().listing) {
-      <h3 class="feed-card__title">{{ item().listing.title }}</h3>
-      <p class="feed-card__summary">{{ item().listing.description }}</p>
+    @if (item().itemType === 'LISTING') {
+      @if (item().listing; as listing) {
+        <h3 class="feed-card__title">{{ listing.title }}</h3>
+        <p class="feed-card__summary">{{ listing.description }}</p>
+      }
     }
 
-    @if (item().itemType === 'BUSINESS' && item().business) {
-      <p class="feed-card__summary">{{ item().business.description || 'A local business near you.' }}</p>
+    @if (item().itemType === 'BUSINESS') {
+      @if (item().business; as business) {
+        <p class="feed-card__summary">{{ business.description || 'A local business near you.' }}</p>
+      }
     }
   </div>
 

@@ -44,7 +44,7 @@
               <p class="tour-card__summary">{{ tour.summary || 'No summary provided.' }}</p>
             </div>
             <div class="tour-card__actions">
-              <button class="btn-icon" aria-label="Edit tour" title="Edit">
+              <button class="btn-icon" aria-label="Edit tour" title="Edit" [routerLink]="['/profile/business/tours', tour.id, 'edit']">
                 <svg lucideEdit3 aria-hidden="true"></svg>
               </button>
               <button class="btn-icon btn-icon--danger" aria-label="Delete tour" title="Delete" (click)="deleteTour(tour.id)">

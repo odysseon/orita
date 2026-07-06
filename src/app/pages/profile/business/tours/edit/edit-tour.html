@@ -1,0 +1,92 @@
+<div class="edit-tour-page">
+  <header class="edit-tour-header">
+    <div class="header-content">
+      <a [routerLink]="['../../']" class="back-link">
+        <svg lucideArrowLeft aria-hidden="true"></svg>
+        Back to Tours
+      </a>
+      <h2>{{ tourId() ? 'Edit Tour' : 'Create Tour' }}</h2>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn--outline" (click)="saveChanges()" [disabled]="isSaving()">
+        <svg lucideSave aria-hidden="true"></svg>
+        {{ isSaving() ? 'Saving...' : 'Save Draft' }}
+      </button>
+      <button class="btn btn--primary" (click)="publishTour()" [disabled]="isSaving()">
+        Publish Tour
+      </button>
+    </div>
+  </header>
+
+  @if (isLoading()) {
+    <div class="skeleton-form">
+      <div class="skeleton skeleton-input"></div>
+      <div class="skeleton skeleton-textarea"></div>
+      <div class="skeleton skeleton-box"></div>
+    </div>
+  } @else {
+    <div class="edit-tour-content">
+      <div class="edit-tour-main">
+        <section class="form-section">
+          <h3>Basic Details</h3>
+          
+          <app-form-field label="Tour Title" fieldId="title">
+            <input id="title" type="text" [(ngModel)]="title" placeholder="e.g. Summer Collection Walkthrough" />
+          </app-form-field>
+          
+          <app-form-field label="Summary" fieldId="summary">
+            <textarea id="summary" [(ngModel)]="summary" placeholder="Briefly describe what this tour showcases..." rows="3"></textarea>
+          </app-form-field>
+          
+          <app-form-field label="Visit Date" fieldId="visitDate">
+            <input id="visitDate" type="date" [(ngModel)]="visitDate" />
+          </app-form-field>
+
+          <app-form-field label="Status" fieldId="status">
+            <select id="status" [(ngModel)]="status">
+              <option value="DRAFT">Draft</option>
+              <option value="PUBLISHED">Published</option>
+            </select>
+          </app-form-field>
+        </section>
+
+        <section class="media-section">
+          <div class="section-header">
+            <h3>Gallery (Photos & Videos)</h3>
+            <span class="helper-text">Add photos or videos of your store or inventory.</span>
+          </div>
+          
+          <div class="media-grid">
+            @for (media of galleryMedia(); track media.id) {
+              <div class="media-item">
+                @if (media.mediaType === 'VIDEO') {
+                  <video [src]="media.url" controls></video>
+                } @else {
+                  <img [src]="media.url" alt="Tour Media" />
+                }
+                <button class="btn-icon delete-btn" (click)="deleteMedia(media.id)" aria-label="Delete media">
+                  <svg lucideX aria-hidden="true"></svg>
+                </button>
+              </div>
+            }
+            
+            <div class="media-upload-placeholder" [class.is-uploading]="isUploadingGallery()">
+              <label>
+                <input type="file" multiple accept="image/*,video/*" (change)="onGalleryUpload($event)" [disabled]="isUploadingGallery()" class="visually-hidden" />
+                <div class="upload-content">
+                  @if (isUploadingGallery()) {
+                    <div class="spinner"></div>
+                    <span>Uploading...</span>
+                  } @else {
+                    <svg lucideImagePlus aria-hidden="true"></svg>
+                    <span>Add Media</span>
+                  }
+                </div>
+              </label>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  }
+</div>

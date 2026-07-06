@@ -1,5 +1,5 @@
 import { Component, input, signal, inject, computed } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { httpResource } from '@angular/common/http';
 import { LucideImage, LucidePlus, LucideTrash2, LucideEdit3 } from '@lucide/angular';
@@ -10,7 +10,7 @@ import { ToastService } from '../../../../core/services/toast';
 
 @Component({
   selector: 'app-business-tours',
-  imports: [LucideImage, LucidePlus, LucideTrash2, LucideEdit3, DatePipe],
+  imports: [RouterLink, LucideImage, LucidePlus, LucideTrash2, LucideEdit3, DatePipe],
   templateUrl: './tours.html',
   styleUrl: './tours.css'
 })
@@ -18,6 +18,8 @@ export class AppBusinessTours {
   readonly businessId = input.required<string>();
   #tourService = inject(BusinessTourService);
   #toast = inject(ToastService);
+
+  #router = inject(Router);
 
   readonly toursResource = httpResource<IPaginated<IBusinessTour>>(() => `${environment.apiUrl}/business-profiles/${this.businessId()}/business-tours`);
   readonly isCreating = signal(false);
@@ -33,7 +35,6 @@ export class AppBusinessTours {
     });
   }
 
-  // Very basic creation stub for MVP
   createTourMock() {
     this.isCreating.set(true);
     this.#tourService.create(this.businessId(), {
@@ -44,8 +45,7 @@ export class AppBusinessTours {
       next: (tour) => {
         this.#toast.success('Draft tour created');
         this.isCreating.set(false);
-        this.toursResource.reload();
-        // In a real app we'd navigate to edit, but for MVP we just created a draft
+        this.#router.navigate(['/profile/business/tours', tour.id, 'edit']);
       },
       error: () => {
         this.#toast.error('Failed to create tour');
