@@ -1,0 +1,40 @@
+.recent-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recent-list li {
+  margin-bottom: 0.5rem;
+}
+
+.recent-list button {
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  background: var(--surface, var(--surface-card));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text);
+  transition: background-color 0.2s;
+}
+
+.recent-list button:hover {
+  background: var(--surface-hover, var(--surface-container));
+}
+
+.recent-list svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--text-muted);
+}
+
+.empty-state-text {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 2rem;
+}
