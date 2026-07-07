@@ -288,8 +288,7 @@ body {
 .section {
   display: flex;
   flex-direction: column;
-  padding-block: var(--size-64);
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-2xl);
 }
 
 .section__title {
