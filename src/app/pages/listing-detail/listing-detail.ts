@@ -88,7 +88,7 @@ export class ListingDetail {
       title: item.title,
       description: item.description || `Check out ${item.title} on Orita.`,
       image: biz?.avatarUrl || undefined,
-      url: `https://orita.app/l/${item.slug}`,
+      url: `https://orita.onrender.com/l/${item.slug}`,
       type: 'product' as const,
       jsonLd: {
         "@type": "Product",
