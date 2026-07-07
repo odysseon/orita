@@ -11,15 +11,17 @@ export type SaveItemType = 'BUSINESS' | 'LISTING' | 'TOUR';
   selector: 'app-save-button',
   imports: [LucideBookmark],
   templateUrl: './save-button.html',
-  styleUrl: './save-button.css'
+  styleUrl: './save-button.css',
 })
 export class SaveButton {
   readonly itemId = input.required<string>();
   readonly itemType = input.required<SaveItemType>();
   readonly saved = model<boolean>(false);
-  
+
   // Style configurations
-  readonly variant = input<'primary' | 'secondary' | 'ghost' | 'icon' | 'action'>('icon');
+  readonly variant = input<'primary' | 'secondary' | 'ghost' | 'icon' | 'action' | 'overlay'>(
+    'icon',
+  );
   readonly label = input<string>('Save');
 
   readonly saving = signal(false);
@@ -30,10 +32,10 @@ export class SaveButton {
   async onToggle(event: Event): Promise<void> {
     event.preventDefault();
     event.stopPropagation();
-    
+
     if (this.saving()) return;
     this.saving.set(true);
-    
+
     const currentlySaved = this.saved();
     // Optimistic update
     this.saved.set(!currentlySaved);
@@ -59,10 +61,14 @@ export class SaveButton {
   private getEndpoint(): string {
     const id = this.itemId();
     switch (this.itemType()) {
-      case 'BUSINESS': return `${environment.apiUrl}/business-profiles/${id}/save`;
-      case 'LISTING': return `${environment.apiUrl}/listings/${id}/save`;
-      case 'TOUR': return `${environment.apiUrl}/business-tours/${id}/save`;
-      default: throw new Error(`Unknown save item type: ${this.itemType()}`);
+      case 'BUSINESS':
+        return `${environment.apiUrl}/business-profiles/${id}/save`;
+      case 'LISTING':
+        return `${environment.apiUrl}/listings/${id}/save`;
+      case 'TOUR':
+        return `${environment.apiUrl}/business-tours/${id}/save`;
+      default:
+        throw new Error(`Unknown save item type: ${this.itemType()}`);
     }
   }
 }

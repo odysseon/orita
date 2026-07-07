@@ -1,0 +1,10 @@
+<section
+  class="section"
+  [class.section--centered]="centered()"
+  [class.section--sm]="width() === 'sm'"
+  [class.section--md]="width() === 'md'"
+  [class.section--lg]="width() === 'lg'"
+  [class.section--xl]="width() === 'xl'"
+>
+  <ng-content />
+</section>

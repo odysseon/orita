@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.section {
+  width: min(100%, 80rem);
+
+  margin-inline: auto;
+
+  padding-inline: clamp(1.5rem, 4vw, 2.5rem);
+
+  padding-block: clamp(6rem, 10vw, 9rem);
+}
+
+.section--sm {
+  max-width: 40rem;
+}
+
+.section--md {
+  max-width: 56rem;
+}
+
+.section--lg {
+  max-width: 72rem;
+}
+
+.section--xl {
+  max-width: 88rem;
+}
+
+.section--centered {
+  text-align: center;
+}

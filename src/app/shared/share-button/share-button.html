@@ -1,10 +1,11 @@
-<button 
-  [class]="variant() === 'icon' ? 'btn-icon' : (variant() === 'action' ? 'action-btn' : 'btn btn--' + variant())"
-  (click)="onShare()" 
-  type="button" 
-  [attr.aria-label]="label()">
+<button
+  [class]="(variant() === 'icon' ? 'btn-icon' : (variant() === 'action' ? 'action-btn' : 'btn btn--' + variant())) + (size() === 'sm' && variant() === 'icon' ? ' btn-icon--sm' : '')"
+  (click)="onShare()"
+  type="button"
+  [attr.aria-label]="label()"
+>
   <svg lucideShare aria-hidden="true"></svg>
   @if (variant() !== 'icon') {
-    <span>{{ label() }}</span>
+  <span>{{ label() }}</span>
   }
 </button>

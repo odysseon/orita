@@ -24,3 +24,13 @@
   width: var(--size-20);
   height: var(--size-20);
 }
+
+.btn-icon--sm {
+  width: var(--size-32);
+  height: var(--size-32);
+}
+
+.btn-icon--sm svg {
+  width: var(--size-16);
+  height: var(--size-16);
+}

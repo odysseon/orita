@@ -1,6 +1,14 @@
-import { Component, input, inject, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  input,
+  inject,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  OnDestroy,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideImage, LucideMapPin, LucideMessageCircle } from '@lucide/angular';
+import { LucideImage } from '@lucide/angular';
 import { FeedItemView } from '../../core/services/feed.service';
 import { ToastService } from '../../core/services/toast';
 import { ShareButton } from '../share-button/share-button';
@@ -8,13 +16,13 @@ import { SaveButton, SaveItemType } from '../save-button/save-button';
 
 @Component({
   selector: 'app-feed-card',
-  imports: [RouterLink, LucideImage, LucideMapPin, LucideMessageCircle, ShareButton, SaveButton],
+  imports: [RouterLink, LucideImage, ShareButton, SaveButton],
   templateUrl: './feed-card.html',
-  styleUrl: './feed-card.css'
+  styleUrl: './feed-card.css',
 })
 export class AppFeedCard implements AfterViewInit, OnDestroy {
   readonly item = input.required<FeedItemView>();
-  
+
   #toast = inject(ToastService);
   #observer: IntersectionObserver | null = null;
 
@@ -22,15 +30,18 @@ export class AppFeedCard implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     if (this.item().itemType === 'TOUR' && this.videoElement) {
-      this.#observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            this.videoElement?.nativeElement.play().catch(() => {});
-          } else {
-            this.videoElement?.nativeElement.pause();
-          }
-        });
-      }, { threshold: 0.6 });
+      this.#observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.videoElement?.nativeElement.play().catch(() => {});
+            } else {
+              this.videoElement?.nativeElement.pause();
+            }
+          });
+        },
+        { threshold: 0.6 },
+      );
       this.#observer.observe(this.videoElement.nativeElement);
     }
   }
@@ -51,30 +62,42 @@ export class AppFeedCard implements AfterViewInit, OnDestroy {
     const item = this.item();
     const base = 'https://orita.onrender.com';
     switch (item.itemType) {
-      case 'TOUR': return `${base}/tours/${item.tour?.id}`;
-      case 'LISTING': return `${base}/l/${item.listing?.slug}`;
-      case 'BUSINESS': return `${base}/b/${item.business?.slug}`;
-      default: return base;
+      case 'TOUR':
+        return `${base}/tours/${item.tour?.id}`;
+      case 'LISTING':
+        return `${base}/l/${item.listing?.slug}`;
+      case 'BUSINESS':
+        return `${base}/b/${item.business?.slug}`;
+      default:
+        return base;
     }
   }
 
   get shareTitle(): string {
     const item = this.item();
     switch (item.itemType) {
-      case 'TOUR': return item.tour?.title || 'Tour';
-      case 'LISTING': return item.listing?.title || 'Listing';
-      case 'BUSINESS': return item.business?.name || 'Business';
-      default: return 'Orita';
+      case 'TOUR':
+        return item.tour?.title || 'Tour';
+      case 'LISTING':
+        return item.listing?.title || 'Listing';
+      case 'BUSINESS':
+        return item.business?.name || 'Business';
+      default:
+        return 'Orita';
     }
   }
 
   get shareText(): string {
     const item = this.item();
     switch (item.itemType) {
-      case 'TOUR': return item.tour?.summary || '';
-      case 'LISTING': return item.listing?.description || '';
-      case 'BUSINESS': return item.business?.description || '';
-      default: return '';
+      case 'TOUR':
+        return item.tour?.summary || '';
+      case 'LISTING':
+        return item.listing?.description || '';
+      case 'BUSINESS':
+        return item.business?.description || '';
+      default:
+        return '';
     }
   }
 
@@ -89,10 +112,14 @@ export class AppFeedCard implements AfterViewInit, OnDestroy {
   get saveItemId(): string {
     const item = this.item();
     switch (item.itemType) {
-      case 'TOUR': return item.tour?.id || '';
-      case 'LISTING': return item.listing?.id || '';
-      case 'BUSINESS': return item.business?.id || '';
-      default: return '';
+      case 'TOUR':
+        return item.tour?.id || '';
+      case 'LISTING':
+        return item.listing?.id || '';
+      case 'BUSINESS':
+        return item.business?.id || '';
+      default:
+        return '';
     }
   }
 
