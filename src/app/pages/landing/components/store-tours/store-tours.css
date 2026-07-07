@@ -2,73 +2,65 @@
   display: block;
 }
 
-.store-tours {
-  padding-block: clamp(6rem, 10vw, 9rem);
+.tour {
+  margin-top: 4rem;
 
   display: grid;
 
-  gap: 4rem;
+  grid-template-columns: 2fr 1fr;
+
+  gap: 3rem;
+
+  align-items: center;
 }
 
-.store-tours__content {
-  text-align: center;
+.tour__preview {
+  display: flex;
 
-  max-width: 720px;
+  flex-direction: column;
 
-  margin-inline: auto;
+  gap: 1rem;
 }
 
-.store-tours__eyebrow {
-  color: var(--clr-primary);
+.tour__hero {
+  aspect-ratio: 16 / 9;
 
-  font-weight: 600;
-
-  text-transform: uppercase;
-
-  letter-spacing: 0.08em;
-}
-
-.store-tours__title {
-  margin: 0.75rem 0;
-
-  font-size: clamp(2.5rem, 5vw, 4rem);
-
-  letter-spacing: -0.04em;
-}
-
-.store-tours__subtitle {
-  color: var(--text-secondary);
-
-  line-height: 1.8;
-
-  font-size: 1.15rem;
-}
-
-.tour-preview {
-  max-width: 960px;
-
-  width: 100%;
-
-  margin-inline: auto;
-}
-
-.tour-preview__hero {
-  aspect-ratio: 16/9;
-
-  border-radius: 2rem;
+  border-radius: var(--radius-2xl);
 
   background: linear-gradient(135deg, var(--clr-primary-container), var(--surface-container));
 
-  display: grid;
+  position: relative;
 
-  place-items: center;
+  overflow: hidden;
+}
+
+.tour__hero::after {
+  content: '';
+
+  position: absolute;
+
+  inset: 0;
+
+  background: radial-gradient(circle at top right, rgb(255 255 255 / 0.12), transparent 45%);
+}
+
+.tour__badge {
+  position: absolute;
+
+  top: 1.5rem;
+
+  left: 1.5rem;
+
+  padding: 0.6rem 1rem;
+
+  border-radius: 999px;
+
+  background: rgb(255 255 255 / 0.9);
 
   font-weight: 600;
 }
 
-.tour-preview__gallery {
-  margin-top: 1rem;
-
+.tour__gallery {
   display: grid;
 
   grid-template-columns: repeat(3, 1fr);
@@ -76,26 +68,48 @@
   gap: 1rem;
 }
 
-.tour-preview__gallery > div {
+.tour__thumbnail {
   aspect-ratio: 1;
 
-  border-radius: 1rem;
+  border-radius: var(--radius-xl);
 
   background: var(--surface-container);
 }
 
-.store-tours__benefits {
-  display: flex;
+.tour__content h3 {
+  margin-top: 0;
 
-  justify-content: center;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+}
 
-  flex-wrap: wrap;
+.tour__content p {
+  color: var(--text-secondary);
 
-  gap: 2rem;
+  line-height: 1.8;
+}
 
-  list-style: none;
+.tour__content ul {
+  margin: 2rem 0 0;
 
   padding: 0;
 
-  color: var(--text-secondary);
+  list-style: none;
+
+  display: grid;
+
+  gap: 1rem;
+}
+
+.tour__content li {
+  display: flex;
+
+  gap: 0.75rem;
+
+  align-items: center;
+}
+
+@media (max-width: 960px) {
+  .tour {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.cards {
+  margin-top: 4rem;
+
+  display: grid;
+
+  gap: 2rem;
+
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}

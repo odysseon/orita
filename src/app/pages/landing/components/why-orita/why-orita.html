@@ -1,1 +1,15 @@
-<p>why-orita works!</p>
+<app-section>
+  <app-section-header
+    [eyebrow]="content.eyebrow"
+    [title]="content.title"
+    [description]="content.description"
+  />
+
+  <div class="cards">
+    @for (card of cards; track card.title) {
+
+    <app-marketing-card [title]="card.title" [description]="card.description" />
+
+    }
+  </div>
+</app-section>

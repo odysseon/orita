@@ -2,34 +2,134 @@
   display: block;
 }
 
-.business-cta {
+.business {
   display: grid;
 
   grid-template-columns: 1fr 1fr;
 
-  gap: clamp(3rem, 6vw, 6rem);
+  gap: 4rem;
 
   align-items: center;
-
-  padding-block: clamp(6rem, 10vw, 9rem);
 }
 
-.business-cta__content h2 {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-
-  line-height: 1.05;
-
-  letter-spacing: -0.03em;
-}
-
-.profile-card {
-  border-radius: 2rem;
-
+.profile {
   overflow: hidden;
 
-  background: var(--surface-card);
+  border-radius: var(--radius-2xl);
 
   border: 1px solid var(--border-subtle);
 
-  box-shadow: var(--shadow-lg);
+  background: var(--surface-card);
+}
+
+.profile__cover {
+  aspect-ratio: 16 / 7;
+
+  background: linear-gradient(135deg, var(--clr-primary-container), var(--surface-container));
+}
+
+.profile__body {
+  padding: 2rem;
+}
+
+.profile__logo {
+  width: 5rem;
+
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  margin-top: -4.5rem;
+
+  border: 4px solid var(--surface-card);
+
+  background: var(--clr-primary);
+}
+
+.profile__content h3 {
+  margin: 1rem 0 0.5rem;
+}
+
+.profile__content p {
+  color: var(--text-secondary);
+}
+
+.profile__chips {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 0.75rem;
+
+  margin-top: 1.5rem;
+}
+
+.profile__chips span {
+  padding: 0.5rem 1rem;
+
+  border-radius: 999px;
+
+  background: var(--surface-container);
+}
+
+.business__eyebrow {
+  color: var(--clr-primary);
+
+  text-transform: uppercase;
+
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+}
+
+.business__content h2 {
+  margin-block: 0.75rem 1.5rem;
+
+  font-size: clamp(2.5rem, 5vw, 4rem);
+
+  line-height: 1.05;
+}
+
+.business__content p {
+  color: var(--text-secondary);
+
+  line-height: 1.8;
+}
+
+.business__content ul {
+  margin: 2rem 0;
+
+  padding: 0;
+
+  list-style: none;
+
+  display: grid;
+
+  gap: 1rem;
+}
+
+.button {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 1rem 1.5rem;
+
+  border-radius: var(--radius-lg);
+
+  background: var(--clr-primary);
+
+  color: var(--clr-on-primary);
+
+  text-decoration: none;
+
+  font-weight: 600;
+}
+
+@media (max-width: 960px) {
+  .business {
+    grid-template-columns: 1fr;
+  }
 }

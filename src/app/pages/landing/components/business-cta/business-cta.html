@@ -1,42 +1,46 @@
-<section class="business-cta">
-  <div class="business-cta__preview">
-    <div class="profile-card">
-      <div class="profile-card__banner"></div>
+<app-section width="xl">
+  <div class="business">
+    <div class="business__preview">
+      <article class="profile">
+        <div class="profile__cover"></div>
 
-      <div class="profile-card__logo"></div>
+        <div class="profile__body">
+          <div class="profile__logo"></div>
 
-      <div class="profile-card__content">
-        <h3>Mama T Kitchen</h3>
+          <div class="profile__content">
+            <h3>Mama T Kitchen</h3>
 
-        <p>Restaurant · Ile-Ife</p>
+            <p>Restaurant • Ile-Ife</p>
 
-        <div class="profile-card__tags">
-          <span>Open Now</span>
+            <div class="profile__chips">
+              <span>Open Now</span>
 
-          <span>Store Tour</span>
+              <span>Store Tour</span>
+            </div>
+          </div>
         </div>
-      </div>
+      </article>
+    </div>
+
+    <div class="business__content">
+      <p class="business__eyebrow">For Businesses</p>
+
+      <h2>Your next customer is already searching.</h2>
+
+      <p>
+        Every day, people search for nearby businesses, services and products. Make sure they
+        discover yours first.
+      </p>
+
+      <ul>
+        @for (benefit of benefits; track benefit) {
+
+        <li>✓ {{ benefit }}</li>
+
+        }
+      </ul>
+
+      <a routerLink="/register-business" class="button"> Create Your Business Profile </a>
     </div>
   </div>
-
-  <div class="business-cta__content">
-    <p class="business-cta__eyebrow">For Businesses</p>
-
-    <h2>Your next customer is already searching.</h2>
-
-    <p>
-      Every day, people search for businesses, services and products around them. Create your
-      business profile, showcase what you offer, and make sure they discover you first.
-    </p>
-
-    <ul>
-      <li>Free business profile</li>
-
-      <li>Showcase products & services</li>
-
-      <li>Receive direct enquiries</li>
-    </ul>
-
-    <button class="btn btn--primary btn--lg" (click)="listBusiness()">List Your Business</button>
-  </div>
-</section>
+</app-section>

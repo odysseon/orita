@@ -1,0 +1,11 @@
+<article class="card" [class.card--primary]="accent() === 'primary'">
+  @if (eyebrow(); as eyebrow) {
+
+  <p class="card__eyebrow">{{ eyebrow }}</p>
+
+  }
+
+  <h3 class="card__title">{{ title() }}</h3>
+
+  <p class="card__description">{{ description() }}</p>
+</article>

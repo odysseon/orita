@@ -1,32 +1,40 @@
-<section class="store-tours">
-  <div class="store-tours__content">
-    <p class="store-tours__eyebrow">Store Tours</p>
+<app-section width="xl">
+  <app-section-header
+    [eyebrow]="content.eyebrow"
+    [title]="content.title"
+    [description]="content.description"
+  />
 
-    <h2 class="store-tours__title">See before you visit.</h2>
+  <div class="tour">
+    <div class="tour__preview">
+      <div class="tour__hero">
+        <div class="tour__badge">Store Tour</div>
+      </div>
 
-    <p class="store-tours__subtitle">
-      Some businesses on Oríta include immersive Store Tours, helping you explore their space before
-      you leave home.
-    </p>
-  </div>
+      <div class="tour__gallery">
+        @for (item of [1,2,3]; track item) {
 
-  <div class="tour-preview">
-    <div class="tour-preview__hero">Store Tour Preview</div>
+        <div class="tour__thumbnail"></div>
 
-    <div class="tour-preview__gallery">
-      <div></div>
-
-      <div></div>
-
-      <div></div>
+        }
+      </div>
     </div>
+
+    <aside class="tour__content">
+      <h3>Explore businesses before stepping inside.</h3>
+
+      <p>
+        Store Tours help you understand the atmosphere, products and environment before making the
+        trip.
+      </p>
+
+      <ul>
+        @for (benefit of benefits; track benefit) {
+
+        <li>✓ {{ benefit }}</li>
+
+        }
+      </ul>
+    </aside>
   </div>
-
-  <ul class="store-tours__benefits">
-    <li>Know what to expect.</li>
-
-    <li>Build confidence before visiting.</li>
-
-    <li>Discover businesses hiding in plain sight.</li>
-  </ul>
-</section>
+</app-section>

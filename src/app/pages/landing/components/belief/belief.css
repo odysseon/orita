@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+.belief-quote {
+  margin: 4rem auto 0;
+
+  max-width: 48rem;
+
+  padding: 2rem;
+
+  border-inline-start: 4px solid var(--clr-primary);
+
+  background: var(--surface-container);
+
+  border-radius: var(--radius-lg);
+}
+
+.belief-quote p {
+  margin: 0;
+
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+
+  line-height: 1.7;
+
+  font-weight: 500;
+
+  color: var(--text-primary);
+}

@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+
+.final {
+  text-align: center;
+}
+
+.final h2 {
+  margin: 0;
+
+  font-size: clamp(2.75rem, 5vw, 4.5rem);
+
+  line-height: 1.05;
+}
+
+.final p {
+  max-width: 42rem;
+
+  margin: 2rem auto 3rem;
+
+  color: var(--text-secondary);
+
+  line-height: 1.8;
+}

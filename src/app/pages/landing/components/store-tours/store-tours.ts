@@ -1,9 +1,30 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Section } from '../../../../shared/marketing/section/section';
+import { SectionHeader } from '../../../../shared/landing/section-header/section-header';
 
 @Component({
   selector: 'app-store-tours',
-  imports: [],
+  standalone: true,
+  imports: [Section, SectionHeader],
   templateUrl: './store-tours.html',
   styleUrl: './store-tours.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StoreTours {}
+export class StoreTours {
+  protected readonly content = {
+    eyebrow: 'Store Tours',
+
+    title: ['See before', 'you visit.'],
+
+    description:
+      'Some businesses on Oríta include immersive Store Tours, giving you a better feel for a place before you leave home.',
+  } as const;
+
+  protected readonly benefits = [
+    'Know what to expect',
+
+    'Build confidence before visiting',
+
+    'Discover hidden gems',
+  ] as const;
+}
