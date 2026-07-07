@@ -1,9 +1,28 @@
 <div class="listing-detail">
   @if (listing.isLoading()) {
-  <div class="listing-detail__skeleton">
-    <div class="skeleton skeleton--cover"></div>
-    <div class="skeleton skeleton--title"></div>
-    <div class="skeleton skeleton--price"></div>
+  <div class="listing-detail__skeleton" style="display: flex; flex-direction: column; gap: var(--size-16);">
+    <div class="skeleton" style="height: 300px; border-radius: var(--radius-lg); margin-bottom: var(--size-8);"></div>
+    <div style="display: flex; flex-direction: column; gap: var(--size-8);">
+      <div class="skeleton" style="height: var(--size-28); width: 80%; border-radius: 4px;"></div>
+      <div class="skeleton" style="height: var(--size-20); width: 40%; border-radius: 4px;"></div>
+      <div class="skeleton" style="height: var(--size-14); width: 30%; border-radius: 4px;"></div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: var(--size-8); margin-top: var(--size-8);">
+      <div class="skeleton" style="height: var(--size-14); width: 100%; border-radius: 4px;"></div>
+      <div class="skeleton" style="height: var(--size-14); width: 90%; border-radius: 4px;"></div>
+      <div class="skeleton" style="height: var(--size-14); width: 70%; border-radius: 4px;"></div>
+    </div>
+    <div style="display: flex; align-items: center; gap: var(--size-12); margin-top: var(--size-8); padding: var(--size-12); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);">
+      <div class="skeleton" style="width: var(--size-40); height: var(--size-40); border-radius: var(--radius-md);"></div>
+      <div style="display: flex; flex-direction: column; gap: var(--size-4); flex: 1;">
+        <div class="skeleton" style="height: var(--size-14); width: 60%; border-radius: 4px;"></div>
+        <div class="skeleton" style="height: var(--size-12); width: 40%; border-radius: 4px;"></div>
+      </div>
+    </div>
+    <div style="display: flex; gap: var(--size-8); margin-top: var(--size-8);">
+      <div class="skeleton" style="height: 48px; flex: 1; border-radius: var(--radius-md);"></div>
+      <div class="skeleton" style="height: 48px; flex: 1; border-radius: var(--radius-md);"></div>
+    </div>
   </div>
   } @if (listing.error()) {
   <ui-empty-state icon="package" title="This listing could not be found.">
@@ -11,7 +30,9 @@
   </ui-empty-state>
   } @if (listing.hasValue()) { @let item = listing.value()!;
 
-  <app-page-header backText="Back" (back)="goBack()" />
+  <app-page-header backText="Back" (back)="goBack()">
+    <app-share-button [title]="item.title" [text]="item.description || ''" />
+  </app-page-header>
 
   <!-- Cover -->
   <div class="listing-cover">

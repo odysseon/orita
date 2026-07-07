@@ -22,6 +22,7 @@ import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
 import { AppPageHeader } from '../../shared/page-header/page-header';
+import { ShareButton } from '../../shared/share-button/share-button';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
 
@@ -40,6 +41,7 @@ const DAY_LABELS: Record<string, string> = {
   imports: [
     RouterLink,
     AppPageHeader,
+    ShareButton,
     EmptyState,
     LucideStore,
     LucideMapPin,
