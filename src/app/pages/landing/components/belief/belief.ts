@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Section } from '../section/section';
-import { SectionHeader } from '../../../../shared/landing/section-header/section-header';
 
 @Component({
   selector: 'app-belief',
   standalone: true,
-  imports: [Section, SectionHeader],
+  imports: [Section],
   templateUrl: './belief.html',
   styleUrl: './belief.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

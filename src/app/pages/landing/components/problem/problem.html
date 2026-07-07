@@ -1,9 +1,19 @@
 <app-section>
-  <app-section-header
-    [eyebrow]="content.eyebrow"
-    [title]="content.title"
-    [description]="content.description"
-  />
+  <header class="section-header">
+    @if (content.eyebrow) {
+    <p class="section-header__eyebrow">{{ content.eyebrow }}</p>
+    }
+
+    <h2 class="section-header__title">
+      @for (line of content.title; track line) {
+      <span>{{ line }}</span>
+      }
+    </h2>
+
+    @if (content.description) {
+    <p class="section-header__description">{{ content.description }}</p>
+    }
+  </header>
 
   <div class="comparison">
     <section class="comparison__column">

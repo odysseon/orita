@@ -21,7 +21,7 @@ import { ValidationService } from '../../../core/services/validation.service';
     AppGoogleSignIn,
   ],
   templateUrl: './register.html',
-  styleUrls: ['../auth.css', './register.css'],
+  styleUrls: ['../auth.css'],
 })
 export class Register {
   #auth = inject(AuthService);

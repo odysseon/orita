@@ -22,7 +22,7 @@ import { ValidationService } from '../../../core/services/validation.service';
     AppGoogleSignIn,
   ],
   templateUrl: './login.html',
-  styleUrls: ['../auth.css', './login.css'],
+  styleUrls: ['../auth.css'],
 })
 export class Login {
   #auth = inject(AuthService);
