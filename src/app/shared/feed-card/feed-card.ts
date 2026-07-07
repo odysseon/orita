@@ -8,7 +8,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideImage } from '@lucide/angular';
+import { LucideImage, LucideMessageCircle } from '@lucide/angular';
 import { FeedItemView } from '../../core/services/feed.service';
 import { ToastService } from '../../core/services/toast';
 import { ShareButton } from '../share-button/share-button';
@@ -16,7 +16,7 @@ import { SaveButton, SaveItemType } from '../save-button/save-button';
 
 @Component({
   selector: 'app-feed-card',
-  imports: [RouterLink, LucideImage, ShareButton, SaveButton],
+  imports: [RouterLink, LucideImage, ShareButton, SaveButton, LucideMessageCircle],
   templateUrl: './feed-card.html',
   styleUrl: './feed-card.css',
 })

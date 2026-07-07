@@ -58,33 +58,38 @@
   </header>
   }
 
-  <!-- Context -->
-  <div class="feed-card__context">
-    @if (item().itemType === 'TOUR') { @if (item().tour; as tour) {
-    <h3 class="feed-card__title">{{ tour.title }}</h3>
-    <p class="feed-card__summary">{{ tour.summary }}</p>
-    } } @if (item().itemType === 'LISTING') { @if (item().listing; as listing) {
-    <h3 class="feed-card__title">{{ listing.title }}</h3>
-    <p class="feed-card__summary">{{ listing.description }}</p>
-    } } @if (item().itemType === 'BUSINESS') { @if (item().business; as business) {
-    <p class="feed-card__summary">{{ business.description || 'A local business near you.' }}</p>
-    } }
+  <!-- Body -->
+  <div class="feed-card__body">
+    <!-- Context -->
+    <div class="feed-card__context">
+      @if (item().itemType === 'TOUR') { @if (item().tour; as tour) {
+      <h3 class="feed-card__title">{{ tour.title }}</h3>
+      <p class="feed-card__summary">{{ tour.summary }}</p>
+      } } @if (item().itemType === 'LISTING') { @if (item().listing; as listing) {
+      <h3 class="feed-card__title">{{ listing.title }}</h3>
+      <p class="feed-card__summary">{{ listing.description }}</p>
+      } } @if (item().itemType === 'BUSINESS') { @if (item().business; as business) {
+      <p class="feed-card__summary">{{ business.description || 'A local business near you.' }}</p>
+      } }
+    </div>
+
+    <!-- Actions -->
+    <div class="feed-card__actions">
+      <app-share-button
+        [title]="shareTitle"
+        [text]="shareText"
+        [url]="shareUrl"
+        variant="icon"
+        size="sm"
+      />
+
+      @if (item().itemType === 'LISTING') {
+      <button class="icon-btn" type="button" (click)="onMessage($event)" aria-label="Message">
+        <svg lucideMessageCircle aria-hidden="true"></svg>
+      </button>
+      } @else {
+      <a class="feed-card__cta" [routerLink]="['/b', item().business?.slug]">View Profile</a>
+      }
+    </div>
   </div>
-
-  <!-- Actions -->
-  <footer class="feed-card__actions">
-    <app-share-button
-      [title]="shareTitle"
-      [text]="shareText"
-      [url]="shareUrl"
-      variant="icon"
-      size="sm"
-    />
-
-    @if (item().itemType === 'LISTING') {
-    <button class="feed-card__cta" type="button" (click)="onMessage($event)">Message</button>
-    } @else {
-    <a class="feed-card__cta" [routerLink]="['/b', item().business?.slug]">View Profile</a>
-    }
-  </footer>
 </article>

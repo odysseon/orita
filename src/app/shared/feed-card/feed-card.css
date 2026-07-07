@@ -133,11 +133,21 @@
   content: '·';
 }
 
+/* Body */
+.feed-card__body {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--size-12);
+}
+
 /* Context */
 .feed-card__context {
   display: flex;
   flex-direction: column;
   gap: var(--size-2);
+  min-width: 0; /* Enable truncation for children */
+  flex: 1;
 }
 
 .feed-card__title {
@@ -146,6 +156,9 @@
   color: var(--text-primary);
   line-height: var(--line-height-tight);
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .feed-card__summary {
@@ -159,12 +172,36 @@
   overflow: hidden;
 }
 
-/* Actions — one line, right-aligned, icon-first */
+/* Actions */
 .feed-card__actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   gap: var(--size-4);
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-32);
+  height: var(--size-32);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.icon-btn:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.icon-btn svg {
+  width: var(--size-18);
+  height: var(--size-18);
 }
 
 .feed-card__cta {
