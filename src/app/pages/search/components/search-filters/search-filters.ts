@@ -1,5 +1,5 @@
 import { Component, input, output, signal, effect, inject, resource } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Drawer } from '../../../../shared/drawer/drawer';
 import { AppFormField } from '../../../../shared/form-field/form-field';
 import { CategoryService } from '../../../../core/services/category.service';
@@ -26,7 +26,7 @@ export interface SearchFilterState {
   selector: 'app-search-filters',
   imports: [
     Drawer,
-    FormsModule,
+    ReactiveFormsModule,
     AppFormField,
     LucideMapPin,
     LucideNavigation,
@@ -58,20 +58,23 @@ export class SearchFiltersComponent {
 
   #categoryService = inject(CategoryService);
   #geocodingService = inject(GeocodingService);
+  #fb = inject(FormBuilder);
 
   readonly isGeocoding = signal(false);
   readonly recentLocations = signal<GeocodeResult[]>(this.loadLocalStorage('orita_recent_locations'));
 
-  readonly draftLocationName = signal('');
-  readonly draftRadius = signal<number>(10);
-  readonly draftCategoryId = signal('');
-  readonly draftSort = signal('relevance');
-  readonly draftMinPrice = signal<number | null>(null);
-  readonly draftMaxPrice = signal<number | null>(null);
-  readonly draftFilters = signal<Record<string, string>>({});
+  readonly filtersForm = this.#fb.nonNullable.group({
+    locationName: [''],
+    radius: [10],
+    categoryId: [''],
+    sort: ['relevance'],
+    minPrice: this.#fb.control<number | null>(null),
+    maxPrice: this.#fb.control<number | null>(null),
+    filters: this.#fb.record<string>({})
+  });
 
   readonly categoryAttributesResource = resource({
-    params: () => ({ categoryId: this.draftCategoryId() }),
+    params: () => ({ categoryId: this.filtersForm.value.categoryId || '' }),
     loader: async ({ params }) => {
       if (!params.categoryId) return [];
       return this.#categoryService.getCategoryAttributes(params.categoryId);
@@ -82,30 +85,27 @@ export class SearchFiltersComponent {
     effect(() => {
       if (this.isOpen()) {
         const current = this.currentFilters();
-        this.draftLocationName.set(current.locationName || '');
-        this.draftRadius.set(current.radius || 10);
-        this.draftCategoryId.set(current.categoryId || '');
-        this.draftSort.set(current.sort || 'relevance');
-        this.draftMinPrice.set(current.minPrice || null);
-        this.draftMaxPrice.set(current.maxPrice || null);
         
-        const filtersObj: Record<string, string> = {};
+        this.filtersForm.setControl('filters', this.#fb.record<string>({}));
+        const filtersRecord = this.filtersForm.controls.filters;
+        
         for (const f of current.filters || []) {
           const parts = f.split(':');
           if (parts.length >= 2) {
-            filtersObj[parts[0]] = parts.slice(1).join(':');
+            filtersRecord.addControl(parts[0], this.#fb.control(parts.slice(1).join(':')));
           }
         }
-        this.draftFilters.set(filtersObj);
+
+        this.filtersForm.patchValue({
+          locationName: current.locationName || '',
+          radius: current.radius || 10,
+          categoryId: current.categoryId || '',
+          sort: current.sort || 'relevance',
+          minPrice: current.minPrice || null,
+          maxPrice: current.maxPrice || null
+        }, { emitEvent: false });
       }
     });
-  }
-
-  onFilterChange(key: string, value: any) {
-    this.draftFilters.update(filters => ({
-      ...filters,
-      [key]: value
-    }));
   }
 
   useCurrentLocation() {
@@ -136,12 +136,12 @@ export class SearchFiltersComponent {
   }
 
   applyRecentLocation(loc: GeocodeResult) {
-    this.draftLocationName.set(loc.displayName);
+    this.filtersForm.patchValue({ locationName: loc.displayName });
     this.applyLocationResult(loc);
   }
 
   onApply() {
-    const locName = this.draftLocationName().trim();
+    const locName = (this.filtersForm.value.locationName || '').trim();
     if (locName && locName !== this.currentFilters().locationName) {
       this.isGeocoding.set(true);
       this.#geocodingService.geocode(locName).subscribe({
@@ -185,22 +185,24 @@ export class SearchFiltersComponent {
 
   private emitApply(lat?: number | null, lng?: number | null, locationName?: string | null) {
     const filtersArray: string[] = [];
-    const currentFilters = this.draftFilters();
+    const currentFilters = this.filtersForm.value.filters || {};
     for (const key of Object.keys(currentFilters)) {
       if (currentFilters[key]) {
         filtersArray.push(`${key}:${currentFilters[key]}`);
       }
     }
 
+    const val = this.filtersForm.value;
+
     this.applyFilters.emit({
       locationName: locationName || null,
       lat: lat || null,
       lng: lng || null,
-      radius: this.draftRadius() !== 10 ? this.draftRadius() : null,
-      categoryId: this.draftCategoryId() || null,
-      sort: this.draftSort() !== 'relevance' ? this.draftSort() : null,
-      minPrice: this.draftMinPrice(),
-      maxPrice: this.draftMaxPrice(),
+      radius: val.radius !== 10 ? val.radius! : null,
+      categoryId: val.categoryId || null,
+      sort: val.sort !== 'relevance' ? val.sort! : null,
+      minPrice: val.minPrice || null,
+      maxPrice: val.maxPrice || null,
       filters: filtersArray.length ? filtersArray : null
     });
     this.isOpenChange.emit(false);

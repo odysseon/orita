@@ -11,14 +11,14 @@ import {
 } from '@lucide/angular';
 import { environment } from '../../../../../../environments/environment';
 import { ToastService } from '../../../../../core/services/toast';
-import { FormsModule } from '@angular/forms';
+import { form, FormField, required } from '@angular/forms/signals';
 import { AppFormField } from '../../../../../shared/form-field/form-field';
 import { BusinessTourService, IBusinessTour, BusinessTourStatus, IBusinessTourMediaItem } from '../../../../../core/services/business-tour.service';
 
 @Component({
   selector: 'app-edit-tour',
   imports: [
-    FormsModule,
+    FormField,
     AppFormField,
     LucideSave,
     LucideImagePlus,
@@ -41,10 +41,17 @@ export class EditTour implements OnInit {
   readonly galleryMedia = signal<IBusinessTourMediaItem[]>([]);
   
   // Form State
-  readonly title = signal('');
-  readonly summary = signal('');
-  readonly visitDate = signal('');
-  readonly status = signal<BusinessTourStatus>(BusinessTourStatus.DRAFT);
+  readonly model = signal({
+    title: '',
+    summary: '',
+    visitDate: '',
+    status: BusinessTourStatus.DRAFT
+  });
+
+  readonly tourForm = form(this.model, (f) => {
+    required(f.title, { message: 'Title is required' });
+    required(f.visitDate, { message: 'Visit Date is required' });
+  });
 
   readonly isLoading = signal(true);
   readonly isSaving = signal(false);
@@ -63,17 +70,12 @@ export class EditTour implements OnInit {
       this.tour.set(t);
       
       // Initialize form fields
-      this.title.set(t.title);
-      this.summary.set(t.summary || '');
-      this.status.set(t.status);
-
-      // format visitDate to YYYY-MM-DD for date input
-      if (t.visitDate) {
-        const dateObj = new Date(t.visitDate);
-        this.visitDate.set(dateObj.toISOString().split('T')[0]);
-      } else {
-        this.visitDate.set('');
-      }
+      this.model.set({
+        title: t.title,
+        summary: t.summary || '',
+        visitDate: t.visitDate ? new Date(t.visitDate).toISOString().split('T')[0] : '',
+        status: t.status
+      });
 
       // 2. Fetch Tour Media
       const mediaRes = await firstValueFrom(
@@ -90,13 +92,15 @@ export class EditTour implements OnInit {
   }
 
   async saveChanges() {
+    if (this.tourForm().invalid()) return;
     this.isSaving.set(true);
     try {
+      const m = this.model();
       const payload = {
-        title: this.title(),
-        summary: this.summary(),
-        visitDate: new Date(this.visitDate()).toISOString(),
-        status: this.status()
+        title: m.title,
+        summary: m.summary,
+        visitDate: new Date(m.visitDate).toISOString(),
+        status: m.status
       };
       
       await firstValueFrom(this.#tourService.update(this.tourId(), payload));
@@ -109,7 +113,7 @@ export class EditTour implements OnInit {
   }
 
   async publishTour() {
-    this.status.set(BusinessTourStatus.PUBLISHED);
+    this.model.update(m => ({ ...m, status: BusinessTourStatus.PUBLISHED }));
     await this.saveChanges();
   }
 

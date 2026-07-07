@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -52,9 +52,7 @@ export interface FeedItemView {
   tour?: FeedTour;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class FeedService {
   #http = inject(HttpClient);
 

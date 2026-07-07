@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, of } from 'rxjs';
 
@@ -10,9 +10,7 @@ export interface GeocodeResult {
   lng: number;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class GeocodingService {
   #http = inject(HttpClient);
   private readonly proxyUrl = `${environment.apiUrl}/geocode`;

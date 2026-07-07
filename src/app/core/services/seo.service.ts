@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 
@@ -11,9 +11,7 @@ export interface SeoConfig {
   jsonLd?: Record<string, any>;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class SeoService {
   #title = inject(Title);
   #meta = inject(Meta);

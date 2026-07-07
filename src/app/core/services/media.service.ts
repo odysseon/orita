@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -11,9 +11,7 @@ export interface IMediaResponse {
   createdAt: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class MediaService {
   #http = inject(HttpClient);
   #apiUrl = environment.apiUrl;

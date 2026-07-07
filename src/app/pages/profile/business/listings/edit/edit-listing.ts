@@ -12,7 +12,7 @@ import {
 import { environment } from '../../../../../../environments/environment';
 import { ToastService } from '../../../../../core/services/toast';
 import { IListing, ICategory } from '../listing.interface';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { AppFormField } from '../../../../../shared/form-field/form-field';
 import { CategoryService, ICategoryAttribute } from '../../../../../core/services/category.service';
 
@@ -25,7 +25,7 @@ interface IMedia {
 @Component({
   selector: 'app-edit-listing',
   imports: [
-    FormsModule,
+    ReactiveFormsModule,
     AppFormField,
     LucideTrash2,
     LucideSave,
@@ -42,6 +42,8 @@ export class EditListing implements OnInit {
   #router = inject(Router);
   #categoryService = inject(CategoryService);
 
+  #fb = inject(FormBuilder);
+
   readonly listingId = signal<string>('');
   readonly listing = signal<IListing | null>(null);
   readonly categories = signal<ICategory[]>([]);
@@ -52,15 +54,15 @@ export class EditListing implements OnInit {
   readonly galleryMedia = signal<IMedia[]>([]);
   
   // Form State
-  readonly title = signal('');
-  readonly description = signal('');
-  readonly categoryId = signal('');
-  readonly minPrice = signal<number | null>(null);
-  readonly maxPrice = signal<number | null>(null);
-  readonly isNegotiable = signal(false);
-  
-  // Dynamic Attributes State
-  readonly attributesData = signal<Record<string, any>>({});
+  readonly editForm = this.#fb.group({
+    title: [''],
+    description: [''],
+    categoryId: [''],
+    minPrice: this.#fb.control<number | null>(null),
+    maxPrice: this.#fb.control<number | null>(null),
+    isNegotiable: [false],
+    attributesData: this.#fb.record<any>({})
+  });
 
   readonly isLoading = signal(true);
   readonly isSaving = signal(false);
@@ -84,13 +86,20 @@ export class EditListing implements OnInit {
       this.listing.set(l);
       
       // Initialize form fields
-      this.title.set(l.title);
-      this.description.set(l.description || '');
-      this.categoryId.set(l.categoryId || '');
-      this.minPrice.set(l.minPrice ? Number(l.minPrice) : null);
-      this.maxPrice.set(l.maxPrice ? Number(l.maxPrice) : null);
-      this.isNegotiable.set(l.isNegotiable);
-      this.attributesData.set(l.attributes || {});
+      this.editForm.patchValue({
+        title: l.title,
+        description: l.description || '',
+        categoryId: l.categoryId || '',
+        minPrice: l.minPrice ? Number(l.minPrice) : null,
+        maxPrice: l.maxPrice ? Number(l.maxPrice) : null,
+        isNegotiable: l.isNegotiable,
+      });
+
+      const attrsData = l.attributes || {};
+      const attributesRecord = this.editForm.controls.attributesData;
+      Object.keys(attrsData).forEach(k => {
+        attributesRecord.addControl(k, this.#fb.control(attrsData[k]));
+      });
 
       // 3. Fetch Listing Media
       const mediaRes = await firstValueFrom(this.#http.get<{ cover?: IMedia, gallery: IMedia[] }>(`${environment.apiUrl}/listings/${this.listingId()}/media`));
@@ -114,31 +123,41 @@ export class EditListing implements OnInit {
     if (catId) {
       const attrs = await this.#categoryService.getCategoryAttributes(catId);
       this.attributes.set(attrs);
+      // Ensure controls exist
+      const attributesRecord = this.editForm.controls.attributesData;
+      attrs.forEach(attr => {
+        if (!attributesRecord.contains(attr.key)) {
+          attributesRecord.addControl(attr.key, this.#fb.control(''));
+        }
+      });
     } else {
       this.attributes.set([]);
     }
   }
 
   async onCategoryChange() {
-    // If category changes, attributes might change, clear the data
-    this.attributesData.set({});
-    await this.loadCategoryAttributes(this.categoryId());
+    const catId = this.editForm.value.categoryId || '';
+    // Clear dynamic attributes on category change
+    this.editForm.setControl('attributesData', this.#fb.record<any>({}));
+    await this.loadCategoryAttributes(catId);
   }
 
   async saveChanges() {
+    if (this.editForm.invalid) return;
     this.isSaving.set(true);
     try {
+      const val = this.editForm.value;
       const payload = {
-        title: this.title(),
-        description: this.description(),
-        categoryId: this.categoryId(),
+        title: val.title,
+        description: val.description,
+        categoryId: val.categoryId,
         price: {
-          minPrice: this.minPrice(),
-          maxPrice: this.maxPrice(),
-          isNegotiable: this.isNegotiable(),
+          minPrice: val.minPrice,
+          maxPrice: val.maxPrice,
+          isNegotiable: val.isNegotiable,
           currencyCode: 'NGN'
         },
-        attributes: this.attributesData()
+        attributes: val.attributesData
       };
       
       await firstValueFrom(this.#http.patch(`${environment.apiUrl}/listings/${this.listingId()}`, payload));

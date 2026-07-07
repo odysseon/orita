@@ -1,4 +1,4 @@
-import { Injectable, computed, signal, Signal } from '@angular/core';
+import { Service, computed, signal, Signal } from '@angular/core';
 import { DISTANCE_THRESHOLD, DrawerPosition, VELOCITY_THRESHOLD } from './drawer.model';
 
 interface PointerState {
@@ -9,7 +9,7 @@ interface PointerState {
   active: boolean;
 }
 
-@Injectable()
+@Service()
 export class DrawerDragService {
   private pointer: PointerState = {
     startX: 0,
