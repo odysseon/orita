@@ -2,6 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, of } from 'rxjs';
 
+import { environment } from '../../../environments/environment';
+
 export interface GeocodeResult {
   displayName: string;
   lat: number;
@@ -13,18 +15,13 @@ export interface GeocodeResult {
 })
 export class GeocodingService {
   #http = inject(HttpClient);
-  // Always use a User-Agent or specific referrer per Nominatim terms of service
-  private readonly nominatimUrl = 'https://nominatim.openstreetmap.org';
+  private readonly proxyUrl = `${environment.apiUrl}/geocode`;
 
   geocode(address: string): Observable<GeocodeResult | null> {
     if (!address.trim()) return of(null);
     
-    return this.#http.get<any[]>(`${this.nominatimUrl}/search`, {
-      params: {
-        q: address,
-        format: 'json',
-        limit: '1'
-      }
+    return this.#http.get<any[]>(`${this.proxyUrl}/search`, {
+      params: { q: address }
     }).pipe(
       map(results => {
         if (!results || results.length === 0) return null;
@@ -41,11 +38,10 @@ export class GeocodingService {
   }
 
   reverseGeocode(lat: number, lng: number): Observable<GeocodeResult | null> {
-    return this.#http.get<any>(`${this.nominatimUrl}/reverse`, {
+    return this.#http.get<any>(`${this.proxyUrl}/reverse`, {
       params: {
         lat: lat.toString(),
-        lon: lng.toString(),
-        format: 'json'
+        lon: lng.toString()
       }
     }).pipe(
       map(result => {
