@@ -116,7 +116,7 @@ export class BusinessDetail {
       title: biz.name,
       description: biz.description || `Visit ${biz.name} on Orita.`,
       image: biz.coverUrl || biz.avatarUrl || undefined,
-      url: `https://orita.app/b/${biz.slug}`,
+      url: `https://orita.onrender.com/b/${biz.slug}`,
       type: 'profile' as const,
       jsonLd: {
         "@type": "LocalBusiness",

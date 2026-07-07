@@ -30,7 +30,7 @@ export class TourDetail {
       title: tour.title,
       description: tour.summary || `Take a business tour: ${tour.title}`,
       image: tour.media?.[0]?.url || undefined,
-      url: `https://orita.app/tours/${tour.id}`,
+      url: `https://orita.onrender.com/tours/${tour.id}`,
       type: 'article' as const
     };
   });
