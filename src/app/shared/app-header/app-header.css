@@ -1,8 +1,6 @@
 :host {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: var(--z-nav);
   background: var(--surface-page);
   border-bottom: var(--size-1) solid var(--border-subtle);
@@ -18,6 +16,11 @@
   padding: 0 var(--size-16);
   height: 64px;
   box-sizing: border-box;
+}
+
+:host.layout-wide .app-header {
+  max-width: 1200px;
+  padding: 0 var(--size-24);
 }
 
 .header-brand {
