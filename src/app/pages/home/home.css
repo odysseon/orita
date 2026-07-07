@@ -10,7 +10,7 @@
 }
 
 .feed-container {
-  padding: calc(64px + var(--space-md)) var(--space-sm) var(--size-80) var(--space-sm);
+  padding: var(--space-md) var(--space-sm) var(--size-80) var(--space-sm);
 }
 
 .load-more-container {
