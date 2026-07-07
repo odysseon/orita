@@ -23,15 +23,17 @@
     </app-grid>
   </div>
   } @else if (editorialSections().length === 0) {
-  <ui-empty-state
-    icon="LucideMapPin"
-    title="Nothing nearby yet"
-    description="Be the first to create a business in your neighborhood!"
-  >
-    <button class="btn btn--primary btn--full" routerLink="/profile/business/create">
-      Start a Business
-    </button>
-  </ui-empty-state>
+  <div class="feed-container">
+    <ui-empty-state
+      icon="LucideMapPin"
+      title="Nothing nearby yet"
+      description="Be the first to create a business in your neighborhood!"
+    >
+      <button class="btn btn--primary btn--full" routerLink="/profile/business/create">
+        Start a Business
+      </button>
+    </ui-empty-state>
+  </div>
   } @else {
   <div class="feed-container">
     @for (group of editorialSections(); track group.title || $index) {
