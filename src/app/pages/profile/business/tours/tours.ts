@@ -1,6 +1,6 @@
 import { Component, input, signal, inject, computed } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { form, FormField, required } from '@angular/forms/signals';
 import { DatePipe } from '@angular/common';
 import { httpResource } from '@angular/common/http';
 import { LucideImage, LucidePlus, LucideTrash2, LucideEdit3 } from '@lucide/angular';
@@ -11,7 +11,7 @@ import { ToastService } from '../../../../core/services/toast';
 
 @Component({
   selector: 'app-business-tours',
-  imports: [RouterLink, FormsModule, LucideImage, LucidePlus, LucideTrash2, LucideEdit3, DatePipe],
+  imports: [RouterLink, FormField, LucideImage, LucidePlus, LucideTrash2, LucideEdit3, DatePipe],
   templateUrl: './tours.html',
   styleUrl: './tours.css'
 })
@@ -26,12 +26,19 @@ export class AppBusinessTours {
   
   readonly isModalOpen = signal(false);
   readonly isCreating = signal(false);
-  readonly newTourTitle = signal('');
-  readonly newTourDate = signal(new Date().toISOString().split('T')[0]);
+  
+  readonly model = signal({
+    title: '',
+    visitDate: new Date().toISOString().split('T')[0]
+  });
+
+  readonly tourForm = form(this.model, (f) => {
+    required(f.title);
+    required(f.visitDate);
+  });
 
   openCreateModal() {
-    this.newTourTitle.set('');
-    this.newTourDate.set(new Date().toISOString().split('T')[0]);
+    this.model.set({ title: '', visitDate: new Date().toISOString().split('T')[0] });
     this.isModalOpen.set(true);
   }
 
@@ -51,13 +58,14 @@ export class AppBusinessTours {
   }
 
   createTour() {
-    if (!this.newTourTitle().trim() || !this.newTourDate()) return;
+    if (this.tourForm().invalid()) return;
 
     this.isCreating.set(true);
+    const m = this.model();
     this.#tourService.create(this.businessId(), {
-      title: this.newTourTitle().trim(),
+      title: m.title.trim(),
       summary: '',
-      visitDate: new Date(this.newTourDate()).toISOString()
+      visitDate: new Date(m.visitDate).toISOString()
     }).subscribe({
       next: (tour) => {
         this.#toast.success('Draft tour created');

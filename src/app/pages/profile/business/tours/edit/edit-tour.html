@@ -12,25 +12,26 @@
       <div class="edit-tour-main">
         <section class="form-section">
           <h3>Basic Details</h3>
-          
-          <app-form-field label="Tour Title" fieldId="title">
-            <input id="title" type="text" [(ngModel)]="title" placeholder="e.g. Summer Collection Walkthrough" />
+         <div class="edit-tour__form">
+          <app-form-field label="Tour Title" fieldId="title" [invalid]="tourForm.title().invalid()" [errorMessage]="tourForm.title().errors()[0]?.message">
+            <input id="title" type="text" [formField]="tourForm.title" placeholder="e.g. Summer Collection Walkthrough" />
           </app-form-field>
           
           <app-form-field label="Summary" fieldId="summary">
-            <textarea id="summary" [(ngModel)]="summary" placeholder="Briefly describe what this tour showcases..." rows="3"></textarea>
+            <textarea id="summary" [formField]="tourForm.summary" placeholder="Briefly describe what this tour showcases..." rows="3"></textarea>
           </app-form-field>
           
-          <app-form-field label="Visit Date" fieldId="visitDate">
-            <input id="visitDate" type="date" [(ngModel)]="visitDate" />
+          <app-form-field label="Visit Date" fieldId="visitDate" [invalid]="tourForm.visitDate().invalid()" [errorMessage]="tourForm.visitDate().errors()[0]?.message">
+            <input id="visitDate" type="date" [formField]="tourForm.visitDate" />
           </app-form-field>
 
           <app-form-field label="Status" fieldId="status">
-            <select id="status" [(ngModel)]="status">
+            <select id="status" [formField]="tourForm.status">
               <option value="DRAFT">Draft</option>
               <option value="PUBLISHED">Published</option>
             </select>
           </app-form-field>
+         </div>
         </section>
 
         <section class="media-section">
@@ -55,7 +56,7 @@
             
             <div class="media-upload-placeholder" [class.is-uploading]="isUploadingGallery()">
               <label>
-                <input type="file" multiple accept="image/*,video/*" (change)="onGalleryUpload($event)" [disabled]="isUploadingGallery()" class="visually-hidden" />
+                <input id="media-upload" type="file" multiple accept="image/*,video/*" (change)="onGalleryUpload($event)" [disabled]="isUploadingGallery()" class="visually-hidden" />
                 <div class="upload-content">
                   @if (isUploadingGallery()) {
                     <div class="spinner"></div>
@@ -70,12 +71,12 @@
           </div>
         </section>
 
-        <div class="form-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
-          <button class="btn btn--outline" (click)="saveChanges()" [disabled]="isSaving()">
+        <div class="edit-tour__actions">
+          <button class="btn btn--outline" (click)="saveChanges()" [disabled]="isSaving() || tourForm().invalid()">
             <svg lucideSave aria-hidden="true"></svg>
             {{ isSaving() ? 'Saving...' : 'Save Draft' }}
           </button>
-          <button class="btn btn--primary" (click)="publishTour()" [disabled]="isSaving()">
+          <button class="btn btn--primary" (click)="publishTour()" [disabled]="isSaving() || tourForm().invalid()">
             Publish Tour
           </button>
         </div>

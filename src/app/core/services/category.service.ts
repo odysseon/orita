@@ -1,4 +1,4 @@
-import { Injectable, computed, inject } from '@angular/core';
+import { Service, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { httpResource } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
@@ -14,9 +14,7 @@ export interface ICategoryAttribute {
   options: string[] | null;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class CategoryService {
   #http = inject(HttpClient);
   

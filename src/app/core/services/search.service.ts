@@ -1,13 +1,11 @@
-import { Injectable, Signal } from '@angular/core';
+import { Service, Signal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 import { IListingSummary, IBusinessSummary, IPaginated } from '../../pages/home/home.interface';
 import { SearchFilters } from '../models/search.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class SearchService {
   #apiUrl = `${environment.apiUrl}/search`;
 
