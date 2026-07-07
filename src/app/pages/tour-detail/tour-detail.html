@@ -1,6 +1,7 @@
 <div class="tour-detail">
   <app-page-header backText="Back" (back)="goBack()">
     @if (tourResource.hasValue()) {
+      <app-seo [config]="seoConfig()" />
       <app-share-button [title]="tourResource.value()!.title" [text]="tourResource.value()!.summary || ''" />
     }
   </app-page-header>

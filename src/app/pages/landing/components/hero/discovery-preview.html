@@ -1,0 +1,37 @@
+<div class="preview">
+  <div class="preview__search">
+    <span class="preview__search-icon">🔍</span>
+    <span class="preview__search-text"> What are you looking for? </span>
+  </div>
+
+  <div class="preview__location">📍 Near OAU, Ile-Ife</div>
+
+  <article class="business-card">
+    <div class="business-card__cover"></div>
+
+    <div class="business-card__content">
+      <div class="business-card__header">
+        <div>
+          <h3>Mama T Kitchen</h3>
+          <p>Open now</p>
+        </div>
+
+        <span class="store-tour"> Store Tour </span>
+      </div>
+
+      <div class="business-card__actions">
+        <button class="btn btn--ghost btn--sm">Call</button>
+
+        <button class="btn btn--primary btn--sm">WhatsApp</button>
+      </div>
+    </div>
+  </article>
+
+  <div class="preview__products">
+    @for (product of nearbyProducts; track product) {
+
+    <span class="product-chip"> {{ product }} </span>
+
+    }
+  </div>
+</div>

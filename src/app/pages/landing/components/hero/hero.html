@@ -1,0 +1,54 @@
+<section class="hero">
+  <header class="hero__nav">
+    <a class="hero__brand" routerLink="/">
+      <app-logo width="44" height="44" />
+      <span>Oríta</span>
+    </a>
+
+    <nav class="hero__links">
+      <a routerLink="/home">Explore</a>
+      <a routerLink="/auth/register">For Businesses</a>
+    </nav>
+
+    <div class="hero__actions">
+      <button class="btn btn--ghost btn--sm" (click)="login()">Log In</button>
+
+      <button class="btn btn--primary btn--sm" (click)="startExploring()">Start Exploring</button>
+    </div>
+  </header>
+
+  <div class="hero__content">
+    <section class="hero__copy">
+      <p class="hero__eyebrow">Local discovery, reimagined</p>
+
+      <h1 class="hero__title">
+        Discover everything
+        <br />
+        your neighborhood
+        <br />
+        has to offer.
+      </h1>
+
+      <p class="hero__subtitle">
+        Discover businesses, services and products around you. Explore what's nearby and connect
+        directly through calls, WhatsApp or visits.
+      </p>
+
+      <div class="hero__cta">
+        <button class="btn btn--primary btn--lg" (click)="startExploring()">Start Exploring</button>
+
+        <button class="btn btn--ghost btn--lg" (click)="listBusiness()">List Your Business</button>
+      </div>
+
+      <ul class="hero__benefits">
+        <li>Free to explore</li>
+        <li>Contact businesses directly</li>
+        <li>No middleman</li>
+      </ul>
+    </section>
+
+    <section class="hero__preview">
+      <app-discovery-preview />
+    </section>
+  </div>
+</section>

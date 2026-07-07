@@ -18,6 +18,7 @@ import { IProfile } from './profile.interface';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 import { CreateBusiness } from './business/create/create-business';
+import { SeoComponent } from '../../shared/seo/seo.component';
 
 interface NavItem {
   icon: LucideIconInput;
@@ -78,6 +79,7 @@ const START_BUSINESS: NavItem = {
     LucideLogOut,
     LucideTriangleAlert,
     CreateBusiness,
+    SeoComponent,
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
@@ -101,6 +103,14 @@ export class Profile {
         items: ALWAYS_VISIBLE_SETTINGS,
       },
     ];
+  });
+
+  readonly seoConfig = computed(() => {
+    const p = this.profile.value();
+    return {
+      title: p ? `${p.username}'s Profile` : 'Profile',
+      description: 'Manage your Orita account, business, and saved items.',
+    };
   });
 
   navigate(item: NavItem): void {

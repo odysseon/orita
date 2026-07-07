@@ -24,6 +24,8 @@
     <button class="btn btn--ghost" (click)="goBack()">Go back</button>
   </ui-empty-state>
   } @if (business.hasValue()) { @let biz = business.value()!;
+  
+  <app-seo [config]="seoConfig()" />
 
   <app-page-header backText="Back" (back)="goBack()">
     <app-share-button [title]="biz.name" [text]="biz.description || ''" />

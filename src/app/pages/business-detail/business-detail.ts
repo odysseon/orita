@@ -24,6 +24,7 @@ import { ToastService } from '../../core/services/toast';
 import { AppPageHeader } from '../../shared/page-header/page-header';
 import { ShareButton } from '../../shared/share-button/share-button';
 import { EmptyState } from '../../shared/empty-state/empty-state';
+import { SeoComponent } from '../../shared/seo/seo.component';
 import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
 
 const DAY_LABELS: Record<string, string> = {
@@ -43,6 +44,7 @@ const DAY_LABELS: Record<string, string> = {
     AppPageHeader,
     ShareButton,
     EmptyState,
+    SeoComponent,
     LucideStore,
     LucideMapPin,
     LucidePhone,
@@ -104,6 +106,31 @@ export class BusinessDetail {
       .sort(
         (a, b) => Object.keys(DAY_LABELS).indexOf(a.day) - Object.keys(DAY_LABELS).indexOf(b.day),
       );
+  });
+
+  readonly seoConfig = computed(() => {
+    const biz = this.business.value();
+    if (!biz) return { title: 'Business' };
+    
+    return {
+      title: biz.name,
+      description: biz.description || `Visit ${biz.name} on Orita.`,
+      image: biz.coverUrl || biz.avatarUrl || undefined,
+      url: `https://orita.app/b/${biz.slug}`,
+      type: 'profile' as const,
+      jsonLd: {
+        "@type": "LocalBusiness",
+        "name": biz.name,
+        "image": biz.coverUrl || biz.avatarUrl,
+        "description": biz.description,
+        "telephone": biz.phoneNumber,
+        "email": biz.email,
+        "address": biz.location ? {
+           "@type": "PostalAddress",
+           "streetAddress": biz.location
+        } : undefined
+      }
+    };
   });
 
   goBack(): void {

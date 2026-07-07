@@ -17,6 +17,7 @@ import { ToastService } from '../../core/services/toast';
 import { AppPageHeader } from '../../shared/page-header/page-header';
 import { ShareButton } from '../../shared/share-button/share-button';
 import { EmptyState } from '../../shared/empty-state/empty-state';
+import { SeoComponent } from '../../shared/seo/seo.component';
 import { IBusinessLite, IListingDetail } from './listing.detail.interface';
 
 @Component({
@@ -26,6 +27,7 @@ import { IBusinessLite, IListingDetail } from './listing.detail.interface';
     AppPageHeader,
     ShareButton,
     EmptyState,
+    SeoComponent,
     LucidePackage,
     LucideBookmark,
     LucideStore,
@@ -73,6 +75,39 @@ export class ListingDetail {
     const min = Number(item.minPrice).toLocaleString();
     const max = item.maxPrice ? Number(item.maxPrice).toLocaleString() : null;
     return max ? `${currency} ${min} – ${max}` : `${currency} ${min}`;
+  });
+
+  readonly seoConfig = computed(() => {
+    const item = this.listing.value();
+    if (!item) return { title: 'Listing' };
+
+    const biz = this.business.value();
+    const minPrice = item.minPrice ? Number(item.minPrice) : 0;
+    
+    return {
+      title: item.title,
+      description: item.description || `Check out ${item.title} on Orita.`,
+      image: biz?.avatarUrl || undefined,
+      url: `https://orita.app/l/${item.slug}`,
+      type: 'product' as const,
+      jsonLd: {
+        "@type": "Product",
+        "name": item.title,
+        "image": biz?.avatarUrl,
+        "description": item.description,
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": item.currencyCode || "NGN",
+          "price": minPrice,
+          "itemCondition": "https://schema.org/NewCondition",
+          "availability": "https://schema.org/InStock",
+          "seller": biz ? {
+            "@type": "Organization",
+            "name": biz.name
+          } : undefined
+        }
+      }
+    };
   });
 
   goBack(): void {

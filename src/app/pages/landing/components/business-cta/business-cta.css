@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.business-cta {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: clamp(3rem, 6vw, 6rem);
+
+  align-items: center;
+
+  padding-block: clamp(6rem, 10vw, 9rem);
+}
+
+.business-cta__content h2 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+
+  line-height: 1.05;
+
+  letter-spacing: -0.03em;
+}
+
+.profile-card {
+  border-radius: 2rem;
+
+  overflow: hidden;
+
+  background: var(--surface-card);
+
+  border: 1px solid var(--border-subtle);
+
+  box-shadow: var(--shadow-lg);
+}
