@@ -33,6 +33,7 @@
     <p class="profile-error__text">Could not load your profile. Please try again.</p>
   </div>
   } @if (profile.hasValue()) {
+  <app-seo [config]="seoConfig()" />
   <div class="profile-identity">
     <div class="profile-avatar">
       @if (profile.value()!.avatarUrl) {

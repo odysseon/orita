@@ -11,6 +11,7 @@ import { AppSection } from '../../shared/section/section';
 import { AppGrid } from '../../shared/grid/grid';
 import { FeedService, FeedItemView } from '../../core/services/feed.service';
 import { ToastService } from '../../core/services/toast';
+import { SeoComponent } from '../../shared/seo/seo.component';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,7 @@ import { ToastService } from '../../core/services/toast';
     ScrollHideDirective,
     AppSection,
     AppGrid,
+    SeoComponent,
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',
@@ -61,6 +63,11 @@ export class Home {
   constructor() {
     this.loadInitialFeed();
   }
+
+  readonly seoConfig = {
+    title: 'Home',
+    description: 'Local discovery platform connecting people with businesses, services, and opportunities around them.',
+  };
 
   loadInitialFeed() {
     this.isLoading.set(true);

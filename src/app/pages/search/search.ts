@@ -16,13 +16,14 @@ import { AppGrid } from '../../shared/grid/grid';
 import { SearchFiltersComponent, SearchFilterState } from './components/search-filters/search-filters';
 import { RecentSearches } from './components/recent-searches/recent-searches';
 import { TrendingCategories } from './components/trending-categories/trending-categories';
+import { SeoComponent } from '../../shared/seo/seo.component';
 
 @Component({
   selector: 'app-search',
   imports: [
     LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
     AppListingCard, AppBizCard, AppHeader, ScrollHideDirective,
-    AppSection, AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories
+    AppSection, AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent
   ],
   templateUrl: './search.html',
   styleUrl: './search.css',
@@ -131,6 +132,14 @@ export class Search {
   
   // Empty State Data
   readonly popularBusinessesResource = this.#searchService.getBusinessesResource(computed(() => ({ limit: 10 })));
+
+  readonly seoConfig = computed(() => {
+    const q = this.searchQuery();
+    return {
+      title: q ? `Search results for "${q}"` : 'Search',
+      description: 'Find local businesses, services, and products near you.',
+    };
+  });
 
   constructor() {
     toObservable(this.rawQuery).pipe(
