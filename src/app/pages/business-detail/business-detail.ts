@@ -21,11 +21,12 @@ import { Logo } from '../../shared/logo/logo';
 import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.interface';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
-import { AppPageHeader } from '../../shared/page-header/page-header';
 import { ShareButton } from '../../shared/share-button/share-button';
+import { SaveButton } from '../../shared/save-button/save-button';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
+import { LayoutPage } from '../../shared/layout/sub-layout/layout-page.interface';
 
 const DAY_LABELS: Record<string, string> = {
   MON: 'Monday',
@@ -41,8 +42,8 @@ const DAY_LABELS: Record<string, string> = {
   selector: 'app-business-detail',
   imports: [
     RouterLink,
-    AppPageHeader,
     ShareButton,
+    SaveButton,
     EmptyState,
     SeoComponent,
     LucideStore,
@@ -52,7 +53,6 @@ const DAY_LABELS: Record<string, string> = {
     LucideGlobe,
     LucideMessageCircle,
     LucideClock,
-    LucideBookmark,
     LucidePackage,
     LucideBadgeCheck,
     LucideImage,
@@ -61,20 +61,19 @@ const DAY_LABELS: Record<string, string> = {
   templateUrl: './business-detail.html',
   styleUrl: './business-detail.css',
 })
-export class BusinessDetail {
+export class BusinessDetail implements LayoutPage {
   #route = inject(ActivatedRoute);
   #router = inject(Router);
   #http = inject(HttpClient);
-  #toast = inject(ToastService);
   #tourService = inject(BusinessTourService);
-
-  readonly saving = signal(false);
 
   readonly slug = computed(() => this.#route.snapshot.paramMap.get('slug') ?? '');
 
   readonly business = httpResource<IBusinessDetail>(
     () => `${environment.apiUrl}/businesses/${this.slug()}`,
   );
+
+  readonly pageTitle = computed(() => this.business.value()?.name);
 
   readonly listings = httpResource<IPaginated<IListingSummary>>(() => {
     const slug = this.slug();
@@ -149,29 +148,7 @@ export class BusinessDetail {
     return max ? `${currency} ${min} – ${max}` : `${currency} ${min}`;
   }
 
-  async toggleSave(): Promise<void> {
-    const biz = this.business.value();
-    if (!biz || this.saving()) return;
-    this.saving.set(true);
-    try {
-      if (biz.isSaved) {
-        await firstValueFrom(
-          this.#http.delete(`${environment.apiUrl}/business-profiles/${biz.id}/save`),
-        );
-        this.#toast.info('Removed from saved');
-      } else {
-        await firstValueFrom(
-          this.#http.post(`${environment.apiUrl}/business-profiles/${biz.id}/save`, {}),
-        );
-        this.#toast.success('Saved');
-      }
-      this.business.reload();
-    } catch {
-      this.#toast.error('Could not update saved status');
-    } finally {
-      this.saving.set(false);
-    }
-  }
+
 
   callPhone(phone: string): void {
     window.location.href = `tel:${phone}`;

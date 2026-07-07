@@ -1,36 +1,31 @@
-<div class="biz-detail">
-  @if (business.isLoading()) {
-  <div class="biz-detail__skeleton">
-    <div class="skeleton skeleton--banner" style="border-radius: var(--radius-lg);"></div>
-    <div style="display: flex; align-items: flex-start; gap: var(--size-12); margin-top: calc(var(--size-32) * -1); padding: 0 var(--size-4);">
-      <div class="skeleton skeleton--avatar" style="border: 3px solid var(--surface-page); box-shadow: var(--shadow-sm); z-index: 1; border-radius: var(--radius-lg); width: var(--size-64); height: var(--size-64);"></div>
-      <div style="display: flex; flex-direction: column; gap: var(--size-4); flex: 1; padding-top: var(--size-32);">
-        <div class="skeleton skeleton--title"></div>
-        <div class="skeleton skeleton--text" style="width: 40%;"></div>
-      </div>
-    </div>
-    <div style="display: flex; flex-direction: column; gap: var(--size-8); margin-top: var(--size-12);">
-      <div class="skeleton skeleton--text" style="width: 100%;"></div>
-      <div class="skeleton skeleton--text" style="width: 90%;"></div>
-      <div class="skeleton skeleton--text" style="width: 70%;"></div>
-    </div>
-    <div style="display: flex; gap: var(--size-8); margin-top: var(--size-12);">
-      <div class="skeleton" style="height: 40px; flex: 1; border-radius: var(--radius-md);"></div>
-      <div class="skeleton" style="height: 40px; flex: 1; border-radius: var(--radius-md);"></div>
+@if (business.isLoading()) {
+<div class="biz-detail__skeleton">
+  <div class="skeleton skeleton--banner" style="border-radius: var(--radius-lg);"></div>
+  <div style="display: flex; align-items: flex-start; gap: var(--size-12); margin-top: calc(var(--size-32) * -1); padding: 0 var(--size-4);">
+    <div class="skeleton skeleton--avatar" style="border: 3px solid var(--surface-page); box-shadow: var(--shadow-sm); z-index: 1; border-radius: var(--radius-lg); width: var(--size-64); height: var(--size-64);"></div>
+    <div style="display: flex; flex-direction: column; gap: var(--size-4); flex: 1; padding-top: var(--size-32);">
+      <div class="skeleton skeleton--title"></div>
+      <div class="skeleton skeleton--text" style="width: 40%;"></div>
     </div>
   </div>
-  } @if (business.error()) {
-  <ui-empty-state icon="store" title="This business could not be found.">
-    <button class="btn btn--ghost" (click)="goBack()">Go back</button>
-  </ui-empty-state>
-  } @if (business.hasValue()) { @let biz = business.value()!;
-  
-  <app-seo [config]="seoConfig()" />
+  <div style="display: flex; flex-direction: column; gap: var(--size-8); margin-top: var(--size-12);">
+    <div class="skeleton skeleton--text" style="width: 100%;"></div>
+    <div class="skeleton skeleton--text" style="width: 90%;"></div>
+    <div class="skeleton skeleton--text" style="width: 70%;"></div>
+  </div>
+  <div style="display: flex; gap: var(--size-8); margin-top: var(--size-12);">
+    <div class="skeleton" style="height: 40px; flex: 1; border-radius: var(--radius-md);"></div>
+    <div class="skeleton" style="height: 40px; flex: 1; border-radius: var(--radius-md);"></div>
+  </div>
+</div>
+} @if (business.error()) {
+<ui-empty-state icon="store" title="This business could not be found.">
+  <button class="btn btn--ghost" routerLink="/home">Go back</button>
+</ui-empty-state>
+} @if (business.hasValue()) { @let biz = business.value()!;
+<app-seo [config]="seoConfig()" />
 
-  <app-page-header backText="Back" (back)="goBack()">
-    <app-share-button [title]="biz.name" [text]="biz.description || ''" />
-  </app-page-header>
-
+<div style="display: flex; flex-direction: column; gap: var(--size-20);">
   <!-- Banner -->
   <div class="biz-banner">
     @if (biz.coverUrl) {
@@ -50,33 +45,33 @@
 
     <div class="biz-identity__main">
       <div class="biz-identity__row">
-        <h1 class="biz-identity__name">{{ biz.name }}</h1>
-        @if (verificationBadge(); as badge) {
-        <span class="badge" [class]="badge.cls" style="gap: var(--size-4)">
-          <svg lucideBadgeCheck style="width: var(--size-12); height: var(--size-12)" aria-hidden="true"></svg>
-          {{ badge.label }}
-        </span>
-        }
+        <div style="display: flex; flex-direction: column; gap: var(--size-4);">
+          <div style="display: flex; align-items: center; gap: var(--size-8);">
+            <h1 class="biz-identity__name">{{ biz.name }}</h1>
+            @if (verificationBadge(); as badge) {
+            <span class="badge" [class]="badge.cls" style="gap: var(--size-4)">
+              <svg lucideBadgeCheck style="width: var(--size-12); height: var(--size-12)" aria-hidden="true"></svg>
+              {{ badge.label }}
+            </span>
+            }
+          </div>
+          @if (biz.location) {
+          <span class="biz-identity__location">
+            <svg lucideMapPin aria-hidden="true"></svg>
+            {{ biz.location }}
+          </span>
+          }
+        </div>
+        
+        <div style="display: flex; gap: var(--size-8); margin-top: var(--size-32);">
+          <app-share-button [title]="biz.name" [text]="biz.description || ''" />
+          <app-save-button 
+            [itemId]="biz.id" 
+            itemType="BUSINESS" 
+            [saved]="biz.isSaved || false" />
+        </div>
       </div>
-      @if (biz.location) {
-      <span class="biz-identity__location">
-        <svg lucideMapPin aria-hidden="true"></svg>
-        {{ biz.location }}
-      </span>
-      }
     </div>
-
-    <button
-      class="btn-icon"
-      style="margin-top: var(--size-32); width: var(--size-40); height: var(--size-40); border: 1.5px solid var(--border-default);"
-      [class.btn-icon--active]="biz.isSaved"
-      [disabled]="saving()"
-      (click)="toggleSave()"
-      type="button"
-      [attr.aria-label]="biz.isSaved ? 'Remove from saved' : 'Save business'"
-    >
-      <svg lucideBookmark aria-hidden="true"></svg>
-    </button>
   </div>
 
   <!-- Description -->
@@ -198,5 +193,6 @@
     <svg lucideGlobe style="width: var(--size-15); height: var(--size-15)" aria-hidden="true"></svg>
     Visit website
   </a>
-  } }
+  }
 </div>
+}

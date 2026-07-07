@@ -1,32 +1,29 @@
-<div class="tour-detail">
-  <app-page-header backText="Back" (back)="goBack()">
-    @if (tourResource.hasValue()) {
-      <app-seo [config]="seoConfig()" />
-      <app-share-button [title]="tourResource.value()!.title" [text]="tourResource.value()!.summary || ''" />
-    }
-  </app-page-header>
+@if (tourResource.hasValue()) {
+  <app-seo [config]="seoConfig()" />
+}
 
-  @if (tourResource.isLoading()) {
-    <div style="display: flex; flex-direction: column; gap: var(--size-24); padding: var(--size-16) 0;">
-      <div style="display: flex; flex-direction: column; gap: var(--size-8);">
-        <div class="skeleton" style="height: var(--size-32); width: 80%; border-radius: 4px;"></div>
-        <div class="skeleton" style="height: var(--size-14); width: 40%; border-radius: 4px;"></div>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: var(--size-8);">
-        <div class="skeleton" style="height: var(--size-16); width: 100%; border-radius: 4px;"></div>
-        <div class="skeleton" style="height: var(--size-16); width: 90%; border-radius: 4px;"></div>
-        <div class="skeleton" style="height: var(--size-16); width: 75%; border-radius: 4px;"></div>
-      </div>
-      <div class="skeleton" style="width: 100%; aspect-ratio: 4/3; border-radius: var(--radius-lg);"></div>
+@if (tourResource.isLoading()) {
+  <div style="display: flex; flex-direction: column; gap: var(--size-24); padding: var(--size-16) 0;">
+    <div style="display: flex; flex-direction: column; gap: var(--size-8);">
+      <div class="skeleton" style="height: var(--size-32); width: 80%; border-radius: 4px;"></div>
+      <div class="skeleton" style="height: var(--size-14); width: 40%; border-radius: 4px;"></div>
     </div>
-  } @else if (tourResource.error()) {
-    <ui-empty-state icon="image" title="Tour not found">
-      <button class="btn btn--outline" (click)="goBack()">Go back</button>
-    </ui-empty-state>
-  } @else if (tourResource.hasValue()) {
-    @let tour = tourResource.value()!;
-    
-    <div class="tour-header">
+    <div style="display: flex; flex-direction: column; gap: var(--size-8);">
+      <div class="skeleton" style="height: var(--size-16); width: 100%; border-radius: 4px;"></div>
+      <div class="skeleton" style="height: var(--size-16); width: 90%; border-radius: 4px;"></div>
+      <div class="skeleton" style="height: var(--size-16); width: 75%; border-radius: 4px;"></div>
+    </div>
+    <div class="skeleton" style="width: 100%; aspect-ratio: 4/3; border-radius: var(--radius-lg);"></div>
+  </div>
+} @else if (tourResource.error()) {
+  <ui-empty-state icon="image" title="Tour not found">
+    <button class="btn btn--outline" routerLink="/home">Go back</button>
+  </ui-empty-state>
+} @else if (tourResource.hasValue()) {
+  @let tour = tourResource.value()!;
+  
+  <div class="tour-header" style="display: flex; justify-content: space-between; align-items: flex-start; gap: var(--size-12);">
+    <div>
       <h1 class="tour-title">{{ tour.title }}</h1>
       <div class="tour-meta">
         <span class="tour-date">
@@ -35,40 +32,41 @@
         </span>
       </div>
     </div>
+    <app-share-button [title]="tour.title" [text]="tour.summary || ''" />
+  </div>
 
-    @if (tour.summary) {
-      <div class="tour-summary">
-        <p>{{ tour.summary }}</p>
-      </div>
-    }
-
-    @if (tour.media && tour.media.length > 0) {
-      <div class="tour-gallery">
-        @for (media of tour.media; track media.id) {
-          <div class="tour-gallery__item">
-            <img [src]="media.url" [alt]="tour.title" loading="lazy" />
-          </div>
-        }
-      </div>
-    } @else {
-      <div class="tour-no-media">
-        <svg lucideImage aria-hidden="true"></svg>
-        <p>No media uploaded for this tour yet.</p>
-      </div>
-    }
-
-    @if (tour.highlights && tour.highlights.length > 0) {
-      <div class="tour-highlights">
-        <h2>Highlights</h2>
-        <ul class="highlights-list">
-          @for (hl of tour.highlights; track hl.id) {
-            <li>
-              <svg lucideCheckCircle aria-hidden="true"></svg>
-              <span>{{ hl.value }}</span>
-            </li>
-          }
-        </ul>
-      </div>
-    }
+  @if (tour.summary) {
+    <div class="tour-summary">
+      <p>{{ tour.summary }}</p>
+    </div>
   }
-</div>
+
+  @if (tour.media && tour.media.length > 0) {
+    <div class="tour-gallery">
+      @for (media of tour.media; track media.id) {
+        <div class="tour-gallery__item">
+          <img [src]="media.url" [alt]="tour.title" loading="lazy" />
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="tour-no-media">
+      <svg lucideImage aria-hidden="true"></svg>
+      <p>No media uploaded for this tour yet.</p>
+    </div>
+  }
+
+  @if (tour.highlights && tour.highlights.length > 0) {
+    <div class="tour-highlights">
+      <h2>Highlights</h2>
+      <ul class="highlights-list">
+        @for (hl of tour.highlights; track hl.id) {
+          <li>
+            <svg lucideCheckCircle aria-hidden="true"></svg>
+            <span>{{ hl.value }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+}

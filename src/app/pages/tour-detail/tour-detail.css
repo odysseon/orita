@@ -1,11 +1,3 @@
-.tour-detail {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 4rem;
-  max-width: var(--container-max-width, 800px);
-  margin: 0 auto;
-}
-
 .tour-skeleton {
   display: flex;
   flex-direction: column;

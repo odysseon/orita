@@ -6,6 +6,7 @@ export const businessRoutes: Routes = [
     path: 'business',
     canActivate: [authGuard],
     loadComponent: () => import('./business').then((m) => m.Business),
+    data: { title: 'My Business' },
   },
   {
     path: 'business/edit',

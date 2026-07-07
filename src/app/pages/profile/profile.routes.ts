@@ -12,7 +12,7 @@ export const profileRoutes: Route[] = [
   {
     path: '',
     canActivate: [authGuard],
-    loadComponent: () => import('./layout/profile-sub-layout').then((m) => m.ProfileSubLayout),
+    loadComponent: () => import('../../shared/layout/sub-layout/sub-layout').then((m) => m.AppSubLayout),
     children: [
       {
         path: 'appearance',

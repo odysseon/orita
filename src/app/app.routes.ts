@@ -12,8 +12,22 @@ export const routes: Routes = [
     loadChildren: () => import('./pages/auth/auth.routes').then((m) => m.authRoutes),
   },
   {
-    path: 'b/:slug',
-    loadComponent: () => import('./pages/business-detail/business-detail').then((m) => m.BusinessDetail),
+    path: '',
+    loadComponent: () => import('./shared/layout/sub-layout/sub-layout').then((m) => m.AppSubLayout),
+    children: [
+      {
+        path: 'b/:slug',
+        loadComponent: () => import('./pages/business-detail/business-detail').then((m) => m.BusinessDetail),
+      },
+      {
+        path: 'l/:slug',
+        loadComponent: () => import('./pages/listing-detail/listing-detail').then((m) => m.ListingDetail),
+      },
+      {
+        path: 'tours/:id',
+        loadComponent: () => import('./pages/tour-detail/tour-detail').then((m) => m.TourDetail),
+      },
+    ]
   },
   {
     path: 'home',
@@ -24,14 +38,6 @@ export const routes: Routes = [
     path: 'search',
     loadComponent: () => import('./pages/search/search').then((m) => m.Search),
     data: { isRootAppPage: true },
-  },
-  {
-    path: 'l/:slug',
-    loadComponent: () => import('./pages/listing-detail/listing-detail').then((m) => m.ListingDetail),
-  },
-  {
-    path: 'tours/:id',
-    loadComponent: () => import('./pages/tour-detail/tour-detail').then((m) => m.TourDetail),
   },
   {
     path: 'profile',
