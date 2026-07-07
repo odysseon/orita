@@ -6,7 +6,11 @@ import { Logo } from '../logo/logo';
   imports: [Logo],
   templateUrl: './app-header.html',
   styleUrl: './app-header.css',
+  host: {
+    '[class.layout-wide]': 'layout() === "wide"'
+  }
 })
 export class AppHeader {
   readonly showLogo = input<boolean>(true);
+  readonly layout = input<'default' | 'wide'>('default');
 }

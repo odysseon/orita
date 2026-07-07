@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Hero } from './components/hero/hero';
 import { Problem } from './components/problem/problem';
 import { Belief } from './components/belief/belief';
@@ -7,10 +7,12 @@ import { WhyOrita } from './components/why-orita/why-orita';
 import { StoreTours } from './components/store-tours/store-tours';
 import { BusinessCta } from './components/business-cta/business-cta';
 import { FinalCta } from './components/final-cta/final-cta';
+import { Footer } from '../../shared/marketing/footer/footer';
+import { AppHeader } from '../../shared/app-header/app-header';
 
 @Component({
   selector: 'app-landing',
-  imports: [Hero, Problem, Belief, WhyOrita, StoreTours, BusinessCta, FinalCta],
+  imports: [Hero, Problem, Belief, WhyOrita, StoreTours, BusinessCta, FinalCta, Footer, AppHeader, RouterLink],
   templateUrl: './landing.html',
   styleUrl: './landing.css',
 })

@@ -1,13 +1,29 @@
-<app-hero />
+<ui-app-header layout="wide">
+  <nav class="hero__links" style="display: flex; gap: var(--size-32); margin-left: auto;">
+    <a routerLink="/home" style="text-decoration: none; color: var(--text-secondary); font-weight: 500;">Explore</a>
+    <a routerLink="/auth/register" style="text-decoration: none; color: var(--text-secondary); font-weight: 500;">For Businesses</a>
+  </nav>
 
-<app-problem />
+  <div class="hero__actions" style="display: flex; gap: var(--size-12); margin-left: var(--size-32);">
+    <button class="btn btn--ghost btn--sm" (click)="login()">Log In</button>
+    <button class="btn btn--primary btn--sm" (click)="explore()">Start Exploring</button>
+  </div>
+</ui-app-header>
 
-<app-belief />
+<main class="landing">
+  <app-hero />
 
-<app-why-orita />
+  <app-problem />
 
-<app-store-tours />
+  <app-belief />
 
-<app-business-cta />
+  <app-why-orita />
 
-<app-final-cta />
+  <app-store-tours />
+
+  <app-business-cta />
+
+  <app-final-cta />
+</main>
+
+<app-footer />

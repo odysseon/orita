@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { Logo } from '../../../../shared/logo/logo';
+import { Router } from '@angular/router';
 import { DiscoveryPreview } from './discovery-preview';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [RouterLink, Logo, DiscoveryPreview],
+  imports: [DiscoveryPreview],
   templateUrl: './hero.html',
   styleUrl: './hero.css',
 })
