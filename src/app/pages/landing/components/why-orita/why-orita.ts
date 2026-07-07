@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Section } from '../section/section';
 import { MarketingCard } from '../marketing-card/marketing-card';
-import { SectionHeader } from '../../../../shared/landing/section-header/section-header';
 
 interface Card {
   readonly title: string;
@@ -12,7 +11,7 @@ interface Card {
 @Component({
   selector: 'app-why-orita',
   standalone: true,
-  imports: [Section, SectionHeader, MarketingCard],
+  imports: [Section, MarketingCard],
   templateUrl: './why-orita.html',
   styleUrl: './why-orita.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

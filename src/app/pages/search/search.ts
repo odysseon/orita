@@ -11,7 +11,6 @@ import { AppListingCard } from '../../shared/listing-card/listing-card';
 import { AppBizCard } from '../../shared/biz-card/biz-card';
 import { AppHeader } from '../../shared/app-header/app-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
-import { AppSection } from '../../shared/section/section';
 import { AppGrid } from '../../shared/grid/grid';
 import { SearchFiltersComponent, SearchFilterState } from './components/search-filters/search-filters';
 import { RecentSearches } from './components/recent-searches/recent-searches';
@@ -23,7 +22,7 @@ import { SeoComponent } from '../../shared/seo/seo.component';
   imports: [
     LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
     AppListingCard, AppBizCard, AppHeader, ScrollHideDirective,
-    AppSection, AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent
+    AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent
   ],
   templateUrl: './search.html',
   styleUrl: './search.css',

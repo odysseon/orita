@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Section } from '../section/section';
-import { SectionHeader } from '../../../../shared/landing/section-header/section-header';
 
 @Component({
   selector: 'app-store-tours',
   standalone: true,
-  imports: [Section, SectionHeader],
+  imports: [Section],
   templateUrl: './store-tours.html',
   styleUrl: './store-tours.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { Section } from '../section/section';
-import { SectionHeader } from '../../../../shared/landing/section-header/section-header';
 
 @Component({
   selector: 'app-problem',
   standalone: true,
-  imports: [Section, SectionHeader],
+  imports: [Section],
   templateUrl: './problem.html',
   styleUrl: './problem.css',
 })

@@ -37,13 +37,16 @@
   } @else {
   <div class="feed-container">
     @for (group of editorialSections(); track group.title || $index) {
-    <app-section [title]="group.title">
+    <section class="section">
+      @if (group.title) {
+        <h2 class="section__title">{{ group.title }}</h2>
+      }
       <app-grid>
         @for (item of group.items; track item.id) {
         <app-feed-card [item]="item"></app-feed-card>
         }
       </app-grid>
-    </app-section>
+    </section>
     } @if (isLoadingMore()) {
     <app-grid>
       @for (i of [1,2,3]; track i) {

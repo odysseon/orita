@@ -80,25 +80,28 @@
     @if (!searchQuery() && !rawQuery() && !appliedLocationName() && !appliedCategoryId()) {
       <div class="empty-state-dashboard">
         <div class="recent-searches">
-          <app-section title="Recent Searches">
+          <section class="section">
+            <h2 class="section__title">Recent Searches</h2>
             <app-recent-searches 
               [searches]="recentSearches()" 
               (recentSelected)="applyRecentSearch($event)" 
             />
-          </app-section>
+          </section>
         </div>
 
         <div class="trending-section">
-          <app-section title="Trending Categories">
+          <section class="section">
+            <h2 class="section__title">Trending Categories</h2>
             <app-trending-categories 
               [categories]="categories()?.slice(0, 6) || []" 
               (categorySelected)="setCategory($event)" 
             />
-          </app-section>
+          </section>
         </div>
 
         <div class="popular-businesses-section">
-          <app-section title="Popular Businesses">
+          <section class="section">
+            <h2 class="section__title">Popular Businesses</h2>
             <app-grid>
               @if (popularBusinessesResource.isLoading()) {
                 <div class="skeleton biz-card-skeleton"></div>
@@ -109,7 +112,7 @@
                 }
               }
             </app-grid>
-          </app-section>
+          </section>
         </div>
       </div>
     } @else if (isDebouncing() || listingsResource.isLoading() || businessesResource.isLoading()) {
