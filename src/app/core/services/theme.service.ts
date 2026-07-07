@@ -15,7 +15,16 @@ export class ThemeService {
     (this.#cookie.get(THEME_KEY) as ThemePreference) ?? 'system',
   );
 
+  #mediaQuery = isPlatformBrowser(this.#platformId) ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
   constructor() {
+    if (this.#mediaQuery) {
+      this.#mediaQuery.addEventListener('change', () => {
+        if (this.preference() === 'system') {
+          this.#apply('system');
+        }
+      });
+    }
     effect(() => {
       this.#apply(this.preference());
     });
@@ -33,10 +42,12 @@ export class ThemeService {
   #apply(preference: ThemePreference): void {
     if (!isPlatformBrowser(this.#platformId)) return;
     const html = document.documentElement;
+    
+    let resolvedTheme = preference;
     if (preference === 'system') {
-      html.removeAttribute('data-theme');
-    } else {
-      html.setAttribute('data-theme', preference);
+      resolvedTheme = this.#mediaQuery?.matches ? 'dark' : 'light';
     }
+    
+    html.setAttribute('data-theme', resolvedTheme);
   }
 }
