@@ -1,0 +1,26 @@
+:host {
+  display: inline-block;
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-40);
+  height: var(--size-40);
+  border-radius: 50%;
+  border: none;
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.btn-icon:hover {
+  background: var(--surface-container-high, var(--border-subtle));
+}
+
+.btn-icon svg {
+  width: var(--size-20);
+  height: var(--size-20);
+}

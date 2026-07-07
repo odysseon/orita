@@ -1,9 +1,31 @@
 <div class="profile-page">
   @if (profile.isLoading()) {
-  <div class="profile-skeleton">
-    <div class="skeleton skeleton--avatar"></div>
-    <div class="skeleton skeleton--name"></div>
-    <div class="skeleton skeleton--meta"></div>
+  <div class="profile-skeleton" style="display: flex; flex-direction: column; align-items: center; gap: var(--size-8); margin-bottom: var(--size-32);">
+    <div class="skeleton" style="width: var(--size-96); height: var(--size-96); border-radius: var(--radius-full); margin-bottom: var(--size-8);"></div>
+    <div class="skeleton" style="height: var(--size-28); width: 40%; border-radius: 4px;"></div>
+    <div class="skeleton" style="height: var(--size-14); width: 50%; border-radius: 4px;"></div>
+    <div style="display: flex; gap: var(--size-8); margin-top: var(--size-8);">
+      <div class="skeleton" style="height: var(--size-28); width: 80px; border-radius: var(--radius-full);"></div>
+      <div class="skeleton" style="height: var(--size-28); width: 120px; border-radius: var(--radius-full);"></div>
+    </div>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: var(--size-24); width: 100%;">
+    @for (i of [1,2]; track i) {
+      <div style="display: flex; flex-direction: column; gap: var(--size-12);">
+        <div class="skeleton" style="height: var(--size-16); width: 120px; border-radius: 4px; margin-left: var(--size-16);"></div>
+        <div style="background: var(--surface-card); border-radius: var(--radius-xl); border: 1px solid var(--border-subtle); display: flex; flex-direction: column;">
+          @for (j of [1,2]; track j) {
+            <div style="display: flex; align-items: center; gap: var(--size-16); padding: var(--size-16);">
+              <div class="skeleton" style="width: var(--size-40); height: var(--size-40); border-radius: var(--radius-md);"></div>
+              <div style="display: flex; flex-direction: column; gap: var(--size-6); flex: 1;">
+                <div class="skeleton" style="height: var(--size-16); width: 40%; border-radius: 4px;"></div>
+                <div class="skeleton" style="height: var(--size-14); width: 60%; border-radius: 4px;"></div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
   </div>
   } @if (profile.error()) {
   <div class="profile-error">

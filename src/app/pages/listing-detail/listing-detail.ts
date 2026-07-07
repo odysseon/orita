@@ -15,6 +15,7 @@ import {
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
 import { AppPageHeader } from '../../shared/page-header/page-header';
+import { ShareButton } from '../../shared/share-button/share-button';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { IBusinessLite, IListingDetail } from './listing.detail.interface';
 
@@ -23,6 +24,7 @@ import { IBusinessLite, IListingDetail } from './listing.detail.interface';
   imports: [
     RouterLink,
     AppPageHeader,
+    ShareButton,
     EmptyState,
     LucidePackage,
     LucideBookmark,

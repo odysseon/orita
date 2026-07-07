@@ -1,0 +1,10 @@
+<button 
+  [class]="variant() === 'icon' ? 'btn-icon' : 'btn btn--' + variant()"
+  (click)="onShare()" 
+  type="button" 
+  [attr.aria-label]="label()">
+  <svg lucideShare aria-hidden="true"></svg>
+  @if (variant() !== 'icon') {
+    <span>{{ label() }}</span>
+  }
+</button>

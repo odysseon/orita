@@ -10,7 +10,7 @@
 }
 
 .feed-container {
-  padding: 1.5rem 1rem 5rem 1rem; /* Padding for bottom nav */
+  padding: calc(64px + 1.5rem) 1rem 5rem 1rem; /* Padding for top nav & bottom nav */
 }
 
 .load-more-container {
