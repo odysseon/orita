@@ -1,7 +1,7 @@
 <div class="tours-container">
   <div class="tours-header">
     <h2>Store Tours</h2>
-    <button class="btn btn--primary btn--sm" (click)="createTourMock()" [disabled]="isCreating()">
+    <button class="btn btn--primary btn--sm" (click)="openCreateModal()" [disabled]="isCreating()">
       <svg lucidePlus aria-hidden="true"></svg>
       New Tour
     </button>
@@ -18,7 +18,7 @@
       <div class="empty-state">
         <svg lucideImage aria-hidden="true"></svg>
         <p>You haven't uploaded any store tours yet.</p>
-        <button class="btn btn--outline" (click)="createTourMock()">Create your first tour</button>
+        <button class="btn btn--outline" (click)="openCreateModal()">Create your first tour</button>
       </div>
     } @else {
       <div class="tours-grid">
@@ -57,3 +57,25 @@
     }
   }
 </div>
+
+@if (isModalOpen()) {
+  <div class="modal-backdrop" (click)="closeCreateModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h3>Create New Tour</h3>
+      <div class="form-group">
+        <label for="tourTitle">Title</label>
+        <input id="tourTitle" type="text" [(ngModel)]="newTourTitle" placeholder="e.g., Summer Collection Walkthrough" />
+      </div>
+      <div class="form-group">
+        <label for="tourDate">Visit Date</label>
+        <input id="tourDate" type="date" [(ngModel)]="newTourDate" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn--outline" (click)="closeCreateModal()">Cancel</button>
+        <button class="btn btn--primary" (click)="createTour()" [disabled]="isCreating() || !newTourTitle().trim() || !newTourDate()">
+          {{ isCreating() ? 'Creating...' : 'Create' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
