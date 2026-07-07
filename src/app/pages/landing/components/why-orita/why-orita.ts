@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Section } from '../../../../shared/marketing/section/section';
-import { MarketingCard } from '../../../../shared/marketing/marketing-card/marketing-card';
+import { Section } from '../section/section';
+import { MarketingCard } from '../marketing-card/marketing-card';
 import { SectionHeader } from '../../../../shared/landing/section-header/section-header';
 
 interface Card {
