@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Section } from '../../../../shared/marketing/section/section';
+import { Section } from '../section/section';
 import { SectionHeader } from '../../../../shared/landing/section-header/section-header';
 
 @Component({

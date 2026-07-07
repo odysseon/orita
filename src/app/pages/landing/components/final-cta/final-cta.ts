@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Section } from '../../../../shared/marketing/section/section';
+import { Section } from '../section/section';
 
 @Component({
   selector: 'app-final-cta',

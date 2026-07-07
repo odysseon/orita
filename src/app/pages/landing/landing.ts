@@ -7,7 +7,7 @@ import { WhyOrita } from './components/why-orita/why-orita';
 import { StoreTours } from './components/store-tours/store-tours';
 import { BusinessCta } from './components/business-cta/business-cta';
 import { FinalCta } from './components/final-cta/final-cta';
-import { Footer } from '../../shared/marketing/footer/footer';
+import { Footer } from './components/footer/footer';
 import { AppHeader } from '../../shared/app-header/app-header';
 
 @Component({
