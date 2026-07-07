@@ -1,73 +1,66 @@
 <div class="home">
   <app-seo [config]="seoConfig" />
-  <!-- Header -->
-  <ui-app-header 
-    [uiScrollHide]="true"
-    scrollHidePosition="top"
-  />
+  <ui-app-header [uiScrollHide]="true" scrollHidePosition="top" />
 
   @if (isLoading()) {
-    <div class="feed-container">
-      <app-grid>
-        @for (i of [1,2,3,4,5,6]; track i) {
-          <div style="display: flex; flex-direction: column; gap: 0.75rem; padding: 1.25rem 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--surface-card);">
-            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0 1rem;">
-              <div class="skeleton" style="width: 40px; height: 40px; border-radius: var(--radius-full);"></div>
-              <div style="display: flex; flex-direction: column; gap: 0.25rem; flex: 1;">
-                <div class="skeleton" style="height: 14px; width: 40%; border-radius: 4px;"></div>
-                <div class="skeleton" style="height: 12px; width: 25%; border-radius: 4px;"></div>
-              </div>
-            </div>
-            <div class="skeleton" style="width: 100%; aspect-ratio: 1/1; max-height: 600px;"></div>
-            <div style="padding: 0 1rem; display: flex; flex-direction: column; gap: 0.25rem;">
-              <div class="skeleton" style="height: 16px; width: 70%; border-radius: 4px;"></div>
-              <div class="skeleton" style="height: 14px; width: 90%; border-radius: 4px;"></div>
-              <div class="skeleton" style="height: 14px; width: 60%; border-radius: 4px;"></div>
-            </div>
-            <div style="padding: 0.25rem 1rem 0; display: flex; gap: 0.75rem;">
-              <div class="skeleton" style="height: 32px; width: 60px; border-radius: 4px;"></div>
-              <div class="skeleton" style="height: 32px; width: 60px; border-radius: 4px;"></div>
-            </div>
+  <div class="feed-container">
+    <app-grid>
+      @for (i of [1,2,3,4,5,6]; track i) {
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-card__media"></div>
+        <div class="skeleton-card__header">
+          <div class="skeleton skeleton-card__avatar"></div>
+          <div class="skeleton-card__lines">
+            <div class="skeleton" style="height: 12px; width: 40%"></div>
           </div>
+        </div>
+        <div class="skeleton-card__lines">
+          <div class="skeleton" style="height: 16px; width: 70%"></div>
+          <div class="skeleton" style="height: 14px; width: 90%"></div>
+        </div>
+      </div>
+      }
+    </app-grid>
+  </div>
+  } @else if (editorialSections().length === 0) {
+  <ui-empty-state
+    icon="LucideMapPin"
+    title="Nothing nearby yet"
+    description="Be the first to create a business in your neighborhood!"
+  >
+    <button class="btn btn--primary btn--full" routerLink="/profile/business/create">
+      Start a Business
+    </button>
+  </ui-empty-state>
+  } @else {
+  <div class="feed-container">
+    @for (group of editorialSections(); track group.title || $index) {
+    <app-section [title]="group.title">
+      <app-grid>
+        @for (item of group.items; track item.id) {
+        <app-feed-card [item]="item"></app-feed-card>
         }
       </app-grid>
+    </app-section>
+    } @if (isLoadingMore()) {
+    <app-grid>
+      @for (i of [1,2,3]; track i) {
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-card__media"></div>
+      </div>
+      }
+    </app-grid>
+    } @if (hasMore()) {
+    <div class="load-more-container">
+      <button class="btn btn--secondary" (click)="loadMore()" [disabled]="isLoadingMore()">
+        Load More Discoveries
+      </button>
     </div>
-  } @else if (editorialSections().length === 0) {
-    <ui-empty-state 
-      icon="LucideMapPin" 
-      title="Nothing nearby yet"
-      description="Be the first to create a business in your neighborhood!">
-        <button class="btn btn--primary btn--full" routerLink="/profile/business/create">
-          Start a Business
-        </button>
-    </ui-empty-state>
-  } @else {
-    <div class="feed-container">
-      @for (group of editorialSections(); track group.title || $index) {
-        <app-section [title]="group.title">
-          <app-grid>
-            @for (item of group.items; track item.id) {
-              <app-feed-card [item]="item"></app-feed-card>
-            }
-          </app-grid>
-        </app-section>
-      }
-
-      @if (isLoadingMore()) {
-        <div class="skeleton" style="height: 400px; width: 100%; max-width: 600px; margin: 0 auto 1.5rem; border-radius: var(--radius-lg);"></div>
-      }
-
-      @if (hasMore()) {
-        <div class="load-more-container">
-          <button class="btn btn--secondary" (click)="loadMore()" [disabled]="isLoadingMore()">
-            Load More Discoveries
-          </button>
-        </div>
-      } @else {
-        <div class="end-of-feed">
-          <p>You've seen everything nearby for today!</p>
-        </div>
-      }
+    } @else {
+    <div class="end-of-feed">
+      <p>You've seen everything nearby for today!</p>
     </div>
+    }
+  </div>
   }
 </div>

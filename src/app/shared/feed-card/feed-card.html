@@ -1,118 +1,90 @@
 <article class="feed-card">
-  <!-- Business Identity -->
-  <header class="feed-card__header">
-    @if (item().business; as business) {
-      <div class="feed-card__avatar">
-        @if (business.logoUrl) {
-          <img [src]="business.logoUrl" [alt]="business.name" />
-        } @else {
-          <div class="avatar-placeholder">{{ business.name?.charAt(0) || 'B' }}</div>
-        }
-      </div>
-      <div class="feed-card__meta">
-        <a class="feed-card__business-name" [routerLink]="['/b', business.slug]">{{ business.name }}</a>
-        <span class="feed-card__distance">
-          <svg lucideMapPin aria-hidden="true"></svg>
-          {{ distanceText }}
-        </span>
-      </div>
-    }
-  </header>
-
-  <!-- Main Content -->
+  <!-- Media, with save overlaid -->
   <div class="feed-card__media">
-    @if (item().itemType === 'TOUR') {
-      @if (item().tour; as tour) {
-        @if (tour.media && tour.media.length > 0) {
-          @if (tour.media[0].type === 'VIDEO') {
-            <video #videoElement class="feed-card__video" [src]="tour.media[0].url" loop muted playsinline></video>
-          } @else {
-            <img class="feed-card__img" [src]="tour.media[0].url" [alt]="tour.title" />
-          }
-        } @else {
-          <div class="feed-card__placeholder">
-            <svg lucideImage aria-hidden="true"></svg>
-          </div>
-        }
-      }
-    }
+    @if (item().itemType === 'TOUR') { @if (item().tour; as tour) { @if (tour.media &&
+    tour.media.length > 0) { @if (tour.media[0].type === 'VIDEO') {
+    <video
+      #videoElement
+      class="feed-card__video"
+      [src]="tour.media[0].url"
+      loop
+      muted
+      playsinline
+    ></video>
+    } @else {
+    <img class="feed-card__img" [src]="tour.media[0].url" [alt]="tour.title" />
+    } } @else {
+    <div class="feed-card__placeholder"><svg lucideImage aria-hidden="true"></svg></div>
+    } } } @if (item().itemType === 'LISTING') { @if (item().listing; as listing) { @if
+    (listing.media && listing.media.length > 0) {
+    <img class="feed-card__img" [src]="listing.media[0].url" [alt]="listing.title" />
+    } @else {
+    <div class="feed-card__placeholder"><svg lucideImage aria-hidden="true"></svg></div>
+    } @if (listing.minPrice) {
+    <div class="feed-card__price-tag">
+      {{ listing.currencyCode || 'USD' }} {{ listing.minPrice }}
+    </div>
+    } } } @if (item().itemType === 'BUSINESS') { @if (item().business; as business) { @if
+    (business.coverUrl) {
+    <img class="feed-card__img" [src]="business.coverUrl" [alt]="business.name" />
+    } @else {
+    <div class="feed-card__placeholder"><svg lucideImage aria-hidden="true"></svg></div>
+    } } }
 
-    @if (item().itemType === 'LISTING') {
-      @if (item().listing; as listing) {
-        @if (listing.media && listing.media.length > 0) {
-          <img class="feed-card__img" [src]="listing.media[0].url" [alt]="listing.title" />
-        } @else {
-          <div class="feed-card__placeholder">
-            <svg lucideImage aria-hidden="true"></svg>
-          </div>
-        }
-        @if (listing.minPrice) {
-          <div class="feed-card__price-tag">
-            {{ listing.currencyCode || 'USD' }} {{ listing.minPrice }}
-          </div>
-        }
-      }
-    }
-
-    @if (item().itemType === 'BUSINESS') {
-      @if (item().business; as business) {
-        @if (business.coverUrl) {
-          <img class="feed-card__img" [src]="business.coverUrl" [alt]="business.name" />
-        } @else {
-          <div class="feed-card__placeholder">
-            <svg lucideImage aria-hidden="true"></svg>
-          </div>
-        }
-      }
-    }
+    <app-save-button
+      class="feed-card__save-overlay"
+      [itemId]="saveItemId"
+      [itemType]="saveItemType"
+      variant="overlay"
+    />
   </div>
+
+  <!-- Identity, quiet, single line -->
+  @if (item().business; as business) {
+  <header class="feed-card__header">
+    <div class="feed-card__avatar">
+      @if (business.logoUrl) {
+      <img [src]="business.logoUrl" [alt]="business.name" />
+      } @else {
+      <div class="avatar-placeholder">{{ business.name?.charAt(0) || 'B' }}</div>
+      }
+    </div>
+    <div class="feed-card__meta">
+      <a class="feed-card__business-name" [routerLink]="['/b', business.slug]"
+        >{{ business.name }}</a
+      >
+      <span class="feed-card__distance">{{ distanceText }}</span>
+    </div>
+  </header>
+  }
 
   <!-- Context -->
   <div class="feed-card__context">
-    @if (item().itemType === 'TOUR') {
-      @if (item().tour; as tour) {
-        <h3 class="feed-card__title">{{ tour.title }}</h3>
-        <p class="feed-card__summary">{{ tour.summary }}</p>
-      }
-    }
-    
-    @if (item().itemType === 'LISTING') {
-      @if (item().listing; as listing) {
-        <h3 class="feed-card__title">{{ listing.title }}</h3>
-        <p class="feed-card__summary">{{ listing.description }}</p>
-      }
-    }
-
-    @if (item().itemType === 'BUSINESS') {
-      @if (item().business; as business) {
-        <p class="feed-card__summary">{{ business.description || 'A local business near you.' }}</p>
-      }
-    }
+    @if (item().itemType === 'TOUR') { @if (item().tour; as tour) {
+    <h3 class="feed-card__title">{{ tour.title }}</h3>
+    <p class="feed-card__summary">{{ tour.summary }}</p>
+    } } @if (item().itemType === 'LISTING') { @if (item().listing; as listing) {
+    <h3 class="feed-card__title">{{ listing.title }}</h3>
+    <p class="feed-card__summary">{{ listing.description }}</p>
+    } } @if (item().itemType === 'BUSINESS') { @if (item().business; as business) {
+    <p class="feed-card__summary">{{ business.description || 'A local business near you.' }}</p>
+    } }
   </div>
 
   <!-- Actions -->
   <footer class="feed-card__actions">
-    <app-save-button 
-      [itemId]="saveItemId" 
-      [itemType]="saveItemType" 
-      variant="action" />
-    
-    <app-share-button 
-      [title]="shareTitle" 
-      [text]="shareText" 
-      [url]="shareUrl" 
-      variant="action" />
-      
-    <div style="flex: 1"></div>
+    <app-share-button
+      [title]="shareTitle"
+      [text]="shareText"
+      [url]="shareUrl"
+      variant="icon"
+      size="sm"
+    />
+
     @if (item().itemType === 'LISTING') {
-      <button class="action-btn" (click)="onMessage($event)">
-        <svg lucideMessageCircle aria-hidden="true"></svg>
-        Message
-      </button>
+    <button class="feed-card__cta" type="button" (click)="onMessage($event)">Message</button>
     } @else {
-      <a class="btn btn--secondary btn--sm" [routerLink]="['/b', item().business?.slug]">
-        View Profile
-      </a>
+    <a class="feed-card__cta" [routerLink]="['/b', item().business?.slug]">View Profile</a>
     }
   </footer>
 </article>
