@@ -92,14 +92,17 @@
 
   <!-- Actions -->
   <footer class="feed-card__actions">
-    <button class="action-btn" (click)="onSave($event)" aria-label="Save">
-      <svg lucideBookmark aria-hidden="true"></svg>
-      Save
-    </button>
-    <button class="action-btn" (click)="onShare($event)" aria-label="Share">
-      <svg lucideShare2 aria-hidden="true"></svg>
-      Share
-    </button>
+    <app-save-button 
+      [itemId]="saveItemId" 
+      [itemType]="saveItemType" 
+      variant="action" />
+    
+    <app-share-button 
+      [title]="shareTitle" 
+      [text]="shareText" 
+      [url]="shareUrl" 
+      variant="action" />
+      
     <div style="flex: 1"></div>
     @if (item().itemType === 'LISTING') {
       <button class="action-btn" (click)="onMessage($event)">

@@ -1,5 +1,5 @@
 <button 
-  [class]="variant() === 'icon' ? 'btn-icon' : 'btn btn--' + variant()"
+  [class]="variant() === 'icon' ? 'btn-icon' : (variant() === 'action' ? 'action-btn' : 'btn btn--' + variant())"
   (click)="onShare()" 
   type="button" 
   [attr.aria-label]="label()">

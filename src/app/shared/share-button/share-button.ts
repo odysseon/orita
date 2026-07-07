@@ -14,7 +14,7 @@ export class ShareButton {
   readonly url = input<string>();
   
   // Style configurations
-  readonly variant = input<'primary' | 'secondary' | 'ghost' | 'icon'>('icon');
+  readonly variant = input<'primary' | 'secondary' | 'ghost' | 'icon' | 'action'>('icon');
   readonly label = input<string>('Share');
 
   #shareService = inject(ShareService);

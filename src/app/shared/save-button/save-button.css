@@ -1,0 +1,11 @@
+:host {
+  display: inline-block;
+}
+
+svg.filled {
+  fill: currentColor;
+}
+
+.action-btn--active {
+  color: var(--primary);
+}

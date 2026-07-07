@@ -1,0 +1,13 @@
+<button 
+  [class]="variant() === 'icon' ? 'btn-icon' : (variant() === 'action' ? 'action-btn' : 'btn btn--' + variant())"
+  [class.btn-icon--active]="variant() === 'icon' && saved()"
+  [class.action-btn--active]="variant() === 'action' && saved()"
+  [disabled]="saving()"
+  (click)="onToggle($event)" 
+  type="button" 
+  [attr.aria-label]="saved() ? 'Remove from saved' : label()">
+  <svg lucideBookmark [class.filled]="saved()" aria-hidden="true"></svg>
+  @if (variant() !== 'icon') {
+    <span>{{ label() }}</span>
+  }
+</button>

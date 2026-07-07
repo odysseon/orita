@@ -2,25 +2,31 @@
   display: block;
 }
 
-.profile-sub-layout {
+.sub-layout {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
   max-width: var(--size-640);
   margin: 0 auto;
-  padding: calc(64px + var(--size-24)) var(--size-16) var(--size-48);
+  padding: calc(64px + var(--size-16)) var(--size-16) var(--size-48);
   gap: var(--size-24);
   background: var(--surface-page);
 }
 
-.sub-layout-header {
+.sub-layout__header {
   display: flex;
   align-items: center;
-  gap: var(--size-16);
+  justify-content: center;
   width: 100%;
+  position: relative;
+  min-height: var(--size-32); /* Ensure header has height even without title */
 }
 
 .btn-back {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   background: transparent;
   border: none;
   padding: var(--size-8);
@@ -53,9 +59,14 @@
   color: var(--text-primary);
   margin: 0;
   line-height: var(--line-height-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  max-width: 60%; /* Prevent title from overlapping the back button */
 }
 
-.profile-sub-layout__content {
+.sub-layout__content {
   display: flex;
   flex-direction: column;
   flex: 1;

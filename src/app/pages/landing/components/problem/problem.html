@@ -1,0 +1,47 @@
+<section class="problem">
+  <div class="problem__content">
+    <p class="problem__eyebrow">{{ content.eyebrow }}</p>
+
+    <h2 class="problem__title">
+      {{ content.title[0] }}
+
+      <br />
+
+      {{ content.title[1] }}
+    </h2>
+
+    <p class="problem__description">{{ content.description }}</p>
+  </div>
+
+  <div class="comparison">
+    @for (column of columns; track column.title) {
+
+    <section class="comparison__column" [class.comparison__column--positive]="column.positive">
+      <h3>{{ column.title }}</h3>
+
+      <ul>
+        @for (item of column.items; track item) {
+
+        <li>
+          <span
+            class="comparison__icon"
+            [class.comparison__icon--positive]="column.positive"
+            [class.comparison__icon--negative]="!column.positive"
+          >
+            {{ column.positive ? '✓' : '×' }}
+          </span>
+
+          {{ item }}
+        </li>
+
+        }
+      </ul>
+    </section>
+
+    @if (!$last) {
+
+    <div class="comparison__divider" aria-hidden="true"></div>
+
+    } }
+  </div>
+</section>
