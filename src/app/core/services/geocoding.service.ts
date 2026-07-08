@@ -6,6 +6,10 @@ import { environment } from '../../../environments/environment';
 
 export interface GeocodeResult {
   displayName: string;
+  name?: string;
+  city?: string;
+  state?: string;
+  country?: string;
   lat: number;
   lng: number;
 }
@@ -24,10 +28,14 @@ export class GeocodingService {
       map(results => {
         if (!results || results.length === 0) return null;
         const result = results[0];
-        // Format string cleanly to avoid massive OS names
+        const address = result.address || {};
         const displayName = result.display_name.split(',').slice(0, 2).join(',').trim();
         return {
           displayName,
+          name: address.neighbourhood || address.suburb || address.city || address.town || displayName,
+          city: address.city || address.town || address.village,
+          state: address.state || address.region,
+          country: address.country,
           lat: parseFloat(result.lat),
           lng: parseFloat(result.lon)
         };
@@ -51,6 +59,10 @@ export class GeocodingService {
         
         return {
           displayName: state ? `${neighborhood}, ${state}` : neighborhood,
+          name: neighborhood,
+          city: address.city || address.town || address.village,
+          state: address.state || address.region,
+          country: address.country,
           lat,
           lng
         };

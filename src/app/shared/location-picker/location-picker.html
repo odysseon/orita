@@ -1,0 +1,29 @@
+<button type="button" class="btn btn--ghost location-picker__trigger" (click)="open.set(true)">
+  <svg lucideMapPin aria-hidden="true"></svg>
+  {{ currentAddress() || triggerLabel() }}
+</button>
+
+<ui-drawer
+  [(open)]="open"
+  position="bottom"
+  size="auto"
+  title="Set Location"
+  [closeOnBackdrop]="true"
+  (dismissed)="onDismissed()"
+>
+  <div class="location-picker__body">
+    <app-location-selector (locationSelected)="onProvisionalPick($event)" />
+  </div>
+
+  <div class="location-picker__footer">
+    <button type="button" class="btn btn--ghost" (click)="cancel()">Cancel</button>
+    <button
+      type="button"
+      class="btn btn--primary"
+      [disabled]="!provisional()"
+      (click)="confirm()"
+    >
+      Confirm Location
+    </button>
+  </div>
+</ui-drawer>

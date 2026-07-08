@@ -1,0 +1,35 @@
+:host {
+  display: contents;
+}
+
+.location-picker__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-8);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.location-picker__trigger svg {
+  flex-shrink: 0;
+  width: var(--size-16);
+  height: var(--size-16);
+}
+
+.location-picker__body {
+  padding: var(--space-sm);
+  min-height: var(--size-200);
+}
+
+.location-picker__footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--size-8);
+  padding: var(--space-sm);
+  background: var(--surface-card);
+  border-top: var(--size-1) solid var(--border-subtle);
+}
