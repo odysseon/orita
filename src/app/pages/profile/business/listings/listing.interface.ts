@@ -26,9 +26,7 @@ export interface IListing {
 
 export interface ICreateListing {
   title: string;
-  description: string;
   categoryId: string;
-  price: IListingPrice;
 }
 
 export interface ICategory {

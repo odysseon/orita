@@ -3,7 +3,6 @@ import { httpResource } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {
   LucideUser,
-  LucideMapPin,
   LucideBuilding2,
   LucideBookmark,
   LucideShieldCheck,
@@ -73,7 +72,6 @@ const START_BUSINESS: NavItem = {
   selector: 'app-profile',
   imports: [
     LucideUser,
-    LucideMapPin,
     LucideDynamicIcon,
     LucideChevronRight,
     LucideLogOut,

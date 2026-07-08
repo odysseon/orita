@@ -22,6 +22,7 @@ import { environment } from '../../../../environments/environment';
 import { CreateBusiness } from './create/create-business';
 import { Listings } from './listings/listings';
 import { AppBusinessTours } from './tours/tours';
+import { CompletionNudge } from '../../../shared/completion-nudge/completion-nudge';
 
 @Component({
   selector: 'app-page-business',
@@ -42,6 +43,7 @@ import { AppBusinessTours } from './tours/tours';
     CreateBusiness,
     Listings,
     AppBusinessTours,
+    CompletionNudge,
   ],
   templateUrl: './business.html',
   styleUrl: './business.css',
@@ -70,6 +72,13 @@ export class Business {
     if (status === 'PENDING') return { label: 'Verification pending', cls: 'badge--pending' };
     if (status === 'REJECTED') return { label: 'Verification rejected', cls: 'badge--rejected' };
     return { label: 'Unverified', cls: 'badge--unverified' };
+  });
+
+  readonly isProfileIncomplete = computed(() => {
+    const biz = this.business.value();
+    if (!biz) return false;
+    // Basic checks: description, logo, cover
+    return !biz.description || !biz.avatarUrl || !biz.coverUrl;
   });
 
 

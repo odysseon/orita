@@ -53,12 +53,6 @@
     <p class="profile-identity__email">{{ profile.value()!.email }}</p>
 
     <div class="profile-identity__meta">
-      @if (profile.value()!.location) {
-      <span class="profile-meta-chip">
-        <svg lucideMapPin class="profile-meta-chip__icon" aria-hidden="true"></svg>
-        {{ profile.value()!.location!.city ?? profile.value()!.location!.name }}
-      </span>
-      }
       <span class="profile-meta-chip"> Joined {{ formatDate(profile.value()!.createdAt) }} </span>
     </div>
   </div>

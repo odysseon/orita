@@ -75,6 +75,14 @@
     </div>
   </div>
 
+  @if (isProfileIncomplete()) {
+    <app-completion-nudge
+      title="Complete your profile"
+      description="Add a description, logo, and cover image to make your business stand out."
+      (action)="editBusiness()"
+    ></app-completion-nudge>
+  }
+
   <!-- Tabs -->
   <nav class="tabs" aria-label="Business sections">
     <button

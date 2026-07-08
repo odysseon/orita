@@ -3,7 +3,7 @@ export type BusinessType = 'ONLINE' | 'PHYSICAL' | 'HYBRID';
 export interface ICreateBusiness {
   name: string;
   businessType: BusinessType;
-  description: string;
+  categoryId: string;
 }
 
 export interface ICreateBusinessResponse {

@@ -1,153 +1,215 @@
 <div class="edit-listing-page fade-in">
-
-
   @if (isLoading()) {
-    <div class="loading-state">
-      <div class="spinner"></div>
-      <p>Loading details...</p>
-    </div>
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading details...</p>
+  </div>
   } @else {
-    <div class="edit-container">
-      
-      <!-- Left Column: Details & Attributes -->
-      <form class="edit-main" [formGroup]="editForm">
-        <section class="card">
-          <h2>Basic Details</h2>
-          
-          <app-form-field label="Title" fieldId="title">
-            <input id="title" class="form-input" formControlName="title" placeholder="e.g., iPhone 13 Pro Max" />
+  <div class="edit-container">
+    <!-- Left Column: Details & Attributes -->
+    <form class="edit-main" [formGroup]="editForm">
+      <section class="card">
+        <h2>Basic Details</h2>
+
+        <app-form-field label="Title" fieldId="title">
+          <input
+            id="title"
+            class="field__input"
+            formControlName="title"
+            placeholder="e.g., iPhone 13 Pro Max"
+          />
+        </app-form-field>
+
+        <app-form-field label="Category" fieldId="category">
+          <select
+            id="category"
+            class="field__select"
+            formControlName="categoryId"
+            (change)="onCategoryChange()"
+          >
+            <option value="">Select a category</option>
+            @for (cat of leafCategories; track cat.id) {
+            <option [value]="cat.id">{{ cat.name }}</option>
+            }
+          </select>
+        </app-form-field>
+
+        <app-form-field label="Description" fieldId="description">
+          <textarea
+            id="description"
+            class="field__textarea"
+            formControlName="description"
+            rows="4"
+            placeholder="Describe the item or service..."
+          ></textarea>
+        </app-form-field>
+
+        <div class="price-row">
+          <app-form-field label="Min Price (NGN)" fieldId="minPrice">
+            <input
+              id="minPrice"
+              class="field__input"
+              type="number"
+              formControlName="minPrice"
+              placeholder="0"
+            />
           </app-form-field>
-          
-          <app-form-field label="Category" fieldId="category">
-            <select id="category" class="form-input" formControlName="categoryId" (change)="onCategoryChange()">
-              <option value="">Select a category</option>
-              @for (cat of leafCategories; track cat.id) {
-                <option [value]="cat.id">{{ cat.name }}</option>
+
+          <app-form-field label="Max Price (NGN) (Optional)" fieldId="maxPrice">
+            <input
+              id="maxPrice"
+              class="field__input"
+              type="number"
+              formControlName="maxPrice"
+              placeholder="0"
+            />
+          </app-form-field>
+        </div>
+
+        <label class="checkbox-label" style="margin-top: var(--space-sm)">
+          <input type="checkbox" formControlName="isNegotiable" />
+          <span>Price is negotiable</span>
+        </label>
+      </section>
+
+      @if (attributes().length > 0) {
+      <section class="card fade-in" formGroupName="attributesData">
+        <h2>Category Attributes</h2>
+        <p class="section-desc">
+          Fill out these specific details to help customers find your listing.
+        </p>
+
+        <div class="attributes-grid">
+          @for (attr of attributes(); track attr.id) {
+          <app-form-field
+            [label]="attr.label"
+            [fieldId]="'attr-' + attr.id"
+            [hint]="attr.isRequired ? 'required' : undefined"
+          >
+            @if (attr.type === 'SELECT' && attr.options) {
+            <select [id]="'attr-' + attr.id" class="field__select" [formControlName]="attr.key">
+              <option [ngValue]="null">Select {{ attr.label }}</option>
+              @for (opt of attr.options; track opt) {
+              <option [value]="opt">{{ opt }}</option>
               }
             </select>
-          </app-form-field>
-
-          <app-form-field label="Description" fieldId="description">
-            <textarea id="description" class="form-input" formControlName="description" rows="4" placeholder="Describe the item or service..."></textarea>
-          </app-form-field>
-          
-          <div class="price-row">
-            <app-form-field label="Min Price (NGN)" fieldId="minPrice">
-              <input id="minPrice" class="form-input" type="number" formControlName="minPrice" placeholder="0" />
-            </app-form-field>
-            
-            <app-form-field label="Max Price (NGN) (Optional)" fieldId="maxPrice">
-              <input id="maxPrice" class="form-input" type="number" formControlName="maxPrice" placeholder="0" />
-            </app-form-field>
-          </div>
-          
-          <label class="checkbox-label" style="margin-top: 1rem;">
-            <input type="checkbox" formControlName="isNegotiable" />
-            <span>Price is negotiable</span>
-          </label>
-        </section>
-
-        @if (attributes().length > 0) {
-          <section class="card fade-in" formGroupName="attributesData">
-            <h2>Category Attributes</h2>
-            <p class="section-desc">Fill out these specific details to help customers find your listing.</p>
-            
-            <div class="attributes-grid">
-              @for (attr of attributes(); track attr.id) {
-                <app-form-field [label]="attr.label" [fieldId]="'attr-' + attr.id" [hint]="attr.isRequired ? 'required' : undefined">
-                  
-                  @if (attr.type === 'SELECT' && attr.options) {
-                    <select [id]="'attr-' + attr.id" class="form-input" [formControlName]="attr.key">
-                      <option [ngValue]="null">Select {{ attr.label }}</option>
-                      @for (opt of attr.options; track opt) {
-                        <option [value]="opt">{{ opt }}</option>
-                      }
-                    </select>
-                  } @else if (attr.type === 'BOOLEAN') {
-                    <label class="checkbox-label">
-                      <input [id]="'attr-' + attr.id" type="checkbox" [formControlName]="attr.key" />
-                      <span>Yes / No</span>
-                    </label>
-                  } @else if (attr.type === 'NUMBER') {
-                    <input [id]="'attr-' + attr.id" class="form-input" type="number" [formControlName]="attr.key" placeholder="e.g. 5" />
-                  } @else {
-                    <input [id]="'attr-' + attr.id" class="form-input" type="text" [formControlName]="attr.key" placeholder="e.g. value" />
-                  }
-
-                </app-form-field>
-              }
-            </div>
-          </section>
-        }
-
-        <div class="form-actions" style="margin-top: 1rem;">
-          <button 
-            class="btn btn--primary" 
-            [disabled]="isSaving() || isLoading()"
-            (click)="saveChanges()"
-          >
-            @if (isSaving()) {
-              <div class="spinner"></div>
-              Saving...
+            } @else if (attr.type === 'BOOLEAN') {
+            <label class="checkbox-label">
+              <input [id]="'attr-' + attr.id" type="checkbox" [formControlName]="attr.key" />
+              <span>Yes / No</span>
+            </label>
+            } @else if (attr.type === 'NUMBER') {
+            <input
+              [id]="'attr-' + attr.id"
+              class="field__input"
+              type="number"
+              [formControlName]="attr.key"
+              placeholder="e.g. 5"
+            />
             } @else {
-              <svg icon lucideSave aria-hidden="true"></svg>
-              Save Changes
+            <input
+              [id]="'attr-' + attr.id"
+              class="field__input"
+              type="text"
+              [formControlName]="attr.key"
+              placeholder="e.g. value"
+            />
             }
+          </app-form-field>
+          }
+        </div>
+      </section>
+      }
+
+      <div class="form-actions" style="margin-top: var(--space-sm)">
+        <button
+          class="btn btn--primary"
+          [disabled]="isSaving() || isLoading()"
+          (click)="saveChanges()"
+        >
+          @if (isSaving()) {
+          <div class="spinner"></div>
+          Saving... } @else {
+          <svg lucideSave aria-hidden="true"></svg>
+          Save Changes }
+        </button>
+      </div>
+    </form>
+
+    <!-- Right Column: Media -->
+    <div class="edit-sidebar">
+      <section class="card media-card">
+        <h2>Cover Photo</h2>
+        <p class="section-desc">This is the main image shown in search results.</p>
+
+        @if (coverMedia()) {
+        <div class="media-preview main-preview">
+          <img [src]="coverMedia()!.url" alt="Cover photo" />
+          <button
+            class="delete-media-btn"
+            (click)="deleteMedia(coverMedia()!.id, 'COVER')"
+            aria-label="Delete cover photo"
+          >
+            <svg lucideTrash2 aria-hidden="true"></svg>
           </button>
         </div>
-      </form>
+        } @else {
+        <div class="media-upload-box">
+          <input
+            type="file"
+            id="cover-upload"
+            accept="image/*"
+            (change)="onCoverUpload($event)"
+            hidden
+          />
+          <label for="cover-upload" class="upload-label" [class.disabled]="isUploadingCover()">
+            <svg lucideImagePlus aria-hidden="true"></svg>
+            <span>{{ isUploadingCover() ? 'Uploading...' : 'Upload Cover Photo' }}</span>
+          </label>
+        </div>
+        }
+      </section>
 
-      <!-- Right Column: Media -->
-      <div class="edit-sidebar">
-        
-        <section class="card media-card">
-          <h2>Cover Photo</h2>
-          <p class="section-desc">This is the main image shown in search results.</p>
-          
-          @if (coverMedia()) {
-            <div class="media-preview main-preview">
-              <img [src]="coverMedia()!.url" alt="Cover photo" />
-              <button class="delete-media-btn" (click)="deleteMedia(coverMedia()!.id, 'COVER')" aria-label="Delete cover photo">
-                <svg icon lucideTrash2 aria-hidden="true"></svg>
-              </button>
-            </div>
-          } @else {
-            <div class="media-upload-box">
-              <input type="file" id="cover-upload" accept="image/*" (change)="onCoverUpload($event)" hidden />
-              <label for="cover-upload" class="upload-label" [class.disabled]="isUploadingCover()">
-                <svg icon lucideImagePlus aria-hidden="true"></svg>
-                <span>{{ isUploadingCover() ? 'Uploading...' : 'Upload Cover Photo' }}</span>
-              </label>
-            </div>
-          }
-        </section>
+      <section class="card media-card">
+        <h2>Gallery</h2>
+        <p class="section-desc">Add more photos to show different angles or details.</p>
 
-        <section class="card media-card">
-          <h2>Gallery</h2>
-          <p class="section-desc">Add more photos to show different angles or details.</p>
-          
-          <div class="gallery-grid">
-            @for (media of galleryMedia(); track media.id) {
-              <div class="media-preview gallery-preview">
-                <img [src]="media.url" alt="Gallery photo" />
-                <button class="delete-media-btn" (click)="deleteMedia(media.id, 'GALLERY')" aria-label="Delete photo">
-                  <svg icon lucideX aria-hidden="true"></svg>
-                </button>
-              </div>
-            }
-            
-            <!-- Upload Button in Grid -->
-            <div class="media-upload-box gallery-upload">
-              <input type="file" id="gallery-upload" accept="image/*" multiple (change)="onGalleryUpload($event)" hidden />
-              <label for="gallery-upload" class="upload-label small" [class.disabled]="isUploadingGallery()">
-                <svg icon lucidePlus aria-hidden="true"></svg>
-                <span>{{ isUploadingGallery() ? '...' : 'Add' }}</span>
-              </label>
-            </div>
+        <div class="gallery-grid">
+          @for (media of galleryMedia(); track media.id) {
+          <div class="media-preview gallery-preview">
+            <img [src]="media.url" alt="Gallery photo" />
+            <button
+              class="delete-media-btn"
+              (click)="deleteMedia(media.id, 'GALLERY')"
+              aria-label="Delete photo"
+            >
+              <svg lucideX aria-hidden="true"></svg>
+            </button>
           </div>
-        </section>
+          }
 
-      </div>
+          <!-- Upload Button in Grid -->
+          <div class="media-upload-box gallery-upload">
+            <input
+              type="file"
+              id="gallery-upload"
+              accept="image/*"
+              multiple
+              (change)="onGalleryUpload($event)"
+              hidden
+            />
+            <label
+              for="gallery-upload"
+              class="upload-label small"
+              [class.disabled]="isUploadingGallery()"
+            >
+              <svg lucidePlus aria-hidden="true"></svg>
+              <span>{{ isUploadingGallery() ? '...' : 'Add' }}</span>
+            </label>
+          </div>
+        </div>
+      </section>
     </div>
+  </div>
   }
 </div>
