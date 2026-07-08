@@ -137,7 +137,7 @@
 .feed-card__body {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: var(--size-12);
 }
 

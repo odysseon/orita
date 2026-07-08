@@ -296,6 +296,7 @@ body {
   font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   margin-bottom: var(--space-sm);
+  margin-top: var(--space-sm);
 }
 
 .section-header {
@@ -382,7 +383,9 @@ body {
 }
 
 .card--interactive {
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal);
   cursor: pointer;
 }
 
@@ -777,7 +780,6 @@ svg[lucideStar].star--filled {
   color: var(--clr-primary);
 }
 
-
 .badge {
   display: inline-flex;
   align-items: center;
@@ -823,7 +825,9 @@ svg[lucideStar].star--filled {
   color: var(--text-primary);
   border: 1px solid var(--border-subtle);
   cursor: pointer;
-  transition: background var(--transition-fast), border-color var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 .chip:hover {
@@ -855,11 +859,12 @@ svg[lucideStar].star--filled {
 /* ============================================================
  * 7 Utilities
  * ============================================================ */
-.hidden { 
-  display: none !important; 
+.hidden {
+  display: none !important;
 }
 
-.sr-only, .visually-hidden {
+.sr-only,
+.visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
