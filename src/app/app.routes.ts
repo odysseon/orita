@@ -12,6 +12,11 @@ export const routes: Routes = [
     loadChildren: () => import('./pages/auth/auth.routes').then((m) => m.authRoutes),
   },
   {
+    path: 'location',
+    loadComponent: () => import('./pages/location/location').then((m) => m.LocationSelection),
+    canActivate: [() => import('./pages/location/location-required.guard').then((m) => m.locationRequiredGuard)],
+  },
+  {
     path: '',
     loadComponent: () => import('./shared/layout/sub-layout/sub-layout').then((m) => m.AppSubLayout),
     children: [
