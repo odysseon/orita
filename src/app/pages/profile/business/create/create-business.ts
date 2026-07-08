@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, ViewEncapsulation, model, output } from '@angular/core';
+import { Component, computed, inject, signal, ViewEncapsulation, model, output, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -21,6 +21,9 @@ import {
 import { environment } from '../../../../../environments/environment';
 import { AppFormField } from '../../../../shared/form-field/form-field';
 import { Drawer } from '../../../../shared/drawer/drawer';
+import { ExplorationService } from '../../../../core/services/exploration.service';
+import { CategoryService } from '../../../../core/services/category.service';
+import { ICategory } from '../../../home/home.interface';
 
 interface BusinessTypeOption {
   value: BusinessType;
@@ -36,10 +39,13 @@ interface BusinessTypeOption {
   styleUrl: './create-business.css',
   encapsulation: ViewEncapsulation.None,
 })
-export class CreateBusiness {
+export class CreateBusiness implements OnInit {
   #http = inject(HttpClient);
   #router = inject(Router);
   #toast = inject(ToastService);
+  #exploration = inject(ExplorationService);
+  #categoryService = inject(CategoryService);
+  
   readonly isOpen = model<boolean>(false);
   readonly created = output<void>();
   readonly loading = signal(false);
@@ -47,17 +53,23 @@ export class CreateBusiness {
   readonly model = signal<ICreateBusiness>({
     name: '',
     businessType: 'ONLINE',
-    description: '',
+    categoryId: '',
   });
 
   readonly businessForm = form(this.model, (f) => {
     required(f.name, { message: 'Business name is required' });
     minLength(f.name, 2, { message: 'Name must be at least 2 characters' });
     maxLength(f.name, 100, { message: 'Name must be under 100 characters' });
-    maxLength(f.description, 1000, { message: 'Description must be under 1000 characters' });
+    required(f.categoryId, { message: 'Please select a category' });
   });
 
   readonly isFormInvalid = computed(() => this.businessForm().invalid());
+  readonly activeLocation = this.#exploration.activeLocation;
+  readonly categories = signal<ICategory[]>([]);
+
+  ngOnInit() {
+    this.categories.set(this.#categoryService.leafCategories());
+  }
 
   readonly typeOptions: BusinessTypeOption[] = [
     {
@@ -93,10 +105,16 @@ export class CreateBusiness {
     if (this.businessForm().invalid()) return;
     this.loading.set(true);
     try {
+      const loc = this.activeLocation();
       const payload = {
         name: this.model().name,
         businessType: this.model().businessType,
-        ...(this.model().description ? { description: this.model().description } : {}),
+        categoryIds: [this.model().categoryId],
+        ...(loc ? { 
+          location: loc.name,
+          latitude: loc.lat,
+          longitude: loc.lng
+        } : {})
       };
       const res = await firstValueFrom(
         this.#http.post<ICreateBusinessResponse>(`${environment.apiUrl}/business`, payload),

@@ -56,47 +56,7 @@
         }
       </app-form-field>
 
-      <app-form-field
-        label="Description"
-        fieldId="description"
-        hint="optional"
-        [touched]="createForm.description().touched()"
-        [invalid]="createForm.description().invalid()"
-      >
-        <textarea
-          id="description"
-          class="field__textarea"
-          placeholder="Describe the listing…"
-          rows="3"
-          [formField]="createForm.description"
-        ></textarea>
-      </app-form-field>
 
-      <app-form-field label="Price" fieldId="minPrice" hint="optional">
-        <div class="price-row">
-          <input
-            id="minPrice"
-            class="field__input"
-            type="number"
-            placeholder="Min price"
-            [formField]="createForm.price.minPrice"
-          />
-          <input
-            class="field__input"
-            type="number"
-            placeholder="Max price"
-            [formField]="createForm.price.maxPrice"
-          />
-        </div>
-        <label class="negotiable-label">
-          <input
-            type="checkbox"
-            class="negotiable-label__checkbox"
-            [formField]="createForm.price.isNegotiable"
-          />
-          <span>Price is negotiable</span>
-        </label>
-      </app-form-field>
 
       <div class="listing-form__actions">
         <button class="btn btn--ghost" type="button" (click)="closeForm()">Cancel</button>
@@ -188,6 +148,16 @@
           }
         </button>
       </div>
+      @if (isListingIncomplete(listing)) {
+        <div style="grid-column: 1 / -1; width: 100%; margin-top: var(--spacing-2);">
+          <app-completion-nudge
+            title="Listing incomplete"
+            description="Add details like price and description to make your listing more discoverable."
+            actionLabel="Complete listing"
+            (action)="navigateToEdit(listing.id)"
+          ></app-completion-nudge>
+        </div>
+      }
     </div>
     }
   </div>

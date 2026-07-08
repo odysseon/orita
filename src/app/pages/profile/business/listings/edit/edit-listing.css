@@ -1,5 +1,5 @@
 .edit-listing-page {
-  padding-bottom: 4rem;
+  padding-bottom: var(--space-xl);
 }
 
 .loading-state {
@@ -7,28 +7,24 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 0;
+  padding: var(--space-xl) 0;
   color: var(--text-muted);
 }
 
 .spinner {
-  width: 2rem;
-  height: 2rem;
-  border: 2px solid var(--border);
-  border-top-color: var(--primary);
-  border-radius: 50%;
+  width: var(--size-32);
+  height: var(--size-32);
+  border: var(--size-2) solid var(--border-subtle);
+  border-top-color: var(--clr-primary);
+  border-radius: var(--radius-pill);
   animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+  margin-bottom: var(--space-sm);
 }
 
 .edit-container {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: var(--space-lg);
 }
 
 @media (min-width: 768px) {
@@ -37,38 +33,53 @@
   }
 }
 
+/* Page-specific spacing only — global .card in styles.css handles bg/border/radius/shadow */
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
 }
 
 .card h2 {
-  font-size: 1.25rem;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
   margin-top: 0;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
 }
 
 .section-desc {
   color: var(--text-muted);
-  font-size: 0.875rem;
-  margin-top: -1rem;
-  margin-bottom: 1.5rem;
+  font-size: var(--font-size-sm);
+  margin-top: calc(-1 * var(--space-xs));
+  margin-bottom: var(--space-sm);
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-8);
+  font-size: var(--font-size-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.checkbox-label input[type='checkbox'] {
+  width: var(--size-16);
+  height: var(--size-16);
+  accent-color: var(--clr-primary);
+  cursor: pointer;
 }
 
 .price-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: var(--space-sm);
 }
 
 .attributes-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: var(--space-sm);
 }
 
 @media (min-width: 640px) {
@@ -81,8 +92,8 @@
   position: relative;
   border-radius: var(--radius-md);
   overflow: hidden;
-  background: var(--surface-hover);
-  border: 1px solid var(--border);
+  background: var(--surface-container);
+  border: var(--size-1) solid var(--border-subtle);
 }
 
 .media-preview img {
@@ -94,85 +105,4 @@
 
 .main-preview {
   aspect-ratio: 16/9;
-}
-
-.gallery-preview {
-  aspect-ratio: 1/1;
-}
-
-.delete-media-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  width: 2rem;
-  height: 2rem;
-  border-radius: var(--radius-full);
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background var(--transition-fast);
-  backdrop-filter: blur(4px);
-}
-
-.delete-media-btn:hover {
-  background: var(--destructive);
-}
-
-.delete-media-btn svg {
-  width: 1rem;
-  height: 1rem;
-}
-
-.media-upload-box {
-  display: flex;
-  flex-direction: column;
-}
-
-.upload-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border: 2px dashed var(--border);
-  border-radius: var(--radius-md);
-  padding: 2rem;
-  cursor: pointer;
-  color: var(--text-muted);
-  transition: all var(--transition-fast);
-  text-align: center;
-}
-
-.upload-label:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  background: var(--surface-hover);
-}
-
-.upload-label.disabled {
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.upload-label svg {
-  width: 2rem;
-  height: 2rem;
-}
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 1rem;
-}
-
-.upload-label.small {
-  padding: 1rem;
-  aspect-ratio: 1/1;
-}
-
-.upload-label.small svg {
-  width: 1.5rem;
-  height: 1.5rem;
 }

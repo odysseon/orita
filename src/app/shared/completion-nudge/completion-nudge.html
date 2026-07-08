@@ -1,0 +1,13 @@
+<button class="nudge-card" (click)="onAction()">
+  <div class="nudge-icon">
+    <svg lucideAlertCircle aria-hidden="true"></svg>
+  </div>
+  <div class="nudge-content">
+    <h4 class="nudge-title">{{ title() }}</h4>
+    <p class="nudge-desc">{{ description() }}</p>
+  </div>
+  <div class="nudge-action">
+    <span class="nudge-action-text">{{ actionLabel() }}</span>
+    <svg lucideChevronRight aria-hidden="true"></svg>
+  </div>
+</button>

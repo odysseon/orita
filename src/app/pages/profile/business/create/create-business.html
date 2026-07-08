@@ -48,24 +48,34 @@
         </div>
       </app-form-field>
 
-      <!-- Description -->
+      <!-- Category -->
       <app-form-field
-        label="Description"
-        fieldId="description"
-        hint="optional"
-        [touched]="businessForm.description().touched()"
-        [invalid]="businessForm.description().invalid()"
-        [errorMessage]="businessForm.description().errors()[0]?.message"
+        label="Category"
+        fieldId="categoryId"
+        [touched]="businessForm.categoryId().touched()"
+        [invalid]="businessForm.categoryId().invalid()"
+        [errorMessage]="businessForm.categoryId().errors()[0]?.message"
       >
-        <textarea
-          id="description"
-          class="field__textarea"
-          placeholder="What does your business do? Keep it short and clear."
-          rows="3"
-          [formField]="businessForm.description"
-          [class.field__textarea--error]="businessForm.description().touched() && businessForm.description().invalid()"
-        ></textarea>
+        <select
+          id="categoryId"
+          class="field__input field__select"
+          [formField]="businessForm.categoryId"
+          [class.field__input--error]="businessForm.categoryId().touched() && businessForm.categoryId().invalid()"
+        >
+          <option value="" disabled selected>Select a category</option>
+          @for (category of categories(); track category.id) {
+            <option [value]="category.id">{{ category.name }}</option>
+          }
+        </select>
       </app-form-field>
+
+      <div class="create-biz-location">
+        <span class="create-biz-location__label">Will be created in</span>
+        <div class="create-biz-location__value">
+          <svg lucideMapPin aria-hidden="true"></svg>
+          <span>{{ activeLocation()?.name || 'Unknown location' }}</span>
+        </div>
+      </div>
 
       <button class="btn btn--primary btn--full create-biz-submit" type="submit" [disabled]="loading() || isFormInvalid()">
         @if (loading()) {

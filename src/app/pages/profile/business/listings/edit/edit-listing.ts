@@ -24,14 +24,7 @@ interface IMedia {
 
 @Component({
   selector: 'app-edit-listing',
-  imports: [
-    ReactiveFormsModule,
-    AppFormField,
-    LucideTrash2,
-    LucideSave,
-    LucideImagePlus,
-    LucideX,
-  ],
+  imports: [ReactiveFormsModule, AppFormField, LucideTrash2, LucideSave, LucideImagePlus, LucideX],
   templateUrl: './edit-listing.html',
   styleUrl: './edit-listing.css',
 })
@@ -48,11 +41,11 @@ export class EditListing implements OnInit {
   readonly listing = signal<IListing | null>(null);
   readonly categories = signal<ICategory[]>([]);
   readonly attributes = signal<ICategoryAttribute[]>([]);
-  
+
   // Media State
   readonly coverMedia = signal<IMedia | null>(null);
   readonly galleryMedia = signal<IMedia[]>([]);
-  
+
   // Form State
   readonly editForm = this.#fb.group({
     title: [''],
@@ -61,7 +54,7 @@ export class EditListing implements OnInit {
     minPrice: this.#fb.control<number | null>(null),
     maxPrice: this.#fb.control<number | null>(null),
     isNegotiable: [false],
-    attributesData: this.#fb.record<any>({})
+    attributesData: this.#fb.record<any>({}),
   });
 
   readonly isLoading = signal(true);
@@ -77,15 +70,16 @@ export class EditListing implements OnInit {
   async loadData() {
     this.isLoading.set(true);
     try {
-      // 1. Fetch Categories
-      const cats = await firstValueFrom(this.#http.get<ICategory[]>(`${environment.apiUrl}/categories`));
+      const cats = await firstValueFrom(
+        this.#http.get<ICategory[]>(`${environment.apiUrl}/categories`),
+      );
       this.categories.set(cats);
 
-      // 2. Fetch Listing
-      const l = await firstValueFrom(this.#http.get<IListing>(`${environment.apiUrl}/listings/mine/${this.listingId()}`));
+      const l = await firstValueFrom(
+        this.#http.get<IListing>(`${environment.apiUrl}/listings/mine/${this.listingId()}`),
+      );
       this.listing.set(l);
-      
-      // Initialize form fields
+
       this.editForm.patchValue({
         title: l.title,
         description: l.description || '',
@@ -97,20 +91,21 @@ export class EditListing implements OnInit {
 
       const attrsData = l.attributes || {};
       const attributesRecord = this.editForm.controls.attributesData;
-      Object.keys(attrsData).forEach(k => {
+      Object.keys(attrsData).forEach((k) => {
         attributesRecord.addControl(k, this.#fb.control(attrsData[k]));
       });
 
-      // 3. Fetch Listing Media
-      const mediaRes = await firstValueFrom(this.#http.get<{ cover?: IMedia, gallery: IMedia[] }>(`${environment.apiUrl}/listings/${this.listingId()}/media`));
+      const mediaRes = await firstValueFrom(
+        this.#http.get<{ cover?: IMedia; gallery: IMedia[] }>(
+          `${environment.apiUrl}/listings/${this.listingId()}/media`,
+        ),
+      );
       this.coverMedia.set(mediaRes.cover || null);
       this.galleryMedia.set(mediaRes.gallery || []);
 
-      // 4. Fetch Category Attributes if categoryId exists
       if (l.categoryId) {
         await this.loadCategoryAttributes(l.categoryId);
       }
-
     } catch (err) {
       this.#toast.error('Error', 'Could not load listing details.');
       this.#router.navigate(['../'], { relativeTo: this.#route });
@@ -123,9 +118,8 @@ export class EditListing implements OnInit {
     if (catId) {
       const attrs = await this.#categoryService.getCategoryAttributes(catId);
       this.attributes.set(attrs);
-      // Ensure controls exist
       const attributesRecord = this.editForm.controls.attributesData;
-      attrs.forEach(attr => {
+      attrs.forEach((attr) => {
         if (!attributesRecord.contains(attr.key)) {
           attributesRecord.addControl(attr.key, this.#fb.control(''));
         }
@@ -137,7 +131,6 @@ export class EditListing implements OnInit {
 
   async onCategoryChange() {
     const catId = this.editForm.value.categoryId || '';
-    // Clear dynamic attributes on category change
     this.editForm.setControl('attributesData', this.#fb.record<any>({}));
     await this.loadCategoryAttributes(catId);
   }
@@ -155,12 +148,14 @@ export class EditListing implements OnInit {
           minPrice: val.minPrice,
           maxPrice: val.maxPrice,
           isNegotiable: val.isNegotiable,
-          currencyCode: 'NGN'
+          currencyCode: 'NGN',
         },
-        attributes: val.attributesData
+        attributes: val.attributesData,
       };
-      
-      await firstValueFrom(this.#http.patch(`${environment.apiUrl}/listings/${this.listingId()}`, payload));
+
+      await firstValueFrom(
+        this.#http.patch(`${environment.apiUrl}/listings/${this.listingId()}`, payload),
+      );
       this.#toast.success('Done', 'Listing updated successfully.');
     } catch (err) {
       this.#toast.error('Error', 'Could not update listing.');
@@ -169,7 +164,6 @@ export class EditListing implements OnInit {
     }
   }
 
-  // Media Handlers
   async onCoverUpload(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
@@ -182,7 +176,6 @@ export class EditListing implements OnInit {
     const files = (event.target as HTMLInputElement).files;
     if (!files || files.length === 0) return;
     this.isUploadingGallery.set(true);
-    // Upload sequentially to avoid overwhelming the server, or in parallel
     for (let i = 0; i < files.length; i++) {
       await this.uploadMedia(files[i], 'GALLERY');
     }
@@ -195,11 +188,16 @@ export class EditListing implements OnInit {
     formData.append('role', role);
 
     try {
-      const res = await firstValueFrom(this.#http.post<IMedia>(`${environment.apiUrl}/listings/${this.listingId()}/media`, formData));
+      const res = await firstValueFrom(
+        this.#http.post<IMedia>(
+          `${environment.apiUrl}/listings/${this.listingId()}/media`,
+          formData,
+        ),
+      );
       if (role === 'COVER') {
         this.coverMedia.set(res);
       } else {
-        this.galleryMedia.update(g => [...g, res]);
+        this.galleryMedia.update((g) => [...g, res]);
       }
     } catch (err) {
       this.#toast.error('Error', 'Could not upload image.');
@@ -208,13 +206,13 @@ export class EditListing implements OnInit {
 
   async deleteMedia(mediaId: string, role: 'COVER' | 'GALLERY') {
     if (!confirm('Are you sure you want to delete this image?')) return;
-    
+
     try {
       await firstValueFrom(this.#http.delete(`${environment.apiUrl}/media/${mediaId}`));
       if (role === 'COVER') {
         this.coverMedia.set(null);
       } else {
-        this.galleryMedia.update(g => g.filter(m => m.id !== mediaId));
+        this.galleryMedia.update((g) => g.filter((m) => m.id !== mediaId));
       }
       this.#toast.success('Done', 'Image deleted.');
     } catch (err) {

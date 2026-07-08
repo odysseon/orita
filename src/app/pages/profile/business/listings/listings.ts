@@ -19,6 +19,7 @@ import { environment } from '../../../../../environments/environment';
 
 import { AppFormField } from '../../../../shared/form-field/form-field';
 import { Drawer } from '../../../../shared/drawer/drawer';
+import { CompletionNudge } from '../../../../shared/completion-nudge/completion-nudge';
 
 @Component({
   selector: 'app-listings',
@@ -34,6 +35,7 @@ import { Drawer } from '../../../../shared/drawer/drawer';
     LucideEyeOff,
     LucideLoaderCircle,
     LucidePencil,
+    CompletionNudge,
   ],
   templateUrl: './listings.html',
   styleUrl: './listings.css',
@@ -63,9 +65,7 @@ export class Listings {
 
   readonly model = signal<ICreateListing>({
     title: '',
-    description: '',
     categoryId: '',
-    price: { isNegotiable: false, minPrice: null, maxPrice: null, currencyCode: 'NGN' },
   });
 
   readonly createForm = form(this.model, (f) => {
@@ -78,7 +78,7 @@ export class Listings {
   readonly isFormInvalid = computed(() => this.createForm().invalid());
 
   openForm(): void {
-    this.model.set({ title: '', description: '', categoryId: '', price: { isNegotiable: false, minPrice: null, maxPrice: null, currencyCode: 'NGN' } });
+    this.model.set({ title: '', categoryId: '' });
     this.showForm.set(true);
   }
 
@@ -94,6 +94,14 @@ export class Listings {
     return max ? `${currency} ${min} – ${max}` : `${currency} ${min}`;
   }
 
+  isListingIncomplete(listing: IListing): boolean {
+    return !listing.description || !listing.minPrice;
+  }
+
+  navigateToEdit(listingId: string): void {
+    this.#router.navigate(['/profile/business/listings', listingId, 'edit']);
+  }
+
   async createListing(event: Event): Promise<void> {
     event.preventDefault();
     if (this.createForm().invalid()) return;
@@ -103,17 +111,6 @@ export class Listings {
       const payload: Record<string, unknown> = {
         title: m.title,
         categoryId: m.categoryId,
-        ...(m.description ? { description: m.description } : {}),
-        ...(m.price?.minPrice || m.price?.maxPrice
-          ? {
-              price: {
-                ...(m.price.minPrice ? { minPrice: m.price.minPrice } : {}),
-                ...(m.price.maxPrice ? { maxPrice: m.price.maxPrice } : {}),
-                currencyCode: 'NGN',
-                isNegotiable: m.price.isNegotiable,
-              },
-            }
-          : {}),
       };
       const createdListing = await firstValueFrom(
         this.#http.post<IListing>(`${environment.apiUrl}/businesses/${this.businessId()}/listings`, payload),
@@ -121,7 +118,8 @@ export class Listings {
       this.#toast.success('Done', 'Listing created.');
       this.closeForm();
       this.listings.reload();
-      this.#router.navigate(['/profile/business/listings', createdListing.id, 'edit']);
+      // Remove automatic navigation to let user see success state quickly
+      // this.#router.navigate(['/profile/business/listings', createdListing.id, 'edit']);
     } catch (err) {
       const message =
         err instanceof HttpErrorResponse
