@@ -4,6 +4,7 @@ import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { LucideSearch, LucideX, LucideClock, LucideSlidersHorizontal, LucideMapPin, LucideNavigation } from '@lucide/angular';
 import { SearchService } from '../../core/services/search.service';
+import { ExplorationService } from '../../core/services/exploration.service';
 import { CategoryService } from '../../core/services/category.service';
 import { GeocodingService, GeocodeResult } from '../../core/services/geocoding.service';
 import { SearchFilters } from '../../core/models/search.model';
@@ -29,6 +30,7 @@ import { SeoComponent } from '../../shared/seo/seo.component';
 })
 export class Search {
   #searchService = inject(SearchService);
+  #exploration = inject(ExplorationService);
   #categoryService = inject(CategoryService);
   #geocodingService = inject(GeocodingService);
   #route = inject(ActivatedRoute);
@@ -46,8 +48,14 @@ export class Search {
 
   readonly searchQuery = computed(() => this.queryParamMap()?.get('q') || '');
   readonly appliedLocationName = computed(() => this.queryParamMap()?.get('locationName') || '');
-  readonly appliedLat = computed(() => Number(this.queryParamMap()?.get('lat')) || undefined);
-  readonly appliedLng = computed(() => Number(this.queryParamMap()?.get('lng')) || undefined);
+  readonly appliedLat = computed(() => {
+    const queryLat = Number(this.queryParamMap()?.get('lat'));
+    return !isNaN(queryLat) && queryLat !== 0 ? queryLat : this.#exploration.activeLocation()?.lat;
+  });
+  readonly appliedLng = computed(() => {
+    const queryLng = Number(this.queryParamMap()?.get('lng'));
+    return !isNaN(queryLng) && queryLng !== 0 ? queryLng : this.#exploration.activeLocation()?.lng;
+  });
   readonly appliedRadius = computed(() => Number(this.queryParamMap()?.get('radius')) || 10);
   readonly appliedCategoryId = computed(() => this.queryParamMap()?.get('categoryId') || undefined);
   readonly appliedSort = computed(() => this.queryParamMap()?.get('sort') || 'relevance');

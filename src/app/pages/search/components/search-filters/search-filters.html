@@ -5,37 +5,11 @@
     <div class="filter-section">
       <label>Location</label>
       
-      <button class="current-location-btn" (click)="useCurrentLocation()" [disabled]="isGeocoding()">
-        <svg icon lucideNavigation aria-hidden="true"></svg>
-        {{ isGeocoding() ? 'Locating...' : 'Use Current Location' }}
-      </button>
-
-      <div class="location-input-wrapper">
-        <svg icon lucideMapPin aria-hidden="true" class="icon-input"></svg>
-        <input 
-          id="locationName"
-          type="text" 
-          formControlName="locationName"
-          placeholder="e.g. Ikeja, Lagos"
-          class="form-input"
-        />
-      </div>
-
-      @if (recentLocations().length > 0 && !filtersForm.value.locationName) {
-        <div class="recent-locations">
-          <h4>Recent Locations</h4>
-          <ul class="recent-list mini">
-            @for (loc of recentLocations(); track loc.displayName) {
-              <li>
-                <button (click)="applyRecentLocation(loc)">
-                  <svg icon lucideClock aria-hidden="true"></svg>
-                  {{ loc.displayName }}
-                </button>
-              </li>
-            }
-          </ul>
-        </div>
-      }
+      <app-location-picker
+        [currentAddress]="filtersForm.value.locationName || undefined"
+        triggerLabel="Anywhere"
+        (confirmed)="onLocationPicked($event)"
+      />
     </div>
 
     <!-- Radius Section -->
@@ -132,8 +106,8 @@
   <!-- Drawer Footer Actions -->
   <div class="drawer-footer">
     <button class="btn btn-outline" (click)="clearFilters()">Clear</button>
-    <button class="btn btn-primary" (click)="onApply()" [disabled]="isGeocoding()">
-      {{ isGeocoding() ? 'Applying...' : 'Apply Filters' }}
+    <button class="btn btn-primary" (click)="onApply()">
+      Apply Filters
     </button>
   </div>
 </ui-drawer>
