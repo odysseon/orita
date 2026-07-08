@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   LucideMapPin,
@@ -11,6 +11,7 @@ import { AppGrid } from '../../shared/grid/grid';
 import { FeedService, FeedItemView } from '../../core/services/feed.service';
 import { ToastService } from '../../core/services/toast';
 import { SeoComponent } from '../../shared/seo/seo.component';
+import { ExplorationService } from '../../core/services/exploration.service';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ import { SeoComponent } from '../../shared/seo/seo.component';
 export class Home {
   #feedService = inject(FeedService);
   #toast = inject(ToastService);
+  #exploration = inject(ExplorationService);
 
   readonly feedItems = signal<FeedItemView[]>([]);
   readonly isLoading = signal(true);
@@ -60,6 +62,14 @@ export class Home {
 
   constructor() {
     this.loadInitialFeed();
+    
+    // Auto-reload when location changes
+    effect(() => {
+      this.#exploration.activeLocation(); // subscribe to changes
+      // In a real app we'd debounce this or handle it more cleanly,
+      // but this is enough to re-fetch when location is updated from the header.
+      setTimeout(() => this.loadInitialFeed(), 0);
+    });
   }
 
   readonly seoConfig = {
@@ -69,7 +79,8 @@ export class Home {
 
   loadInitialFeed() {
     this.isLoading.set(true);
-    this.#feedService.getFeed({ limit: 15 }).subscribe({
+    const loc = this.#exploration.activeLocation();
+    this.#feedService.getFeed({ limit: 15, lat: loc?.lat, lng: loc?.lng }).subscribe({
       next: (items) => {
         this.feedItems.set(items);
         this.hasMore.set(items.length === 15);
@@ -89,11 +100,14 @@ export class Home {
     const lastItem = currentItems[currentItems.length - 1];
     if (!lastItem) return;
 
+    const loc = this.#exploration.activeLocation();
     this.isLoadingMore.set(true);
     this.#feedService.getFeed({ 
       limit: 15, 
       cursorScore: lastItem.score, 
-      cursorId: lastItem.id 
+      cursorId: lastItem.id,
+      lat: loc?.lat,
+      lng: loc?.lng
     }).subscribe({
       next: (newItems) => {
         this.feedItems.update(items => [...items, ...newItems]);
