@@ -56,7 +56,7 @@ export interface FeedItemView {
 export class FeedService {
   #http = inject(HttpClient);
 
-  getFeed(params: { limit?: number; cursorScore?: number; cursorId?: string }): Observable<FeedItemView[]> {
+  getFeed(params: { limit?: number; cursorScore?: number; cursorId?: string; lat?: number; lng?: number }): Observable<FeedItemView[]> {
     let httpParams = new HttpParams();
     if (params.limit) {
       httpParams = httpParams.set('limit', params.limit);
@@ -64,6 +64,10 @@ export class FeedService {
     if (params.cursorScore !== undefined && params.cursorId) {
       httpParams = httpParams.set('cursorScore', params.cursorScore);
       httpParams = httpParams.set('cursorId', params.cursorId);
+    }
+    if (params.lat !== undefined && params.lng !== undefined) {
+      httpParams = httpParams.set('lat', params.lat);
+      httpParams = httpParams.set('lng', params.lng);
     }
 
     return this.#http.get<FeedItemView[]>(`${environment.apiUrl}/feed`, { params: httpParams });
