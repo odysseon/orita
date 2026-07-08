@@ -3,12 +3,8 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Drawer } from '../../../../shared/drawer/drawer';
 import { AppFormField } from '../../../../shared/form-field/form-field';
 import { CategoryService } from '../../../../core/services/category.service';
-import { GeocodingService, GeocodeResult } from '../../../../core/services/geocoding.service';
-import {
-  LucideMapPin,
-  LucideNavigation,
-  LucideClock
-} from '@lucide/angular';
+import { LocationPicker } from '../../../../shared/location-picker/location-picker';
+import { LocationSuggestion } from '../../../../core/services/location.service';
 
 export interface SearchFilterState {
   locationName: string | null;
@@ -28,9 +24,7 @@ export interface SearchFilterState {
     Drawer,
     ReactiveFormsModule,
     AppFormField,
-    LucideMapPin,
-    LucideNavigation,
-    LucideClock
+    LocationPicker
   ],
   templateUrl: './search-filters.html',
   styleUrl: './search-filters.css',
@@ -57,11 +51,10 @@ export class SearchFiltersComponent {
   readonly applyFilters = output<SearchFilterState>();
 
   #categoryService = inject(CategoryService);
-  #geocodingService = inject(GeocodingService);
   #fb = inject(FormBuilder);
 
-  readonly isGeocoding = signal(false);
-  readonly recentLocations = signal<GeocodeResult[]>(this.loadLocalStorage('orita_recent_locations'));
+  readonly currentLat = signal<number | null>(null);
+  readonly currentLng = signal<number | null>(null);
 
   readonly filtersForm = this.#fb.nonNullable.group({
     locationName: [''],
@@ -104,63 +97,23 @@ export class SearchFiltersComponent {
           minPrice: current.minPrice || null,
           maxPrice: current.maxPrice || null
         }, { emitEvent: false });
+
+        this.currentLat.set(current.lat || null);
+        this.currentLng.set(current.lng || null);
       }
     });
   }
 
-  useCurrentLocation() {
-    if (!navigator.geolocation) return;
-    
-    this.isGeocoding.set(true);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const lat = pos.coords.latitude;
-        const lng = pos.coords.longitude;
-        this.#geocodingService.reverseGeocode(lat, lng).subscribe({
-          next: (res) => {
-            if (res) {
-              this.applyLocationResult(res);
-            }
-            this.isGeocoding.set(false);
-          },
-          error: () => {
-            this.isGeocoding.set(false);
-            this.applyLocationResult({ displayName: 'Current Location', lat, lng });
-          }
-        });
-      },
-      () => {
-        this.isGeocoding.set(false);
-      }
-    );
-  }
-
-  applyRecentLocation(loc: GeocodeResult) {
-    this.filtersForm.patchValue({ locationName: loc.displayName });
-    this.applyLocationResult(loc);
+  onLocationPicked(loc: LocationSuggestion) {
+    this.filtersForm.patchValue({
+      locationName: loc.displayName || loc.address
+    });
+    this.currentLat.set(loc.lat);
+    this.currentLng.set(loc.lng);
   }
 
   onApply() {
-    const locName = (this.filtersForm.value.locationName || '').trim();
-    if (locName && locName !== this.currentFilters().locationName) {
-      this.isGeocoding.set(true);
-      this.#geocodingService.geocode(locName).subscribe({
-        next: (res) => {
-          this.isGeocoding.set(false);
-          if (res) {
-            this.applyLocationResult(res);
-          } else {
-            this.emitApply();
-          }
-        },
-        error: () => {
-          this.isGeocoding.set(false);
-          this.emitApply();
-        }
-      });
-    } else {
-      this.emitApply(this.currentFilters().lat, this.currentFilters().lng, locName || null);
-    }
+    this.emitApply();
   }
 
   clearFilters() {
@@ -178,12 +131,7 @@ export class SearchFiltersComponent {
     this.isOpenChange.emit(false);
   }
 
-  private applyLocationResult(res: GeocodeResult) {
-    this.saveToLocalList('orita_recent_locations', res, this.recentLocations, (a, b) => a.displayName === b.displayName);
-    this.emitApply(res.lat, res.lng, res.displayName);
-  }
-
-  private emitApply(lat?: number | null, lng?: number | null, locationName?: string | null) {
+  private emitApply() {
     const filtersArray: string[] = [];
     const currentFilters = this.filtersForm.value.filters || {};
     for (const key of Object.keys(currentFilters)) {
@@ -193,11 +141,12 @@ export class SearchFiltersComponent {
     }
 
     const val = this.filtersForm.value;
+    const locationName = (val.locationName || '').trim();
 
     this.applyFilters.emit({
       locationName: locationName || null,
-      lat: lat || null,
-      lng: lng || null,
+      lat: this.currentLat(),
+      lng: this.currentLng(),
       radius: val.radius !== 10 ? val.radius! : null,
       categoryId: val.categoryId || null,
       sort: val.sort !== 'relevance' ? val.sort! : null,
@@ -206,24 +155,5 @@ export class SearchFiltersComponent {
       filters: filtersArray.length ? filtersArray : null
     });
     this.isOpenChange.emit(false);
-  }
-
-  private loadLocalStorage(key: string): any[] {
-    try {
-      const stored = localStorage.getItem(key);
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  }
-
-  private saveToLocalList(key: string, item: any, signalRef: any, comparator: (a: any, b: any) => boolean = (a, b) => a === b) {
-    try {
-      const current = this.loadLocalStorage(key);
-      const filtered = current.filter(existing => !comparator(existing, item));
-      const updated = [item, ...filtered].slice(0, 5);
-      localStorage.setItem(key, JSON.stringify(updated));
-      signalRef.set(updated);
-    } catch {}
   }
 }
