@@ -7,6 +7,7 @@ import { CookieService } from '../services/cookie';
 import { ILogin, ILoginResponse } from '../../pages/auth/login/login.interface';
 import { IRegister } from '../../pages/auth/register/register.interface';
 import { environment } from '../../../environments/environment';
+import { ExplorationService } from './exploration.service';
 
 const TOKEN_KEY = 'auth_token';
 
@@ -16,6 +17,7 @@ export class AuthService {
   #router = inject(Router);
   #toast = inject(ToastService);
   #cookie = inject(CookieService);
+  #exploration = inject(ExplorationService);
 
   readonly token = signal<string | undefined>(this.#cookie.get(TOKEN_KEY));
 
@@ -27,6 +29,9 @@ export class AuthService {
       );
       this.#setToken(res.token, remember ? new Date(res.expiresAt) : undefined);
       this.#toast.success('Logged in', 'Welcome back!');
+      if (returnUrl === '/home' && !this.#exploration.hasLocation()) {
+        returnUrl = '/location';
+      }
       await this.#router.navigateByUrl(returnUrl);
       return true;
     } catch (err) {
@@ -48,6 +53,9 @@ export class AuthService {
       // since Google sessions are typically persistent.
       this.#setToken(res.token, new Date(res.expiresAt));
       this.#toast.success('Logged in', 'Welcome to Orita!');
+      if (returnUrl === '/home' && !this.#exploration.hasLocation()) {
+        returnUrl = '/location';
+      }
       await this.#router.navigateByUrl(returnUrl);
       return true;
     } catch (err) {
@@ -68,7 +76,7 @@ export class AuthService {
         email: credentials.email,
         password: credentials.password,
         remember: false,
-      });
+      }, '/location');
       if (loginSuccess) {
         this.#toast.success('Account created', 'Welcome to Orita!');
       }
