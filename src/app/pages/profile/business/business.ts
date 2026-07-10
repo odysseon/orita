@@ -71,10 +71,23 @@ export class Business implements OnInit {
   readonly activeTab = signal<'overview' | 'hours' | 'listings' | 'tours'>('overview');
   readonly isCreateBusinessOpen = signal(false);
   readonly showFirstListingCta = signal(false);
-  readonly hasBusiness = computed(() => !!this.business.value());
+  readonly hasBusiness = computed(() => {
+    if (this.business.error()) return false;
+    try {
+      return !!this.business.value();
+    } catch {
+      return false;
+    }
+  });
   
   readonly businessSummary = computed<IBusinessSummary | null>(() => {
-    const biz = this.business.value();
+    if (this.business.error()) return null;
+    let biz: IBusinessProfile | undefined;
+    try {
+      biz = this.business.value();
+    } catch {
+      return null;
+    }
     if (!biz) return null;
     return {
       id: biz.id,
@@ -92,10 +105,23 @@ export class Business implements OnInit {
 
   @ViewChild(Listings) listingsCmp!: Listings;
 
-  readonly isPublic = computed(() => this.business.value()?.isPublic ?? false);
+  readonly isPublic = computed(() => {
+    if (this.business.error()) return false;
+    try {
+      return this.business.value()?.isPublic ?? false;
+    } catch {
+      return false;
+    }
+  });
 
   readonly verificationBadge = computed(() => {
-    const status = this.business.value()?.verificationStatus;
+    if (this.business.error()) return { label: 'Unverified', cls: 'badge--unverified' };
+    let status;
+    try {
+      status = this.business.value()?.verificationStatus;
+    } catch {
+      return { label: 'Unverified', cls: 'badge--unverified' };
+    }
     if (status === 'VERIFIED') return { label: 'Verified', cls: 'badge--verified' };
     if (status === 'PENDING') return { label: 'Verification pending', cls: 'badge--pending' };
     if (status === 'REJECTED') return { label: 'Verification rejected', cls: 'badge--rejected' };
@@ -103,7 +129,13 @@ export class Business implements OnInit {
   });
 
   readonly isProfileIncomplete = computed(() => {
-    const biz = this.business.value();
+    if (this.business.error()) return false;
+    let biz;
+    try {
+      biz = this.business.value();
+    } catch {
+      return false;
+    }
     if (!biz) return false;
     // Basic checks: description, logo, cover
     return !biz.description || !biz.avatarUrl || !biz.coverUrl;
