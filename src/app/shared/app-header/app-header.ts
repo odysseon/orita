@@ -30,10 +30,10 @@ export class AppHeader {
   #exploration = inject(ExplorationService);
 
   readonly activeLocation = this.#exploration.activeLocation;
-  readonly showLocationDrawer = signal(false);
+  readonly isLocationPickerOpen = this.#exploration.isLocationPickerOpen;
 
   toggleDrawer() {
-    this.showLocationDrawer.update(v => !v);
+    this.isLocationPickerOpen.update(v => !v);
   }
 
   selectLocation(result: Location) {
@@ -48,6 +48,6 @@ export class AppHeader {
     };
     
     this.#exploration.setLocation(context);
-    this.showLocationDrawer.set(false);
+    this.isLocationPickerOpen.set(false);
   }
 }

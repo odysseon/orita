@@ -18,8 +18,8 @@
 </header>
 
 <ui-drawer
-  [open]="showLocationDrawer()"
-  (openChange)="showLocationDrawer.set($event)"
+  [open]="isLocationPickerOpen()"
+  (openChange)="isLocationPickerOpen.set($event)"
   position="center"
   size="400px"
   title="Change Location"
