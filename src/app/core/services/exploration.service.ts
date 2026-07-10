@@ -1,7 +1,10 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, catchError, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { ExplorationStorage, ActiveLocation } from './exploration-storage';
 import { LocationService } from './location.service';
+import { CookieService } from './cookie';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +12,65 @@ import { LocationService } from './location.service';
 export class ExplorationService {
   #storage = inject(ExplorationStorage);
   #locationService = inject(LocationService);
+  #http = inject(HttpClient);
+  #cookie = inject(CookieService);
 
   readonly activeLocation = signal<ActiveLocation | null>(this.#storage.get());
   readonly hasLocation = computed(() => !!this.activeLocation());
 
+  constructor() {
+    this.hydrateFromBackendIfNeeded();
+  }
+
+  private get isAuthenticated(): boolean {
+    return !!this.#cookie.get('auth_token');
+  }
+
+  private async hydrateFromBackendIfNeeded() {
+    if (this.isAuthenticated && !this.activeLocation()) {
+      try {
+        const profile = await firstValueFrom(
+          this.#http.get<any>(`${environment.apiUrl}/users/me`)
+        );
+        if (profile?.activeExplorationLat && profile?.activeExplorationLng) {
+          const context: ActiveLocation = {
+            id: 'backend_sync',
+            name: profile.activeExplorationName || 'Saved Location',
+            city: null,
+            state: null,
+            country: null,
+            lat: profile.activeExplorationLat,
+            lng: profile.activeExplorationLng,
+          };
+          this.#storage.set(context);
+          this.activeLocation.set(context);
+        }
+      } catch (err) {
+        // Ignored
+      }
+    }
+  }
+
+  private async syncToBackend(context: ActiveLocation) {
+    if (this.isAuthenticated) {
+      try {
+        await firstValueFrom(
+          this.#http.patch(`${environment.apiUrl}/users/me/exploration-context`, {
+            latitude: context.lat,
+            longitude: context.lng,
+            name: context.name,
+          }).pipe(catchError(() => of(null)))
+        );
+      } catch (err) {
+        // Ignored
+      }
+    }
+  }
+
   setLocation(context: ActiveLocation): void {
     this.#storage.set(context);
     this.activeLocation.set(context);
+    this.syncToBackend(context);
   }
 
   clearLocation(): void {

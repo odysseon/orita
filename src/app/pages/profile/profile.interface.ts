@@ -17,4 +17,7 @@ export interface IProfile {
   accountId: string;
   email: string;
   hasPassword?: boolean;
+  activeExplorationLat?: number | null;
+  activeExplorationLng?: number | null;
+  activeExplorationName?: string | null;
 }
