@@ -2,12 +2,12 @@
   <nav class="saved-tabs" aria-label="Saved items">
     <button
       class="saved-tab"
-      [class.saved-tab--active]="activeTab() === 'businesses'"
-      (click)="setTab('businesses')"
+      [class.saved-tab--active]="activeTab() === 'following'"
+      (click)="setTab('following')"
     >
       <svg lucideStore aria-hidden="true"></svg>
-      Businesses @if (savedBusinesses.hasValue()) {
-      <span class="saved-tab__count">{{ savedBusinesses.value()!.total }}</span>
+      Following @if (followedBusinesses.hasValue()) {
+      <span class="saved-tab__count">{{ followedBusinesses.value()!.total }}</span>
       }
     </button>
     <button
@@ -22,38 +22,44 @@
     </button>
   </nav>
 
-  <!-- Businesses -->
-  @if (activeTab() === 'businesses') { @if (savedBusinesses.isLoading()) {
+  <!-- Following -->
+  @if (activeTab() === 'following') { @if (followedBusinesses.isLoading()) {
   <div class="saved-list">
     @for (i of [1,2,3]; track i) {
     <div class="skeleton saved-item-skeleton"></div>
     }
   </div>
-  } @if (savedBusinesses.hasValue() && savedBusinesses.value()!.items.length === 0) {
+  } @if (followedBusinesses.hasValue() && followedBusinesses.value()!.items.length === 0) {
   <div class="saved-empty">
     <svg lucideBookmark aria-hidden="true"></svg>
     <p>No saved businesses yet.</p>
   </div>
-  } @if (savedBusinesses.hasValue() && savedBusinesses.value()!.items.length > 0) {
+  } @if (followedBusinesses.hasValue() && followedBusinesses.value()!.items.length > 0) {
   <div class="saved-list">
-    @for (saved of savedBusinesses.value()!.items; track saved.id) {
+    @for (saved of followedBusinesses.value()!.items; track saved.id) {
     <div class="saved-item">
-      <a class="saved-item__link" [routerLink]="['/b', saved.businessProfile.slug]">
-        <div class="saved-item__avatar">
-          <svg lucideStore aria-hidden="true"></svg>
+      <a class="saved-item__link" [routerLink]="['/b', saved.business.slug]">
+        <div class="saved-item__image">
+          @if (saved.business.media?.[0]?.url) {
+          <img [src]="saved.business.media![0].url" [alt]="saved.business.name" loading="lazy" />
+          } @else {
+          <div class="saved-item__placeholder">
+            <svg lucideStore aria-hidden="true"></svg>
+          </div>
+          }
         </div>
-        <div class="saved-item__text">
-          <span class="saved-item__title">{{ saved.businessProfile.name }}</span>
-          @if (saved.businessProfile.description) {
-          <span class="saved-item__subtitle">{{ saved.businessProfile.description }}</span>
+        <div class="saved-item__content">
+          <span class="saved-item__title">{{ saved.business.name }}</span>
+          @if (saved.business.description) {
+          <span class="saved-item__subtitle">{{ saved.business.description }}</span>
           }
         </div>
       </a>
       <button
-        class="saved-item__remove"
-        [disabled]="removingId() === saved.businessProfileId"
-        (click)="unsaveBusiness(saved.businessProfileId)"
         type="button"
+        class="btn-icon saved-item__action"
+        [disabled]="removingId() === saved.businessId"
+        (click)="unfollowBusiness(saved.businessId)"
         aria-label="Remove from saved"
       >
         <svg lucideX aria-hidden="true"></svg>

@@ -19,12 +19,14 @@ export interface ISavedListingItem {
   };
 }
 
-export interface ISavedBusinessItem {
+export interface IFollowedBusinessItem {
+  businessId: string;
   id: string;
   userId: string;
   businessProfileId: string;
   createdAt: string;
-  businessProfile: {
+  business: {
+    media?: { url: string; type: string }[];
     id: string;
     ownerId: string;
     name: string;

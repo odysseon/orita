@@ -27,9 +27,15 @@
   position: sticky;
   bottom: 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   gap: var(--size-8);
   padding: var(--space-sm);
   background: var(--surface-card);
   border-top: var(--size-1) solid var(--border-subtle);
+}
+
+.location-picker__actions-right {
+  display: flex;
+  gap: var(--size-8);
 }

@@ -5,7 +5,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs';
 import { LucideMapPin, LucideSearch, LucideLoaderCircle, LucideArrowRight } from '@lucide/angular';
 import { ExplorationService } from '../../core/services/exploration.service';
-import { GeocodingService, GeocodeResult } from '../../core/services/geocoding.service';
+import { LocationService, Location } from '../../core/services/location.service';
 import { ToastService } from '../../core/services/toast';
 import { ActiveLocation } from '../../core/services/exploration-storage';
 import { SeoComponent } from '../../shared/seo/seo.component';
@@ -25,7 +25,7 @@ import { SeoComponent } from '../../shared/seo/seo.component';
 })
 export class LocationSelection {
   #exploration = inject(ExplorationService);
-  #geocoding = inject(GeocodingService);
+  #locationService = inject(LocationService);
   #router = inject(Router);
   #toast = inject(ToastService);
 
@@ -41,7 +41,7 @@ export class LocationSelection {
       switchMap((query) => {
         if (!query.trim()) return [null];
         this.isSearching.set(true);
-        return this.#geocoding.geocode(query);
+        return this.#locationService.search(query);
       })
     )
   );
@@ -71,15 +71,15 @@ export class LocationSelection {
     }
   }
 
-  selectLocation(result: GeocodeResult) {
+  selectLocation(result: Location) {
     const context: ActiveLocation = {
-      id: `geo_${result.lat}_${result.lng}`,
-      name: result.name || result.displayName,
-      city: result.city || null,
-      state: result.state || null,
-      country: result.country || null,
-      lat: result.lat,
-      lng: result.lng,
+      id: `geo_${result.latitude}_${result.longitude}`,
+      name: result.name || result.formattedAddress || 'Unknown',
+      city: result.formattedAddress || null,
+      state: null,
+      country: null,
+      lat: result.latitude,
+      lng: result.longitude,
     };
     
     this.#exploration.setLocation(context);

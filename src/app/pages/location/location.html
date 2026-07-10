@@ -39,13 +39,15 @@
 
     @if (searchResults()) {
       <div class="search-results">
-        <button class="search-result-item" (click)="selectLocation(searchResults()!)">
-          <svg lucideMapPin class="result-icon"></svg>
-          <div class="result-text">
-            <span class="result-name">{{ searchResults()!.name }}</span>
-            <span class="result-display">{{ searchResults()!.displayName }}</span>
-          </div>
-        </button>
+                @for (result of searchResults()!; track result.id) {
+          <button class="search-result-item" (click)="selectLocation(result)">
+            <svg lucideMapPin class="result-icon"></svg>
+            <div class="result-text">
+              <span class="result-name">{{ result.name }}</span>
+              <span class="result-display">{{ result.formattedAddress }}</span>
+            </div>
+          </button>
+        }
       </div>
     } @else if (isSearching() && searchControl.value?.trim()) {
       <div class="search-loading">

@@ -42,7 +42,7 @@ export interface IBusinessDetail {
   tags?: ITag[];
   avatarUrl?: string;
   coverUrl?: string;
-  isSaved?: boolean;
+  isFollowed?: boolean;
 }
 
 export interface IListingSummary {
@@ -58,7 +58,7 @@ export interface IListingSummary {
   categoryId: string | null;
   isNegotiable: boolean;
   coverUrl?: string;
-  isSaved?: boolean;
+  isFollowed?: boolean;
 }
 
 export interface IPaginated<T> {

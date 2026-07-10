@@ -8,11 +8,11 @@ import {
   LucideBookmark,
   LucideX,
 } from '@lucide/angular';
-import { ISavedListingItem, ISavedBusinessItem, IPaginated } from './saved.interface';
+import { ISavedListingItem, IFollowedBusinessItem, IPaginated } from './saved.interface';
 import { environment } from '../../../../environments/environment';
 import { ToastService } from '../../../core/services/toast';
 
-type SavedTab = 'businesses' | 'listings';
+type SavedTab = 'following' | 'listings';
 
 @Component({
   selector: 'app-saved',
@@ -25,11 +25,11 @@ export class Saved {
   #http = inject(HttpClient);
   #toast = inject(ToastService);
 
-  readonly activeTab = signal<SavedTab>('businesses');
+  readonly activeTab = signal<SavedTab>('following');
   readonly removingId = signal<string | null>(null);
 
-  readonly savedBusinesses = httpResource<IPaginated<ISavedBusinessItem>>(
-    () => `${environment.apiUrl}/users/me/saved-businesses`,
+  readonly followedBusinesses = httpResource<IPaginated<IFollowedBusinessItem>>(
+    () => `${environment.apiUrl}/follows?type=business`,
   );
 
   readonly savedListings = httpResource<IPaginated<ISavedListingItem>>(
@@ -50,14 +50,14 @@ export class Saved {
     return max ? `${currency} ${min} – ${max}` : `${currency} ${min}`;
   }
 
-  async unsaveBusiness(businessProfileId: string): Promise<void> {
+  async unfollowBusiness(businessProfileId: string): Promise<void> {
     this.removingId.set(businessProfileId);
     try {
       await firstValueFrom(
-        this.#http.delete(`${environment.apiUrl}/business-profiles/${businessProfileId}/save`),
+        this.#http.delete(`${environment.apiUrl}/follows/business/${businessProfileId}`),
       );
       this.#toast.info('Removed from saved');
-      this.savedBusinesses.reload();
+      this.followedBusinesses.reload();
     } catch {
       this.#toast.error('Could not remove business');
     } finally {

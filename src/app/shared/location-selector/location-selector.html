@@ -29,12 +29,12 @@
 
   @if (searchResults()) {
     <div class="drawer-search-results">
-      @for (result of searchResults()!; track result.displayName) {
+      @for (result of searchResults()!; track result.name) {
         <button class="search-result-item" (click)="selectLocation(result)">
           <svg lucideMapPin class="result-icon"></svg>
           <div class="result-text">
-            <span class="result-name">{{ result.address }}</span>
-            <span class="result-display">{{ result.displayName }}</span>
+            <span class="result-name">{{ result.formattedAddress }}</span>
+            <span class="result-display">{{ result.name }}</span>
           </div>
         </button>
       }

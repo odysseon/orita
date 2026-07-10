@@ -4,7 +4,7 @@ import { Drawer } from '../../../../shared/drawer/drawer';
 import { AppFormField } from '../../../../shared/form-field/form-field';
 import { CategoryService } from '../../../../core/services/category.service';
 import { LocationPicker } from '../../../../shared/location-picker/location-picker';
-import { LocationSuggestion } from '../../../../core/services/location.service';
+import { Location } from '../../../../core/services/location.service';
 
 export interface SearchFilterState {
   locationName: string | null;
@@ -104,12 +104,12 @@ export class SearchFiltersComponent {
     });
   }
 
-  onLocationPicked(loc: LocationSuggestion) {
+  onLocationPicked(loc: Location) {
     this.filtersForm.patchValue({
-      locationName: loc.displayName || loc.address
+      locationName: loc.name || loc.formattedAddress
     });
-    this.currentLat.set(loc.lat);
-    this.currentLng.set(loc.lng);
+    this.currentLat.set(loc.latitude);
+    this.currentLng.set(loc.longitude);
   }
 
   onApply() {

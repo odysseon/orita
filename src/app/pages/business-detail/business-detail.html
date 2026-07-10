@@ -65,10 +65,12 @@
         
         <div style="display: flex; gap: var(--size-8); margin-top: var(--size-32);">
           <app-share-button [title]="biz.name" [text]="biz.description || ''" />
-          <app-save-button 
-            [itemId]="biz.id" 
-            itemType="BUSINESS" 
-            [saved]="biz.isSaved || false" />
+          <app-follow-button 
+            [targetId]="biz.id"
+            targetType="business"
+            [followed]="biz.isFollowed || false" (followedChange)="biz.isFollowed = $event"
+            variant="action"
+          />
         </div>
       </div>
     </div>

@@ -13,10 +13,11 @@ import { FeedItemView } from '../../core/services/feed.service';
 import { ToastService } from '../../core/services/toast';
 import { ShareButton } from '../share-button/share-button';
 import { SaveButton, SaveItemType } from '../save-button/save-button';
+import { FollowButton } from '../follow-button/follow-button';
 
 @Component({
   selector: 'app-feed-card',
-  imports: [RouterLink, LucideImage, ShareButton, SaveButton, LucideMessageCircle],
+  imports: [RouterLink, LucideImage, ShareButton, SaveButton, FollowButton, LucideMessageCircle],
   templateUrl: './feed-card.html',
   styleUrl: './feed-card.css',
 })
@@ -106,7 +107,7 @@ export class AppFeedCard implements AfterViewInit, OnDestroy {
     if (type === 'TOUR' || type === 'LISTING' || type === 'BUSINESS') {
       return type as SaveItemType;
     }
-    return 'BUSINESS'; // fallback
+    return 'LISTING'; // fallback
   }
 
   get saveItemId(): string {

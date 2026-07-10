@@ -9,7 +9,7 @@ export interface IBusinessSummary {
   longitude: number | null;
   categoryIds: string[];
   distanceKm?: number;
-  isSaved?: boolean;
+  isFollowed?: boolean;
 }
 
 export interface IListingSummary {
