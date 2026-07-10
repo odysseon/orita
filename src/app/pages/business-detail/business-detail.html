@@ -78,7 +78,15 @@
 
   <!-- Description -->
   @if (biz.description) {
-  <p class="biz-description">{{ biz.description }}</p>
+  <section class="biz-section">
+    <h2 class="biz-section__title">
+      <svg lucideInfo aria-hidden="true"></svg>
+      About
+    </h2>
+    <div class="panel">
+      <p class="biz-description" style="margin: 0;">{{ biz.description }}</p>
+    </div>
+  </section>
   }
 
   <!-- Contact actions -->
