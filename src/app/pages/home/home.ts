@@ -91,7 +91,7 @@ export class Home {
       error: (err) => {
         if (err instanceof HttpErrorResponse && err.status === 400) {
           this.#toast.info('Location Required', 'Please select a location to explore.');
-          this.#router.navigate(['/location']);
+          this.#exploration.isLocationPickerOpen.set(true);
         } else {
           this.#toast.error('Failed to load feed');
         }
@@ -124,7 +124,7 @@ export class Home {
       error: (err) => {
         if (err instanceof HttpErrorResponse && err.status === 400) {
           this.#toast.info('Location Required', 'Please select a location to explore.');
-          this.#router.navigate(['/location']);
+          this.#exploration.isLocationPickerOpen.set(true);
         } else {
           this.#toast.error('Failed to load more items');
         }

@@ -17,6 +17,7 @@ export class ExplorationService {
 
   readonly activeLocation = signal<ActiveLocation | null>(this.#storage.get());
   readonly hasLocation = computed(() => !!this.activeLocation());
+  readonly isLocationPickerOpen = signal<boolean>(false);
 
   constructor() {
     this.hydrateFromBackendIfNeeded();
