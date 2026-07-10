@@ -53,14 +53,14 @@ export class CreateBusiness implements OnInit {
   readonly model = signal<ICreateBusiness>({
     name: '',
     businessType: 'ONLINE',
-    categoryId: '',
+    primaryCategoryId: '',
   });
 
   readonly businessForm = form(this.model, (f) => {
     required(f.name, { message: 'Business name is required' });
     minLength(f.name, 2, { message: 'Name must be at least 2 characters' });
     maxLength(f.name, 100, { message: 'Name must be under 100 characters' });
-    required(f.categoryId, { message: 'Please select a category' });
+    required(f.primaryCategoryId, { message: 'Please select a category' });
   });
 
   readonly isFormInvalid = computed(() => this.businessForm().invalid());
@@ -69,6 +69,29 @@ export class CreateBusiness implements OnInit {
 
   ngOnInit() {
     this.categories.set(this.#categoryService.leafCategories());
+  }
+
+  readonly availableSecondaryCategories = computed(() => {
+    const primaryId = this.model().primaryCategoryId;
+    return this.categories().filter((c) => c.id !== primaryId);
+  });
+
+  toggleSecondaryCategory(categoryId: string): void {
+    this.model.update((m) => {
+      const current = m.secondaryCategoryIds ?? [];
+      if (current.includes(categoryId)) {
+        return { ...m, secondaryCategoryIds: current.filter((id) => id !== categoryId) };
+      } else if (current.length < 5) {
+        return { ...m, secondaryCategoryIds: [...current, categoryId] };
+      } else {
+        this.#toast.error('Limit Reached', 'You can only select up to 5 secondary categories.');
+        return m;
+      }
+    });
+  }
+
+  isSecondaryCategorySelected(categoryId: string): boolean {
+    return (this.model().secondaryCategoryIds ?? []).includes(categoryId);
   }
 
   readonly typeOptions: BusinessTypeOption[] = [
@@ -109,7 +132,8 @@ export class CreateBusiness implements OnInit {
       const payload = {
         name: this.model().name,
         businessType: this.model().businessType,
-        categoryIds: [this.model().categoryId],
+        primaryCategoryId: this.model().primaryCategoryId,
+        secondaryCategoryIds: this.model().secondaryCategoryIds ?? [],
         ...(loc ? { 
           location: loc.name,
           latitude: loc.lat,
