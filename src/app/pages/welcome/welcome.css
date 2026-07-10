@@ -90,6 +90,7 @@
   background-color: var(--clr-bg-hover);
   border-color: var(--clr-border-strong);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .welcome-btn-icon {

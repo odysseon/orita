@@ -4,7 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs';
 import { LucideMapPin, LucideSearch, LucideLoaderCircle } from '@lucide/angular';
 import { LocationService, Location } from '../../core/services/location.service';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, tap } from 'rxjs';
 
 @Component({
   selector: 'app-location-selector',
@@ -30,7 +30,9 @@ export class LocationSelector {
       switchMap((query) => {
         if (!query.trim()) return [null];
         this.isSearching.set(true);
-        return this.#locationService.search(query);
+        return this.#locationService.search(query).pipe(
+          tap(() => this.isSearching.set(false))
+        );
       })
     )
   );
