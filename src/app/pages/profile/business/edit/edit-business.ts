@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, effect } from '@angular/core';
+import { Component, computed, inject, signal, effect, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { httpResource } from '@angular/common/http';
@@ -16,6 +16,10 @@ import { IBusinessProfile, BusinessType } from '../business.interface';
 import { environment } from '../../../../../environments/environment';
 import { AppFormField } from '../../../../shared/form-field/form-field';
 import { MediaSelector } from '../../../../shared/media-selector/media-selector';
+import { CategoryService } from '../../../../core/services/category.service';
+import { ICategory } from '../../../home/home.interface';
+import { LocationPicker } from '../../../../shared/location-picker/location-picker';
+import { Location } from '../../../../core/services/location.service';
 
 interface BusinessTypeOption {
   value: BusinessType;
@@ -33,16 +37,20 @@ export interface IEditBusinessForm {
   whatsapp: string;
   email: string;
   location: string;
+  latitude: number | null;
+  longitude: number | null;
   isPublic: boolean;
+  primaryCategoryId: string;
+  secondaryCategoryIds: string[];
 }
 
 @Component({
   selector: 'app-edit-business',
-  imports: [FormField, LucideLoaderCircle, AppFormField, MediaSelector],
+  imports: [FormField, LucideLoaderCircle, AppFormField, MediaSelector, LocationPicker],
   templateUrl: './edit-business.html',
   styleUrl: './edit-business.css',
 })
-export class EditBusiness {
+export class EditBusiness implements OnInit {
   #http = inject(HttpClient);
   #router = inject(Router);
   #toast = inject(ToastService);
@@ -55,6 +63,45 @@ export class EditBusiness {
   readonly avatarFile = signal<File | null>(null);
   readonly coverFile = signal<File | null>(null);
 
+  #categoryService = inject(CategoryService);
+  readonly categories = signal<ICategory[]>([]);
+
+  ngOnInit() {
+    this.categories.set(this.#categoryService.leafCategories());
+  }
+
+  readonly availableSecondaryCategories = computed(() => {
+    const primaryId = this.model().primaryCategoryId;
+    return this.categories().filter((c) => c.id !== primaryId);
+  });
+
+  toggleSecondaryCategory(categoryId: string): void {
+    this.model.update((m) => {
+      const current = m.secondaryCategoryIds ?? [];
+      if (current.includes(categoryId)) {
+        return { ...m, secondaryCategoryIds: current.filter((id) => id !== categoryId) };
+      } else if (current.length < 5) {
+        return { ...m, secondaryCategoryIds: [...current, categoryId] };
+      } else {
+        this.#toast.error('Limit Reached', 'You can only select up to 5 secondary categories.');
+        return m;
+      }
+    });
+  }
+
+  isSecondaryCategorySelected(categoryId: string): boolean {
+    return (this.model().secondaryCategoryIds ?? []).includes(categoryId);
+  }
+
+  onLocationPicked(loc: Location) {
+    this.model.update((m) => ({
+      ...m,
+      location: loc.name || loc.formattedAddress || '',
+      latitude: loc.latitude,
+      longitude: loc.longitude,
+    }));
+  }
+
   readonly model = signal<IEditBusinessForm>({
     name: '',
     businessType: 'ONLINE',
@@ -64,7 +111,11 @@ export class EditBusiness {
     whatsapp: '',
     email: '',
     location: '',
+    latitude: null,
+    longitude: null,
     isPublic: false,
+    primaryCategoryId: '',
+    secondaryCategoryIds: [],
   });
 
   readonly businessForm = form(this.model, (f) => {
@@ -115,7 +166,11 @@ export class EditBusiness {
           whatsapp: biz.whatsapp ?? '',
           email: biz.email ?? '',
           location: biz.location ?? '',
+          latitude: biz.latitude ?? null,
+          longitude: biz.longitude ?? null,
           isPublic: biz.isPublic,
+          primaryCategoryId: biz.primaryCategoryId ?? '',
+          secondaryCategoryIds: biz.secondaryCategoryIds ?? [],
         });
       }
     });
@@ -158,7 +213,20 @@ export class EditBusiness {
       formData.append('whatsapp', this.model().whatsapp || '');
       formData.append('email', this.model().email || '');
       formData.append('location', this.model().location || '');
+      if (this.model().latitude !== null) {
+        formData.append('latitude', String(this.model().latitude));
+      }
+      if (this.model().longitude !== null) {
+        formData.append('longitude', String(this.model().longitude));
+      }
       formData.append('isPublic', String(this.model().isPublic));
+      
+      if (this.model().primaryCategoryId) {
+        formData.append('primaryCategoryId', this.model().primaryCategoryId);
+      }
+      this.model().secondaryCategoryIds.forEach(id => {
+        formData.append('secondaryCategoryIds[]', id);
+      });
 
       const avatar = this.avatarFile();
       if (avatar) {

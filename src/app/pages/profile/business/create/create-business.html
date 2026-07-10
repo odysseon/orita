@@ -51,16 +51,16 @@
       <!-- Category -->
       <app-form-field
         label="Category"
-        fieldId="categoryId"
-        [touched]="businessForm.categoryId().touched()"
-        [invalid]="businessForm.categoryId().invalid()"
-        [errorMessage]="businessForm.categoryId().errors()[0]?.message"
+        fieldId="primaryCategoryId"
+        [touched]="businessForm.primaryCategoryId().touched()"
+        [invalid]="businessForm.primaryCategoryId().invalid()"
+        [errorMessage]="businessForm.primaryCategoryId().errors()[0]?.message"
       >
         <select
-          id="categoryId"
+          id="primaryCategoryId"
           class="field__input field__select"
-          [formField]="businessForm.categoryId"
-          [class.field__input--error]="businessForm.categoryId().touched() && businessForm.categoryId().invalid()"
+          [formField]="businessForm.primaryCategoryId"
+          [class.field__input--error]="businessForm.primaryCategoryId().touched() && businessForm.primaryCategoryId().invalid()"
         >
           <option value="" disabled selected>Select a category</option>
           @for (category of categories(); track category.id) {
@@ -68,6 +68,27 @@
           }
         </select>
       </app-form-field>
+
+      <!-- Secondary Categories -->
+      @if (model().primaryCategoryId) {
+        <app-form-field
+          label="Secondary Categories (Up to 5)"
+          fieldId="secondaryCategoryIds"
+        >
+          <div class="secondary-categories-grid">
+            @for (category of availableSecondaryCategories(); track category.id) {
+              <button
+                type="button"
+                class="category-chip"
+                [class.category-chip--selected]="isSecondaryCategorySelected(category.id)"
+                (click)="toggleSecondaryCategory(category.id)"
+              >
+                {{ category.name }}
+              </button>
+            }
+          </div>
+        </app-form-field>
+      }
 
       <div class="create-biz-location">
         <span class="create-biz-location__label">Will be created in</span>
