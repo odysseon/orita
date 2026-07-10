@@ -17,7 +17,7 @@
 
   <div class="location-picker__footer">
     <div class="location-picker__actions-left">
-      @if (provisional()) {
+      @if (provisional()?.id) {
         <app-follow-button 
           [targetId]="provisional()!.id"
           targetType="location"

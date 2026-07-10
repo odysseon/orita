@@ -1,4 +1,5 @@
 import { Component, input, model, signal, inject } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { LucideHeart } from '@lucide/angular';
 import { ToastService } from '../../core/services/toast';
 import { FollowService, FollowType } from '../../core/services/follow.service';
@@ -14,7 +15,6 @@ export class FollowButton {
   readonly targetType = input.required<FollowType>();
   readonly followed = model<boolean>(false);
 
-  // Style configurations
   readonly variant = input<'primary' | 'secondary' | 'ghost' | 'icon' | 'action' | 'overlay'>(
     'action',
   );
@@ -32,19 +32,17 @@ export class FollowButton {
     this.following.set(true);
 
     const currentlyFollowed = this.followed();
-    // Optimistic update
     this.followed.set(!currentlyFollowed);
 
     try {
       if (currentlyFollowed) {
-        await this.#followService.unfollow(this.targetType(), this.targetId()).toPromise();
+        await firstValueFrom(this.#followService.unfollow(this.targetType(), this.targetId()));
         this.#toast.info('Unfollowed');
       } else {
-        await this.#followService.follow(this.targetType(), this.targetId()).toPromise();
+        await firstValueFrom(this.#followService.follow(this.targetType(), this.targetId()));
         this.#toast.success('Following');
       }
     } catch {
-      // Revert on failure
       this.followed.set(currentlyFollowed);
       this.#toast.error('Could not update follow status');
     } finally {

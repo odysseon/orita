@@ -28,6 +28,10 @@ export class LocationPicker {
 
   async onProvisionalPick(loc: Location): Promise<void> {
     this.provisional.set(loc);
+    if (!loc.id) {
+      this.provisionalIsFollowed.set(false);
+      return;
+    }
     try {
       const status = await firstValueFrom(this.#followService.getStatus('location', loc.id));
       this.provisionalIsFollowed.set(status.following);
