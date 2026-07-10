@@ -49,7 +49,7 @@ const ALWAYS_VISIBLE_SETTINGS: NavItem[] = [
 
 const SAVED_ITEM: NavItem = {
   icon: LucideBookmark,
-  label: 'Saved',
+  label: 'Library',
   description: 'Your saved listings and businesses',
   route: '/profile/saved',
 };

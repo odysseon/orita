@@ -16,6 +16,7 @@ import {
   LucidePackage,
   LucideBadgeCheck,
   LucideImage,
+  LucideInfo,
 } from '@lucide/angular';
 import { Logo } from '../../shared/logo/logo';
 import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.interface';
@@ -56,6 +57,7 @@ const DAY_LABELS: Record<string, string> = {
     LucidePackage,
     LucideBadgeCheck,
     LucideImage,
+    LucideInfo,
     DatePipe,
   ],
   templateUrl: './business-detail.html',
