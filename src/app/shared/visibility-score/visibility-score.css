@@ -1,0 +1,82 @@
+.visibility-score {
+  background: var(--clr-bg-base);
+  border: 1px solid var(--clr-border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--size-24);
+  margin-top: var(--size-24);
+}
+
+.vs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--size-16);
+}
+
+.vs-header-text h2 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0 0 var(--size-4) 0;
+  color: var(--clr-text-main);
+}
+
+.vs-header-text p {
+  font-size: var(--font-size-sm);
+  color: var(--clr-text-muted);
+  margin: 0;
+}
+
+.vs-score-display {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--clr-primary);
+}
+
+.vs-progress {
+  height: var(--size-8);
+  background: var(--clr-bg-subtle);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--size-24);
+}
+
+.vs-progress-bar {
+  height: 100%;
+  background: var(--clr-primary);
+  border-radius: var(--radius-full);
+  transition: width 0.5s ease-out;
+}
+
+.vs-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-8);
+}
+
+.vs-checklist-item {
+  display: flex;
+  align-items: center;
+  gap: var(--size-12);
+  padding: var(--size-12) var(--size-16);
+  background: var(--clr-bg-subtle);
+  border-radius: var(--radius-md);
+  color: var(--clr-text-main);
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-size: var(--font-size-md);
+  transition: all 0.2s ease;
+}
+
+.vs-checklist-item:hover {
+  background: var(--clr-bg-hover);
+  border-color: var(--clr-border-subtle);
+}
+
+.vs-icon-todo {
+  width: var(--size-20);
+  height: var(--size-20);
+  color: var(--clr-text-muted);
+}

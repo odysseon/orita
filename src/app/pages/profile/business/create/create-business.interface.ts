@@ -1,10 +1,11 @@
-export type BusinessType = 'ONLINE' | 'PHYSICAL' | 'HYBRID';
-
 export interface ICreateBusiness {
   name: string;
-  businessType: BusinessType;
   primaryCategoryId: string;
-  secondaryCategoryIds?: string[];
+  phoneNumber: string;
+  description: string;
+  location: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface ICreateBusinessResponse {

@@ -30,23 +30,6 @@
         />
       </app-form-field>
 
-      <!-- Business type -->
-      <app-form-field label="Business type" fieldId="type">
-        <div class="type-selector">
-          @for (option of typeOptions; track option.value) {
-          <button
-            class="type-option"
-            type="button"
-            [class.type-option--active]="model().businessType === option.value"
-            (click)="selectType(option.value)"
-          >
-            <svg [lucideIcon]="option.icon" class="type-option__icon" aria-hidden="true"></svg>
-            <span class="type-option__label">{{ option.label }}</span>
-            <span class="type-option__description">{{ option.description }}</span>
-          </button>
-          }
-        </div>
-      </app-form-field>
 
       <!-- Category -->
       <app-form-field
@@ -69,34 +52,67 @@
         </select>
       </app-form-field>
 
-      <!-- Secondary Categories -->
-      @if (model().primaryCategoryId) {
-        <app-form-field
-          label="Secondary Categories (Up to 5)"
-          fieldId="secondaryCategoryIds"
-        >
-          <div class="secondary-categories-grid">
-            @for (category of availableSecondaryCategories(); track category.id) {
-              <button
-                type="button"
-                class="category-chip"
-                [class.category-chip--selected]="isSecondaryCategorySelected(category.id)"
-                (click)="toggleSecondaryCategory(category.id)"
-              >
-                {{ category.name }}
-              </button>
-            }
-          </div>
-        </app-form-field>
-      }
+      <!-- Phone -->
+      <app-form-field
+        label="Phone Number"
+        fieldId="phoneNumber"
+        [touched]="businessForm.phoneNumber().touched()"
+        [invalid]="businessForm.phoneNumber().invalid()"
+        [errorMessage]="businessForm.phoneNumber().errors()[0]?.message"
+      >
+        <input
+          id="phoneNumber"
+          class="field__input"
+          type="tel"
+          placeholder="e.g. +2348000000000"
+          autocomplete="tel"
+          [formField]="businessForm.phoneNumber"
+          [class.field__input--error]="businessForm.phoneNumber().touched() && businessForm.phoneNumber().invalid()"
+        />
+      </app-form-field>
 
-      <div class="create-biz-location">
-        <span class="create-biz-location__label">Will be created in</span>
-        <div class="create-biz-location__value">
-          <svg lucideMapPin aria-hidden="true"></svg>
-          <span>{{ activeLocation()?.name || 'Unknown location' }}</span>
-        </div>
-      </div>
+      <!-- Description -->
+      <app-form-field
+        label="Description"
+        fieldId="description"
+        [touched]="businessForm.description().touched()"
+        [invalid]="businessForm.description().invalid()"
+        [errorMessage]="businessForm.description().errors()[0]?.message"
+      >
+        <textarea
+          id="description"
+          class="field__input field__textarea"
+          placeholder="Describe what your business offers...
+
+Example:
+We sell smartphones, accessories and laptops.
+We also repair damaged phones and offer same-day screen replacement."
+          rows="5"
+          [formField]="businessForm.description"
+          [class.field__input--error]="businessForm.description().touched() && businessForm.description().invalid()"
+        ></textarea>
+      </app-form-field>
+
+      <!-- Location -->
+      <app-form-field
+        label="Business Location"
+        fieldId="location"
+        [touched]="businessForm.location().touched()"
+        [invalid]="businessForm.location().invalid()"
+        [errorMessage]="businessForm.location().errors()[0]?.message"
+      >
+        @if (model().location) {
+          <div class="field__input" style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: var(--size-8);">
+              <svg lucideMapPin aria-hidden="true" style="width: var(--size-16); height: var(--size-16);"></svg>
+              <span>{{ model().location }}</span>
+            </div>
+            <button type="button" class="btn btn--ghost btn--sm" (click)="model.update(m => ({ ...m, location: '', latitude: 0, longitude: 0 }))">Change</button>
+          </div>
+        } @else {
+          <app-location-selector (locationSelected)="onLocationPicked($event)" />
+        }
+      </app-form-field>
 
       <button class="btn btn--primary btn--full create-biz-submit" type="submit" [disabled]="loading() || isFormInvalid()">
         @if (loading()) {

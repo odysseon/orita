@@ -16,6 +16,7 @@ import { form, FormField, required, minLength, maxLength } from '@angular/forms/
 import { ToastService } from '../../../../core/services/toast';
 import { IListing, ICategory, ICreateListing } from './listing.interface';
 import { environment } from '../../../../../environments/environment';
+import { IBusinessProfile } from '../business.interface';
 
 import { AppFormField } from '../../../../shared/form-field/form-field';
 import { Drawer } from '../../../../shared/drawer/drawer';
@@ -46,6 +47,7 @@ export class Listings {
   #router = inject(Router);
 
   readonly businessId = input.required<string>();
+  readonly businessProfile = input<IBusinessProfile>();
 
   readonly showForm = signal(false);
   readonly submitting = signal(false);
@@ -65,20 +67,21 @@ export class Listings {
 
   readonly model = signal<ICreateListing>({
     title: '',
-    categoryId: '',
+    description: '',
   });
 
   readonly createForm = form(this.model, (f) => {
     required(f.title, { message: 'Title is required' });
     minLength(f.title, 2, { message: 'Title must be at least 2 characters' });
     maxLength(f.title, 200, { message: 'Title must be under 200 characters' });
-    required(f.categoryId, { message: 'Category is required' });
+    required(f.description, { message: 'Description is required' });
+    minLength(f.description, 10, { message: 'Description must be at least 10 characters' });
   });
 
   readonly isFormInvalid = computed(() => this.createForm().invalid());
 
   openForm(): void {
-    this.model.set({ title: '', categoryId: '' });
+    this.model.set({ title: '', description: '' });
     this.showForm.set(true);
   }
 
@@ -110,7 +113,8 @@ export class Listings {
       const m = this.model();
       const payload: Record<string, unknown> = {
         title: m.title,
-        categoryId: m.categoryId,
+        description: m.description,
+        categoryId: this.businessProfile()?.primaryCategoryId,
       };
       const createdListing = await firstValueFrom(
         this.#http.post<IListing>(`${environment.apiUrl}/businesses/${this.businessId()}/listings`, payload),
@@ -118,8 +122,8 @@ export class Listings {
       this.#toast.success('Done', 'Listing created.');
       this.closeForm();
       this.listings.reload();
-      // Remove automatic navigation to let user see success state quickly
-      // this.#router.navigate(['/profile/business/listings', createdListing.id, 'edit']);
+      // Navigate to edit to let user see success state quickly and add photos
+      this.navigateToEdit(createdListing.id);
     } catch (err) {
       const message =
         err instanceof HttpErrorResponse

@@ -1,0 +1,109 @@
+.welcome-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--size-16);
+  background-color: var(--clr-bg-subtle);
+}
+
+.welcome-container {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--clr-bg-base);
+  border-radius: var(--radius-lg);
+  padding: var(--size-32);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  animation: slide-up 0.4s ease-out forwards;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-header {
+  margin-bottom: var(--size-32);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--size-16);
+}
+
+.welcome-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--clr-text-main);
+  margin: 0;
+}
+
+.welcome-subtitle {
+  font-size: var(--font-size-md);
+  color: var(--clr-text-muted);
+  margin: 0;
+}
+
+.welcome-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-16);
+}
+
+.welcome-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-12);
+  padding: var(--size-16);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.welcome-btn--explore {
+  background-color: var(--clr-primary);
+  color: var(--clr-bg-base);
+}
+
+.welcome-btn--explore:hover {
+  background-color: var(--clr-primary-hover);
+  transform: translateY(-2px);
+}
+
+.welcome-btn--create {
+  background-color: var(--clr-bg-subtle);
+  color: var(--clr-text-main);
+  border: 1px solid var(--clr-border-subtle);
+}
+
+.welcome-btn--create:hover {
+  background-color: var(--clr-bg-hover);
+  border-color: var(--clr-border-strong);
+  transform: translateY(-2px);
+}
+
+.welcome-btn-icon {
+  width: var(--size-24);
+  height: var(--size-24);
+}
+
+.welcome-location {
+  text-align: left;
+}
+
+.welcome-location-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--size-16);
+  color: var(--clr-text-main);
+}

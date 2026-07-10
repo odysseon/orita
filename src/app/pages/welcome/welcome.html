@@ -1,0 +1,30 @@
+<app-seo [config]="seoConfig"></app-seo>
+
+<div class="welcome-page">
+  <div class="welcome-container">
+    <div class="welcome-header">
+      <app-logo />
+      <h1 class="welcome-title">Welcome to Oríta 🌍</h1>
+      <p class="welcome-subtitle">What would you like to do?</p>
+    </div>
+
+    @if (!showLocationPicker) {
+      <div class="welcome-actions">
+        <button class="welcome-btn welcome-btn--explore" (click)="onExplore()">
+          <svg lucideCompass class="welcome-btn-icon" aria-hidden="true"></svg>
+          <span class="welcome-btn-text">Explore nearby</span>
+        </button>
+
+        <button class="welcome-btn welcome-btn--create" (click)="onCreateBusiness()">
+          <svg lucideStore class="welcome-btn-icon" aria-hidden="true"></svg>
+          <span class="welcome-btn-text">Create a business</span>
+        </button>
+      </div>
+    } @else {
+      <div class="welcome-location">
+        <h2 class="welcome-location-title">Where are you exploring?</h2>
+        <app-location-selector (locationSelected)="onLocationSelected($event)" />
+      </div>
+    }
+  </div>
+</div>

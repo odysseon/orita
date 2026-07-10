@@ -1,0 +1,33 @@
+<div class="visibility-score">
+  <div class="vs-header">
+    <div class="vs-header-text">
+      <h2>Visibility Score</h2>
+      <p>People can discover your business, but you can reach even more customers.</p>
+    </div>
+    <div class="vs-score-display" [class.high]="totalScore() >= 80" [class.medium]="totalScore() >= 50 && totalScore() < 80" [class.low]="totalScore() < 50">
+      {{ totalScore() }}%
+    </div>
+  </div>
+
+  <div class="vs-progress">
+    <div class="vs-progress-bar" [style.width.%]="totalScore()"></div>
+  </div>
+
+  @if (incompleteItems().length > 0) {
+    <div class="vs-checklist">
+      @for (item of incompleteItems(); track item.id) {
+        @if (item.actionUrl) {
+          <a class="vs-checklist-item" [routerLink]="item.actionUrl">
+            <svg lucideCircle class="vs-icon-todo" aria-hidden="true"></svg>
+            <span>{{ item.label }}</span>
+          </a>
+        } @else {
+          <button class="vs-checklist-item" (click)="triggerAction(item)">
+            <svg lucideCircle class="vs-icon-todo" aria-hidden="true"></svg>
+            <span>{{ item.label }}</span>
+          </button>
+        }
+      }
+    </div>
+  }
+</div>

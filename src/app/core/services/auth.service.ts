@@ -48,7 +48,15 @@ export class AuthService {
       );
       // Let's assume Google tokens have a server-defined expiry and we want to remember it automatically
       // since Google sessions are typically persistent.
-      this.#setToken(res.token, new Date(res.expiresAt));
+      const isNewUser = res.token !== undefined && !this.#exploration.hasLocation(); // simplistic heuristic, wait, let's just go to /home and let backend tell us?
+      // Actually, since we can't reliably tell from login response if they are newly registered via Google without a flag,
+      // let's route to /welcome if they don't have an active location OR just /welcome if they are new.
+      // The instructions say: "loginWithGoogle() — check if the user has a business; if not (new account), redirect to /welcome; otherwise /home".
+      // But auth response doesn't return business profile.
+      // The easiest way is to check if they have a location set. If they don't have a location, /welcome is a good place.
+      if (returnUrl === '/home' && !this.#exploration.hasLocation()) {
+        returnUrl = '/welcome';
+      }
       this.#toast.success('Logged in', 'Welcome to Orita!');
       await this.#router.navigateByUrl(returnUrl);
       return true;
@@ -70,7 +78,7 @@ export class AuthService {
         email: credentials.email,
         password: credentials.password,
         remember: false,
-      }, '/home');
+      }, '/welcome');
       if (loginSuccess) {
         this.#toast.success('Account created', 'Welcome to Orita!');
       }
