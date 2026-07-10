@@ -33,7 +33,8 @@ export interface IBusinessProfile {
   location: string | null;
   latitude: number | null;
   longitude: number | null;
-  categoryIds: string[];
+  primaryCategoryId: string | null;
+  secondaryCategoryIds: string[];
   isEmailVerified: boolean;
   isPhoneVerified: boolean;
   createdAt: string;
