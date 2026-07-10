@@ -128,10 +128,12 @@
         }
       </app-grid>
       @if ((listingsResource.value()?.items?.length || 0) === 0) {
-        <div class="no-results-state">
-          <p>No listings found.</p>
-          <p class="subtitle">Try a different search term or expanding your radius.</p>
-        </div>
+        <ui-empty-state
+          title="No listings found"
+          description="We couldn't find any listings matching your search. Try adjusting your filters or expanding your radius."
+        >
+          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+        </ui-empty-state>
       } @else if ((listingsResource.value()?.items?.length || 0) < (listingsResource.value()?.total || 0)) {
         <div style="text-align: center; margin-top: 2rem;">
           <button class="btn btn-outline" (click)="loadMore()">Load More</button>
@@ -144,10 +146,12 @@
         }
       </app-grid>
       @if ((businessesResource.value()?.items?.length || 0) === 0) {
-        <div class="no-results-state">
-          <p>No businesses found.</p>
-          <p class="subtitle">Try a different search term or expanding your radius.</p>
-        </div>
+        <ui-empty-state
+          title="No businesses found"
+          description="We couldn't find any businesses matching your search. Try adjusting your filters or expanding your radius."
+        >
+          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+        </ui-empty-state>
       } @else if ((businessesResource.value()?.items?.length || 0) < (businessesResource.value()?.total || 0)) {
         <div style="text-align: center; margin-top: 2rem;">
           <button class="btn btn-outline" (click)="loadMore()">Load More</button>
