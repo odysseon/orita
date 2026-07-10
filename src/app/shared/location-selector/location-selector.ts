@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs';
 import { LucideMapPin, LucideSearch, LucideLoaderCircle } from '@lucide/angular';
-import { LocationService, LocationSuggestion } from '../../core/services/location.service';
+import { LocationService, Location } from '../../core/services/location.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -14,7 +14,7 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './location-selector.css',
 })
 export class LocationSelector {
-  readonly locationSelected = output<LocationSuggestion>();
+  readonly locationSelected = output<Location>();
 
   #locationService = inject(LocationService);
 
@@ -58,7 +58,7 @@ export class LocationSelector {
     }
   }
 
-  selectLocation(result: LocationSuggestion) {
+  selectLocation(result: Location) {
     this.locationSelected.emit(result);
   }
 }

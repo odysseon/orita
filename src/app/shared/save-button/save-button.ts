@@ -5,7 +5,7 @@ import { LucideBookmark } from '@lucide/angular';
 import { ToastService } from '../../core/services/toast';
 import { environment } from '../../../environments/environment';
 
-export type SaveItemType = 'BUSINESS' | 'LISTING' | 'TOUR';
+export type SaveItemType = 'LISTING' | 'TOUR';
 
 @Component({
   selector: 'app-save-button',
@@ -61,8 +61,7 @@ export class SaveButton {
   private getEndpoint(): string {
     const id = this.itemId();
     switch (this.itemType()) {
-      case 'BUSINESS':
-        return `${environment.apiUrl}/business-profiles/${id}/save`;
+      
       case 'LISTING':
         return `${environment.apiUrl}/listings/${id}/save`;
       case 'TOUR':

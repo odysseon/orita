@@ -22,7 +22,7 @@ import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
 import { ShareButton } from '../../shared/share-button/share-button';
-import { SaveButton } from '../../shared/save-button/save-button';
+import { FollowButton } from '../../shared/follow-button/follow-button';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
@@ -43,7 +43,7 @@ const DAY_LABELS: Record<string, string> = {
   imports: [
     RouterLink,
     ShareButton,
-    SaveButton,
+    FollowButton,
     EmptyState,
     SeoComponent,
     LucideStore,

@@ -1,14 +1,14 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ExplorationStorage, ActiveLocation } from './exploration-storage';
-import { GeocodingService } from './geocoding.service';
+import { LocationService } from './location.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExplorationService {
   #storage = inject(ExplorationStorage);
-  #geocodingService = inject(GeocodingService);
+  #locationService = inject(LocationService);
 
   readonly activeLocation = signal<ActiveLocation | null>(this.#storage.get());
   readonly hasLocation = computed(() => !!this.activeLocation());
@@ -34,14 +34,14 @@ export class ExplorationService {
         async (position) => {
           try {
             const { latitude, longitude } = position.coords;
-            const res = await firstValueFrom(this.#geocodingService.reverseGeocode(latitude, longitude));
+            const res = await firstValueFrom(this.#locationService.reverseGeocode(latitude, longitude));
             
             const newContext: ActiveLocation = {
-              id: `gps_${latitude}_${longitude}`,
+              id: res?.id || `gps_${latitude}_${longitude}`,
               name: res?.name || 'Current Location',
-              city: res?.city || null,
-              state: res?.state || null,
-              country: res?.country || null,
+              city: res?.formattedAddress || null, // simplified since we just have formattedAddress
+              state: null,
+              country: null,
               lat: latitude,
               lng: longitude,
             };

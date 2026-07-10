@@ -5,7 +5,7 @@ import { ExplorationService } from '../../core/services/exploration.service';
 import { ActiveLocation } from '../../core/services/exploration-storage';
 import { Drawer } from '../drawer/drawer';
 import { LocationSelector } from '../location-selector/location-selector';
-import { LocationSuggestion } from '../../core/services/location.service';
+import { Location } from '../../core/services/location.service';
 
 @Component({
   selector: 'ui-app-header',
@@ -36,15 +36,15 @@ export class AppHeader {
     this.showLocationDrawer.update(v => !v);
   }
 
-  selectLocation(result: LocationSuggestion) {
+  selectLocation(result: Location) {
     const context: ActiveLocation = {
-      id: `geo_${result.lat}_${result.lng}`,
-      name: result.address || result.displayName,
+      id: `geo_${result.latitude}_${result.longitude}`,
+      name: result.formattedAddress || result.name,
       city: null,
       state: null,
       country: null,
-      lat: result.lat,
-      lng: result.lng,
+      lat: result.latitude,
+      lng: result.longitude,
     };
     
     this.#exploration.setLocation(context);

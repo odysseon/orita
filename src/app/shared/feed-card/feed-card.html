@@ -31,12 +31,21 @@
     <div class="feed-card__placeholder"><svg lucideImage aria-hidden="true"></svg></div>
     } } }
 
-    <app-save-button
-      class="feed-card__save-overlay"
-      [itemId]="saveItemId"
-      [itemType]="saveItemType"
-      variant="overlay"
-    />
+        @if (item().itemType === 'BUSINESS') {
+      <app-follow-button
+        class="feed-card__save-overlay"
+        [targetId]="saveItemId"
+        targetType="business"
+        variant="overlay"
+      />
+    } @else {
+      <app-save-button
+        class="feed-card__save-overlay"
+        [itemId]="saveItemId"
+        [itemType]="saveItemType"
+        variant="overlay"
+      />
+    }
   </div>
 
   <!-- Identity, quiet, single line -->

@@ -31,7 +31,7 @@ export const profileRoutes: Route[] = [
       },
       {
         path: 'saved',
-        data: { title: 'Saved' },
+        data: { title: 'Library' },
         loadComponent: () => import('./saved/saved').then((m) => m.Saved),
       },
       ...businessRoutes,

@@ -1,62 +1,41 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-export interface LocationSuggestion {
-  lat: number;
-  lng: number;
-  address: string;
-  displayName: string;
-}
-
-interface NominatimResult {
-  lat: string;
-  lon: string;
-  display_name: string;
-  address?: {
-    road?: string;
-    suburb?: string;
-    city?: string;
-    town?: string;
-    state?: string;
-    country?: string;
-  };
+export interface Location {
+  id: string;
+  name: string;
+  formattedAddress?: string;
+  latitude: number;
+  longitude: number;
 }
 
 @Injectable({ providedIn: 'root' })
 export class LocationService {
   #http = inject(HttpClient);
-  #baseUrl = 'https://nominatim.openstreetmap.org';
+  #apiUrl = environment.apiUrl;
 
-  search(query: string): Observable<LocationSuggestion[]> {
+  search(query: string): Observable<Location[]> {
     if (!query || query.trim().length < 3) {
       return of([]);
     }
 
-    const params = {
-      q: query,
-      format: 'jsonv2',
-      addressdetails: '1',
-      limit: '6',
-    };
+    const params = { q: query };
 
-    return this.#http.get<NominatimResult[]>(`${this.#baseUrl}/search`, { params }).pipe(
-      map(results => results.map(r => this.#toSuggestion(r))),
+    return this.#http.get<Location[]>(`${this.#apiUrl}/locations/search`, { params }).pipe(
       catchError(() => of([]))
     );
   }
 
-  reverseGeocode(lat: number, lng: number): Observable<LocationSuggestion | null> {
+  reverseGeocode(lat: number, lng: number): Observable<Location | null> {
     const params = {
       lat: lat.toString(),
       lon: lng.toString(),
-      format: 'jsonv2',
-      addressdetails: '1',
     };
 
-    return this.#http.get<NominatimResult>(`${this.#baseUrl}/reverse`, { params }).pipe(
-      map(r => this.#toSuggestion(r)),
+    return this.#http.get<Location>(`${this.#apiUrl}/locations/reverse`, { params }).pipe(
       catchError(() => of(null))
     );
   }
@@ -73,19 +52,5 @@ export class LocationService {
         maximumAge: 0,
       });
     });
-  }
-
-  #toSuggestion(r: NominatimResult): LocationSuggestion {
-    const a = r.address;
-    const shortAddress = a
-      ? [a.road, a.suburb, a.city || a.town, a.state, a.country].filter(Boolean).join(', ')
-      : r.display_name;
-
-    return {
-      lat: parseFloat(r.lat),
-      lng: parseFloat(r.lon),
-      address: shortAddress,
-      displayName: r.display_name,
-    };
   }
 }

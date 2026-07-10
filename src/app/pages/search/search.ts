@@ -6,7 +6,7 @@ import { LucideSearch, LucideX, LucideClock, LucideSlidersHorizontal, LucideMapP
 import { SearchService } from '../../core/services/search.service';
 import { ExplorationService } from '../../core/services/exploration.service';
 import { CategoryService } from '../../core/services/category.service';
-import { GeocodingService, GeocodeResult } from '../../core/services/geocoding.service';
+import { LocationService, Location } from '../../core/services/location.service';
 import { SearchFilters } from '../../core/models/search.model';
 import { AppListingCard } from '../../shared/listing-card/listing-card';
 import { AppBizCard } from '../../shared/biz-card/biz-card';
@@ -32,7 +32,7 @@ export class Search {
   #searchService = inject(SearchService);
   #exploration = inject(ExplorationService);
   #categoryService = inject(CategoryService);
-  #geocodingService = inject(GeocodingService);
+  #locationService = inject(LocationService);
   #route = inject(ActivatedRoute);
   #router = inject(Router);
 

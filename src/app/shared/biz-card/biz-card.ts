@@ -2,7 +2,7 @@ import { Component, input, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucideStore, LucideMapPin, LucideBookmark } from '@lucide/angular';
 import { IBusinessSummary } from '../../pages/home/home.interface';
-import { SaveService } from '../../core/services/save.service';
+import { FollowService } from '../../core/services/follow.service';
 
 @Component({
   selector: 'app-biz-card',
@@ -12,19 +12,19 @@ import { SaveService } from '../../core/services/save.service';
 })
 export class AppBizCard {
   readonly biz = input.required<IBusinessSummary>();
-  #saveService = inject(SaveService);
+  #followService = inject(FollowService);
 
   toggleSave(event: Event) {
     event.preventDefault();
     event.stopPropagation();
     
-    const current = this.biz().isSaved;
-    this.biz().isSaved = !current; // Optimistic update
+    const current = this.biz().isFollowed;
+    this.biz().isFollowed = !current; // Optimistic update
     
-    this.#saveService.toggleSaveBusiness(this.biz().id, !!current).subscribe({
+    this.#followService.toggleFollow('business', this.biz().id, !!current).subscribe({
       error: () => {
         // Revert on failure
-        this.biz().isSaved = current;
+        this.biz().isFollowed = current;
       }
     });
   }
