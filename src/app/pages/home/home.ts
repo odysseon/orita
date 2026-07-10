@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal, effect } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   LucideMapPin,
 } from '@lucide/angular';
@@ -31,6 +32,7 @@ export class Home {
   #feedService = inject(FeedService);
   #toast = inject(ToastService);
   #exploration = inject(ExplorationService);
+  #router = inject(Router);
 
   readonly feedItems = signal<FeedItemView[]>([]);
   readonly isLoading = signal(true);
@@ -86,8 +88,13 @@ export class Home {
         this.hasMore.set(items.length === 15);
         this.isLoading.set(false);
       },
-      error: () => {
-        this.#toast.error('Failed to load feed');
+      error: (err) => {
+        if (err instanceof HttpErrorResponse && err.status === 400) {
+          this.#toast.info('Location Required', 'Please select a location to explore.');
+          this.#router.navigate(['/location']);
+        } else {
+          this.#toast.error('Failed to load feed');
+        }
         this.isLoading.set(false);
       }
     });
@@ -114,8 +121,13 @@ export class Home {
         this.hasMore.set(newItems.length === 15);
         this.isLoadingMore.set(false);
       },
-      error: () => {
-        this.#toast.error('Failed to load more items');
+      error: (err) => {
+        if (err instanceof HttpErrorResponse && err.status === 400) {
+          this.#toast.info('Location Required', 'Please select a location to explore.');
+          this.#router.navigate(['/location']);
+        } else {
+          this.#toast.error('Failed to load more items');
+        }
         this.isLoadingMore.set(false);
       }
     });
