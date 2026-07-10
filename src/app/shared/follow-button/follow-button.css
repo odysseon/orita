@@ -6,10 +6,44 @@ svg.filled {
   fill: currentColor;
 }
 
-.action-btn--active {
-  color: var(--primary);
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-6);
+  background: none;
+  border: none;
+  padding: var(--size-8);
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-sm);
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
 }
 
+.action-btn:hover:not(:disabled) {
+  color: var(--clr-primary);
+  background: var(--clr-primary-container);
+}
+
+.action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.action-btn svg {
+  width: var(--size-18);
+  height: var(--size-18);
+}
+
+.action-btn--active {
+  color: var(--clr-primary);
+}
+
+/* Overlay variant — for use floating on media, same as save-button */
 .btn-overlay {
   display: flex;
   align-items: center;

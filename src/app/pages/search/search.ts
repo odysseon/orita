@@ -56,7 +56,7 @@ export class Search {
     const queryLng = Number(this.queryParamMap()?.get('lng'));
     return !isNaN(queryLng) && queryLng !== 0 ? queryLng : this.#exploration.activeLocation()?.lng;
   });
-  readonly appliedRadius = computed(() => Number(this.queryParamMap()?.get('radius')) || 10);
+  readonly appliedRadius = computed(() => Number(this.queryParamMap()?.get('radius')) || 15000);
   readonly appliedCategoryId = computed(() => this.queryParamMap()?.get('categoryId') || undefined);
   readonly appliedSort = computed(() => this.queryParamMap()?.get('sort') || 'relevance');
   readonly appliedLimit = computed(() => Number(this.queryParamMap()?.get('limit')) || 20);
@@ -93,7 +93,7 @@ export class Search {
       locationName: this.appliedLocationName() || null,
       lat: this.appliedLat() || null,
       lng: this.appliedLng() || null,
-      radius: this.appliedRadius() || 10,
+      radius: this.appliedRadius() || 15000,
       categoryId: this.appliedCategoryId() || null,
       sort: this.appliedSort() || 'relevance',
       minPrice: this.appliedMinPrice() || null,
