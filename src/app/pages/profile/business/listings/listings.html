@@ -33,30 +33,21 @@
       </app-form-field>
 
       <app-form-field
-        label="Category"
-        fieldId="category"
-        [touched]="createForm.categoryId().touched()"
-        [invalid]="createForm.categoryId().invalid()"
-        [errorMessage]="createForm.categoryId().errors()[0]?.message"
+        label="Description"
+        fieldId="description"
+        [touched]="createForm.description().touched()"
+        [invalid]="createForm.description().invalid()"
+        [errorMessage]="createForm.description().errors()[0]?.message"
       >
-        @if (categories.isLoading()) {
-        <div class="field__input field__input--loading">Loading categories…</div>
-        } @else {
-        <select
-          id="category"
-          class="field__select"
-          [formField]="createForm.categoryId"
-          [class.field__select--error]="createForm.categoryId().touched() && createForm.categoryId().invalid()"
-        >
-          <option value="" disabled selected>Select a category</option>
-          @for (cat of leafCategories(); track cat.id) {
-          <option [value]="cat.id">{{ cat.name }}</option>
-          }
-        </select>
-        }
+        <textarea
+          id="description"
+          class="field__input field__textarea"
+          placeholder="Describe what you're offering..."
+          rows="4"
+          [formField]="createForm.description"
+          [class.field__input--error]="createForm.description().touched() && createForm.description().invalid()"
+        ></textarea>
       </app-form-field>
-
-
 
       <div class="listing-form__actions">
         <button class="btn btn--ghost" type="button" (click)="closeForm()">Cancel</button>

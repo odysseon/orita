@@ -75,6 +75,13 @@
     </div>
   </div>
 
+  @if (showFirstListingCta()) {
+    <app-first-listing-cta
+      (createListing)="handleCreateFirstListing()"
+      (dismiss)="dismissFirstListingCta()"
+    ></app-first-listing-cta>
+  }
+
   @if (isProfileIncomplete()) {
     <app-completion-nudge
       title="Complete your profile"
@@ -118,6 +125,22 @@
   <!-- Overview tab -->
   @if (activeTab() === 'overview') {
   <div class="biz-section">
+    <!-- Preview -->
+    @if (businessSummary()) {
+      <div class="panel">
+        <h2 class="panel__title">Here's what customers see</h2>
+        <div class="panel__body" style="padding: 0;">
+          <app-biz-card [biz]="businessSummary()!"></app-biz-card>
+        </div>
+      </div>
+    }
+
+    <app-visibility-score
+      [business]="business.value()!"
+      [listingCount]="stats.value()?.totalListings || 0"
+      (actionTriggered)="handleVisibilityAction($event)"
+    ></app-visibility-score>
+
     <!-- Stats -->
     @if (stats.hasValue()) {
     <div class="biz-stats">
@@ -225,7 +248,7 @@
   <!-- Listings tab -->
   @if (activeTab() === 'listings') {
   <div class="biz-section">
-    <app-listings [businessId]="business.value()!.id" />
+    <app-listings [businessId]="business.value()!.id" [businessProfile]="business.value()!" />
   </div>
   } 
 

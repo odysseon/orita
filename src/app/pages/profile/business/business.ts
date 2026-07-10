@@ -1,6 +1,6 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ViewChild, OnInit } from '@angular/core';
 import { httpResource } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
 
   LucideStore,
@@ -23,6 +23,10 @@ import { CreateBusiness } from './create/create-business';
 import { Listings } from './listings/listings';
 import { AppBusinessTours } from './tours/tours';
 import { CompletionNudge } from '../../../shared/completion-nudge/completion-nudge';
+import { FirstListingCta } from './create/first-listing-cta/first-listing-cta';
+import { AppBizCard } from '../../../shared/biz-card/biz-card';
+import { IBusinessSummary } from '../../home/home.interface';
+import { VisibilityScore } from '../../../shared/visibility-score/visibility-score';
 
 @Component({
   selector: 'app-page-business',
@@ -44,12 +48,16 @@ import { CompletionNudge } from '../../../shared/completion-nudge/completion-nud
     Listings,
     AppBusinessTours,
     CompletionNudge,
+    FirstListingCta,
+    AppBizCard,
+    VisibilityScore,
   ],
   templateUrl: './business.html',
   styleUrl: './business.css',
 })
-export class Business {
+export class Business implements OnInit {
   #router = inject(Router);
+  #route = inject(ActivatedRoute);
 
   readonly business = httpResource<IBusinessProfile>(
     () => `${environment.apiUrl}/users/me/business`,
@@ -62,7 +70,27 @@ export class Business {
 
   readonly activeTab = signal<'overview' | 'hours' | 'listings' | 'tours'>('overview');
   readonly isCreateBusinessOpen = signal(false);
+  readonly showFirstListingCta = signal(false);
   readonly hasBusiness = computed(() => !!this.business.value());
+  
+  readonly businessSummary = computed<IBusinessSummary | null>(() => {
+    const biz = this.business.value();
+    if (!biz) return null;
+    return {
+      id: biz.id,
+      name: biz.name,
+      slug: biz.slug,
+      verificationStatus: biz.verificationStatus,
+      description: biz.description ?? null,
+      location: biz.location ?? null,
+      latitude: biz.latitude ?? null,
+      longitude: biz.longitude ?? null,
+      categoryIds: [],
+      isFollowed: false,
+    };
+  });
+
+  @ViewChild(Listings) listingsCmp!: Listings;
 
   readonly isPublic = computed(() => this.business.value()?.isPublic ?? false);
 
@@ -82,9 +110,47 @@ export class Business {
   });
 
 
+  ngOnInit() {
+    this.#route.queryParams.subscribe(params => {
+      if (params['action'] === 'create') {
+        this.isCreateBusinessOpen.set(true);
+        this.clearQueryParam('action');
+      } else if (params['action'] === 'first-listing') {
+        this.showFirstListingCta.set(true);
+      }
+    });
+  }
+
+  private clearQueryParam(param: string) {
+    this.#router.navigate([], {
+      queryParams: { [param]: null },
+      queryParamsHandling: 'merge'
+    });
+  }
 
   createBusiness(): void {
     this.isCreateBusinessOpen.set(true);
+  }
+
+  handleCreateFirstListing(): void {
+    this.showFirstListingCta.set(false);
+    this.clearQueryParam('action');
+    this.setTab('listings');
+    setTimeout(() => this.listingsCmp?.openForm(), 100);
+  }
+
+  dismissFirstListingCta(): void {
+    this.showFirstListingCta.set(false);
+    this.clearQueryParam('action');
+  }
+
+  handleVisibilityAction(actionId: string): void {
+    if (actionId === 'create-listing') {
+      this.handleCreateFirstListing();
+    } else if (actionId === 'request-verify') {
+      // For now, no-op or just navigate. We can add toast if needed
+      // this.#toast.info('Verification', 'Coming soon!');
+    }
   }
 
   editBusiness(): void {

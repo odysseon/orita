@@ -11,7 +11,11 @@ export const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./pages/auth/auth.routes').then((m) => m.authRoutes),
   },
-
+  {
+    path: 'welcome',
+    loadComponent: () => import('./pages/welcome/welcome').then((m) => m.Welcome),
+    data: { isRootAppPage: true },
+  },
   {
     path: '',
     loadComponent: () => import('./shared/layout/sub-layout/sub-layout').then((m) => m.AppSubLayout),
