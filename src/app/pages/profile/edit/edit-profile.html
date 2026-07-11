@@ -37,23 +37,7 @@
             />
           </app-form-field>
 
-          <app-form-field
-            fieldId="email"
-            label="Email Address"
-            [touched]="profileForm.email().touched()"
-            [invalid]="profileForm.email().invalid()"
-            [errorMessage]="profileForm.email().errors()[0]?.message"
-          >
-            <input
-              type="email"
-              id="email"
-              class="field__input"
-              [class.field__input--error]="profileForm.email().touched() && profileForm.email().invalid()"
-              [formField]="profileForm.email"
-              placeholder="e.g. john@example.com"
-              autocomplete="email"
-            />
-          </app-form-field>
+
         </div>
       </div>
 
