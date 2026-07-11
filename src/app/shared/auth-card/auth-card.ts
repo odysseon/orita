@@ -1,16 +1,14 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideMapPin } from '@lucide/angular';
 
 @Component({
   selector: 'app-auth-card',
-  imports: [RouterLink, LucideMapPin],
+  imports: [RouterLink],
   template: `
     <div class="auth-page">
       <div class="auth-card">
-        <header class="auth-card__header">
           <h1 class="auth-card__title">
-            <svg lucideMapPin class="auth-card__icon" aria-hidden="true"></svg>
+            <img src="/favicon.svg" alt="Orita Logo" class="auth-card__icon" aria-hidden="true" />
             Orita
           </h1>
           <p class="auth-card__subtitle">{{ subtitle() }}</p>

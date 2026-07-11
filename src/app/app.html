@@ -34,6 +34,26 @@
       <span label>Search</span>
     </ui-nav-item>
 
+    <ui-nav-item
+      [layout]="isDesktop() ? 'horizontal' : 'vertical'"
+      iconSize="md"
+      [active]="isActive('/tours')"
+      (clicked)="go('/tours')"
+    >
+      <svg icon lucideCompass aria-hidden="true"></svg>
+      <span label>Tours</span>
+    </ui-nav-item>
+
+    <ui-nav-item
+      [layout]="isDesktop() ? 'horizontal' : 'vertical'"
+      iconSize="md"
+      [active]="isActive('/messages')"
+      (clicked)="go('/messages')"
+    >
+      <svg icon lucideMessageCircle aria-hidden="true"></svg>
+      <span label>Messages</span>
+    </ui-nav-item>
+
     @if (isAuthenticated()) {
     <ui-nav-item
       [layout]="isDesktop() ? 'horizontal' : 'vertical'"
