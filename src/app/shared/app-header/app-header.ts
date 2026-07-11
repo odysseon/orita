@@ -1,6 +1,6 @@
 import { Component, input, inject, signal } from '@angular/core';
 import { Logo } from '../logo/logo';
-import { LucideMapPin, LucideChevronDown } from '@lucide/angular';
+import { LucideChevronDown } from '@lucide/angular';
 import { ExplorationService } from '../../core/services/exploration.service';
 import { ActiveLocation } from '../../core/services/exploration-storage';
 import { Drawer } from '../drawer/drawer';
@@ -11,7 +11,6 @@ import { Location } from '../../core/services/location.service';
   selector: 'ui-app-header',
   imports: [
     Logo,
-    LucideMapPin,
     LucideChevronDown,
     Drawer,
     LocationSelector,

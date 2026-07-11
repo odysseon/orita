@@ -88,7 +88,10 @@ export class CreateBusiness implements OnInit {
 
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    if (this.businessForm().invalid()) return;
+    if (this.businessForm().invalid()) {
+      this.businessForm().markAsTouched();
+      return;
+    }
     this.loading.set(true);
     try {
       const payload = this.model();

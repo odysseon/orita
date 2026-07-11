@@ -33,12 +33,8 @@ export class MediaSelector {
   readonly mediaRemoved = output<string>();
 
   readonly isDragging = signal(false);
-  readonly selectedFiles = signal<File[]>([]);
+  readonly selectedFiles = signal<{ file: File; objectUrl: string }[]>([]);
 
-  // Track created local object URLs to revoke them and prevent leaks
-  readonly localObjectUrls = signal<string[]>([]);
-
-  // Computed previews list containing both initial URLs and newly selected files
   readonly previews = computed<IMediaPreview[]>(() => {
     const list: IMediaPreview[] = [];
 
@@ -54,10 +50,8 @@ export class MediaSelector {
     }
 
     // Append newly selected files
-    this.selectedFiles().forEach((file) => {
-      const objectUrl = URL.createObjectURL(file);
-      this.localObjectUrls.update((urls) => [...urls, objectUrl]);
-      list.push({ url: objectUrl, isNew: true, file });
+    this.selectedFiles().forEach((s) => {
+      list.push({ url: s.objectUrl, isNew: true, file: s.file });
     });
 
     return list;
@@ -65,13 +59,8 @@ export class MediaSelector {
 
   constructor() {
     this.#destroyRef.onDestroy(() => {
-      this.clearLocalUrls();
+      this.selectedFiles().forEach((s) => URL.revokeObjectURL(s.objectUrl));
     });
-  }
-
-  private clearLocalUrls(): void {
-    this.localObjectUrls().forEach((url) => URL.revokeObjectURL(url));
-    this.localObjectUrls.set([]);
   }
 
   onDragOver(event: DragEvent): void {
@@ -114,27 +103,29 @@ export class MediaSelector {
 
     if (validFiles.length === 0) return;
 
-    // Reset previous object URLs to prevent accumulation
-    this.clearLocalUrls();
+    const newSelections = validFiles.map((file) => ({
+      file,
+      objectUrl: URL.createObjectURL(file),
+    }));
 
     if (this.multiple()) {
-      this.selectedFiles.update((existing) => [...existing, ...validFiles]);
+      this.selectedFiles.update((existing) => [...existing, ...newSelections]);
     } else {
-      this.selectedFiles.set([validFiles[0]]);
+      // Clear old object URL if replacing single file
+      this.selectedFiles().forEach((s) => URL.revokeObjectURL(s.objectUrl));
+      this.selectedFiles.set([newSelections[0]]);
     }
 
-    this.filesChanged.emit(this.selectedFiles());
+    this.filesChanged.emit(this.selectedFiles().map((s) => s.file));
   }
 
   removePreview(preview: IMediaPreview): void {
     if (preview.isNew && preview.file) {
-      // Clean up object URL
       URL.revokeObjectURL(preview.url);
-      this.localObjectUrls.update((urls) => urls.filter((u) => u !== preview.url));
-
+      
       // Remove from selected files
-      this.selectedFiles.update((files) => files.filter((f) => f !== preview.file));
-      this.filesChanged.emit(this.selectedFiles());
+      this.selectedFiles.update((files) => files.filter((f) => f.file !== preview.file));
+      this.filesChanged.emit(this.selectedFiles().map((s) => s.file));
     } else {
       // Remove from initial URLs
       this.mediaRemoved.emit(preview.url);

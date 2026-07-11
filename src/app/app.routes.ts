@@ -45,6 +45,16 @@ export const routes: Routes = [
     data: { isRootAppPage: true },
   },
   {
+    path: 'tours',
+    loadComponent: () => import('./pages/tours/tours').then((m) => m.ToursPage),
+    data: { isRootAppPage: true },
+  },
+  {
+    path: 'messages',
+    loadComponent: () => import('./pages/messages/messages').then((m) => m.MessagesPage),
+    data: { isRootAppPage: true },
+  },
+  {
     path: 'legal',
     loadChildren: () => import('./pages/legal/legal.routes').then((m) => m.legalRoutes),
   },

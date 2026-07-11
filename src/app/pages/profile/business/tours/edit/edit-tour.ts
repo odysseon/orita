@@ -92,7 +92,10 @@ export class EditTour implements OnInit {
   }
 
   async saveChanges() {
-    if (this.tourForm().invalid()) return;
+    if (this.tourForm().invalid()) {
+      this.tourForm().markAsTouched();
+      return;
+    }
     this.isSaving.set(true);
     try {
       const m = this.model();

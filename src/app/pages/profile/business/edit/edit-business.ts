@@ -198,7 +198,10 @@ export class EditBusiness implements OnInit {
 
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    if (this.businessForm().invalid()) return;
+    if (this.businessForm().invalid()) {
+      this.businessForm().markAsTouched();
+      return;
+    }
     const biz = this.business.value();
     if (!biz) return;
 

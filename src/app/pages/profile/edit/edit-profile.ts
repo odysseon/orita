@@ -12,7 +12,6 @@ import { MediaSelector } from '../../../shared/media-selector/media-selector';
 
 interface IEditProfileForm {
   username: string;
-  email: string;
 }
 
 @Component({
@@ -29,20 +28,18 @@ export class EditProfile {
   readonly loading = signal(false);
   readonly avatarFile = signal<File | null>(null);
 
-  readonly model = signal<IEditProfileForm>({ username: '', email: '' });
+  readonly model = signal<IEditProfileForm>({ username: '' });
 
   readonly profileForm = form(this.model, (f) => {
     required(f.username, { message: 'Username is required' });
     minLength(f.username, 3, { message: 'Username must be at least 3 characters' });
-    required(f.email, { message: 'Email is required' });
-    email(f.email, { message: 'Enter a valid email address' });
   });
 
   constructor() {
     effect(() => {
       const profile = this.profile.value();
       if (profile) {
-        this.model.set({ username: profile.username, email: profile.email });
+        this.model.set({ username: profile.username });
       }
     });
   }
@@ -57,7 +54,10 @@ export class EditProfile {
 
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    if (this.profileForm().invalid()) return;
+    if (this.profileForm().invalid()) {
+      this.profileForm().markAsTouched();
+      return;
+    }
 
     this.loading.set(true);
     try {
