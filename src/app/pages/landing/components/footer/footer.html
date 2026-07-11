@@ -8,10 +8,16 @@
       </div>
 
       <nav class="footer__nav">
+        <h3>Platform</h3>
         @for (link of links; track link.route) {
+          <a [routerLink]="link.route"> {{ link.label }} </a>
+        }
+      </nav>
 
-        <a [routerLink]="link.route"> {{ link.label }} </a>
-
+      <nav class="footer__nav">
+        <h3>Legal</h3>
+        @for (link of legalLinks; track link.route) {
+          <a [routerLink]="link.route"> {{ link.label }} </a>
         }
       </nav>
     </div>

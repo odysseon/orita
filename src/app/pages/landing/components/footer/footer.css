@@ -38,8 +38,15 @@
 
 .footer__nav {
   display: grid;
-
   gap: 1rem;
+}
+
+.footer__nav h3 {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
 }
 
 .footer__nav a {
