@@ -4,6 +4,11 @@
       <app-logo />
     </div>
   }
+  @if (pageTitle()) {
+    <div class="header-title absolute-center">
+      <h1>{{ pageTitle() }}</h1>
+    </div>
+  }
   @if (showLocationPill()) {
     <button class="location-pill" (click)="toggleDrawer()">
       <svg lucideMapPin aria-hidden="true"></svg>

@@ -1,7 +1,7 @@
 :host { display: block; }
 .profile-page {
   display: flex; flex-direction: column; min-height: 100dvh; max-width: var(--size-480);
-  margin: var(--size-0) auto; padding: var(--size-48) var(--size-24) var(--size-40);
+  margin: var(--size-0) auto; padding: var(--size-24) var(--size-24) var(--size-40);
   background: var(--surface-page); font-family: var(--font-sans); gap: var(--size-32);
 }
 .profile-skeleton {

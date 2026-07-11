@@ -1,9 +1,10 @@
 <div class="empty-state">
-  @if (icon()) {
-    <div class="empty-state__icon-wrap" aria-hidden="true">
+  <div class="empty-state__icon-wrap" aria-hidden="true">
+    @if (icon()) {
       <svg [lucideIcon]="icon()!"></svg>
-    </div>
-  }
+    }
+    <ng-content select="[icon]" />
+  </div>
   
   <div class="empty-state__text">
     <h3 class="empty-state__title">{{ title() }}</h3>

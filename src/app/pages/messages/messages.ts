@@ -6,9 +6,7 @@ import { AppHeader } from '../../shared/app-header/app-header';
   selector: 'app-messages-page',
   imports: [AppHeader, LucideMessageCircle],
   template: `
-    <ui-app-header>
-      <h1 style="font-size: var(--size-18); font-weight: 600;">Messages</h1>
-    </ui-app-header>
+    <ui-app-header pageTitle="Messages"></ui-app-header>
     <div class="empty-state-wrapper">
       <div class="empty-state">
         <div class="empty-state__icon">

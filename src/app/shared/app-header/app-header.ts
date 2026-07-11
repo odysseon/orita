@@ -24,6 +24,7 @@ import { Location } from '../../core/services/location.service';
 })
 export class AppHeader {
   readonly showLogo = input<boolean>(true);
+  readonly pageTitle = input<string>();
   readonly showLocationPill = input<boolean>(false);
   readonly layout = input<'default' | 'wide'>('default');
 

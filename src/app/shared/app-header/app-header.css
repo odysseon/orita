@@ -16,6 +16,24 @@
   padding: 0 var(--size-16);
   height: 64px;
   box-sizing: border-box;
+  position: relative;
+}
+
+.header-title.absolute-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--size-18);
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.header-title.absolute-center h1 {
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
 }
 
 :host.layout-wide .app-header {

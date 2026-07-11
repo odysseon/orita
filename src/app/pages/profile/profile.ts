@@ -18,6 +18,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 import { CreateBusiness } from './business/create/create-business';
 import { SeoComponent } from '../../shared/seo/seo.component';
+import { AppHeader } from '../../shared/app-header/app-header';
 
 interface NavItem {
   icon: LucideIconInput;
@@ -78,6 +79,7 @@ const START_BUSINESS: NavItem = {
     LucideTriangleAlert,
     CreateBusiness,
     SeoComponent,
+    AppHeader,
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.css',

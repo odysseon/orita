@@ -25,10 +25,10 @@
   } @else if (editorialSections().length === 0) {
   <div class="feed-container">
     <ui-empty-state
-      [icon]="mapPinIcon"
       title="Nothing nearby yet"
       description="Be the first to create a business in your neighborhood!"
     >
+      <svg lucideMapPin aria-hidden="true" icon></svg>
       <button class="btn btn--primary btn--full" routerLink="/profile/business">
         Start a Business
       </button>
