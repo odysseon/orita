@@ -1,4 +1,4 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Service, computed, inject, signal } from '@angular/core';
 import { firstValueFrom, catchError, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ExplorationStorage, ActiveLocation } from './exploration-storage';
@@ -6,9 +6,7 @@ import { LocationService } from './location.service';
 import { CookieService } from './cookie';
 import { environment } from '../../../environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class ExplorationService {
   #storage = inject(ExplorationStorage);
   #locationService = inject(LocationService);

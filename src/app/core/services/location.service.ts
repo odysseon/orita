@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable, of } from 'rxjs';
@@ -12,7 +12,7 @@ export interface Location {
   longitude: number;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class LocationService {
   #http = inject(HttpClient);
   #apiUrl = environment.apiUrl;
