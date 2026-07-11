@@ -69,7 +69,7 @@ body {
   --space-xxl: var(--size-48);
 
   /* -- Typography ------------------------------------------- */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   --font-size-xs: 11px;
