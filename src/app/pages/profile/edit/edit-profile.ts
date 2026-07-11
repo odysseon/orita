@@ -57,7 +57,10 @@ export class EditProfile {
 
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    if (this.profileForm().invalid()) return;
+    if (this.profileForm().invalid()) {
+      this.profileForm().markAsTouched();
+      return;
+    }
 
     this.loading.set(true);
     try {

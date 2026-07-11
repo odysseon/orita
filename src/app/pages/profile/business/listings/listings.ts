@@ -107,7 +107,10 @@ export class Listings {
 
   async createListing(event: Event): Promise<void> {
     event.preventDefault();
-    if (this.createForm().invalid()) return;
+    if (this.createForm().invalid()) {
+      this.createForm().markAsTouched();
+      return;
+    }
     this.submitting.set(true);
     try {
       const m = this.model();

@@ -58,7 +58,10 @@ export class AppBusinessTours {
   }
 
   createTour() {
-    if (this.tourForm().invalid()) return;
+    if (this.tourForm().invalid()) {
+      this.tourForm().markAsTouched();
+      return;
+    }
 
     this.isCreating.set(true);
     const m = this.model();

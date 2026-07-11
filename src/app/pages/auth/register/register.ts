@@ -47,7 +47,10 @@ export class Register {
 
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    if (this.registerForm().invalid()) return;
+    if (this.registerForm().invalid()) {
+      this.registerForm().markAsTouched();
+      return;
+    }
     this.loading.set(true);
     await this.#auth.register(this.model());
     this.loading.set(false);

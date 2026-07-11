@@ -5,7 +5,7 @@
       Loading profile...
     </div>
   } @else if (profile.hasValue()) {
-    <form class="edit-profile-content" (ngSubmit)="onSubmit($event)">
+    <form class="edit-profile-content" (submit)="onSubmit($event)">
       <div class="panel">
         <h2 class="panel__title">Profile Information</h2>
         <div class="panel__body edit-profile-panel-body">

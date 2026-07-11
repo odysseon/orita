@@ -136,7 +136,10 @@ export class EditListing implements OnInit {
   }
 
   async saveChanges() {
-    if (this.editForm.invalid) return;
+    if (this.editForm.invalid) {
+      this.editForm.markAllAsTouched();
+      return;
+    }
     this.isSaving.set(true);
     try {
       const val = this.editForm.value;

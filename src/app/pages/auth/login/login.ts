@@ -47,7 +47,10 @@ export class Login {
 
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    if (this.loginForm().invalid()) return;
+    if (this.loginForm().invalid()) {
+      this.loginForm().markAsTouched();
+      return;
+    }
     this.loading.set(true);
     const returnUrl = this.#route.snapshot.queryParams['returnUrl'] || '/home';
     await this.#auth.login(this.model(), returnUrl);
