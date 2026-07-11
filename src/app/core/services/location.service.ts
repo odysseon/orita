@@ -6,10 +6,14 @@ import { map, catchError } from 'rxjs/operators';
 
 export interface Location {
   id: string;
+  provider: string;
+  externalId: string;
   name: string;
   formattedAddress?: string;
   latitude: number;
   longitude: number;
+  persisted?: boolean;
+  isFollowed?: boolean;
 }
 
 @Service()
@@ -35,9 +39,20 @@ export class LocationService {
       lon: lng.toString(),
     };
 
-    return this.#http.get<Location>(`${this.#apiUrl}/locations/reverse`, { params }).pipe(
+    return this.#http.get<Location>(`${this.#apiUrl}/v1/locations/reverse`, { params }).pipe(
       catchError(() => of(null))
     );
+  }
+
+  ensure(location: Location): Observable<Location> {
+    return this.#http.post<Location>(`${this.#apiUrl}/v1/locations/ensure`, {
+      externalId: String(location.externalId),
+      provider: location.provider,
+      name: location.name,
+      formattedAddress: location.formattedAddress || '',
+      lat: location.latitude,
+      lng: location.longitude,
+    });
   }
 
   getCurrentPosition(): Promise<GeolocationPosition> {
