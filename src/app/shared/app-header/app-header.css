@@ -53,7 +53,13 @@
   cursor: pointer;
   transition: all 0.2s;
   margin-left: var(--size-16);
+  max-width: 200px;
+}
+
+.location-pill span {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .location-pill:hover {

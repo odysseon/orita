@@ -2,7 +2,7 @@ import { Component, computed, inject, signal, effect } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
-  LucideMapPin,
+  MapPin,
 } from '@lucide/angular';
 import { AppFeedCard } from '../../shared/feed-card/feed-card';
 import { EmptyState } from '../../shared/empty-state/empty-state';
@@ -33,6 +33,8 @@ export class Home {
   #toast = inject(ToastService);
   #exploration = inject(ExplorationService);
   #router = inject(Router);
+
+  readonly mapPinIcon = MapPin;
 
   readonly feedItems = signal<FeedItemView[]>([]);
   readonly isLoading = signal(true);
