@@ -90,7 +90,7 @@ export class MediaService {
 
     // Default to a fallback if cloudName isn't provided, though backend should provide it for Cloudinary
     const cloudName = intent.cloudName || 'dlyxyhofo';
-    const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
+    const uploadUrl = `${environment.cloudinaryUploadBaseUrl}/${cloudName}/auto/upload`;
 
     const req = new HttpRequest('POST', uploadUrl, formData, {
       reportProgress: true,
