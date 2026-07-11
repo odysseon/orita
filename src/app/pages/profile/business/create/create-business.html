@@ -114,6 +114,12 @@ We also repair damaged phones and offer same-day screen replacement."
         }
       </app-form-field>
 
+      <p class="create-biz-form__legal" style="font-size: var(--font-size-sm); color: var(--color-gray-500); text-align: center; margin-bottom: var(--size-16);">
+        By creating a business, you agree to our 
+        <a routerLink="/legal/terms" style="color: var(--color-primary-600); text-decoration: underline;">Terms of Service</a> and 
+        <a routerLink="/legal/privacy" style="color: var(--color-primary-600); text-decoration: underline;">Privacy Policy</a>.
+      </p>
+
       <button class="btn btn--primary btn--full create-biz-submit" type="submit" [disabled]="loading() || isFormInvalid()">
         @if (loading()) {
         <svg lucideLoaderCircle class="create-biz-submit__spinner" aria-hidden="true"></svg>
