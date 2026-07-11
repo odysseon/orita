@@ -6,7 +6,7 @@
   }
   @if (showLocationPill()) {
     <button class="location-pill" (click)="toggleDrawer()">
-      <img src="/favicon.svg" alt="Orita Logo" class="app-logo-icon" aria-hidden="true" />
+      <svg lucideMapPin aria-hidden="true"></svg>
       <span>{{ activeLocation()?.name || 'Set location' }}</span>
       <svg lucideChevronDown aria-hidden="true"></svg>
     </button>

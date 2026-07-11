@@ -12,7 +12,7 @@ import { AppHeader } from '../../shared/app-header/app-header';
     <div class="empty-state-wrapper">
       <div class="empty-state">
         <div class="empty-state__icon">
-          <svg lucideCompass aria-hidden="true"></svg>
+          <svg lucideCompass aria-hidden="true" style="width: 40px; height: 40px;"></svg>
         </div>
         <h2 class="empty-state__title">Discover Local Tours</h2>
         <p class="empty-state__desc">

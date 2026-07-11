@@ -1,6 +1,6 @@
 <div class="home">
   <app-seo [config]="seoConfig" />
-  <ui-app-header [uiScrollHide]="true" scrollHidePosition="top" />
+  <ui-app-header [uiScrollHide]="true" scrollHidePosition="top" [showLocationPill]="true" />
 
   @if (isLoading()) {
   <div class="feed-container">

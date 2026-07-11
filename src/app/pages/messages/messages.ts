@@ -12,7 +12,7 @@ import { AppHeader } from '../../shared/app-header/app-header';
     <div class="empty-state-wrapper">
       <div class="empty-state">
         <div class="empty-state__icon">
-          <svg lucideMessageCircle aria-hidden="true"></svg>
+          <svg lucideMessageCircle aria-hidden="true" style="width: 40px; height: 40px;"></svg>
         </div>
         <h2 class="empty-state__title">Connect with Locals</h2>
         <p class="empty-state__desc">

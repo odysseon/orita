@@ -1,6 +1,6 @@
 import { Component, input, inject, signal } from '@angular/core';
 import { Logo } from '../logo/logo';
-import { LucideChevronDown } from '@lucide/angular';
+import { LucideChevronDown, LucideMapPin } from '@lucide/angular';
 import { ExplorationService } from '../../core/services/exploration.service';
 import { ActiveLocation } from '../../core/services/exploration-storage';
 import { Drawer } from '../drawer/drawer';
@@ -12,6 +12,7 @@ import { Location } from '../../core/services/location.service';
   imports: [
     Logo,
     LucideChevronDown,
+    LucideMapPin,
     Drawer,
     LocationSelector,
   ],
@@ -23,7 +24,7 @@ import { Location } from '../../core/services/location.service';
 })
 export class AppHeader {
   readonly showLogo = input<boolean>(true);
-  readonly showLocationPill = input<boolean>(true);
+  readonly showLocationPill = input<boolean>(false);
   readonly layout = input<'default' | 'wide'>('default');
 
   #exploration = inject(ExplorationService);
