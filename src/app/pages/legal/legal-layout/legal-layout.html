@@ -1,0 +1,43 @@
+<ui-app-header layout="wide" [showLocationPill]="false">
+  <div class="header-actions">
+    <a routerLink="/home" class="btn btn--ghost btn--sm">Explore Oríta</a>
+  </div>
+</ui-app-header>
+
+<main class="legal-layout section">
+  <div class="container legal-layout__container">
+    <aside class="legal-layout__sidebar">
+      <nav class="legal-nav">
+        <h3 class="legal-nav__title">Legal</h3>
+        <ul class="legal-nav__list">
+          <li>
+            <a routerLink="/legal/privacy" routerLinkActive="active" class="legal-nav__link">
+              Privacy Policy
+            </a>
+          </li>
+          <li>
+            <a routerLink="/legal/terms" routerLinkActive="active" class="legal-nav__link">
+              Terms of Service
+            </a>
+          </li>
+          <li>
+            <a routerLink="/legal/community" routerLinkActive="active" class="legal-nav__link">
+              Community Guidelines
+            </a>
+          </li>
+          <li>
+            <a routerLink="/legal/cookies" routerLinkActive="active" class="legal-nav__link">
+              Cookie Policy
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <div class="legal-layout__content prose">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</main>
+
+<app-footer></app-footer>

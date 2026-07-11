@@ -45,6 +45,10 @@ export const routes: Routes = [
     data: { isRootAppPage: true },
   },
   {
+    path: 'legal',
+    loadChildren: () => import('./pages/legal/legal.routes').then((m) => m.legalRoutes),
+  },
+  {
     path: 'profile',
     loadChildren: () => import('./pages/profile/profile.routes').then((m) => m.profileRoutes),
   },

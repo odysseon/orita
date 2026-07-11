@@ -1,0 +1,129 @@
+:host {
+  display: block;
+  background: var(--surface-base);
+  min-height: 100vh;
+}
+
+.header-actions {
+  margin-left: auto;
+}
+
+.legal-layout {
+  padding-top: var(--size-40);
+  padding-bottom: var(--size-80);
+}
+
+.legal-layout__container {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: var(--size-64);
+  align-items: flex-start;
+}
+
+.legal-layout__sidebar {
+  position: sticky;
+  top: var(--size-80);
+}
+
+.legal-nav__title {
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: var(--size-16);
+}
+
+.legal-nav__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-8);
+}
+
+.legal-nav__link {
+  display: block;
+  padding: var(--size-8) var(--size-12);
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.legal-nav__link:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.legal-nav__link.active {
+  background: var(--surface-active);
+  color: var(--color-primary);
+}
+
+.legal-layout__content {
+  max-width: 800px;
+  background: var(--surface-card);
+  padding: var(--size-48);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Prose styles for legal documents */
+.prose h2 {
+  font-size: var(--font-size-xl);
+  margin-top: var(--size-40);
+  margin-bottom: var(--size-16);
+  color: var(--text-primary);
+}
+
+.prose h3 {
+  font-size: var(--font-size-lg);
+  margin-top: var(--size-32);
+  margin-bottom: var(--size-12);
+  color: var(--text-primary);
+}
+
+.prose p {
+  margin-bottom: var(--size-16);
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.prose ul, .prose ol {
+  margin-bottom: var(--size-24);
+  padding-left: var(--size-24);
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.prose li {
+  margin-bottom: var(--size-8);
+}
+
+.prose strong {
+  color: var(--text-primary);
+}
+
+@media (max-width: 900px) {
+  .legal-layout__container {
+    grid-template-columns: 1fr;
+    gap: var(--size-32);
+  }
+  
+  .legal-layout__sidebar {
+    position: static;
+  }
+  
+  .legal-nav__list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--size-8);
+  }
+  
+  .legal-layout__content {
+    padding: var(--size-24);
+  }
+}

@@ -33,5 +33,24 @@ export class Footer {
     },
   ];
 
+  protected readonly legalLinks: readonly FooterLink[] = [
+    {
+      label: 'Privacy Policy',
+      route: '/legal/privacy',
+    },
+    {
+      label: 'Terms of Service',
+      route: '/legal/terms',
+    },
+    {
+      label: 'Community Guidelines',
+      route: '/legal/community',
+    },
+    {
+      label: 'Cookie Policy',
+      route: '/legal/cookies',
+    },
+  ];
+
   protected readonly year = new Date().getFullYear();
 }
