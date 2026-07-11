@@ -1,6 +1,7 @@
 /// <reference types="google.accounts" />
 import { Service, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Service()
@@ -9,11 +10,20 @@ export class GoogleAuthService {
   private isInitialized = false;
   private isFetching = false;
   private callbacks = new Set<(response: google.accounts.id.CredentialResponse) => void>();
+  
+  public readonly initialized$ = new BehaviorSubject<boolean>(false);
 
   initialize(callback: (response: google.accounts.id.CredentialResponse) => void) {
     this.callbacks.add(callback);
 
-    if (this.isInitialized || this.isFetching) return;
+    if (this.isInitialized) {
+      return;
+    }
+    
+    if (this.isFetching) {
+      return;
+    }
+    
     if (typeof window === 'undefined' || !window.google) {
       return;
     }
@@ -30,6 +40,7 @@ export class GoogleAuthService {
         });
         this.isInitialized = true;
         this.isFetching = false;
+        this.initialized$.next(true);
       },
       error: () => {
         // Silently fail or retry, but prevent locking
