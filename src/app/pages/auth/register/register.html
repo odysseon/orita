@@ -50,6 +50,12 @@
       [errorMessage]="registerForm.password().errors()[0]?.message"
     ></app-password-field>
 
+    <p class="auth-form__legal">
+      By creating an account, you agree to our 
+      <a routerLink="/legal/terms" class="auth-form__link">Terms of Service</a> and 
+      <a routerLink="/legal/privacy" class="auth-form__link">Privacy Policy</a>.
+    </p>
+
     <button
       class="btn btn--primary btn--full auth-form__submit"
       type="submit"
