@@ -12,7 +12,6 @@ interface FooterLink {
   imports: [RouterLink],
   templateUrl: './footer.html',
   styleUrl: './footer.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Footer {
   protected readonly links: readonly FooterLink[] = [

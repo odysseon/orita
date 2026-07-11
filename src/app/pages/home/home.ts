@@ -63,14 +63,12 @@ export class Home {
   });
 
   constructor() {
-    this.loadInitialFeed();
-    
     // Auto-reload when location changes
-    effect(() => {
+    effect((onCleanup) => {
       this.#exploration.activeLocation(); // subscribe to changes
-      // In a real app we'd debounce this or handle it more cleanly,
-      // but this is enough to re-fetch when location is updated from the header.
-      setTimeout(() => this.loadInitialFeed(), 0);
+      
+      const sub = this.loadInitialFeed();
+      onCleanup(() => sub.unsubscribe());
     });
   }
 
@@ -82,7 +80,7 @@ export class Home {
   loadInitialFeed() {
     this.isLoading.set(true);
     const loc = this.#exploration.activeLocation();
-    this.#feedService.getFeed({ limit: 15, lat: loc?.lat, lng: loc?.lng }).subscribe({
+    return this.#feedService.getFeed({ limit: 15, lat: loc?.lat, lng: loc?.lng }).subscribe({
       next: (items) => {
         this.feedItems.set(items);
         this.hasMore.set(items.length === 15);

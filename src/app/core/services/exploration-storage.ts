@@ -1,5 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { CookieService } from './cookie';
+import { environment } from '../../../environments/environment';
 
 export interface ActiveLocation {
   id: string;
@@ -17,9 +18,7 @@ export abstract class ExplorationStorage {
   abstract clear(): void;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class CookieExplorationStorage extends ExplorationStorage {
   private readonly COOKIE_KEY = 'orita.exploration';
   #cookieService = inject(CookieService);
@@ -43,7 +42,7 @@ export class CookieExplorationStorage extends ExplorationStorage {
       expires,
       path: '/',
       sameSite: 'Lax',
-      // secure: true // TODO: enable in prod when HTTPS is guaranteed everywhere
+      secure: environment.production
     });
   }
 
