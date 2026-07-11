@@ -1,7 +1,9 @@
 import { Component, signal, computed, inject, effect, resource } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
+import { httpResource } from '@angular/common/http';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { LucideSearch, LucideX, LucideClock, LucideSlidersHorizontal, LucideMapPin, LucideNavigation } from '@lucide/angular';
 import { SearchService } from '../../core/services/search.service';
 import { ExplorationService } from '../../core/services/exploration.service';
@@ -10,6 +12,7 @@ import { LocationService, Location } from '../../core/services/location.service'
 import { SearchFilters } from '../../core/models/search.model';
 import { AppListingCard } from '../../shared/listing-card/listing-card';
 import { AppBizCard } from '../../shared/biz-card/biz-card';
+import { AppLocationCard } from '../../shared/location-card/location-card';
 import { AppHeader } from '../../shared/app-header/app-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { AppGrid } from '../../shared/grid/grid';
@@ -23,7 +26,7 @@ import { EmptyState } from '../../shared/empty-state/empty-state';
   selector: 'app-search',
   imports: [
     LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
-    AppListingCard, AppBizCard, AppHeader, ScrollHideDirective,
+    AppListingCard, AppBizCard, AppLocationCard, AppHeader, ScrollHideDirective,
     AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState
   ],
   templateUrl: './search.html',
@@ -43,7 +46,7 @@ export class Search {
   // URL State
   readonly queryParamMap = toSignal(this.#route.queryParamMap);
 
-  readonly searchType = computed<'listing' | 'business'>(() => {
+  readonly searchType = computed<'listing' | 'business' | 'location'>(() => {
     return (this.queryParamMap()?.get('tab') as any) || 'listing';
   });
 
@@ -138,6 +141,17 @@ export class Search {
   readonly listingsResource = this.#searchService.getListingsResource(this.listingParams);
   readonly businessesResource = this.#searchService.getBusinessesResource(this.businessParams);
   
+  readonly locationsParams = computed<string | null>(() => {
+    if (this.searchType() !== 'location') return null;
+    const q = this.searchQuery().trim();
+    if (!q || q.length < 2) return null;
+    return q;
+  });
+
+  readonly locationsResource = httpResource<Location[]>(() => {
+    const q = this.locationsParams();
+    return q ? `${environment.apiUrl}/v1/locations/search?q=${encodeURIComponent(q)}` : undefined;
+  });
   // Empty State Data
   readonly popularBusinessesResource = this.#searchService.getBusinessesResource(computed(() => ({ limit: 10 })));
 
@@ -172,7 +186,7 @@ export class Search {
     this.updateUrl({ limit: null });
   }
 
-  setSearchType(type: 'listing' | 'business') {
+  setSearchType(type: 'listing' | 'business' | 'location') {
     this.updateUrl({ tab: type, limit: null });
   }
 

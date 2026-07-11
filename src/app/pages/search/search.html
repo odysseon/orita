@@ -51,6 +51,13 @@
             <span class="count">({{ businessesResource.value()?.total || 0 }})</span>
           }
         </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="searchType() === 'location'"
+          (click)="setSearchType('location')"
+        >
+          Locations
+        </button>
       </div>
 
       <!-- Active Filter Chips (optional view) -->
@@ -116,11 +123,25 @@
           </section>
         </div>
       </div>
-    } @else if (isDebouncing() || listingsResource.isLoading() || businessesResource.isLoading()) {
+    } @else if (isDebouncing() || listingsResource.isLoading() || businessesResource.isLoading() || locationsResource.isLoading()) {
       <div class="loading-state">
         <div class="spinner"></div>
         <p>Searching...</p>
       </div>
+    } @else if (searchType() === 'location') {
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        @for (loc of locationsResource.value() || []; track loc.id || loc.externalId) {
+          <app-location-card [location]="loc" />
+        }
+      </div>
+      @if ((locationsResource.value()?.length || 0) === 0) {
+        <ui-empty-state
+          title="No locations found"
+          description="We couldn't find any locations matching your search."
+        >
+          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+        </ui-empty-state>
+      }
     } @else if (searchType() === 'listing') {
       <app-grid>
         @for (item of listingsResource.value()?.items || []; track item.id) {
