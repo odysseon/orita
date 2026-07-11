@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
   template: `
     <div class="auth-page">
       <div class="auth-card">
+        <header class="auth-card__header">
           <h1 class="auth-card__title">
             <img src="/favicon.svg" alt="Orita Logo" class="auth-card__icon" aria-hidden="true" />
             Orita

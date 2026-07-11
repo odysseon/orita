@@ -9,10 +9,10 @@ import { Component, input } from '@angular/core';
       <p>If you have any questions regarding this policy, please contact us:</p>
       <div class="legal-contact__links">
         @if (showPrivacy()) {
-          <a href="mailto:privacy@orita.ng">privacy&#64;orita.ng</a>
+          <a href="mailto:aanusteven8@gmail.com">aanusteven8&#64;gmail.com</a>
         }
         @if (showLegal()) {
-          <a href="mailto:legal@orita.ng">legal&#64;orita.ng</a>
+          <a href="mailto:aanusteven8@gmail.com">aanusteven8&#64;gmail.com</a>
         }
       </div>
     </div>

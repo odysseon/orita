@@ -6,9 +6,9 @@ import { AppHeader } from '../../shared/app-header/app-header';
   selector: 'app-tours-page',
   imports: [AppHeader, LucideCompass],
   template: `
-    <app-header>
+    <ui-app-header>
       <h1 style="font-size: var(--size-18); font-weight: 600;">Tours</h1>
-    </app-header>
+    </ui-app-header>
     <div class="empty-state-wrapper">
       <div class="empty-state">
         <div class="empty-state__icon">
