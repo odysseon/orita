@@ -20,6 +20,7 @@ import { ICategory } from '../../../home/home.interface';
 import { CategoryPicker } from '../../../../shared/category-picker/category-picker';
 import { LocationPicker } from '../../../../shared/location-picker/location-picker';
 import { Location } from '../../../../core/services/location.service';
+import { MediaService } from '../../../../core/services/media.service';
 
 interface BusinessTypeOption {
   value: BusinessType;
@@ -62,6 +63,7 @@ export class EditBusiness implements OnInit {
   readonly loading = signal(false);
   readonly avatarFile = signal<File | null>(null);
   readonly coverFile = signal<File | null>(null);
+  #mediaService = inject(MediaService);
 
   readonly categories = signal<ICategory[]>([]);
 
@@ -209,43 +211,49 @@ export class EditBusiness implements OnInit {
 
     this.loading.set(true);
     try {
-      const formData = new FormData();
-      formData.append('name', this.model().name);
-      formData.append('businessType', this.model().businessType);
-      formData.append('description', this.model().description || '');
-      formData.append('websiteUrl', this.model().websiteUrl || '');
-      formData.append('contactPhone', this.model().contactPhone || '');
-      formData.append('whatsapp', this.model().whatsapp || '');
-      formData.append('contactEmail', this.model().contactEmail || '');
-      formData.append('location', this.model().location || '');
-      if (this.model().latitude !== null) {
-        formData.append('latitude', String(this.model().latitude));
-      }
-      if (this.model().longitude !== null) {
-        formData.append('longitude', String(this.model().longitude));
-      }
-      formData.append('isPublic', String(this.model().isPublic));
-      
-      if (this.model().primaryCategoryId) {
-        formData.append('primaryCategoryId', this.model().primaryCategoryId);
-      }
-      this.model().secondaryCategoryIds.forEach(id => {
-        formData.append('secondaryCategoryIds[]', id);
-      });
+      const payload = {
+        name: this.model().name,
+        businessType: this.model().businessType,
+        ...(this.model().description && { description: this.model().description }),
+        ...(this.model().websiteUrl && { websiteUrl: this.model().websiteUrl }),
+        ...(this.model().contactPhone && { contactPhone: this.model().contactPhone }),
+        ...(this.model().whatsapp && { whatsapp: this.model().whatsapp }),
+        ...(this.model().contactEmail && { contactEmail: this.model().contactEmail }),
+        ...(this.model().location && { location: this.model().location }),
+        ...(this.model().latitude !== null && { latitude: this.model().latitude }),
+        ...(this.model().longitude !== null && { longitude: this.model().longitude }),
+        isPublic: this.model().isPublic,
+        primaryCategoryId: this.model().primaryCategoryId,
+        ...(this.model().secondaryCategoryIds.length > 0 && { secondaryCategoryIds: this.model().secondaryCategoryIds }),
+      };
+
+      await firstValueFrom(
+        this.#http.patch(`${environment.apiUrl}/business/${biz.id}`, payload)
+      );
 
       const avatar = this.avatarFile();
       if (avatar) {
-        formData.append('avatar', avatar);
+        await new Promise<void>((resolve, reject) => {
+          this.#mediaService.uploadMedia('business-profile', biz.id, 'LOGO', avatar).subscribe({
+            next: (state) => {
+              if (state.state === 'complete') resolve();
+            },
+            error: (err) => reject(err),
+          });
+        });
       }
 
       const cover = this.coverFile();
       if (cover) {
-        formData.append('cover', cover);
+        await new Promise<void>((resolve, reject) => {
+          this.#mediaService.uploadMedia('business-profile', biz.id, 'BANNER', cover).subscribe({
+            next: (state) => {
+              if (state.state === 'complete') resolve();
+            },
+            error: (err) => reject(err),
+          });
+        });
       }
-
-      await firstValueFrom(
-        this.#http.patch(`${environment.apiUrl}/business/${biz.id}`, formData)
-      );
 
       this.#toast.success('Profile updated', 'Your business profile has been updated.');
       this.#router.navigate(['/profile/business']);

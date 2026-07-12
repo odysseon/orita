@@ -1,100 +1,162 @@
-:host { display: contents; }
+:host {
+  display: contents;
+}
 
 .listing-card {
   position: relative;
   display: flex;
   flex-direction: column;
   background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   text-decoration: none;
-  transition:
-    box-shadow var(--transition-fast),
-    border-color var(--transition-fast);
-
-  &:hover {
-    box-shadow: var(--shadow-sm);
-    border-color: var(--border-default);
-  }
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
-.listing-card__cover {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 110px;
+.listing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05);
+  border-color: rgba(var(--clr-primary-rgb), 0.15);
+}
+
+.listing-card__image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
   background: var(--surface-container);
-  color: var(--text-muted);
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  svg {
-    width: var(--size-24);
-    height: var(--size-24);
-    opacity: 0.4;
-  }
-}
-
-.listing-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-2);
-  padding: var(--size-10) var(--size-12) var(--size-12);
-}
-
-.listing-card__title {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
-  line-height: var(--line-height-tight);
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.listing-card__price {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--clr-primary);
+.listing-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.listing-card__save-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(4px);
-  border: none;
-  border-radius: 50%;
-  padding: 0.5rem;
-  cursor: pointer;
+.listing-card:hover .listing-card__image {
+  transform: scale(1.05);
+}
+
+.listing-card__placeholder {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-muted);
-  transition: all 0.2s;
+}
+
+.listing-card__placeholder svg {
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+}
+
+/* Elegant gradient overlay */
+.listing-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.listing-card:hover .listing-card__overlay {
+  opacity: 1;
+}
+
+.listing-card__actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
   z-index: 2;
 }
 
+/* Glassmorphism Save Button */
+.listing-card__save-btn {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
 .listing-card__save-btn:hover {
-  background: var(--surface);
-  color: var(--primary);
-  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
 }
 
 .listing-card__saved {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 18px;
+  height: 18px;
   fill: transparent;
-  transition: all 0.2s;
+  stroke: currentColor;
+  stroke-width: 2;
+  transition: all 0.2s ease;
 }
 
 .listing-card__saved.is-saved {
-  fill: currentColor;
-  color: var(--primary);
+  fill: var(--clr-primary, #e23b3b);
+  stroke: var(--clr-primary, #e23b3b);
+}
+
+/* Floating Glass Price Badge */
+.listing-card__price-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.listing-card:hover .listing-card__price-badge {
+  transform: translateY(-2px);
+}
+
+.listing-card__body {
+  padding: 16px;
+  background: var(--surface-card);
+}
+
+.listing-card__title {
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  line-height: var(--line-height-tight);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

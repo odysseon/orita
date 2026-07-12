@@ -3,14 +3,12 @@ import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import {
-  LucideArrowLeft,
-  LucideTrash2,
   LucideSave,
-  LucideImagePlus,
-  LucideX,
 } from '@lucide/angular';
+import { MediaSelector } from '../../../../../shared/media-selector/media-selector';
 import { environment } from '../../../../../../environments/environment';
 import { ToastService } from '../../../../../core/services/toast';
+import { MediaService } from '../../../../../core/services/media.service';
 import { IListing, ICategory } from '../listing.interface';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { AppFormField } from '../../../../../shared/form-field/form-field';
@@ -24,7 +22,7 @@ interface IMedia {
 
 @Component({
   selector: 'app-edit-listing',
-  imports: [ReactiveFormsModule, AppFormField, LucideTrash2, LucideSave, LucideImagePlus, LucideX],
+  imports: [ReactiveFormsModule, AppFormField, LucideSave, MediaSelector],
   templateUrl: './edit-listing.html',
   styleUrl: './edit-listing.css',
 })
@@ -34,6 +32,7 @@ export class EditListing implements OnInit {
   #route = inject(ActivatedRoute);
   #router = inject(Router);
   #categoryService = inject(CategoryService);
+  #mediaService = inject(MediaService);
 
   #fb = inject(FormBuilder);
 
@@ -45,6 +44,14 @@ export class EditListing implements OnInit {
   // Media State
   readonly coverMedia = signal<IMedia | null>(null);
   readonly galleryMedia = signal<IMedia[]>([]);
+
+  readonly initialCoverUrl = computed(() => this.coverMedia()?.url ?? []);
+  readonly initialGalleryUrls = computed(() => this.galleryMedia().map(m => m.url));
+
+  // Media Tracking State (Deferred Uploads)
+  readonly coverFileToAdd = signal<File | null>(null);
+  readonly galleryFilesToAdd = signal<File[]>([]);
+  readonly mediaIdsToDelete = signal<string[]>([]);
 
   // Form State
   readonly editForm = this.#fb.group({
@@ -59,8 +66,6 @@ export class EditListing implements OnInit {
 
   readonly isLoading = signal(true);
   readonly isSaving = signal(false);
-  readonly isUploadingCover = signal(false);
-  readonly isUploadingGallery = signal(false);
 
   ngOnInit() {
     this.listingId.set(this.#route.snapshot.paramMap.get('listingId') ?? '');
@@ -142,6 +147,7 @@ export class EditListing implements OnInit {
     }
     this.isSaving.set(true);
     try {
+      // 1. Save listing details
       const val = this.editForm.value;
       const payload = {
         title: val.title,
@@ -159,7 +165,37 @@ export class EditListing implements OnInit {
       await firstValueFrom(
         this.#http.patch(`${environment.apiUrl}/listings/${this.listingId()}`, payload),
       );
-      this.#toast.success('Done', 'Listing updated successfully.');
+
+      // 2. Process Deletions
+      const toDelete = this.mediaIdsToDelete();
+      if (toDelete.length > 0) {
+        for (const id of toDelete) {
+          await firstValueFrom(
+            this.#http.delete(`${environment.apiUrl}/listings/${this.listingId()}/media/${id}`)
+          ).catch(() => {});
+        }
+      }
+
+      // 3. Process Uploads
+      const cover = this.coverFileToAdd();
+      if (cover) {
+        await this.uploadMedia(cover, 'COVER');
+      }
+
+      const gallery = this.galleryFilesToAdd();
+      if (gallery.length > 0) {
+        for (const file of gallery) {
+          await this.uploadMedia(file, 'GALLERY');
+        }
+      }
+
+      // 4. Reload Data to sync state
+      await this.loadData();
+      this.coverFileToAdd.set(null);
+      this.galleryFilesToAdd.set([]);
+      this.mediaIdsToDelete.set([]);
+
+      this.#toast.success('Saved', 'Listing updated successfully.');
     } catch (err) {
       this.#toast.error('Error', 'Could not update listing.');
     } finally {
@@ -167,43 +203,47 @@ export class EditListing implements OnInit {
     }
   }
 
-  async onCoverUpload(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
-    this.isUploadingCover.set(true);
-    await this.uploadMedia(file, 'COVER');
-    this.isUploadingCover.set(false);
+  onCoverChanged(files: File[]) {
+    this.coverFileToAdd.set(files[0] ?? null);
   }
 
-  async onGalleryUpload(event: Event) {
-    const files = (event.target as HTMLInputElement).files;
-    if (!files || files.length === 0) return;
-    this.isUploadingGallery.set(true);
-    for (let i = 0; i < files.length; i++) {
-      await this.uploadMedia(files[i], 'GALLERY');
+  onCoverRemoved(url: string) {
+    const media = this.coverMedia();
+    if (media && media.url === url) {
+      this.mediaIdsToDelete.update(ids => [...ids, media.id]);
+      this.coverMedia.set(null);
     }
-    this.isUploadingGallery.set(false);
   }
+
+  onGalleryChanged(files: File[]) {
+    this.galleryFilesToAdd.set(files);
+  }
+
+  onGalleryRemoved(url: string) {
+    const media = this.galleryMedia().find(m => m.url === url);
+    if (media) {
+      this.mediaIdsToDelete.update(ids => [...ids, media.id]);
+      this.galleryMedia.update(g => g.filter(m => m.id !== media.id));
+    }
+  }
+
+
 
   private async uploadMedia(file: File, role: 'COVER' | 'GALLERY') {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('role', role);
-
     try {
-      const res = await firstValueFrom(
-        this.#http.post<IMedia>(
-          `${environment.apiUrl}/listings/${this.listingId()}/media`,
-          formData,
-        ),
-      );
-      if (role === 'COVER') {
-        this.coverMedia.set(res);
-      } else {
-        this.galleryMedia.update((g) => [...g, res]);
-      }
+      await new Promise<void>((resolve, reject) => {
+        this.#mediaService.uploadMedia('listing', this.listingId(), role, file).subscribe({
+          next: (state) => {
+            if (state.state === 'complete') {
+              resolve();
+            }
+          },
+          error: (err) => reject(err),
+        });
+      });
     } catch (err) {
-      this.#toast.error('Error', 'Could not upload image.');
+      console.error('Failed to upload media', err);
+      throw err;
     }
   }
 

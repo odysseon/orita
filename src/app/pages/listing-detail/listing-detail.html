@@ -34,7 +34,11 @@
 <div style="display: flex; flex-direction: column; gap: var(--size-16);">
   <!-- Cover -->
   <div class="listing-cover">
+    @if (item.coverUrl) {
+    <img [src]="item.coverUrl" [alt]="item.title" style="width: 100%; height: 100%; object-fit: cover;" />
+    } @else {
     <svg lucidePackage aria-hidden="true"></svg>
+    }
     <app-save-button 
       [itemId]="item.id" 
       itemType="LISTING" 
@@ -68,6 +72,21 @@
   <!-- Description -->
   @if (item.description) {
   <p class="listing-description">{{ item.description }}</p>
+  }
+
+  <!-- Category Attributes -->
+  @if (attributesResource.hasValue() && attributesResource.value()!.length > 0) {
+  <section class="listing-attributes">
+    <h2 class="listing-attributes__title">Details</h2>
+    <div class="listing-attributes__grid">
+      @for (attr of attributesResource.value()!; track attr.label) {
+      <div class="attribute-item">
+        <span class="attribute-item__label">{{ attr.label }}</span>
+        <span class="attribute-item__value">{{ attr.value }}</span>
+      </div>
+      }
+    </div>
+  </section>
   }
 
   <!-- Business card -->

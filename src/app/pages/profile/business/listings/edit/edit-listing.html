@@ -142,72 +142,26 @@
         <h2>Cover Photo</h2>
         <p class="section-desc">This is the main image shown in search results.</p>
 
-        @if (coverMedia()) {
-        <div class="media-preview main-preview">
-          <img [src]="coverMedia()!.url" alt="Cover photo" />
-          <button
-            class="delete-media-btn"
-            (click)="deleteMedia(coverMedia()!.id, 'COVER')"
-            aria-label="Delete cover photo"
-          >
-            <svg lucideTrash2 aria-hidden="true"></svg>
-          </button>
-        </div>
-        } @else {
-        <div class="media-upload-box">
-          <input
-            type="file"
-            id="cover-upload"
-            accept="image/*"
-            (change)="onCoverUpload($event)"
-            hidden
-          />
-          <label for="cover-upload" class="upload-label" [class.disabled]="isUploadingCover()">
-            <svg lucideImagePlus aria-hidden="true"></svg>
-            <span>{{ isUploadingCover() ? 'Uploading...' : 'Upload Cover Photo' }}</span>
-          </label>
-        </div>
-        }
+        <app-media-selector
+          [initialUrls]="initialCoverUrl()"
+          (filesChanged)="onCoverChanged($event)"
+          (mediaRemoved)="onCoverRemoved($event)"
+          [multiple]="false"
+          [maxSizeMb]="5"
+        />
       </section>
 
       <section class="card media-card">
         <h2>Gallery</h2>
         <p class="section-desc">Add more photos to show different angles or details.</p>
 
-        <div class="gallery-grid">
-          @for (media of galleryMedia(); track media.id) {
-          <div class="media-preview gallery-preview">
-            <img [src]="media.url" alt="Gallery photo" />
-            <button
-              class="delete-media-btn"
-              (click)="deleteMedia(media.id, 'GALLERY')"
-              aria-label="Delete photo"
-            >
-              <svg lucideX aria-hidden="true"></svg>
-            </button>
-          </div>
-          }
-
-          <!-- Upload Button in Grid -->
-          <div class="media-upload-box gallery-upload">
-            <input
-              type="file"
-              id="gallery-upload"
-              accept="image/*"
-              multiple
-              (change)="onGalleryUpload($event)"
-              hidden
-            />
-            <label
-              for="gallery-upload"
-              class="upload-label small"
-              [class.disabled]="isUploadingGallery()"
-            >
-              <svg lucidePlus aria-hidden="true"></svg>
-              <span>{{ isUploadingGallery() ? '...' : 'Add' }}</span>
-            </label>
-          </div>
-        </div>
+        <app-media-selector
+          [initialUrls]="initialGalleryUrls()"
+          (filesChanged)="onGalleryChanged($event)"
+          (mediaRemoved)="onGalleryRemoved($event)"
+          [multiple]="true"
+          [maxSizeMb]="5"
+        />
       </section>
     </div>
   </div>

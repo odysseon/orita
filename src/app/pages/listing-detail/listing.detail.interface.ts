@@ -23,6 +23,8 @@ export interface IListingDetail {
   attributes: Record<string, unknown> | null;
   createdAt: string;
   updatedAt: string;
+  coverUrl?: string;
+  galleryUrls?: string[];
   reviews?: IReview[];
   isSaved?: boolean;
 }

@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { httpResource, HttpClient } from '@angular/common/http';
+import { resource } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
@@ -19,6 +20,8 @@ import { EmptyState } from '../../shared/empty-state/empty-state';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { IBusinessLite, IListingDetail } from './listing.detail.interface';
 import { LayoutPage } from '../../shared/layout/sub-layout/layout-page.interface';
+import { CategoryService } from '../../core/services/category.service';
+import { ListingAttributeFormatter, DisplayAttribute } from '../../shared/utils/listing-attribute-formatter';
 
 @Component({
   selector: 'app-listing-detail',
@@ -42,6 +45,7 @@ export class ListingDetail implements LayoutPage {
   #route = inject(ActivatedRoute);
   #router = inject(Router);
   #http = inject(HttpClient);
+  #categoryService = inject(CategoryService);
 
   readonly Math = Math;
 
@@ -74,6 +78,18 @@ export class ListingDetail implements LayoutPage {
     const min = Number(item.minPrice).toLocaleString();
     const max = item.maxPrice ? Number(item.maxPrice).toLocaleString() : null;
     return max ? `${currency} ${min} – ${max}` : `${currency} ${min}`;
+  });
+
+  readonly attributesResource = resource<DisplayAttribute[], { categoryId: string | null; attributes: Record<string, unknown> | null }>({
+    params: () => ({
+      categoryId: this.listing.value()?.categoryId ?? null,
+      attributes: this.listing.value()?.attributes ?? null,
+    }),
+    loader: async ({ params }) => {
+      if (!params.categoryId || !params.attributes) return [];
+      const schema = await this.#categoryService.getCategoryAttributes(params.categoryId);
+      return ListingAttributeFormatter.format(schema, params.attributes);
+    },
   });
 
   readonly seoConfig = computed(() => {
