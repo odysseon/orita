@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, ViewEncapsulation, model, output, OnInit } from '@angular/core';
+import { Component, computed, inject, signal, ViewEncapsulation, model, output } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -22,23 +22,22 @@ import { AppFormField } from '../../../../shared/form-field/form-field';
 import { Drawer } from '../../../../shared/drawer/drawer';
 import { LocationSelector } from '../../../../shared/location-selector/location-selector';
 import { Location } from '../../../../core/services/location.service';
-import { CategoryService } from '../../../../core/services/category.service';
+import { CategoryPicker } from '../../../../shared/category-picker/category-picker';
 import { ICategory } from '../../../home/home.interface';
 
 
 
 @Component({
   selector: 'app-create-business',
-  imports: [FormField, LucideStore, LucideLoaderCircle, Drawer, AppFormField, LocationSelector],
+  imports: [FormField, LucideStore, LucideLoaderCircle, Drawer, AppFormField, LocationSelector, CategoryPicker],
   templateUrl: './create-business.html',
   styleUrl: './create-business.css',
   encapsulation: ViewEncapsulation.None,
 })
-export class CreateBusiness implements OnInit {
+export class CreateBusiness {
   #http = inject(HttpClient);
   #router = inject(Router);
   #toast = inject(ToastService);
-  #categoryService = inject(CategoryService);
   
   readonly isOpen = model<boolean>(false);
   readonly created = output<ICreateBusinessResponse>();
@@ -47,7 +46,7 @@ export class CreateBusiness implements OnInit {
   readonly model = signal<ICreateBusiness>({
     name: '',
     primaryCategoryId: '',
-    phoneNumber: '',
+    contactPhone: '',
     description: '',
     location: '',
     latitude: 0,
@@ -59,19 +58,14 @@ export class CreateBusiness implements OnInit {
     minLength(f.name, 2, { message: 'Name must be at least 2 characters' });
     maxLength(f.name, 100, { message: 'Name must be under 100 characters' });
     required(f.primaryCategoryId, { message: 'Please select a category' });
-    required(f.phoneNumber, { message: 'Phone number is required' });
-    minLength(f.phoneNumber, 7, { message: 'Phone number is too short' });
+    required(f.contactPhone, { message: 'Phone number is required' });
+    minLength(f.contactPhone, 7, { message: 'Phone number is too short' });
     required(f.description, { message: 'Description is required' });
     minLength(f.description, 10, { message: 'Please provide a more detailed description' });
     required(f.location, { message: 'Location is required' });
   });
 
   readonly isFormInvalid = computed(() => this.businessForm().invalid());
-  readonly categories = signal<ICategory[]>([]);
-
-  ngOnInit() {
-    this.categories.set(this.#categoryService.leafCategories());
-  }
 
   onLocationPicked(loc: Location): void {
     this.model.update((m) => ({
@@ -80,6 +74,10 @@ export class CreateBusiness implements OnInit {
       latitude: loc.latitude,
       longitude: loc.longitude,
     }));
+  }
+
+  onCategoryPicked(id: string): void {
+    this.model.update((m) => ({ ...m, primaryCategoryId: id }));
   }
 
   closeDrawer(): void {

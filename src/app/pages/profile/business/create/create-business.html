@@ -39,35 +39,29 @@
         [invalid]="businessForm.primaryCategoryId().invalid()"
         [errorMessage]="businessForm.primaryCategoryId().errors()[0]?.message"
       >
-        <select
-          id="primaryCategoryId"
-          class="field__input field__select"
-          [formField]="businessForm.primaryCategoryId"
+        <app-category-picker
+          [categoryId]="model().primaryCategoryId"
+          (categoryIdChange)="onCategoryPicked($event)"
           [class.field__input--error]="businessForm.primaryCategoryId().touched() && businessForm.primaryCategoryId().invalid()"
-        >
-          <option value="" disabled selected>Select a category</option>
-          @for (category of categories(); track category.id) {
-            <option [value]="category.id">{{ category.name }}</option>
-          }
-        </select>
+        ></app-category-picker>
       </app-form-field>
 
       <!-- Phone -->
       <app-form-field
         label="Phone Number"
-        fieldId="phoneNumber"
-        [touched]="businessForm.phoneNumber().touched()"
-        [invalid]="businessForm.phoneNumber().invalid()"
-        [errorMessage]="businessForm.phoneNumber().errors()[0]?.message"
+        fieldId="contactPhone"
+        [touched]="businessForm.contactPhone().touched()"
+        [invalid]="businessForm.contactPhone().invalid()"
+        [errorMessage]="businessForm.contactPhone().errors()[0]?.message"
       >
         <input
-          id="phoneNumber"
+          id="contactPhone"
           class="field__input"
           type="tel"
           placeholder="e.g. +2348000000000"
           autocomplete="tel"
-          [formField]="businessForm.phoneNumber"
-          [class.field__input--error]="businessForm.phoneNumber().touched() && businessForm.phoneNumber().invalid()"
+          [formField]="businessForm.contactPhone"
+          [class.field__input--error]="businessForm.contactPhone().touched() && businessForm.contactPhone().invalid()"
         />
       </app-form-field>
 

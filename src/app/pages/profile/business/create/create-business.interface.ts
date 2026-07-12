@@ -1,7 +1,7 @@
 export interface ICreateBusiness {
   name: string;
   primaryCategoryId: string;
-  phoneNumber: string;
+  contactPhone: string;
   description: string;
   location: string;
   latitude: number;

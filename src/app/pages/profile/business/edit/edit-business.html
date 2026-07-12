@@ -67,17 +67,11 @@
             [invalid]="businessForm.primaryCategoryId().invalid()"
             [errorMessage]="businessForm.primaryCategoryId().errors()[0]?.message"
           >
-            <select
-              id="primaryCategoryId"
-              class="field__input field__select"
-              [formField]="businessForm.primaryCategoryId"
+            <app-category-picker
+              [categoryId]="model().primaryCategoryId"
+              (categoryIdChange)="onCategoryPicked($event)"
               [class.field__input--error]="businessForm.primaryCategoryId().touched() && businessForm.primaryCategoryId().invalid()"
-            >
-              <option value="" disabled selected>Select a category</option>
-              @for (category of categories(); track category.id) {
-                <option [value]="category.id">{{ category.name }}</option>
-              }
-            </select>
+            ></app-category-picker>
           </app-form-field>
 
           @if (model().primaryCategoryId) {
@@ -124,17 +118,17 @@
 
           <app-form-field
             label="Phone Number"
-            fieldId="phoneNumber"
-            [touched]="businessForm.phoneNumber().touched()"
-            [invalid]="businessForm.phoneNumber().invalid()"
-            [errorMessage]="businessForm.phoneNumber().errors()[0]?.message"
+            fieldId="contactPhone"
+            [touched]="businessForm.contactPhone().touched()"
+            [invalid]="businessForm.contactPhone().invalid()"
+            [errorMessage]="businessForm.contactPhone().errors()[0]?.message"
           >
             <input
-              id="phoneNumber"
+              id="contactPhone"
               class="field__input"
-              [class.field__input--error]="businessForm.phoneNumber().touched() && businessForm.phoneNumber().invalid()"
+              [class.field__input--error]="businessForm.contactPhone().touched() && businessForm.contactPhone().invalid()"
               type="tel"
-              [formField]="businessForm.phoneNumber"
+              [formField]="businessForm.contactPhone"
               placeholder="+1234567890"
             />
           </app-form-field>
@@ -158,17 +152,17 @@
 
           <app-form-field
             label="Email Address"
-            fieldId="email"
-            [touched]="businessForm.email().touched()"
-            [invalid]="businessForm.email().invalid()"
-            [errorMessage]="businessForm.email().errors()[0]?.message"
+            fieldId="contactEmail"
+            [touched]="businessForm.contactEmail().touched()"
+            [invalid]="businessForm.contactEmail().invalid()"
+            [errorMessage]="businessForm.contactEmail().errors()[0]?.message"
           >
             <input
-              id="email"
+              id="contactEmail"
               class="field__input"
-              [class.field__input--error]="businessForm.email().touched() && businessForm.email().invalid()"
+              [class.field__input--error]="businessForm.contactEmail().touched() && businessForm.contactEmail().invalid()"
               type="email"
-              [formField]="businessForm.email"
+              [formField]="businessForm.contactEmail"
               placeholder="hello@example.com"
             />
           </app-form-field>

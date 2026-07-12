@@ -16,8 +16,8 @@ import { IBusinessProfile, BusinessType } from '../business.interface';
 import { environment } from '../../../../../environments/environment';
 import { AppFormField } from '../../../../shared/form-field/form-field';
 import { MediaSelector } from '../../../../shared/media-selector/media-selector';
-import { CategoryService } from '../../../../core/services/category.service';
 import { ICategory } from '../../../home/home.interface';
+import { CategoryPicker } from '../../../../shared/category-picker/category-picker';
 import { LocationPicker } from '../../../../shared/location-picker/location-picker';
 import { Location } from '../../../../core/services/location.service';
 
@@ -33,9 +33,9 @@ export interface IEditBusinessForm {
   businessType: BusinessType;
   description: string;
   websiteUrl: string;
-  phoneNumber: string;
+  contactPhone: string;
   whatsapp: string;
-  email: string;
+  contactEmail: string;
   location: string;
   latitude: number | null;
   longitude: number | null;
@@ -46,7 +46,7 @@ export interface IEditBusinessForm {
 
 @Component({
   selector: 'app-edit-business',
-  imports: [FormField, LucideLoaderCircle, AppFormField, MediaSelector, LocationPicker],
+  imports: [FormField, AppFormField, MediaSelector, LocationPicker, LucideLoaderCircle, CategoryPicker],
   templateUrl: './edit-business.html',
   styleUrl: './edit-business.css',
 })
@@ -63,11 +63,9 @@ export class EditBusiness implements OnInit {
   readonly avatarFile = signal<File | null>(null);
   readonly coverFile = signal<File | null>(null);
 
-  #categoryService = inject(CategoryService);
   readonly categories = signal<ICategory[]>([]);
 
   ngOnInit() {
-    this.categories.set(this.#categoryService.leafCategories());
   }
 
   readonly availableSecondaryCategories = computed(() => {
@@ -93,13 +91,17 @@ export class EditBusiness implements OnInit {
     return (this.model().secondaryCategoryIds ?? []).includes(categoryId);
   }
 
-  onLocationPicked(loc: Location) {
+  onLocationPicked(loc: Location): void {
     this.model.update((m) => ({
       ...m,
-      location: loc.name || loc.formattedAddress || '',
+      location: loc.name || loc.formattedAddress || 'Unknown',
       latitude: loc.latitude,
       longitude: loc.longitude,
     }));
+  }
+
+  onCategoryPicked(id: string): void {
+    this.model.update((m) => ({ ...m, primaryCategoryId: id }));
   }
 
   readonly model = signal<IEditBusinessForm>({
@@ -107,9 +109,9 @@ export class EditBusiness implements OnInit {
     businessType: 'ONLINE',
     description: '',
     websiteUrl: '',
-    phoneNumber: '',
+    contactPhone: '',
     whatsapp: '',
-    email: '',
+    contactEmail: '',
     location: '',
     latitude: null,
     longitude: null,
@@ -124,9 +126,9 @@ export class EditBusiness implements OnInit {
     maxLength(f.name, 100, { message: 'Name must be under 100 characters' });
     maxLength(f.description, 1000, { message: 'Description must be under 1000 characters' });
     maxLength(f.websiteUrl, 200, { message: 'Website URL must be under 200 characters' });
-    maxLength(f.phoneNumber, 20, { message: 'Phone number must be under 20 characters' });
+    maxLength(f.contactPhone, 20, { message: 'Phone number must be under 20 characters' });
     maxLength(f.whatsapp, 20, { message: 'WhatsApp number must be under 20 characters' });
-    maxLength(f.email, 100, { message: 'Email must be under 100 characters' });
+    maxLength(f.contactEmail, 100, { message: 'Email must be under 100 characters' });
     maxLength(f.location, 200, { message: 'Location must be under 200 characters' });
   });
 
@@ -162,9 +164,9 @@ export class EditBusiness implements OnInit {
           businessType: biz.businessType,
           description: biz.description ?? '',
           websiteUrl: biz.websiteUrl ?? '',
-          phoneNumber: biz.phoneNumber ?? '',
+          contactPhone: biz.contactPhone ?? '',
           whatsapp: biz.whatsapp ?? '',
-          email: biz.email ?? '',
+          contactEmail: biz.contactEmail ?? '',
           location: biz.location ?? '',
           latitude: biz.latitude ?? null,
           longitude: biz.longitude ?? null,
@@ -212,9 +214,9 @@ export class EditBusiness implements OnInit {
       formData.append('businessType', this.model().businessType);
       formData.append('description', this.model().description || '');
       formData.append('websiteUrl', this.model().websiteUrl || '');
-      formData.append('phoneNumber', this.model().phoneNumber || '');
+      formData.append('contactPhone', this.model().contactPhone || '');
       formData.append('whatsapp', this.model().whatsapp || '');
-      formData.append('email', this.model().email || '');
+      formData.append('contactEmail', this.model().contactEmail || '');
       formData.append('location', this.model().location || '');
       if (this.model().latitude !== null) {
         formData.append('latitude', String(this.model().latitude));

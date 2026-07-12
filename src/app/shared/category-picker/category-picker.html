@@ -1,0 +1,60 @@
+<button
+  type="button"
+  class="field__input category-picker__trigger"
+  [class.category-picker__trigger--placeholder]="!selectedCategoryName()"
+  (click)="isOpen.set(true)"
+>
+  <div class="category-picker__trigger-content">
+    <span>{{ selectedCategoryName() || placeholder() }}</span>
+  </div>
+  <svg lucideChevronDown aria-hidden="true" class="category-picker__trigger-icon"></svg>
+</button>
+
+<ui-drawer
+  [(open)]="isOpen"
+  position="bottom"
+  size="auto"
+  title="Select Category"
+  [closeOnBackdrop]="true"
+>
+  <div class="category-picker__body">
+    <div class="drawer-search-wrapper">
+      <svg lucideSearch class="drawer-search-icon" aria-hidden="true"></svg>
+      <input
+        type="text"
+        class="drawer-search-input"
+        placeholder="Search categories..."
+        [value]="searchQuery()"
+        (input)="onSearch($event)"
+      />
+    </div>
+
+    @if (isLoading()) {
+      <div class="drawer-search-loading">
+        <svg lucideLoaderCircle class="spinner" aria-hidden="true"></svg>
+        Loading categories...
+      </div>
+    } @else {
+      <div class="drawer-search-results">
+        @for (category of filteredCategories(); track category.id) {
+          <button
+            class="search-result-item category-result-item"
+            [class.search-result-item--selected]="categoryId() === category.id"
+            (click)="selectCategory(category.id)"
+          >
+            <div class="result-text">
+              <span class="result-name">{{ category.name }}</span>
+            </div>
+            @if (categoryId() === category.id) {
+              <div class="category-result-indicator"></div>
+            }
+          </button>
+        } @empty {
+          <div class="drawer-search-loading">
+            No categories found matching "{{ searchQuery() }}"
+          </div>
+        }
+      </div>
+    }
+  </div>
+</ui-drawer>
