@@ -93,7 +93,6 @@ export class Business implements OnInit {
       id: biz.id,
       name: biz.name,
       slug: biz.slug,
-      verificationStatus: biz.verificationStatus,
       description: biz.description ?? null,
       location: biz.location ?? null,
       latitude: biz.latitude ?? null,
@@ -115,17 +114,7 @@ export class Business implements OnInit {
   });
 
   readonly verificationBadge = computed(() => {
-    if (this.business.error()) return { label: 'Unverified', cls: 'badge--unverified' };
-    let status;
-    try {
-      status = this.business.value()?.verificationStatus;
-    } catch {
-      return { label: 'Unverified', cls: 'badge--unverified' };
-    }
-    if (status === 'VERIFIED') return { label: 'Verified', cls: 'badge--verified' };
-    if (status === 'PENDING') return { label: 'Verification pending', cls: 'badge--pending' };
-    if (status === 'REJECTED') return { label: 'Verification rejected', cls: 'badge--rejected' };
-    return { label: 'Unverified', cls: 'badge--unverified' };
+    return null; // Verification status is currently loaded separately
   });
 
   readonly isProfileIncomplete = computed(() => {

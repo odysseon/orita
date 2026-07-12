@@ -2,7 +2,7 @@ export interface IBusinessSummary {
   id: string;
   name: string;
   slug: string;
-  verificationStatus: 'UNVERIFIED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
+  verificationStatus?: 'UNVERIFIED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
   description: string | null;
   location: string | null;
   latitude: number | null;
