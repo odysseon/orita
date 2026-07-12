@@ -7,7 +7,7 @@ import { map, catchError } from 'rxjs/operators';
 export interface Location {
   id: string;
   provider: string;
-  externalId: string;
+  externalId?: string;
   name: string;
   formattedAddress?: string;
   latitude: number;
@@ -45,14 +45,18 @@ export class LocationService {
   }
 
   ensure(location: Location): Observable<Location> {
-    return this.#http.post<Location>(`${this.#apiUrl}/v1/locations/ensure`, {
-      externalId: String(location.externalId),
+    const payload: any = {
       provider: location.provider,
       name: location.name,
       formattedAddress: location.formattedAddress || '',
       lat: location.latitude,
       lng: location.longitude,
-    });
+    };
+    if (location.externalId) {
+      payload.externalId = String(location.externalId);
+    }
+    
+    return this.#http.post<Location>(`${this.#apiUrl}/v1/locations/ensure`, payload);
   }
 
   getCurrentPosition(): Promise<GeolocationPosition> {
