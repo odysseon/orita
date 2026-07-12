@@ -29,14 +29,11 @@ export class VisibilityScore {
       { id: 'cover', label: 'Add cover photo', isComplete: !!biz.coverUrl, points: 20, actionUrl: '/profile/business/edit' },
       { id: 'listing', label: 'Create first listing', isComplete: this.listingCount() > 0, points: 20, actionId: 'create-listing' },
       { id: 'logo', label: 'Upload logo', isComplete: !!biz.avatarUrl, points: 10, actionUrl: '/profile/business/edit' },
-      { id: 'phone', label: 'Add phone number', isComplete: !!biz.phoneNumber, points: 10, actionUrl: '/profile/business/edit' },
+      { id: 'phone', label: 'Add phone number', isComplete: !!biz.contactPhone, points: 10, actionUrl: '/profile/business/edit' },
       { id: 'desc', label: 'Add description', isComplete: !!biz.description, points: 10, actionUrl: '/profile/business/edit' },
       { id: 'location', label: 'Add location', isComplete: !!biz.latitude, points: 10, actionUrl: '/profile/business/edit' },
       { id: 'name', label: 'Business name', isComplete: !!biz.name, points: 10 },
       { id: 'category', label: 'Category', isComplete: !!biz.primaryCategoryId, points: 10 },
-      
-      // Secondary items (don't count towards the 100 points)
-      { id: 'verify', label: 'Request Verification', isComplete: biz.verificationStatus === 'VERIFIED' || biz.verificationStatus === 'PENDING', points: 0, actionId: 'request-verify' },
     ];
   });
 

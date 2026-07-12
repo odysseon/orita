@@ -54,15 +54,6 @@
       <div class="biz-identity__text">
         <div class="biz-identity__row">
           <h1 class="biz-identity__name">{{ business.value()!.name }}</h1>
-          <span
-            class="badge"
-            [class.badge--success]="verificationBadge().cls === 'badge--verified'"
-            [class.badge--warning]="verificationBadge().cls === 'badge--pending'"
-            [class.badge--error]="verificationBadge().cls === 'badge--rejected'"
-            [class.badge--neutral]="verificationBadge().cls === 'badge--unverified'"
-          >
-            {{ verificationBadge().label }}
-          </span>
         </div>
         <p class="biz-identity__slug">orita.onrender.com/b/{{ business.value()!.slug }}</p>
         <span class="biz-visibility" [class.biz-visibility--public]="isPublic()">
@@ -192,15 +183,15 @@
           <svg lucideMapPin aria-hidden="true"></svg>
           <span class="biz-info-row__value">{{ business.value()!.location }}</span>
         </div>
-        } @if (business.value()!.email) {
+        } @if (business.value()!.contactEmail) {
         <div class="panel__row">
           <svg lucideMail aria-hidden="true"></svg>
-          <span class="biz-info-row__value">{{ business.value()!.email }}</span>
+          <span class="biz-info-row__value">{{ business.value()!.contactEmail }}</span>
         </div>
-        } @if (business.value()!.phoneNumber) {
+        } @if (business.value()!.contactPhone) {
         <div class="panel__row">
           <svg lucidePhone aria-hidden="true"></svg>
-          <span class="biz-info-row__value">{{ business.value()!.phoneNumber }}</span>
+          <span class="biz-info-row__value">{{ business.value()!.contactPhone }}</span>
         </div>
         } @if (business.value()!.websiteUrl) {
         <div class="panel__row">

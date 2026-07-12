@@ -6,7 +6,7 @@ import { AppHeader } from '../../shared/app-header/app-header';
   selector: 'app-tours-page',
   imports: [AppHeader, LucideCompass],
   template: `
-    <ui-app-header pageTitle="Tours"></ui-app-header>
+    <ui-app-header pageTitle="Tours" [showLogo]="false"></ui-app-header>
     <div class="empty-state-wrapper">
       <div class="empty-state">
         <div class="empty-state__icon">
