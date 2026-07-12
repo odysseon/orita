@@ -1,12 +1,11 @@
 <ui-app-header layout="wide" [showLocationPill]="false">
-  <nav class="hero__links" style="display: flex; gap: var(--size-32); margin-left: auto;">
-    <a routerLink="/home" style="text-decoration: none; color: var(--text-secondary); font-weight: 500;">Explore</a>
-    <a routerLink="/auth/register" style="text-decoration: none; color: var(--text-secondary); font-weight: 500;">For Businesses</a>
+  <nav class="hero__links">
+    <a routerLink="/auth/register" class="hero__link-business">For Businesses</a>
   </nav>
 
-  <div class="hero__actions" style="display: flex; gap: var(--size-12); margin-left: var(--size-32);">
+  <div class="hero__actions">
     <button class="btn btn--ghost btn--sm" (click)="login()">Log In</button>
-    <button class="btn btn--primary btn--sm" (click)="explore()">Start Exploring</button>
+    <button class="btn btn--primary btn--sm hero__action-primary" (click)="explore()">Start Exploring</button>
   </div>
 </ui-app-header>
 

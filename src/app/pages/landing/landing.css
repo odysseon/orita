@@ -10,6 +10,28 @@
   overflow-x: hidden;
 }
 
+.hero__links {
+  display: flex;
+  margin-left: auto;
+}
+
+.hero__link-business {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+  display: none; /* Hide on small mobile to save space */
+}
+
+.hero__actions {
+  display: flex;
+  gap: var(--size-8);
+  margin-left: var(--size-12);
+}
+
+.hero__action-primary {
+  display: none; /* Hide Start Exploring text on tiny screens or keep it small */
+}
+
 .hero-section {
   position: relative;
   display: flex;
@@ -145,6 +167,19 @@
 
   .hero-subtitle {
     font-size: var(--font-size-2xl);
+  }
+
+  .hero__link-business {
+    display: block;
+  }
+
+  .hero__actions {
+    gap: var(--size-12);
+    margin-left: var(--size-32);
+  }
+
+  .hero__action-primary {
+    display: inline-flex;
   }
 }
 

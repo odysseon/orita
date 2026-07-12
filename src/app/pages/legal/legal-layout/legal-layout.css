@@ -72,6 +72,11 @@
 }
 
 /* Prose styles for legal documents */
+.prose {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
 .prose h2 {
   font-size: var(--font-size-xl);
   margin-top: var(--size-40);
@@ -124,6 +129,6 @@
   }
   
   .legal-layout__content {
-    padding: var(--size-24);
+    padding: var(--size-16);
   }
 }

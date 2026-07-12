@@ -36,6 +36,25 @@ app.use(
 );
 
 /**
+ * Handle sitemap generation
+ */
+app.get('/sitemap.xml', async (req, res, next) => {
+  try {
+    const apiUrl = process.env['API_URL'] || 'http://localhost:3000';
+    const response = await fetch(`${apiUrl}/sitemap`);
+    if (!response.ok) {
+      throw new Error(`Sitemap API returned ${response.status}`);
+    }
+    const xml = await response.text();
+    res.header('Content-Type', 'application/xml');
+    res.send(xml);
+  } catch (err) {
+    console.error('Failed to proxy sitemap:', err);
+    next();
+  }
+});
+
+/**
  * Handle all other requests by rendering the Angular application.
  */
 app.use((req, res, next) => {

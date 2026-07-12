@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /auth/
+Disallow: /profile/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /messages/
+Disallow: /settings/
+Disallow: /notifications/
+
+Sitemap: https://orita.app/sitemap.xml
