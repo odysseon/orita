@@ -1,0 +1,33 @@
+<a class="listing-business-card" [routerLink]="['/b', biz.slug]">
+  <div class="listing-business-card__avatar">
+    @if (biz.avatarUrl) {
+    <img [src]="biz.avatarUrl" [alt]="biz.name" />
+    } @else {
+    <svg lucideStore aria-hidden="true"></svg>
+    }
+  </div>
+  <div class="listing-business-card__text">
+    <span class="listing-business-card__name">{{ biz.name }}</span>
+    @if (biz.location) {
+    <span class="listing-business-card__location">
+      <svg lucideMapPin aria-hidden="true"></svg>
+      {{ biz.location }}
+    </span>
+    }
+  </div>
+</a>
+
+<!-- Contact actions -->
+<div class="listing-actions">
+  @if (biz.phoneNumber) {
+  <button class="btn btn--primary" style="flex: 1" (click)="callPhone(biz.phoneNumber)" type="button">
+    <svg lucidePhone style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
+    Call seller
+  </button>
+  } @if (biz.whatsapp) {
+  <button class="btn btn--primary" style="flex: 1" (click)="openWhatsapp(biz.whatsapp)" type="button">
+    <svg lucideMessageCircle style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
+    WhatsApp
+  </button>
+  }
+</div>

@@ -22,6 +22,9 @@ import { IBusinessLite, IListingDetail } from './listing.detail.interface';
 import { LayoutPage } from '../../shared/layout/sub-layout/layout-page.interface';
 import { CategoryService } from '../../core/services/category.service';
 import { ListingAttributeFormatter, DisplayAttribute } from '../../shared/utils/listing-attribute-formatter';
+import { ListingReviews } from './components/listing-reviews/listing-reviews';
+import { ListingAttributes } from './components/listing-attributes/listing-attributes';
+import { ListingBusinessCard } from './components/listing-business-card/listing-business-card';
 
 @Component({
   selector: 'app-listing-detail',
@@ -37,6 +40,9 @@ import { ListingAttributeFormatter, DisplayAttribute } from '../../shared/utils/
     LucidePhone,
     LucideStar,
     LucideMapPin,
+    ListingReviews,
+    ListingAttributes,
+    ListingBusinessCard,
   ],
   templateUrl: './listing-detail.html',
   styleUrl: './listing-detail.css',

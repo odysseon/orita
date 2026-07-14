@@ -1,0 +1,11 @@
+<section class="listing-attributes">
+  <h2 class="listing-attributes__title">Details</h2>
+  <div class="listing-attributes__grid">
+    @for (attr of attributes; track attr.label) {
+    <div class="attribute-item">
+      <span class="attribute-item__label">{{ attr.label }}</span>
+      <span class="attribute-item__value">{{ attr.value }}</span>
+    </div>
+    }
+  </div>
+</section>
