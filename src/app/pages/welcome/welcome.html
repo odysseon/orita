@@ -8,7 +8,7 @@
       <p class="welcome-subtitle">What would you like to do?</p>
     </div>
 
-    @if (!showLocationPicker) {
+    @if (step === 'start') {
       <div class="welcome-actions">
         <button class="welcome-btn welcome-btn--explore" (click)="onExplore()">
           <svg lucideCompass class="welcome-btn-icon" aria-hidden="true"></svg>
@@ -20,10 +20,31 @@
           <span class="welcome-btn-text">Create a business</span>
         </button>
       </div>
-    } @else {
+    } @else if (step === 'location') {
       <div class="welcome-location">
         <h2 class="welcome-location-title">Where are you exploring?</h2>
         <app-location-selector (locationSelected)="onLocationSelected($event)" />
+      </div>
+    } @else if (step === 'interests') {
+      <div class="welcome-interests">
+        <h2 class="welcome-interests-title">Discovery Preferences</h2>
+        <p class="welcome-interests-subtitle">Choose a few interests to personalize your discovery feed. You can change these anytime.</p>
+        
+        <div class="welcome-interests-browser">
+          <app-category-browser 
+            mode="interest" 
+            (selectionChange)="onInterestsChange($event)" 
+          />
+        </div>
+
+        <div class="welcome-interests-actions">
+          <button class="welcome-btn-secondary" (click)="skipInterests()">
+            Skip for now
+          </button>
+          <button class="welcome-btn-primary" (click)="finishOnboarding()" [disabled]="isSaving">
+            {{ isSaving ? 'Saving...' : 'Continue' }}
+          </button>
+        </div>
       </div>
     }
   </div>

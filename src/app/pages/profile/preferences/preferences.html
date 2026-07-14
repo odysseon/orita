@@ -1,0 +1,27 @@
+<div class="preferences-container">
+  <div class="preferences-header">
+    <h1 class="preferences-title">Discovery Preferences</h1>
+    <p class="preferences-subtitle">
+      Choose a few interests to personalize your discovery feed. You can change these anytime.
+    </p>
+  </div>
+
+  <div class="preferences-content">
+    <app-category-browser 
+      mode="interest" 
+      [selectedIds]="selectedIds()" 
+      (selectionChange)="onSelectionChange($event)" 
+    />
+  </div>
+
+  <div class="preferences-actions">
+    <button 
+      class="btn-save" 
+      [disabled]="isSaving() || !hasChanges()" 
+      (click)="saveChanges()"
+    >
+      <svg lucideSave class="btn-icon" aria-hidden="true"></svg>
+      {{ isSaving() ? 'Saving...' : 'Save Changes' }}
+    </button>
+  </div>
+</div>

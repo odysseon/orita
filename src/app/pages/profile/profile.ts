@@ -10,6 +10,7 @@ import {
   LucideChevronRight,
   LucideLogOut,
   LucideTriangleAlert,
+  LucideList,
   LucideDynamicIcon,
   LucideIconInput,
 } from '@lucide/angular';
@@ -34,6 +35,12 @@ interface NavGroup {
 }
 
 const ALWAYS_VISIBLE_SETTINGS: NavItem[] = [
+  {
+    icon: LucideList,
+    label: 'Discovery Preferences',
+    description: 'Personalize your feed and interests',
+    route: '/profile/preferences',
+  },
   {
     icon: LucideShieldCheck,
     label: 'Privacy & Security',
@@ -73,6 +80,7 @@ const START_BUSINESS: NavItem = {
   selector: 'app-profile',
   imports: [
     LucideUser,
+    LucideList,
     LucideDynamicIcon,
     LucideChevronRight,
     LucideLogOut,

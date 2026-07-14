@@ -108,3 +108,74 @@
   margin-bottom: var(--size-16);
   color: var(--clr-text-main);
 }
+
+/* Interests Step */
+.welcome-interests {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-16);
+}
+
+.welcome-interests-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--clr-text-main);
+  margin: 0;
+}
+
+.welcome-interests-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--clr-text-muted);
+  line-height: 1.5;
+  margin: 0 0 var(--size-8) 0;
+}
+
+.welcome-interests-browser {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid var(--clr-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--size-8);
+}
+
+.welcome-interests-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--size-12);
+  margin-top: var(--size-8);
+}
+
+.welcome-btn-primary,
+.welcome-btn-secondary {
+  padding: var(--size-10) var(--size-16);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.welcome-btn-primary {
+  background-color: var(--clr-primary);
+  color: var(--clr-bg-base);
+}
+
+.welcome-btn-primary:hover:not(:disabled) {
+  background-color: var(--clr-primary-hover);
+}
+
+.welcome-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.welcome-btn-secondary {
+  background-color: transparent;
+  color: var(--clr-text-muted);
+}
+
+.welcome-btn-secondary:hover {
+  color: var(--clr-text-main);
+}

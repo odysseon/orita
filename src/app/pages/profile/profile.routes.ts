@@ -15,6 +15,11 @@ export const profileRoutes: Route[] = [
     loadComponent: () => import('../../shared/layout/sub-layout/sub-layout').then((m) => m.AppSubLayout),
     children: [
       {
+        path: 'preferences',
+        data: { title: 'Discovery Preferences' },
+        loadComponent: () => import('./preferences/preferences').then((m) => m.ProfilePreferences),
+      },
+      {
         path: 'appearance',
         data: { title: 'Appearance' },
         loadComponent: () => import('./appearance/appearance').then((m) => m.Appearance),
