@@ -45,6 +45,7 @@
         [itemId]="saveItemId"
         [itemType]="saveItemType"
         variant="overlay"
+        [saved]="!!item().listing?.isSaved || !!item().tour?.isSaved"
       />
     }
   </div>

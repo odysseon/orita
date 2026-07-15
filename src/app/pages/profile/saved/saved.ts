@@ -28,8 +28,8 @@ export class Saved {
   readonly activeTab = signal<SavedTab>('following');
   readonly removingId = signal<string | null>(null);
 
-  readonly followedBusinesses = httpResource<IPaginated<IFollowedBusinessItem>>(
-    () => `${environment.apiUrl}/follows?type=business`,
+  readonly followedBusinesses = httpResource<IFollowedBusinessItem[]>(
+    () => `${environment.apiUrl}/v1/follows?type=business`,
   );
 
   readonly savedListings = httpResource<IPaginated<ISavedListingItem>>(
