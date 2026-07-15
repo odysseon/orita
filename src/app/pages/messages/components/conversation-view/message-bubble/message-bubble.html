@@ -25,6 +25,25 @@
             <p class="msg-text">{{ message().content }}</p>
           }
 
+          @for (embed of message().embeds; track embed.id) {
+            <div class="msg-embed">
+              @if (embed.imageUrl) {
+                <img [src]="embed.imageUrl" class="msg-embed-img" alt="Embed image" />
+              }
+              <div class="msg-embed-info">
+                <strong>{{ embed.title }}</strong>
+                @if (embed.subtitle) {
+                  <span>{{ embed.subtitle }}</span>
+                }
+              </div>
+              @if (embed.ctaPath) {
+                <a [routerLink]="embed.ctaPath" class="btn btn--sm btn--subtle msg-embed-btn">
+                  {{ embed.ctaLabel || 'View' }}
+                </a>
+              }
+            </div>
+          }
+
           <div class="msg-meta">
             <span class="msg-time">{{ message().createdAt | date:'shortTime' }}</span>
             

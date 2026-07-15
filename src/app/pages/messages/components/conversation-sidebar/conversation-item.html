@@ -6,9 +6,13 @@
     >
       <div class="conv-avatar">
         <!-- In reality, you'd resolve the avatar for the other participant -->
-        <div class="avatar-placeholder">
-          {{ conversation().title?.[0] || 'U' }}
-        </div>
+        @if (conversation().anchor?.imageUrl) {
+          <img [src]="conversation().anchor?.imageUrl" alt="Avatar" class="avatar-placeholder" style="object-fit: cover; background: none; color: transparent;" />
+        } @else {
+          <div class="avatar-placeholder">
+            {{ (conversation().title || conversation().anchor?.title || 'U')[0] }}
+          </div>
+        }
         @if ((conversation().unreadCount || 0) > 0) {
           <div class="unread-badge">{{ conversation().unreadCount }}</div>
         }
@@ -16,7 +20,7 @@
 
       <div class="conv-content">
         <div class="conv-header">
-          <span class="conv-title">{{ conversation().title || 'Conversation' }}</span>
+          <span class="conv-title">{{ conversation().title || conversation().anchor?.title || 'Conversation' }}</span>
           @if (conversation().latestMessage) {
             <span class="conv-time">{{ conversation().latestMessage!.createdAt | date:'shortTime' }}</span>
           }

@@ -1,11 +1,12 @@
 import { Component, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { LucideCheck, LucideCheckCheck, LucideClock, LucideAlertCircle } from '@lucide/angular';
 import { IMessage } from '../../../../../core/services/messaging.types';
 
 @Component({
   selector: 'app-message-bubble',
-  imports: [DatePipe, LucideCheck, LucideCheckCheck, LucideClock, LucideAlertCircle],
+  imports: [DatePipe, RouterLink, LucideCheck, LucideCheckCheck, LucideClock, LucideAlertCircle],
   templateUrl: './message-bubble.html',
   styleUrl: './message-bubble.css'
 })
