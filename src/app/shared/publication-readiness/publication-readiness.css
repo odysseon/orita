@@ -1,0 +1,57 @@
+.readiness-content {
+  padding: var(--size-4) var(--size-6);
+}
+
+.readiness-desc {
+  color: var(--color-surface-600);
+  margin-bottom: var(--size-6);
+}
+
+.issue-group {
+  margin-bottom: var(--size-6);
+}
+
+.issue-group-title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-surface-900);
+  margin-bottom: var(--size-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.issue-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-3);
+}
+
+.issue-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--size-3);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+
+.issue-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.issue-error .issue-icon {
+  color: var(--color-danger);
+}
+
+.issue-warning .issue-icon {
+  color: var(--color-warning);
+}
+
+.readiness-actions {
+  margin-top: var(--size-8);
+}

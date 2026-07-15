@@ -5,6 +5,7 @@ import { ConversationView } from './components/conversation-view/conversation-vi
 import { MessagingService } from '../../core/services/messaging.service';
 import { SendMessageDto } from '../../core/services/messaging.types';
 import { AuthService } from '../../core/services/auth.service';
+import { DraftMessageService } from '../../core/services/draft-message.service';
 
 @Component({
   selector: 'app-messages',
@@ -15,6 +16,7 @@ import { AuthService } from '../../core/services/auth.service';
 export class MessagesPage implements OnInit {
   messaging = inject(MessagingService);
   #auth = inject(AuthService);
+  #draftStore = inject(DraftMessageService);
 
   get activeConversationId(): () => string | null {
     return this.messaging.activeConversation() ? () => this.messaging.activeConversation()!.id : () => null;
@@ -38,12 +40,19 @@ export class MessagesPage implements OnInit {
     this.messaging.clearActiveConversation();
   }
 
-  onSendMessage(dto: SendMessageDto): void {
+  async onSendMessage(dto: SendMessageDto): Promise<void> {
     const id = this.activeConversationId();
     if (!id) return;
     
     // In real app, currentUserId is retrieved from Auth or User profile
     const userId = 'self';
-    this.messaging.sendMessage(id, dto, userId);
+    
+    try {
+      await this.messaging.sendMessage(id, dto, userId);
+      // Clear drafts on success
+      this.#draftStore.clearDraft(id);
+    } catch (err) {
+      console.error('Failed to send message', err);
+    }
   }
 }

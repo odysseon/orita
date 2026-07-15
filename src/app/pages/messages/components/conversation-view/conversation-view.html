@@ -13,6 +13,7 @@
         />
 
         <app-message-composer 
+          [conversationId]="conversation()?.id"
           (send)="onSend($event)"
         />
       } @else {

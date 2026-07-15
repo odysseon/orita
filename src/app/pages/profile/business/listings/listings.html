@@ -153,4 +153,6 @@
     }
   </div>
   }
+
+  <app-publication-readiness [isOpen]="isReadinessDialogOpen()" [issues]="readinessIssues()" (close)="closeReadinessDialog()"></app-publication-readiness>
 </div>

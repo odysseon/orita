@@ -14,9 +14,7 @@ import { ToastService } from '../../core/services/toast';
 import { ShareButton } from '../share-button/share-button';
 import { SaveButton, SaveItemType } from '../save-button/save-button';
 import { FollowButton } from '../follow-button/follow-button';
-import { Router } from '@angular/router';
-import { MessagingRepository } from '../../core/services/messaging-repository.service';
-import { MessagingService } from '../../core/services/messaging.service';
+import { MessagingFacade } from '../../core/services/messaging.facade';
 
 @Component({
   selector: 'app-feed-card',
@@ -28,9 +26,7 @@ export class AppFeedCard implements AfterViewInit, OnDestroy {
   readonly item = input.required<FeedItemView>();
 
   #toast = inject(ToastService);
-  #router = inject(Router);
-  #messagingRepo = inject(MessagingRepository);
-  #messagingService = inject(MessagingService);
+  #messagingFacade = inject(MessagingFacade);
   #observer: IntersectionObserver | null = null;
 
   @ViewChild('videoElement') videoElement?: ElementRef<HTMLVideoElement>;
@@ -140,14 +136,10 @@ export class AppFeedCard implements AfterViewInit, OnDestroy {
       return;
     }
 
-    this.#messagingRepo.openConversation('BUSINESS', targetId).subscribe({
-      next: (conv) => {
-        this.#messagingService.loadConversation(conv.id);
-        this.#router.navigate(['/messages']);
-      },
-      error: () => {
-        this.#toast.error('Failed to open conversation');
-      }
+    const embedType = this.item().itemType;
+    this.#messagingFacade.messageBusiness(targetId, {
+      embedType,
+      targetId: this.saveItemId
     });
   }
 }

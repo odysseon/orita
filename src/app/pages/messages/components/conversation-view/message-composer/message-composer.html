@@ -1,25 +1,45 @@
 <div class="composer-container">
-      <button class="btn-attach" type="button" aria-label="Attach file">
-        <svg lucidePaperclip aria-hidden="true"></svg>
-      </button>
-
-      <div class="input-wrapper">
-        <input 
-          type="text" 
-          class="composer-input"
-          placeholder="Type a message..."
-          [(ngModel)]="content"
-          (keyup.enter)="onSend()"
-        />
-      </div>
-
-      <button 
-        class="btn-send" 
-        type="button" 
-        aria-label="Send message"
-        [disabled]="!content().trim()"
-        (click)="onSend()"
-      >
-        <svg lucideSend aria-hidden="true"></svg>
-      </button>
+  @if (draftEmbeds().length > 0) {
+    <div class="composer-attachments">
+      @for (embed of draftEmbeds(); track embed.targetId) {
+        <div class="attachment-chip">
+          <div class="attachment-chip__icon">
+            <svg lucidePackage aria-hidden="true"></svg>
+          </div>
+          <div class="attachment-chip__info">
+            <span class="attachment-chip__title">Shared {{ embed.embedType }}</span>
+          </div>
+          <button class="attachment-chip__remove" (click)="removeEmbed(embed.targetId)">
+            <svg lucideX aria-hidden="true"></svg>
+          </button>
+        </div>
+      }
     </div>
+  }
+
+  <div class="composer-input-row">
+    <button class="btn-attach" type="button" aria-label="Attach file">
+      <svg lucidePaperclip aria-hidden="true"></svg>
+    </button>
+
+    <div class="input-wrapper">
+      <input 
+        type="text" 
+        class="composer-input"
+        placeholder="Type a message..."
+        [(ngModel)]="content"
+        (keyup.enter)="onSend()"
+      />
+    </div>
+
+    <button 
+      class="btn-send" 
+      type="button" 
+      aria-label="Send message"
+      [disabled]="!content().trim() && draftEmbeds().length === 0"
+      (click)="onSend()"
+    >
+      <svg lucideSend aria-hidden="true"></svg>
+    </button>
+  </div>
+</div>

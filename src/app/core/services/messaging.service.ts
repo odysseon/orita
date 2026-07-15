@@ -92,48 +92,56 @@ export class MessagingService implements OnDestroy {
     });
   }
 
-  sendMessage(conversationId: string, dto: SendMessageDto, currentUserId: string): void {
-    // 1. Optimistic Update
-    const tempId = `temp-${Date.now()}`;
-    const optimisticMessage: IMessage = {
-      id: tempId,
-      conversationId,
-      participantId: currentUserId, // Normally we'd use the participant ID, but close enough for UI
-      senderDisplayName: 'You',
-      content: dto.content,
-      mediaUrl: dto.mediaUrl,
-      mediaType: dto.mediaType,
-      embeds: [],
-      createdAt: new Date().toISOString(),
-      readReceipts: [],
-      isOptimistic: true
-    };
+  sendMessage(conversationId: string, dto: SendMessageDto, currentUserId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      // 1. Optimistic Update
+      const tempId = `temp-${Date.now()}`;
+      const optimisticMessage: IMessage = {
+        id: tempId,
+        conversationId,
+        participantId: currentUserId, // Normally we'd use the participant ID, but close enough for UI
+        senderDisplayName: 'You',
+        content: dto.content,
+        mediaUrl: dto.mediaUrl,
+        mediaType: dto.mediaType,
+        embeds: dto.embeds ? dto.embeds.map((e, i) => ({
+          id: `temp-embed-${Date.now()}-${i}`,
+          embedType: e.embedType,
+          targetId: e.targetId,
+          title: 'Shared Item'
+        })) : [],
+        createdAt: new Date().toISOString(),
+        readReceipts: [],
+        isOptimistic: true
+      };
 
-    this.#store.addMessage(optimisticMessage);
+      this.#store.addMessage(optimisticMessage);
 
-    // 2. Send via WS (or REST). We will use REST here so we get a definite response, 
-    // or WS if we prefer fire-and-forget. Let's use REST for reliable ACK.
-    this.#repo.sendMessage(conversationId, dto).subscribe({
-      next: (serverMessage) => {
-        // Replace temp message with server message
-        this.#store.messages.update(map => {
-          const list = map[conversationId] || [];
-          return {
-            ...map,
-            [conversationId]: list.map(m => m.id === tempId ? serverMessage : m)
-          };
-        });
-      },
-      error: () => {
-        // Mark as failed
-        this.#store.messages.update(map => {
-          const list = map[conversationId] || [];
-          return {
-            ...map,
-            [conversationId]: list.map(m => m.id === tempId ? { ...m, isOptimistic: false, isFailed: true } : m)
-          };
-        });
-      }
+      // 2. Send via REST for reliable ACK.
+      this.#repo.sendMessage(conversationId, dto).subscribe({
+        next: (serverMessage) => {
+          // Replace temp message with server message
+          this.#store.messages.update(map => {
+            const list = map[conversationId] || [];
+            return {
+              ...map,
+              [conversationId]: list.map(m => m.id === tempId ? serverMessage : m)
+            };
+          });
+          resolve();
+        },
+        error: (err) => {
+          // Mark as failed
+          this.#store.messages.update(map => {
+            const list = map[conversationId] || [];
+            return {
+              ...map,
+              [conversationId]: list.map(m => m.id === tempId ? { ...m, isOptimistic: false, isFailed: true } : m)
+            };
+          });
+          reject(err);
+        }
+      });
     });
   }
 

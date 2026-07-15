@@ -81,7 +81,7 @@
 
   <!-- Business card -->
   @if (business.hasValue()) { @let biz = business.value()!;
-  <app-listing-business-card [biz]="biz" />
+  <app-listing-business-card [biz]="biz" [listingId]="item.id" />
   }
 
   <!-- Reviews -->

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AppHeader } from '../../shared/app-header/app-header';
 import { TourCard } from './components/tour-card/tour-card';
 import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
+import { MessagingFacade } from '../../core/services/messaging.facade';
 
 @Component({
   selector: 'app-tours-page',
@@ -15,6 +16,7 @@ export class ToursPage implements OnInit, OnDestroy {
   #title = inject(Title);
   #router = inject(Router);
   #tourService = inject(BusinessTourService);
+  #messagingFacade = inject(MessagingFacade);
 
   readonly tours = signal<IBusinessTour[]>([]);
   readonly loading = signal(true);
@@ -134,8 +136,9 @@ export class ToursPage implements OnInit, OnDestroy {
         this.#router.navigate(['/b', tour.businessProfileId]);
         break;
       case 'message':
-        this.#router.navigate(['/messages'], {
-          queryParams: { tour: tour.id, business: tour.businessProfileId },
+        this.#messagingFacade.messageBusiness(tour.businessProfileId, {
+          embedType: 'TOUR',
+          targetId: tour.id
         });
         break;
       case 'save':

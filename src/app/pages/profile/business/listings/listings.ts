@@ -21,6 +21,9 @@ import { IBusinessProfile } from '../business.interface';
 import { AppFormField } from '../../../../shared/form-field/form-field';
 import { Drawer } from '../../../../shared/drawer/drawer';
 import { CompletionNudge } from '../../../../shared/completion-nudge/completion-nudge';
+import { ListingService } from '../../../../core/services/listing.service';
+import { PublicationIssue } from '../../../../core/services/business-profile.service';
+import { PublicationReadinessDialog } from '../../../../shared/publication-readiness/publication-readiness';
 
 @Component({
   selector: 'app-listings',
@@ -37,6 +40,7 @@ import { CompletionNudge } from '../../../../shared/completion-nudge/completion-
     LucideLoaderCircle,
     LucidePencil,
     CompletionNudge,
+    PublicationReadinessDialog,
   ],
   templateUrl: './listings.html',
   styleUrl: './listings.css',
@@ -45,6 +49,7 @@ export class Listings {
   #http = inject(HttpClient);
   #toast = inject(ToastService);
   #router = inject(Router);
+  #listingService = inject(ListingService);
 
   readonly businessId = input.required<string>();
   readonly businessProfile = input<IBusinessProfile>();
@@ -53,6 +58,9 @@ export class Listings {
   readonly submitting = signal(false);
   readonly deletingId = signal<string | null>(null);
   readonly togglingId = signal<string | null>(null);
+
+  readonly isReadinessDialogOpen = signal(false);
+  readonly readinessIssues = signal<PublicationIssue[]>([]);
 
   readonly listings = httpResource<IListing[]>(
     () => `${environment.apiUrl}/businesses/${this.businessId()}/listings/mine`,
@@ -140,6 +148,21 @@ export class Listings {
 
   async toggleStatus(listing: IListing): Promise<void> {
     const next = listing.status === 'PUBLISHED' ? 'DRAFT' : 'PUBLISHED';
+    
+    if (next === 'PUBLISHED') {
+      try {
+        const readiness = await this.#listingService.checkReadiness(listing.id);
+        if (!readiness.ready) {
+          this.readinessIssues.set(readiness.issues);
+          this.isReadinessDialogOpen.set(true);
+          return;
+        }
+      } catch (err) {
+        this.#toast.error('Error', 'Failed to check listing readiness.');
+        return;
+      }
+    }
+
     this.togglingId.set(listing.id);
     try {
       await firstValueFrom(
@@ -166,5 +189,9 @@ export class Listings {
     } finally {
       this.deletingId.set(null);
     }
+  }
+
+  closeReadinessDialog(): void {
+    this.isReadinessDialogOpen.set(false);
   }
 }
