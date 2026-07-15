@@ -23,7 +23,8 @@
       type="text"
       class="drawer-search-input"
       placeholder="Enter city, neighborhood..."
-      [formControl]="searchControl"
+      [value]="searchQuery()"
+      (input)="searchQuery.set($any($event.target).value)"
     />
   </div>
 
@@ -39,7 +40,7 @@
         </button>
       }
     </div>
-  } @else if (isSearching() && searchControl.value?.trim()) {
+  } @else if (isSearching() && searchQuery().trim()) {
     <div class="drawer-search-loading">
       Searching...
     </div>

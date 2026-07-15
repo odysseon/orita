@@ -21,6 +21,10 @@ export class MessagingRepository {
     return this.#http.post<IConversation>(`${this.#apiUrl}/conversations`, dto);
   }
 
+  openConversation(targetType: 'USER' | 'BUSINESS', targetId: string): Observable<IConversation> {
+    return this.#http.post<IConversation>(`${this.#apiUrl}/conversations/open`, { targetType, targetId });
+  }
+
   sendMessage(conversationId: string, dto: SendMessageDto): Observable<IMessage> {
     return this.#http.post<IMessage>(`${this.#apiUrl}/conversations/${conversationId}/messages`, dto);
   }
