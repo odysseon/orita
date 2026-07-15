@@ -62,6 +62,7 @@ import { BusinessTourService, IBusinessTour } from '../../core/services/business
       height: 100vh;
       height: 100dvh;
       width: 100%;
+      background-color: #000;
       overflow: hidden; /* We handle scrolling via translate */
       position: relative;
     }

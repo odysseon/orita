@@ -15,8 +15,8 @@
     .message-list-content {
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      min-height: 100%;
+      margin-top: auto;
+      min-height: min-content;
     }
     .empty-state {
       flex: 1;
