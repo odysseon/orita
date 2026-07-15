@@ -7,38 +7,8 @@ import { AppFormField } from '../form-field/form-field';
 @Component({
   selector: 'app-password-field',
   imports: [AppFormField, FormField, LucideEye, LucideEyeOff],
-  template: `
-    <app-form-field
-      [label]="label()"
-      [fieldId]="fieldId()"
-      [touched]="touched()"
-      [invalid]="invalid()"
-      [errorMessage]="errorMessage()"
-    >
-      <div class="field__input-wrap">
-        <input
-          [id]="fieldId()"
-          class="field__input field__input--padded"
-          [type]="showPassword() ? 'text' : 'password'"
-          [formField]="formField()"
-          [class.field__input--error]="touched() && invalid()"
-        />
-        <button
-          class="field__toggle"
-          type="button"
-          [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
-          (click)="togglePassword()"
-        >
-          @if (showPassword()) {
-            <svg lucideEyeOff aria-hidden="true"></svg>
-          } @else {
-            <svg lucideEye aria-hidden="true"></svg>
-          }
-        </button>
-      </div>
-    </app-form-field>
-  `,
-  styles: [':host { display: contents; }'],
+  templateUrl: './password-field.html',
+  styleUrl: './password-field.css',
 })
 export class AppPasswordField {
   readonly label = input.required<string>();

@@ -3,20 +3,7 @@ import { Component, input } from '@angular/core';
 @Component({
   selector: 'app-form-field',
   imports: [],
-  template: `
-    <div class="field">
-      <label class="field__label" [for]="fieldId()">
-        {{ label() }}
-        @if (hint()) {
-          <span class="field__label-hint">{{ hint() }}</span>
-        }
-      </label>
-      <ng-content />
-      @if (touched() && invalid() && errorMessage()) {
-        <p class="field__error" role="alert">{{ errorMessage() }}</p>
-      }
-    </div>
-  `,
+  templateUrl: './form-field.html',
   styleUrl: './form-field.css',
 })
 export class AppFormField {

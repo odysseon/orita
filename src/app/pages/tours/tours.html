@@ -1,0 +1,34 @@
+<!-- Top Nav: absolutely positioned over the feed -->
+<div class="tours-nav">
+  <ui-app-header pageTitle="Tours" [showLogo]="false"></ui-app-header>
+</div>
+
+<div class="tours-feed" (wheel)="onWheel($event)">
+  @if (loading() && tours().length === 0) {
+    <div class="tours-loading">Loading amazing places...</div>
+  } @else if (tours().length === 0) {
+    <div class="tours-empty">
+      <h2>No tours found</h2>
+      <p>Check back soon for new local experiences.</p>
+    </div>
+  } @else {
+    <!-- Virtualized rendering (Current, Previous, Next) -->
+    <div class="tours-track" [style.transform]="'translateY(' + -currentIndex() * 100 + 'dvh)'">
+      @for (tour of tours(); track tour.id; let i = $index) {
+        <!-- Only render if it's the current, previous, or next item -->
+        @if (i >= currentIndex() - 1 && i <= currentIndex() + 1) {
+          <div class="tour-slide">
+            <app-tour-card
+              [tour]="tour"
+              [businessData]="mockBusinessData(tour)"
+              (actionClick)="onActionClick($event, tour)"
+            />
+          </div>
+        } @else {
+          <!-- Empty placeholder to maintain track height -->
+          <div class="tour-slide"></div>
+        }
+      }
+    </div>
+  }
+</div>

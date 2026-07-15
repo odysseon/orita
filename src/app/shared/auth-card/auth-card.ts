@@ -4,28 +4,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-auth-card',
   imports: [RouterLink],
-  template: `
-    <div class="auth-page">
-      <div class="auth-card">
-        <header class="auth-card__header">
-          <h1 class="auth-card__title">
-            <img src="/favicon.svg" alt="Orita Logo" class="auth-card__icon" aria-hidden="true" />
-            Orita
-          </h1>
-          <p class="auth-card__subtitle">{{ subtitle() }}</p>
-        </header>
-        <div class="auth-card__body">
-          <ng-content />
-        </div>
-        <footer class="auth-card__footer">
-          {{ footerText() }}
-          <a class="auth-card__footer-link" [routerLink]="footerLinkRoute()">
-            {{ footerLinkLabel() }}
-          </a>
-        </footer>
-      </div>
-    </div>
-  `,
+  templateUrl: './auth-card.html',
   styleUrl: './auth-card.css',
 })
 export class AppAuthCard {
