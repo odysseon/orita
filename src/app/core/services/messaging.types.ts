@@ -63,6 +63,7 @@ export interface IConversationPreview {
   type: ConversationType;
   title: string;
   avatarUrl?: string | null;
+  anchor?: IConversationAnchor | null;
   latestMessage?: IMessagePreview;
   unreadCount: number;
   lastActivityAt: string;
