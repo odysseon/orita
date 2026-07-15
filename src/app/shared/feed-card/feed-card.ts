@@ -134,7 +134,7 @@ export class AppFeedCard implements AfterViewInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     
-    const targetId = this.item().businessProfileId || this.item().business?.id;
+    const targetId = this.item().business?.id || this.item().businessProfileId;
     if (!targetId) {
       this.#toast.error('Unable to find business profile');
       return;
