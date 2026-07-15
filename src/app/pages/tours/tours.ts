@@ -24,7 +24,7 @@ import { BusinessTourService, IBusinessTour } from '../../core/services/business
         </div>
       } @else {
         <!-- Virtualized rendering (Current, Previous, Next) -->
-        <div class="tours-track" [style.transform]="'translateY(' + (-currentIndex() * 100) + 'dvh)'">
+        <div class="tours-track" [style.transform]="'translateY(' + -currentIndex() * 100 + 'dvh)'">
           @for (tour of tours(); track tour.id; let i = $index) {
             <!-- Only render if it's the current, previous, or next item -->
             @if (i >= currentIndex() - 1 && i <= currentIndex() + 1) {
@@ -44,54 +44,61 @@ import { BusinessTourService, IBusinessTour } from '../../core/services/business
       }
     </div>
   `,
-  styles: [`
-    .tours-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 50;
-      /* Pass through clicks if user taps between header items */
-      pointer-events: none;
-    }
-    .tours-nav ui-app-header {
-      pointer-events: auto;
-    }
+  styles: [
+    `
+      .tours-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        /* Pass through clicks if user taps between header items */
+        pointer-events: none;
+      }
+      .tours-nav ui-app-header {
+        pointer-events: auto;
+      }
 
-    .tours-feed {
-      height: 100vh;
-      height: 100dvh;
-      width: 100%;
-      background-color: #000;
-      overflow: hidden; /* We handle scrolling via translate */
-      position: relative;
-    }
+      .tours-feed {
+        height: 100vh;
+        height: 100dvh;
+        width: 100%;
+        overflow: hidden; /* We handle scrolling via translate */
+        position: relative;
+      }
 
-    .tours-track {
-      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-      width: 100%;
-      height: 100%;
-    }
+      .tours-track {
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        width: 100%;
+        height: 100%;
+      }
 
-    .tour-slide {
-      width: 100%;
-      height: 100dvh;
-      overflow: hidden;
-    }
+      .tour-slide {
+        width: 100%;
+        height: 100dvh;
+        overflow: hidden;
+      }
 
-    .tours-loading, .tours-empty {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      color: var(--text-on-dark);
-      text-align: center;
-      padding: var(--size-24);
-    }
-    .tours-empty h2 { margin: 0 0 var(--size-8) 0; font-size: var(--size-24); }
-    .tours-empty p { margin: 0; opacity: 0.7; }
-  `],
+      .tours-loading,
+      .tours-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+        padding: var(--size-24);
+      }
+      .tours-empty h2 {
+        margin: 0 0 var(--size-8) 0;
+        font-size: var(--size-24);
+      }
+      .tours-empty p {
+        margin: 0;
+        opacity: 0.7;
+      }
+    `,
+  ],
 })
 export class ToursPage implements OnInit, OnDestroy {
   #title = inject(Title);
@@ -101,7 +108,7 @@ export class ToursPage implements OnInit, OnDestroy {
   readonly tours = signal<IBusinessTour[]>([]);
   readonly loading = signal(true);
   readonly currentIndex = signal(0);
-  
+
   #page = 1;
   #hasMore = true;
   #isScrolling = false;
@@ -119,18 +126,20 @@ export class ToursPage implements OnInit, OnDestroy {
     if (!this.#hasMore) return;
     this.loading.set(true);
 
-    this.#tourService.discoverGlobal({ page: this.#page, limit: 10, status: 'PUBLISHED' as any }).subscribe({
-      next: (res) => {
-        this.tours.update(prev => [...prev, ...res.items]);
-        this.#hasMore = (res.page * res.limit) < res.total;
-        this.#page++;
-        this.loading.set(false);
-      },
-      error: (err) => {
-        console.error('Error loading tours', err);
-        this.loading.set(false);
-      }
-    });
+    this.#tourService
+      .discoverGlobal({ page: this.#page, limit: 10, status: 'PUBLISHED' as any })
+      .subscribe({
+        next: (res) => {
+          this.tours.update((prev) => [...prev, ...res.items]);
+          this.#hasMore = res.page * res.limit < res.total;
+          this.#page++;
+          this.loading.set(false);
+        },
+        error: (err) => {
+          console.error('Error loading tours', err);
+          this.loading.set(false);
+        },
+      });
   }
 
   @HostListener('window:wheel', ['$event'])
@@ -153,7 +162,7 @@ export class ToursPage implements OnInit, OnDestroy {
   @HostListener('window:touchend', ['$event'])
   onTouchEnd(event: TouchEvent): void {
     if (this.#isScrolling || this.tours().length === 0) return;
-    
+
     this.#touchEndY = event.changedTouches[0].screenY;
     this.handleSwipe();
   }
@@ -161,7 +170,7 @@ export class ToursPage implements OnInit, OnDestroy {
   private handleSwipe(): void {
     const threshold = 50; // min distance
     const diff = this.#touchStartY - this.#touchEndY;
-    
+
     if (diff > threshold) {
       this.nextSlide();
     } else if (diff < -threshold) {
@@ -172,7 +181,7 @@ export class ToursPage implements OnInit, OnDestroy {
   private nextSlide(): void {
     if (this.currentIndex() < this.tours().length - 1) {
       this.setIndex(this.currentIndex() + 1);
-      
+
       // Load more if getting close to the end
       if (this.currentIndex() >= this.tours().length - 3) {
         this.loadMoreTours();
@@ -201,7 +210,7 @@ export class ToursPage implements OnInit, OnDestroy {
       rating: 4.8,
       locationText: 'Bodija, Ibadan',
       distanceStr: '120 m',
-      isOpen: true
+      isOpen: true,
     };
   }
 
@@ -214,7 +223,9 @@ export class ToursPage implements OnInit, OnDestroy {
         this.#router.navigate(['/b', tour.businessProfileId]);
         break;
       case 'message':
-        this.#router.navigate(['/messages'], { queryParams: { tour: tour.id, business: tour.businessProfileId } });
+        this.#router.navigate(['/messages'], {
+          queryParams: { tour: tour.id, business: tour.businessProfileId },
+        });
         break;
       case 'save':
         console.log('Save tour', tour.id);
