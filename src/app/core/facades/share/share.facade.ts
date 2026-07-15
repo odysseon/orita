@@ -6,6 +6,7 @@ import { ClipboardService } from './clipboard.service.js';
 import { MessagingRepository } from '../../services/messaging-repository.service.js';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { mapIntentToEmbed } from './share-embed.mapper.js';
 
 export type ShareStatus = 'idle' | 'opening' | 'sending' | 'failed' | 'complete';
 
@@ -69,7 +70,6 @@ export class ShareFacade {
       if (target.kind === 'conversation') {
         conversationId = target.conversationId;
       } else {
-        // Must be a user target, let's open conversation
         const conversation = await firstValueFrom(
           this.#messaging.openConversation('USER', target.userId)
         );
@@ -77,18 +77,17 @@ export class ShareFacade {
       }
 
       this.status.set('sending');
-      // For Milestone 1, we just send a link. Milestone 2 will send a MessageEmbed.
-      const url = this.#linkBuilder.buildLink(intent);
       
+      const embed = mapIntentToEmbed(intent);
+
       await firstValueFrom(
         this.#messaging.sendMessage(conversationId, {
-          content: url, // Sending link as text message for now
+          embeds: [embed],
         })
       );
 
       this.status.set('complete');
       
-      // Navigate to the conversation
       await this.#router.navigate(['/messages', conversationId]);
 
     } catch (error) {
