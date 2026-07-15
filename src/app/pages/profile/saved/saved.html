@@ -39,16 +39,14 @@
     @for (saved of followedBusinesses.value()!; track saved.id) {
     <div class="saved-item">
       <a class="saved-item__link" [routerLink]="['/b', saved.business.slug]">
-        <div class="saved-item__image">
+        <div class="saved-item__avatar">
           @if (saved.business.media?.[0]?.url) {
           <img [src]="saved.business.media![0].url" [alt]="saved.business.name" loading="lazy" />
           } @else {
-          <div class="saved-item__placeholder">
-            <svg lucideStore aria-hidden="true"></svg>
-          </div>
+          <svg lucideStore aria-hidden="true"></svg>
           }
         </div>
-        <div class="saved-item__content">
+        <div class="saved-item__text">
           <span class="saved-item__title">{{ saved.business.name }}</span>
           @if (saved.business.description) {
           <span class="saved-item__subtitle">{{ saved.business.description }}</span>
@@ -56,11 +54,11 @@
         </div>
       </a>
       <button
-        type="button"
-        class="btn-icon saved-item__action"
+        class="saved-item__remove"
         [disabled]="removingId() === saved.businessId"
         (click)="unfollowBusiness(saved.businessId)"
-        aria-label="Remove from saved"
+        type="button"
+        aria-label="Unfollow"
       >
         <svg lucideX aria-hidden="true"></svg>
       </button>
