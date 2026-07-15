@@ -1,4 +1,10 @@
-.message-list-container {
+:host {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+    .message-list-container {
       flex: 1;
       overflow-y: auto;
       padding: var(--size-16);

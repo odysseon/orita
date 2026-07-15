@@ -13,7 +13,34 @@ export class MessageStore {
   readonly activeConversation = computed(() => {
     const id = this.activeConversationId();
     if (!id) return null;
-    return this.activeConversationDetails() || this.conversations().find(c => c.id === id) || null;
+    
+    const preview = this.conversations().find(c => c.id === id);
+    const details = this.activeConversationDetails();
+    
+    if (!preview && !details) return null;
+    
+    if (preview && details) {
+      return { 
+        ...details, 
+        title: preview.title, 
+        avatarUrl: preview.avatarUrl,
+        unreadCount: preview.unreadCount,
+        lastActivityAt: preview.lastActivityAt
+      };
+    }
+    
+    // If only details exist (e.g. freshly created conversation without preview loaded yet)
+    if (details) {
+      return {
+        ...details,
+        title: details.title || 'Conversation',
+        avatarUrl: details.avatarUrl || null,
+        unreadCount: details.unreadCount || 0,
+        lastActivityAt: details.updatedAt
+      } as IConversation & IConversationPreview;
+    }
+    
+    return preview || null;
   });
 
   readonly activeMessages = computed(() => {

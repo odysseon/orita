@@ -1,4 +1,9 @@
-.view-container {
+:host {
+      display: block;
+      height: 100%;
+      min-height: 0;
+    }
+    .view-container {
       display: flex;
       flex-direction: column;
       height: 100%;

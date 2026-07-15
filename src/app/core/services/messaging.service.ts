@@ -46,18 +46,20 @@ export class MessagingService implements OnDestroy {
     this.#socket.joinConversation(id);
 
     this.#repo.getConversationDetails(id).subscribe(conversation => {
-      // Update this conversation in the list
+      // Update this conversation in the list safely without overwriting the preview's computed title/avatar
       this.#store.conversations.update(list => {
+        const idx = list.findIndex(c => c.id === id);
+        const existing = idx !== -1 ? list[idx] : null;
+
         const preview = {
           id: conversation.id,
           type: conversation.type,
-          title: conversation.title || 'Conversation',
-          avatarUrl: null, // the API for get details returns Conversation, might not have avatarUrl
-          unreadCount: conversation.unreadCount || 0,
-          lastActivityAt: conversation.updatedAt
+          title: existing?.title || conversation.title || 'Conversation',
+          avatarUrl: existing?.avatarUrl || null,
+          unreadCount: existing?.unreadCount ?? (conversation.unreadCount || 0),
+          lastActivityAt: existing?.lastActivityAt ?? conversation.updatedAt
         };
 
-        const idx = list.findIndex(c => c.id === id);
         if (idx === -1) return [...list, preview];
         const copy = [...list];
         copy[idx] = { ...copy[idx], ...preview };
