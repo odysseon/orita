@@ -51,11 +51,11 @@ svg.filled {
   width: var(--size-32);
   height: var(--size-32);
   border-radius: var(--radius-pill);
-  border: none;
-  background: color-mix(in oklch, var(--surface-card) 80%, transparent);
-  backdrop-filter: blur(6px);
+  border: 1px solid color-mix(in oklch, var(--text-primary) 10%, transparent);
+  background: color-mix(in oklch, var(--surface-card) 30%, transparent);
+  backdrop-filter: blur(12px);
   color: var(--text-primary);
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
   cursor: pointer;
   transition: transform var(--transition-fast);
 }
