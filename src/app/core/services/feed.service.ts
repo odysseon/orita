@@ -30,6 +30,7 @@ export interface FeedListing {
   minPrice?: number | string;
   currencyCode?: string;
   media?: FeedMedia[];
+  isSaved?: boolean;
 }
 
 export interface FeedTour {
@@ -38,6 +39,7 @@ export interface FeedTour {
   slug?: string;
   summary?: string;
   media?: FeedMedia[];
+  isSaved?: boolean;
 }
 
 export interface FeedItemView {
