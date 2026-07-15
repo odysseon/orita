@@ -1,0 +1,26 @@
+<div class="messages-page-wrapper">
+      <ui-app-header pageTitle="Messages" [showLogo]="false"></ui-app-header>
+      
+      <main class="messages-layout" [class.mobile-chat-open]="activeConversationId()">
+        
+        <!-- Sidebar: hidden on mobile if a chat is active -->
+        <div class="layout-sidebar">
+          <app-conversation-sidebar 
+            [conversations]="messaging.conversations()"
+            [activeId]="activeConversationId()"
+            (selectConversation)="onSelectConversation($event)"
+          />
+        </div>
+
+        <!-- Chat View: hidden on mobile if NO chat is active -->
+        <div class="layout-view">
+          <app-conversation-view 
+            [conversation]="messaging.activeConversation()"
+            [messages]="messaging.activeMessages()"
+            [currentUserName]="currentUserName"
+            (back)="onBackToSidebar()"
+            (send)="onSendMessage($event)"
+          />
+        </div>
+      </main>
+    </div>

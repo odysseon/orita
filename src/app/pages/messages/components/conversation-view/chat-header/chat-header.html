@@ -1,0 +1,19 @@
+<header class="chat-header">
+      <button class="btn-back" (click)="back.emit()" aria-label="Back">
+        <svg lucideChevronLeft aria-hidden="true"></svg>
+      </button>
+
+      <div class="chat-title-info">
+        <div class="avatar-placeholder">
+          {{ conversation()?.title?.[0] || 'U' }}
+        </div>
+        <div class="chat-title-text">
+          <h2>{{ conversation()?.title || 'Conversation' }}</h2>
+          <span class="online-status">Online</span>
+        </div>
+      </div>
+
+      <button class="btn-icon" aria-label="More options">
+        <svg lucideMoreVertical aria-hidden="true"></svg>
+      </button>
+    </header>

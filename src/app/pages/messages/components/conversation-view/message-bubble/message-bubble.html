@@ -1,0 +1,51 @@
+<div class="msg-wrapper" [class.is-mine]="isMine()">
+      
+      @if (!isMine()) {
+        <div class="msg-avatar">
+          {{ message().senderDisplayName?.[0] || 'U' }}
+        </div>
+      }
+
+      <div class="msg-content-col">
+        @if (!isMine()) {
+          <span class="msg-sender">{{ message().senderDisplayName }}</span>
+        }
+        
+        <div class="msg-bubble-card" [class.optimistic]="message().isOptimistic" [class.failed]="message().isFailed">
+          
+          @if (message().mediaUrl) {
+            @if (message().mediaType === 'VIDEO') {
+              <video class="msg-media" [src]="message().mediaUrl" controls></video>
+            } @else {
+              <img class="msg-media" [src]="message().mediaUrl" alt="Attached media" loading="lazy" />
+            }
+          }
+
+          @if (message().content) {
+            <p class="msg-text">{{ message().content }}</p>
+          }
+
+          <div class="msg-meta">
+            <span class="msg-time">{{ message().createdAt | date:'shortTime' }}</span>
+            
+            @if (isMine()) {
+              <span class="msg-status">
+                @if (message().isFailed) {
+                  <svg lucideAlertCircle class="status-icon text-error" aria-hidden="true"></svg>
+                } @else if (message().isOptimistic) {
+                  <svg lucideClock class="status-icon" aria-hidden="true"></svg>
+                } @else if (message().readReceipts?.length) {
+                  <svg lucideCheckCheck class="status-icon text-primary" aria-hidden="true"></svg>
+                } @else {
+                  <svg lucideCheck class="status-icon" aria-hidden="true"></svg>
+                }
+              </span>
+            }
+          </div>
+        </div>
+
+        @if (message().isFailed) {
+          <span class="error-msg">Failed to send. <button type="button" class="btn-link">Retry</button></span>
+        }
+      </div>
+    </div>

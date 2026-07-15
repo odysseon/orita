@@ -1,0 +1,16 @@
+<div class="message-list-container" #scrollContainer>
+      @if (messages().length === 0) {
+        <div class="empty-state">
+          <p>No messages yet. Start the conversation!</p>
+        </div>
+      } @else {
+        <div class="message-list-content">
+          @for (msg of messages(); track msg.id) {
+            <app-message-bubble 
+              [message]="msg" 
+              [isMine]="msg.senderDisplayName === 'You' || msg.senderDisplayName === currentUserName()" 
+            />
+          }
+        </div>
+      }
+    </div>

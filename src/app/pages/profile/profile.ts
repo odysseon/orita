@@ -10,8 +10,8 @@ import {
   LucideChevronRight,
   LucideLogOut,
   LucideTriangleAlert,
-  LucideList,
   LucideDynamicIcon,
+  LucideList,
   LucideIconInput,
 } from '@lucide/angular';
 import { IProfile } from './profile.interface';
@@ -80,7 +80,6 @@ const START_BUSINESS: NavItem = {
   selector: 'app-profile',
   imports: [
     LucideUser,
-    LucideList,
     LucideDynamicIcon,
     LucideChevronRight,
     LucideLogOut,

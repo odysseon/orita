@@ -4,14 +4,9 @@ import { resource } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
-
   LucidePackage,
   LucideBookmark,
-  LucideStore,
-  LucideMessageCircle,
-  LucidePhone,
   LucideStar,
-  LucideMapPin,
 } from '@lucide/angular';
 import { environment } from '../../../environments/environment';
 import { ShareButton } from '../../shared/share-button/share-button';
@@ -35,11 +30,7 @@ import { ListingBusinessCard } from './components/listing-business-card/listing-
     EmptyState,
     SeoComponent,
     LucidePackage,
-    LucideStore,
-    LucideMessageCircle,
-    LucidePhone,
     LucideStar,
-    LucideMapPin,
     ListingReviews,
     ListingAttributes,
     ListingBusinessCard,

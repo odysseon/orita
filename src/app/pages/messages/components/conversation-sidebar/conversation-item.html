@@ -1,0 +1,38 @@
+<button 
+      class="conv-item" 
+      [class.active]="isActive()" 
+      [class.unread]="(conversation().unreadCount || 0) > 0"
+      (click)="select.emit(conversation().id)"
+    >
+      <div class="conv-avatar">
+        <!-- In reality, you'd resolve the avatar for the other participant -->
+        <div class="avatar-placeholder">
+          {{ conversation().title?.[0] || 'U' }}
+        </div>
+        @if ((conversation().unreadCount || 0) > 0) {
+          <div class="unread-badge">{{ conversation().unreadCount }}</div>
+        }
+      </div>
+
+      <div class="conv-content">
+        <div class="conv-header">
+          <span class="conv-title">{{ conversation().title || 'Conversation' }}</span>
+          @if (conversation().latestMessage) {
+            <span class="conv-time">{{ conversation().latestMessage!.createdAt | date:'shortTime' }}</span>
+          }
+        </div>
+        
+        <div class="conv-snippet">
+          @if (conversation().latestMessage) {
+            <span class="snippet-text">
+              @if (conversation().latestMessage?.senderDisplayName === 'You') {
+                You: 
+              }
+              {{ conversation().latestMessage!.content || 'Sent an attachment' }}
+            </span>
+          } @else {
+            <span class="snippet-text">No messages yet</span>
+          }
+        </div>
+      </div>
+    </button>

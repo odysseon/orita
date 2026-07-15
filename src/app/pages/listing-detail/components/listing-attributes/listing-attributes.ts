@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-listing-attributes',
@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './listing-attributes.css',
 })
 export class ListingAttributes {
-  @Input() attributes!: any[];
+  attributes = input.required<any[]>();
 }

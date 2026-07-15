@@ -1,0 +1,14 @@
+@if (anchor()) {
+      <div class="context-banner">
+        @if (anchor()?.imageUrl) {
+          <img class="context-img" [src]="anchor()!.imageUrl" [alt]="anchor()!.title" />
+        }
+        <div class="context-info">
+          <div class="context-type">{{ getContextType() }}</div>
+          <div class="context-title">{{ anchor()!.title }}</div>
+          @if (anchor()?.subtitle) {
+            <div class="context-subtitle">{{ anchor()!.subtitle }}</div>
+          }
+        </div>
+      </div>
+    }

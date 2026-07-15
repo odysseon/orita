@@ -1,0 +1,43 @@
+.messages-page-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      background: var(--bg-default);
+    }
+    .messages-layout {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+    
+    .layout-sidebar {
+      width: 350px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--border-color);
+    }
+    .layout-view {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* Mobile Responsive Split Pane */
+    @media (max-width: 768px) {
+      .layout-sidebar {
+        width: 100%;
+        border-right: none;
+      }
+      .layout-view {
+        display: none;
+      }
+      
+      .messages-layout.mobile-chat-open .layout-sidebar {
+        display: none;
+      }
+      .messages-layout.mobile-chat-open .layout-view {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+    }

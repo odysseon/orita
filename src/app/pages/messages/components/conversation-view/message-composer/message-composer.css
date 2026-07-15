@@ -1,0 +1,57 @@
+.composer-container {
+      display: flex;
+      align-items: center;
+      gap: var(--size-8);
+      padding: var(--size-12) var(--size-16);
+      background: var(--surface-1);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .btn-attach, .btn-send {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: var(--size-8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-full);
+      transition: color 0.2s, background-color 0.2s;
+    }
+    
+    .btn-attach:hover {
+      background: var(--surface-2);
+      color: var(--text-default);
+    }
+    
+    .btn-send {
+      color: var(--primary);
+    }
+    .btn-send:hover:not(:disabled) {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-send:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .input-wrapper {
+      flex: 1;
+      display: flex;
+    }
+
+    .composer-input {
+      width: 100%;
+      padding: var(--size-10) var(--size-16);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      background: var(--bg-default);
+      color: var(--text-default);
+      outline: none;
+      font-size: var(--size-14);
+    }
+    .composer-input:focus {
+      border-color: var(--primary);
+    }

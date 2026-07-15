@@ -1,0 +1,25 @@
+<div class="composer-container">
+      <button class="btn-attach" type="button" aria-label="Attach file">
+        <svg lucidePaperclip aria-hidden="true"></svg>
+      </button>
+
+      <div class="input-wrapper">
+        <input 
+          type="text" 
+          class="composer-input"
+          placeholder="Type a message..."
+          [(ngModel)]="content"
+          (keyup.enter)="onSend()"
+        />
+      </div>
+
+      <button 
+        class="btn-send" 
+        type="button" 
+        aria-label="Send message"
+        [disabled]="!content().trim()"
+        (click)="onSend()"
+      >
+        <svg lucideSend aria-hidden="true"></svg>
+      </button>
+    </div>

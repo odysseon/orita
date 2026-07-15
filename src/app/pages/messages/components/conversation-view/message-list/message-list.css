@@ -1,0 +1,22 @@
+.message-list-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--size-16);
+      background: var(--bg-default);
+      display: flex;
+      flex-direction: column;
+    }
+    .message-list-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 100%;
+    }
+    .empty-state {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: var(--size-14);
+    }

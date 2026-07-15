@@ -1,0 +1,29 @@
+<aside class="sidebar-container">
+      <div class="sidebar-header">
+        <h2>Messages</h2>
+        <div class="search-box">
+          <svg lucideSearch aria-hidden="true"></svg>
+          <input 
+            type="text" 
+            placeholder="Search conversations..." 
+            [(ngModel)]="searchQuery"
+          />
+        </div>
+      </div>
+
+      <div class="sidebar-list">
+        @if (filteredConversations().length === 0) {
+          <div class="empty-state">
+            <p>No conversations found.</p>
+          </div>
+        } @else {
+          @for (conv of filteredConversations(); track conv.id) {
+            <app-conversation-item
+              [conversation]="conv"
+              [isActive]="activeId() === conv.id"
+              (select)="selectConversation.emit($event)"
+            />
+          }
+        }
+      </div>
+    </aside>

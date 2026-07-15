@@ -1,0 +1,29 @@
+<div class="highlights-editor">
+      <label class="highlights-label">Highlights</label>
+      <p class="highlights-hint">Add key selling points (e.g., "Wheelchair Accessible", "Family Friendly")</p>
+
+      <ul class="highlights-list">
+        @for (item of items(); track $index) {
+          <li class="highlights-item">
+            <span class="highlights-text">{{ item }}</span>
+            <button type="button" class="btn-icon" (click)="removeItem($index)">
+              <svg lucideX aria-hidden="true"></svg>
+            </button>
+          </li>
+        }
+      </ul>
+
+      <div class="highlights-input-row">
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Add a highlight..." 
+          [(ngModel)]="newItem"
+          (keyup.enter)="addItem()"
+        />
+        <button type="button" class="btn btn-secondary" (click)="addItem()" [disabled]="!newItem().trim()">
+          <svg lucidePlus aria-hidden="true"></svg>
+          Add
+        </button>
+      </div>
+    </div>

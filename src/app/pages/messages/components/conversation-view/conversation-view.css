@@ -1,0 +1,27 @@
+.view-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: var(--bg-default);
+    }
+    .empty-view {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: var(--size-16);
+      opacity: 0.5;
+    }
+    .empty-view h3 {
+      margin: 0 0 var(--size-8) 0;
+      color: var(--text-default);
+    }
+    .empty-view p {
+      margin: 0;
+    }

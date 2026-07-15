@@ -1,4 +1,4 @@
-<div class="category-browser" [attr.data-mode]="mode">
+<div class="category-browser" [attr.data-mode]="mode()">
   @if (viewState() === 'loading') {
     <div class="category-browser-loading">Loading categories...</div>
   } @else if (viewState() === 'empty') {

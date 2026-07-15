@@ -1,0 +1,127 @@
+.msg-wrapper {
+      display: flex;
+      gap: var(--size-8);
+      margin-bottom: var(--size-12);
+      max-width: 85%;
+    }
+    
+    .msg-wrapper.is-mine {
+      margin-left: auto;
+      flex-direction: row-reverse;
+    }
+
+    .msg-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-full);
+      background: var(--surface-3);
+      color: var(--text-default);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--size-12);
+      font-weight: 600;
+      flex-shrink: 0;
+      align-self: flex-end;
+      margin-bottom: var(--size-8);
+    }
+
+    .msg-content-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    
+    .msg-wrapper.is-mine .msg-content-col {
+      align-items: flex-end;
+    }
+
+    .msg-sender {
+      font-size: var(--size-12);
+      color: var(--text-muted);
+      margin-left: var(--size-4);
+    }
+
+    .msg-bubble-card {
+      background: var(--surface-2);
+      color: var(--text-default);
+      padding: var(--size-8) var(--size-12);
+      border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 2px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--size-4);
+      min-width: 80px;
+    }
+
+    .msg-wrapper.is-mine .msg-bubble-card {
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-lg) var(--radius-lg) 2px var(--radius-lg);
+    }
+
+    .msg-bubble-card.optimistic {
+      opacity: 0.7;
+    }
+    .msg-bubble-card.failed {
+      border: 1px solid var(--error);
+      background: transparent;
+      color: var(--text-default);
+    }
+
+    .msg-text {
+      margin: 0;
+      font-size: var(--size-14);
+      line-height: 1.4;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+    .msg-media {
+      max-width: 100%;
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--size-4);
+    }
+
+    .msg-meta {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--size-4);
+      margin-top: 2px;
+    }
+
+    .msg-time {
+      font-size: 10px;
+      opacity: 0.7;
+    }
+
+    .msg-status {
+      display: flex;
+      align-items: center;
+    }
+
+    .status-icon {
+      width: 12px;
+      height: 12px;
+      opacity: 0.8;
+    }
+
+    .text-primary {
+      color: var(--primary-light, #93c5fd);
+    }
+
+    .error-msg {
+      font-size: 11px;
+      color: var(--error);
+      margin-top: 2px;
+    }
+    .btn-link {
+      background: none;
+      border: none;
+      color: inherit;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0;
+      font-size: inherit;
+    }

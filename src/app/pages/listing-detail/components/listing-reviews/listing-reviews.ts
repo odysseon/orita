@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { LucideStar } from '@lucide/angular';
 
 @Component({
@@ -8,7 +8,7 @@ import { LucideStar } from '@lucide/angular';
   styleUrl: './listing-reviews.css',
 })
 export class ListingReviews {
-  @Input() reviews!: any[];
+  reviews = input.required<any[]>();
 
   starArray(rating: number): boolean[] {
     return Array.from({ length: 5 }, (_, i) => i < rating);

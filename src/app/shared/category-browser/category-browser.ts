@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, computed, inject, signal } from '@angular/core';
+import { Component, input, output, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideChevronRight, LucideChevronDown, LucideCheck } from '@lucide/angular';
 import { CategoryService } from '../../core/services/category.service';
@@ -15,9 +15,9 @@ export type CategoryBrowserMode = 'single-leaf' | 'multi-leaf' | 'interest' | 'f
 export class CategoryBrowser {
   #categoryService = inject(CategoryService);
 
-  @Input() mode: CategoryBrowserMode = 'interest';
-  @Input() selectedIds: string[] = [];
-  @Output() selectionChange = new EventEmitter<string[]>();
+  mode = input<CategoryBrowserMode>('interest');
+  selectedIds = input<string[]>([]);
+  selectionChange = output<string[]>();
 
   readonly categories = this.#categoryService.categories;
   
@@ -25,7 +25,7 @@ export class CategoryBrowser {
   readonly activeParentId = signal<string | null>(null);
 
   readonly config = computed(() => {
-    switch (this.mode) {
+    switch (this.mode()) {
       case 'single-leaf':
         return { selectableRoots: false, selectableLeaves: true, multiple: false };
       case 'multi-leaf':
@@ -66,7 +66,7 @@ export class CategoryBrowser {
     if (isRootLevel && !conf.selectableRoots) return;
     if (isLeaf && !conf.selectableLeaves) return;
 
-    let newSelection = [...this.selectedIds];
+    let newSelection = [...this.selectedIds()];
     const isSelected = newSelection.includes(category.id);
 
     if (conf.multiple) {
@@ -83,11 +83,10 @@ export class CategoryBrowser {
       }
     }
 
-    this.selectedIds = newSelection;
-    this.selectionChange.emit(this.selectedIds);
+    this.selectionChange.emit(newSelection);
   }
 
   isSelected(categoryId: string): boolean {
-    return this.selectedIds.includes(categoryId);
+    return this.selectedIds().includes(categoryId);
   }
 }

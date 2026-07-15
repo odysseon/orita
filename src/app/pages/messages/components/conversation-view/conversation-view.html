@@ -1,0 +1,26 @@
+<div class="view-container">
+      @if (conversation()) {
+        <app-chat-header 
+          [conversation]="conversation()"
+          (back)="back.emit()"
+        />
+        
+        <app-conversation-context [anchor]="conversation()!.anchor ?? null" />
+
+        <app-message-list 
+          [messages]="messages()"
+          [currentUserName]="currentUserName()"
+        />
+
+        <app-message-composer 
+          (send)="onSend($event)"
+        />
+      } @else {
+        <!-- Empty state when no conversation is selected (desktop only) -->
+        <div class="empty-view">
+          <div class="empty-icon">💬</div>
+          <h3>Your Messages</h3>
+          <p>Select a conversation from the sidebar to start chatting.</p>
+        </div>
+      }
+    </div>

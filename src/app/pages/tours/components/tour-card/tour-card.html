@@ -1,0 +1,133 @@
+<article class="tour-card">
+  <!-- Full screen media background -->
+  <div class="tour-card__media-container">
+    @if (tour().media && tour().media.length > 0) {
+      @if (tour().media[0].mediaType === 'VIDEO') {
+        <video class="tour-card__media" [src]="tour().media[0].url" autoplay loop muted playsinline></video>
+      } @else {
+        <img class="tour-card__media" [src]="tour().media[0].url" [alt]="tour().title" loading="lazy" />
+      }
+    } @else {
+      <!-- Fallback empty state -->
+      <div class="tour-card__media tour-card__media--empty"></div>
+    }
+    
+    <!-- Gradient overlay for text readability -->
+    <div class="tour-card__overlay"></div>
+  </div>
+
+  <!-- Content (Scrollable over the media) -->
+  <div class="tour-card__content-scroll">
+    <div class="tour-card__content">
+      
+      <!-- Local Context Header -->
+      <div class="tour-card__context">
+        <h2 class="tour-card__business-name">
+          {{ businessData()?.name || 'Loading...' }}
+        </h2>
+        
+        <div class="tour-card__meta-row">
+          @if (businessData()?.rating) {
+            <span class="tour-card__rating">
+              ★ {{ businessData().rating }}
+            </span>
+            <span class="tour-card__dot">•</span>
+          }
+          @if (businessData()?.locationText) {
+            <span>{{ businessData().locationText }}</span>
+            <span class="tour-card__dot">•</span>
+          }
+          @if (businessData()?.distanceStr) {
+            <span>{{ businessData().distanceStr }} away</span>
+          }
+        </div>
+        
+        @if (businessData()?.isOpen !== undefined) {
+          <div class="tour-card__status" [class.tour-card__status--open]="businessData().isOpen">
+            {{ businessData().isOpen ? 'Open now' : 'Closed' }}
+          </div>
+        }
+      </div>
+
+      <div class="tour-card__divider"></div>
+
+      <!-- Tour Info -->
+      <div class="tour-card__info">
+        <h1 class="tour-card__title">{{ tour().title }}</h1>
+        @if (tour().summary) {
+          <p class="tour-card__summary">{{ tour().summary }}</p>
+        }
+      </div>
+
+      <!-- Highlights -->
+      @if (tour().highlights && tour().highlights.length > 0) {
+        <div class="tour-card__divider"></div>
+        <div class="tour-card__section">
+          <h3 class="tour-card__section-title">Highlights</h3>
+          <ul class="tour-card__highlights">
+            @for (hl of tour().highlights; track hl.id) {
+              <li>
+                <svg lucideCheckCircle2 aria-hidden="true"></svg>
+                <span>{{ hl.value }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      <!-- Quick Facts -->
+      <div class="tour-card__divider"></div>
+      <div class="tour-card__section">
+        <h3 class="tour-card__section-title">Quick Facts</h3>
+        <div class="tour-card__facts">
+          @for (fact of quickFacts; track fact) {
+            <div class="tour-card__fact-chip">
+              @switch (fact) {
+                @case ('Wi-Fi') { <svg lucideWifi aria-hidden="true"></svg> }
+                @case ('Parking') { <svg lucideCar aria-hidden="true"></svg> }
+                @case ('Accepts Cards') { <svg lucideCreditCard aria-hidden="true"></svg> }
+                @case ('Family Friendly') { <svg lucideBaby aria-hidden="true"></svg> }
+                @default { <svg lucideCheckCircle2 aria-hidden="true"></svg> }
+              }
+              <span>{{ fact }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Padding for pinned actions -->
+      <div style="height: 100px;"></div>
+    </div>
+  </div>
+
+  <!-- Pinned Actions -->
+  <div class="tour-card__actions">
+    <button class="tour-card__action-btn" (click)="handleAction('directions')">
+      <div class="tour-card__action-icon">
+        <svg lucideMapPin aria-hidden="true"></svg>
+      </div>
+      <span>Directions</span>
+    </button>
+
+    <button class="tour-card__action-btn" (click)="handleAction('business')">
+      <div class="tour-card__action-icon">
+        <svg lucideStore aria-hidden="true"></svg>
+      </div>
+      <span>View Business</span>
+    </button>
+
+    <button class="tour-card__action-btn" (click)="handleAction('message')">
+      <div class="tour-card__action-icon">
+        <svg lucideMessageCircle aria-hidden="true"></svg>
+      </div>
+      <span>Message</span>
+    </button>
+
+    <button class="tour-card__action-btn" (click)="handleAction('save')">
+      <div class="tour-card__action-icon">
+        <svg lucideHeart aria-hidden="true"></svg>
+      </div>
+      <span>Save</span>
+    </button>
+  </div>
+</article>

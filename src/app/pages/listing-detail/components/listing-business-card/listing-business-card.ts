@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucideStore, LucideMapPin, LucidePhone, LucideMessageCircle } from '@lucide/angular';
 
@@ -9,7 +9,7 @@ import { LucideStore, LucideMapPin, LucidePhone, LucideMessageCircle } from '@lu
   styleUrl: './listing-business-card.css',
 })
 export class ListingBusinessCard {
-  @Input() biz!: any;
+  biz = input.required<any>();
 
   callPhone(phone: string): void {
     window.location.href = `tel:${phone}`;
