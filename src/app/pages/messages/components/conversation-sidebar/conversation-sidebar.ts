@@ -2,7 +2,7 @@ import { Component, input, output, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LucideSearch } from '@lucide/angular';
 import { ConversationItem } from './conversation-item';
-import { IConversation } from '../../../../core/services/messaging.types';
+import { IConversationPreview } from '../../../../core/services/messaging.types';
 
 @Component({
   selector: 'app-conversation-sidebar',
@@ -11,7 +11,7 @@ import { IConversation } from '../../../../core/services/messaging.types';
   styleUrl: './conversation-sidebar.css'
 })
 export class ConversationSidebar {
-  conversations = input<IConversation[]>([]);
+  conversations = input<IConversationPreview[]>([]);
   activeId = input<string | null>(null);
   
   selectConversation = output<string>();

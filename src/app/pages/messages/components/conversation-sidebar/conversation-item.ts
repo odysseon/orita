@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { IConversation } from '../../../../core/services/messaging.types';
+import { IConversationPreview } from '../../../../core/services/messaging.types';
 
 @Component({
   selector: 'app-conversation-item',
@@ -9,7 +9,7 @@ import { IConversation } from '../../../../core/services/messaging.types';
   styleUrl: './conversation-item.css'
 })
 export class ConversationItem {
-  conversation = input.required<IConversation>();
+  conversation = input.required<IConversationPreview>();
   isActive = input(false);
   select = output<string>();
 }

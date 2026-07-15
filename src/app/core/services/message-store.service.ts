@@ -5,6 +5,7 @@ import { IConversation, IConversationPreview, IMessage, IMessagePreview } from '
 export class MessageStore {
   readonly conversations = signal<IConversationPreview[]>([]);
   readonly activeConversationId = signal<string | null>(null);
+  readonly activeConversationDetails = signal<IConversation | null>(null);
   
   // A map of conversationId -> messages array
   readonly messages = signal<Record<string, IMessage[]>>({});
@@ -12,7 +13,7 @@ export class MessageStore {
   readonly activeConversation = computed(() => {
     const id = this.activeConversationId();
     if (!id) return null;
-    return this.conversations().find(c => c.id === id) || null;
+    return this.activeConversationDetails() || this.conversations().find(c => c.id === id) || null;
   });
 
   readonly activeMessages = computed(() => {
@@ -94,5 +95,12 @@ export class MessageStore {
 
   setActiveConversationId(id: string | null): void {
     this.activeConversationId.set(id);
+    if (!id) {
+      this.activeConversationDetails.set(null);
+    }
+  }
+
+  setActiveConversationDetails(conversation: IConversation): void {
+    this.activeConversationDetails.set(conversation);
   }
 }

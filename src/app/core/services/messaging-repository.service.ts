@@ -2,15 +2,15 @@ import { Service, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { IConversation, IMessage, CreateConversationDto, SendMessageDto } from './messaging.types';
+import { IConversation, IConversationPreview, IMessage, CreateConversationDto, SendMessageDto } from './messaging.types';
 
 @Service()
 export class MessagingRepository {
   #http = inject(HttpClient);
   #apiUrl = environment.apiUrl;
 
-  getConversations(): Observable<IConversation[]> {
-    return this.#http.get<IConversation[]>(`${this.#apiUrl}/conversations`);
+  getConversations(): Observable<IConversationPreview[]> {
+    return this.#http.get<IConversationPreview[]>(`${this.#apiUrl}/conversations`);
   }
 
   getConversationDetails(id: string): Observable<IConversation> {

@@ -48,12 +48,23 @@ export class MessagingService implements OnDestroy {
     this.#repo.getConversationDetails(id).subscribe(conversation => {
       // Update this conversation in the list
       this.#store.conversations.update(list => {
+        const preview = {
+          id: conversation.id,
+          type: conversation.type,
+          title: conversation.title || 'Conversation',
+          avatarUrl: null, // the API for get details returns Conversation, might not have avatarUrl
+          unreadCount: conversation.unreadCount || 0,
+          lastActivityAt: conversation.updatedAt
+        };
+
         const idx = list.findIndex(c => c.id === id);
-        if (idx === -1) return [...list, conversation];
+        if (idx === -1) return [...list, preview];
         const copy = [...list];
-        copy[idx] = conversation;
+        copy[idx] = { ...copy[idx], ...preview };
         return copy;
       });
+
+      this.#store.setActiveConversationDetails(conversation);
 
       // Set the messages array
       this.#store.setMessages(id, conversation.messages || []);
@@ -66,7 +77,15 @@ export class MessagingService implements OnDestroy {
 
   createConversation(dto: CreateConversationDto): void {
     this.#repo.createConversation(dto).subscribe(conversation => {
-      this.#store.conversations.update(list => [conversation, ...list]);
+      const preview = {
+        id: conversation.id,
+        type: conversation.type,
+        title: conversation.title || 'Conversation',
+        avatarUrl: null,
+        unreadCount: conversation.unreadCount || 0,
+        lastActivityAt: conversation.updatedAt
+      };
+      this.#store.conversations.update(list => [preview, ...list]);
       this.loadConversation(conversation.id);
     });
   }

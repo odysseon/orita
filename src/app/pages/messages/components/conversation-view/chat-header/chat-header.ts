@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { LucideChevronLeft, LucideMoreVertical } from '@lucide/angular';
-import { IConversation } from '../../../../../core/services/messaging.types';
+import { IConversationPreview } from '../../../../../core/services/messaging.types';
 
 @Component({
   selector: 'app-chat-header',
@@ -9,6 +9,6 @@ import { IConversation } from '../../../../../core/services/messaging.types';
   styleUrl: './chat-header.css'
 })
 export class ChatHeader {
-  conversation = input<IConversation | null>(null);
+  conversation = input<IConversationPreview | null>(null);
   back = output<void>();
 }

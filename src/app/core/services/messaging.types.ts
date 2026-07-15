@@ -73,6 +73,7 @@ export interface IConversation {
   type: ConversationType;
   status: ConversationStatus;
   title?: string | null;
+  avatarUrl?: string | null;
   anchorId?: string | null;
   anchor?: IConversationAnchor | null;
   participantIds: string[];
@@ -82,7 +83,8 @@ export interface IConversation {
   
   // Computed UI state
   unreadCount?: number;
-  latestMessage?: IMessage;
+  lastActivityAt?: string;
+  latestMessage?: IMessagePreview;
 }
 
 export interface CreateConversationDto {
