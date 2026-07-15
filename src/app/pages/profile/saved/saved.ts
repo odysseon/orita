@@ -54,7 +54,7 @@ export class Saved {
     this.removingId.set(businessProfileId);
     try {
       await firstValueFrom(
-        this.#http.delete(`${environment.apiUrl}/follows/business/${businessProfileId}`),
+        this.#http.delete(`${environment.apiUrl}/v1/follows/business/${businessProfileId}`),
       );
       this.#toast.info('Removed from saved');
       this.followedBusinesses.reload();
