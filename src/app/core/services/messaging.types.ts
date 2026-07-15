@@ -48,6 +48,26 @@ export interface IConversationAnchor {
   locationId?: string | null;
 }
 
+export interface IMessagePreview {
+  id: string;
+  content?: string | null;
+  participantId: string;
+  senderDisplayName: string;
+  createdAt: string;
+  previewType: 'TEXT' | 'MEDIA' | 'EMBED' | 'SYSTEM';
+  snippet: string;
+}
+
+export interface IConversationPreview {
+  id: string;
+  type: ConversationType;
+  title: string;
+  avatarUrl?: string | null;
+  latestMessage?: IMessagePreview;
+  unreadCount: number;
+  lastActivityAt: string;
+}
+
 export interface IConversation {
   id: string;
   type: ConversationType;

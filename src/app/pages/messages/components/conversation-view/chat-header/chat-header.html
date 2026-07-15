@@ -4,15 +4,15 @@
       </button>
 
       <div class="chat-title-info">
-        @if (conversation()?.anchor?.imageUrl) {
-          <img [src]="conversation()?.anchor?.imageUrl" alt="Avatar" class="avatar-placeholder" style="object-fit: cover; background: none; color: transparent;" />
+        @if (conversation()?.avatarUrl) {
+          <img [src]="conversation()?.avatarUrl" alt="Avatar" class="avatar-placeholder" style="object-fit: cover; background: none; color: transparent;" />
         } @else {
           <div class="avatar-placeholder">
-            {{ (conversation()?.title || conversation()?.anchor?.title || 'U')[0] }}
+            {{ (conversation()?.title || 'U')[0] }}
           </div>
         }
         <div class="chat-title-text">
-          <h2>{{ conversation()?.title || conversation()?.anchor?.title || 'Conversation' }}</h2>
+          <h2>{{ conversation()?.title }}</h2>
           <span class="online-status">Online</span>
         </div>
       </div>

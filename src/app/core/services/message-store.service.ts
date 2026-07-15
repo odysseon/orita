@@ -1,9 +1,9 @@
 import { Service, signal, computed } from '@angular/core';
-import { IConversation, IMessage } from './messaging.types';
+import { IConversation, IConversationPreview, IMessage, IMessagePreview } from './messaging.types';
 
 @Service()
 export class MessageStore {
-  readonly conversations = signal<IConversation[]>([]);
+  readonly conversations = signal<IConversationPreview[]>([]);
   readonly activeConversationId = signal<string | null>(null);
   
   // A map of conversationId -> messages array
@@ -21,7 +21,7 @@ export class MessageStore {
     return this.messages()[id] || [];
   });
 
-  setConversations(conversations: IConversation[]): void {
+  setConversations(conversations: IConversationPreview[]): void {
     this.conversations.set(conversations);
   }
 
@@ -51,11 +51,22 @@ export class MessageStore {
       const idx = list.findIndex(c => c.id === cid);
       if (idx === -1) return list; // Or we could fetch it
       const copy = [...list];
-      copy[idx] = { ...copy[idx], latestMessage: message };
       
-      // Bump to top if you want
-      // const [item] = copy.splice(idx, 1);
-      // copy.unshift(item);
+      const preview: IMessagePreview = {
+        id: message.id,
+        content: message.content,
+        participantId: message.participantId,
+        senderDisplayName: message.senderDisplayName,
+        createdAt: message.createdAt,
+        previewType: message.embeds?.length ? 'EMBED' : (message.mediaUrl ? 'MEDIA' : 'TEXT'),
+        snippet: message.embeds?.length ? (message.embeds[0].embedType === 'BUSINESS' ? '📍 Shared a business' : 'Shared an item') : (message.content || 'Sent a message')
+      };
+
+      copy[idx] = { ...copy[idx], latestMessage: preview, lastActivityAt: message.createdAt };
+      
+      // Bump to top
+      const [item] = copy.splice(idx, 1);
+      copy.unshift(item);
       
       return copy;
     });
