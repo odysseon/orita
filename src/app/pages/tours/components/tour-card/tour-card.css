@@ -4,7 +4,7 @@
   height: 100vh;
   /* Adjust for mobile browser UI / header if needed */
   height: 100dvh; 
-  background-color: var(--surface-1, #000);
+  background-color: var(--surface-page);
   overflow: hidden;
   scroll-snap-align: start;
 }
@@ -26,7 +26,7 @@
 }
 
 .tour-card__media--empty {
-  background: var(--surface-2, #333);
+  background: var(--surface-container);
 }
 
 /* Gradient from bottom up for text readability */
@@ -65,7 +65,7 @@
   /* Push content down so the top of media is visible first */
   padding-top: 50vh; 
   min-height: 100%;
-  color: #fff;
+  color: var(--text-on-dark);
 }
 
 .tour-card__divider {
@@ -102,17 +102,17 @@
 
 .tour-card__rating {
   font-weight: 600;
-  color: var(--warning, #fbbf24);
+  color: var(--clr-warning);
 }
 
 .tour-card__status {
   font-size: var(--size-12);
   font-weight: 600;
   text-transform: uppercase;
-  color: var(--error, #ef4444);
+  color: var(--clr-error);
 }
 .tour-card__status--open {
-  color: var(--success, #22c55e);
+  color: var(--clr-success);
 }
 
 /* Tour Info */
@@ -173,7 +173,7 @@
   width: var(--size-20);
   height: var(--size-20);
   flex-shrink: 0;
-  color: var(--success, #22c55e);
+  color: var(--clr-success);
 }
 
 /* Quick Facts */
@@ -224,7 +224,7 @@
   gap: var(--size-4);
   background: none;
   border: none;
-  color: #fff;
+  color: var(--text-on-dark);
   cursor: pointer;
   opacity: 0.9;
   transition: opacity 0.2s, transform 0.2s;

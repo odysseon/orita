@@ -19,6 +19,7 @@ export interface FeedBusiness {
   logoUrl?: string;
   coverUrl?: string;
   description?: string;
+  isFollowed?: boolean;
 }
 
 export interface FeedListing {

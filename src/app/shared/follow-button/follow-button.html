@@ -11,7 +11,11 @@
   type="button"
   [attr.aria-label]="followed() ? 'Unfollow' : 'Follow'"
 >
-  <svg lucideHeart [class.filled]="followed()" aria-hidden="true"></svg>
+  @if (followed()) {
+    <svg lucideCheck aria-hidden="true"></svg>
+  } @else {
+    <svg lucidePlus aria-hidden="true"></svg>
+  }
   @if (variant() !== 'icon' && variant() !== 'overlay') {
   <span>{{ followed() ? 'Following' : 'Follow' }}</span>
   }

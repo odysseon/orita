@@ -14,6 +14,9 @@ import { ToastService } from '../../core/services/toast';
 import { ShareButton } from '../share-button/share-button';
 import { SaveButton, SaveItemType } from '../save-button/save-button';
 import { FollowButton } from '../follow-button/follow-button';
+import { Router } from '@angular/router';
+import { MessagingRepository } from '../../core/services/messaging-repository.service';
+import { MessagingService } from '../../core/services/messaging.service';
 
 @Component({
   selector: 'app-feed-card',
@@ -25,6 +28,9 @@ export class AppFeedCard implements AfterViewInit, OnDestroy {
   readonly item = input.required<FeedItemView>();
 
   #toast = inject(ToastService);
+  #router = inject(Router);
+  #messagingRepo = inject(MessagingRepository);
+  #messagingService = inject(MessagingService);
   #observer: IntersectionObserver | null = null;
 
   @ViewChild('videoElement') videoElement?: ElementRef<HTMLVideoElement>;
@@ -127,6 +133,21 @@ export class AppFeedCard implements AfterViewInit, OnDestroy {
   onMessage(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.#toast.info('Messaging coming soon!');
+    
+    const targetId = this.item().businessProfileId || this.item().business?.id;
+    if (!targetId) {
+      this.#toast.error('Unable to find business profile');
+      return;
+    }
+
+    this.#messagingRepo.openConversation('BUSINESS', targetId).subscribe({
+      next: (conv) => {
+        this.#messagingService.loadConversation(conv.id);
+        this.#router.navigate(['/messages']);
+      },
+      error: () => {
+        this.#toast.error('Failed to open conversation');
+      }
+    });
   }
 }

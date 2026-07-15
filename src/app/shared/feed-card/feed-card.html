@@ -37,6 +37,7 @@
         [targetId]="saveItemId"
         targetType="business"
         variant="overlay"
+        [followed]="!!item().business?.isFollowed"
       />
     } @else {
       <app-save-button
@@ -72,10 +73,18 @@
     <!-- Context -->
     <div class="feed-card__context">
       @if (item().itemType === 'TOUR') { @if (item().tour; as tour) {
-      <h3 class="feed-card__title">{{ tour.title }}</h3>
+      <h3 class="feed-card__title">
+        <a [routerLink]="['/tours', tour.id]" style="color: inherit; text-decoration: none;">
+          {{ tour.title }}
+        </a>
+      </h3>
       <p class="feed-card__summary">{{ tour.summary }}</p>
       } } @if (item().itemType === 'LISTING') { @if (item().listing; as listing) {
-      <h3 class="feed-card__title">{{ listing.title }}</h3>
+      <h3 class="feed-card__title">
+        <a [routerLink]="['/l', listing.slug]" style="color: inherit; text-decoration: none;">
+          {{ listing.title }}
+        </a>
+      </h3>
       <p class="feed-card__summary">{{ listing.description }}</p>
       } } @if (item().itemType === 'BUSINESS') { @if (item().business; as business) {
       <p class="feed-card__summary">{{ business.description || 'A local business near you.' }}</p>

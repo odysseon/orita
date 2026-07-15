@@ -62,7 +62,6 @@ import { BusinessTourService, IBusinessTour } from '../../core/services/business
       height: 100vh;
       height: 100dvh;
       width: 100%;
-      background: #000;
       overflow: hidden; /* We handle scrolling via translate */
       position: relative;
     }
@@ -85,7 +84,7 @@ import { BusinessTourService, IBusinessTour } from '../../core/services/business
       align-items: center;
       justify-content: center;
       height: 100%;
-      color: #fff;
+      color: var(--text-on-dark);
       text-align: center;
       padding: var(--size-24);
     }

@@ -1,12 +1,12 @@
 import { Component, input, model, signal, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { LucideHeart } from '@lucide/angular';
+import { LucidePlus, LucideCheck } from '@lucide/angular';
 import { ToastService } from '../../core/services/toast';
 import { FollowService, FollowType } from '../../core/services/follow.service';
 
 @Component({
   selector: 'app-follow-button',
-  imports: [LucideHeart],
+  imports: [LucidePlus, LucideCheck],
   templateUrl: './follow-button.html',
   styleUrl: './follow-button.css',
 })
