@@ -1,17 +1,17 @@
 import { Component, input, output, signal, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { form, FormField, required } from '@angular/forms/signals';
 import { TourFormHighlights } from '../tour-form-highlights/tour-form-highlights';
 import { MediaSelector } from '../../../../../../shared/media-selector/media-selector';
 import { CreateBusinessTourDto, UpdateBusinessTourDto, IBusinessTour, BusinessTourStatus } from '../../../../../../core/services/business-tour.service';
 
 @Component({
   selector: 'app-tour-form',
-  imports: [ReactiveFormsModule, TourFormHighlights, MediaSelector],
+  imports: [FormField, TourFormHighlights, MediaSelector],
   templateUrl: './tour-form.html',
   styleUrl: './tour-form.css'
 })
 export class TourForm implements OnInit {
-  #fb = inject(FormBuilder);
+
 
   initialData = input<IBusinessTour | null>(null);
   isSubmitting = input(false);
@@ -19,7 +19,16 @@ export class TourForm implements OnInit {
   readonly save = output<{ dto: CreateBusinessTourDto | UpdateBusinessTourDto, files: File[] }>();
   readonly cancel = output<void>();
 
-  form!: FormGroup;
+  readonly tourModel = signal({
+    title: '',
+    summary: '',
+    visitDate: ''
+  });
+
+  readonly tourForm = form(this.tourModel, (f) => {
+    required(f.title);
+    required(f.visitDate);
+  });
   isEdit = signal(false);
   highlights = signal<string[]>([]);
   
@@ -36,10 +45,10 @@ export class TourForm implements OnInit {
       dateStr = new Date(data.visitDate).toISOString().split('T')[0];
     }
 
-    this.form = this.#fb.group({
-      title: [data?.title || '', Validators.required],
-      summary: [data?.summary || ''],
-      visitDate: [dateStr, Validators.required]
+    this.tourModel.set({
+      title: data?.title || '',
+      summary: data?.summary || '',
+      visitDate: dateStr
     });
 
     if (data?.highlights) {
@@ -67,9 +76,9 @@ export class TourForm implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.form.invalid) return;
+    if (this.tourForm().invalid()) return;
 
-    const val = this.form.value;
+    const val = this.tourModel();
     const dto: any = {
       title: val.title,
       summary: val.summary,

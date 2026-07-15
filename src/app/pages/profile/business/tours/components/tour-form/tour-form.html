@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="tour-form">
+<form (ngSubmit)="onSubmit()" class="tour-form">
       <!-- Media Section -->
       <div class="form-section">
         <h3>Media</h3>
@@ -19,20 +19,20 @@
         
         <div class="form-group">
           <label for="title">Tour Title *</label>
-          <input type="text" id="title" class="form-control" formControlName="title" placeholder="e.g. A walk through our new bakery">
-          @if (form.get('title')?.touched && form.get('title')?.hasError('required')) {
+          <input type="text" id="title" class="form-control" [formField]="tourForm.title" placeholder="e.g. A walk through our new bakery">
+          @if (tourForm.title().touched() && tourForm.title().invalid()) {
             <span class="error-text">Title is required.</span>
           }
         </div>
 
         <div class="form-group">
           <label for="summary">Summary</label>
-          <textarea id="summary" class="form-control" formControlName="summary" rows="3" placeholder="Tell the story of this tour..."></textarea>
+          <textarea id="summary" class="form-control" [formField]="tourForm.summary" rows="3" placeholder="Tell the story of this tour..."></textarea>
         </div>
 
         <div class="form-group">
           <label for="visitDate">Visit Date *</label>
-          <input type="date" id="visitDate" class="form-control" formControlName="visitDate">
+          <input type="date" id="visitDate" class="form-control" [formField]="tourForm.visitDate">
         </div>
       </div>
 
@@ -47,7 +47,7 @@
       <!-- Actions -->
       <div class="form-actions">
         <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isSubmitting()">
+        <button type="submit" class="btn btn-primary" [disabled]="tourForm().invalid() || isSubmitting()">
           {{ isSubmitting() ? 'Saving...' : (isEdit() ? 'Update Tour' : 'Create Tour') }}
         </button>
       </div>

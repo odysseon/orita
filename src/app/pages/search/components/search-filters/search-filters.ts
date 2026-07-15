@@ -1,5 +1,5 @@
 import { Component, input, output, signal, effect, inject, resource } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { form, FormField } from '@angular/forms/signals';
 import { Drawer } from '../../../../shared/drawer/drawer';
 import { AppFormField } from '../../../../shared/form-field/form-field';
 import { CategoryService } from '../../../../core/services/category.service';
@@ -22,7 +22,7 @@ export interface SearchFilterState {
   selector: 'app-search-filters',
   imports: [
     Drawer,
-    ReactiveFormsModule,
+    FormField,
     AppFormField,
     LocationPicker
   ],
@@ -51,26 +51,27 @@ export class SearchFiltersComponent {
   readonly applyFilters = output<SearchFilterState>();
 
   #categoryService = inject(CategoryService);
-  #fb = inject(FormBuilder);
-
   readonly currentLat = signal<number | null>(null);
   readonly currentLng = signal<number | null>(null);
 
-  readonly filtersForm = this.#fb.nonNullable.group({
-    locationName: [''],
-    radius: [10],
-    categoryId: [''],
-    sort: ['relevance'],
-    minPrice: this.#fb.control<number | null>(null),
-    maxPrice: this.#fb.control<number | null>(null),
-    filters: this.#fb.record<string>({})
+  readonly internalModel = signal({
+    locationName: '',
+    radius: 10,
+    categoryId: '',
+    sort: 'relevance',
+    minPrice: null as number | null,
+    maxPrice: null as number | null,
+    filters: {} as Record<string, any>
   });
 
+  readonly filtersForm = form(this.internalModel, () => {});
+
   readonly categoryAttributesResource = resource({
-    params: () => ({ categoryId: this.filtersForm.value.categoryId || '' }),
+    params: () => ({ categoryId: this.internalModel()?.categoryId || '' }),
     loader: async ({ params }) => {
-      if (!params.categoryId) return [];
-      return this.#categoryService.getCategoryAttributes(params.categoryId);
+      const categoryId = params.categoryId;
+      if (!categoryId) return [];
+      return this.#categoryService.getCategoryAttributes(categoryId);
     }
   });
 
@@ -79,24 +80,24 @@ export class SearchFiltersComponent {
       if (this.isOpen()) {
         const current = this.currentFilters();
         
-        this.filtersForm.setControl('filters', this.#fb.record<string>({}));
-        const filtersRecord = this.filtersForm.controls.filters;
+        const filtersRecord: Record<string, any> = {};
         
         for (const f of current.filters || []) {
           const parts = f.split(':');
           if (parts.length >= 2) {
-            filtersRecord.addControl(parts[0], this.#fb.control(parts.slice(1).join(':')));
+            filtersRecord[parts[0]] = parts.slice(1).join(':');
           }
         }
 
-        this.filtersForm.patchValue({
+        this.internalModel.set({
           locationName: current.locationName || '',
           radius: current.radius || 10,
           categoryId: current.categoryId || '',
           sort: current.sort || 'relevance',
           minPrice: current.minPrice || null,
-          maxPrice: current.maxPrice || null
-        }, { emitEvent: false });
+          maxPrice: current.maxPrice || null,
+          filters: filtersRecord
+        });
 
         this.currentLat.set(current.lat || null);
         this.currentLng.set(current.lng || null);
@@ -105,11 +106,16 @@ export class SearchFiltersComponent {
   }
 
   onLocationPicked(loc: Location) {
-    this.filtersForm.patchValue({
-      locationName: loc.name || loc.formattedAddress
-    });
+    this.internalModel.update(m => ({
+      ...m,
+      locationName: loc.name || loc.formattedAddress || ''
+    }));
     this.currentLat.set(loc.latitude);
     this.currentLng.set(loc.longitude);
+  }
+
+  updateRadius(val: string) {
+    this.internalModel.update(m => ({ ...m, radius: Number(val) }));
   }
 
   onApply() {
@@ -131,23 +137,33 @@ export class SearchFiltersComponent {
     this.isOpenChange.emit(false);
   }
 
+  updateFilter(key: string, value: any) {
+    this.internalModel.update(m => ({
+      ...m,
+      filters: {
+        ...m.filters,
+        [key]: value
+      }
+    }));
+  }
+
   private emitApply() {
     const filtersArray: string[] = [];
-    const currentFilters = this.filtersForm.value.filters || {};
+    const currentFilters = this.internalModel().filters || {};
     for (const key of Object.keys(currentFilters)) {
       if (currentFilters[key]) {
         filtersArray.push(`${key}:${currentFilters[key]}`);
       }
     }
 
-    const val = this.filtersForm.value;
+    const val = this.internalModel();
     const locationName = (val.locationName || '').trim();
 
     this.applyFilters.emit({
       locationName: locationName || null,
       lat: this.currentLat(),
       lng: this.currentLng(),
-      radius: val.radius !== 10 ? val.radius! : null,
+      radius: Number(val.radius) !== 10 ? Number(val.radius) : null,
       categoryId: val.categoryId || null,
       sort: val.sort !== 'relevance' ? val.sort! : null,
       minPrice: val.minPrice || null,

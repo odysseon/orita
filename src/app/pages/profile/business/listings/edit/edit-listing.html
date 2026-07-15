@@ -7,7 +7,7 @@
   } @else {
   <div class="edit-container">
     <!-- Left Column: Details & Attributes -->
-    <form class="edit-main" [formGroup]="editForm">
+    <form class="edit-main" (submit)="$event.preventDefault()">
       <section class="card">
         <h2>Basic Details</h2>
 
@@ -24,8 +24,8 @@
           <select
             id="category"
             class="field__select"
-            formControlName="categoryId"
-            (change)="onCategoryChange()"
+            [formField]="editForm.categoryId"
+            (change)="onCategoryChange($any($event.target).value)"
           >
             <option value="">Select a category</option>
             @for (cat of leafCategories; track cat.id) {
@@ -38,7 +38,7 @@
           <textarea
             id="description"
             class="field__textarea"
-            formControlName="description"
+            [formField]="editForm.description"
             rows="4"
             placeholder="Describe the item or service..."
           ></textarea>
@@ -50,7 +50,7 @@
               id="minPrice"
               class="field__input"
               type="number"
-              formControlName="minPrice"
+              [formField]="editForm.minPrice"
               placeholder="0"
             />
           </app-form-field>
@@ -60,20 +60,20 @@
               id="maxPrice"
               class="field__input"
               type="number"
-              formControlName="maxPrice"
+              [formField]="editForm.maxPrice"
               placeholder="0"
             />
           </app-form-field>
         </div>
 
         <label class="checkbox-label" style="margin-top: var(--space-sm)">
-          <input type="checkbox" formControlName="isNegotiable" />
+          <input type="checkbox" [formField]="editForm.isNegotiable" />
           <span>Price is negotiable</span>
         </label>
       </section>
 
       @if (attributes().length > 0) {
-      <section class="card fade-in" formGroupName="attributesData">
+      <section class="card fade-in">
         <h2>Category Attributes</h2>
         <p class="section-desc">
           Fill out these specific details to help customers find your listing.
@@ -87,15 +87,19 @@
             [hint]="attr.isRequired ? 'required' : undefined"
           >
             @if (attr.type === 'SELECT' && attr.options) {
-            <select [id]="'attr-' + attr.id" class="field__select" [formControlName]="attr.key">
-              <option [ngValue]="null">Select {{ attr.label }}</option>
+            <select [id]="'attr-' + attr.id" class="field__select" 
+                    [value]="editModel().attributesData[attr.key] || ''"
+                    (change)="updateAttribute(attr.key, $any($event.target).value)">
+              <option value="">Select {{ attr.label }}</option>
               @for (opt of attr.options; track opt) {
               <option [value]="opt">{{ opt }}</option>
               }
             </select>
             } @else if (attr.type === 'BOOLEAN') {
             <label class="checkbox-label">
-              <input [id]="'attr-' + attr.id" type="checkbox" [formControlName]="attr.key" />
+              <input [id]="'attr-' + attr.id" type="checkbox" 
+                     [checked]="editModel().attributesData[attr.key]"
+                     (change)="updateAttribute(attr.key, $any($event.target).checked)" />
               <span>Yes / No</span>
             </label>
             } @else if (attr.type === 'NUMBER') {
@@ -103,7 +107,8 @@
               [id]="'attr-' + attr.id"
               class="field__input"
               type="number"
-              [formControlName]="attr.key"
+              [value]="editModel().attributesData[attr.key] || ''"
+              (input)="updateAttribute(attr.key, $any($event.target).value)"
               placeholder="e.g. 5"
             />
             } @else {
@@ -111,7 +116,8 @@
               [id]="'attr-' + attr.id"
               class="field__input"
               type="text"
-              [formControlName]="attr.key"
+              [value]="editModel().attributesData[attr.key] || ''"
+              (input)="updateAttribute(attr.key, $any($event.target).value)"
               placeholder="e.g. value"
             />
             }
