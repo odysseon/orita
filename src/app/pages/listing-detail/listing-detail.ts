@@ -55,9 +55,9 @@ export class ListingDetail implements LayoutPage {
   readonly pageTitle = computed(() => this.listing.value()?.title);
 
   readonly business = httpResource<IBusinessLite>(() => {
-    const businessId = this.listing.value()?.businessProfileId;
-    if (!businessId) return undefined;
-    return `${environment.apiUrl}/businesses/${businessId}`;
+    const slug = this.listing.value()?.businessProfileSlug;
+    if (!slug) return undefined;
+    return `${environment.apiUrl}/businesses/${slug}`;
   });
 
   readonly avgRating = computed(() => {

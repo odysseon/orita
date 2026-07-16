@@ -217,3 +217,33 @@
 .feed-card__cta:hover {
   background: var(--clr-primary-container);
 }
+
+/* Mobile optimizations for 2-column grid */
+@media (max-width: 479px) {
+  .feed-card__avatar {
+    width: var(--size-20);
+    height: var(--size-20);
+  }
+
+  .feed-card__business-name {
+    font-size: var(--font-size-sm);
+  }
+
+  .feed-card__title {
+    font-size: var(--font-size-md);
+  }
+
+  .feed-card__summary {
+    font-size: var(--font-size-xs);
+  }
+  
+  .feed-card__price-tag {
+    padding: var(--size-4) var(--size-8);
+    font-size: var(--font-size-xs);
+  }
+  
+  .icon-btn {
+    width: var(--size-28);
+    height: var(--size-28);
+  }
+}

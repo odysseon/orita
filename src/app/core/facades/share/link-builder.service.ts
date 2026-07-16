@@ -7,9 +7,9 @@ export class LinkBuilderService {
     const origin = window.location.origin;
     switch (intent.kind) {
       case 'business':
-        return `${origin}/b/${intent.businessId}`;
+        return `${origin}/b/${intent.businessSlug}`;
       case 'listing':
-        return `${origin}/l/${intent.listingId}`;
+        return `${origin}/l/${intent.listingSlug}`;
       case 'tour':
         return `${origin}/t/${intent.tourId}`;
       default:

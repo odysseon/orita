@@ -11,6 +11,7 @@ export interface IReview {
 export interface IListingDetail {
   id: string;
   businessProfileId: string;
+  businessProfileSlug?: string;
   title: string;
   slug: string;
   description: string | null;
