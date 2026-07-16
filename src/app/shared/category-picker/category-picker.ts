@@ -39,9 +39,13 @@ export class CategoryPicker {
     this.searchQuery.set(input.value);
   }
 
+  openPicker() {
+    this.searchQuery.set('');
+    this.isOpen.set(true);
+  }
+
   selectCategory(id: string) {
     this.categoryId.set(id);
-    this.searchQuery.set('');
     this.isOpen.set(false);
   }
 }
