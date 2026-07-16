@@ -33,6 +33,8 @@ export class Drawer implements OnInit, OnDestroy {
   private readonly focusService = inject(DrawerFocusService);
   readonly dragService = inject(DrawerDragService);
 
+  private isOpeningScheduled = false;
+
   open = model<boolean>(false);
   position = input<DrawerPosition>(DRAWER_DEFAULTS.position);
   size = input<string>(DRAWER_DEFAULTS.size);
@@ -163,23 +165,21 @@ export class Drawer implements OnInit, OnDestroy {
   onPanelTransitionEnd(event: TransitionEvent): void {
     const target = event.target;
     if (!(target instanceof HTMLElement) || !target.classList.contains('drawer-panel')) return;
-    if (!this.isOpenPhase()) {
-      this.isRendered.set(false);
-      this.dragService.reset();
-      this.scrollService.unlock();
-      this.focusService.restore();
-      this.closed.emit();
+    if (!this.isOpenPhase() && this.isRendered()) {
+      this.finishClose();
     }
   }
 
   private openDrawer(): void {
-    if (this.isRendered() && this.isOpenPhase()) return;
+    if ((this.isRendered() && this.isOpenPhase()) || this.isOpeningScheduled) return;
+    this.isOpeningScheduled = true;
     this.focusService.remember();
     this.isRendered.set(true);
     this.dragService.reset();
 
     afterNextRender(
       () => {
+        this.isOpeningScheduled = false;
         this.scrollService.lock();
         this.isOpenPhase.set(true);
         this.panelRef()?.nativeElement.focus();
@@ -193,6 +193,21 @@ export class Drawer implements OnInit, OnDestroy {
     if (!this.isRendered()) return;
     this.isOpenPhase.set(false);
     this.dragService.reset();
+
+    // Fallback: in case transitionend does not fire
+    setTimeout(() => {
+      if (!this.isOpenPhase() && this.isRendered()) {
+        this.finishClose();
+      }
+    }, 450); // duration-slow is 400ms
+  }
+
+  private finishClose(): void {
+    this.isRendered.set(false);
+    this.dragService.reset();
+    this.scrollService.unlock();
+    this.focusService.restore();
+    this.closed.emit();
   }
 
   private drawerSizePx(): number {

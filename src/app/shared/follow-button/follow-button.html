@@ -1,7 +1,7 @@
 <button
   [class]="variant() === 'icon' ? 'btn-icon'
     : variant() === 'action' ? 'action-btn'
-    : variant() === 'overlay' ? 'btn-overlay'
+    : variant() === 'overlay' ? 'btn-overlay glass glass-md'
     : 'btn btn--' + variant()"
   [class.btn-icon--active]="variant() === 'icon' && followed()"
   [class.action-btn--active]="variant() === 'action' && followed()"

@@ -15,6 +15,7 @@ export class CategoryPicker {
 
   readonly categoryId = model<string>('');
   readonly placeholder = input<string>('Select a category');
+  readonly id = input<string>('');
   
   readonly isOpen = signal(false);
   readonly searchQuery = signal('');

@@ -68,6 +68,7 @@
             [errorMessage]="businessForm.primaryCategoryId().errors()[0]?.message"
           >
             <app-category-picker
+              id="primaryCategoryId"
               [categoryId]="model().primaryCategoryId"
               (categoryIdChange)="onCategoryPicked($event)"
               [class.field__input--error]="businessForm.primaryCategoryId().touched() && businessForm.primaryCategoryId().invalid()"
