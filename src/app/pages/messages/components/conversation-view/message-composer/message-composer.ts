@@ -8,7 +8,7 @@ import { DraftMessageService } from '../../../../../core/services/draft-message.
   selector: 'app-message-composer',
   imports: [FormsModule, LucideSend, LucidePaperclip, LucidePackage, LucideX],
   templateUrl: './message-composer.html',
-  styleUrl: './message-composer.css'
+  styleUrl: './message-composer.css',
 })
 export class MessageComposer {
   conversationId = input<string | undefined>();
@@ -16,7 +16,7 @@ export class MessageComposer {
   content = signal('');
 
   #draftStore = inject(DraftMessageService);
-  
+
   draftEmbeds = signal<{ embedType: string; targetId: string }[]>([]);
 
   constructor() {
@@ -25,14 +25,14 @@ export class MessageComposer {
       const cid = this.conversationId();
       // subscribe to draftsChange
       this.#draftStore.draftsChange();
-      
+
       if (cid) {
         const draft = this.#draftStore.getDraft(cid);
         this.draftEmbeds.set(draft ? draft.embeds : []);
       } else {
         this.draftEmbeds.set([]);
       }
-    }, { allowSignalWrites: true });
+    });
   }
 
   removeEmbed(targetId: string): void {
@@ -45,25 +45,25 @@ export class MessageComposer {
   onSend(): void {
     const val = this.content().trim();
     const embeds = this.draftEmbeds();
-    
+
     if (!val && embeds.length === 0) return;
 
     this.send.emit({ content: val, embeds });
     this.content.set(''); // clear input
-    
-    // We clear the draft immediately upon sending for responsive UX, 
-    // but ideally we'd wait for success. Since our sendMessage emits via 
-    // the facade/store, we could listen for success, but for simplicity we 
+
+    // We clear the draft immediately upon sending for responsive UX,
+    // but ideally we'd wait for success. Since our sendMessage emits via
+    // the facade/store, we could listen for success, but for simplicity we
     // clear it here. The user said: "clear drafts carefully... I'd clear only after the send succeeds."
     // Wait, the user specifically requested to clear it ONLY after it succeeds.
     // We can emit the event and let the parent clear the draft.
     // The event is `send.emit(...)`. The parent (`MessagesPage`) calls `MessagingService.sendMessage`.
     // Wait, `MessagingService.sendMessage` does an optimistic update and returns void!
-    // Let's modify `MessageComposer` to wait or just clear it here for now? 
+    // Let's modify `MessageComposer` to wait or just clear it here for now?
     // No, I'll clear it when `onSend` happens and it's successful, or let the `MessagesPage` clear it.
     // Actually, I can just not clear it here, and add a method `clearDrafts()` that the parent can call!
   }
-  
+
   clearDrafts(): void {
     const cid = this.conversationId();
     if (cid) {

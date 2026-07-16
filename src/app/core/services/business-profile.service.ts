@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { firstValueFrom } from 'rxjs';
@@ -14,27 +14,27 @@ export interface PublicationReadinessResult {
   issues: PublicationIssue[];
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class BusinessProfileService {
   #http = inject(HttpClient);
 
   async publish(businessId: string): Promise<void> {
     await firstValueFrom(
-      this.#http.post(`${environment.apiUrl}/business/${businessId}/publish`, {})
+      this.#http.post(`${environment.apiUrl}/business/${businessId}/publish`, {}),
     );
   }
 
   async unpublish(businessId: string): Promise<void> {
     await firstValueFrom(
-      this.#http.post(`${environment.apiUrl}/business/${businessId}/unpublish`, {})
+      this.#http.post(`${environment.apiUrl}/business/${businessId}/unpublish`, {}),
     );
   }
 
   async checkReadiness(businessId: string): Promise<PublicationReadinessResult> {
     return firstValueFrom(
       this.#http.get<PublicationReadinessResult>(
-        `${environment.apiUrl}/business/${businessId}/publication-readiness`
-      )
+        `${environment.apiUrl}/business/${businessId}/publication-readiness`,
+      ),
     );
   }
 }

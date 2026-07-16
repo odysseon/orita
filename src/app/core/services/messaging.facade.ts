@@ -1,12 +1,10 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessagingRepository } from './messaging-repository.service';
 import { MessagingService } from './messaging.service';
 import { DraftMessageService, EmbedReference } from './draft-message.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class MessagingFacade {
   #router = inject(Router);
   #messagingRepo = inject(MessagingRepository);
@@ -23,11 +21,11 @@ export class MessagingFacade {
 
     this.#messagingRepo.openConversation('BUSINESS', businessId).subscribe({
       next: (conv) => {
-        // If the backend returns a conversation, we might want to also transfer the draft 
-        // to be keyed by the conversationId if needed, but since our composer can read 
-        // by targetId or conversationId participants, keeping it keyed by businessId 
+        // If the backend returns a conversation, we might want to also transfer the draft
+        // to be keyed by the conversationId if needed, but since our composer can read
+        // by targetId or conversationId participants, keeping it keyed by businessId
         // works as long as the composer knows the targetId.
-        // Actually, to make it seamless for the composer, we can move the draft from 
+        // Actually, to make it seamless for the composer, we can move the draft from
         // businessId to conversationId right here, since the composer primarily works with conversationId.
         if (embed) {
           const draft = this.#draftStore.getDraft(businessId);
@@ -43,7 +41,7 @@ export class MessagingFacade {
       },
       error: (err) => {
         console.error('Failed to open conversation', err);
-      }
+      },
     });
   }
 }
