@@ -40,7 +40,6 @@ export interface IEditBusinessForm {
   location: string;
   latitude: number | null;
   longitude: number | null;
-  isPublic: boolean;
   primaryCategoryId: string;
   secondaryCategoryIds: string[];
 }
@@ -117,7 +116,6 @@ export class EditBusiness implements OnInit {
     location: '',
     latitude: null,
     longitude: null,
-    isPublic: false,
     primaryCategoryId: '',
     secondaryCategoryIds: [],
   });
@@ -172,7 +170,6 @@ export class EditBusiness implements OnInit {
           location: biz.location ?? '',
           latitude: biz.latitude ?? null,
           longitude: biz.longitude ?? null,
-          isPublic: biz.isPublic,
           primaryCategoryId: biz.primaryCategoryId ?? '',
           secondaryCategoryIds: biz.secondaryCategoryIds ?? [],
         });
@@ -222,7 +219,6 @@ export class EditBusiness implements OnInit {
         ...(this.model().location && { location: this.model().location }),
         ...(this.model().latitude !== null && { latitude: this.model().latitude }),
         ...(this.model().longitude !== null && { longitude: this.model().longitude }),
-        isPublic: this.model().isPublic,
         primaryCategoryId: this.model().primaryCategoryId,
         ...(this.model().secondaryCategoryIds.length > 0 && { secondaryCategoryIds: this.model().secondaryCategoryIds }),
       };

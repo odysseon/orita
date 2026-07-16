@@ -38,6 +38,7 @@
       <div class="drawer-search-results">
         @for (category of filteredCategories(); track category.id) {
           <button
+            type="button"
             class="search-result-item category-result-item"
             [class.search-result-item--selected]="categoryId() === category.id"
             (click)="selectCategory(category.id)"
