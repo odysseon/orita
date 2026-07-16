@@ -5,11 +5,22 @@
       <span class="listings__count">{{ listings.value()!.length }}</span>
       }
     </h2>
-    <button class="btn btn--sm btn--primary" (click)="openForm()" type="button">
+    <button class="btn btn--sm btn--primary" (click)="openForm()" type="button" [disabled]="!canCreateListing()">
       <svg lucidePlus aria-hidden="true"></svg>
       New listing
     </button>
   </div>
+
+  @if (!canCreateListing()) {
+    <div style="margin-bottom: var(--size-6);">
+      <app-completion-nudge
+        title="Category required"
+        description="You need to set a primary category for your business before you can create listings."
+        actionLabel="Edit business profile"
+        (action)="navigateToEditBusiness()"
+      ></app-completion-nudge>
+    </div>
+  }
 
   <!-- Create form -->
   <ui-drawer [open]="showForm()" (dismissed)="closeForm()" position="right" title="New listing">

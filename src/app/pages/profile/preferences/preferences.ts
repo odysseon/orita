@@ -1,10 +1,12 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideSave } from '@lucide/angular';
 import { CategoryBrowser } from '../../../shared/category-browser/category-browser';
 import { UserService } from '../../../core/services/user.service';
 import { ToastService } from '../../../core/services/toast';
-import { Profile } from '../profile';
+import { httpResource } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
+import { IProfile } from '../profile.interface';
 
 @Component({
   selector: 'app-profile-preferences',
@@ -15,17 +17,20 @@ import { Profile } from '../profile';
 export class ProfilePreferences {
   #userService = inject(UserService);
   #toast = inject(ToastService);
-  #profileParent = inject(Profile);
+
+  readonly profile = httpResource<IProfile>(() => `${environment.apiUrl}/users/me`);
 
   readonly selectedIds = signal<string[]>([]);
   readonly isSaving = signal(false);
   readonly hasChanges = signal(false);
 
   constructor() {
-    const profileData = this.#profileParent.profile.value();
-    if (profileData && profileData.interestedCategories) {
-      this.selectedIds.set([...profileData.interestedCategories]);
-    }
+    effect(() => {
+      const p = this.profile.value();
+      if (p?.interestedCategories && !this.hasChanges()) {
+        this.selectedIds.set([...p.interestedCategories]);
+      }
+    });
   }
 
   onSelectionChange(newSelection: string[]) {
@@ -41,7 +46,7 @@ export class ProfilePreferences {
       await this.#userService.updateInterests(this.selectedIds());
       this.#toast.success('Preferences saved', 'Your discovery feed has been updated.');
       this.hasChanges.set(false);
-      this.#profileParent.profile.reload();
+      this.profile.reload();
     } catch (err) {
       this.#toast.error('Error', 'Failed to save preferences. Please try again.');
     } finally {

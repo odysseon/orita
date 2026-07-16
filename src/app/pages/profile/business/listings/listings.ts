@@ -62,6 +62,10 @@ export class Listings {
   readonly isReadinessDialogOpen = signal(false);
   readonly readinessIssues = signal<PublicationIssue[]>([]);
 
+  readonly canCreateListing = computed(() => {
+    return !!this.businessProfile()?.primaryCategoryId;
+  });
+
   readonly listings = httpResource<IListing[]>(
     () => `${environment.apiUrl}/businesses/${this.businessId()}/listings/mine`,
   );
@@ -89,6 +93,10 @@ export class Listings {
   readonly isFormInvalid = computed(() => this.createForm().invalid());
 
   openForm(): void {
+    if (!this.canCreateListing()) {
+      this.#toast.error('Missing Category', 'Please set a primary category for your business first.');
+      return;
+    }
     this.model.set({ title: '', description: '' });
     this.showForm.set(true);
   }
@@ -111,6 +119,10 @@ export class Listings {
 
   navigateToEdit(listingId: string): void {
     this.#router.navigate(['/profile/business/listings', listingId, 'edit']);
+  }
+
+  navigateToEditBusiness(): void {
+    this.#router.navigate(['/profile/business/edit']);
   }
 
   async createListing(event: Event): Promise<void> {

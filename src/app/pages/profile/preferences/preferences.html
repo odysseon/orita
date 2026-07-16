@@ -7,11 +7,15 @@
   </div>
 
   <div class="preferences-content">
-    <app-category-browser 
-      mode="interest" 
-      [selectedIds]="selectedIds()" 
-      (selectionChange)="onSelectionChange($event)" 
-    />
+    @if (profile.hasValue()) {
+      <app-category-browser 
+        mode="interest" 
+        [selectedIds]="selectedIds()" 
+        (selectionChange)="onSelectionChange($event)" 
+      />
+    } @else {
+      <p style="padding: var(--size-4); color: var(--text-muted);">Loading preferences...</p>
+    }
   </div>
 
   <div class="preferences-actions">
