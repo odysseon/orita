@@ -9,6 +9,7 @@ import { NavItem } from './shared/nav-item/nav-item';
 import { ScrollHideDirective } from './shared/directives/scroll-hide.directive';
 import { LucideHouse, LucideUser, LucideLogIn, LucideSearch, LucideCompass, LucideMessageCircle } from '@lucide/angular';
 import { AuthService } from './core/services/auth.service';
+import { NotificationService } from './core/services/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -34,9 +35,10 @@ export class App {
   #router = inject(Router);
   #route = inject(ActivatedRoute);
   #platformId = inject(PLATFORM_ID);
-  #auth = inject(AuthService);
+  readonly authService = inject(AuthService);
+  readonly notificationService = inject(NotificationService);
 
-  readonly isAuthenticated = computed(() => !!this.#auth.token());
+  readonly isAuthenticated = computed(() => !!this.authService.token());
 
   readonly showNav = toSignal(
     this.#router.events.pipe(

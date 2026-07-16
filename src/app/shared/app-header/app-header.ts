@@ -6,6 +6,7 @@ import { ActiveLocation } from '../../core/services/exploration-storage';
 import { Drawer } from '../drawer/drawer';
 import { LocationSelector } from '../location-selector/location-selector';
 import { Location } from '../../core/services/location.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'ui-app-header',
@@ -29,6 +30,7 @@ export class AppHeader {
   readonly layout = input<'default' | 'wide'>('default');
 
   #exploration = inject(ExplorationService);
+  readonly notificationService = inject(NotificationService);
 
   readonly activeLocation = this.#exploration.activeLocation;
   readonly isLocationPickerOpen = this.#exploration.isLocationPickerOpen;

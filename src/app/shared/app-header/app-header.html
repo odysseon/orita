@@ -8,6 +8,10 @@
     <div class="header-title absolute-center">
       <h1>{{ pageTitle() }}</h1>
     </div>
+  } @else {
+    <div class="header-center absolute-center">
+      <ng-content select="[center-content]"></ng-content>
+    </div>
   }
   @if (showLocationPill()) {
     <button class="location-pill" (click)="toggleDrawer()">

@@ -55,6 +55,11 @@ export const routes: Routes = [
     data: { isRootAppPage: true },
   },
   {
+    path: 'notifications',
+    loadComponent: () => import('./pages/notifications/notifications').then((m) => m.NotificationsPage),
+    data: { isRootAppPage: true },
+  },
+  {
     path: 'legal',
     loadChildren: () => import('./pages/legal/legal.routes').then((m) => m.legalRoutes),
   },

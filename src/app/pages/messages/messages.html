@@ -1,26 +1,44 @@
 <div class="messages-page-wrapper">
-      <ui-app-header pageTitle="Messages" [showLogo]="false"></ui-app-header>
-      
-      <main class="messages-layout" [class.mobile-chat-open]="activeConversationId()">
-        
-        <!-- Sidebar: hidden on mobile if a chat is active -->
-        <div class="layout-sidebar">
-          <app-conversation-sidebar 
-            [conversations]="messaging.conversations()"
-            [activeId]="activeConversationId()"
-            (selectConversation)="onSelectConversation($event)"
-          />
-        </div>
-
-        <!-- Chat View: hidden on mobile if NO chat is active -->
-        <div class="layout-view">
-          <app-conversation-view 
-            [conversation]="messaging.activeConversation()"
-            [messages]="messaging.activeMessages()"
-            [currentUserName]="currentUserName"
-            (back)="onBackToSidebar()"
-            (send)="onSendMessage($event)"
-          />
-        </div>
-      </main>
+  <ui-app-header [showLogo]="false">
+    <div center-content class="message-tabs">
+      <button class="message-tab" [class.active]="activeTab === 'inbox'" (click)="activeTab = 'inbox'">
+        Inbox
+      </button>
+      <button class="message-tab" [class.active]="activeTab === 'updates'" (click)="activeTab = 'updates'">
+        Updates
+        @if (notificationService.unreadCount() > 0) {
+          <span class="badge">{{ notificationService.unreadCount() > 99 ? '99+' : notificationService.unreadCount() }}</span>
+        }
+      </button>
     </div>
+  </ui-app-header>
+  
+  @if (activeTab === 'inbox') {
+    <main class="messages-layout" [class.mobile-chat-open]="activeConversationId()">
+      
+      <!-- Sidebar: hidden on mobile if a chat is active -->
+      <div class="layout-sidebar">
+        <app-conversation-sidebar 
+          [conversations]="messaging.conversations()"
+          [activeId]="activeConversationId()"
+          (selectConversation)="onSelectConversation($event)"
+        />
+      </div>
+
+      <!-- Chat View: hidden on mobile if NO chat is active -->
+      <div class="layout-view">
+        <app-conversation-view 
+          [conversation]="messaging.activeConversation()"
+          [messages]="messaging.activeMessages()"
+          [currentUserName]="currentUserName"
+          (back)="onBackToSidebar()"
+          (send)="onSendMessage($event)"
+        />
+      </div>
+    </main>
+  } @else {
+    <main class="updates-layout">
+      <app-notifications></app-notifications>
+    </main>
+  }
+</div>

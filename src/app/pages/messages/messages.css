@@ -43,3 +43,48 @@
         width: 100%;
       }
     }
+    
+/* Message Header Tabs */
+.message-tabs {
+  display: flex;
+  background: var(--surface-subtle, #f3f4f6);
+  border-radius: var(--radius-full, 9999px);
+  padding: 4px;
+  gap: 4px;
+}
+
+.message-tab {
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-full, 9999px);
+  padding: 6px 16px;
+  font-size: var(--text-sm, 14px);
+  font-weight: 600;
+  color: var(--text-secondary, #6b7280);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.message-tab.active {
+  background: var(--surface-page, #ffffff);
+  color: var(--text-primary, #111827);
+  box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.message-tab .badge {
+  background: var(--color-red-500, #ef4444);
+  color: white;
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 99px;
+  line-height: 1;
+}
+
+.updates-layout {
+  height: 100%;
+  overflow-y: auto;
+  background-color: var(--surface-page, #ffffff);
+}

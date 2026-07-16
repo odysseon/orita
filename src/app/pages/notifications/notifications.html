@@ -1,0 +1,53 @@
+<div class="notifications-page">
+  <div class="notifications-header">
+    @if (notificationService.unreadCount() > 0) {
+      <button class="mark-read-btn" (click)="notificationService.markAllAsRead()">
+        Mark all as read
+      </button>
+    }
+  </div>
+
+  @if (notificationService.isLoading() && notificationService.notifications().length === 0) {
+    <div class="empty-state">
+      <p>Loading notifications...</p>
+    </div>
+  } @else if (notificationService.notifications().length === 0) {
+    <div class="empty-state">
+      <svg icon lucideBell aria-hidden="true" width="48" height="48"></svg>
+      <p>You have no notifications right now.</p>
+    </div>
+  } @else {
+    <div class="notification-list">
+      @for (notif of notificationService.notifications(); track notif.id) {
+        <div class="notification-card" [class.unread]="!notif.isRead" (click)="onNotificationClick(notif)">
+          @if (!notif.isRead) {
+            <div class="unread-indicator"></div>
+          }
+          
+          <div class="icon-wrapper">
+            <!-- Basic mapping. In a real app we'd map `notif.icon` string to actual lucide components dynamically -->
+            @if (notif.icon === 'lucideTag') {
+              <svg icon lucideTag aria-hidden="true"></svg>
+            } @else {
+              <svg icon lucideBell aria-hidden="true"></svg>
+            }
+          </div>
+          
+          <div class="content-wrapper">
+            <div class="title">{{ notif.title }}</div>
+            @if (notif.subtitle) {
+              <div class="subtitle">{{ notif.subtitle }}</div>
+            }
+            <div class="timestamp">{{ notif.createdAt | date:'short' }}</div>
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (notificationService.hasMore()) {
+      <button class="load-more" (click)="notificationService.loadMore()" [disabled]="notificationService.isLoading()">
+        {{ notificationService.isLoading() ? 'Loading...' : 'Load Older' }}
+      </button>
+    }
+  }
+</div>

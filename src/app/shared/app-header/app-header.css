@@ -74,6 +74,14 @@
   max-width: 200px;
 }
 
+@media (max-width: 600px) {
+  .location-pill {
+    max-width: 140px;
+    padding: var(--size-8) var(--size-12);
+    margin-left: var(--size-8);
+  }
+}
+
 .location-pill span {
   white-space: nowrap;
   overflow: hidden;
@@ -90,5 +98,33 @@
   color: var(--text-secondary);
 }
 
+.notification-header-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
 
+.notification-header-btn:hover {
+  background-color: var(--surface-hover);
+}
 
+.notification-header-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.notification-header-btn .nav-badge {
+  position: absolute;
+  top: 4px;
+  right: 0px;
+  font-size: 0.65rem;
+}

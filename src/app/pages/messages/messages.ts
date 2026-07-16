@@ -6,17 +6,22 @@ import { MessagingService } from '../../core/services/messaging.service';
 import { SendMessageDto } from '../../core/services/messaging.types';
 import { AuthService } from '../../core/services/auth.service';
 import { DraftMessageService } from '../../core/services/draft-message.service';
+import { NotificationService } from '../../core/services/notification.service';
+import { NotificationsPage } from '../notifications/notifications';
 
 @Component({
   selector: 'app-messages',
-  imports: [AppHeader, ConversationSidebar, ConversationView],
+  imports: [AppHeader, ConversationSidebar, ConversationView, NotificationsPage],
   templateUrl: './messages.html',
   styleUrl: './messages.css'
 })
 export class MessagesPage implements OnInit {
   messaging = inject(MessagingService);
+  notificationService = inject(NotificationService);
   #auth = inject(AuthService);
   #draftStore = inject(DraftMessageService);
+
+  activeTab: 'inbox' | 'updates' = 'inbox';
 
   get activeConversationId(): () => string | null {
     return this.messaging.activeConversation() ? () => this.messaging.activeConversation()!.id : () => null;

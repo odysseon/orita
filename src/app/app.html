@@ -52,6 +52,9 @@
     >
       <svg icon lucideMessageCircle aria-hidden="true"></svg>
       <span label>Messages</span>
+      @if (notificationService.unreadCount() > 0) {
+        <span badge class="nav-badge">{{ notificationService.unreadCount() > 99 ? '99+' : notificationService.unreadCount() }}</span>
+      }
     </ui-nav-item>
 
     @if (isAuthenticated()) {
