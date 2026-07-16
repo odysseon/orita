@@ -11,7 +11,8 @@
 </button>
 
 <ui-drawer
-  [(open)]="isOpen"
+  [open]="isOpen()"
+  (dismissed)="isOpen.set(false)"
   position="bottom"
   size="auto"
   title="Select Category"
