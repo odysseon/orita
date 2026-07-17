@@ -50,7 +50,24 @@
     }
     
     .empty-state {
-      padding: var(--size-24);
+      padding: var(--size-32) var(--size-24);
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--size-12);
+    }
+    
+    .empty-state h3 {
+      font-size: var(--size-18);
+      font-weight: 700;
+      color: var(--text-default);
+      margin: 0;
+    }
+
+    .empty-state p {
+      font-size: var(--size-14);
       color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0 0 var(--size-8) 0;
     }

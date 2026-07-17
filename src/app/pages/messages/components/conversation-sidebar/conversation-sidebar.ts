@@ -1,12 +1,13 @@
 import { Component, input, output, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { LucideSearch } from '@lucide/angular';
 import { ConversationItem } from './conversation-item';
 import { IConversationPreview } from '../../../../core/services/messaging.types';
 
 @Component({
   selector: 'app-conversation-sidebar',
-  imports: [FormsModule, LucideSearch, ConversationItem],
+  imports: [FormsModule, RouterLink, LucideSearch, ConversationItem],
   templateUrl: './conversation-sidebar.html',
   styleUrl: './conversation-sidebar.css'
 })
