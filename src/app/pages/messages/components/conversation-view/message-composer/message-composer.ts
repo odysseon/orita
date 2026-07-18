@@ -3,10 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { LucideSend, LucidePaperclip, LucidePackage, LucideX } from '@lucide/angular';
 import { SendMessageDto } from '../../../../../core/services/messaging.types';
 import { DraftMessageService } from '../../../../../core/services/draft-message.service';
+import { AttachSheetComponent } from '../../../../../shared/components/attach-sheet/attach-sheet';
 
 @Component({
   selector: 'app-message-composer',
-  imports: [FormsModule, LucideSend, LucidePaperclip, LucidePackage, LucideX],
+  standalone: true,
+  imports: [FormsModule, LucideSend, LucidePaperclip, LucidePackage, LucideX, AttachSheetComponent],
   templateUrl: './message-composer.html',
   styleUrl: './message-composer.css',
 })
@@ -14,6 +16,7 @@ export class MessageComposer {
   conversationId = input<string | undefined>();
   send = output<SendMessageDto>();
   content = signal('');
+  showAttachSheet = signal(false);
 
   #draftStore = inject(DraftMessageService);
 

@@ -26,7 +26,11 @@
           }
 
           @for (embed of message().embeds; track embed.id) {
-            <div class="msg-embed">
+            <a 
+              class="msg-embed" 
+              [class.is-clickable]="!!embed.ctaPath"
+              [routerLink]="embed.ctaPath || null"
+            >
               @if (embed.imageUrl) {
                 <img [src]="embed.imageUrl" class="msg-embed-img" alt="Embed image" />
               }
@@ -37,11 +41,11 @@
                 }
               </div>
               @if (embed.ctaPath) {
-                <a [routerLink]="embed.ctaPath" class="btn btn--sm btn--subtle msg-embed-btn">
+                <span class="btn btn--sm btn--subtle msg-embed-btn">
                   {{ embed.ctaLabel || 'View' }}
-                </a>
+                </span>
               }
-            </div>
+            </a>
           }
 
           <div class="msg-meta">

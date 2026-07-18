@@ -64,6 +64,9 @@
         </div>
         
         <div style="display: flex; gap: var(--size-8); margin-top: var(--size-32);">
+          <button class="btn btn--icon btn--outline" (click)="showShareModal.set(true)" aria-label="Send">
+            <svg lucideSend aria-hidden="true"></svg>
+          </button>
           <app-share-button [title]="biz.name" [text]="biz.description || ''" />
           <app-follow-button 
             [targetId]="biz.id"
@@ -205,4 +208,14 @@
   </a>
   }
 </div>
+
+<app-share-modal
+  [isOpen]="showShareModal()"
+  (close)="showShareModal.set(false)"
+  embedType="BUSINESS"
+  [targetId]="biz.id"
+  [title]="biz.name"
+  [subtitle]="biz.location || ''"
+  [imageUrl]="biz.coverUrl || biz.avatarUrl"
+/>
 }

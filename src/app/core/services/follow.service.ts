@@ -46,4 +46,8 @@ export class FollowService {
   getStatus(type: FollowType, targetId: string): Observable<FollowStatus> {
     return this.#http.get<FollowStatus>(`${this.#apiUrl}/v1/follows/${type}/${targetId}/status`);
   }
+
+  getFollowing(params?: any): Observable<any> {
+    return this.#http.get<any>(`${this.#apiUrl}/v1/follows`, { params });
+  }
 }

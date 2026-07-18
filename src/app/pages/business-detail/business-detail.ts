@@ -17,12 +17,14 @@ import {
   LucideBadgeCheck,
   LucideImage,
   LucideInfo,
+  LucideSend,
 } from '@lucide/angular';
 import { Logo } from '../../shared/logo/logo';
 import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.interface';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
 import { ShareButton } from '../../shared/share-button/share-button';
+import { ShareModalComponent } from '../../shared/components/share-modal/share-modal';
 import { FollowButton } from '../../shared/follow-button/follow-button';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { SeoComponent } from '../../shared/seo/seo.component';
@@ -58,7 +60,9 @@ const DAY_LABELS: Record<string, string> = {
     LucideBadgeCheck,
     LucideImage,
     LucideInfo,
+    LucideSend,
     DatePipe,
+    ShareModalComponent,
   ],
   templateUrl: './business-detail.html',
   styleUrl: './business-detail.css',
@@ -68,6 +72,8 @@ export class BusinessDetail implements LayoutPage {
   #router = inject(Router);
   #http = inject(HttpClient);
   #tourService = inject(BusinessTourService);
+
+  readonly showShareModal = signal(false);
 
   readonly slug = computed(() => this.#route.snapshot.paramMap.get('slug') ?? '');
 

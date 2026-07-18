@@ -14,4 +14,8 @@ export class SaveService {
     const url = `${this.#apiUrl}/listings/${id}/save`;
     return currentlySaved ? this.#http.delete(url) : this.#http.post(url, {});
   }
+
+  getSavedItems(params?: any): Observable<any> {
+    return this.#http.get(`${this.#apiUrl}/users/me/saved-listings`, { params });
+  }
 }

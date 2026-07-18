@@ -1,0 +1,139 @@
+<ui-drawer
+  [open]="isOpen()"
+  (closed)="onDrawerClose()"
+  position="bottom"
+  size="auto"
+  [showCloseButton]="false"
+>
+  <div class="share-modal-content">
+    
+    <!-- Header: target info -->
+    <div class="target-header">
+      @if (imageUrl()) {
+        <img [src]="imageUrl()" class="target-image" alt="Thumbnail" />
+      } @else {
+        <div class="target-image-placeholder"></div>
+      }
+      <div class="target-info">
+        <h3 class="target-title">{{ title() }}</h3>
+        @if (subtitle()) {
+          <p class="target-subtitle">{{ subtitle() }}</p>
+        }
+      </div>
+      <button class="close-btn" (click)="onDrawerClose()" aria-label="Close">
+        <svg lucideX aria-hidden="true"></svg>
+      </button>
+    </div>
+
+    @if (!isAuthenticated()) {
+      <div class="auth-prompt">
+        <p>Sign in to send to other users on Orita.</p>
+        <!-- Assuming they have an auth flow somewhere else, this is just a message -->
+      </div>
+    } @else {
+      <!-- Search Input -->
+      <div class="search-box">
+        <svg lucideSearch class="search-icon" aria-hidden="true"></svg>
+        <input
+          type="text"
+          placeholder="Search people..."
+          [value]="searchQuery()"
+          (input)="onSearchInput($event)"
+          class="search-input"
+        />
+      </div>
+
+      <!-- Recipient Lists -->
+      <div class="recipients-container">
+        
+        @if (searchQuery().trim()) {
+          <div class="section">
+            <h4 class="section-title">Search Results</h4>
+            @if (isSearching()) {
+              <div class="loading-state">Searching...</div>
+            } @else if (searchResults().length > 0) {
+              <ul class="user-list">
+                @for (user of searchResults(); track user.id) {
+                  <li class="user-item" (click)="toggleRecipient(user.id)">
+                    <div class="user-avatar">
+                      @if (user.avatarUrl) {
+                        <img [src]="user.avatarUrl" alt="" />
+                      }
+                    </div>
+                    <div class="user-details">
+                      <span class="user-name">{{ user.displayName || user.username }}</span>
+                      <span class="user-handle">{{ '@' + user.username }}</span>
+                    </div>
+                    <div class="user-action">
+                      @if (isSent(user.id)) {
+                        <span class="sent-badge"><svg lucideCheck></svg> Sent</span>
+                      } @else {
+                        <input type="checkbox" [checked]="isSelected(user.id)" (click)="$event.stopPropagation(); toggleRecipient(user.id)" />
+                      }
+                    </div>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <div class="empty-state">No users found.</div>
+            }
+          </div>
+        } @else {
+          <!-- Recent / Suggested -->
+          @if (suggested().length > 0) {
+            <div class="section">
+              <h4 class="section-title">Suggested</h4>
+              <ul class="user-list">
+                @for (user of suggested(); track user.userId) {
+                  <li class="user-item" (click)="toggleRecipient(user.userId)">
+                    <div class="user-avatar">
+                      @if (user.avatarUrl) {
+                        <img [src]="user.avatarUrl" alt="" />
+                      }
+                    </div>
+                    <div class="user-details">
+                      <span class="user-name">{{ user.displayName || user.username }}</span>
+                      <span class="user-handle">{{ '@' + user.username }}</span>
+                    </div>
+                    <div class="user-action">
+                      @if (isSent(user.userId)) {
+                        <span class="sent-badge"><svg lucideCheck></svg> Sent</span>
+                      } @else {
+                        <input type="checkbox" [checked]="isSelected(user.userId)" (click)="$event.stopPropagation(); toggleRecipient(user.userId)" />
+                      }
+                    </div>
+                  </li>
+                }
+              </ul>
+            </div>
+          } @else {
+            <div class="empty-state">Search for people to send to.</div>
+          }
+        }
+      </div>
+
+      <!-- Composer Row -->
+      <div class="composer-row">
+        <input
+          type="text"
+          placeholder="Add a message (optional)"
+          [(ngModel)]="messageContent"
+          (keydown)="onKeyDown($event)"
+          class="message-input"
+        />
+        <button
+          class="send-btn"
+          [disabled]="selectedRecipients().size === 0 || isSending()"
+          (click)="onSend()"
+        >
+          <span class="send-label">Send</span>
+          @if (selectedRecipients().size > 0) {
+            <span class="send-badge">{{ selectedRecipients().size }}</span>
+          }
+          <svg lucideSend class="send-icon" aria-hidden="true"></svg>
+        </button>
+      </div>
+    }
+
+  </div>
+</ui-drawer>

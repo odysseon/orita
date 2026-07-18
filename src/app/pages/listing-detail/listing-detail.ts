@@ -7,9 +7,11 @@ import {
   LucidePackage,
   LucideBookmark,
   LucideStar,
+  LucideSend,
 } from '@lucide/angular';
 import { environment } from '../../../environments/environment';
 import { ShareButton } from '../../shared/share-button/share-button';
+import { ShareModalComponent } from '../../shared/components/share-modal/share-modal';
 import { SaveButton } from '../../shared/save-button/save-button';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { SeoComponent } from '../../shared/seo/seo.component';
@@ -31,9 +33,11 @@ import { ListingBusinessCard } from './components/listing-business-card/listing-
     SeoComponent,
     LucidePackage,
     LucideStar,
+    LucideSend,
     ListingReviews,
     ListingAttributes,
     ListingBusinessCard,
+    ShareModalComponent,
   ],
   templateUrl: './listing-detail.html',
   styleUrl: './listing-detail.css',
@@ -45,6 +49,7 @@ export class ListingDetail implements LayoutPage {
   #categoryService = inject(CategoryService);
 
   readonly Math = Math;
+  readonly showShareModal = signal(false);
 
   readonly slug = computed(() => this.#route.snapshot.paramMap.get('slug') ?? '');
 

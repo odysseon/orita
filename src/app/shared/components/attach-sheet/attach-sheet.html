@@ -1,0 +1,169 @@
+<ui-drawer
+  [open]="isOpen()"
+  (closed)="onDrawerClose()"
+  position="bottom"
+  size="auto"
+  [showCloseButton]="false"
+>
+  <div class="attach-sheet-content">
+    
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab() === 'ORITA'" 
+        (click)="activeTab.set('ORITA')"
+      >
+        Orita
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab() === 'MEDIA'" 
+        (click)="activeTab.set('MEDIA')"
+      >
+        Media
+      </button>
+    </div>
+
+    @if (activeTab() === 'ORITA') {
+      <div class="tab-content">
+        <!-- Search Input -->
+        <div class="search-box">
+          <svg lucideSearch class="search-icon" aria-hidden="true"></svg>
+          <input
+            type="text"
+            placeholder="Search Orita..."
+            [value]="searchQuery()"
+            (input)="onSearchInput($event)"
+            class="search-input"
+          />
+        </div>
+
+        <div class="scroll-area">
+          @if (searchQuery().trim()) {
+            <div class="section">
+              <h4 class="section-title">Search Results</h4>
+              @if (isSearching()) {
+                <div class="loading-state">Searching...</div>
+              } @else if (searchResults().length > 0) {
+                <ul class="entity-list">
+                  @for (item of searchResults(); track item.targetId) {
+                    <li class="entity-item" (click)="selectItem(item.type, item.targetId)">
+                      <div class="entity-icon">
+                        @if (item.type === 'BUSINESS') {
+                          <svg lucideStore aria-hidden="true"></svg>
+                        } @else if (item.type === 'LISTING') {
+                          <svg lucidePackage aria-hidden="true"></svg>
+                        } @else if (item.type === 'TOUR') {
+                          <svg lucideImage aria-hidden="true"></svg>
+                        } @else {
+                          <svg lucideMapPin aria-hidden="true"></svg>
+                        }
+                      </div>
+                      <div class="entity-details">
+                        <span class="entity-title">{{ item.title }}</span>
+                        @if (item.subtitle) {
+                          <span class="entity-subtitle">{{ item.subtitle }}</span>
+                        }
+                      </div>
+                    </li>
+                  }
+                </ul>
+              } @else {
+                <div class="empty-state">No results found.</div>
+              }
+            </div>
+          } @else {
+            
+            <!-- Recent -->
+            @if (recent().length > 0) {
+              <div class="section">
+                <h4 class="section-title">Recent</h4>
+                <ul class="entity-list">
+                  @for (item of recent(); track item.targetId) {
+                    <li class="entity-item" (click)="selectItem(item.type, item.targetId)">
+                      <div class="entity-icon">
+                        @if (item.type === 'BUSINESS') {
+                          <svg lucideStore aria-hidden="true"></svg>
+                        } @else if (item.type === 'LISTING') {
+                          <svg lucidePackage aria-hidden="true"></svg>
+                        } @else if (item.type === 'TOUR') {
+                          <svg lucideImage aria-hidden="true"></svg>
+                        } @else {
+                          <svg lucideMapPin aria-hidden="true"></svg>
+                        }
+                      </div>
+                      <div class="entity-details">
+                        <span class="entity-title">{{ item.title }}</span>
+                      </div>
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
+
+            <!-- Library -->
+            <div class="section">
+              <h4 class="section-title">Library</h4>
+              
+              <!-- Saved -->
+              <div class="subsection">
+                <h5 class="subsection-title">Saved</h5>
+                @if (savedItems().length > 0) {
+                  <ul class="entity-list">
+                    @for (item of savedItems(); track item.id) {
+                      <li class="entity-item" (click)="selectItem('LISTING', item.listingId || item.id)">
+                        <div class="entity-icon">
+                          <svg lucidePackage aria-hidden="true"></svg>
+                        </div>
+                        <div class="entity-details">
+                          <span class="entity-title">{{ item.listing?.title || item.title || 'Saved Item' }}</span>
+                        </div>
+                      </li>
+                    }
+                  </ul>
+                } @else {
+                  <div class="empty-state">No saved items.</div>
+                }
+              </div>
+
+              <!-- Following -->
+              <div class="subsection">
+                <h5 class="subsection-title">Following</h5>
+                @if (followingItems().length > 0) {
+                  <ul class="entity-list">
+                    @for (item of followingItems(); track item.id) {
+                      <li class="entity-item" (click)="selectItem('BUSINESS', item.businessId || item.id)">
+                        <div class="entity-icon">
+                          <svg lucideStore aria-hidden="true"></svg>
+                        </div>
+                        <div class="entity-details">
+                          <span class="entity-title">{{ item.business?.name || item.name || 'Following Item' }}</span>
+                        </div>
+                      </li>
+                    }
+                  </ul>
+                } @else {
+                  <div class="empty-state">Not following anything.</div>
+                }
+              </div>
+
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <!-- Media Tab -->
+      <div class="tab-content media-tab">
+        <button class="media-btn">
+          <svg lucideCamera aria-hidden="true"></svg>
+          <span>Camera</span>
+        </button>
+        <button class="media-btn">
+          <svg lucideFileImage aria-hidden="true"></svg>
+          <span>Photos</span>
+        </button>
+      </div>
+    }
+  </div>
+</ui-drawer>
