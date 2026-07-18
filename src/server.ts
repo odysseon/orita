@@ -41,7 +41,7 @@ app.use(
 app.get('/sitemap.xml', async (req, res, next) => {
   try {
     const apiUrl = process.env['API_URL'] || 'http://localhost:3000';
-    const response = await fetch(`${apiUrl}/sitemap`);
+    const response = await fetch(`${apiUrl}/api/sitemap`);
     if (!response.ok) {
       throw new Error(`Sitemap API returned ${response.status}`);
     }
@@ -50,7 +50,30 @@ app.get('/sitemap.xml', async (req, res, next) => {
     res.send(xml);
   } catch (err) {
     console.error('Failed to proxy sitemap:', err);
-    next();
+    res.status(502).send('Failed to generate sitemap');
+  }
+});
+
+/**
+ * Handle robots.txt generation
+ */
+app.get('/robots.txt', async (req, res, next) => {
+  try {
+    const apiUrl = process.env['API_URL'] || 'http://localhost:3000';
+    const response = await fetch(`${apiUrl}/api/robots`);
+    if (response.ok) {
+      const txt = await response.text();
+      res.header('Content-Type', 'text/plain');
+      res.send(txt);
+    } else {
+      // Fallback: serve generic robots.txt if API doesn't provide one
+      res.header('Content-Type', 'text/plain');
+      res.send(`User-agent: *\nAllow: /\nSitemap: https://${req.hostname}/sitemap.xml\n`);
+    }
+  } catch (err) {
+    console.error('Failed to proxy robots.txt:', err);
+    res.header('Content-Type', 'text/plain');
+    res.send(`User-agent: *\nAllow: /\nSitemap: https://${req.hostname}/sitemap.xml\n`);
   }
 });
 
