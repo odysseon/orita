@@ -12,6 +12,7 @@ export interface Location {
   formattedAddress?: string;
   latitude: number;
   longitude: number;
+  countryCode?: string;
   persisted?: boolean;
   isFollowed?: boolean;
 }
@@ -54,6 +55,9 @@ export class LocationService {
     };
     if (location.externalId) {
       payload.externalId = String(location.externalId);
+    }
+    if (location.countryCode) {
+      payload.countryCode = String(location.countryCode);
     }
     
     return this.#http.post<Location>(`${this.#apiUrl}/v1/locations/ensure`, payload);

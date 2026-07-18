@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { httpResource } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { parsePhoneNumberWithError, CountryCode, getCountryCallingCode } from 'libphonenumber-js';
 import { form, FormField, required, minLength, maxLength } from '@angular/forms/signals';
 import {
   LucideLoaderCircle,
@@ -63,6 +64,7 @@ export class EditBusiness implements OnInit {
   readonly avatarFile = signal<File | null>(null);
   readonly coverFile = signal<File | null>(null);
   #mediaService = inject(MediaService);
+  readonly selectedCountryCode = signal<CountryCode | undefined>(undefined);
 
   readonly categories = signal<ICategory[]>([]);
 
@@ -93,6 +95,9 @@ export class EditBusiness implements OnInit {
   }
 
   onLocationPicked(loc: Location): void {
+    if (loc.countryCode) {
+      this.selectedCountryCode.set(loc.countryCode.toUpperCase() as CountryCode);
+    }
     this.model.update((m) => ({
       ...m,
       location: loc.name || loc.formattedAddress || 'Unknown',
@@ -133,6 +138,44 @@ export class EditBusiness implements OnInit {
   });
 
   readonly isFormInvalid = computed(() => this.businessForm().invalid());
+
+  readonly phonePlaceholder = computed(() => {
+    const cc = this.selectedCountryCode();
+    if (cc) {
+      try {
+        return `e.g. +${getCountryCallingCode(cc)}...`;
+      } catch { }
+    }
+    return 'e.g. +1234567890';
+  });
+
+  readonly phoneWarning = computed(() => {
+    const phone = this.model().contactPhone;
+    const locCountry = this.selectedCountryCode();
+    if (phone && locCountry) {
+      try {
+        const parsed = parsePhoneNumberWithError(phone, locCountry);
+        if (parsed.isValid() && parsed.country && parsed.country !== locCountry) {
+          return `This business is located in ${locCountry} but uses a ${parsed.country} phone number.`;
+        }
+      } catch { }
+    }
+    return null;
+  });
+
+  readonly whatsappWarning = computed(() => {
+    const phone = this.model().whatsapp;
+    const locCountry = this.selectedCountryCode();
+    if (phone && locCountry) {
+      try {
+        const parsed = parsePhoneNumberWithError(phone, locCountry);
+        if (parsed.isValid() && parsed.country && parsed.country !== locCountry) {
+          return `This business is located in ${locCountry} but uses a ${parsed.country} WhatsApp number.`;
+        }
+      } catch { }
+    }
+    return null;
+  });
 
   readonly typeOptions: BusinessTypeOption[] = [
     {
@@ -222,6 +265,31 @@ export class EditBusiness implements OnInit {
         primaryCategoryId: this.model().primaryCategoryId,
         ...(this.model().secondaryCategoryIds.length > 0 && { secondaryCategoryIds: this.model().secondaryCategoryIds }),
       };
+
+      try {
+        if (payload.contactPhone) {
+          const parsed = parsePhoneNumberWithError(payload.contactPhone, this.selectedCountryCode());
+          if (!parsed.isValid()) {
+             this.#toast.error('Invalid phone', 'Please enter a valid phone number.');
+             this.loading.set(false);
+             return;
+          }
+          payload.contactPhone = parsed.format('E.164');
+        }
+        if (payload.whatsapp) {
+          const parsed = parsePhoneNumberWithError(payload.whatsapp, this.selectedCountryCode());
+          if (!parsed.isValid()) {
+             this.#toast.error('Invalid WhatsApp', 'Please enter a valid WhatsApp number.');
+             this.loading.set(false);
+             return;
+          }
+          payload.whatsapp = parsed.format('E.164');
+        }
+      } catch {
+        this.#toast.error('Invalid phone', 'Please enter a valid phone/WhatsApp number.');
+        this.loading.set(false);
+        return;
+      }
 
       await firstValueFrom(
         this.#http.patch(`${environment.apiUrl}/business/${biz.id}`, payload)
