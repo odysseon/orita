@@ -7,7 +7,7 @@ import { ToastContainer } from './core/components/toast-container/toast-containe
 import { NavList } from './shared/nav-list/nav-list';
 import { NavItem } from './shared/nav-item/nav-item';
 import { ScrollHideDirective } from './shared/directives/scroll-hide.directive';
-import { LucideHouse, LucideUser, LucideLogIn, LucideSearch, LucideCompass, LucideMessageCircle } from '@lucide/angular';
+import { LucideHouse, LucideSearch, LucideCompass, LucideMessageCircle, LucideMapPin } from '@lucide/angular';
 import { AuthService } from './core/services/auth.service';
 import { NotificationService } from './core/services/notification.service';
 
@@ -20,11 +20,10 @@ import { NotificationService } from './core/services/notification.service';
     NavItem,
     ScrollHideDirective,
     LucideHouse,
-    LucideUser,
-    LucideLogIn,
     LucideSearch,
     LucideCompass,
     LucideMessageCircle,
+    LucideMapPin,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

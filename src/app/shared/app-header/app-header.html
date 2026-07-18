@@ -23,6 +23,13 @@
 
   <div class="header-actions" [class.full-width]="!showLogo()">
     <ng-content></ng-content>
+    <button class="header-avatar-btn" (click)="goToProfile()" aria-label="Profile">
+      @if (authService.token()) {
+        <svg lucideUser aria-hidden="true"></svg>
+      } @else {
+        <svg lucideLogIn aria-hidden="true"></svg>
+      }
+    </button>
   </div>
 </header>
 

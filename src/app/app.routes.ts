@@ -50,6 +50,11 @@ export const routes: Routes = [
     data: { isRootAppPage: true },
   },
   {
+    path: 'nearby',
+    loadComponent: () => import('./pages/nearby/nearby').then((m) => m.NearbyPage),
+    data: { isRootAppPage: true },
+  },
+  {
     path: 'messages',
     loadComponent: () => import('./pages/messages/messages').then((m) => m.MessagesPage),
     data: { isRootAppPage: true },
