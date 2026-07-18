@@ -1,0 +1,46 @@
+<div class="nearby-page p-4 pb-20">
+  <div class="header mb-6 flex justify-between items-center">
+    <h1 class="text-2xl font-bold">Nearby</h1>
+    <button class="btn btn-primary" (click)="openNewPostSheet()">+ New Post</button>
+  </div>
+
+  @if (error()) {
+    <div class="error-state text-red-500 text-center p-8 bg-red-50 rounded-xl mb-4">
+      <p>{{ error() }}</p>
+      <button class="mt-4 px-4 py-2 bg-red-100 rounded-lg text-red-700" (click)="refresh(true)">Retry</button>
+    </div>
+  }
+
+  @if (items().length > 0) {
+    <div class="grid gap-4">
+      @for (item of items(); track item.id) {
+        <app-nearby-item-card [item]="item" />
+      }
+    </div>
+
+    @if (hasMore()) {
+      <div class="mt-6 text-center">
+        <button class="btn btn-outline" (click)="loadMore()" [disabled]="loading()">
+          {{ loading() ? 'Loading...' : 'Load More' }}
+        </button>
+      </div>
+    }
+  } @else if (!loading() && !error()) {
+    <div class="empty-state text-center p-12 text-gray-500 bg-gray-50 rounded-xl">
+      <p>No activity nearby right now.</p>
+      <p class="text-sm mt-2">Be the first to post something!</p>
+    </div>
+  }
+
+  @if (loading() && items().length === 0) {
+    <div class="loading-state grid gap-4">
+      <div class="animate-pulse bg-gray-200 h-32 rounded-xl"></div>
+      <div class="animate-pulse bg-gray-200 h-32 rounded-xl"></div>
+      <div class="animate-pulse bg-gray-200 h-32 rounded-xl"></div>
+    </div>
+  }
+
+  @if (showNewPostSheet()) {
+    <app-new-post-sheet (close)="showNewPostSheet.set(false)" (created)="refresh(true)" />
+  }
+</div>
