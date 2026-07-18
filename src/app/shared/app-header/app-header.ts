@@ -1,4 +1,5 @@
-import { Component, input, inject, signal } from '@angular/core';
+import { Component, input, inject, signal, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Logo } from '../logo/logo';
 import { LucideChevronDown, LucideMapPin, LucideUser, LucideLogIn } from '@lucide/angular';
 import { ExplorationService } from '../../core/services/exploration.service';
@@ -40,6 +41,20 @@ export class AppHeader {
 
   readonly activeLocation = this.#exploration.activeLocation;
   readonly isLocationPickerOpen = this.#exploration.isLocationPickerOpen;
+
+  readonly isDesktop = signal<boolean>(false);
+  #platformId = inject(PLATFORM_ID);
+
+  constructor() {
+    if (isPlatformBrowser(this.#platformId)) {
+      const mediaQuery = window.matchMedia('(min-width: 768px)');
+      this.isDesktop.set(mediaQuery.matches);
+
+      mediaQuery.addEventListener('change', (e) => {
+        this.isDesktop.set(e.matches);
+      });
+    }
+  }
 
   toggleDrawer() {
     this.isLocationPickerOpen.update(v => !v);

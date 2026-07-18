@@ -1,9 +1,13 @@
 <header class="app-header">
-  @if (showLogo()) {
-    <div class="header-brand">
-      <app-logo />
-    </div>
-  }
+  <div class="header-left">
+    @if (showLogo()) {
+      <div class="header-brand">
+        <app-logo />
+      </div>
+    }
+    <ng-content select="[left-content]"></ng-content>
+  </div>
+
   @if (pageTitle()) {
     <div class="header-title absolute-center">
       <h1>{{ pageTitle() }}</h1>
@@ -13,15 +17,15 @@
       <ng-content select="[center-content]"></ng-content>
     </div>
   }
-  @if (showLocationPill()) {
-    <button class="location-pill" (click)="toggleDrawer()">
-      <svg lucideMapPin aria-hidden="true"></svg>
-      <span>{{ activeLocation()?.name || 'Set location' }}</span>
-      <svg lucideChevronDown aria-hidden="true"></svg>
-    </button>
-  }
 
-  <div class="header-actions" [class.full-width]="!showLogo()">
+  <div class="header-actions">
+    @if (showLocationPill()) {
+      <button class="location-pill" (click)="toggleDrawer()">
+        <svg lucideMapPin aria-hidden="true"></svg>
+        <span>{{ activeLocation()?.name || 'Set location' }}</span>
+        <svg lucideChevronDown aria-hidden="true"></svg>
+      </button>
+    }
     <ng-content></ng-content>
     <button class="header-avatar-btn" (click)="goToProfile()" aria-label="Profile">
       @if (authService.token()) {
@@ -36,8 +40,8 @@
 <ui-drawer
   [open]="isLocationPickerOpen()"
   (openChange)="isLocationPickerOpen.set($event)"
-  position="center"
-  size="400px"
+  [position]="isDesktop() ? 'center' : 'bottom'"
+  [size]="isDesktop() ? '400px' : '85vh'"
   title="Change Location"
 >
   <div style="padding: var(--size-16);">
