@@ -6,129 +6,125 @@
   [showCloseButton]="false"
 >
   <div class="share-modal-content">
-
     <div class="target-header">
       @if (imageUrl()) {
-        <img [src]="imageUrl()" class="target-image" alt="Thumbnail" />
+      <img [src]="imageUrl()" class="target-image" alt="Thumbnail" />
       } @else {
-        <div class="target-image-placeholder"></div>
+      <div class="target-image-placeholder"></div>
       }
       <div class="target-info">
         <h3 class="target-title">{{ title() }}</h3>
         @if (subtitle()) {
-          <p class="target-subtitle">{{ subtitle() }}</p>
+        <p class="target-subtitle">{{ subtitle() }}</p>
         }
       </div>
-      <button class="btn-icon" (click)="onDrawerClose()" aria-label="Close" style="background: transparent;">
+      <button class="btn-icon" (click)="onDrawerClose()" aria-label="Close">
         <svg lucideX aria-hidden="true"></svg>
       </button>
     </div>
 
     @if (!isAuthenticated()) {
-      <div class="auth-prompt">
-        <p>Sign in to send to other people on Orita.</p>
-      </div>
+    <div class="auth-prompt">
+      <p>Sign in to send to other people on Orita.</p>
+    </div>
     } @else {
 
-      <div class="search-box">
-        <svg lucideSearch class="search-icon" aria-hidden="true"></svg>
-        <input
-          type="text"
-          placeholder="Search people..."
-          [value]="searchQuery()"
-          (input)="onSearchInput($event)"
-          class="field__input search-input"
-        />
-      </div>
+    <div class="search-box">
+      <svg lucideSearch class="search-icon" aria-hidden="true"></svg>
+      <input
+        type="text"
+        placeholder="Search people..."
+        [value]="searchQuery()"
+        (input)="onSearchInput($event)"
+        class="field__input search-input"
+      />
+    </div>
 
-      <div class="recipients-container">
-        @if (searchQuery().trim()) {
-          <div class="section">
-            <h4 class="section-title">Search results</h4>
-            @if (isSearching()) {
-              <div class="loading-state">
-                @for (i of [1,2,3]; track i) {
-                  <div class="loading-row">
-                    <div class="skeleton skeleton-avatar"></div>
-                    <div class="skeleton skeleton-line"></div>
-                  </div>
-                }
-              </div>
-            } @else if (searchResults().length > 0) {
-              <ul class="user-list">
-                @for (user of searchResults(); track user.id) {
-                  <app-user-list-item
-                    [avatarUrl]="user.avatarUrl"
-                    [displayName]="user.displayName"
-                    [username]="user.username"
-                    [selected]="isSelected(user.id)"
-                    [sent]="isSent(user.id)"
-                    (toggle)="toggleRecipient(user)"
-                  />
-                }
-              </ul>
-            } @else {
-              <div class="empty-state">No one found. Try a different name.</div>
-            }
+    <div class="recipients-container">
+      @if (searchQuery().trim()) {
+      <div class="section">
+        <h4 class="section-title">Search results</h4>
+        @if (isSearching()) {
+        <div class="loading-state">
+          @for (i of [1,2,3]; track i) {
+          <div class="loading-row">
+            <div class="skeleton skeleton-avatar"></div>
+            <div class="skeleton skeleton-line"></div>
           </div>
-        } @else {
-          @if (suggested().length > 0) {
-            <div class="section">
-              <h4 class="section-title">Suggested</h4>
-              <ul class="user-list">
-                @for (user of suggested(); track user.userId) {
-                  <app-user-list-item
-                    [avatarUrl]="user.avatarUrl"
-                    [displayName]="user.displayName"
-                    [username]="user.username"
-                    [selected]="isSelected(user.userId)"
-                    [sent]="isSent(user.userId)"
-                    (toggle)="toggleRecipient(user)"
-                  />
-                }
-              </ul>
-            </div>
-          } @else {
-            <div class="empty-state">Search for people to send this to.</div>
-          }
-        }
-      </div>
-
-      @if (selectedUsers().length > 0) {
-        <div class="selected-strip">
-          @for (u of selectedUsers(); track u.id) {
-            <div class="selected-chip">
-              <ui-avatar [src]="u.avatarUrl" [name]="u.displayName || u.username" size="sm" />
-              <span>{{ u.displayName || u.username }}</span>
-              <button (click)="toggleRecipient(u)" aria-label="Remove {{ u.displayName || u.username }}">
-                <svg lucideX aria-hidden="true"></svg>
-              </button>
-            </div>
           }
         </div>
-      }
-
-      <div class="composer-row">
-        <input
-          type="text"
-          placeholder="Add a message (optional)"
-          [(ngModel)]="messageContent"
-          (keydown)="onKeyDown($event)"
-          class="field__input message-input"
-        />
-        <button
-          class="send-btn"
-          [disabled]="selectedRecipients().size === 0 || isSending()"
-          (click)="onSend()"
-        >
-          <span class="send-label">Send</span>
-          @if (selectedRecipients().size > 0) {
-            <span class="send-badge">{{ selectedRecipients().size }}</span>
+        } @else if (searchResults().length > 0) {
+        <ul class="user-list">
+          @for (user of searchResults(); track user.id) {
+          <app-user-list-item
+            [avatarUrl]="user.avatarUrl"
+            [displayName]="user.displayName"
+            [username]="user.username"
+            [selected]="isSelected(user.id)"
+            [sent]="isSent(user.id)"
+            (toggle)="toggleRecipient(user)"
+          />
           }
-          <svg lucideSend class="send-icon" aria-hidden="true"></svg>
+        </ul>
+        } @else {
+        <div class="empty-state">No one found. Try a different name.</div>
+        }
+      </div>
+      } @else { @if (suggested().length > 0) {
+      <div class="section">
+        <h4 class="section-title">Suggested</h4>
+        <ul class="user-list">
+          @for (user of suggested(); track user.userId) {
+          <app-user-list-item
+            [avatarUrl]="user.avatarUrl"
+            [displayName]="user.displayName"
+            [username]="user.username"
+            [selected]="isSelected(user.userId)"
+            [sent]="isSent(user.userId)"
+            (toggle)="toggleRecipient(user)"
+          />
+          }
+        </ul>
+      </div>
+      } @else {
+      <div class="empty-state">Search for people to send this to.</div>
+      } }
+    </div>
+
+    @if (selectedUsers().length > 0) {
+    <div class="selected-strip">
+      @for (u of selectedUsers(); track u.id) {
+      <div class="selected-chip">
+        <ui-avatar [src]="u.avatarUrl" [name]="u.displayName || u.username" size="sm" />
+        <span>{{ u.displayName || u.username }}</span>
+        <button (click)="toggleRecipient(u)" aria-label="Remove {{ u.displayName || u.username }}">
+          <svg lucideX aria-hidden="true"></svg>
         </button>
       </div>
+      }
+    </div>
     }
 
+    <div class="composer-row">
+      <input
+        type="text"
+        placeholder="Add a message (optional)"
+        [(ngModel)]="messageContent"
+        (keydown)="onKeyDown($event)"
+        class="field__input message-input"
+      />
+      <button
+        class="send-btn"
+        [disabled]="selectedRecipients().size === 0 || isSending()"
+        (click)="onSend()"
+      >
+        <span class="send-label">Send</span>
+        @if (selectedRecipients().size > 0) {
+        <span class="send-badge">{{ selectedRecipients().size }}</span>
+        }
+        <svg lucideSend class="send-icon" aria-hidden="true"></svg>
+      </button>
+    </div>
+    }
   </div>
 </ui-drawer>

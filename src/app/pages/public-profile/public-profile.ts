@@ -109,9 +109,9 @@ export class PublicProfile implements OnInit {
 
     try {
       if (wasFollowing) {
-        await this.#publicUserService.unfollowUser(p.id).toPromise();
+        await this.#publicUserService.unfollowUser(p.username).toPromise();
       } else {
-        await this.#publicUserService.followUser(p.id).toPromise();
+        await this.#publicUserService.followUser(p.username).toPromise();
       }
     } catch (error) {
       // Revert optimistic update on error

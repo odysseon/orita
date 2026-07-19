@@ -37,7 +37,6 @@ export const routes: Routes = [
   {
     path: 'u/:username',
     loadComponent: () => import('./pages/public-profile/public-profile').then((m) => m.PublicProfile),
-    data: { isRootAppPage: true },
   },
   {
     path: 'home',

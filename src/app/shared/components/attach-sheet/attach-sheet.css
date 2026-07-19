@@ -2,31 +2,35 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  max-height: 80vh;
-  background: var(--surface-default);
+  max-height: min(80vh, 80dvh);
+  overflow-x: hidden;
   padding-bottom: env(safe-area-inset-bottom);
 }
 
 .tab-bar {
   display: flex;
-  border-bottom: 1px solid var(--border-subtle);
-  background: var(--surface-default);
+  border-bottom: var(--size-1) solid var(--border-subtle);
 }
 
 .tab-btn {
   flex: 1;
+  min-height: var(--size-48);
   background: transparent;
   border: none;
-  padding: var(--spacing-4) 0;
+  padding: var(--space-sm) 0;
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-secondary);
   cursor: pointer;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--size-2) solid transparent;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast);
 }
+
 .tab-btn.active {
   color: var(--text-primary);
-  border-bottom-color: var(--brand-primary);
+  border-bottom-color: var(--clr-primary);
 }
 
 .tab-content {
@@ -36,62 +40,75 @@
   overflow: hidden;
 }
 
+/* -- Search ------------------------------------------------- */
 .search-box {
   display: flex;
   align-items: center;
-  padding: var(--spacing-3) var(--spacing-4);
-  border-bottom: 1px solid var(--border-subtle);
+  padding: var(--size-12) var(--space-sm);
+  border-bottom: var(--size-1) solid var(--border-subtle);
   position: relative;
-  background: var(--surface-default);
 }
 
 .search-icon {
   position: absolute;
-  left: calc(var(--spacing-4) + var(--spacing-3));
-  color: var(--text-tertiary);
-  width: 18px;
-  height: 18px;
+  left: calc(var(--space-sm) + var(--size-12));
+  color: var(--text-muted);
+  width: var(--size-18);
+  height: var(--size-18);
+  pointer-events: none;
 }
 
 .search-input {
   width: 100%;
   border: none;
-  background: var(--surface-sunken);
-  padding: var(--spacing-2) var(--spacing-3) var(--spacing-2) 36px;
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-sm);
+  background: var(--surface-container);
+  padding: var(--size-8) var(--size-12) var(--size-8) var(--size-40);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-lg);
+  font-family: var(--font-sans);
+  color: var(--text-primary);
   outline: none;
-}
-.search-input:focus {
-  background: var(--surface-default);
-  box-shadow: 0 0 0 2px var(--brand-primary);
+  transition:
+    background var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-input:focus {
+  background: var(--surface-card);
+  box-shadow: 0 0 0 var(--size-2) var(--clr-primary);
+}
+
+/* -- List ------------------------------------------------- */
 .scroll-area {
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-2) 0;
+  overflow-x: hidden;
+  padding: var(--size-8) 0;
 }
 
 .section {
-  margin-bottom: var(--spacing-4);
+  margin-bottom: var(--space-sm);
 }
 
 .section-title {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   text-transform: uppercase;
-  font-weight: 600;
-  color: var(--text-tertiary);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
   letter-spacing: 0.05em;
-  padding: var(--spacing-2) var(--spacing-4);
+  padding: var(--size-8) var(--space-sm);
   margin: 0;
 }
 
 .subsection-title {
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--text-secondary);
-  padding: var(--spacing-2) var(--spacing-4);
+  padding: var(--size-8) var(--space-sm);
   margin: 0;
 }
 
@@ -104,28 +121,31 @@
 .entity-item {
   display: flex;
   align-items: center;
-  padding: var(--spacing-2) var(--spacing-4);
+  gap: var(--size-12);
+  padding: var(--size-12) var(--space-sm);
   cursor: pointer;
+  transition: background var(--transition-fast);
 }
+
 .entity-item:hover {
-  background: var(--surface-hover);
+  background: var(--surface-container-high);
 }
 
 .entity-icon {
-  width: 36px;
-  height: 36px;
+  width: var(--size-36);
+  height: var(--size-36);
   border-radius: var(--radius-md);
-  background: var(--surface-sunken);
+  background: var(--surface-container);
   color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: var(--spacing-3);
   flex-shrink: 0;
 }
+
 .entity-icon svg {
-  width: 18px;
-  height: 18px;
+  width: var(--size-18);
+  height: var(--size-18);
 }
 
 .entity-details {
@@ -137,7 +157,7 @@
 
 .entity-title {
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
@@ -153,44 +173,48 @@
 }
 
 .empty-state {
-  padding: var(--spacing-4);
+  padding: var(--space-sm);
   text-align: center;
-  color: var(--text-tertiary);
+  color: var(--text-muted);
   font-size: var(--font-size-sm);
 }
 
 .loading-state {
-  padding: var(--spacing-4);
+  padding: var(--space-sm);
   text-align: center;
   color: var(--text-secondary);
   font-size: var(--font-size-sm);
 }
 
+/* -- Media tab ------------------------------------------------- */
 .media-tab {
-  padding: var(--spacing-4);
-  gap: var(--spacing-3);
+  padding: var(--space-sm);
+  gap: var(--size-12);
 }
 
 .media-btn {
   display: flex;
   align-items: center;
-  gap: var(--spacing-3);
+  gap: var(--size-12);
   width: 100%;
-  padding: var(--spacing-4);
-  background: var(--surface-sunken);
-  border: 1px solid var(--border-subtle);
+  min-height: var(--size-48);
+  padding: var(--space-sm);
+  background: var(--surface-container);
+  border: var(--size-1) solid var(--border-subtle);
   border-radius: var(--radius-md);
   color: var(--text-primary);
   font-size: var(--font-size-md);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background var(--transition-fast);
 }
+
 .media-btn:hover {
-  background: var(--surface-hover);
+  background: var(--surface-container-high);
 }
+
 .media-btn svg {
-  width: 24px;
-  height: 24px;
-  color: var(--brand-primary);
+  width: var(--size-24);
+  height: var(--size-24);
+  color: var(--clr-primary);
 }

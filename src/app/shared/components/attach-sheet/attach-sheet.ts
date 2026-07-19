@@ -1,25 +1,48 @@
 import { Component, input, signal, inject, OnInit, output, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ShareService, RecentShareableDto, ShareableSearchResult } from '../../../core/services/share.service';
+import {
+  ShareService,
+  RecentShareableDto,
+  ShareableSearchResult,
+} from '../../../core/services/share.service';
 import { DraftMessageService } from '../../../core/services/draft-message.service';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Drawer } from '../../drawer/drawer';
-import { LucideSearch, LucidePackage, LucideStore, LucideImage, LucideMapPin, LucideCamera, LucideFileImage } from '@lucide/angular';
+import {
+  LucideSearch,
+  LucidePackage,
+  LucideStore,
+  LucideImage,
+  LucideMapPin,
+  LucideCamera,
+  LucideFileImage,
+} from '@lucide/angular';
 import { SaveService } from '../../../core/services/save.service';
 import { FollowService } from '../../../core/services/follow.service';
 
 @Component({
   selector: 'app-attach-sheet',
   standalone: true,
-  imports: [CommonModule, FormsModule, Drawer, LucideSearch, LucidePackage, LucideStore, LucideImage, LucideMapPin, LucideCamera, LucideFileImage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    Drawer,
+    LucideSearch,
+    LucidePackage,
+    LucideStore,
+    LucideImage,
+    LucideMapPin,
+    LucideCamera,
+    LucideFileImage,
+  ],
   templateUrl: './attach-sheet.html',
   styleUrl: './attach-sheet.css',
 })
 export class AttachSheetComponent implements OnInit {
   isOpen = input<boolean>(false);
   conversationId = input<string | undefined>();
-  
+
   close = output<void>();
 
   #shareService = inject(ShareService);
@@ -29,7 +52,7 @@ export class AttachSheetComponent implements OnInit {
 
   activeTab = signal<'ORITA' | 'MEDIA'>('ORITA');
   recent = signal<RecentShareableDto[]>([]);
-  
+
   searchQuery = signal('');
   searchQuery$ = new Subject<string>();
   searchResults = signal<ShareableSearchResult[]>([]);
@@ -39,10 +62,7 @@ export class AttachSheetComponent implements OnInit {
   followingItems = signal<any[]>([]);
 
   ngOnInit() {
-    this.searchQuery$.pipe(
-      debounceTime(250),
-      distinctUntilChanged()
-    ).subscribe(query => {
+    this.searchQuery$.pipe(debounceTime(250), distinctUntilChanged()).subscribe((query) => {
       this.performSearch(query);
     });
   }
@@ -71,10 +91,10 @@ export class AttachSheetComponent implements OnInit {
   async loadLibrary() {
     try {
       this.#saveService.getSavedItems({ limit: 5 }).subscribe((res: any) => {
-         this.savedItems.set(res?.items || []);
+        this.savedItems.set(res?.items || []);
       });
       this.#followService.getFollowing({ limit: 5 }).subscribe((res: any) => {
-         this.followingItems.set(Array.isArray(res) ? res : res?.items || []);
+        this.followingItems.set(Array.isArray(res) ? res : res?.items || []);
       });
     } catch (e) {
       console.error('Failed to load library items', e);
@@ -104,16 +124,18 @@ export class AttachSheetComponent implements OnInit {
     }
   }
 
-  selectItem(type: string, targetId: string) {
+  selectItem(type: string, targetId: string): void {
     const cid = this.conversationId();
-    if (cid) {
-      this.#draftStore.attachEmbed(cid, {
+    if (!cid) {
+      return;
+    }
+
+    this.#draftStore.attachEmbed(cid, {
       embedType: type,
-      targetId: targetId
+      targetId: targetId,
     });
     this.onDrawerClose();
   }
-}
 
   onDrawerClose() {
     this.close.emit();

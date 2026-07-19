@@ -44,9 +44,9 @@ export class App {
   readonly isRootAppPage = toSignal(
     this.#router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
-      map(() => this.getDeepestIsRoot(this.#route.snapshot)),
+      map(() => this.getDeepestIsRoot(this.#router.routerState.snapshot.root)),
     ),
-    { initialValue: this.getDeepestIsRoot(this.#route.snapshot) },
+    { initialValue: this.getDeepestIsRoot(this.#router.routerState.snapshot.root) },
   );
 
   readonly showNav = computed(() => {
@@ -60,9 +60,9 @@ export class App {
   readonly isLanding = toSignal(
     this.#router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
-      map(() => this.getDeepestIsLanding(this.#route.snapshot)),
+      map(() => this.getDeepestIsLanding(this.#router.routerState.snapshot.root)),
     ),
-    { initialValue: this.getDeepestIsLanding(this.#route.snapshot) },
+    { initialValue: this.getDeepestIsLanding(this.#router.routerState.snapshot.root) },
   );
 
   readonly isDesktop = signal<boolean>(false);

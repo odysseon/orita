@@ -33,11 +33,11 @@ export class PublicUserService {
     return this.#http.get<PublicUserProfile>(`${this.#apiUrl}/users/username/${username}`);
   }
 
-  followUser(userId: string): Observable<{ success: boolean }> {
-    return this.#http.post<{ success: boolean }>(`${this.#apiUrl}/users/${userId}/follow`, {});
+  followUser(username: string): Observable<{ success: boolean }> {
+    return this.#http.post<{ success: boolean }>(`${this.#apiUrl}/users/${username}/follow`, {});
   }
 
-  unfollowUser(userId: string): Observable<{ success: boolean }> {
-    return this.#http.delete<{ success: boolean }>(`${this.#apiUrl}/users/${userId}/follow`);
+  unfollowUser(username: string): Observable<{ success: boolean }> {
+    return this.#http.delete<{ success: boolean }>(`${this.#apiUrl}/users/${username}/follow`);
   }
 }
