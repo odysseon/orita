@@ -1,52 +1,61 @@
 <div class="nearby">
   <ui-app-header [uiScrollHide]="true" scrollHidePosition="top" [showLocationPill]="true">
-    <button class="btn btn--primary" style="padding: var(--size-6) var(--size-12); font-size: var(--font-size-sm); min-height: auto;" (click)="openNewPostSheet()">+ Post</button>
+    <button class="btn btn--primary btn--sm" (click)="openNewPostSheet()">+ Post</button>
   </ui-app-header>
 
-  @if (error()) {
-    <div class="feed-container">
-      <ui-empty-state
-        title="Oops!"
-        [description]="error() || 'Something went wrong'"
-      >
-        <svg lucideMapPin aria-hidden="true" icon></svg>
-        <button class="btn btn--secondary" (click)="refresh(true)">Retry</button>
-      </ui-empty-state>
-    </div>
-  } @else if (loading() && items().length === 0) {
-    <div class="feed-container">
-      <app-grid>
-        @for (i of [1,2,3,4,5,6]; track i) {
-        <div class="skeleton-card">
-          <div class="skeleton skeleton-card__media"></div>
-          <div class="skeleton-card__header">
-            <div class="skeleton skeleton-card__avatar"></div>
+  @if (items().length === 0) {
+    @if (error()) {
+      <div class="feed-container">
+        <ui-empty-state
+          title="Couldn't load nearby activity"
+          [description]="error()!"
+        >
+          <svg lucideMapPin aria-hidden="true" icon></svg>
+          <button class="btn btn--secondary" (click)="refresh(true)">Retry</button>
+        </ui-empty-state>
+      </div>
+    } @else if (loading()) {
+      <div class="feed-container">
+        <app-grid>
+          @for (i of [1,2,3,4,5,6]; track i) {
+          <div class="skeleton-card">
+            <div class="skeleton skeleton-card__media"></div>
+            <div class="skeleton-card__header">
+              <div class="skeleton skeleton-card__avatar"></div>
+              <div class="skeleton-card__lines">
+                <div class="skeleton" style="height: 12px; width: 40%"></div>
+              </div>
+            </div>
             <div class="skeleton-card__lines">
-              <div class="skeleton" style="height: 12px; width: 40%"></div>
+              <div class="skeleton" style="height: 16px; width: 70%"></div>
+              <div class="skeleton" style="height: 14px; width: 90%"></div>
             </div>
           </div>
-          <div class="skeleton-card__lines">
-            <div class="skeleton" style="height: 16px; width: 70%"></div>
-            <div class="skeleton" style="height: 14px; width: 90%"></div>
-          </div>
-        </div>
-        }
-      </app-grid>
-    </div>
-  } @else if (items().length === 0) {
-    <div class="feed-container">
-      <ui-empty-state
-        title="No activity nearby right now"
-        description="Be the first to post something in your neighborhood!"
-      >
-        <svg lucideMapPin aria-hidden="true" icon></svg>
-        <button class="btn btn--primary btn--full" (click)="openNewPostSheet()">
-          Create a Post
-        </button>
-      </ui-empty-state>
-    </div>
+          }
+        </app-grid>
+      </div>
+    } @else {
+      <div class="feed-container">
+        <ui-empty-state
+          title="No activity nearby right now"
+          description="Be the first to post something in your neighborhood!"
+        >
+          <svg lucideMapPin aria-hidden="true" icon></svg>
+          <button class="btn btn--primary btn--full" (click)="openNewPostSheet()">
+            Create a Post
+          </button>
+        </ui-empty-state>
+      </div>
+    }
   } @else {
     <div class="feed-container">
+      @if (error()) {
+        <div class="surface-container" style="padding: var(--space-sm); border-radius: var(--radius-sm); color: var(--clr-error); margin-bottom: var(--space-md); text-align: center; border: 1px solid var(--clr-error-container); display: flex; flex-direction: column; gap: var(--space-xs); align-items: center;">
+          <span>{{ error() }}</span>
+          <button class="btn btn--ghost btn--sm" (click)="loadMore()">Retry</button>
+        </div>
+      }
+
       <section class="section">
         <app-grid>
           @for (item of items(); track item.id) {
@@ -55,7 +64,7 @@
         </app-grid>
       </section>
 
-      @if (loading() && items().length > 0) {
+      @if (loading()) {
         <app-grid>
           @for (i of [1,2,3]; track i) {
           <div class="skeleton-card">
@@ -65,13 +74,13 @@
         </app-grid>
       }
 
-      @if (hasMore()) {
+      @if (hasMore() && !loading() && !error()) {
         <div class="load-more-container">
-          <button class="btn btn--secondary" (click)="loadMore()" [disabled]="loading()">
+          <button class="btn btn--secondary" (click)="loadMore()">
             Load More Discoveries
           </button>
         </div>
-      } @else {
+      } @else if (!hasMore() && !loading() && !error()) {
         <div class="end-of-feed">
           <p>You've seen everything nearby for today!</p>
         </div>

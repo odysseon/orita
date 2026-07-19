@@ -1,19 +1,22 @@
-<div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-  <div class="bg-white rounded-2xl w-full max-w-lg p-6 shadow-xl relative max-h-full overflow-y-auto">
-    <button class="absolute top-4 right-4 p-2 text-gray-500 hover:bg-gray-100 rounded-full" (click)="close.emit()">
-      ✕
+<ui-drawer [open]="true" position="bottom" size="auto" [showCloseButton]="false" (closed)="close.emit()">
+  <div style="padding: var(--space-lg); padding-bottom: calc(var(--space-lg) + env(safe-area-inset-bottom)); position: relative; background: var(--surface-page);">
+    
+    <button class="btn-icon" style="position: absolute; top: var(--space-md); right: var(--space-md);" (click)="close.emit()">
+      <svg lucideX aria-hidden="true"></svg>
     </button>
     
-    <h2 class="text-2xl font-bold mb-6">New Post</h2>
+    <h2 class="section__title" style="margin-top: 0; margin-bottom: var(--space-lg);">New Post</h2>
 
     @if (error()) {
-      <div class="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">{{ error() }}</div>
+      <div class="surface-container" style="padding: var(--space-md); border-radius: var(--radius-md); color: var(--clr-error); margin-bottom: var(--space-md); border: 1px solid var(--clr-error-container);">
+        {{ error() }}
+      </div>
     }
 
-    <form (ngSubmit)="submit()" class="flex flex-col gap-4">
+    <form (ngSubmit)="submit()" class="stack">
       <div class="field">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
-        <select [(ngModel)]="model.type" name="type" required class="w-full border border-gray-300 rounded-xl p-3 bg-gray-50">
+        <label class="field__label">Type</label>
+        <select [(ngModel)]="model.type" name="type" required class="field__select">
           @for (type of types; track type.value) {
             <option [value]="type.value">{{ type.label }}</option>
           }
@@ -21,21 +24,25 @@
       </div>
 
       <div class="field">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-        <input [(ngModel)]="model.title" name="title" required placeholder="What's happening?" class="w-full border border-gray-300 rounded-xl p-3 bg-gray-50" />
+        <label class="field__label">Title</label>
+        <input [(ngModel)]="model.title" name="title" required placeholder="What's happening?" class="field__input" />
       </div>
 
       <div class="field">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Details (Optional)</label>
-        <textarea [(ngModel)]="model.body" name="body" rows="4" placeholder="Add more details..." class="w-full border border-gray-300 rounded-xl p-3 bg-gray-50"></textarea>
+        <label class="field__label">Details (Optional)</label>
+        <textarea [(ngModel)]="model.body" name="body" placeholder="Add more details..." class="field__textarea"></textarea>
       </div>
 
-      <div class="mt-4 flex gap-3">
-        <button type="button" class="btn btn-outline flex-1 py-3" (click)="close.emit()" [disabled]="loading()">Cancel</button>
-        <button type="submit" class="btn btn-primary flex-1 py-3" [disabled]="loading() || !model.title">
-          {{ loading() ? 'Posting...' : 'Post' }}
+      <div class="cluster" style="margin-top: var(--space-md); flex-wrap: nowrap; gap: var(--space-md);">
+        <button type="button" class="btn btn--ghost" style="flex: 1;" (click)="close.emit()" [disabled]="loading()">Cancel</button>
+        <button type="submit" class="btn btn--primary" style="flex: 1;" [disabled]="loading() || !model.title">
+          @if (loading()) {
+            <svg lucideLoaderCircle class="spin" aria-hidden="true"></svg>
+          } @else {
+            Post
+          }
         </button>
       </div>
     </form>
   </div>
-</div>
+</ui-drawer>

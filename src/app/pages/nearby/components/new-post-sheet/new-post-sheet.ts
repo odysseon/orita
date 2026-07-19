@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OpportunityService, CreateOpportunityDto } from '../../../../core/services/opportunity.service';
 import { LocationService } from '../../../../core/services/location.service';
+import { Drawer } from '../../../../shared/drawer/drawer';
+import { LucideX, LucideLoaderCircle } from '@lucide/angular';
 
 @Component({
   selector: 'app-new-post-sheet',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Drawer, LucideX, LucideLoaderCircle],
   templateUrl: './new-post-sheet.html',
   styleUrls: ['./new-post-sheet.css'],
 })
