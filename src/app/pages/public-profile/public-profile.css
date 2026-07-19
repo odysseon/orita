@@ -67,7 +67,7 @@
   align-items: center;
 }
 
-.follow-btn .follow-status-icon lucide-icon {
+.follow-btn .follow-status-icon svg {
   width: var(--size-16);
   height: var(--size-16);
 }
@@ -250,7 +250,7 @@
   gap: var(--size-4);
 }
 
-.verified-badge lucide-icon {
+.verified-badge svg {
   width: var(--size-12);
   height: var(--size-12);
 }
@@ -270,7 +270,7 @@
   color: var(--clr-primary);
 }
 
-.open-link lucide-icon {
+.open-link svg {
   width: var(--size-16);
   height: var(--size-16);
 }
@@ -291,7 +291,7 @@
   margin-bottom: var(--space-xs);
 }
 
-.error-icon lucide-icon {
+.error-icon svg {
   width: var(--size-48);
   height: var(--size-48);
 }
