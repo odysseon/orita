@@ -4,10 +4,10 @@
   gap: var(--size-12);
   width: 100%;
   padding: var(--size-12) var(--space-sm);
-  border-bottom: var(--size-1) solid var(--border-subtle);
   cursor: pointer;
   text-align: left;
   background: none;
+  border: none;
   transition: background-color var(--transition-fast);
 }
 
