@@ -44,7 +44,6 @@
 }
 
 .msg-bubble-card {
-  background: var(--surface-container-high);
   color: var(--text-primary);
   padding: var(--size-8) var(--size-12);
   border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--size-2);
@@ -64,8 +63,6 @@
 
 .msg-bubble-card.failed {
   border: var(--size-1) solid var(--clr-error);
-  background: transparent;
-  color: var(--text-primary);
 }
 
 .msg-text {
