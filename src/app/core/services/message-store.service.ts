@@ -10,6 +10,10 @@ export class MessageStore {
   // A map of conversationId -> messages array
   readonly messages = signal<Record<string, IMessage[]>>({});
 
+  // A map of conversationId -> load status and error
+  readonly conversationStatus = signal<Record<string, 'idle' | 'loading' | 'loaded' | 'error'>>({});
+  readonly conversationError = signal<Record<string, any>>({});
+
   readonly activeConversation = computed(() => {
     const id = this.activeConversationId();
     if (!id) return null;
@@ -58,6 +62,19 @@ export class MessageStore {
       ...map,
       [conversationId]: messages
     }));
+  }
+
+  setConversationStatus(conversationId: string, status: 'idle' | 'loading' | 'loaded' | 'error', error?: any): void {
+    this.conversationStatus.update(map => ({
+      ...map,
+      [conversationId]: status
+    }));
+    if (error !== undefined) {
+      this.conversationError.update(map => ({
+        ...map,
+        [conversationId]: error
+      }));
+    }
   }
 
   addMessage(message: IMessage): void {

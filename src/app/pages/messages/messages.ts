@@ -1,4 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { AppHeader } from '../../shared/app-header/app-header';
 import { ConversationSidebar } from './components/conversation-sidebar/conversation-sidebar';
 import { ConversationView } from './components/conversation-view/conversation-view';
@@ -23,13 +24,26 @@ export class MessagesPage implements OnInit {
 
   activeTab: 'inbox' | 'updates' = 'inbox';
 
+  readonly isDesktop = signal<boolean>(false);
+  #platformId = inject(PLATFORM_ID);
+
+  constructor() {
+    if (isPlatformBrowser(this.#platformId)) {
+      const mediaQuery = window.matchMedia('(min-width: 768px)');
+      this.isDesktop.set(mediaQuery.matches);
+
+      mediaQuery.addEventListener('change', (e) => {
+        this.isDesktop.set(e.matches);
+      });
+    }
+  }
+
   get activeConversationId(): () => string | null {
     return this.messaging.activeConversation() ? () => this.messaging.activeConversation()!.id : () => null;
   }
 
-  get currentUserName(): string {
-    // In a real app, you would retrieve the current user's profile
-    return 'You';
+  get viewerParticipantId(): () => string | undefined {
+    return this.messaging.activeConversation() ? () => (this.messaging.activeConversation() as any)!.viewer?.participantId : () => undefined;
   }
 
   ngOnInit(): void {

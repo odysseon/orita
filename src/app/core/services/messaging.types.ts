@@ -69,6 +69,8 @@ export interface IConversationPreview {
   lastActivityAt: string;
 }
 
+export type ConversationLoadStatus = 'idle' | 'loading' | 'loaded' | 'error';
+
 export interface IConversation {
   id: string;
   type: ConversationType;
@@ -81,6 +83,7 @@ export interface IConversation {
   createdAt: string;
   updatedAt: string;
   messages?: IMessage[];
+  viewer?: { participantId: string };
   
   // Computed UI state
   unreadCount?: number;

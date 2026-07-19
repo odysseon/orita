@@ -17,6 +17,8 @@ export class MessagingService implements OnDestroy {
   readonly conversations = this.#store.conversations;
   readonly activeConversation = this.#store.activeConversation;
   readonly activeMessages = this.#store.activeMessages;
+  readonly conversationStatus = this.#store.conversationStatus;
+  readonly conversationError = this.#store.conversationError;
 
   constructor() {
     this.#socket.connect();
@@ -44,32 +46,40 @@ export class MessagingService implements OnDestroy {
   loadConversation(id: string): void {
     this.#store.setActiveConversationId(id);
     this.#socket.joinConversation(id);
+    this.#store.setConversationStatus(id, 'loading');
 
-    this.#repo.getConversationDetails(id).subscribe(conversation => {
-      // Update this conversation in the list safely without overwriting the preview's computed title/avatar
-      this.#store.conversations.update(list => {
-        const idx = list.findIndex(c => c.id === id);
-        const existing = idx !== -1 ? list[idx] : null;
+    this.#repo.getConversationDetails(id).subscribe({
+      next: (conversation) => {
+        // Update this conversation in the list safely without overwriting the preview's computed title/avatar
+        this.#store.conversations.update(list => {
+          const idx = list.findIndex(c => c.id === id);
+          const existing = idx !== -1 ? list[idx] : null;
 
-        const preview = {
-          id: conversation.id,
-          type: conversation.type,
-          title: existing?.title || conversation.title || 'Conversation',
-          avatarUrl: existing?.avatarUrl || null,
-          unreadCount: existing?.unreadCount ?? (conversation.unreadCount || 0),
-          lastActivityAt: existing?.lastActivityAt ?? conversation.updatedAt
-        };
+          const preview = {
+            id: conversation.id,
+            type: conversation.type,
+            title: existing?.title || conversation.title || 'Conversation',
+            avatarUrl: existing?.avatarUrl || null,
+            unreadCount: existing?.unreadCount ?? (conversation.unreadCount || 0),
+            lastActivityAt: existing?.lastActivityAt ?? conversation.updatedAt
+          };
 
-        if (idx === -1) return [...list, preview];
-        const copy = [...list];
-        copy[idx] = { ...copy[idx], ...preview };
-        return copy;
-      });
+          if (idx === -1) return [...list, preview];
+          const copy = [...list];
+          copy[idx] = { ...copy[idx], ...preview };
+          return copy;
+        });
 
-      this.#store.setActiveConversationDetails(conversation);
+        this.#store.setActiveConversationDetails(conversation);
 
-      // Set the messages array
-      this.#store.setMessages(id, conversation.messages || []);
+        // Set the messages array
+        this.#store.setMessages(id, conversation.messages || []);
+        this.#store.setConversationStatus(id, 'loaded');
+      },
+      error: (err) => {
+        this.#store.setConversationStatus(id, 'error', err);
+        console.error(`Failed to load conversation ${id}`, err);
+      }
     });
   }
 

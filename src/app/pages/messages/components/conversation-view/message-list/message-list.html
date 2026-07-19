@@ -8,7 +8,7 @@
           @for (msg of messages(); track msg.id) {
             <app-message-bubble 
               [message]="msg" 
-              [isMine]="msg.senderDisplayName === 'You' || msg.senderDisplayName === currentUserName()" 
+              [isMine]="msg.participantId === viewerParticipantId() || !!msg.isOptimistic" 
             />
           }
         </div>

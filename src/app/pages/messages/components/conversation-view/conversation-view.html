@@ -1,15 +1,28 @@
 <div class="view-container">
       @if (conversation()) {
-        <app-chat-header 
-          [conversation]="conversation()"
-          (back)="back.emit()"
-        />
+        <ui-app-header [showLogo]="false" [showLocationPill]="false">
+          <div left-content style="display: flex; align-items: center; gap: var(--size-12);">
+            <button class="btn-icon" (click)="back.emit()" aria-label="Go back">
+              <svg lucideArrowLeft aria-hidden="true"></svg>
+            </button>
+            <div style="display: flex; align-items: center; gap: var(--size-8);">
+              @if (conversation()!.avatarUrl) {
+                <img [src]="conversation()!.avatarUrl" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;" />
+              } @else {
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--surface-subtle); display: flex; align-items: center; justify-content: center; color: var(--text-secondary);">
+                  <svg lucideUser aria-hidden="true" style="width: 16px; height: 16px;"></svg>
+                </div>
+              }
+              <h3 style="margin: 0; font-size: var(--text-base); font-weight: 600;">{{ conversation()!.title || 'Conversation' }}</h3>
+            </div>
+          </div>
+        </ui-app-header>
         
         <app-conversation-context [anchor]="conversation()!.anchor ?? null" />
 
         <app-message-list 
           [messages]="messages()"
-          [currentUserName]="currentUserName()"
+          [viewerParticipantId]="viewerParticipantId()"
         />
 
         <app-message-composer 

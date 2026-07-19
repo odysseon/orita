@@ -10,7 +10,7 @@ import { IMessage } from '../../../../../core/services/messaging.types';
 })
 export class MessageList implements AfterViewChecked {
   messages = input<IMessage[]>([]);
-  currentUserName = input<string>('You'); // In a real app, pass current user ID
+  viewerParticipantId = input<string | undefined>(undefined);
 
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 

@@ -10,6 +10,7 @@ import { ScrollHideDirective } from './shared/directives/scroll-hide.directive';
 import { LucideHouse, LucideSearch, LucideCompass, LucideMessageCircle, LucideMapPin } from '@lucide/angular';
 import { AuthService } from './core/services/auth.service';
 import { NotificationService } from './core/services/notification.service';
+import { MessagingService } from './core/services/messaging.service';
 
 @Component({
   selector: 'app-root',
@@ -36,16 +37,25 @@ export class App {
   #platformId = inject(PLATFORM_ID);
   readonly authService = inject(AuthService);
   readonly notificationService = inject(NotificationService);
+  readonly messaging = inject(MessagingService);
 
   readonly isAuthenticated = computed(() => !!this.authService.token());
 
-  readonly showNav = toSignal(
+  readonly isRootAppPage = toSignal(
     this.#router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
       map(() => this.getDeepestIsRoot(this.#route.snapshot)),
     ),
     { initialValue: this.getDeepestIsRoot(this.#route.snapshot) },
   );
+
+  readonly showNav = computed(() => {
+    const isRoot = this.isRootAppPage();
+    if (!this.isDesktop() && this.messaging.activeConversation()) {
+      return false;
+    }
+    return isRoot;
+  });
 
   readonly isLanding = toSignal(
     this.#router.events.pipe(
