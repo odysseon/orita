@@ -33,6 +33,23 @@
       <div class="search-tabs">
         <button 
           class="tab-btn" 
+          [class.active]="searchType() === 'all'"
+          (click)="setSearchType('all')"
+        >
+          All
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="searchType() === 'people'"
+          (click)="setSearchType('people')"
+        >
+          People
+          @if (usersResource.hasValue() && searchType() === 'people' && !isDebouncing()) {
+            <span class="count">({{ usersResource.value()?.total || 0 }})</span>
+          }
+        </button>
+        <button 
+          class="tab-btn" 
           [class.active]="searchType() === 'listing'"
           (click)="setSearchType('listing')"
         >
@@ -128,6 +145,103 @@
         <div class="spinner"></div>
         <p>Searching...</p>
       </div>
+    } @else if (searchType() === 'all') {
+      <div class="aggregator-view">
+        @if (usersResource.hasValue() && usersResource.value()?.items?.length) {
+          <section class="section">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 class="section__title">People</h2>
+              @if ((usersResource.value()?.total || 0) > 5) {
+                <button class="btn-text" (click)="setSearchType('people')">See all</button>
+              }
+            </div>
+            <div class="horizontal-scroll-list" style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px;">
+              @for (user of usersResource.value()?.items || []; track user.id) {
+                <div style="min-width: 250px;">
+                  <app-user-card [user]="user" />
+                </div>
+              }
+            </div>
+          </section>
+        }
+
+        @if (businessesResource.hasValue() && businessesResource.value()?.items?.length) {
+          <section class="section">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 class="section__title">Businesses</h2>
+              @if ((businessesResource.value()?.total || 0) > 5) {
+                <button class="btn-text" (click)="setSearchType('business')">See all</button>
+              }
+            </div>
+            <div class="horizontal-scroll-list" style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px;">
+              @for (biz of businessesResource.value()?.items || []; track biz.id) {
+                <div style="min-width: 280px;">
+                  <app-biz-card [biz]="biz" />
+                </div>
+              }
+            </div>
+          </section>
+        }
+
+        @if (listingsResource.hasValue() && listingsResource.value()?.items?.length) {
+          <section class="section">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 class="section__title">Listings</h2>
+              @if ((listingsResource.value()?.total || 0) > 5) {
+                <button class="btn-text" (click)="setSearchType('listing')">See all</button>
+              }
+            </div>
+            <app-grid>
+              @for (item of listingsResource.value()?.items || []; track item.id) {
+                <app-listing-card [item]="item" />
+              }
+            </app-grid>
+          </section>
+        }
+
+        @if (locationsResource.hasValue() && locationsResource.value()?.length) {
+          <section class="section">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 class="section__title">Locations</h2>
+              @if ((locationsResource.value()?.length || 0) >= 5) {
+                <button class="btn-text" (click)="setSearchType('location')">See all</button>
+              }
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              @for (loc of locationsResource.value() || []; track loc.id || loc.externalId) {
+                <app-location-card [location]="loc" />
+              }
+            </div>
+          </section>
+        }
+        
+        @if (!usersResource.value()?.items?.length && !businessesResource.value()?.items?.length && !listingsResource.value()?.items?.length && !locationsResource.value()?.length) {
+          <ui-empty-state
+            title="No results found"
+            description="We couldn't find anything matching your search."
+          >
+            <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+          </ui-empty-state>
+        }
+      </div>
+    } @else if (searchType() === 'people') {
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        @for (user of usersResource.value()?.items || []; track user.id) {
+          <app-user-card [user]="user" />
+        }
+      </div>
+      @if ((usersResource.value()?.items?.length || 0) === 0) {
+        <ui-empty-state
+          title="No people found"
+          description="We couldn't find anyone matching your search."
+        >
+          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+        </ui-empty-state>
+      } @else if ((usersResource.value()?.items?.length || 0) < (usersResource.value()?.total || 0)) {
+        <div style="text-align: center; margin-top: 2rem;">
+          <button class="btn btn-outline" (click)="loadMore()">Load More</button>
+        </div>
+      }
     } @else if (searchType() === 'location') {
       <div style="display: flex; flex-direction: column; gap: 16px;">
         @for (loc of locationsResource.value() || []; track loc.id || loc.externalId) {

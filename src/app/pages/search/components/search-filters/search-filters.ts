@@ -34,7 +34,7 @@ export class SearchFiltersComponent {
   readonly isOpen = input<boolean>(false);
   readonly isOpenChange = output<boolean>();
   
-  readonly searchType = input<'listing' | 'business' | 'location'>('listing');
+  readonly searchType = input<'all' | 'people' | 'listing' | 'business' | 'location'>('listing');
   readonly categories = input<any[]>([]);
   readonly currentFilters = input<SearchFilterState>({
     locationName: null,

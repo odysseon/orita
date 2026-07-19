@@ -13,6 +13,7 @@ import { SearchFilters } from '../../core/models/search.model';
 import { AppListingCard } from '../../shared/listing-card/listing-card';
 import { AppBizCard } from '../../shared/biz-card/biz-card';
 import { AppLocationCard } from '../../shared/location-card/location-card';
+import { AppUserCard } from '../../shared/components/user-card/user-card';
 import { AppHeader } from '../../shared/app-header/app-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { AppGrid } from '../../shared/grid/grid';
@@ -26,7 +27,7 @@ import { EmptyState } from '../../shared/empty-state/empty-state';
   selector: 'app-search',
   imports: [
     LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
-    AppListingCard, AppBizCard, AppLocationCard, AppHeader, ScrollHideDirective,
+    AppListingCard, AppBizCard, AppLocationCard, AppUserCard, AppHeader, ScrollHideDirective,
     AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState
   ],
   templateUrl: './search.html',
@@ -46,8 +47,8 @@ export class Search {
   // URL State
   readonly queryParamMap = toSignal(this.#route.queryParamMap);
 
-  readonly searchType = computed<'listing' | 'business' | 'location'>(() => {
-    return (this.queryParamMap()?.get('tab') as any) || 'listing';
+  readonly searchType = computed<'all' | 'people' | 'listing' | 'business' | 'location'>(() => {
+    return (this.queryParamMap()?.get('tab') as any) || 'all';
   });
 
   readonly searchQuery = computed(() => this.queryParamMap()?.get('q') || '');
@@ -108,7 +109,7 @@ export class Search {
 
   // Derived API Parameters
   readonly listingParams = computed<SearchFilters | null>(() => {
-    if (this.searchType() !== 'listing') return null;
+    if (this.searchType() !== 'listing' && this.searchType() !== 'all') return null;
     if (!this.searchQuery().trim() && !this.appliedLocationName() && !this.appliedCategoryId()) return null;
     return {
       q: this.searchQuery().trim(),
@@ -117,7 +118,7 @@ export class Search {
       radius: this.appliedRadius(),
       categoryId: this.appliedCategoryId(),
       sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
-      limit: this.appliedLimit() !== 20 ? this.appliedLimit() : undefined,
+      limit: this.searchType() === 'all' ? 5 : (this.appliedLimit() !== 20 ? this.appliedLimit() : undefined),
       minPrice: this.appliedMinPrice(),
       maxPrice: this.appliedMaxPrice(),
       filter: this.queryParamMap()?.getAll('filter') || []
@@ -125,7 +126,7 @@ export class Search {
   });
 
   readonly businessParams = computed<SearchFilters | null>(() => {
-    if (this.searchType() !== 'business') return null;
+    if (this.searchType() !== 'business' && this.searchType() !== 'all') return null;
     if (!this.searchQuery().trim() && !this.appliedLocationName() && !this.appliedCategoryId()) return null;
     return {
       q: this.searchQuery().trim(),
@@ -134,15 +135,25 @@ export class Search {
       radius: this.appliedRadius(),
       categoryId: this.appliedCategoryId(),
       sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
-      limit: this.appliedLimit() !== 20 ? this.appliedLimit() : undefined
+      limit: this.searchType() === 'all' ? 5 : (this.appliedLimit() !== 20 ? this.appliedLimit() : undefined)
+    };
+  });
+
+  readonly userParams = computed<SearchFilters | null>(() => {
+    if (this.searchType() !== 'people' && this.searchType() !== 'all') return null;
+    if (!this.searchQuery().trim()) return null;
+    return {
+      q: this.searchQuery().trim(),
+      limit: this.searchType() === 'all' ? 5 : (this.appliedLimit() !== 20 ? this.appliedLimit() : undefined)
     };
   });
 
   readonly listingsResource = this.#searchService.getListingsResource(this.listingParams);
   readonly businessesResource = this.#searchService.getBusinessesResource(this.businessParams);
+  readonly usersResource = this.#searchService.getUsersResource(this.userParams);
   
   readonly locationsParams = computed<string | null>(() => {
-    if (this.searchType() !== 'location') return null;
+    if (this.searchType() !== 'location' && this.searchType() !== 'all') return null;
     const q = this.searchQuery().trim();
     if (!q || q.length < 2) return null;
     return q;
@@ -150,7 +161,9 @@ export class Search {
 
   readonly locationsResource = httpResource<Location[]>(() => {
     const q = this.locationsParams();
-    return q ? `${environment.apiUrl}/v1/locations/search?q=${encodeURIComponent(q)}` : undefined;
+    const url = q ? `${environment.apiUrl}/v1/locations/search?q=${encodeURIComponent(q)}` : undefined;
+    if (!url) return undefined;
+    return this.searchType() === 'all' ? `${url}&limit=5` : url;
   });
   // Empty State Data
   readonly popularBusinessesResource = this.#searchService.getBusinessesResource(computed(() => ({ limit: 10 })));
@@ -186,7 +199,7 @@ export class Search {
     this.updateUrl({ limit: null });
   }
 
-  setSearchType(type: 'listing' | 'business' | 'location') {
+  setSearchType(type: 'all' | 'people' | 'listing' | 'business' | 'location') {
     this.updateUrl({ tab: type, limit: null });
   }
 

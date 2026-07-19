@@ -177,3 +177,27 @@
   width: 0.875rem;
   height: 0.875rem;
 }
+
+.btn-text {
+  background: transparent;
+  border: none;
+  color: var(--brand-primary);
+  font-size: var(--size-14);
+  font-weight: 500;
+  cursor: pointer;
+  padding: var(--size-4) var(--size-8);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+}
+
+.btn-text:hover {
+  background: var(--surface-hover);
+}
+
+.horizontal-scroll-list::-webkit-scrollbar {
+  display: none;
+}
+.horizontal-scroll-list {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
