@@ -5,6 +5,7 @@
   max-height: 80vh;
   background: var(--surface-default);
   padding-bottom: env(safe-area-inset-bottom);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
 .target-header {
@@ -73,31 +74,34 @@
 .search-box {
   display: flex;
   align-items: center;
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: var(--size-16);
   border-bottom: 1px solid var(--border-subtle);
   position: relative;
 }
 
 .search-icon {
   position: absolute;
-  left: calc(var(--spacing-4) + var(--spacing-3));
+  left: calc(var(--size-16) + var(--size-12));
   color: var(--text-tertiary);
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 .search-input {
   width: 100%;
-  border: none;
-  background: var(--surface-sunken);
-  padding: var(--spacing-2) var(--spacing-3) var(--spacing-2) 36px;
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-container);
+  padding: var(--size-12) var(--size-16) var(--size-12) 42px;
+  border-radius: var(--radius-xl);
+  font-size: var(--size-16);
   outline: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
 }
 .search-input:focus {
   background: var(--surface-default);
-  box-shadow: 0 0 0 2px var(--brand-primary);
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px var(--brand-primary-subtle, rgba(0, 102, 255, 0.1));
 }
 
 .recipients-container {

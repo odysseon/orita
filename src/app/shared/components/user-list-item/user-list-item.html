@@ -1,8 +1,6 @@
-<li class="user-item" (click)="onToggle($event)">
+<li class="user-item" [class.selected]="selected()" (click)="onToggle($event)">
   <div class="user-avatar">
-    @if (avatarUrl()) {
-      <img [src]="avatarUrl()" alt="" />
-    }
+    <app-avatar [avatarUrl]="avatarUrl()" [username]="displayName() || username()" size="md" />
   </div>
   <div class="user-details">
     <span class="user-name">{{ displayName() || username() }}</span>
@@ -12,7 +10,11 @@
     @if (sent()) {
       <span class="sent-badge"><svg lucideCheck></svg> Sent</span>
     } @else {
-      <input type="checkbox" [checked]="selected()" (click)="onToggle($event)" />
+      <div class="selection-indicator">
+        @if (selected()) {
+          <svg lucideCheck class="check-icon"></svg>
+        }
+      </div>
     }
   </div>
 </li>

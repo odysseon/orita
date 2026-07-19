@@ -1,11 +1,12 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideCheck } from '@lucide/angular';
+import { AppAvatar } from '../avatar/avatar';
 
 @Component({
   selector: 'app-user-list-item',
   standalone: true,
-  imports: [CommonModule, LucideCheck],
+  imports: [CommonModule, LucideCheck, AppAvatar],
   templateUrl: './user-list-item.html',
   styleUrls: ['./user-list-item.css'],
 })
