@@ -1,39 +1,49 @@
-<div class="nearby-item-card bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-3">
-  <div class="header flex justify-between items-start">
-    <div class="flex items-center gap-2">
-      @if (item.author.avatarUrl) {
-        <img [src]="item.author.avatarUrl" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
-      } @else {
-        <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold">
-          {{ item.author.username[0] | uppercase }}
-        </div>
-      }
-      <div class="flex flex-col">
-        <span class="font-semibold text-gray-900">{{ item.author.displayName || item.author.username }}</span>
-        <span class="text-xs text-gray-500">{{ item.createdAt | date:'shortTime' }} • {{ item.location.name }}</span>
+<article class="feed-card">
+  <!-- Media -->
+  <div class="feed-card__media">
+    @if (hasMedia) {
+      <img class="feed-card__img" [src]="item.media[0].url" alt="Media" />
+    } @else {
+      <div class="feed-card__placeholder">
+        <div class="avatar-placeholder" style="font-size: 2rem; color: var(--text-muted);">{{ item.subtype.replace('_', ' ') }}</div>
       </div>
-    </div>
-    <span class="badge px-2 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full uppercase">
-      {{ item.subtype.replace('_', ' ') }}
-    </span>
-  </div>
-
-  <div class="content flex flex-col gap-2">
-    <h3 class="text-lg font-bold text-gray-800">{{ item.title }}</h3>
-    @if (item.body) {
-      <p class="text-gray-600 text-sm whitespace-pre-wrap">{{ item.body }}</p>
     }
-  </div>
 
-  @if (hasMedia) {
-    <div class="media-container rounded-xl overflow-hidden max-h-64 mt-2">
-      <img [src]="item.media[0].url" alt="Media" class="w-full h-full object-cover">
+    <!-- Top Right Badge/Pill for type -->
+    <div class="feed-card__price-tag" style="top: var(--space-xs); bottom: auto; background: var(--clr-primary-container); color: var(--clr-primary);">
+      {{ item.subtype.replace('_', ' ') }}
     </div>
-  }
-
-  <div class="actions mt-2 flex gap-2">
-    <button class="btn flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 rounded-xl text-sm" (click)="actionClicked.emit(item)">
-      Reply
-    </button>
   </div>
-</div>
+
+  <!-- Identity -->
+  <header class="feed-card__header">
+    <div class="feed-card__avatar">
+      @if (item.author.avatarUrl) {
+        <img [src]="item.author.avatarUrl" [alt]="item.author.displayName || item.author.username" />
+      } @else {
+        <div class="avatar-placeholder">{{ (item.author.displayName || item.author.username).charAt(0) || 'U' }}</div>
+      }
+    </div>
+    <div class="feed-card__meta">
+      <span class="feed-card__business-name">{{ item.author.displayName || item.author.username }}</span>
+      <span class="feed-card__distance">{{ item.createdAt | date:'shortTime' }} · {{ item.location.name }}</span>
+    </div>
+  </header>
+
+  <!-- Body -->
+  <div class="feed-card__body">
+    <div class="feed-card__context">
+      <h3 class="feed-card__title">{{ item.title }}</h3>
+      @if (item.body) {
+        <p class="feed-card__summary">{{ item.body }}</p>
+      }
+    </div>
+
+    <!-- Actions -->
+    <div class="feed-card__actions">
+      <button class="feed-card__cta" type="button" (click)="actionClicked.emit(item)">
+        Reply
+      </button>
+    </div>
+  </div>
+</article>

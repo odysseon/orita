@@ -1,5 +1,5 @@
-import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, OnDestroy, signal, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DiscoveryService } from '../../core/services/discovery.service';
 import { LocationService } from '../../core/services/location.service';
@@ -8,11 +8,16 @@ import { Subject, timer, Subscription, switchMap, filter, of, Observable } from 
 import { catchError, debounceTime, tap } from 'rxjs/operators';
 import { NearbyItemCard } from './components/nearby-item-card/nearby-item-card';
 import { NewPostSheet } from './components/new-post-sheet/new-post-sheet';
+import { AppHeader } from '../../shared/app-header/app-header';
+import { AppGrid } from '../../shared/grid/grid';
+import { EmptyState } from '../../shared/empty-state/empty-state';
+import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
+import { LucideMapPin } from '@lucide/angular';
 
 @Component({
   selector: 'app-nearby',
   standalone: true,
-  imports: [CommonModule, RouterModule, NearbyItemCard, NewPostSheet],
+  imports: [CommonModule, RouterModule, NearbyItemCard, NewPostSheet, AppHeader, AppGrid, EmptyState, ScrollHideDirective, LucideMapPin],
   templateUrl: './nearby.html',
   styleUrls: ['./nearby.css'],
 })
@@ -35,8 +40,12 @@ export class NearbyPage implements OnInit, OnDestroy {
   hasMore = signal(false);
   showNewPostSheet = signal(false);
 
+  #platformId = inject(PLATFORM_ID);
+
   ngOnInit() {
-    this.#setupRefreshTriggers();
+    if (isPlatformBrowser(this.#platformId)) {
+      this.#setupRefreshTriggers();
+    }
     this.refresh();
   }
 
@@ -44,7 +53,9 @@ export class NearbyPage implements OnInit, OnDestroy {
     this.#destroy$.next();
     this.#destroy$.complete();
     this.#timerSub?.unsubscribe();
-    document.removeEventListener('visibilitychange', this.#onVisibilityChange);
+    if (isPlatformBrowser(this.#platformId)) {
+      document.removeEventListener('visibilitychange', this.#onVisibilityChange);
+    }
   }
 
   #setupRefreshTriggers() {
