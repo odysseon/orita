@@ -9,10 +9,11 @@ import { AuthService } from '../../core/services/auth.service';
 import { DraftMessageService } from '../../core/services/draft-message.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { NotificationsPage } from '../notifications/notifications';
+import { LucideTriangleAlert } from '@lucide/angular';
 
 @Component({
   selector: 'app-messages',
-  imports: [AppHeader, ConversationSidebar, ConversationView, NotificationsPage],
+  imports: [AppHeader, ConversationSidebar, ConversationView, NotificationsPage, LucideTriangleAlert],
   templateUrl: './messages.html',
   styleUrl: './messages.css'
 })
@@ -67,11 +68,25 @@ export class MessagesPage implements OnInit {
     const userId = 'self';
     
     try {
-      await this.messaging.sendMessage(id, dto, userId);
+      await this.messaging.sendMessage(id, dto);
       // Clear drafts on success
       this.#draftStore.clearDraft(id);
     } catch (err) {
       console.error('Failed to send message', err);
+    }
+  }
+
+  onRetry(messageId: string): void {
+    const id = this.activeConversationId();
+    if (id) {
+      this.messaging.retryMessage(id, messageId);
+    }
+  }
+
+  onDiscard(messageId: string): void {
+    const id = this.activeConversationId();
+    if (id) {
+      this.messaging.discardMessage(id, messageId);
     }
   }
 }

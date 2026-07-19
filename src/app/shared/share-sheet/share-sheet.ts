@@ -4,11 +4,12 @@ import { ShareIntent, ShareTarget, UserSearchResult } from '../../core/types/sha
 import { ShareFacade } from '../../core/facades/share/share.facade.js';
 import { PeopleSearchComponent } from '../people-search/people-search.js';
 import { NativeShareService } from '../../core/facades/share/native-share.service.js';
+import { LucideLink, LucideShare } from '@lucide/angular';
 
 @Component({
   selector: 'app-share-sheet',
   standalone: true,
-  imports: [CommonModule, PeopleSearchComponent],
+  imports: [CommonModule, PeopleSearchComponent, LucideLink, LucideShare],
   templateUrl: './share-sheet.html',
   styleUrl: './share-sheet.css',
 })

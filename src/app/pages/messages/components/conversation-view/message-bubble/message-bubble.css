@@ -153,9 +153,22 @@
 }
 
 .error-msg {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: var(--font-size-xs);
   color: var(--clr-error);
   margin-top: var(--size-2);
+}
+
+.error-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+}
+
+.separator {
+  color: var(--text-muted);
 }
 
 .btn-link {

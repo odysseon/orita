@@ -1,6 +1,7 @@
 export type ConversationType = 'DIRECT' | 'GROUP';
 export type ConversationStatus = 'ACTIVE' | 'CLOSED';
 export type MediaType = 'IMAGE' | 'VIDEO';
+export type MessageSyncState = 'LOCAL' | 'SENDING' | 'FAILED' | 'SYNCED';
 
 export interface IMessageReadReceipt {
   messageId: string;
@@ -33,8 +34,7 @@ export interface IMessage {
   readReceipts: IMessageReadReceipt[];
   
   // UI state for optimistic updates
-  isOptimistic?: boolean;
-  isFailed?: boolean;
+  syncState?: MessageSyncState;
 }
 
 export interface IConversationAnchor {

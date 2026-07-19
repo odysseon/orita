@@ -7,11 +7,12 @@ import { UserSearchService } from '../../core/services/user-search.service.js';
 import { UserSearchResult } from '../../core/types/share.types.js';
 
 import { Avatar } from '../ui/avatar/avatar';
+import { LucideSearch, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-people-search',
   standalone: true,
-  imports: [CommonModule, Avatar],
+  imports: [CommonModule, Avatar, LucideSearch, LucideX],
   templateUrl: './people-search.html',
   styleUrl: './people-search.css',
 })

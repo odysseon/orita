@@ -32,6 +32,8 @@ export class ConversationView {
 
   send = output<SendMessageDto>();
   back = output<void>();
+  retry = output<string>();
+  discard = output<string>();
 
   onSend(dto: SendMessageDto): void {
     this.send.emit(dto);

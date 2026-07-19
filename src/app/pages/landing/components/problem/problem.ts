@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Section } from '../section/section';
+import { LucideCheck } from '@lucide/angular';
 
 @Component({
   selector: 'app-problem',
   standalone: true,
-  imports: [Section],
+  imports: [Section, LucideCheck],
   templateUrl: './problem.html',
   styleUrl: './problem.css',
 })

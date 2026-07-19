@@ -29,7 +29,7 @@
         <div class="tour-card__meta-row">
           @if (businessData()?.rating) {
             <span class="tour-card__rating">
-              ★ {{ businessData().rating }}
+              <svg lucideStar class="rating-icon" aria-hidden="true"></svg> {{ businessData().rating }}
             </span>
             <span class="tour-card__dot">•</span>
           }

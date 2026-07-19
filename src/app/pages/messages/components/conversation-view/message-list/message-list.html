@@ -8,7 +8,9 @@
           @for (msg of messages(); track msg.id) {
             <app-message-bubble 
               [message]="msg" 
-              [isMine]="msg.participantId === viewerParticipantId() || !!msg.isOptimistic" 
+              [isMine]="msg.participantId === viewerParticipantId() || msg.syncState !== undefined" 
+              (retry)="retryMessage.emit(msg.id)"
+              (discard)="discardMessage.emit(msg.id)"
             />
           }
         </div>

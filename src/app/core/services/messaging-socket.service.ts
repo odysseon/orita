@@ -18,9 +18,11 @@ export class MessagingSocket implements OnDestroy {
   // Emit events to the Store
   #messageNew$ = new Subject<WsMessageNewEvent>();
   #messageRead$ = new Subject<WsReadReceiptEvent>();
+  #connected$ = new Subject<void>();
 
   readonly messageNew$: Observable<WsMessageNewEvent> = this.#messageNew$.asObservable();
   readonly messageRead$: Observable<WsReadReceiptEvent> = this.#messageRead$.asObservable();
+  readonly connected$: Observable<void> = this.#connected$.asObservable();
 
   connect(): void {
     if (this.#socket?.connected) return;
@@ -37,6 +39,7 @@ export class MessagingSocket implements OnDestroy {
 
     this.#socket.on('connect', () => {
       console.log('MessagingSocket connected');
+      this.#connected$.next();
     });
 
     this.#socket.on('disconnect', () => {

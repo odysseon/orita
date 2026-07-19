@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { LucideCompass, LucideStore } from '@lucide/angular';
+import { LucideCompass, LucideStore, LucideGlobe } from '@lucide/angular';
 import { LocationSelector } from '../../shared/location-selector/location-selector';
 import { Location } from '../../core/services/location.service';
 import { ExplorationService } from '../../core/services/exploration.service';
@@ -13,7 +13,7 @@ import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-welcome',
-  imports: [LucideCompass, LucideStore, LocationSelector, SeoComponent, Logo, CategoryBrowser],
+  imports: [LucideCompass, LucideStore, LucideGlobe, LocationSelector, SeoComponent, Logo, CategoryBrowser],
   templateUrl: './welcome.html',
   styleUrl: './welcome.css',
 })

@@ -11,7 +11,7 @@
           <span class="msg-sender">{{ message().senderDisplayName }}</span>
         }
         
-        <div class="msg-bubble-card" [class.optimistic]="message().isOptimistic" [class.failed]="message().isFailed">
+        <div class="msg-bubble-card" [class.optimistic]="message().syncState === 'SENDING' || message().syncState === 'LOCAL'" [class.failed]="message().syncState === 'FAILED'">
           
           @if (message().mediaUrl) {
             @if (message().mediaType === 'VIDEO') {
@@ -49,9 +49,9 @@
             
             @if (isMine()) {
               <span class="msg-status">
-                @if (message().isFailed) {
+                @if (message().syncState === 'FAILED') {
                   <svg lucideAlertCircle class="status-icon text-error" aria-hidden="true"></svg>
-                } @else if (message().isOptimistic) {
+                } @else if (message().syncState === 'SENDING' || message().syncState === 'LOCAL') {
                   <svg lucideClock class="status-icon" aria-hidden="true"></svg>
                 } @else if (message().readReceipts?.length) {
                   <svg lucideCheckCheck class="status-icon text-primary" aria-hidden="true"></svg>
@@ -63,8 +63,15 @@
           </div>
         </div>
 
-        @if (message().isFailed) {
-          <span class="error-msg">Failed to send. <button type="button" class="btn-link">Retry</button></span>
+        @if (message().syncState === 'FAILED') {
+          <div class="error-msg">
+            <span class="error-text">❗ Not sent</span>
+            <div class="error-actions">
+              <button type="button" class="btn-link" (click)="retry.emit()">Retry</button>
+              <span class="separator">·</span>
+              <button type="button" class="btn-link" (click)="discard.emit()">Discard</button>
+            </div>
+          </div>
         }
       </div>
     </div>

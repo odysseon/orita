@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Section } from '../section/section';
+import { LucideCheck } from '@lucide/angular';
 
 @Component({
   selector: 'app-business-cta',
   standalone: true,
-  imports: [Section, RouterLink],
+  imports: [Section, RouterLink, LucideCheck],
   templateUrl: './business-cta.html',
   styleUrl: './business-cta.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

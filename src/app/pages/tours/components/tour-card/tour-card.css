@@ -101,8 +101,17 @@
 }
 
 .tour-card__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-4);
   font-weight: 600;
   color: var(--clr-warning);
+}
+
+.rating-icon {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
 }
 
 .tour-card__status {

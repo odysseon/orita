@@ -23,6 +23,8 @@
     <app-message-list
       [messages]="messages()"
       [viewerParticipantId]="viewerParticipantId()"
+      (retryMessage)="retry.emit($event)"
+      (discardMessage)="discard.emit($event)"
     />
 
     <app-message-composer

@@ -104,7 +104,7 @@ export class MessageStore {
         senderDisplayName: message.senderDisplayName,
         createdAt: message.createdAt,
         previewType: message.embeds?.length ? 'EMBED' : (message.mediaUrl ? 'MEDIA' : 'TEXT'),
-        snippet: message.embeds?.length ? (message.embeds[0].embedType === 'BUSINESS' ? '📍 Shared a business' : 'Shared an item') : (message.content || 'Sent a message')
+        snippet: message.embeds?.length ? (message.embeds[0].embedType === 'BUSINESS' ? 'Shared a business' : 'Shared an item') : (message.content || 'Sent a message')
       };
 
       copy[idx] = { ...copy[idx], latestMessage: preview, lastActivityAt: message.createdAt };

@@ -36,12 +36,12 @@
 
   <div class="section actions">
     <button class="action-btn" (click)="copyLink()">
-      <i class="icon">🔗</i> Copy Link
+      <svg lucideLink class="icon" aria-hidden="true"></svg> Copy Link
     </button>
     
     @if (canNativeShare) {
       <button class="action-btn" (click)="nativeShare()">
-        <i class="icon">📤</i> Share via...
+        <svg lucideShare class="icon" aria-hidden="true"></svg> Share via...
       </button>
     }
   </div>

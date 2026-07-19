@@ -1,4 +1,4 @@
-import { Component, input, ViewChild, ElementRef, AfterViewChecked, effect } from '@angular/core';
+import { Component, input, output, ViewChild, ElementRef, AfterViewChecked, effect } from '@angular/core';
 import { MessageBubble } from '../message-bubble/message-bubble';
 import { IMessage } from '../../../../../core/services/messaging.types';
 
@@ -11,6 +11,9 @@ import { IMessage } from '../../../../../core/services/messaging.types';
 export class MessageList implements AfterViewChecked {
   messages = input<IMessage[]>([]);
   viewerParticipantId = input<string | undefined>(undefined);
+
+  retryMessage = output<string>();
+  discardMessage = output<string>();
 
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 

@@ -10,7 +10,8 @@ import {
   LucideWifi,
   LucideCar,
   LucideCreditCard,
-  LucideBaby
+  LucideBaby,
+  LucideStar
 } from '@lucide/angular';
 import { IBusinessTour } from '../../../../core/services/business-tour.service';
 
@@ -25,7 +26,8 @@ import { IBusinessTour } from '../../../../core/services/business-tour.service';
     LucideWifi,
     LucideCar,
     LucideCreditCard,
-    LucideBaby
+    LucideBaby,
+    LucideStar
   ],
   templateUrl: './tour-card.html',
   styleUrl: './tour-card.css',
