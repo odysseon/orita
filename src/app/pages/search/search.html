@@ -6,12 +6,13 @@
     [uiScrollHide]="true"
     scrollHidePosition="top"
   >
-    <div class="search-bar">
+    <div left-content class="search-bar" style="width: 100%; min-width: 0;">
       <input 
         type="text" 
         [value]="rawQuery()"
         (input)="onSearchInput($event)"
         placeholder="Search for something..." 
+        style="width: 100%;"
       />
       <svg icon lucideSearch class="icon-search" aria-hidden="true"></svg>
       
@@ -66,6 +67,16 @@
           Businesses
           @if (businessesResource.hasValue() && searchType() === 'business' && !isDebouncing()) {
             <span class="count">({{ businessesResource.value()?.total || 0 }})</span>
+          }
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="searchType() === 'tour'"
+          (click)="setSearchType('tour')"
+        >
+          Tours
+          @if (toursResource.hasValue() && searchType() === 'tour' && !isDebouncing()) {
+            <span class="count">({{ toursResource.value()?.total || 0 }})</span>
           }
         </button>
         <button 
@@ -199,6 +210,22 @@
           </section>
         }
 
+        @if (toursResource.hasValue() && toursResource.value()?.items?.length) {
+          <section class="section">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 class="section__title">Tours</h2>
+              @if ((toursResource.value()?.total || 0) > 5) {
+                <button class="btn-text" (click)="setSearchType('tour')">See all</button>
+              }
+            </div>
+            <app-grid>
+              @for (tour of toursResource.value()?.items || []; track tour.id) {
+                <app-tour-card [tour]="tour" />
+              }
+            </app-grid>
+          </section>
+        }
+
         @if (locationsResource.hasValue() && locationsResource.value()?.length) {
           <section class="section">
             <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
@@ -215,7 +242,7 @@
           </section>
         }
         
-        @if (!usersResource.value()?.items?.length && !businessesResource.value()?.items?.length && !listingsResource.value()?.items?.length && !locationsResource.value()?.length) {
+        @if (!usersResource.value()?.items?.length && !businessesResource.value()?.items?.length && !listingsResource.value()?.items?.length && !toursResource.value()?.items?.length && !locationsResource.value()?.length) {
           <ui-empty-state
             title="No results found"
             description="We couldn't find anything matching your search."
@@ -270,6 +297,24 @@
           <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
         </ui-empty-state>
       } @else if ((listingsResource.value()?.items?.length || 0) < (listingsResource.value()?.total || 0)) {
+        <div style="text-align: center; margin-top: 2rem;">
+          <button class="btn btn-outline" (click)="loadMore()">Load More</button>
+        </div>
+      }
+    } @else if (searchType() === 'tour') {
+      <app-grid>
+        @for (tour of toursResource.value()?.items || []; track tour.id) {
+          <app-tour-card [tour]="tour" />
+        }
+      </app-grid>
+      @if ((toursResource.value()?.items?.length || 0) === 0) {
+        <ui-empty-state
+          title="No tours found"
+          description="We couldn't find any tours matching your search."
+        >
+          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+        </ui-empty-state>
+      } @else if ((toursResource.value()?.items?.length || 0) < (toursResource.value()?.total || 0)) {
         <div style="text-align: center; margin-top: 2rem;">
           <button class="btn btn-outline" (click)="loadMore()">Load More</button>
         </div>

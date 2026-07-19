@@ -1,10 +1,12 @@
 <div class="sub-layout">
   <ui-app-header [showLogo]="false" [showLocationPill]="false" [uiScrollHide]="true" scrollHidePosition="top">
-    <div left-content class="sub-layout__header">
+    <div left-content class="sub-layout__header-left">
       <button class="btn-back" (click)="handleBack()" type="button" aria-label="Go back">
         <svg lucideArrowLeft aria-hidden="true"></svg>
         Back
       </button>
+    </div>
+    <div center-content class="sub-layout__header-center">
       @if (title()) {
         <h1 class="page-title">{{ title() }}</h1>
       }

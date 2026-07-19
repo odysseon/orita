@@ -6,8 +6,7 @@
   [showCloseButton]="false"
 >
   <div class="share-modal-content">
-    
-    <!-- Header: target info -->
+
     <div class="target-header">
       @if (imageUrl()) {
         <img [src]="imageUrl()" class="target-image" alt="Thumbnail" />
@@ -27,11 +26,10 @@
 
     @if (!isAuthenticated()) {
       <div class="auth-prompt">
-        <p>Sign in to send to other users on Orita.</p>
-        <!-- Assuming they have an auth flow somewhere else, this is just a message -->
+        <p>Sign in to send to other people on Orita.</p>
       </div>
     } @else {
-      <!-- Search Input -->
+
       <div class="search-box">
         <svg lucideSearch class="search-icon" aria-hidden="true"></svg>
         <input
@@ -43,14 +41,19 @@
         />
       </div>
 
-      <!-- Recipient Lists -->
       <div class="recipients-container">
-        
         @if (searchQuery().trim()) {
           <div class="section">
-            <h4 class="section-title">Search Results</h4>
+            <h4 class="section-title">Search results</h4>
             @if (isSearching()) {
-              <div class="loading-state">Searching...</div>
+              <div class="loading-state">
+                @for (i of [1,2,3]; track i) {
+                  <div class="loading-row">
+                    <div class="skeleton skeleton-avatar"></div>
+                    <div class="skeleton skeleton-line"></div>
+                  </div>
+                }
+              </div>
             } @else if (searchResults().length > 0) {
               <ul class="user-list">
                 @for (user of searchResults(); track user.id) {
@@ -60,16 +63,15 @@
                     [username]="user.username"
                     [selected]="isSelected(user.id)"
                     [sent]="isSent(user.id)"
-                    (toggle)="toggleRecipient(user.id)"
+                    (toggle)="toggleRecipient(user)"
                   />
                 }
               </ul>
             } @else {
-              <div class="empty-state">No users found.</div>
+              <div class="empty-state">No one found. Try a different name.</div>
             }
           </div>
         } @else {
-          <!-- Recent / Suggested -->
           @if (suggested().length > 0) {
             <div class="section">
               <h4 class="section-title">Suggested</h4>
@@ -81,18 +83,35 @@
                     [username]="user.username"
                     [selected]="isSelected(user.userId)"
                     [sent]="isSent(user.userId)"
-                    (toggle)="toggleRecipient(user.userId)"
+                    (toggle)="toggleRecipient(user)"
                   />
                 }
               </ul>
             </div>
           } @else {
-            <div class="empty-state">Search for people to send to.</div>
+            <div class="empty-state">Search for people to send this to.</div>
           }
         }
       </div>
 
-      <!-- Composer Row -->
+      @if (selectedUsers().length > 0) {
+        <div class="selected-strip">
+          @for (u of selectedUsers(); track u.id) {
+            <div class="selected-chip">
+              @if (u.avatarUrl) {
+                <img [src]="u.avatarUrl" alt="" />
+              } @else {
+                <div class="avatar-placeholder"></div>
+              }
+              <span>{{ u.displayName || u.username }}</span>
+              <button (click)="toggleRecipient(u)" aria-label="Remove {{ u.displayName || u.username }}">
+                <svg lucideX aria-hidden="true"></svg>
+              </button>
+            </div>
+          }
+        </div>
+      }
+
       <div class="composer-row">
         <input
           type="text"

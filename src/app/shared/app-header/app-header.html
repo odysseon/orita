@@ -14,18 +14,18 @@
     </div>
   } @else {
     <div class="header-center absolute-center">
+      @if (showLocationPill()) {
+        <button class="location-pill" (click)="toggleDrawer()">
+          <svg lucideMapPin aria-hidden="true"></svg>
+          <span>{{ activeLocation()?.name || 'Set location' }}</span>
+          <svg lucideChevronDown aria-hidden="true"></svg>
+        </button>
+      }
       <ng-content select="[center-content]"></ng-content>
     </div>
   }
 
   <div class="header-actions">
-    @if (showLocationPill()) {
-      <button class="location-pill" (click)="toggleDrawer()">
-        <svg lucideMapPin aria-hidden="true"></svg>
-        <span>{{ activeLocation()?.name || 'Set location' }}</span>
-        <svg lucideChevronDown aria-hidden="true"></svg>
-      </button>
-    }
     <ng-content></ng-content>
     <button class="header-avatar-btn" (click)="goToProfile()" aria-label="Profile">
       @if (authService.token()) {
