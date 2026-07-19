@@ -33,6 +33,7 @@ export class AppHeader {
   readonly showLogo = input<boolean>(true);
   readonly pageTitle = input<string>();
   readonly showLocationPill = input<boolean>(false);
+  readonly showProfileBtn = input<boolean>(true);
   readonly layout = input<'default' | 'wide'>('default');
 
   #exploration = inject(ExplorationService);
