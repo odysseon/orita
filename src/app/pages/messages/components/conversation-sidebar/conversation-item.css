@@ -7,7 +7,7 @@
   border-bottom: var(--size-1) solid var(--border-subtle);
   cursor: pointer;
   text-align: left;
-  background-color: none;
+  background: none;
   transition: background-color var(--transition-fast);
 }
 
