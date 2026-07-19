@@ -1,6 +1,7 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { httpResource } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { form, FormField, required, minLength, email } from '@angular/forms/signals';
 import { LucideLoaderCircle } from '@lucide/angular';
@@ -25,6 +26,7 @@ export class EditProfile {
   #http = inject(HttpClient);
   #toast = inject(ToastService);
   #media = inject(MediaService);
+  #router = inject(Router);
 
   readonly profile = httpResource<IProfile>(() => `${environment.apiUrl}/users/me`);
   readonly loading = signal(false);
@@ -81,6 +83,7 @@ export class EditProfile {
 
       this.#toast.success('Profile updated', 'Your personal details have been saved.');
       this.profile.reload();
+      this.#router.navigate(['/profile']);
     } catch (err) {
       const message =
         err instanceof HttpErrorResponse
