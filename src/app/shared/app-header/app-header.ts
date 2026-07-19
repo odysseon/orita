@@ -1,7 +1,8 @@
 import { Component, input, inject, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Logo } from '../logo/logo';
-import { LucideChevronDown, LucideMapPin, LucideUser, LucideLogIn } from '@lucide/angular';
+import { AppAvatar } from '../components/avatar/avatar';
+import { LucideChevronDown, LucideMapPin, LucideLogIn } from '@lucide/angular';
 import { ExplorationService } from '../../core/services/exploration.service';
 import { ActiveLocation } from '../../core/services/exploration-storage';
 import { Drawer } from '../drawer/drawer';
@@ -17,10 +18,10 @@ import { Router } from '@angular/router';
     Logo,
     LucideChevronDown,
     LucideMapPin,
-    LucideUser,
     LucideLogIn,
     Drawer,
     LocationSelector,
+    AppAvatar,
   ],
   templateUrl: './app-header.html',
   styleUrl: './app-header.css',

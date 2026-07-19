@@ -20,6 +20,7 @@ import { environment } from '../../../environments/environment';
 import { CreateBusiness } from './business/create/create-business';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { AppHeader } from '../../shared/app-header/app-header';
+import { AppAvatar } from '../../shared/components/avatar/avatar';
 
 interface NavItem {
   icon: LucideIconInput;
@@ -79,7 +80,6 @@ const START_BUSINESS: NavItem = {
 @Component({
   selector: 'app-profile',
   imports: [
-    LucideUser,
     LucideDynamicIcon,
     LucideChevronRight,
     LucideLogOut,
@@ -87,6 +87,7 @@ const START_BUSINESS: NavItem = {
     CreateBusiness,
     SeoComponent,
     AppHeader,
+    AppAvatar,
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
