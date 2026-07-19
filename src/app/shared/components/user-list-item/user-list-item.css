@@ -1,0 +1,74 @@
+.user-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-4);
+  cursor: pointer;
+}
+.user-item:hover {
+  background: var(--surface-hover);
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--surface-sunken);
+  margin-right: var(--spacing-3);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-handle {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.user-action {
+  margin-left: var(--spacing-3);
+  display: flex;
+  align-items: center;
+}
+
+.user-action input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--brand-primary);
+  cursor: pointer;
+}
+
+.sent-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--status-success);
+  background: var(--status-success-bg);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+.sent-badge svg {
+  width: 14px;
+  height: 14px;
+}

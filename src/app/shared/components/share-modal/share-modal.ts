@@ -8,12 +8,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { Drawer } from '../../drawer/drawer';
-import { LucideSearch, LucideCheck, LucideSend, LucideX } from '@lucide/angular';
+import { UserListItem } from '../user-list-item/user-list-item';
+import { LucideSearch, LucideSend, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-share-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, Drawer, LucideSearch, LucideCheck, LucideSend, LucideX],
+  imports: [CommonModule, FormsModule, Drawer, UserListItem, LucideSearch, LucideSend, LucideX],
   templateUrl: './share-modal.html',
   styleUrl: './share-modal.css',
 })
