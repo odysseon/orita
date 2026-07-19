@@ -17,11 +17,11 @@
 
   @if (activeTab === 'inbox') {
     <main class="messages-layout">
-      
+
       <!-- Sidebar: hidden on mobile if a chat is active -->
       @if (isDesktop() || !activeConversationId()) {
         <div class="layout-sidebar">
-          <app-conversation-sidebar 
+          <app-conversation-sidebar
             [conversations]="messaging.conversations()"
             [activeId]="activeConversationId()"
             (selectConversation)="onSelectConversation($event)"
@@ -37,15 +37,15 @@
               <div class="empty-icon">⚠️</div>
               <h3>Failed to load</h3>
               <p>We couldn't load this conversation. Please try again.</p>
-              <button class="btn btn-primary" style="margin-top: 1rem;" (click)="onSelectConversation(activeConversationId()!)">Retry</button>
+              <button class="btn btn-primary" style="margin-top: var(--space-sm);" (click)="onSelectConversation(activeConversationId()!)">Retry</button>
             </div>
           } @else if (activeConversationId() && messaging.conversationStatus()[activeConversationId()!] === 'loading') {
             <div class="empty-view">
               <div class="spinner"></div>
-              <p style="margin-top: 1rem; color: var(--text-secondary);">Loading messages...</p>
+              <p style="margin-top: var(--space-sm); color: var(--text-secondary);">Loading messages...</p>
             </div>
           } @else {
-            <app-conversation-view 
+            <app-conversation-view
               [conversation]="messaging.activeConversation()"
               [messages]="messaging.activeMessages()"
               [viewerParticipantId]="viewerParticipantId()"

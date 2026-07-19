@@ -3,9 +3,9 @@
         <h2>Messages</h2>
         <div class="search-box">
           <svg lucideSearch aria-hidden="true"></svg>
-          <input 
-            type="text" 
-            placeholder="Search conversations..." 
+          <input
+            type="text"
+            placeholder="Search conversations..."
             [(ngModel)]="searchQuery"
           />
         </div>
@@ -16,7 +16,7 @@
           <div class="empty-state">
             <h3>Your conversations will appear here.</h3>
             <p>Start by discovering people and businesses around you. Follow those you're interested in, and your network will grow.</p>
-            <a routerLink="/search" class="btn-primary">Discover people & places</a>
+            <a routerLink="/search" class="btn--primary">Discover people & places</a>
           </div>
         } @else if (filteredConversations().length === 0) {
           <div class="empty-state">
