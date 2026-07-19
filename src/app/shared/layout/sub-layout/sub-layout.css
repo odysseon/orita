@@ -9,20 +9,19 @@
   background: var(--surface-page);
 }
 
-.sub-layout__header {
+.sub-layout__header-left {
+  display: flex;
+  align-items: center;
+}
+
+.sub-layout__header-center {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  position: relative;
-  min-height: var(--size-32); /* Ensure header has height even without title */
 }
 
 .btn-back {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
   background: transparent;
   border: none;
   padding: var(--size-8);
@@ -59,7 +58,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
-  max-width: 60%; /* Prevent title from overlapping the back button */
+  max-width: 100%;
+
 }
 
 .sub-layout__content {

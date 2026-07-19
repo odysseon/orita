@@ -2,29 +2,30 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  max-height: 80vh;
-  background: var(--surface-default);
+  max-height: min(80vh, 80dvh);
+  overflow-x: hidden;
+  background: var(--surface-card);
   padding-bottom: env(safe-area-inset-bottom);
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
 }
 
+/* -- Header ------------------------------------------------- */
 .target-header {
   display: flex;
   align-items: center;
-  padding: var(--spacing-4);
-  border-bottom: 1px solid var(--border-subtle);
-  position: relative;
+  padding: var(--space-sm);
+  gap: var(--size-12);
+  border-bottom: var(--size-1) solid var(--border-subtle);
 }
 
 .target-image,
 .target-image-placeholder {
-  width: 48px;
-  height: 48px;
+  width: var(--size-48);
+  height: var(--size-48);
   border-radius: var(--radius-md);
   object-fit: cover;
   flex-shrink: 0;
-  background-color: var(--surface-sunken);
-  margin-right: var(--spacing-3);
+  background-color: var(--surface-container);
 }
 
 .target-info {
@@ -33,8 +34,8 @@
 }
 
 .target-title {
-  font-size: var(--font-size-md);
-  font-weight: 600;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   margin: 0;
   white-space: nowrap;
@@ -45,78 +46,103 @@
 .target-subtitle {
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
-  margin: 2px 0 0;
+  margin: var(--size-2) 0 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-40); /* was 32 — under Apple's 44pt / Material's 40dp min tap target */
+  height: var(--size-40);
+  border-radius: var(--radius-pill);
   background: transparent;
   border: none;
   color: var(--text-secondary);
   cursor: pointer;
-  padding: var(--spacing-2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
 }
+
 .close-btn:hover {
+  background: var(--surface-container);
   color: var(--text-primary);
 }
 
+/* -- Auth prompt ---------------------------------------------- */
 .auth-prompt {
-  padding: var(--spacing-6) var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xl) var(--space-sm);
   text-align: center;
   color: var(--text-secondary);
+  font-size: var(--font-size-md);
 }
 
+/* -- Search ----------------------------------------------------- */
 .search-box {
   display: flex;
   align-items: center;
-  padding: var(--size-16);
-  border-bottom: 1px solid var(--border-subtle);
+  padding: var(--space-sm) var(--space-sm) var(--space-xs);
   position: relative;
 }
 
 .search-icon {
   position: absolute;
-  left: calc(var(--size-16) + var(--size-12));
-  color: var(--text-tertiary);
-  width: 20px;
-  height: 20px;
+  left: calc(var(--space-sm) * 2);
+  width: var(--size-20);
+  height: var(--size-20);
+  color: var(--text-muted);
+  pointer-events: none;
 }
 
 .search-input {
   width: 100%;
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1-5) solid transparent;
   background: var(--surface-container);
-  padding: var(--size-12) var(--size-16) var(--size-12) 42px;
-  border-radius: var(--radius-xl);
-  font-size: var(--size-16);
+  padding: var(--size-12) var(--space-sm) var(--size-12) var(--size-48);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-lg); /* 16px — stays at/above iOS zoom threshold */
+  font-family: var(--font-sans);
+  color: var(--text-primary);
   outline: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
-}
-.search-input:focus {
-  background: var(--surface-default);
-  border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px var(--brand-primary-subtle, rgba(0, 102, 255, 0.1));
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-input:focus {
+  background: var(--surface-card);
+  border-color: var(--clr-primary);
+}
+
+/* -- Recipient list ------------------------------------------- */
 .recipients-container {
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-2) 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain; /* stop scroll chaining into the page/drawer drag */
+  padding: var(--space-xs) 0;
 }
 
 .section-title {
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   text-transform: uppercase;
-  font-weight: 600;
-  color: var(--text-tertiary);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
   letter-spacing: 0.05em;
-  padding: var(--spacing-2) var(--spacing-4);
+  padding: var(--space-xs) var(--space-sm);
   margin: 0;
 }
 
@@ -127,73 +153,227 @@
 }
 
 .empty-state {
-  padding: var(--spacing-6) var(--spacing-4);
+  padding: var(--space-lg) var(--space-sm);
   text-align: center;
-  color: var(--text-tertiary);
-  font-size: var(--font-size-sm);
-}
-.loading-state {
-  padding: var(--spacing-4);
-  text-align: center;
-  color: var(--text-secondary);
-  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  font-size: var(--font-size-md);
 }
 
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.loading-row {
+  display: flex;
+  align-items: center;
+  gap: var(--size-12);
+  padding: var(--size-8) 0;
+}
+
+.loading-row .skeleton-avatar {
+  width: var(--size-40);
+  height: var(--size-40);
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+
+.loading-row .skeleton-line {
+  height: var(--size-14);
+  width: 60%;
+  border-radius: var(--radius-xs);
+}
+
+/* -- Selected chips strip --------------------------------------- */
+.selected-strip {
+  display: flex;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  border-top: var(--size-1) solid var(--border-subtle);
+  background: var(--surface-container);
+}
+
+.selected-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--size-6);
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  padding: var(--size-4) var(--size-8) var(--size-4) var(--size-4);
+  background: var(--surface-card);
+  border: var(--size-1) solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+}
+
+.selected-chip img,
+.selected-chip .avatar-placeholder {
+  width: var(--size-24);
+  height: var(--size-24);
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+  background: var(--surface-container-high);
+  flex-shrink: 0;
+}
+
+.selected-chip span {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  max-width: var(--size-80);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selected-chip button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-20);
+  height: var(--size-20);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--surface-container-high);
+  color: var(--text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Invisible hit-slop: keeps the visual chip small but the tap target ~40px */
+.selected-chip button::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--size-10) * -1);
+}
+
+.selected-chip button:hover {
+  background: var(--clr-error-container);
+  color: var(--clr-error);
+}
+
+.selected-chip button svg {
+  width: var(--size-10);
+  height: var(--size-10);
+}
+
+/* -- Composer ----------------------------------------------------- */
 .composer-row {
   display: flex;
   align-items: center;
-  gap: var(--spacing-3);
-  padding: var(--spacing-3) var(--spacing-4);
-  border-top: 1px solid var(--border-subtle);
-  background: var(--surface-default);
+  gap: var(--size-12);
+  padding: var(--space-xs) var(--space-sm);
+  border-top: var(--size-1) solid var(--border-subtle);
+  background: var(--surface-card);
 }
 
 .message-input {
   flex: 1;
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-full);
-  padding: 10px 16px;
-  font-size: var(--font-size-sm);
+  min-width: 0;
+  border: var(--size-1-5) solid var(--border-default);
+  border-radius: var(--radius-pill);
+  padding: var(--size-10) var(--space-sm);
+  font-size: var(--font-size-lg); /* was font-size-sm (12px) — triggered iOS auto-zoom on focus */
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--surface-container);
   outline: none;
+  transition: border-color var(--transition-fast);
 }
+
+.message-input::placeholder {
+  color: var(--text-muted);
+}
+
 .message-input:focus {
-  border-color: var(--brand-primary);
+  border-color: var(--clr-primary);
+  background: var(--surface-card);
 }
 
 .send-btn {
   display: flex;
   align-items: center;
-  gap: var(--spacing-2);
-  background: var(--brand-primary);
-  color: white;
+  gap: var(--size-6);
+  min-height: var(--size-40); /* was implicit ~32px via padding */
+  background: var(--clr-primary);
+  color: var(--clr-on-primary);
   border: none;
-  border-radius: var(--radius-full);
-  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  padding: var(--size-8) var(--space-sm);
   font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background var(--transition-fast),
+    opacity var(--transition-fast);
 }
+
+.send-btn:hover:not(:disabled) {
+  background: var(--clr-primary-dark);
+}
+
 .send-btn:disabled {
-  background: var(--surface-sunken);
-  color: var(--text-tertiary);
+  background: var(--surface-container-high);
+  color: var(--text-muted);
   cursor: not-allowed;
 }
 
 .send-badge {
-  background: white;
-  color: var(--brand-primary);
-  font-size: 10px;
-  font-weight: 700;
-  min-width: 16px;
-  height: 16px;
-  border-radius: var(--radius-full);
+  background: var(--clr-on-primary);
+  color: var(--clr-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  min-width: var(--size-16);
+  height: var(--size-16);
+  border-radius: var(--radius-pill);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 4px;
+  padding: 0 var(--size-4);
 }
 
 .send-icon {
-  width: 16px;
-  height: 16px;
+  width: var(--size-16);
+  height: var(--size-16);
+}
+
+/* -- Small phones: tighten density ------------------------------- */
+@media (max-width: 380px) {
+  .target-image,
+  .target-image-placeholder {
+    width: var(--size-40);
+    height: var(--size-40);
+  }
+
+  .selected-chip span {
+    max-width: var(--size-64);
+  }
+}
+
+/* -- Tablet / desktop: stop being a full-bleed sheet -------------- */
+@media (min-width: 640px) {
+  .share-modal-content {
+    max-width: var(--size-480);
+    max-height: 640px;
+    margin-inline: auto;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+}
+
+/* -- Reduced motion ------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .close-btn,
+  .search-input,
+  .message-input,
+  .send-btn {
+    transition-duration: 1ms;
+  }
 }

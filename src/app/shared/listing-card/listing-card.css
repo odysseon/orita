@@ -6,19 +6,14 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  background: var(--surface-card);
   border-radius: var(--radius-lg);
   overflow: hidden;
   text-decoration: none;
-  border: 1px solid transparent;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 .listing-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05);
-  border-color: rgba(var(--clr-primary-rgb), 0.15);
 }
 
 .listing-card__image-wrapper {
@@ -144,8 +139,7 @@
 }
 
 .listing-card__body {
-  padding: 16px;
-  background: var(--surface-card);
+  padding: 16px 0;
 }
 
 .listing-card__title {

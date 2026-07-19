@@ -106,11 +106,17 @@
   background-color: var(--background);
   padding: 0.25rem;
   border-radius: var(--radius-md);
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.search-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .tab-btn {
-  flex: 1;
-  padding: 0.5rem;
+  flex: 1 0 auto;
+  padding: 0.5rem 1rem;
   border: none;
   background: transparent;
   border-radius: var(--radius-sm);
@@ -122,6 +128,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
+  white-space: nowrap;
 }
 
 .tab-btn .count {

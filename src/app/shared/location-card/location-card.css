@@ -2,17 +2,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  padding: 8px 0;
   border-radius: 12px;
   gap: 16px;
-  transition: border-color 0.2s, background-color 0.2s;
+  transition: opacity 0.2s;
 }
 
 :host(:hover) {
-  border-color: var(--border-hover, var(--border));
-  background: var(--surface-hover, var(--surface));
+  opacity: 0.9;
 }
 
 .location-info {

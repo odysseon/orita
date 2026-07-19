@@ -1,19 +1,17 @@
 .user-item {
   display: flex;
   align-items: center;
-  padding: var(--size-12) var(--size-16);
+  padding: var(--size-12) 0;
   cursor: pointer;
-  border: 1px solid transparent;
   border-radius: var(--radius-lg);
   margin-bottom: var(--size-4);
-  transition: all 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 .user-item:hover {
-  background: var(--surface-hover);
+  opacity: 0.8;
 }
 .user-item.selected {
-  border-color: var(--brand-primary);
-  background: var(--brand-primary-subtle, rgba(0, 102, 255, 0.04));
+  /* You can add a subtle text color change or just rely on the checkmark */
 }
 
 .user-avatar {
