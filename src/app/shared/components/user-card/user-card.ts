@@ -10,7 +10,7 @@ import { LucideMapPin } from '@lucide/angular';
   standalone: true,
   imports: [CommonModule, RouterLink, Avatar, LucideMapPin],
   template: `
-    <a [routerLink]="['/users', user().username]" class="user-card-link">
+    <a [routerLink]="['/u', user().username]" class="user-card-link">
       <div class="user-card">
         <ui-avatar
           [src]="user().avatarUrl"

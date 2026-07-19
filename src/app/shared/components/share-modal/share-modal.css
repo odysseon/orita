@@ -52,27 +52,7 @@
   text-overflow: ellipsis;
 }
 
-.close-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--size-40); /* was 32 — under Apple's 44pt / Material's 40dp min tap target */
-  height: var(--size-40);
-  border-radius: var(--radius-pill);
-  background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition:
-    background var(--transition-fast),
-    color var(--transition-fast);
-}
 
-.close-btn:hover {
-  background: var(--surface-container);
-  color: var(--text-primary);
-}
 
 /* -- Auth prompt ---------------------------------------------- */
 .auth-prompt {
@@ -104,18 +84,9 @@
 }
 
 .search-input {
-  width: 100%;
-  border: var(--size-1-5) solid transparent;
-  background: var(--surface-container);
-  padding: var(--size-12) var(--space-sm) var(--size-12) var(--size-48);
+  padding-left: var(--size-48);
   border-radius: var(--radius-pill);
-  font-size: var(--font-size-lg); /* 16px — stays at/above iOS zoom threshold */
-  font-family: var(--font-sans);
-  color: var(--text-primary);
-  outline: none;
-  transition:
-    background var(--transition-fast),
-    border-color var(--transition-fast);
+  background: var(--surface-container);
 }
 
 .search-input::placeholder {
@@ -125,143 +96,6 @@
 .search-input:focus {
   background: var(--surface-card);
   border-color: var(--clr-primary);
-}
-
-/* -- Recipient list ------------------------------------------- */
-.recipients-container {
-  flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain; /* stop scroll chaining into the page/drawer drag */
-  padding: var(--space-xs) 0;
-}
-
-.section-title {
-  font-size: var(--font-size-xs);
-  text-transform: uppercase;
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-muted);
-  letter-spacing: 0.05em;
-  padding: var(--space-xs) var(--space-sm);
-  margin: 0;
-}
-
-.user-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.empty-state {
-  padding: var(--space-lg) var(--space-sm);
-  text-align: center;
-  color: var(--text-muted);
-  font-size: var(--font-size-md);
-}
-
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-xs) var(--space-sm);
-}
-
-.loading-row {
-  display: flex;
-  align-items: center;
-  gap: var(--size-12);
-  padding: var(--size-8) 0;
-}
-
-.loading-row .skeleton-avatar {
-  width: var(--size-40);
-  height: var(--size-40);
-  border-radius: var(--radius-pill);
-  flex-shrink: 0;
-}
-
-.loading-row .skeleton-line {
-  height: var(--size-14);
-  width: 60%;
-  border-radius: var(--radius-xs);
-}
-
-/* -- Selected chips strip --------------------------------------- */
-.selected-strip {
-  display: flex;
-  gap: var(--space-xs);
-  padding: var(--space-xs) var(--space-sm);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x proximity;
-  border-top: var(--size-1) solid var(--border-subtle);
-  background: var(--surface-container);
-}
-
-.selected-chip {
-  display: flex;
-  align-items: center;
-  gap: var(--size-6);
-  flex-shrink: 0;
-  scroll-snap-align: start;
-  padding: var(--size-4) var(--size-8) var(--size-4) var(--size-4);
-  background: var(--surface-card);
-  border: var(--size-1) solid var(--border-subtle);
-  border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-sm);
-}
-
-.selected-chip img,
-.selected-chip .avatar-placeholder {
-  width: var(--size-24);
-  height: var(--size-24);
-  border-radius: var(--radius-pill);
-  object-fit: cover;
-  background: var(--surface-container-high);
-  flex-shrink: 0;
-}
-
-.selected-chip span {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
-  max-width: var(--size-80);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.selected-chip button {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--size-20);
-  height: var(--size-20);
-  border-radius: var(--radius-pill);
-  border: none;
-  background: var(--surface-container-high);
-  color: var(--text-secondary);
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-/* Invisible hit-slop: keeps the visual chip small but the tap target ~40px */
-.selected-chip button::before {
-  content: '';
-  position: absolute;
-  inset: calc(var(--size-10) * -1);
-}
-
-.selected-chip button:hover {
-  background: var(--clr-error-container);
-  color: var(--clr-error);
-}
-
-.selected-chip button svg {
-  width: var(--size-10);
-  height: var(--size-10);
 }
 
 /* -- Composer ----------------------------------------------------- */
@@ -277,15 +111,7 @@
 .message-input {
   flex: 1;
   min-width: 0;
-  border: var(--size-1-5) solid var(--border-default);
   border-radius: var(--radius-pill);
-  padding: var(--size-10) var(--space-sm);
-  font-size: var(--font-size-lg); /* was font-size-sm (12px) — triggered iOS auto-zoom on focus */
-  font-family: var(--font-sans);
-  color: var(--text-primary);
-  background: var(--surface-container);
-  outline: none;
-  transition: border-color var(--transition-fast);
 }
 
 .message-input::placeholder {

@@ -19,7 +19,7 @@
           <p class="target-subtitle">{{ subtitle() }}</p>
         }
       </div>
-      <button class="close-btn" (click)="onDrawerClose()" aria-label="Close">
+      <button class="btn-icon" (click)="onDrawerClose()" aria-label="Close" style="background: transparent;">
         <svg lucideX aria-hidden="true"></svg>
       </button>
     </div>
@@ -37,7 +37,7 @@
           placeholder="Search people..."
           [value]="searchQuery()"
           (input)="onSearchInput($event)"
-          class="search-input"
+          class="field__input search-input"
         />
       </div>
 
@@ -114,7 +114,7 @@
           placeholder="Add a message (optional)"
           [(ngModel)]="messageContent"
           (keydown)="onKeyDown($event)"
-          class="message-input"
+          class="field__input message-input"
         />
         <button
           class="send-btn"
