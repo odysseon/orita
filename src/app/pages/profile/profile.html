@@ -37,9 +37,9 @@
   <app-seo [config]="seoConfig()" />
   <div class="profile-identity">
     <div class="profile-avatar">
-      <app-avatar
-        [avatarUrl]="profile.value()!.avatarUrl"
-        [username]="profile.value()!.username"
+      <ui-avatar
+        [src]="profile.value()!.avatarUrl"
+        [name]="profile.value()!.username"
         size="xl"
       />
     </div>

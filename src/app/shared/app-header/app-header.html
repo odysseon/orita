@@ -28,17 +28,14 @@
   <div class="header-actions">
     <ng-content></ng-content>
     @if (showProfileBtn()) {
-      <button class="header-avatar-btn" (click)="goToProfile()" aria-label="Profile">
-        @if (authService.token()) {
-          <app-avatar
-            [avatarUrl]="authService.currentUser()?.avatarUrl"
-            [username]="authService.currentUser()?.username || '?'"
-            size="sm"
-          />
-        } @else {
-          <svg lucideLogIn aria-hidden="true"></svg>
-        }
-      </button>
+      <ui-avatar
+        [authenticated]="!!authService.token()"
+        [src]="authService.currentUser()?.avatarUrl"
+        [name]="authService.currentUser()?.username || '?'"
+        size="sm"
+        (avatarClick)="goToProfile()"
+        (guestClick)="goToProfile()"
+      />
     }
   </div>
 </header>

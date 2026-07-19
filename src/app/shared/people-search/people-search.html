@@ -17,10 +17,10 @@
     <ul class="search-results">
       @for (user of results(); track user.id) {
         <li class="result-item" (click)="selectUser(user)">
-          <img 
-            [src]="user.avatarUrl || '/assets/default-avatar.png'" 
-            alt="Avatar" 
-            class="user-avatar"
+          <ui-avatar
+            [src]="user.avatarUrl"
+            [name]="user.username"
+            size="md"
           />
           <div class="user-details">
             <span class="username">{{ user.username }}</span>

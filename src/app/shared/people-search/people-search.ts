@@ -6,10 +6,12 @@ import { of } from 'rxjs';
 import { UserSearchService } from '../../core/services/user-search.service.js';
 import { UserSearchResult } from '../../core/types/share.types.js';
 
+import { Avatar } from '../ui/avatar/avatar';
+
 @Component({
   selector: 'app-people-search',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Avatar],
   templateUrl: './people-search.html',
   styleUrl: './people-search.css',
 })

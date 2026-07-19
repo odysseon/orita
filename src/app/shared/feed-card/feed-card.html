@@ -53,13 +53,12 @@
   <!-- Identity, quiet, single line -->
   @if (item().business; as business) {
   <header class="feed-card__header">
-    <div class="feed-card__avatar">
-      @if (business.logoUrl) {
-      <img [src]="business.logoUrl" [alt]="business.name" />
-      } @else {
-      <div class="avatar-placeholder">{{ business.name?.charAt(0) || 'B' }}</div>
-      }
-    </div>
+    <ui-avatar
+      class="feed-card__avatar"
+      [src]="business.logoUrl"
+      [name]="business.name"
+      size="sm"
+    />
     <div class="feed-card__meta">
       <a class="feed-card__business-name" [routerLink]="['/b', business.slug]"
         >{{ business.name }}</a

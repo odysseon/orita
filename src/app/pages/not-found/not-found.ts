@@ -12,6 +12,6 @@ export class NotFound {
   #router = inject(Router);
 
   goHome(): void {
-    this.#router.navigate(['/']);
+    this.#router.navigate(['/home']);
   }
 }

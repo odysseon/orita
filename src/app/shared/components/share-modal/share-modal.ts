@@ -9,9 +9,11 @@ import { Drawer } from '../../drawer/drawer';
 import { UserListItem } from '../user-list-item/user-list-item';
 import { LucideSearch, LucideSend, LucideX } from '@lucide/angular';
 
+import { Avatar } from '../../ui/avatar/avatar';
+
 @Component({
   selector: 'app-share-modal',
-  imports: [FormsModule, Drawer, UserListItem, LucideSearch, LucideSend, LucideX],
+  imports: [FormsModule, Drawer, UserListItem, LucideSearch, LucideSend, LucideX, Avatar],
   templateUrl: './share-modal.html',
   styleUrl: './share-modal.css',
 })

@@ -1,7 +1,7 @@
 import { Component, input, inject, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Logo } from '../logo/logo';
-import { AppAvatar } from '../components/avatar/avatar';
+import { Avatar } from '../ui/avatar/avatar';
 import { LucideChevronDown, LucideMapPin, LucideLogIn } from '@lucide/angular';
 import { ExplorationService } from '../../core/services/exploration.service';
 import { ActiveLocation } from '../../core/services/exploration-storage';
@@ -14,20 +14,12 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'ui-app-header',
-  imports: [
-    Logo,
-    LucideChevronDown,
-    LucideMapPin,
-    LucideLogIn,
-    Drawer,
-    LocationSelector,
-    AppAvatar,
-  ],
+  imports: [Logo, LucideChevronDown, LucideMapPin, Drawer, LocationSelector, Avatar],
   templateUrl: './app-header.html',
   styleUrl: './app-header.css',
   host: {
-    '[class.layout-wide]': 'layout() === "wide"'
-  }
+    '[class.layout-wide]': 'layout() === "wide"',
+  },
 })
 export class AppHeader {
   readonly showLogo = input<boolean>(true);
@@ -59,7 +51,7 @@ export class AppHeader {
   }
 
   toggleDrawer() {
-    this.isLocationPickerOpen.update(v => !v);
+    this.isLocationPickerOpen.update((v) => !v);
   }
 
   selectLocation(result: Location) {
@@ -72,7 +64,7 @@ export class AppHeader {
       lat: result.latitude,
       lng: result.longitude,
     };
-    
+
     this.#exploration.setLocation(context);
     this.isLocationPickerOpen.set(false);
   }

@@ -1,0 +1,25 @@
+<span
+  [class]="'avatar avatar--' + size() + ' avatar--' + shape()"
+  [class.avatar--guest]="!authenticated()"
+  [attr.role]="!authenticated() ? 'button' : null"
+  [attr.tabindex]="!authenticated() ? 0 : null"
+  [attr.aria-label]="authenticated() ? (name() || 'Avatar') : 'Sign in'"
+  (click)="onClick($event)"
+  (keydown.enter)="onClick($event)"
+>
+  @if (!authenticated()) {
+    <svg lucideUser class="avatar__guest-icon" aria-hidden="true"></svg>
+  } @else if (showImage()) {
+    <img [src]="src()!" [alt]="name() || 'Avatar'" (error)="onImgError()" />
+  } @else {
+    <span class="avatar__initials">{{ initials() }}</span>
+  }
+
+  @if (authenticated() && status()) {
+    <span class="avatar__status" [class]="'avatar__status--' + status()"></span>
+  }
+
+  @if (authenticated() && badgeLabel()) {
+    <span class="avatar__badge">{{ badgeLabel() }}</span>
+  }
+</span>

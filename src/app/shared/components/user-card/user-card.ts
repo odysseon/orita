@@ -2,19 +2,19 @@ import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IProfile } from '../../../pages/profile/profile.interface';
-import { AppAvatar } from '../avatar/avatar';
+import { Avatar } from '../../ui/avatar/avatar';
 import { LucideMapPin } from '@lucide/angular';
 
 @Component({
   selector: 'app-user-card',
   standalone: true,
-  imports: [CommonModule, RouterLink, AppAvatar, LucideMapPin],
+  imports: [CommonModule, RouterLink, Avatar, LucideMapPin],
   template: `
     <a [routerLink]="['/users', user().username]" class="user-card-link">
       <div class="user-card">
-        <app-avatar
-          [avatarUrl]="user().avatarUrl"
-          [username]="user().username"
+        <ui-avatar
+          [src]="user().avatarUrl"
+          [name]="user().username"
           size="lg"
         />
         <div class="user-info">
