@@ -5,7 +5,7 @@
 
       <div class="chat-title-info">
         @if (conversation()?.avatarUrl) {
-          <img [src]="conversation()?.avatarUrl" alt="Avatar" class="avatar-placeholder" style="object-fit: cover; background: none; color: transparent;" />
+          <img [src]="conversation()?.avatarUrl" alt="Avatar" class="avatar-placeholder" />
         } @else {
           <div class="avatar-placeholder">
             {{ (conversation()?.title || 'U')[0] }}
