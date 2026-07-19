@@ -1,18 +1,17 @@
 import { Component, signal, output, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, switchMap, tap, map, catchError } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { UserSearchService } from '../../core/services/user-search.service.js';
 import { UserSearchResult } from '../../core/types/share.types.js';
 
 import { Avatar } from '../ui/avatar/avatar';
-import { LucideSearch, LucideX } from '@lucide/angular';
+import { LucideSearch } from '@lucide/angular';
 
 @Component({
   selector: 'app-people-search',
   standalone: true,
-  imports: [CommonModule, Avatar, LucideSearch, LucideX],
+  imports: [Avatar, LucideSearch],
   templateUrl: './people-search.html',
   styleUrl: './people-search.css',
 })
@@ -40,9 +39,7 @@ export class PeopleSearchComponent {
         }),
         switchMap((q) => {
           if (!q.trim()) return of({ items: [] });
-          return this.#searchService.search(q).pipe(
-            catchError(() => of({ items: [] }))
-          );
+          return this.#searchService.search(q).pipe(catchError(() => of({ items: [] })));
         }),
         tap((res: any) => {
           this.results.set(res.items);
