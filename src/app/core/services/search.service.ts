@@ -48,4 +48,10 @@ export class SearchService {
       this.buildUrl(`${this.#apiUrl}/users`, paramsSignal())
     );
   }
+
+  getToursResource(paramsSignal: Signal<SearchFilters | null>) {
+    return httpResource<IPaginated<any>>(() => 
+      this.buildUrl(`${this.#apiUrl}/tours`, paramsSignal())
+    );
+  }
 }

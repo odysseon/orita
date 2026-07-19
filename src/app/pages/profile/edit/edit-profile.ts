@@ -9,6 +9,7 @@ import { environment } from '../../../../environments/environment';
 import { IProfile } from '../profile.interface';
 import { AppFormField } from '../../../shared/form-field/form-field';
 import { MediaSelector } from '../../../shared/media-selector/media-selector';
+import { MediaService } from '../../../core/services/media.service';
 
 interface IEditProfileForm {
   username: string;
@@ -23,6 +24,7 @@ interface IEditProfileForm {
 export class EditProfile {
   #http = inject(HttpClient);
   #toast = inject(ToastService);
+  #media = inject(MediaService);
 
   readonly profile = httpResource<IProfile>(() => `${environment.apiUrl}/users/me`);
   readonly loading = signal(false);
@@ -65,9 +67,15 @@ export class EditProfile {
 
       const avatar = this.avatarFile();
       if (avatar) {
-        const formData = new FormData();
-        formData.append('file', avatar);
-        await firstValueFrom(this.#http.post(`${environment.apiUrl}/users/me/avatar`, formData));
+        await new Promise<void>((resolve, reject) => {
+          this.#media.uploadMedia('user-profile', '', 'AVATAR', avatar).subscribe({
+            next: (state) => {
+              // Intentionally swallowing state updates for now, showing global 'Saving...' loader.
+            },
+            error: (err) => reject(err),
+            complete: () => resolve(),
+          });
+        });
         this.avatarFile.set(null);
       }
 

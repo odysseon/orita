@@ -4,6 +4,7 @@ import { ToastService } from './toast';
 
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface ShareData {
   title?: string;
@@ -84,18 +85,18 @@ export class ShareService {
   }
 
   async getSuggestedRecipients(): Promise<SuggestedShareRecipientDto[]> {
-    return firstValueFrom(this.#http.get<SuggestedShareRecipientDto[]>('/api/sharing/suggested-recipients'));
+    return firstValueFrom(this.#http.get<SuggestedShareRecipientDto[]>(`${environment.apiUrl}/sharing/suggested-recipients`));
   }
 
   async getRecentShares(): Promise<RecentShareableDto[]> {
-    return firstValueFrom(this.#http.get<RecentShareableDto[]>('/api/sharing/recent'));
+    return firstValueFrom(this.#http.get<RecentShareableDto[]>(`${environment.apiUrl}/sharing/recent`));
   }
 
   async searchShareables(query: string): Promise<ShareableSearchResult[]> {
-    return firstValueFrom(this.#http.get<ShareableSearchResult[]>(`/api/search/shareables`, { params: { q: query } }));
+    return firstValueFrom(this.#http.get<ShareableSearchResult[]>(`${environment.apiUrl}/search/shareables`, { params: { q: query } }));
   }
 
   async shareInternal(dto: InternalShareDto): Promise<ShareResultDto[]> {
-    return firstValueFrom(this.#http.post<ShareResultDto[]>('/api/share/internal', dto));
+    return firstValueFrom(this.#http.post<ShareResultDto[]>(`${environment.apiUrl}/share/internal`, dto));
   }
 }

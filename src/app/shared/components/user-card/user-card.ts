@@ -40,18 +40,14 @@ import { LucideMapPin } from '@lucide/angular';
       display: flex;
       align-items: center;
       gap: var(--size-16);
-      padding: var(--size-16);
-      background: var(--surface-card);
-      border: 1px solid var(--border-subtle);
+      padding: var(--size-8) 0;
       border-radius: var(--radius-xl);
       transition: all 0.2s ease;
     }
     
     .user-card:hover {
-      background: var(--surface-hover);
-      border-color: var(--border-default);
+      opacity: 0.9;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
     
     .user-info {

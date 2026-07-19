@@ -8,6 +8,8 @@ import { ILogin, ILoginResponse } from '../../pages/auth/login/login.interface';
 import { IRegister } from '../../pages/auth/register/register.interface';
 import { environment } from '../../../environments/environment';
 import { ExplorationService } from './exploration.service';
+import { IProfile } from '../../pages/profile/profile.interface';
+import { effect } from '@angular/core';
 
 const TOKEN_KEY = 'auth_token';
 
@@ -20,6 +22,29 @@ export class AuthService {
   #exploration = inject(ExplorationService);
 
   readonly token = signal<string | undefined>(this.#cookie.get(TOKEN_KEY));
+  readonly currentUser = signal<IProfile | null>(null);
+
+  constructor() {
+    effect(() => {
+      const t = this.token();
+      if (t) {
+        this.fetchCurrentUser();
+      } else {
+        this.currentUser.set(null);
+      }
+    });
+  }
+
+  async fetchCurrentUser(): Promise<void> {
+    try {
+      const profile = await firstValueFrom(
+        this.#http.get<IProfile>(`${environment.apiUrl}/users/me`)
+      );
+      this.currentUser.set(profile);
+    } catch (err) {
+      console.error('Failed to fetch user profile', err);
+    }
+  }
 
   async login(credentials: ILogin & { remember: boolean }, returnUrl: string = '/home'): Promise<boolean> {
     try {

@@ -1,10 +1,8 @@
 import { Component, input, signal, inject, OnInit, output, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ShareService, SuggestedShareRecipientDto } from '../../../core/services/share.service';
 import { UserSearchService } from '../../../core/services/user-search.service';
 import { UserSearchResult } from '../../../core/types/share.types';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { Drawer } from '../../drawer/drawer';
@@ -13,8 +11,7 @@ import { LucideSearch, LucideSend, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-share-modal',
-  standalone: true,
-  imports: [CommonModule, FormsModule, Drawer, UserListItem, LucideSearch, LucideSend, LucideX],
+  imports: [FormsModule, Drawer, UserListItem, LucideSearch, LucideSend, LucideX],
   templateUrl: './share-modal.html',
   styleUrl: './share-modal.css',
 })
@@ -37,13 +34,16 @@ export class ShareModalComponent implements OnInit {
   suggested = signal<SuggestedShareRecipientDto[]>([]);
   searchResults = signal<UserSearchResult[]>([]);
   isSearching = signal(false);
-  
+
   searchQuery = signal('');
   searchQuery$ = new Subject<string>();
 
   selectedRecipients = signal<Set<string>>(new Set());
+  #selectedDetails = signal<Map<string, { id: string; username: string; displayName?: string; avatarUrl?: string | null }>>(new Map());
+  selectedUsers = computed(() => Array.from(this.#selectedDetails().values()));
+
   messageContent = signal('');
-  
+
   isSending = signal(false);
   sendSuccess = signal<string[]>([]);
 
@@ -52,10 +52,7 @@ export class ShareModalComponent implements OnInit {
       this.loadSuggested();
     }
 
-    this.searchQuery$.pipe(
-      debounceTime(250),
-      distinctUntilChanged()
-    ).subscribe(query => {
+    this.searchQuery$.pipe(debounceTime(250), distinctUntilChanged()).subscribe((query) => {
       this.performSearch(query);
     });
   }
@@ -90,24 +87,31 @@ export class ShareModalComponent implements OnInit {
       error: () => {
         this.searchResults.set([]);
         this.isSearching.set(false);
-      }
+      },
     });
   }
 
-  toggleRecipient(userId: string) {
+  toggleRecipient(user: { id?: string; userId?: string; username: string; displayName?: string; avatarUrl?: string | null }) {
+    const id = user.id ?? user.userId!;
     const current = new Set(this.selectedRecipients());
-    if (current.has(userId)) {
-      current.delete(userId);
+    const details = new Map(this.#selectedDetails());
+
+    if (current.has(id)) {
+      current.delete(id);
+      details.delete(id);
     } else {
-      current.add(userId);
+      current.add(id);
+      details.set(id, { id, username: user.username, displayName: user.displayName, avatarUrl: user.avatarUrl });
     }
+
     this.selectedRecipients.set(current);
+    this.#selectedDetails.set(details);
   }
 
   isSelected(userId: string): boolean {
     return this.selectedRecipients().has(userId);
   }
-  
+
   isSent(userId: string): boolean {
     return this.sendSuccess().includes(userId);
   }
@@ -122,11 +126,12 @@ export class ShareModalComponent implements OnInit {
         embedType: this.embedType(),
         targetId: this.targetId(),
         recipientIds: ids,
-        content: this.messageContent().trim() || undefined
+        content: this.messageContent().trim() || undefined,
       });
       const newSuccess = [...this.sendSuccess(), ...ids];
       this.sendSuccess.set(newSuccess);
       this.selectedRecipients.set(new Set());
+      this.#selectedDetails.set(new Map());
       this.messageContent.set('');
     } catch (err) {
       console.error('Failed to send share', err);

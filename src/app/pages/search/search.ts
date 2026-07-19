@@ -14,6 +14,7 @@ import { AppListingCard } from '../../shared/listing-card/listing-card';
 import { AppBizCard } from '../../shared/biz-card/biz-card';
 import { AppLocationCard } from '../../shared/location-card/location-card';
 import { AppUserCard } from '../../shared/components/user-card/user-card';
+import { TourCard } from '../tours/components/tour-card/tour-card';
 import { AppHeader } from '../../shared/app-header/app-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { AppGrid } from '../../shared/grid/grid';
@@ -27,7 +28,7 @@ import { EmptyState } from '../../shared/empty-state/empty-state';
   selector: 'app-search',
   imports: [
     LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
-    AppListingCard, AppBizCard, AppLocationCard, AppUserCard, AppHeader, ScrollHideDirective,
+    AppListingCard, AppBizCard, AppLocationCard, AppUserCard, TourCard, AppHeader, ScrollHideDirective,
     AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState
   ],
   templateUrl: './search.html',
@@ -47,7 +48,7 @@ export class Search {
   // URL State
   readonly queryParamMap = toSignal(this.#route.queryParamMap);
 
-  readonly searchType = computed<'all' | 'people' | 'listing' | 'business' | 'location'>(() => {
+  readonly searchType = computed<'all' | 'people' | 'listing' | 'business' | 'location' | 'tour'>(() => {
     return (this.queryParamMap()?.get('tab') as any) || 'all';
   });
 
@@ -148,9 +149,23 @@ export class Search {
     };
   });
 
+  readonly tourParams = computed<SearchFilters | null>(() => {
+    if (this.searchType() !== 'tour' && this.searchType() !== 'all') return null;
+    if (!this.searchQuery().trim() && !this.appliedLocationName()) return null;
+    return {
+      q: this.searchQuery().trim(),
+      lat: this.appliedLat(),
+      lng: this.appliedLng(),
+      radius: this.appliedRadius(),
+      sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
+      limit: this.searchType() === 'all' ? 5 : (this.appliedLimit() !== 20 ? this.appliedLimit() : undefined)
+    };
+  });
+
   readonly listingsResource = this.#searchService.getListingsResource(this.listingParams);
   readonly businessesResource = this.#searchService.getBusinessesResource(this.businessParams);
   readonly usersResource = this.#searchService.getUsersResource(this.userParams);
+  readonly toursResource = this.#searchService.getToursResource(this.tourParams);
   
   readonly locationsParams = computed<string | null>(() => {
     if (this.searchType() !== 'location' && this.searchType() !== 'all') return null;
@@ -199,7 +214,7 @@ export class Search {
     this.updateUrl({ limit: null });
   }
 
-  setSearchType(type: 'all' | 'people' | 'listing' | 'business' | 'location') {
+  setSearchType(type: 'all' | 'people' | 'listing' | 'business' | 'location' | 'tour') {
     this.updateUrl({ tab: type, limit: null });
   }
 
