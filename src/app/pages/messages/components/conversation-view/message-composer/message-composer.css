@@ -1,39 +1,46 @@
 .composer-container {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      gap: var(--size-8);
-      padding: var(--size-12) var(--size-16);
-      background: var(--surface-1);
-      border-top: 1px solid var(--border-color);
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--size-8);
+  padding: var(--size-12) var(--space-sm);
+  border-top: var(--size-1) solid var(--border-subtle);
+  padding-bottom: calc(var(--size-12) + env(safe-area-inset-bottom));
+}
 
-    .btn-attach, .btn-send {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: var(--size-8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: var(--radius-full);
-      transition: color 0.2s, background-color 0.2s;
-    }
-    
-    .btn-attach:hover {
-      background: var(--surface-2);
-      color: var(--text-default);
-    }
-    
-    .btn-send {
-      color: var(--primary);
-    }
-    .btn-send:hover:not(:disabled) {
-      background: var(--primary);
-      color: #fff;
-    }
-    .btn-send:disabled {
+.btn-attach,
+.btn-send {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-40);
+  height: var(--size-40);
+  background: none;
+  border: none;
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.btn-attach:hover {
+  background: var(--surface-container-high);
+  color: var(--text-primary);
+}
+
+.btn-send {
+  color: var(--clr-primary);
+}
+
+.btn-send:hover:not(:disabled) {
+  background: var(--clr-primary);
+  color: var(--clr-on-primary);
+}
+
+.btn-send:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   color: var(--text-muted);
@@ -59,8 +66,8 @@
   align-items: center;
   gap: var(--size-12);
   padding: var(--size-8) var(--size-12);
-  background: var(--surface-2);
-  border: 1px solid var(--border-subtle);
+  background: var(--surface-container-high);
+  border: var(--size-1) solid var(--border-subtle);
   border-radius: var(--radius-md);
 }
 
@@ -70,9 +77,10 @@
   justify-content: center;
   width: var(--size-32);
   height: var(--size-32);
-  background: var(--surface-3);
+  background: var(--surface-container-high);
   border-radius: var(--radius-sm);
   color: var(--text-primary);
+  flex-shrink: 0;
 }
 
 .attachment-chip__icon svg {
@@ -82,30 +90,36 @@
 
 .attachment-chip__info {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
 
 .attachment-chip__title {
-  font-size: var(--text-sm);
-  font-weight: 500;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
   color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .attachment-chip__remove {
-  background: transparent;
-  border: none;
-  padding: var(--size-4);
-  color: var(--text-muted);
-  cursor: pointer;
-  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: var(--size-32);
+  height: var(--size-32);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .attachment-chip__remove:hover {
-  background: var(--surface-3);
+  background: var(--surface-container-high);
   color: var(--text-primary);
 }
 
@@ -114,21 +128,29 @@
   height: var(--size-16);
 }
 
-    .input-wrapper {
-      flex: 1;
-      display: flex;
-    }
+.input-wrapper {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
 
-    .composer-input {
-      width: 100%;
-      padding: var(--size-10) var(--size-16);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-full);
-      background: var(--bg-default);
-      color: var(--text-default);
-      outline: none;
-      font-size: var(--size-14);
-    }
-    .composer-input:focus {
-      border-color: var(--primary);
-    }
+.composer-input {
+  width: 100%;
+  padding: var(--size-10) var(--space-sm);
+  border: var(--size-1) solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  background: var(--surface-card);
+  color: var(--text-primary);
+  outline: none;
+  font-size: var(--font-size-lg); /* was 14px — mobile focus-zoom fix, same as share-modal */
+  font-family: var(--font-sans);
+  transition: border-color var(--transition-fast);
+}
+
+.composer-input::placeholder {
+  color: var(--text-muted);
+}
+
+.composer-input:focus {
+  border-color: var(--clr-primary);
+}

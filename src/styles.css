@@ -881,3 +881,9 @@ svg[lucideStar].star--filled {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+img.avatar-placeholder {
+  object-fit: cover;
+  background: none;
+  color: transparent;
+}
