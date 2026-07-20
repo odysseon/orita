@@ -43,10 +43,7 @@
             "ssr": {
               "entry": "src/server.ts"
             },
-            "allowedCommonJsDependencies": [
-              "debug",
-              "xmlhttprequest-ssl"
-            ]
+            "allowedCommonJsDependencies": ["debug", "xmlhttprequest-ssl"]
           },
           "configurations": {
             "production": {
@@ -62,7 +59,8 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,

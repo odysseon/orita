@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
 import { ExplorationService } from './exploration.service';
 import { IProfile } from '../../pages/profile/profile.interface';
 import { effect } from '@angular/core';
+import { NotificationPermissionService } from './notification-permission.service';
 
 const TOKEN_KEY = 'auth_token';
 
@@ -20,6 +21,7 @@ export class AuthService {
   #toast = inject(ToastService);
   #cookie = inject(CookieService);
   #exploration = inject(ExplorationService);
+  #push = inject(NotificationPermissionService);
 
   readonly token = signal<string | undefined>(this.#cookie.get(TOKEN_KEY));
   readonly currentUser = signal<IProfile | null>(null);
@@ -114,6 +116,9 @@ export class AuthService {
   }
 
   logout(expired = false, returnUrl?: string): void {
+    // Unsubscribe from push notifications before removing the token
+    this.#push.unsubscribe().catch((err) => console.error(err));
+
     this.#cookie.delete(TOKEN_KEY);
     this.token.set(undefined);
     if (expired) {
