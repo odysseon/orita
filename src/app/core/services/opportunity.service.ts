@@ -27,26 +27,26 @@ export class OpportunityService {
   #apiUrl = environment.apiUrl;
 
   create(dto: CreateOpportunityDto): Observable<NearbyItemDto> {
-    return this.#http.post<NearbyItemDto>(`${this.#apiUrl}/v1/opportunities`, dto);
+    return this.#http.post<NearbyItemDto>(`${this.#apiUrl}/opportunities`, dto);
   }
 
   getById(id: string): Observable<NearbyItemDto> {
-    return this.#http.get<NearbyItemDto>(`${this.#apiUrl}/v1/opportunities/${id}`);
+    return this.#http.get<NearbyItemDto>(`${this.#apiUrl}/opportunities/${id}`);
   }
 
   update(id: string, dto: UpdateOpportunityDto): Observable<NearbyItemDto> {
-    return this.#http.patch<NearbyItemDto>(`${this.#apiUrl}/v1/opportunities/${id}`, dto);
+    return this.#http.patch<NearbyItemDto>(`${this.#apiUrl}/opportunities/${id}`, dto);
   }
 
   delete(id: string): Observable<void> {
-    return this.#http.delete<void>(`${this.#apiUrl}/v1/opportunities/${id}`);
+    return this.#http.delete<void>(`${this.#apiUrl}/opportunities/${id}`);
   }
 
   complete(id: string): Observable<void> {
-    return this.#http.post<void>(`${this.#apiUrl}/v1/opportunities/${id}/complete`, {});
+    return this.#http.post<void>(`${this.#apiUrl}/opportunities/${id}/complete`, {});
   }
 
   getMyPosts(): Observable<NearbyItemDto[]> {
-    return this.#http.get<NearbyItemDto[]>(`${this.#apiUrl}/v1/opportunities/mine`);
+    return this.#http.get<NearbyItemDto[]>(`${this.#apiUrl}/opportunities/mine`);
   }
 }
