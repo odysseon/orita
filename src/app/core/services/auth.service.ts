@@ -11,6 +11,7 @@ import { ExplorationService } from './exploration.service';
 import { IProfile } from '../../pages/profile/profile.interface';
 import { effect } from '@angular/core';
 import { NotificationPermissionService } from './notification-permission.service';
+import { CacheService, CacheKeys } from './cache.service';
 
 const TOKEN_KEY = 'auth_token';
 
@@ -22,9 +23,10 @@ export class AuthService {
   #cookie = inject(CookieService);
   #exploration = inject(ExplorationService);
   #push = inject(NotificationPermissionService);
+  #cache = inject(CacheService);
 
   readonly token = signal<string | undefined>(this.#cookie.get(TOKEN_KEY));
-  readonly currentUser = signal<IProfile | null>(null);
+  readonly currentUser = signal<IProfile | null>(this.#cache.get<IProfile>(CacheKeys.PROFILE));
 
   constructor() {
     effect(() => {
@@ -42,6 +44,7 @@ export class AuthService {
       const profile = await firstValueFrom(
         this.#http.get<IProfile>(`${environment.apiUrl}/users/me`)
       );
+      this.#cache.set(CacheKeys.PROFILE, profile);
       this.currentUser.set(profile);
     } catch (err) {
       console.error('Failed to fetch user profile', err);
@@ -120,7 +123,9 @@ export class AuthService {
     this.#push.unsubscribe().catch((err) => console.error(err));
 
     this.#cookie.delete(TOKEN_KEY);
+    this.#cache.remove(CacheKeys.PROFILE);
     this.token.set(undefined);
+    this.currentUser.set(null);
     if (expired) {
       this.#toast.error('Session Expired', 'Please log in again to continue.');
     } else {

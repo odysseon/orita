@@ -1,4 +1,5 @@
-import { Service, signal } from '@angular/core';
+import { Service, signal, inject } from '@angular/core';
+import { CacheService, CacheKeys } from './cache.service';
 
 export interface EmbedReference {
   embedType: string;
@@ -11,14 +12,29 @@ export interface PendingMessage {
 
 @Service()
 export class DraftMessageService {
+  #cache = inject(CacheService);
+
   // Keyed by recipient targetId (businessProfileId or participantId)
   #drafts = new Map<string, PendingMessage>();
+
+  constructor() {
+    const cached = this.#cache.get<Record<string, PendingMessage>>(CacheKeys.DRAFTS);
+    if (cached) {
+      this.#drafts = new Map(Object.entries(cached));
+    }
+  }
+
+  private saveToCache(): void {
+    const record = Object.fromEntries(this.#drafts);
+    this.#cache.set(CacheKeys.DRAFTS, record);
+  }
 
   // Signal to allow UI reactivity when drafts change
   readonly draftsChange = signal(0);
 
   setDraft(targetId: string, draft: PendingMessage): void {
     this.#drafts.set(targetId, draft);
+    this.saveToCache();
     this.draftsChange.update((v) => v + 1);
   }
 
@@ -29,6 +45,7 @@ export class DraftMessageService {
   clearDraft(targetId: string): void {
     if (this.#drafts.has(targetId)) {
       this.#drafts.delete(targetId);
+      this.saveToCache();
       this.draftsChange.update((v) => v + 1);
     }
   }
