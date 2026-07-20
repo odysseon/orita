@@ -333,7 +333,7 @@ export class MessagingRepository implements OnDestroy {
 
       const dtoToSubmit: SendMessageDto = {
         ...pending.payload,
-        mediaIds: mediaIds.length > 0 ? mediaIds : undefined
+        attachmentIds: mediaIds.length > 0 ? mediaIds : undefined
       };
 
       try {

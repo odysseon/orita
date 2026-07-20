@@ -126,7 +126,7 @@ export interface SendMessageDto {
   content?: string;
   mediaUrl?: string; // Legacy/backward compatibility
   mediaType?: MediaType; // Legacy/backward compatibility
-  mediaIds?: string[]; // Referencing uploaded media resources
+  attachmentIds?: string[]; // Referencing uploaded media resources
   embeds?: { embedType: string; targetId: string }[];
 }
 

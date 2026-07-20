@@ -18,7 +18,7 @@ const ROUTE_MAP: Record<MediaResourceType, string> = {
   review: 'reviews',
   'business-tour': 'business-tours',
   'user-profile': 'users',
-  'message': 'messages',
+  'message': 'conversations',
 };
 
 export interface IMediaResponse {
