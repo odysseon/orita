@@ -2,10 +2,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { IMessagePreviewDescriptor } from '../../core/services/messaging.types';
 
 const EMBED_LABELS: Record<string, string> = {
-  BUSINESS: '📍 Shared a business',
-  LISTING: '🛍️ Shared a listing',
-  LOCATION: '🗺️ Shared a location',
-  TOUR: '🚶 Shared a tour',
+  BUSINESS: 'Shared a business',
+  LISTING: 'Shared a listing',
+  LOCATION: 'Shared a location',
+  TOUR: 'Shared a tour',
 };
 
 @Pipe({
@@ -22,7 +22,7 @@ export class MessagePreviewPipe implements PipeTransform {
       case 'EMBED':
         return EMBED_LABELS[descriptor.embedType] ?? 'Shared an item';
       case 'ATTACHMENT':
-        return descriptor.attachmentType === 'VIDEO' ? '🎥 Sent a video' : '🖼️ Sent a photo';
+        return descriptor.attachmentType === 'VIDEO' ? 'Sent a video' : 'Sent a photo';
       case 'SYSTEM':
         return descriptor.text || '';
       default:

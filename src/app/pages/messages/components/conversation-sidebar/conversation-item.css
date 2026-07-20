@@ -95,3 +95,16 @@
   font-weight: var(--font-weight-medium);
 }
 
+
+.snippet-text {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+}
+
+.snippet-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}

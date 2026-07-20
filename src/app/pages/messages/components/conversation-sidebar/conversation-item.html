@@ -31,6 +31,29 @@
               @if (conversation().latestMessage?.senderDisplayName === 'You') {
                 You: 
               }
+              @switch (conversation().latestMessage!.descriptor.kind) {
+                @case ('EMBED') {
+                  @if ($any(conversation().latestMessage!.descriptor).embedType === 'BUSINESS') {
+                    <svg icon lucideMapPin aria-hidden="true" class="snippet-icon"></svg>
+                  }
+                  @if ($any(conversation().latestMessage!.descriptor).embedType === 'LISTING') {
+                    <svg icon lucideShoppingBag aria-hidden="true" class="snippet-icon"></svg>
+                  }
+                  @if ($any(conversation().latestMessage!.descriptor).embedType === 'LOCATION') {
+                    <svg icon lucideMap aria-hidden="true" class="snippet-icon"></svg>
+                  }
+                  @if ($any(conversation().latestMessage!.descriptor).embedType === 'TOUR') {
+                    <svg icon lucideFootprints aria-hidden="true" class="snippet-icon"></svg>
+                  }
+                }
+                @case ('ATTACHMENT') {
+                  @if ($any(conversation().latestMessage!.descriptor).attachmentType === 'VIDEO') {
+                    <svg icon lucideVideo aria-hidden="true" class="snippet-icon"></svg>
+                  } @else {
+                    <svg icon lucideImage aria-hidden="true" class="snippet-icon"></svg>
+                  }
+                }
+              }
               {{ conversation().latestMessage!.descriptor | messagePreview }}
             </span>
           } @else {

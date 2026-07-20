@@ -29,6 +29,14 @@ export class MessagingService implements OnDestroy {
     this.#subs.add(
       this.#socket.messageNew$.subscribe(event => {
         this.#store.addMessage(event.message);
+
+        const activeId = this.#store.activeConversationId();
+        const currentUserId = this.#auth.currentUser()?.id;
+
+        if (activeId === event.conversationId && event.message.participantId !== currentUserId) {
+          this.#socket.markRead(activeId, [event.message.id]);
+          this.#store.markConversationRead(activeId);
+        }
       })
     );
 
@@ -94,6 +102,7 @@ export class MessagingService implements OnDestroy {
             .map(m => m.id);
           if (unreadIds.length > 0) {
             this.#socket.markRead(id, unreadIds);
+            this.#store.markConversationRead(id);
           }
         }
       },

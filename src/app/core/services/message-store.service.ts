@@ -147,6 +147,17 @@ export class MessageStore {
     });
   }
 
+  markConversationRead(conversationId: string): void {
+    this.conversations.update(list => {
+      const idx = list.findIndex(c => c.id === conversationId);
+      if (idx === -1) return list;
+      
+      const copy = [...list];
+      copy[idx] = { ...copy[idx], unreadCount: 0 };
+      return copy;
+    });
+  }
+
   setActiveConversationId(id: string | null): void {
     this.activeConversationId.set(id);
     if (!id) {
