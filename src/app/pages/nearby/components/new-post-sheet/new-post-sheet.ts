@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import { OpportunityService, CreateOpportunityDto } from '../../../../core/services/opportunity.service';
 import { LocationService } from '../../../../core/services/location.service';
 import { Drawer } from '../../../../shared/drawer/drawer';
@@ -48,18 +49,14 @@ export class NewPostSheet {
       const pos = await this.#locationService.getCurrentPosition();
       
       const locObs = this.#locationService.reverseGeocode(pos.coords.latitude, pos.coords.longitude);
-      const loc = await new Promise<any>((resolve, reject) => {
-        locObs.subscribe({ next: resolve, error: reject });
-      });
+      const loc = await firstValueFrom(locObs);
 
       if (!loc) {
         throw new Error('Failed to determine location.');
       }
       
       const ensureObs = this.#locationService.ensure(loc);
-      const locationDoc = await new Promise<any>((resolve, reject) => {
-        ensureObs.subscribe({ next: resolve, error: reject });
-      });
+      const locationDoc = await firstValueFrom(ensureObs);
       
       if (!locationDoc) {
         throw new Error('Failed to ensure location.');
@@ -68,9 +65,7 @@ export class NewPostSheet {
       this.model.locationId = locationDoc.id;
 
       const createObs = this.#opportunityService.create(this.model as CreateOpportunityDto);
-      await new Promise((resolve, reject) => {
-        createObs.subscribe({ next: resolve, error: reject });
-      });
+      await firstValueFrom(createObs);
       
       this.created.emit();
       this.close.emit();
