@@ -121,3 +121,22 @@ export interface WsReadReceiptEvent {
   participantId: string;
   readAt: string;
 }
+
+export interface PendingAttachment {
+  id: string;
+  blob: Blob;
+  mimeType: string;
+  createdAt: number;
+}
+
+export interface QueuedMessage {
+  id: string;
+  conversationId: string;
+  payload: SendMessageDto;
+  attemptCount: number;
+  lastError: string | null;
+  lastAttemptAt: number | null;
+  createdAt: number;
+  status: 'LOCAL' | 'SENDING' | 'FAILED';
+  attachments?: PendingAttachment[];
+}
