@@ -97,14 +97,24 @@ export class MessageStore {
       if (idx === -1) return list; // Or we could fetch it
       const copy = [...list];
       
+      let descriptor: import('./messaging.types').IMessagePreviewDescriptor;
+      if (message.embeds?.length) {
+        descriptor = { kind: 'EMBED', embedType: message.embeds[0].embedType };
+      } else if (message.mediaUrl) {
+        descriptor = { kind: 'ATTACHMENT', attachmentType: message.mediaType || 'IMAGE' };
+      } else if (message.content) {
+        descriptor = { kind: 'TEXT', text: message.content };
+      } else {
+        descriptor = { kind: 'SYSTEM', text: 'Sent a message' };
+      }
+
       const preview: IMessagePreview = {
         id: message.id,
         content: message.content,
         participantId: message.participantId,
         senderDisplayName: message.senderDisplayName,
         createdAt: message.createdAt,
-        previewType: message.embeds?.length ? 'EMBED' : (message.mediaUrl ? 'MEDIA' : 'TEXT'),
-        snippet: message.embeds?.length ? (message.embeds[0].embedType === 'BUSINESS' ? 'Shared a business' : 'Shared an item') : (message.content || 'Sent a message')
+        descriptor
       };
 
       copy[idx] = { ...copy[idx], latestMessage: preview, lastActivityAt: message.createdAt };

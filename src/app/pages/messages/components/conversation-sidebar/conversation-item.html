@@ -31,7 +31,7 @@
               @if (conversation().latestMessage?.senderDisplayName === 'You') {
                 You: 
               }
-              {{ conversation().latestMessage!.snippet }}
+              {{ conversation().latestMessage!.descriptor | messagePreview }}
             </span>
           } @else {
             <span class="snippet-text">No messages yet</span>

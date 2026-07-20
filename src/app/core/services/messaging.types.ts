@@ -48,14 +48,19 @@ export interface IConversationAnchor {
   locationId?: string | null;
 }
 
+export type IMessagePreviewDescriptor =
+  | { kind: 'TEXT'; text: string }
+  | { kind: 'EMBED'; embedType: string }
+  | { kind: 'ATTACHMENT'; attachmentType: string }
+  | { kind: 'SYSTEM'; text: string };
+
 export interface IMessagePreview {
   id: string;
   content?: string | null;
   participantId: string;
   senderDisplayName: string;
   createdAt: string;
-  previewType: 'TEXT' | 'MEDIA' | 'EMBED' | 'SYSTEM';
-  snippet: string;
+  descriptor: IMessagePreviewDescriptor;
 }
 
 export interface IConversationPreview {

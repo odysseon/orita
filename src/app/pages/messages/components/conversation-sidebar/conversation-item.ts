@@ -1,10 +1,11 @@
 import { Component, input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { IConversationPreview } from '../../../../core/services/messaging.types';
+import { MessagePreviewPipe } from '../../../../shared/pipes/message-preview.pipe';
 
 @Component({
   selector: 'app-conversation-item',
-  imports: [DatePipe],
+  imports: [DatePipe, MessagePreviewPipe],
   templateUrl: './conversation-item.html',
   styleUrl: './conversation-item.css'
 })
