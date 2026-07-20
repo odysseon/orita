@@ -13,12 +13,8 @@
         
         <div class="msg-bubble-card" [class.optimistic]="message().syncState === 'SENDING' || message().syncState === 'QUEUED' || message().syncState === 'UPLOADING' || message().syncState === 'UPLOADED'" [class.failed]="message().syncState === 'FAILED_UPLOAD' || message().syncState === 'FAILED_SEND'">
           
-          @if (message().mediaUrl) {
-            @if (message().mediaType === 'VIDEO') {
-              <video class="msg-media" [src]="message().mediaUrl" controls></video>
-            } @else {
-              <img class="msg-media" [src]="message().mediaUrl" alt="Attached media" loading="lazy" />
-            }
+          @if (galleryItems().length > 0) {
+            <app-media-gallery [items]="galleryItems()"></app-media-gallery>
           }
 
           @if (message().content) {

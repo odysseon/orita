@@ -1,12 +1,13 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
+import { DatabaseService } from './database.service';
 
 @Injectable({ providedIn: 'root' })
 export class AttachmentPreviewService implements OnDestroy {
+  #db = inject(DatabaseService);
   private objectUrls = new Map<string, string>(); // blobId -> objectUrl
 
   /**
-   * Creates an object URL for a File or Blob, caches it by a unique identifier,
-   * and returns the URL. If one already exists for that identifier, it's returned.
+   * Creates an object URL for a File or Blob synchronously.
    */
   createPreview(blobId: string, blob: Blob | File): string {
     if (this.objectUrls.has(blobId)) {
@@ -18,15 +19,25 @@ export class AttachmentPreviewService implements OnDestroy {
   }
 
   /**
-   * Retrieves an existing preview URL by blobId, if any.
+   * Resolves a preview URL asynchronously, reading from IDB if necessary.
    */
+  async resolvePreviewUrl(localBlobId?: string, remoteUrl?: string): Promise<string | null> {
+    if (localBlobId) {
+      if (this.objectUrls.has(localBlobId)) {
+        return this.objectUrls.get(localBlobId)!;
+      }
+      const pendingAtt = await this.#db.getAttachment(localBlobId);
+      if (pendingAtt && pendingAtt.blob) {
+        return this.createPreview(localBlobId, pendingAtt.blob);
+      }
+    }
+    return remoteUrl || null;
+  }
+
   getPreview(blobId: string): string | undefined {
     return this.objectUrls.get(blobId);
   }
 
-  /**
-   * Revokes the object URL and removes it from the cache.
-   */
   revokePreview(blobId: string): void {
     const url = this.objectUrls.get(blobId);
     if (url) {
@@ -35,9 +46,6 @@ export class AttachmentPreviewService implements OnDestroy {
     }
   }
 
-  /**
-   * Cleans up all object URLs created by this service.
-   */
   revokeAllPreviews(): void {
     for (const url of this.objectUrls.values()) {
       URL.revokeObjectURL(url);

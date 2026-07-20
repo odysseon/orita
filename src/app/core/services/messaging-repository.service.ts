@@ -374,7 +374,23 @@ export class MessagingRepository implements OnDestroy {
 
   private _getServerMessages(conversationId: string): IMessage[] {
     const current = this.#store.messages()[conversationId] || [];
-    return current.filter(m => !m.syncState || m.syncState === 'SYNCED');
+    return current
+      .filter(m => !m.syncState || m.syncState === 'SYNCED')
+      .map(m => {
+        if (!m.attachmentViews && m.attachments && m.attachments.length > 0) {
+          return {
+            ...m,
+            attachmentViews: m.attachments.map(a => ({
+              id: a.id,
+              attachment: a,
+              remoteUrl: a.url,
+              isLocal: false,
+              kind: a.mediaType
+            }))
+          };
+        }
+        return m;
+      });
   }
 
   private _processQueue(): void {
@@ -407,6 +423,13 @@ export class MessagingRepository implements OnDestroy {
         embedType: e.embedType,
         targetId: e.targetId,
         title: 'Shared Item'
+      })) : [],
+      attachmentViews: p.attachments ? p.attachments.map(qa => ({
+        id: qa.attachmentId,
+        localBlobId: qa.attachmentId,
+        remoteUrl: qa.uploadedMediaId,
+        isLocal: !qa.uploadedMediaId,
+        kind: 'IMAGE' // Ideally we'd store kind on QueuedAttachment, fallback to IMAGE
       })) : [],
       createdAt: new Date(p.createdAt).toISOString(),
       readReceipts: [],

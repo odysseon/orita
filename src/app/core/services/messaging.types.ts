@@ -20,6 +20,23 @@ export interface IMessageEmbed {
   ctaPath?: string | null;
 }
 
+export interface IMessageAttachment {
+  id: string;
+  url: string; // Server URL for synced attachments
+  mediaType: 'IMAGE' | 'VIDEO' | 'AUDIO' | 'FILE';
+  mimeType: string;
+  size?: number;
+}
+
+export interface MessageAttachmentView {
+  id: string; // The UI view ID (can map to attachment id)
+  attachment?: IMessageAttachment; // If synced
+  remoteUrl?: string; // If synced
+  localBlobId?: string; // If local
+  isLocal: boolean;
+  kind: 'IMAGE' | 'VIDEO' | 'AUDIO' | 'FILE';
+}
+
 export interface IMessage {
   id: string;
   conversationId: string;
@@ -29,12 +46,14 @@ export interface IMessage {
   content?: string | null;
   mediaUrl?: string | null;
   mediaType?: MediaType | null;
+  attachments?: IMessageAttachment[];
   embeds: IMessageEmbed[];
   createdAt: string;
   readReceipts: IMessageReadReceipt[];
   
   // UI state for optimistic updates
   syncState?: MessageSyncState;
+  attachmentViews?: MessageAttachmentView[];
 }
 
 export interface IConversationAnchor {
