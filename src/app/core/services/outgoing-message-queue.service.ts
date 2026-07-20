@@ -1,41 +1,48 @@
-import { Service } from '@angular/core';
-import { SendMessageDto } from './messaging.types';
-
-export interface OutgoingMessage {
-  id: string;
-  conversationId: string;
-  payload: SendMessageDto;
-  attemptCount: number;
-  lastError: string | null;
-  lastAttemptAt: number | null;
-  createdAt: number;
-  status: 'LOCAL' | 'SENDING' | 'FAILED';
-}
+import { Service, inject } from '@angular/core';
+import { SendMessageDto, QueuedMessage } from './messaging.types';
+import { DatabaseService } from './database.service';
 
 @Service()
 export class OutgoingMessageQueue {
-  private readonly STORAGE_KEY = 'orita_outgoing_messages';
+  #db = inject(DatabaseService);
+  
+  private queue: QueuedMessage[] = [];
+  private isLoaded = false;
+  
+  // Guard against concurrent processing loops
+  isProcessing = false;
 
-  getAll(): OutgoingMessage[] {
-    try {
-      const data = localStorage.getItem(this.STORAGE_KEY);
-      return data ? JSON.parse(data) : [];
-    } catch {
-      return [];
+  async load(): Promise<void> {
+    if (this.isLoaded) return;
+    
+    const messages = await this.#db.getQueuedMessages();
+    let modified = false;
+    
+    // Recover interrupted SENDING messages -> LOCAL
+    for (const msg of messages) {
+      if (msg.status === 'SENDING') {
+        msg.status = 'LOCAL';
+        modified = true;
+      }
+    }
+    
+    this.queue = messages;
+    this.isLoaded = true;
+
+    // Persist any recoveries immediately, asynchronously
+    if (modified) {
+      Promise.all(this.queue.map(msg => this.#db.saveQueuedMessage(msg))).catch(err => {
+        console.error('Failed to persist recovered queue', err);
+      });
     }
   }
 
-  private saveAll(queue: OutgoingMessage[]): void {
-    try {
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(queue));
-    } catch (err) {
-      console.error('Failed to save outgoing messages queue', err);
-    }
+  getAll(): QueuedMessage[] {
+    return this.queue;
   }
 
-  enqueue(conversationId: string, id: string, payload: SendMessageDto): OutgoingMessage {
-    const queue = this.getAll();
-    const msg: OutgoingMessage = {
+  enqueue(conversationId: string, id: string, payload: SendMessageDto): QueuedMessage {
+    const msg: QueuedMessage = {
       id,
       conversationId,
       payload,
@@ -45,8 +52,11 @@ export class OutgoingMessageQueue {
       createdAt: Date.now(),
       status: 'LOCAL'
     };
-    queue.push(msg);
-    this.saveAll(queue);
+    this.queue.push(msg);
+    
+    // Asynchronously persist
+    this.#db.saveQueuedMessage(msg).catch(err => console.error('Failed to persist queued message', err));
+    
     return msg;
   }
 
@@ -55,28 +65,30 @@ export class OutgoingMessageQueue {
     status: 'LOCAL' | 'SENDING' | 'FAILED', 
     error?: string
   ): void {
-    const queue = this.getAll();
-    const idx = queue.findIndex(m => m.id === id);
+    const idx = this.queue.findIndex(m => m.id === id);
     if (idx !== -1) {
-      queue[idx].status = status;
+      this.queue[idx].status = status;
       if (status === 'SENDING') {
-        queue[idx].attemptCount += 1;
-        queue[idx].lastAttemptAt = Date.now();
+        this.queue[idx].attemptCount += 1;
+        this.queue[idx].lastAttemptAt = Date.now();
       }
       if (error) {
-        queue[idx].lastError = error;
+        this.queue[idx].lastError = error;
       }
-      this.saveAll(queue);
+      
+      const updatedMsg = { ...this.queue[idx] };
+      // Asynchronously persist
+      this.#db.saveQueuedMessage(updatedMsg).catch(err => console.error('Failed to persist queue status', err));
     }
   }
 
   remove(id: string): void {
-    let queue = this.getAll();
-    queue = queue.filter(m => m.id !== id);
-    this.saveAll(queue);
+    this.queue = this.queue.filter(m => m.id !== id);
+    // Asynchronously persist
+    this.#db.deleteQueuedMessage(id).catch(err => console.error('Failed to delete queued message', err));
   }
 
-  getForConversation(conversationId: string): OutgoingMessage[] {
-    return this.getAll().filter(m => m.conversationId === conversationId);
+  getForConversation(conversationId: string): QueuedMessage[] {
+    return this.queue.filter(m => m.conversationId === conversationId);
   }
 }

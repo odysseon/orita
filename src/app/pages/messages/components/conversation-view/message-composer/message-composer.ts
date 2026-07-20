@@ -60,8 +60,8 @@ export class MessageComposer {
     // clear it here. The user said: "clear drafts carefully... I'd clear only after the send succeeds."
     // Wait, the user specifically requested to clear it ONLY after it succeeds.
     // We can emit the event and let the parent clear the draft.
-    // The event is `send.emit(...)`. The parent (`MessagesPage`) calls `MessagingService.sendMessage`.
-    // Wait, `MessagingService.sendMessage` does an optimistic update and returns void!
+    // The event is `send.emit(...)`. The parent (`MessagesPage`) calls `MessagingRepository.sendMessage`.
+    // Wait, `MessagingRepository.sendMessage` does an optimistic update and returns void!
     // Let's modify `MessageComposer` to wait or just clear it here for now?
     // No, I'll clear it when `onSend` happens and it's successful, or let the `MessagesPage` clear it.
     // Actually, I can just not clear it here, and add a method `clearDrafts()` that the parent can call!

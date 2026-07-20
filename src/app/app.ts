@@ -10,7 +10,7 @@ import { ScrollHideDirective } from './shared/directives/scroll-hide.directive';
 import { LucideHouse, LucideSearch, LucideCompass, LucideMessageCircle, LucideMapPin } from '@lucide/angular';
 import { AuthService } from './core/services/auth.service';
 import { NotificationService } from './core/services/notification.service';
-import { MessagingService } from './core/services/messaging.service';
+import { MessagingRepository } from './core/services/messaging-repository.service';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +37,7 @@ export class App {
   #platformId = inject(PLATFORM_ID);
   readonly authService = inject(AuthService);
   readonly notificationService = inject(NotificationService);
-  readonly messaging = inject(MessagingService);
+  readonly messaging = inject(MessagingRepository);
 
   readonly isAuthenticated = computed(() => !!this.authService.token());
 

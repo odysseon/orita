@@ -3,7 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { AppHeader } from '../../shared/app-header/app-header';
 import { ConversationSidebar } from './components/conversation-sidebar/conversation-sidebar';
 import { ConversationView } from './components/conversation-view/conversation-view';
-import { MessagingService } from '../../core/services/messaging.service';
+import { MessagingRepository } from '../../core/services/messaging-repository.service';
 import { SendMessageDto } from '../../core/services/messaging.types';
 import { AuthService } from '../../core/services/auth.service';
 import { DraftMessageService } from '../../core/services/draft-message.service';
@@ -18,7 +18,7 @@ import { LucideTriangleAlert } from '@lucide/angular';
   styleUrl: './messages.css'
 })
 export class MessagesPage implements OnInit {
-  messaging = inject(MessagingService);
+  messaging = inject(MessagingRepository);
   notificationService = inject(NotificationService);
   #auth = inject(AuthService);
   #draftStore = inject(DraftMessageService);

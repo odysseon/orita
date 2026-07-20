@@ -3,19 +3,22 @@ import { ShareIntent, ShareTarget } from '../../types/share.types.js';
 import { LinkBuilderService } from './link-builder.service.js';
 import { NativeShareService } from './native-share.service.js';
 import { ClipboardService } from './clipboard.service.js';
-import { MessagingRepository } from '../../services/messaging-repository.service.js';
+import { MessagingApiService } from '../../services/messaging-api.service';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { mapIntentToEmbed } from './share-embed.mapper.js';
 
 export type ShareStatus = 'idle' | 'opening' | 'sending' | 'failed' | 'complete';
 
+import { MessagingRepository } from '../../services/messaging-repository.service';
+
 @Service()
 export class ShareFacade {
   #linkBuilder = inject(LinkBuilderService);
   #nativeShare = inject(NativeShareService);
   #clipboard = inject(ClipboardService);
-  #messaging = inject(MessagingRepository);
+  #messagingApi = inject(MessagingApiService);
+  #messagingRepo = inject(MessagingRepository);
   #router = inject(Router);
 
   status = signal<ShareStatus>('idle');
@@ -27,7 +30,7 @@ export class ShareFacade {
 
   async loadRecentChats() {
     try {
-      const chats = await firstValueFrom(this.#messaging.getConversations());
+      const chats = await firstValueFrom(this.#messagingApi.getConversations());
       this.recentChats.set(chats);
     } catch (e) {
       console.error('Failed to load recent chats', e);
@@ -71,7 +74,7 @@ export class ShareFacade {
         conversationId = target.conversationId;
       } else {
         const conversation = await firstValueFrom(
-          this.#messaging.openConversation('USER', target.userId)
+          this.#messagingApi.openConversation('USER', target.userId)
         );
         conversationId = conversation.id;
       }
@@ -80,11 +83,9 @@ export class ShareFacade {
       
       const embed = mapIntentToEmbed(intent);
 
-      await firstValueFrom(
-        this.#messaging.sendMessage(conversationId, {
-          embeds: [embed],
-        })
-      );
+      await this.#messagingRepo.sendMessage(conversationId, {
+        embeds: [embed],
+      });
 
       this.status.set('complete');
       

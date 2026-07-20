@@ -1,14 +1,14 @@
 import { Service, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessagingApiService } from './messaging-api.service';
 import { MessagingRepository } from './messaging-repository.service';
-import { MessagingService } from './messaging.service';
 import { DraftMessageService, EmbedReference } from './draft-message.service';
 
 @Service()
 export class MessagingFacade {
   #router = inject(Router);
-  #messagingRepo = inject(MessagingRepository);
-  #messagingService = inject(MessagingService);
+  #messagingRepo = inject(MessagingApiService);
+  #messagingService = inject(MessagingRepository);
   #draftStore = inject(DraftMessageService);
 
   /**
