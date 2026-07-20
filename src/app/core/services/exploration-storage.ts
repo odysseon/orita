@@ -1,4 +1,4 @@
-import { Service, inject } from '@angular/core';
+import { Service, inject, Injectable } from '@angular/core';
 import { CookieService } from './cookie';
 import { environment } from '../../../environments/environment';
 
@@ -12,6 +12,7 @@ export interface ActiveLocation {
   lng: number;
 }
 
+@Injectable()
 export abstract class ExplorationStorage {
   abstract get(): ActiveLocation | null;
   abstract set(context: ActiveLocation): void;
