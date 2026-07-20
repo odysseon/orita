@@ -1,5 +1,5 @@
 <div class="composer-container">
-  @if (draftEmbeds().length > 0) {
+  @if (draftEmbeds().length > 0 || attachments().length > 0) {
     <div class="composer-attachments">
       @for (embed of draftEmbeds(); track embed.targetId) {
         <div class="attachment-chip">
@@ -10,6 +10,26 @@
             <span class="attachment-chip__title">Shared {{ embed.embedType }}</span>
           </div>
           <button class="attachment-chip__remove" (click)="removeEmbed(embed.targetId)">
+            <svg lucideX aria-hidden="true"></svg>
+          </button>
+        </div>
+      }
+      
+      @for (att of attachments(); track att.id) {
+        <div class="attachment-chip">
+          <div class="attachment-chip__icon">
+            @if (att.kind === 'IMAGE') {
+              <img [src]="att.previewUrl" class="attachment-preview-img" alt="preview" />
+            } @else if (att.kind === 'VIDEO') {
+              <svg lucideVideo aria-hidden="true"></svg>
+            } @else {
+              <svg lucideFile aria-hidden="true"></svg>
+            }
+          </div>
+          <div class="attachment-chip__info">
+            <span class="attachment-chip__title">{{ att.file.name }}</span>
+          </div>
+          <button class="attachment-chip__remove" (click)="removeAttachment(att.id)">
             <svg lucideX aria-hidden="true"></svg>
           </button>
         </div>
@@ -36,7 +56,7 @@
       class="btn-send" 
       type="button" 
       aria-label="Send message"
-      [disabled]="!content().trim() && draftEmbeds().length === 0"
+      [disabled]="!content().trim() && draftEmbeds().length === 0 && attachments().length === 0"
       (click)="onSend()"
     >
       <svg lucideSend aria-hidden="true"></svg>
@@ -48,4 +68,5 @@
   [isOpen]="showAttachSheet()"
   (close)="showAttachSheet.set(false)"
   [conversationId]="conversationId()"
+  (attachmentSelected)="onAttachmentSelected($event)"
 />

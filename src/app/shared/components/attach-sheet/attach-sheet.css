@@ -218,3 +218,8 @@
   height: var(--size-24);
   color: var(--clr-primary);
 }
+
+.hidden-file-input {
+  display: none;
+}
+

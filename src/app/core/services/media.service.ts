@@ -9,7 +9,8 @@ export type MediaResourceType =
   | 'listing'
   | 'review'
   | 'business-tour'
-  | 'user-profile';
+  | 'user-profile'
+  | 'message';
 
 const ROUTE_MAP: Record<MediaResourceType, string> = {
   'business-profile': 'business-profiles',
@@ -17,6 +18,7 @@ const ROUTE_MAP: Record<MediaResourceType, string> = {
   review: 'reviews',
   'business-tour': 'business-tours',
   'user-profile': 'users',
+  'message': 'messages',
 };
 
 export interface IMediaResponse {

@@ -4,7 +4,7 @@ import { AppHeader } from '../../shared/app-header/app-header';
 import { ConversationSidebar } from './components/conversation-sidebar/conversation-sidebar';
 import { ConversationView } from './components/conversation-view/conversation-view';
 import { MessagingRepository } from '../../core/services/messaging-repository.service';
-import { SendMessageDto } from '../../core/services/messaging.types';
+import { SendMessageCommand } from '../../core/services/messaging.types';
 import { AuthService } from '../../core/services/auth.service';
 import { DraftMessageService } from '../../core/services/draft-message.service';
 import { NotificationService } from '../../core/services/notification.service';
@@ -60,7 +60,7 @@ export class MessagesPage implements OnInit {
     this.messaging.clearActiveConversation();
   }
 
-  async onSendMessage(dto: SendMessageDto): Promise<void> {
+  async onSendMessage(command: SendMessageCommand): Promise<void> {
     const id = this.activeConversationId();
     if (!id) return;
     
@@ -68,7 +68,7 @@ export class MessagesPage implements OnInit {
     const userId = 'self';
     
     try {
-      await this.messaging.sendMessage(id, dto);
+      await this.messaging.sendMessage(id, command);
       // Clear drafts on success
       this.#draftStore.clearDraft(id);
     } catch (err) {

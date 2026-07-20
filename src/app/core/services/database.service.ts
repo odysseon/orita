@@ -30,7 +30,7 @@ export interface OritaDB extends DBSchema {
   };
   attachments: {
     key: string;
-    value: any; // Future use
+    value: PendingAttachment;
   };
 }
 
@@ -132,5 +132,25 @@ export class DatabaseService {
     if (!this.dbPromise) return [];
     const db = await this.dbPromise;
     return db.getAllFromIndex('messages', 'by-conversation', conversationId);
+  }
+
+  // --- Attachments ---
+
+  async saveAttachment(attachment: PendingAttachment): Promise<void> {
+    if (!this.dbPromise) return;
+    const db = await this.dbPromise;
+    await db.put('attachments', attachment);
+  }
+
+  async getAttachment(id: string): Promise<PendingAttachment | undefined> {
+    if (!this.dbPromise) return undefined;
+    const db = await this.dbPromise;
+    return db.get('attachments', id);
+  }
+
+  async deleteAttachment(id: string): Promise<void> {
+    if (!this.dbPromise) return;
+    const db = await this.dbPromise;
+    await db.delete('attachments', id);
   }
 }

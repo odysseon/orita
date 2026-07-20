@@ -5,9 +5,10 @@ import { MessageStore } from './message-store.service';
 import { OutgoingMessageQueue } from './outgoing-message-queue.service';
 import { DatabaseService } from './database.service';
 import { AuthService } from './auth.service';
-import { Subscription, firstValueFrom, timer } from 'rxjs';
+import { MediaService } from './media.service';
+import { Subscription, firstValueFrom } from 'rxjs';
 import { timeout } from 'rxjs/operators';
-import { IMessage, SendMessageDto, CreateConversationDto, IConversationPreview } from './messaging.types';
+import { IMessage, SendMessageDto, CreateConversationDto, IConversationPreview, SendMessageCommand, PendingAttachment, QueuedAttachment } from './messaging.types';
 
 @Service()
 export class MessagingRepository implements OnDestroy {
@@ -17,6 +18,7 @@ export class MessagingRepository implements OnDestroy {
   #queue = inject(OutgoingMessageQueue);
   #db = inject(DatabaseService);
   #auth = inject(AuthService);
+  #media = inject(MediaService);
   
   #subs = new Subscription();
 
@@ -59,13 +61,11 @@ export class MessagingRepository implements OnDestroy {
   }
 
   async loadConversations(): Promise<void> {
-    // 1. Instantly load from IndexedDB
     const cached = await this.#db.getConversationPreviews();
     if (cached.length > 0) {
       this.#store.setConversations(cached.sort((a, b) => new Date(b.lastActivityAt).getTime() - new Date(a.lastActivityAt).getTime()));
     }
 
-    // 2. Background fetch and merge
     this.#api.getConversations().subscribe(fresh => {
       this._mergeConversations(cached, fresh);
     });
@@ -101,7 +101,6 @@ export class MessagingRepository implements OnDestroy {
     this.#socket.joinConversation(id);
     this.#store.setConversationStatus(id, 'loading');
 
-    // 1. Instantly load messages from IndexedDB
     const cachedMessages = await this.#db.getMessagesForConversation(id);
     if (cachedMessages.length > 0) {
       const mergedLocal = this._mergePendingMessages(id, cachedMessages);
@@ -131,17 +130,12 @@ export class MessagingRepository implements OnDestroy {
 
         this.#store.setActiveConversationDetails(conversation);
 
-        // Merge server messages with pending messages from the queue
         const serverMessages = conversation.messages || [];
         
-        // Persist fresh server messages individually to IDB
         if (serverMessages.length > 0) {
           await this.#db.saveMessages(serverMessages);
         }
 
-        // We can just query IDB again to get the complete merged sorted history, 
-        // or just use serverMessages if it represents the latest page. 
-        // For now, we will query IDB to get the full unified list:
         const fullHistory = await this.#db.getMessagesForConversation(id);
         const unifiedHistory = fullHistory.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
 
@@ -149,8 +143,6 @@ export class MessagingRepository implements OnDestroy {
         this.#store.setMessages(id, mergedMessages);
         this.#store.setConversationStatus(id, 'loaded');
 
-        // Fix: unread messages badge drifting
-        // Mark unread messages sent by others as read
         const viewerId = conversation.viewer?.participantId;
         if (viewerId) {
           const unreadIds = unifiedHistory
@@ -159,7 +151,6 @@ export class MessagingRepository implements OnDestroy {
           if (unreadIds.length > 0) {
             this.#socket.markRead(id, unreadIds);
             
-            // P1B: Optimistically mutate and persist unread counts to IDB
             this.#store.markConversationRead(id);
             this.#store.conversations().find(c => c.id === id && (async () => {
               c.unreadCount = 0;
@@ -194,78 +185,196 @@ export class MessagingRepository implements OnDestroy {
     });
   }
 
-  async sendMessage(conversationId: string, dto: SendMessageDto): Promise<void> {
+  async sendMessage(conversationId: string, command: SendMessageCommand): Promise<void> {
     const currentUserId = this.#auth.currentUser()?.id || 'unknown';
     const tempId = `temp-${Date.now()}`;
     
-    // 1. Queue locally
-    this.#queue.enqueue(conversationId, tempId, dto);
+    const queuedAttachments: QueuedAttachment[] = [];
+    if (command.attachments) {
+      for (const sel of command.attachments) {
+        for (const file of sel.files) {
+          const attachmentId = `att-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+          
+          let kind: 'IMAGE' | 'VIDEO' | 'AUDIO' | 'FILE' = 'FILE';
+          if (file.type.startsWith('image/')) kind = 'IMAGE';
+          else if (file.type.startsWith('video/')) kind = 'VIDEO';
+          else if (file.type.startsWith('audio/')) kind = 'AUDIO';
+
+          const pending: PendingAttachment = {
+            id: attachmentId,
+            blob: file,
+            filename: file.name,
+            mimeType: file.type,
+            size: file.size,
+            kind
+          };
+          
+          await this.#db.saveAttachment(pending);
+          
+          queuedAttachments.push({
+            attachmentId,
+            uploadState: 'PENDING',
+            uploadProgress: 0
+          });
+        }
+      }
+    }
+
+    const payload: SendMessageDto = {
+      content: command.content,
+      embeds: command.embeds
+    };
     
-    // Merge immediately so it shows up in UI
-    const merged = this._mergePendingMessages(conversationId, this.#store.messages()[conversationId] || []);
+    this.#queue.enqueue(conversationId, tempId, payload, queuedAttachments);
+    
+    const merged = this._mergePendingMessages(conversationId, this._getServerMessages(conversationId));
     this.#store.setMessages(conversationId, merged);
 
-    await this._trySendMessage(conversationId, tempId, dto, currentUserId);
+    await this._tryProcessQueueItem(conversationId, tempId, currentUserId);
   }
 
   retryMessage(conversationId: string, messageId: string): void {
     const pending = this.#queue.getAll().find(m => m.id === messageId);
     if (!pending) return;
 
-    this.#queue.updateStatus(messageId, 'SENDING');
+    if (pending.status === 'FAILED_UPLOAD') {
+      this.#queue.updateStatus(messageId, 'QUEUED');
+    } else if (pending.status === 'FAILED_SEND') {
+      this.#queue.updateStatus(messageId, 'UPLOADED');
+    } else {
+      this.#queue.updateStatus(messageId, 'QUEUED');
+    }
+    
     const merged = this._mergePendingMessages(conversationId, this._getServerMessages(conversationId));
     this.#store.setMessages(conversationId, merged);
 
     const currentUserId = this.#auth.currentUser()?.id || 'unknown';
-    this._trySendMessage(conversationId, messageId, pending.payload, currentUserId);
+    this._tryProcessQueueItem(conversationId, messageId, currentUserId);
   }
 
   discardMessage(conversationId: string, messageId: string): void {
+    const pending = this.#queue.getAll().find(m => m.id === messageId);
+    if (pending && pending.attachments) {
+      for (const qa of pending.attachments) {
+        this.#db.deleteAttachment(qa.attachmentId);
+      }
+    }
     this.#queue.remove(messageId);
     const merged = this._mergePendingMessages(conversationId, this._getServerMessages(conversationId));
     this.#store.setMessages(conversationId, merged);
   }
 
-  private async _trySendMessage(conversationId: string, tempId: string, dto: SendMessageDto, currentUserId: string): Promise<void> {
-    this.#queue.updateStatus(tempId, 'SENDING');
-    
-    try {
-      const serverMessage = await firstValueFrom(
-        this.#api.sendMessage(conversationId, dto).pipe(
-          timeout(30000)
-        )
-      );
+  private async _tryProcessQueueItem(conversationId: string, tempId: string, currentUserId: string): Promise<void> {
+    let pending = this.#queue.getAll().find(m => m.id === tempId);
+    if (!pending) return;
 
-      this.#queue.remove(tempId);
+    if (pending.status === 'QUEUED' || pending.status === 'FAILED_UPLOAD') {
+      this.#queue.updateStatus(tempId, 'UPLOADING');
+      
+      let uploadSuccess = true;
+      if (pending.attachments && pending.attachments.length > 0) {
+        for (const qa of pending.attachments) {
+          if (qa.uploadState === 'COMPLETED') continue;
 
-      this.#store.messages.update(map => {
-        const list = map[conversationId] || [];
-        return {
-          ...map,
-          [conversationId]: list.map(m => m.id === tempId ? serverMessage : m)
-        };
-      });
-    } catch (err: any) {
-      const pending = this.#queue.getAll().find(m => m.id === tempId);
-      if (pending && pending.attemptCount < 3) {
-        this.#queue.updateStatus(tempId, 'LOCAL', err?.message || 'Network error');
-        // Exponential backoff
-        const backoffMs = Math.pow(2, pending.attemptCount) * 1000;
-        setTimeout(() => {
-          this._trySendMessage(conversationId, tempId, dto, currentUserId);
-        }, backoffMs);
-      } else {
-        this.#queue.updateStatus(tempId, 'FAILED', err?.message || 'Network error');
+          this.#queue.updateAttachment(tempId, qa.attachmentId, { uploadState: 'UPLOADING', uploadProgress: 0 });
+          
+          try {
+            const pendingAtt = await this.#db.getAttachment(qa.attachmentId);
+            if (!pendingAtt) throw new Error('Attachment blob not found in IDB');
+            
+            const fileToUpload = new File([pendingAtt.blob], pendingAtt.filename, { type: pendingAtt.mimeType });
+            
+            await new Promise<void>((resolve, reject) => {
+              this.#media.uploadMedia('message', conversationId, 'MESSAGE', fileToUpload).subscribe({
+                next: (state) => {
+                  if (state.state === 'uploading') {
+                    this.#queue.updateAttachment(tempId, qa.attachmentId, { uploadProgress: state.progress });
+                  } else if (state.state === 'complete') {
+                    this.#queue.updateAttachment(tempId, qa.attachmentId, { 
+                      uploadState: 'COMPLETED',
+                      uploadProgress: 100,
+                      uploadedMediaId: state.media.id
+                    });
+                    resolve();
+                  }
+                },
+                error: (err) => reject(err)
+              });
+            });
+          } catch (err) {
+            console.error('Failed to upload attachment', err);
+            this.#queue.updateAttachment(tempId, qa.attachmentId, { uploadState: 'FAILED' });
+            uploadSuccess = false;
+          }
+        }
+      }
+
+      if (!uploadSuccess) {
+        this.#queue.updateStatus(tempId, 'FAILED_UPLOAD', 'Some attachments failed to upload');
+        this.#store.setMessages(conversationId, this._mergePendingMessages(conversationId, this._getServerMessages(conversationId)));
+        return;
       }
       
-      const merged = this._mergePendingMessages(conversationId, this._getServerMessages(conversationId));
-      this.#store.setMessages(conversationId, merged);
+      this.#queue.updateStatus(tempId, 'UPLOADED');
+    }
+
+    pending = this.#queue.getAll().find(m => m.id === tempId);
+    if (!pending) return;
+
+    if (pending.status === 'UPLOADED' || pending.status === 'FAILED_SEND') {
+      this.#queue.updateStatus(tempId, 'SENDING');
+      
+      const mediaIds: string[] = [];
+      if (pending.attachments) {
+        for (const qa of pending.attachments) {
+          if (qa.uploadedMediaId) mediaIds.push(qa.uploadedMediaId);
+        }
+      }
+
+      const dtoToSubmit: SendMessageDto = {
+        ...pending.payload,
+        mediaIds: mediaIds.length > 0 ? mediaIds : undefined
+      };
+
+      try {
+        const serverMessage = await firstValueFrom(
+          this.#api.sendMessage(conversationId, dtoToSubmit).pipe(timeout(30000))
+        );
+
+        if (pending.attachments) {
+          for (const qa of pending.attachments) {
+            this.#db.deleteAttachment(qa.attachmentId).catch(e => console.error(e));
+          }
+        }
+        
+        this.#queue.remove(tempId);
+
+        this.#store.messages.update(map => {
+          const list = map[conversationId] || [];
+          return {
+            ...map,
+            [conversationId]: list.map(m => m.id === tempId ? serverMessage : m)
+          };
+        });
+      } catch (err: any) {
+        if (pending.attemptCount < 3) {
+          this.#queue.updateStatus(tempId, 'FAILED_SEND', err?.message || 'Network error');
+          const backoffMs = Math.pow(2, pending.attemptCount) * 1000;
+          setTimeout(() => {
+            this._tryProcessQueueItem(conversationId, tempId, currentUserId);
+          }, backoffMs);
+        } else {
+          this.#queue.updateStatus(tempId, 'FAILED_SEND', err?.message || 'Network error');
+        }
+        
+        this.#store.setMessages(conversationId, this._mergePendingMessages(conversationId, this._getServerMessages(conversationId)));
+      }
     }
   }
 
   private _getServerMessages(conversationId: string): IMessage[] {
     const current = this.#store.messages()[conversationId] || [];
-    return current.filter(m => m.syncState !== 'LOCAL' && m.syncState !== 'SENDING' && m.syncState !== 'FAILED');
+    return current.filter(m => !m.syncState || m.syncState === 'SYNCED');
   }
 
   private _processQueue(): void {
@@ -273,8 +382,8 @@ export class MessagingRepository implements OnDestroy {
     const currentUserId = this.#auth.currentUser()?.id || 'unknown';
     
     for (const msg of all) {
-      if (msg.status === 'LOCAL' || msg.status === 'FAILED') {
-        this._trySendMessage(msg.conversationId, msg.id, msg.payload, currentUserId);
+      if (msg.status === 'QUEUED' || msg.status === 'FAILED_UPLOAD' || msg.status === 'UPLOADED' || msg.status === 'FAILED_SEND') {
+        this._tryProcessQueueItem(msg.conversationId, msg.id, currentUserId);
       }
     }
   }
@@ -291,7 +400,7 @@ export class MessagingRepository implements OnDestroy {
       participantId: currentUserId,
       senderDisplayName: 'You',
       content: p.payload.content,
-      mediaUrl: p.payload.mediaUrl,
+      mediaUrl: p.payload.mediaUrl, // deprecated but fallback
       mediaType: p.payload.mediaType,
       embeds: p.payload.embeds ? p.payload.embeds.map((e, i) => ({
         id: `${p.id}-embed-${i}`,

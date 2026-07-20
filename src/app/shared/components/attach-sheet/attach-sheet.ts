@@ -8,6 +8,7 @@ import {
 } from '../../../core/services/share.service';
 import { DraftMessageService } from '../../../core/services/draft-message.service';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { AttachmentSelection } from '../../../core/services/messaging.types';
 import { Drawer } from '../../drawer/drawer';
 import {
   LucideSearch,
@@ -44,6 +45,7 @@ export class AttachSheetComponent implements OnInit {
   conversationId = input<string | undefined>();
 
   close = output<void>();
+  attachmentSelected = output<AttachmentSelection>();
 
   #shareService = inject(ShareService);
   #draftStore = inject(DraftMessageService);
@@ -135,6 +137,15 @@ export class AttachSheetComponent implements OnInit {
       targetId: targetId,
     });
     this.onDrawerClose();
+  }
+
+  handleFileSelected(event: Event, source: 'CAMERA' | 'GALLERY' | 'FILES') {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const files = Array.from(input.files);
+      this.attachmentSelected.emit({ source, files });
+      this.onDrawerClose();
+    }
   }
 
   onDrawerClose() {

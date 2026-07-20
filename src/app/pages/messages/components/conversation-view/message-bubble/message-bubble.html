@@ -11,7 +11,7 @@
           <span class="msg-sender">{{ message().senderDisplayName }}</span>
         }
         
-        <div class="msg-bubble-card" [class.optimistic]="message().syncState === 'SENDING' || message().syncState === 'LOCAL'" [class.failed]="message().syncState === 'FAILED'">
+        <div class="msg-bubble-card" [class.optimistic]="message().syncState === 'SENDING' || message().syncState === 'QUEUED' || message().syncState === 'UPLOADING' || message().syncState === 'UPLOADED'" [class.failed]="message().syncState === 'FAILED_UPLOAD' || message().syncState === 'FAILED_SEND'">
           
           @if (message().mediaUrl) {
             @if (message().mediaType === 'VIDEO') {
@@ -49,9 +49,9 @@
             
             @if (isMine()) {
               <span class="msg-status">
-                @if (message().syncState === 'FAILED') {
+                @if (message().syncState === 'FAILED_UPLOAD' || message().syncState === 'FAILED_SEND') {
                   <svg lucideAlertCircle class="status-icon text-error" aria-hidden="true"></svg>
-                } @else if (message().syncState === 'SENDING' || message().syncState === 'LOCAL') {
+                } @else if (message().syncState === 'SENDING' || message().syncState === 'QUEUED' || message().syncState === 'UPLOADING' || message().syncState === 'UPLOADED') {
                   <svg lucideClock class="status-icon" aria-hidden="true"></svg>
                 } @else if (message().readReceipts?.length) {
                   <svg lucideCheckCheck class="status-icon text-primary" aria-hidden="true"></svg>
@@ -63,9 +63,9 @@
           </div>
         </div>
 
-        @if (message().syncState === 'FAILED') {
+        @if (message().syncState === 'FAILED_UPLOAD' || message().syncState === 'FAILED_SEND') {
           <div class="error-msg">
-            <span class="error-text">❗ Not sent</span>
+            <span class="error-text">❗ {{ message().syncState === 'FAILED_UPLOAD' ? 'Upload failed' : 'Not sent' }}</span>
             <div class="error-actions">
               <button type="button" class="btn-link" (click)="retry.emit()">Retry</button>
               <span class="separator">·</span>

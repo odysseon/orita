@@ -155,14 +155,38 @@
     } @else {
       <!-- Media Tab -->
       <div class="tab-content media-tab">
-        <button class="media-btn">
+        <label class="media-btn">
+          <input 
+            type="file" 
+            accept="image/*,video/*" 
+            capture="environment" 
+            class="hidden-file-input"
+            (change)="handleFileSelected($event, 'CAMERA')"
+          />
           <svg lucideCamera aria-hidden="true"></svg>
           <span>Camera</span>
-        </button>
-        <button class="media-btn">
+        </label>
+        <label class="media-btn">
+          <input 
+            type="file" 
+            accept="image/*,video/*,audio/*,application/pdf" 
+            multiple
+            class="hidden-file-input"
+            (change)="handleFileSelected($event, 'GALLERY')"
+          />
           <svg lucideFileImage aria-hidden="true"></svg>
-          <span>Photos</span>
-        </button>
+          <span>Photos & Media</span>
+        </label>
+        <label class="media-btn">
+          <input 
+            type="file" 
+            multiple
+            class="hidden-file-input"
+            (change)="handleFileSelected($event, 'FILES')"
+          />
+          <svg lucidePackage aria-hidden="true"></svg>
+          <span>Files</span>
+        </label>
       </div>
     }
   </div>

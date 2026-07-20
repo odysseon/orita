@@ -1,7 +1,7 @@
 export type ConversationType = 'DIRECT' | 'GROUP';
 export type ConversationStatus = 'ACTIVE' | 'CLOSED';
 export type MediaType = 'IMAGE' | 'VIDEO';
-export type MessageSyncState = 'LOCAL' | 'SENDING' | 'FAILED' | 'SYNCED';
+export type MessageSyncState = 'LOCAL' | 'QUEUED' | 'UPLOADING' | 'UPLOADED' | 'SENDING' | 'FAILED_UPLOAD' | 'FAILED_SEND' | 'SYNCED';
 
 export interface IMessageReadReceipt {
   messageId: string;
@@ -105,9 +105,23 @@ export interface CreateConversationDto {
 
 export interface SendMessageDto {
   content?: string;
-  mediaUrl?: string;
-  mediaType?: MediaType;
+  mediaUrl?: string; // Legacy/backward compatibility
+  mediaType?: MediaType; // Legacy/backward compatibility
+  mediaIds?: string[]; // Referencing uploaded media resources
   embeds?: { embedType: string; targetId: string }[];
+}
+
+export type AttachmentSource = 'CAMERA' | 'GALLERY' | 'FILES' | 'AUDIO';
+
+export interface AttachmentSelection {
+  source: AttachmentSource;
+  files: File[];
+}
+
+export interface SendMessageCommand {
+  content?: string;
+  embeds?: { embedType: string; targetId: string }[];
+  attachments?: AttachmentSelection[];
 }
 
 export interface WsMessageNewEvent {
@@ -125,8 +139,17 @@ export interface WsReadReceiptEvent {
 export interface PendingAttachment {
   id: string;
   blob: Blob;
+  filename: string;
   mimeType: string;
-  createdAt: number;
+  size: number;
+  kind: 'IMAGE' | 'VIDEO' | 'AUDIO' | 'FILE';
+}
+
+export interface QueuedAttachment {
+  attachmentId: string;
+  uploadState: 'PENDING' | 'UPLOADING' | 'COMPLETED' | 'FAILED';
+  uploadProgress: number; // 0-100
+  uploadedMediaId?: string;
 }
 
 export interface QueuedMessage {
@@ -137,6 +160,6 @@ export interface QueuedMessage {
   lastError: string | null;
   lastAttemptAt: number | null;
   createdAt: number;
-  status: 'LOCAL' | 'SENDING' | 'FAILED';
-  attachments?: PendingAttachment[];
+  status: MessageSyncState;
+  attachments?: QueuedAttachment[];
 }
