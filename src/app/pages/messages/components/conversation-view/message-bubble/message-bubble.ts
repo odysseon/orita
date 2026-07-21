@@ -29,6 +29,7 @@ export class MessageBubble {
     effect(async () => {
       const msg = this.message();
       const views = msg.attachmentViews || [];
+      const serverAttachments = msg.attachments || [];
       const legacyUrl = msg.mediaUrl;
       
       const newItems: MediaGalleryItem[] = [];
@@ -44,6 +45,15 @@ export class MessageBubble {
               alt: 'Attachment'
             });
           }
+        }
+      } else if (serverAttachments.length > 0) {
+        for (const att of serverAttachments) {
+          newItems.push({
+            id: att.id,
+            previewUrl: att.url,
+            kind: att.mediaType,
+            alt: 'Attachment'
+          });
         }
       } else if (legacyUrl) {
         // Fallback for legacy single-attachment messages
