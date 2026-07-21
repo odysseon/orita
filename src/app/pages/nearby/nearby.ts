@@ -3,6 +3,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DiscoveryService } from '../../core/services/discovery.service';
 import { LocationService } from '../../core/services/location.service';
+import { ToastService } from '../../core/services/toast';
 import { NearbyItemDto } from '../../core/models/discovery';
 import { Subject, timer, Subscription, switchMap, filter, of, Observable } from 'rxjs';
 import { catchError, debounceTime, tap } from 'rxjs/operators';
@@ -24,6 +25,7 @@ import { LucideMapPin } from '@lucide/angular';
 export class NearbyPage implements OnInit, OnDestroy {
   #discovery = inject(DiscoveryService);
   #location = inject(LocationService);
+  #toast = inject(ToastService);
 
   items = signal<NearbyItemDto[]>([]);
   loading = signal(true);
@@ -104,12 +106,15 @@ export class NearbyPage implements OnInit, OnDestroy {
     return new Observable(obs => {
       this.#location.getCurrentPosition()
         .then(pos => {
+          this.#toast.success('Location', 'Location access successful.');
           this.#currentLat = pos.coords.latitude;
           this.#currentLng = pos.coords.longitude;
           obs.next({ lat: pos.coords.latitude, lng: pos.coords.longitude });
           obs.complete();
         })
         .catch(err => {
+          const message = err instanceof Error ? err.message : 'Location access denied.';
+          this.#toast.error('Location Error', message);
           this.error.set('Location access is required to discover nearby opportunities.');
           this.loading.set(false);
           obs.next(null);
