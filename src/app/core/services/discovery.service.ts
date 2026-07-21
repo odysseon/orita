@@ -20,6 +20,6 @@ export class DiscoveryService {
     if (params.cursorId) queryObj.cursorId = params.cursorId;
     if (params.types && params.types.length > 0) queryObj.types = params.types.join(',');
 
-    return this.#http.get<NearbyResultPageDto>(`${this.#apiUrl}/v1/nearby`, { params: queryObj });
+    return this.#http.get<NearbyResultPageDto>(`${this.#apiUrl}/nearby`, { params: queryObj });
   }
 }
