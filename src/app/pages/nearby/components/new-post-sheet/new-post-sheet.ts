@@ -55,21 +55,37 @@ export class NewPostSheet {
           field: FieldTree<NewPostModel>
         ): Promise<{ kind: string; message: string } | undefined> => {
           try {
+            this.#toastService.info('Debug', 'Starting post creation...');
+            
+            this.#toastService.info('Debug', 'Getting current location...');
             const pos = await this.#locationService.getCurrentPosition();
+            this.#toastService.info('Debug', `Got location: ${pos.coords.latitude}, ${pos.coords.longitude}`);
 
+            this.#toastService.info('Debug', 'Reverse geocoding location...');
             const loc = await firstValueFrom(
               this.#locationService.reverseGeocode(pos.coords.latitude, pos.coords.longitude)
             );
-            if (!loc) return { kind: 'locationError', message: 'Failed to determine your location.' };
+            if (!loc) {
+              this.#toastService.error('Error', 'Failed to determine your location.');
+              return { kind: 'locationError', message: 'Failed to determine your location.' };
+            }
+            this.#toastService.info('Debug', `Geocoded: ${loc.formattedAddress || loc.name}`);
 
+            this.#toastService.info('Debug', 'Ensuring location exists in DB...');
             const locationDoc = await firstValueFrom(this.#locationService.ensure(loc));
-            if (!locationDoc) return { kind: 'locationError', message: 'Failed to save your location.' };
+            if (!locationDoc) {
+              this.#toastService.error('Error', 'Failed to save your location.');
+              return { kind: 'locationError', message: 'Failed to save your location.' };
+            }
 
             const dto: CreateOpportunityDto = {
               ...field().value(),
               locationId: locationDoc.id,
             };
+            
+            this.#toastService.info('Debug', 'Calling API to create opportunity...');
             await firstValueFrom(this.#opportunityService.create(dto));
+            this.#toastService.success('Success', 'Opportunity posted successfully!');
 
             this.created.emit();
             this.close.emit();
