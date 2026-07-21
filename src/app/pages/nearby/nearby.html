@@ -7,8 +7,8 @@
     @if (error()) {
       <div class="feed-container">
         <ui-empty-state
-          title="Couldn't load nearby activity"
-          [description]="error()!"
+          [title]="error()!.title"
+          [description]="error()!.message"
         >
           <svg lucideMapPin aria-hidden="true" icon></svg>
           <button class="btn btn--secondary" (click)="refresh(true)">Retry</button>
@@ -51,7 +51,8 @@
     <div class="feed-container">
       @if (error()) {
         <div class="surface-container" style="padding: var(--space-sm); border-radius: var(--radius-sm); color: var(--clr-error); margin-bottom: var(--space-md); text-align: center; border: 1px solid var(--clr-error-container); display: flex; flex-direction: column; gap: var(--space-xs); align-items: center;">
-          <span>{{ error() }}</span>
+          <strong style="font-weight: 500;">{{ error()!.title }}</strong>
+          <span>{{ error()!.message }}</span>
           <button class="btn btn--ghost btn--sm" (click)="loadMore()">Retry</button>
         </div>
       }

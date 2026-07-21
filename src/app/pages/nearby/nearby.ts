@@ -29,7 +29,7 @@ export class NearbyPage implements OnInit, OnDestroy {
 
   items = signal<NearbyItemDto[]>([]);
   loading = signal(true);
-  error = signal<string | null>(null);
+  error = signal<{title: string; message: string} | null>(null);
 
   #destroy$ = new Subject<void>();
   #refreshTrigger$ = new Subject<void>();
@@ -115,7 +115,10 @@ export class NearbyPage implements OnInit, OnDestroy {
         .catch(err => {
           const message = err instanceof Error ? err.message : 'Location access denied.';
           this.#toast.error('Location Error', message);
-          this.error.set('Location access is required to discover nearby opportunities.');
+          this.error.set({
+            title: 'Location Required',
+            message: 'Location access is required to discover nearby opportunities.'
+          });
           this.loading.set(false);
           obs.next(null);
           obs.complete();
@@ -149,7 +152,10 @@ export class NearbyPage implements OnInit, OnDestroy {
         this.error.set(null);
       }),
       catchError(err => {
-        this.error.set('Failed to load nearby items. Please try again later.');
+        this.error.set({
+          title: 'Couldn\'t load nearby activity',
+          message: 'Failed to load nearby items. Please try again later.'
+        });
         this.loading.set(false);
         return of(null);
       })
