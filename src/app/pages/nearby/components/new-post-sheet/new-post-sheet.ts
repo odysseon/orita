@@ -1,6 +1,6 @@
 import { Component, inject, signal, output } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { form, required, FormField, FormRoot, SchemaPath, FieldTree } from '@angular/forms/signals';
+import { form, required, FormField, FormRoot, SchemaPathTree, FieldTree } from '@angular/forms/signals';
 import { OpportunityService, CreateOpportunityDto } from '../../../../core/services/opportunity.service';
 import { LocationService } from '../../../../core/services/location.service';
 import { Drawer } from '../../../../shared/drawer/drawer';
@@ -43,7 +43,7 @@ export class NewPostSheet {
 
   postForm = form(
     this.postModel,
-    (schema: SchemaPath<NewPostModel>) => {
+    (schema: SchemaPathTree<NewPostModel>) => {
       required(schema.type, { message: 'Choose a type' });
       required(schema.title, { message: 'Title is required' });
     },
