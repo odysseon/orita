@@ -3,6 +3,7 @@ import { firstValueFrom } from 'rxjs';
 import { form, required, FormField, FormRoot, SchemaPathTree, FieldTree } from '@angular/forms/signals';
 import { OpportunityService, CreateOpportunityDto } from '../../../../core/services/opportunity.service';
 import { LocationService } from '../../../../core/services/location.service';
+import { ToastService } from '../../../../core/services/toast';
 import { Drawer } from '../../../../shared/drawer/drawer';
 import { LucideX, LucideLoaderCircle } from '@lucide/angular';
 
@@ -22,6 +23,7 @@ interface NewPostModel {
 export class NewPostSheet {
   #opportunityService = inject(OpportunityService);
   #locationService = inject(LocationService);
+  #toastService = inject(ToastService);
 
   close = output<void>();
   created = output<void>();
@@ -74,6 +76,7 @@ export class NewPostSheet {
             return undefined;
           } catch (err) {
             const message = err instanceof Error ? err.message : 'Failed to create post.';
+            this.#toastService.error('Error', message);
             return { kind: 'submitError', message };
           }
         },
