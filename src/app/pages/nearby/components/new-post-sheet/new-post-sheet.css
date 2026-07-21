@@ -1,1 +1,36 @@
-/* CSS */
+.new-post-content {
+  padding: var(--space-lg);
+  padding-bottom: calc(var(--space-lg) + env(safe-area-inset-bottom));
+  position: relative;
+}
+
+.new-post-close {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+}
+
+.new-post-title {
+  margin-top: 0;
+  margin-bottom: var(--space-lg);
+}
+
+.new-post-error {
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  color: var(--clr-error);
+  background: var(--clr-error-container);
+  border: var(--size-1) solid var(--clr-error-container);
+  margin-bottom: var(--space-md);
+  font-size: var(--font-size-sm);
+}
+
+.new-post-actions {
+  margin-top: var(--space-md);
+  flex-wrap: nowrap;
+  gap: var(--space-md);
+}
+
+.new-post-actions .btn {
+  flex: 1;
+}

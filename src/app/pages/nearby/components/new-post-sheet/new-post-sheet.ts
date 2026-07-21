@@ -1,16 +1,21 @@
-import { Component, EventEmitter, Output, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component, inject, signal, output } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { form, required, FormField, FormRoot, SchemaPath, FieldTree } from '@angular/forms/signals';
 import { OpportunityService, CreateOpportunityDto } from '../../../../core/services/opportunity.service';
 import { LocationService } from '../../../../core/services/location.service';
 import { Drawer } from '../../../../shared/drawer/drawer';
 import { LucideX, LucideLoaderCircle } from '@lucide/angular';
 
+interface NewPostModel {
+  type: string;
+  title: string;
+  body: string;
+}
+
 @Component({
   selector: 'app-new-post-sheet',
   standalone: true,
-  imports: [CommonModule, FormsModule, Drawer, LucideX, LucideLoaderCircle],
+  imports: [Drawer, FormField, FormRoot, LucideX, LucideLoaderCircle],
   templateUrl: './new-post-sheet.html',
   styleUrls: ['./new-post-sheet.css'],
 })
@@ -18,8 +23,8 @@ export class NewPostSheet {
   #opportunityService = inject(OpportunityService);
   #locationService = inject(LocationService);
 
-  @Output() close = new EventEmitter<void>();
-  @Output() created = new EventEmitter<void>();
+  close = output<void>();
+  created = output<void>();
 
   types = [
     { value: 'TEMP_SERVICE', label: 'Temp Service' },
@@ -30,49 +35,49 @@ export class NewPostSheet {
     { value: 'LOST_FOUND', label: 'Lost / Found' },
   ];
 
-  model: Partial<CreateOpportunityDto> = {
+  postModel = signal<NewPostModel>({
     type: 'TEMP_SERVICE',
     title: '',
     body: '',
-  };
+  });
 
-  loading = signal(false);
-  error = signal<string | null>(null);
+  postForm = form(
+    this.postModel,
+    (schema: SchemaPath<NewPostModel>) => {
+      required(schema.type, { message: 'Choose a type' });
+      required(schema.title, { message: 'Title is required' });
+    },
+    {
+      submission: {
+        action: async (
+          field: FieldTree<NewPostModel>
+        ): Promise<{ kind: string; message: string } | undefined> => {
+          try {
+            const pos = await this.#locationService.getCurrentPosition();
 
-  async submit() {
-    if (!this.model.title || !this.model.type) return;
+            const loc = await firstValueFrom(
+              this.#locationService.reverseGeocode(pos.coords.latitude, pos.coords.longitude)
+            );
+            if (!loc) return { kind: 'locationError', message: 'Failed to determine your location.' };
 
-    this.loading.set(true);
-    this.error.set(null);
+            const locationDoc = await firstValueFrom(this.#locationService.ensure(loc));
+            if (!locationDoc) return { kind: 'locationError', message: 'Failed to save your location.' };
 
-    try {
-      const pos = await this.#locationService.getCurrentPosition();
-      
-      const locObs = this.#locationService.reverseGeocode(pos.coords.latitude, pos.coords.longitude);
-      const loc = await firstValueFrom(locObs);
+            const dto: CreateOpportunityDto = {
+              ...field().value(),
+              locationId: locationDoc.id,
+            };
+            await firstValueFrom(this.#opportunityService.create(dto));
 
-      if (!loc) {
-        throw new Error('Failed to determine location.');
-      }
-      
-      const ensureObs = this.#locationService.ensure(loc);
-      const locationDoc = await firstValueFrom(ensureObs);
-      
-      if (!locationDoc) {
-        throw new Error('Failed to ensure location.');
-      }
-
-      this.model.locationId = locationDoc.id;
-
-      const createObs = this.#opportunityService.create(this.model as CreateOpportunityDto);
-      await firstValueFrom(createObs);
-      
-      this.created.emit();
-      this.close.emit();
-    } catch (err: any) {
-      this.error.set(err.message || 'Failed to create post.');
-    } finally {
-      this.loading.set(false);
+            this.created.emit();
+            this.close.emit();
+            return undefined;
+          } catch (err) {
+            const message = err instanceof Error ? err.message : 'Failed to create post.';
+            return { kind: 'submitError', message };
+          }
+        },
+      },
     }
-  }
+  );
 }
