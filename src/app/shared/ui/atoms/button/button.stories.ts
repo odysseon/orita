@@ -56,6 +56,17 @@ import { Component, input } from '@angular/core';
           I span the entire container
         </button>
       </section>
+      <!-- Icon Buttons -->
+      <section class="regression-section">
+        <h3>Icon Buttons</h3>
+        <div class="row">
+          <button app-button [size]="'icon'" [appearance]="'solid'" [shape]="'circle'" aria-label="Search"><svg lucideSearch></svg></button>
+          <button app-button [size]="'icon'" [appearance]="'outline'" [shape]="'circle'" aria-label="Search"><svg lucideSearch></svg></button>
+          <button app-button [size]="'icon'" [appearance]="'ghost'" [shape]="'circle'" aria-label="Search"><svg lucideSearch></svg></button>
+          <button app-button [size]="'icon'" [appearance]="'soft'" [shape]="'circle'" aria-label="Search"><svg lucideSearch></svg></button>
+          <button app-button [size]="'icon'" [appearance]="'ghost'" [shape]="'circle'" disabled aria-label="Search"><svg lucideSearch></svg></button>
+        </div>
+      </section>
     </div>
   `,
 })

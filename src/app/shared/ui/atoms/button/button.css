@@ -187,6 +187,12 @@
   border-radius: var(--radius-md);
 }
 
+.btn--icon {
+  height: var(--size-40);
+  width: var(--size-40);
+  padding: 0;
+}
+
 .btn--full {
   width: 100%;
 }
@@ -201,9 +207,9 @@
 }
 
 .btn--shape-circle {
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-pill);
 }
 
 .btn--shape-pill {
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-pill);
 }
