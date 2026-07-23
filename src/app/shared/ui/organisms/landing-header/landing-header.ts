@@ -9,7 +9,7 @@ import { Logo } from '../../atoms/logo/logo';
   standalone: true,
   imports: [Header, HeaderStart, HeaderCenter, HeaderEnd, Button, RouterLink, Logo],
   template: `
-    <ui-header [sticky]="sticky()">
+    <ui-header [sticky]="sticky()" [bordered]="false" [uiScrollHide]="uiScrollHide()" [scrollHidePosition]="scrollHidePosition()">
       <div uiHeaderStart>
         <ui-logo variant="full" size="sm"></ui-logo>
       </div>
@@ -24,6 +24,8 @@ import { Logo } from '../../atoms/logo/logo';
 })
 export class LandingHeader {
   sticky = input<boolean>(true);
+  uiScrollHide = input<boolean>(false);
+  scrollHidePosition = input<'top' | 'bottom'>('top');
   layout = input<'default' | 'wide'>('wide');
   exploreLink = input<string>('/explore');
   registerLink = input<string>('/auth/register');

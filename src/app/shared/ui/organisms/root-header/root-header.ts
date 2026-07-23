@@ -8,7 +8,7 @@ import { Avatar } from '../../atoms/avatar/avatar';
   standalone: true,
   imports: [Header, HeaderStart, HeaderCenter, HeaderEnd, Avatar, RouterLink],
   template: `
-    <ui-header [sticky]="sticky()">
+    <ui-header [sticky]="sticky()" [uiScrollHide]="uiScrollHide()" [scrollHidePosition]="scrollHidePosition()">
       <div uiHeaderStart>
         <a [routerLink]="profileLink()">
           <app-avatar [src]="avatarSrc()" size="sm"></app-avatar>
@@ -24,7 +24,9 @@ import { Avatar } from '../../atoms/avatar/avatar';
   `,
 })
 export class RootHeader {
-  avatarSrc = input<string>();
+  avatarSrc = input<string>('');
   profileLink = input<string>('/profile');
-  sticky = input<boolean>(true);
+  sticky = input<boolean>(false);
+  uiScrollHide = input<boolean>(false);
+  scrollHidePosition = input<'top' | 'bottom'>('top');
 }

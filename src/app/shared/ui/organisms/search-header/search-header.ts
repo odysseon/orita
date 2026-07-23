@@ -25,7 +25,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   template: `
-    <ui-header [sticky]="sticky()">
+    <ui-header [sticky]="sticky()" [uiScrollHide]="uiScrollHide()" [scrollHidePosition]="scrollHidePosition()">
       <div uiHeaderStart>
         <a [routerLink]="profileLink()">
           <app-avatar [src]="avatarSrc()" size="sm"></app-avatar>
@@ -56,12 +56,13 @@ import { FormsModule } from '@angular/forms';
   `]
 })
 export class SearchHeader {
-  avatarSrc = input<string>();
+  avatarSrc = input<string>('');
   profileLink = input<string>('/profile');
-  sticky = input<boolean>(true);
-  placeholder = input<string>('Search...');
-  
-  query = input.required<string>();
+  placeholder = input<string>('Search');
+  query = input<string>('');
+  sticky = input<boolean>(false);
+  uiScrollHide = input<boolean>(false);
+  scrollHidePosition = input<'top' | 'bottom'>('top');
   
   search = output<string>();
   filter = output<void>();

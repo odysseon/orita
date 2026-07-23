@@ -9,7 +9,7 @@ import { LucideArrowLeft } from '@lucide/angular';
   standalone: true,
   imports: [Header, HeaderStart, HeaderCenter, HeaderEnd, Button, LucideArrowLeft],
   template: `
-    <ui-header [sticky]="sticky()">
+    <ui-header [sticky]="sticky()" [uiScrollHide]="uiScrollHide()" [scrollHidePosition]="scrollHidePosition()">
       <div uiHeaderStart>
         @if (back()) {
           <button app-button appearance="ghost" size="icon" shape="circle" (click)="goBack()" aria-label="Go back">
@@ -35,7 +35,9 @@ import { LucideArrowLeft } from '@lucide/angular';
 export class PageHeader {
   title = input<string>('');
   back = input<boolean>(true);
-  sticky = input<boolean>(true);
+  sticky = input<boolean>(false);
+  uiScrollHide = input<boolean>(false);
+  scrollHidePosition = input<'top' | 'bottom'>('top');
 
   private location = inject(Location);
 
