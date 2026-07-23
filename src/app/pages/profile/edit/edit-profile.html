@@ -42,7 +42,7 @@
       </div>
 
       <div class="edit-profile-actions">
-        <button type="submit" class="btn btn--primary" [disabled]="loading()">
+        <button app-button type="submit" intent="primary" [disabled]="loading()">
           @if (loading()) {
             <svg lucideLoaderCircle class="spinner" aria-hidden="true"></svg>
             Saving...

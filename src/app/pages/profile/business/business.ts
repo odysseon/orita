@@ -25,6 +25,7 @@ import { AppBusinessTours } from './tours/tours';
 import { CompletionNudge } from '../../../shared/completion-nudge/completion-nudge';
 import { FirstListingCta } from './create/first-listing-cta/first-listing-cta';
 import { AppBizCard } from '../../../shared/biz-card/biz-card';
+import { Button } from '../../../shared/ui/atoms/button/button';
 import { IBusinessSummary } from '../../home/home.interface';
 import { VisibilityScore } from '../../../shared/visibility-score/visibility-score';
 import { BusinessProfileService, PublicationIssue } from '../../../core/services/business-profile.service';
@@ -41,6 +42,7 @@ import { ToastService } from '../../../core/services/toast';
     LucideChartBar,
     LucideClock,
     LucideList,
+    Button,
     LucideEye,
     LucideBookmark,
     LucideMousePointerClick,

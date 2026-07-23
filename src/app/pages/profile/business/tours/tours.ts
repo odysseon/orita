@@ -5,12 +5,13 @@ import { httpResource } from '@angular/common/http';
 import { LucidePlus, LucideTrash2, LucideEdit3 } from '@lucide/angular';
 import { environment } from '../../../../../environments/environment';
 import { IPaginated } from '../../../home/home.interface';
+import { Button } from '../../../../shared/ui/atoms/button/button';
 import { BusinessTourService, IBusinessTour } from '../../../../core/services/business-tour.service';
 import { ToastService } from '../../../../core/services/toast';
 
 @Component({
   selector: 'app-business-tours',
-  imports: [RouterLink, LucidePlus, LucideTrash2, DatePipe],
+  imports: [RouterLink, LucidePlus, LucideTrash2, DatePipe, Button],
   templateUrl: './tours.html',
   styleUrl: './tours.css'
 })

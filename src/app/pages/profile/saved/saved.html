@@ -54,6 +54,8 @@
         </div>
       </a>
       <button
+        app-button
+        appearance="plain"
         class="saved-item__remove"
         [disabled]="removingId() === saved.businessId"
         (click)="unfollowBusiness(saved.businessId)"
@@ -93,6 +95,8 @@
         </div>
       </a>
       <button
+        app-button
+        appearance="plain"
         class="saved-item__remove"
         [disabled]="removingId() === saved.listingId"
         (click)="unsaveListing(saved.listingId)"

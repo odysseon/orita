@@ -6,7 +6,7 @@
     </div>
     
     <!-- Link to the new create orchestrator -->
-    <a [routerLink]="['/profile/business', businessId(), 'tours', 'create']" class="btn btn-primary">
+    <a app-button intent="primary" [routerLink]="['/profile/business', businessId(), 'tours', 'create']">
       <svg lucidePlus aria-hidden="true"></svg>
       Create Tour
     </a>
@@ -22,7 +22,7 @@
         </div>
         <h3>No tours yet</h3>
         <p>Create your first tour to showcase your business.</p>
-        <a [routerLink]="['/profile/business', businessId(), 'tours', 'create']" class="btn btn-primary mt-4">
+        <a app-button intent="primary" [routerLink]="['/profile/business', businessId(), 'tours', 'create']" class="mt-4">
           Create Tour
         </a>
       </div>
@@ -41,7 +41,7 @@
             </div>
             
             <div class="tour-actions">
-              <button class="btn btn-icon text-error" (click)="deleteTour(tour.id)" title="Delete">
+              <button app-button appearance="ghost" intent="danger" shape="circle" class="btn-icon" (click)="deleteTour(tour.id)" title="Delete">
                 <svg lucideTrash2 aria-hidden="true"></svg>
               </button>
             </div>

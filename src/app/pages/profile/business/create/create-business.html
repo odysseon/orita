@@ -107,7 +107,7 @@ We also repair damaged phones and offer same-day screen replacement."
               <svg lucideMapPin aria-hidden="true" style="width: var(--size-16); height: var(--size-16);"></svg>
               <span>{{ model().location }}</span>
             </div>
-            <button type="button" class="btn btn--ghost btn--sm" (click)="model.update(m => ({ ...m, location: '', latitude: 0, longitude: 0 }))">Change</button>
+            <button app-button type="button" appearance="ghost" size="sm" (click)="model.update(m => ({ ...m, location: '', latitude: 0, longitude: 0 }))">Change</button>
           </div>
         } @else {
           <app-location-selector (locationSelected)="onLocationPicked($event)" />
@@ -120,7 +120,7 @@ We also repair damaged phones and offer same-day screen replacement."
         <a routerLink="/legal/privacy" style="color: var(--color-primary-600); text-decoration: underline;">Privacy Policy</a>.
       </p>
 
-      <button class="btn btn--primary btn--full create-biz-submit" type="submit" [disabled]="loading() || isFormInvalid()">
+      <button app-button intent="primary" fullWidth class="create-biz-submit" type="submit" [disabled]="loading() || isFormInvalid()">
         @if (loading()) {
         <svg lucideLoaderCircle class="create-biz-submit__spinner" aria-hidden="true"></svg>
         Creating… } @else { Create business }

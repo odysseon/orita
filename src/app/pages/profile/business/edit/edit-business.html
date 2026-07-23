@@ -218,8 +218,9 @@
 
       <div class="form-actions">
         <button
+          app-button
           type="submit"
-          class="btn btn--primary"
+          intent="primary"
           [disabled]="isFormInvalid() || loading()"
         >
           @if (loading()) {
