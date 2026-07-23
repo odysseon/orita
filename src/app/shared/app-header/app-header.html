@@ -28,14 +28,14 @@
   <div class="header-actions">
     <ng-content></ng-content>
     @if (showProfileBtn()) {
-      <ui-avatar
+      <app-avatar
         [authenticated]="!!authService.token()"
         [src]="authService.currentUser()?.avatarUrl"
-        [name]="authService.currentUser()?.username || '?'"
+        [alt]="authService.currentUser()?.username || '?'"
         size="sm"
-        (avatarClick)="goToProfile()"
+        (click)="goToProfile()"
         (guestClick)="goToProfile()"
-      />
+      ></app-avatar>
     }
   </div>
 </header>

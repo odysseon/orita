@@ -9,7 +9,7 @@ import { Drawer } from '../../drawer/drawer';
 import { UserListItem } from '../user-list-item/user-list-item';
 import { LucideSearch, LucideSend, LucideX } from '@lucide/angular';
 
-import { Avatar } from '../../ui/avatar/avatar';
+import { Avatar } from '../../ui/atoms/avatar/avatar';
 
 @Component({
   selector: 'app-share-modal',

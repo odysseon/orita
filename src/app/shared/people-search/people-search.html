@@ -17,11 +17,11 @@
     <ul class="search-results">
       @for (user of results(); track user.id) {
         <li class="result-item" (click)="selectUser(user)">
-          <ui-avatar
+          <app-avatar
             [src]="user.avatarUrl"
-            [name]="user.username"
+            [alt]="user.username"
             size="md"
-          />
+          ></app-avatar>
           <div class="user-details">
             <span class="username">{{ user.username }}</span>
             <span class="role">{{ user.role }}</span>

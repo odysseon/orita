@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideCheck } from '@lucide/angular';
-import { Avatar } from '../../ui/avatar/avatar';
+import { Avatar } from '../../ui/atoms/avatar/avatar';
 
 @Component({
   selector: 'app-user-list-item',

@@ -1,7 +1,7 @@
 import { Component, input, inject, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Logo } from '../logo/logo';
-import { Avatar } from '../ui/avatar/avatar';
+import { Avatar } from '../ui/atoms/avatar/avatar';
 import { LucideChevronDown, LucideMapPin, LucideLogIn } from '@lucide/angular';
 import { ExplorationService } from '../../core/services/exploration.service';
 import { ActiveLocation } from '../../core/services/exploration-storage';

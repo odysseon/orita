@@ -1,0 +1,37 @@
+<div class="form-field__header">
+  <label [for]="fieldId()" class="form-field__label" [class.sr-only]="hideLabel()">
+    {{ label() }}
+    @if (required()) {
+      <span class="form-field__required-indicator" aria-hidden="true">*</span>
+    }
+    @if (optional() && !required()) {
+      <span class="form-field__optional-indicator">(optional)</span>
+    }
+  </label>
+  
+  @if (description()) {
+    <div class="form-field__description" [id]="fieldId() + '-description'">
+      {{ description() }}
+    </div>
+  }
+</div>
+
+<div class="form-field__body">
+  <div class="form-field__control">
+    <ng-content></ng-content>
+  </div>
+
+  @if (hint() || (invalid() && errorMessage())) {
+    <div class="form-field__footer">
+      @if (invalid() && errorMessage()) {
+        <div class="form-field__error" [id]="fieldId() + '-error'" role="alert">
+          {{ errorMessage() }}
+        </div>
+      } @else if (hint()) {
+        <div class="form-field__hint" [id]="fieldId() + '-hint'">
+          {{ hint() }}
+        </div>
+      }
+    </div>
+  }
+</div>

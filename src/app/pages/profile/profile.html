@@ -37,11 +37,11 @@
   <app-seo [config]="seoConfig()" />
   <div class="profile-identity">
     <div class="profile-avatar">
-      <ui-avatar
+      <app-avatar
         [src]="profile.value()!.avatarUrl"
-        [name]="profile.value()!.username"
+        [alt]="profile.value()!.username"
         size="xl"
-      />
+      ></app-avatar>
     </div>
 
     <h1 class="profile-identity__username">{{ profile.value()!.username }}</h1>
