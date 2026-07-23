@@ -20,6 +20,7 @@
           <app-avatar
             [src]="user.avatarUrl"
             [alt]="user.username"
+            [fallback]="user.username ? user.username.charAt(0).toUpperCase() : ''"
             size="md"
           ></app-avatar>
           <div class="user-details">

@@ -63,6 +63,7 @@
               <app-avatar
                 [src]="p.avatarUrl"
                 [alt]="p.displayName || p.username"
+                [fallback]="(p.displayName || p.username) ? (p.displayName || p.username).charAt(0).toUpperCase() : ''"
                 size="xl"
                 class="profile-avatar-component"
               ></app-avatar>
