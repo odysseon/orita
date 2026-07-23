@@ -12,9 +12,11 @@ import { NotificationService } from '../../core/services/notification.service';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 
+import { Button } from '../ui/atoms/button/button';
+
 @Component({
   selector: 'ui-app-header',
-  imports: [Logo, LucideChevronDown, LucideMapPin, Drawer, LocationSelector, Avatar],
+  imports: [Logo, LucideChevronDown, LucideMapPin, Drawer, LocationSelector, Avatar, Button],
   templateUrl: './app-header.html',
   styleUrl: './app-header.css',
   host: {

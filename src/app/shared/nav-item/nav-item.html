@@ -1,4 +1,4 @@
-<button class="nav-item-btn" type="button" [disabled]="disabled()" (click)="clicked.emit()">
+<button app-button appearance="plain" class="nav-item-btn" type="button" [disabled]="disabled()" (click)="clicked.emit()">
   <div class="nav-item-icon-wrapper">
     <ng-content select="[icon]" />
   </div>
