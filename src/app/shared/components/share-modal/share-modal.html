@@ -95,7 +95,7 @@
     <div class="selected-strip">
       @for (u of selectedUsers(); track u.id) {
       <div class="selected-chip">
-        <ui-avatar [src]="u.avatarUrl" [name]="u.displayName || u.username" size="sm" />
+        <app-avatar [src]="u.avatarUrl" [alt]="u.displayName || u.username" size="sm"></app-avatar>
         <span>{{ u.displayName || u.username }}</span>
         <button (click)="toggleRecipient(u)" aria-label="Remove {{ u.displayName || u.username }}">
           <svg lucideX aria-hidden="true"></svg>

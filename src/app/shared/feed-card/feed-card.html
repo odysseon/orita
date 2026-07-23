@@ -53,12 +53,12 @@
   <!-- Identity, quiet, single line -->
   @if (item().business; as business) {
   <header class="feed-card__header">
-    <ui-avatar
+    <app-avatar
       class="feed-card__avatar"
       [src]="business.logoUrl"
-      [name]="business.name"
+      [alt]="business.name"
       size="sm"
-    />
+    ></app-avatar>
     <div class="feed-card__meta">
       <a class="feed-card__business-name" [routerLink]="['/b', business.slug]"
         >{{ business.name }}</a

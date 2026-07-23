@@ -20,7 +20,7 @@ import { environment } from '../../../environments/environment';
 import { CreateBusiness } from './business/create/create-business';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { AppHeader } from '../../shared/app-header/app-header';
-import { Avatar } from '../../shared/ui/avatar/avatar';
+import { Avatar } from '../../shared/ui/atoms/avatar/avatar';
 
 interface NavItem {
   icon: LucideIconInput;

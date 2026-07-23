@@ -1,6 +1,6 @@
 <li class="user-item" [class.selected]="selected()" (click)="onToggle($event)">
   <div class="user-avatar">
-    <ui-avatar [src]="avatarUrl()" [name]="displayName() || username()" size="md" />
+    <app-avatar [src]="avatarUrl()" [alt]="displayName() || username()" size="md"></app-avatar>
   </div>
   <div class="user-details">
     <span class="user-name">{{ displayName() || username() }}</span>

@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { UserSearchService } from '../../core/services/user-search.service.js';
 import { UserSearchResult } from '../../core/types/share.types.js';
 
-import { Avatar } from '../ui/avatar/avatar';
+import { Avatar } from '../ui/atoms/avatar/avatar';
 import { LucideSearch } from '@lucide/angular';
 
 @Component({

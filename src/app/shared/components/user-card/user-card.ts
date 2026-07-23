@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IProfile } from '../../../pages/profile/profile.interface';
-import { Avatar } from '../../ui/avatar/avatar';
+import { Avatar } from '../../ui/atoms/avatar/avatar';
 import { LucideMapPin } from '@lucide/angular';
 
 @Component({
@@ -12,11 +12,11 @@ import { LucideMapPin } from '@lucide/angular';
   template: `
     <a [routerLink]="['/u', user().username]" class="user-card-link">
       <div class="user-card">
-        <ui-avatar
+        <app-avatar
           [src]="user().avatarUrl"
-          [name]="user().username"
+          [alt]="user().username"
           size="lg"
-        />
+        ></app-avatar>
         <div class="user-info">
           <h3 class="user-name">{{ user().username }}</h3>
           @if (user().location?.name) {

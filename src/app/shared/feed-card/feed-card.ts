@@ -16,7 +16,7 @@ import { SaveButton, SaveItemType } from '../save-button/save-button';
 import { FollowButton } from '../follow-button/follow-button';
 import { MessagingFacade } from '../../core/services/messaging.facade';
 
-import { Avatar } from '../ui/avatar/avatar';
+import { Avatar } from '../ui/atoms/avatar/avatar';
 
 @Component({
   selector: 'app-feed-card',

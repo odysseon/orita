@@ -5,7 +5,7 @@ import { LucideShare,  LucideBriefcase, LucideArrowLeft, LucideCheck, LucideChev
 import { PublicUserService, PublicUserProfile } from '../../core/services/public-user.service';
 import { AuthService } from '../../core/services/auth.service';
 import { ShareService } from '../../core/services/share.service';
-import { Avatar } from '../../shared/ui/avatar/avatar';
+import { Avatar } from '../../shared/ui/atoms/avatar/avatar';
 
 @Component({
   selector: 'app-public-profile',
