@@ -17,13 +17,18 @@
       <svg icon lucideSearch class="icon-search" aria-hidden="true"></svg>
       
       @if (rawQuery()) {
-        <button class="clear-btn" (click)="clearSearch()" aria-label="Clear search">
+        <button app-button appearance="plain" class="clear-btn" (click)="clearSearch()" aria-label="Clear search">
           <svg icon lucideX aria-hidden="true"></svg>
         </button>
       }
     </div>
     
-    <button class="filter-toggle-btn" (click)="openFilters()" [class.has-filters]="appliedLocationName() || appliedCategoryId()">
+    <button app-button 
+      [intent]="(appliedLocationName() || appliedCategoryId()) ? 'primary' : 'secondary'"
+      [appearance]="(appliedLocationName() || appliedCategoryId()) ? 'solid' : 'outline'"
+      shape="square"
+      class="filter-toggle-btn" 
+      (click)="openFilters()">
       <svg icon lucideSlidersHorizontal aria-hidden="true"></svg>
     </button>
   </ui-app-header>
@@ -100,7 +105,7 @@
           @if (appliedCategoryId()) {
             <span class="filter-chip">
               Category applied
-              <button class="clear-btn" style="position: static; margin-left: 4px;" (click)="clearCategory()" aria-label="Clear category">
+              <button app-button appearance="plain" class="clear-btn" style="position: static; margin-left: 4px;" (click)="clearCategory()" aria-label="Clear category">
                 <svg icon lucideX aria-hidden="true"></svg>
               </button>
             </span>
@@ -163,7 +168,7 @@
             <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
               <h2 class="section__title">People</h2>
               @if ((usersResource.value()?.total || 0) > 5) {
-                <button class="btn-text" (click)="setSearchType('people')">See all</button>
+                <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('people')">See all</button>
               }
             </div>
             <div class="horizontal-scroll-list" style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px;">
@@ -181,7 +186,7 @@
             <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
               <h2 class="section__title">Businesses</h2>
               @if ((businessesResource.value()?.total || 0) > 5) {
-                <button class="btn-text" (click)="setSearchType('business')">See all</button>
+                <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('business')">See all</button>
               }
             </div>
             <div class="horizontal-scroll-list" style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px;">
@@ -199,7 +204,7 @@
             <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
               <h2 class="section__title">Listings</h2>
               @if ((listingsResource.value()?.total || 0) > 5) {
-                <button class="btn-text" (click)="setSearchType('listing')">See all</button>
+                <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('listing')">See all</button>
               }
             </div>
             <app-grid>
@@ -215,7 +220,7 @@
             <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
               <h2 class="section__title">Tours</h2>
               @if ((toursResource.value()?.total || 0) > 5) {
-                <button class="btn-text" (click)="setSearchType('tour')">See all</button>
+                <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('tour')">See all</button>
               }
             </div>
             <app-grid>
@@ -231,7 +236,7 @@
             <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
               <h2 class="section__title">Locations</h2>
               @if ((locationsResource.value()?.length || 0) >= 5) {
-                <button class="btn-text" (click)="setSearchType('location')">See all</button>
+                <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('location')">See all</button>
               }
             </div>
             <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -247,7 +252,7 @@
             title="No results found"
             description="We couldn't find anything matching your search."
           >
-            <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+            <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
           </ui-empty-state>
         }
       </div>
@@ -262,11 +267,11 @@
           title="No people found"
           description="We couldn't find anyone matching your search."
         >
-          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+          <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
         </ui-empty-state>
       } @else if ((usersResource.value()?.items?.length || 0) < (usersResource.value()?.total || 0)) {
         <div style="text-align: center; margin-top: 2rem;">
-          <button class="btn btn-outline" (click)="loadMore()">Load More</button>
+          <button app-button appearance="outline" (click)="loadMore()">Load More</button>
         </div>
       }
     } @else if (searchType() === 'location') {
@@ -280,7 +285,7 @@
           title="No locations found"
           description="We couldn't find any locations matching your search."
         >
-          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+          <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
         </ui-empty-state>
       }
     } @else if (searchType() === 'listing') {
@@ -294,11 +299,11 @@
           title="No listings found"
           description="We couldn't find any listings matching your search. Try adjusting your filters or expanding your radius."
         >
-          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+          <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
         </ui-empty-state>
       } @else if ((listingsResource.value()?.items?.length || 0) < (listingsResource.value()?.total || 0)) {
         <div style="text-align: center; margin-top: 2rem;">
-          <button class="btn btn-outline" (click)="loadMore()">Load More</button>
+          <button app-button appearance="outline" (click)="loadMore()">Load More</button>
         </div>
       }
     } @else if (searchType() === 'tour') {
@@ -312,11 +317,11 @@
           title="No tours found"
           description="We couldn't find any tours matching your search."
         >
-          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+          <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
         </ui-empty-state>
       } @else if ((toursResource.value()?.items?.length || 0) < (toursResource.value()?.total || 0)) {
         <div style="text-align: center; margin-top: 2rem;">
-          <button class="btn btn-outline" (click)="loadMore()">Load More</button>
+          <button app-button appearance="outline" (click)="loadMore()">Load More</button>
         </div>
       }
     } @else {
@@ -330,7 +335,7 @@
           title="No businesses found"
           description="We couldn't find any businesses matching your search. Try adjusting your filters or expanding your radius."
         >
-          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+          <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
         </ui-empty-state>
       } @else if ((businessesResource.value()?.items?.length || 0) < (businessesResource.value()?.total || 0)) {
         <div style="text-align: center; margin-top: 2rem;">
