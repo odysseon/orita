@@ -1,0 +1,62 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  color: var(--text-primary);
+  user-select: none;
+}
+
+.mark {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--clr-primary);
+  color: white;
+  border-radius: 0.25em;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.wordmark {
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+/* Sizes */
+:host.size-sm {
+  font-size: 1rem;
+}
+:host.size-sm .mark {
+  width: 1.2em;
+  height: 1.2em;
+  font-size: 0.9em;
+}
+
+:host.size-md {
+  font-size: 1.5rem;
+}
+:host.size-md .mark {
+  width: 1.2em;
+  height: 1.2em;
+  font-size: 0.9em;
+}
+
+:host.size-lg {
+  font-size: 2.25rem;
+}
+:host.size-lg .mark {
+  width: 1.2em;
+  height: 1.2em;
+  font-size: 0.9em;
+}
+
+:host.size-xl {
+  font-size: 3rem;
+}
+:host.size-xl .mark {
+  width: 1.2em;
+  height: 1.2em;
+  font-size: 0.9em;
+}

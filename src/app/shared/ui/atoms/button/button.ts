@@ -12,7 +12,7 @@ import { Spinner } from '../spinner/spinner';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonIntent = 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
 export type ButtonAppearance = 'solid' | 'outline' | 'ghost' | 'soft' | 'link' | 'plain';
-export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'icon';
 export type ButtonShape = 'default' | 'square' | 'circle' | 'pill';
 
 @Component({
