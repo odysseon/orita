@@ -20,8 +20,11 @@ import { DrawerScrollService } from './drawer-scroll.service';
 import { DrawerFocusService } from './drawer-focus.service';
 import { DrawerDragService } from './drawer-drag.service';
 
+import { Button } from '../ui/atoms/button/button';
+
 @Component({
   selector: 'ui-drawer',
+  imports: [Button],
   templateUrl: './drawer.html',
   styleUrl: './drawer.css',
   providers: [DrawerFocusService, DrawerDragService],

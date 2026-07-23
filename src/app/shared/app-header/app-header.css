@@ -77,15 +77,6 @@
   display: flex;
   align-items: center;
   gap: var(--size-8);
-  padding: var(--size-8) var(--size-16);
-  background-color: var(--surface-subtle);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-full);
-  color: var(--text-primary);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
   margin-left: 0;
   max-width: 240px;
 }
@@ -105,9 +96,7 @@
   text-overflow: ellipsis;
 }
 
-.location-pill:hover {
-  background-color: var(--surface-hover);
-}
+
 
 .location-pill svg {
   width: 16px;

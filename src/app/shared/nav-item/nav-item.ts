@@ -3,8 +3,11 @@ import { Component, computed, input, output } from '@angular/core';
 export type NavItemLayout = 'vertical' | 'horizontal';
 export type NavItemIconSize = 'sm' | 'md' | 'lg';
 
+import { Button } from '../ui/atoms/button/button';
+
 @Component({
   selector: 'ui-nav-item',
+  imports: [Button],
   templateUrl: './nav-item.html',
   styleUrl: './nav-item.css',
   host: {

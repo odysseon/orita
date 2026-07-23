@@ -22,25 +22,7 @@
 }
 
 .btn-back {
-  background: transparent;
-  border: none;
-  padding: var(--size-8);
   margin-left: calc(var(--size-8) * -1);
-  display: flex;
-  align-items: center;
-  gap: var(--size-4);
-  font-family: inherit;
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-secondary);
-  cursor: pointer;
-  border-radius: var(--radius-md);
-  transition: background-color var(--transition-fast), color var(--transition-fast);
-}
-
-.btn-back:hover {
-  background-color: var(--surface-hover);
-  color: var(--text-primary);
 }
 
 .btn-back svg {

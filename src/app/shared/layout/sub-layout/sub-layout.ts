@@ -6,9 +6,11 @@ import { ScrollHideDirective } from '../../directives/scroll-hide.directive';
 import { LucideArrowLeft } from '@lucide/angular';
 import { isLayoutPage } from './layout-page.interface';
 
+import { Button } from '../../ui/atoms/button/button';
+
 @Component({
   selector: 'app-sub-layout',
-  imports: [AppHeader, ScrollHideDirective, LucideArrowLeft, RouterOutlet],
+  imports: [AppHeader, ScrollHideDirective, LucideArrowLeft, RouterOutlet, Button],
   templateUrl: './sub-layout.html',
   styleUrl: './sub-layout.css',
 })
