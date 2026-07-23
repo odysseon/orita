@@ -148,6 +148,16 @@
   text-underline-offset: 4px;
 }
 
+.btn--plain {
+  background: transparent;
+  color: var(--btn-base);
+  border: var(--size-2) solid transparent;
+}
+.btn--plain:not(:disabled):hover {
+  color: var(--btn-hover);
+  background: color-mix(in oklch, var(--text-primary) 5%, transparent);
+}
+
 /* ============================================================
  * SIZES
  * ============================================================ */
@@ -179,4 +189,21 @@
 
 .btn--full {
   width: 100%;
+}
+
+/* ============================================================
+ * SHAPES
+ * ============================================================ */
+.btn--shape-square,
+.btn--shape-circle {
+  padding: 0;
+  aspect-ratio: 1 / 1;
+}
+
+.btn--shape-circle {
+  border-radius: var(--radius-full);
+}
+
+.btn--shape-pill {
+  border-radius: var(--radius-full);
 }

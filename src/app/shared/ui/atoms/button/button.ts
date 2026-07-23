@@ -11,8 +11,9 @@ import { Spinner } from '../spinner/spinner';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonIntent = 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
-export type ButtonAppearance = 'solid' | 'outline' | 'ghost' | 'soft' | 'link';
+export type ButtonAppearance = 'solid' | 'outline' | 'ghost' | 'soft' | 'link' | 'plain';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+export type ButtonShape = 'default' | 'square' | 'circle' | 'pill';
 
 @Component({
   selector: 'button[app-button], a[app-button]',
@@ -39,6 +40,7 @@ export class Button {
   type = input<ButtonType>('button');
   intent = input<ButtonIntent>('primary');
   appearance = input<ButtonAppearance>('solid');
+  shape = input<ButtonShape>('default');
   size = input<ButtonSize>('md');
   disabled = input<boolean, unknown>(false, { transform: booleanAttribute });
   loading = input<boolean, unknown>(false, { transform: booleanAttribute });
@@ -54,6 +56,7 @@ export class Button {
       `btn--${this.size()}`,
     ];
 
+    if (this.shape() !== 'default') classList.push(`btn--shape-${this.shape()}`);
     if (this.fullWidth()) classList.push('btn--full');
     if (this.loading()) classList.push('is-loading');
 
