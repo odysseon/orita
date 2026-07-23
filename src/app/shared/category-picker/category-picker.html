@@ -1,7 +1,8 @@
 <button
   [id]="id()"
   type="button"
-  class="field__input category-picker__trigger"
+  class="category-picker__trigger"
+  app-input
   [class.category-picker__trigger--placeholder]="!selectedCategoryName()"
   (click)="openPicker()"
 >

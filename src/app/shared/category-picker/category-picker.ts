@@ -1,11 +1,12 @@
 import { Component, input, model, computed, signal, inject, ViewEncapsulation } from '@angular/core';
+import { InputDirective } from '../ui/atoms/forms';
 import { LucideSearch, LucideChevronDown, LucideLoaderCircle } from '@lucide/angular';
 import { CategoryService } from '../../core/services/category.service';
 import { Drawer } from '../drawer/drawer';
 
 @Component({
   selector: 'app-category-picker',
-  imports: [LucideSearch, LucideChevronDown, LucideLoaderCircle, Drawer],
+  imports: [LucideSearch, LucideChevronDown, LucideLoaderCircle, Drawer, InputDirective],
   templateUrl: './category-picker.html',
   styleUrl: './category-picker.css',
   encapsulation: ViewEncapsulation.None

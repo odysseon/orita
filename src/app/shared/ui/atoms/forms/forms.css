@@ -1,0 +1,240 @@
+/* 
+  Base Form Control Styles 
+  All our directives share similar typography and borders, so we define the variables here 
+*/
+.app-input,
+.app-textarea,
+.app-select {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  background: var(--surface-default);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: var(--size-8) var(--size-12);
+  width: 100%;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+}
+
+.app-input::placeholder,
+.app-textarea::placeholder,
+.app-select::placeholder {
+  color: var(--text-muted);
+}
+
+.app-input:disabled,
+.app-textarea:disabled,
+.app-select:disabled,
+.app-checkbox:disabled,
+.app-radio:disabled,
+.app-switch:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--surface-container);
+}
+
+.app-input:focus-visible,
+.app-textarea:focus-visible,
+.app-select:focus-visible,
+.app-checkbox:focus-visible,
+.app-radio:focus-visible,
+.app-switch:focus-visible {
+  border-color: var(--clr-primary);
+  box-shadow: 0 0 0 4px var(--clr-primary-container);
+}
+
+/* Error State via aria-invalid */
+.app-input[aria-invalid="true"],
+.app-textarea[aria-invalid="true"],
+.app-select[aria-invalid="true"],
+.app-checkbox[aria-invalid="true"],
+.app-radio[aria-invalid="true"],
+.app-switch[aria-invalid="true"] {
+  border-color: var(--clr-danger);
+}
+
+.app-input[aria-invalid="true"]:focus-visible,
+.app-textarea[aria-invalid="true"]:focus-visible,
+.app-select[aria-invalid="true"]:focus-visible,
+.app-checkbox[aria-invalid="true"]:focus-visible,
+.app-radio[aria-invalid="true"]:focus-visible,
+.app-switch[aria-invalid="true"]:focus-visible {
+  box-shadow: 0 0 0 4px var(--clr-danger-container);
+}
+
+/* Select specifics */
+.app-select {
+  appearance: none;
+  background-image: none; /* Reset native chevron if any */
+  padding-right: var(--size-32); /* Room for chevron */
+  position: relative;
+}
+
+/* We have to apply the chevron mask via a wrapper because native select pseudo-elements are unreliable */
+.app-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.app-select-chevron {
+  position: absolute;
+  right: var(--size-12);
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  background-color: var(--text-secondary);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+/* Base styles for drawn inputs (checkbox, radio, switch) */
+.app-checkbox,
+.app-radio,
+.app-switch {
+  appearance: none;
+  margin: 0;
+  border: 1px solid var(--border-default);
+  background: var(--surface-default);
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+/* Touch slop for all tiny inputs */
+.app-checkbox::before,
+.app-radio::before,
+.app-switch::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  z-index: -1;
+}
+
+/* Checkbox specific */
+.app-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.app-checkbox:checked,
+.app-checkbox:indeterminate {
+  background-color: var(--clr-primary);
+  border-color: var(--clr-primary);
+}
+
+/* Checkmark Mask */
+.app-checkbox::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--clr-on-primary);
+  mask-size: 14px;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: 14px;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.app-checkbox:checked::after {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+  opacity: 1;
+}
+
+.app-checkbox:indeterminate::after {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3C/svg%3E");
+  opacity: 1;
+}
+
+/* Radio specific */
+.app-radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.app-radio:checked {
+  border-color: var(--clr-primary);
+}
+
+.app-radio::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--clr-primary);
+  transition: transform var(--transition-fast);
+}
+
+.app-radio:checked::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Switch specific */
+.app-switch {
+  width: 44px;
+  height: 24px;
+  border-radius: 999px;
+  background-color: var(--surface-container-highest);
+  border-color: transparent;
+}
+
+.app-switch:checked {
+  background-color: var(--clr-primary);
+}
+
+.app-switch::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--surface-default);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: transform var(--transition-fast);
+}
+
+.app-switch:checked::before {
+  transform: translateX(20px);
+}
+
+/* Forced Colors Fallbacks */
+@media (forced-colors: active) {
+  .app-checkbox:checked,
+  .app-checkbox:indeterminate,
+  .app-switch:checked {
+    background-color: canvasText;
+  }
+  .app-checkbox::after {
+    background-color: canvas;
+  }
+  .app-radio:checked {
+    border-color: canvasText;
+  }
+  .app-radio::after {
+    background-color: canvasText;
+  }
+  .app-switch {
+    border: 1px solid canvasText;
+  }
+}

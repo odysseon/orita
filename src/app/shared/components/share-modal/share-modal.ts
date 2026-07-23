@@ -7,13 +7,14 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { Drawer } from '../../drawer/drawer';
 import { UserListItem } from '../user-list-item/user-list-item';
-import { LucideSearch, LucideSend, LucideX } from '@lucide/angular';
+import { LucideSearch, LucideX } from '@lucide/angular';
+import { InputDirective } from '../../ui/atoms/forms';
 
 import { Avatar } from '../../ui/atoms/avatar/avatar';
 
 @Component({
   selector: 'app-share-modal',
-  imports: [FormsModule, Drawer, UserListItem, LucideSearch, LucideSend, LucideX, Avatar],
+  imports: [FormsModule, Drawer, UserListItem, LucideSearch, LucideX, Avatar, InputDirective],
   templateUrl: './share-modal.html',
   styleUrl: './share-modal.css',
 })

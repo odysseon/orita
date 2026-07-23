@@ -32,6 +32,7 @@
     <div class="search-box">
       <svg lucideSearch class="search-icon" aria-hidden="true"></svg>
       <input
+        app-input
         type="text"
         placeholder="Search people..."
         [value]="searchQuery()"
@@ -107,11 +108,12 @@
 
     <div class="composer-row">
       <input
+        app-input
         type="text"
         placeholder="Add a message (optional)"
         [(ngModel)]="messageContent"
         (keydown)="onKeyDown($event)"
-        class="field__input message-input"
+        class="message-input"
       />
       <button
         class="send-btn"
