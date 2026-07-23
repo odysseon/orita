@@ -10,6 +10,8 @@ import { AppPasswordField } from '../../../shared/password-field/password-field'
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
 import { ValidationService } from '../../../core/services/validation.service';
 
+import { Button } from '../../../shared/ui/atoms/button/button';
+
 @Component({
   selector: 'app-login',
   imports: [
@@ -20,6 +22,7 @@ import { ValidationService } from '../../../core/services/validation.service';
     AppFormField,
     AppPasswordField,
     AppGoogleSignIn,
+    Button,
   ],
   templateUrl: './login.html',
   styleUrls: ['../auth.css'],
