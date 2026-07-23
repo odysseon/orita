@@ -15,10 +15,12 @@ interface ComposerAttachment {
   kind: 'IMAGE' | 'VIDEO' | 'AUDIO' | 'FILE';
 }
 
+import { Button } from '../../../../../shared/ui/atoms/button/button';
+
 @Component({
   selector: 'app-message-composer',
   standalone: true,
-  imports: [FormsModule, LucideSend, LucidePaperclip, LucidePackage, LucideX, LucideFile, LucideVideo, AttachSheetComponent],
+  imports: [FormsModule, LucideSend, LucidePaperclip, LucidePackage, LucideX, LucideFile, LucideVideo, AttachSheetComponent, Button],
   templateUrl: './message-composer.html',
   styleUrl: './message-composer.css',
 })

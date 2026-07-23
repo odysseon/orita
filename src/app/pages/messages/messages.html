@@ -37,7 +37,7 @@
               <div class="empty-icon"><svg lucideTriangleAlert class="empty-icon-svg" aria-hidden="true" style="width: 1em; height: 1em;"></svg></div>
               <h3>Failed to load</h3>
               <p>We couldn't load this conversation. Please try again.</p>
-              <button class="btn btn-primary" style="margin-top: var(--space-sm);" (click)="onSelectConversation(activeConversationId()!)">Retry</button>
+              <button app-button intent="primary" style="margin-top: var(--space-sm);" (click)="onSelectConversation(activeConversationId()!)">Retry</button>
             </div>
           } @else if (activeConversationId() && messaging.conversationStatus()[activeConversationId()!] === 'loading') {
             <div class="empty-view">

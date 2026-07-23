@@ -11,6 +11,8 @@ import {
 import { AppHeader } from '../../../../shared/app-header/app-header';
 import { LucideArrowLeft, LucideMessageCircleMore, LucideUser } from '@lucide/angular';
 
+import { Button } from '../../../../shared/ui/atoms/button/button';
+
 @Component({
   selector: 'app-conversation-view',
   imports: [
@@ -21,6 +23,7 @@ import { LucideArrowLeft, LucideMessageCircleMore, LucideUser } from '@lucide/an
     LucideMessageCircleMore,
     LucideArrowLeft,
     LucideUser,
+    Button,
   ],
   templateUrl: './conversation-view.html',
   styleUrl: './conversation-view.css',

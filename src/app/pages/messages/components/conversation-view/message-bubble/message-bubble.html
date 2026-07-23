@@ -33,7 +33,7 @@
                 }
               </div>
               @if (embed.ctaPath) {
-                <a [routerLink]="embed.ctaPath" class="btn btn--sm btn--subtle msg-embed-btn">
+                <a [routerLink]="embed.ctaPath" app-button size="sm" appearance="soft" class="msg-embed-btn">
                   {{ embed.ctaLabel || 'View' }}
                 </a>
               }
@@ -63,9 +63,9 @@
           <div class="error-msg">
             <span class="error-text">❗ {{ message().syncState === 'FAILED_UPLOAD' ? 'Upload failed' : 'Not sent' }}</span>
             <div class="error-actions">
-              <button type="button" class="btn-link" (click)="retry.emit()">Retry</button>
+              <button type="button" app-button appearance="link" (click)="retry.emit()">Retry</button>
               <span class="separator">·</span>
-              <button type="button" class="btn-link" (click)="discard.emit()">Discard</button>
+              <button type="button" app-button appearance="link" (click)="discard.emit()">Discard</button>
             </div>
           </div>
         }

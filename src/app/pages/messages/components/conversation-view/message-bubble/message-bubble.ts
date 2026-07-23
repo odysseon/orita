@@ -7,10 +7,12 @@ import { MediaGalleryComponent } from '../../../../../shared/components/media-ga
 import { MediaGalleryItem } from '../../../../../shared/components/media-viewer/media-viewer.types';
 import { AttachmentPreviewService } from '../../../../../core/services/attachment-preview.service';
 
+import { Button } from '../../../../../shared/ui/atoms/button/button';
+
 @Component({
   selector: 'app-message-bubble',
   standalone: true,
-  imports: [DatePipe, RouterLink, LucideCheck, LucideCheckCheck, LucideClock, LucideAlertCircle, MediaGalleryComponent],
+  imports: [DatePipe, RouterLink, LucideCheck, LucideCheckCheck, LucideClock, LucideAlertCircle, MediaGalleryComponent, Button],
   templateUrl: './message-bubble.html',
   styleUrl: './message-bubble.css'
 })
