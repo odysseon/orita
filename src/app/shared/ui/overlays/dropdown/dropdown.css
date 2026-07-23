@@ -1,0 +1,12 @@
+:host {
+  position: fixed;
+  z-index: var(--z-dropdown);
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  min-width: 200px;
+  transition: opacity var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+}

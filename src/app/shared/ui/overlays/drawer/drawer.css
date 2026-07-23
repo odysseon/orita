@@ -1,0 +1,158 @@
+:host {
+  display: contents;
+}
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: oklch(18% 0.02 280 / 0.16);
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-standard);
+  cursor: pointer;
+}
+
+.drawer-backdrop--open {
+  opacity: 1;
+}
+
+.drawer-panel {
+  position: fixed;
+  z-index: var(--z-modal);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform var(--duration-slow) var(--ease-decelerate),
+    opacity var(--duration-slow) var(--ease-standard);
+  touch-action: none;
+  will-change: transform;
+  outline: none;
+}
+
+.drawer-panel--dragging {
+  transition: none;
+}
+
+/* Base Position Classes */
+.drawer-panel--left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  transform: translateX(-100%);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+
+.drawer-panel--right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  transform: translateX(100%);
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+
+.drawer-panel--top {
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(-100%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.drawer-panel--bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(100%);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.drawer-panel--center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.96);
+  opacity: 0;
+  border-radius: var(--radius-lg);
+}
+
+/* Sizing Logic (Intersection of Position and Size) */
+
+/* Left/Right Widths */
+.drawer-panel--left, .drawer-panel--right {
+  max-width: 100vw;
+}
+.drawer-panel--left.drawer-panel--size-sm, .drawer-panel--right.drawer-panel--size-sm { width: 280px; }
+.drawer-panel--left.drawer-panel--size-md, .drawer-panel--right.drawer-panel--size-md { width: 360px; }
+.drawer-panel--left.drawer-panel--size-lg, .drawer-panel--right.drawer-panel--size-lg { width: 480px; }
+.drawer-panel--left.drawer-panel--size-full, .drawer-panel--right.drawer-panel--size-full { width: 100vw; border-radius: 0; }
+
+/* Top/Bottom Heights */
+.drawer-panel--top, .drawer-panel--bottom {
+  max-height: 100vh;
+}
+.drawer-panel--top.drawer-panel--size-sm, .drawer-panel--bottom.drawer-panel--size-sm { height: 30vh; }
+.drawer-panel--top.drawer-panel--size-md, .drawer-panel--bottom.drawer-panel--size-md { height: 50vh; }
+.drawer-panel--top.drawer-panel--size-lg, .drawer-panel--bottom.drawer-panel--size-lg { height: 80vh; }
+.drawer-panel--top.drawer-panel--size-full, .drawer-panel--bottom.drawer-panel--size-full { height: 100vh; border-radius: 0; }
+
+/* Center Dimensions */
+.drawer-panel--center {
+  max-width: 90vw;
+  max-height: 90vh;
+}
+.drawer-panel--center.drawer-panel--size-sm { width: 360px; }
+.drawer-panel--center.drawer-panel--size-md { width: 480px; }
+.drawer-panel--center.drawer-panel--size-lg { width: 640px; }
+.drawer-panel--center.drawer-panel--size-full { width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; border-radius: 0; }
+
+/* Open state */
+.drawer-panel--open.drawer-panel--left,
+.drawer-panel--open.drawer-panel--right {
+  transform: translateX(0);
+}
+
+.drawer-panel--open.drawer-panel--top,
+.drawer-panel--open.drawer-panel--bottom {
+  transform: translateY(0);
+}
+
+.drawer-panel--open.drawer-panel--center {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+/* Drag handle */
+.drawer-drag-handle {
+  flex-shrink: 0;
+  width: var(--size-48);
+  height: var(--size-4);
+  background: var(--border-default);
+  border-radius: var(--radius-pill);
+  margin: var(--space-xs) auto 0 auto;
+  cursor: grab;
+  touch-action: none;
+}
+
+.drawer-drag-handle:active {
+  cursor: grabbing;
+}
+
+.drawer-drag-handle--disabled {
+  cursor: default;
+}
+
+/* Focus */
+.drawer-panel:focus-visible,
+.drawer-drag-handle:focus-visible {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .drawer-backdrop,
+  .drawer-panel {
+    transition-duration: 1ms;
+  }
+}

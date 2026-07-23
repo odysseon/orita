@@ -1,0 +1,38 @@
+@if (isRendered()) {
+<div
+  class="drawer-backdrop"
+  [class.drawer-backdrop--open]="isOpenPhase()"
+  [style.opacity]="backdropOpacity()"
+  (click)="onBackdropClick()"
+  aria-hidden="true"
+></div>
+
+<div
+  #panel
+  class="drawer-panel"
+  [class]="positionClass() + ' ' + sizeClass()"
+  [class.drawer-panel--open]="isOpenPhase()"
+  [class.drawer-panel--dragging]="dragService.isDragging()"
+  [style]="panelStyle()"
+  role="dialog"
+  [attr.aria-modal]="true"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-hidden]="!isOpenPhase()"
+  tabindex="-1"
+  (transitionend)="onPanelTransitionEnd($event)"
+>
+  @if (position() === 'bottom') {
+  <div
+    class="drawer-drag-handle"
+    [attr.aria-label]="dismissible() ? 'Drag to close' : 'Drawer handle'"
+    [class.drawer-drag-handle--disabled]="!dismissible()"
+    (pointerdown)="dragService.onPointerDown($event)"
+    (pointermove)="dragService.onPointerMove($event)"
+    (pointerup)="dragService.onPointerUp($event)"
+    (pointercancel)="dragService.onPointerCancel()"
+  ></div>
+  }
+
+  <ng-content />
+</div>
+}
