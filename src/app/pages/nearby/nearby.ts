@@ -10,6 +10,7 @@ import { catchError, debounceTime, tap } from 'rxjs/operators';
 import { NearbyItemCard } from './components/nearby-item-card/nearby-item-card';
 import { NewPostSheet } from './components/new-post-sheet/new-post-sheet';
 import { AppHeader } from '../../shared/app-header/app-header';
+import { Button } from '../../shared/ui/atoms/button/button';
 import { AppGrid } from '../../shared/grid/grid';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';

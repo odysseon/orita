@@ -1,7 +1,7 @@
 <ui-drawer [open]="true" position="bottom" size="auto" [showCloseButton]="false" (closed)="close.emit()">
   <div class="new-post-content">
 
-    <button class="btn-icon new-post-close" (click)="close.emit()" aria-label="Close">
+    <button app-button appearance="ghost" shape="circle" class="btn-icon new-post-close" (click)="close.emit()" aria-label="Close">
       <svg lucideX aria-hidden="true"></svg>
     </button>
 
@@ -35,8 +35,8 @@
       </div>
 
       <div class="new-post-actions cluster">
-        <button type="button" class="btn btn--ghost" (click)="close.emit()" [disabled]="postForm().submitting()">Cancel</button>
-        <button type="submit" class="btn btn--primary" [disabled]="postForm().submitting() || postForm().invalid()">
+        <button app-button type="button" appearance="ghost" (click)="close.emit()" [disabled]="postForm().submitting()">Cancel</button>
+        <button app-button type="submit" intent="primary" [disabled]="postForm().submitting() || postForm().invalid()">
           @if (postForm().submitting()) {
             <svg lucideLoaderCircle class="spin" aria-hidden="true"></svg>
           } @else {

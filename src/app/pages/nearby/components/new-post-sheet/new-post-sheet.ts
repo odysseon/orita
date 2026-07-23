@@ -5,6 +5,7 @@ import { OpportunityService, CreateOpportunityDto } from '../../../../core/servi
 import { LocationService } from '../../../../core/services/location.service';
 import { ToastService } from '../../../../core/services/toast';
 import { Drawer } from '../../../../shared/drawer/drawer';
+import { Button } from '../../../../shared/ui/atoms/button/button';
 import { LucideX, LucideLoaderCircle } from '@lucide/angular';
 
 interface NewPostModel {
