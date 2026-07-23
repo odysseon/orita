@@ -1,0 +1,122 @@
+.app-tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+  /* Use intent variables internally if they are provided from outside, otherwise fallback */
+  --tabs-bg: transparent;
+  --tabs-border: var(--border-subtle);
+  --tabs-text: var(--text-muted);
+  --tabs-text-active: var(--clr-primary);
+  --tabs-bg-active: var(--clr-primary-container);
+  --tabs-border-active: var(--clr-primary);
+}
+
+.app-tabs--full-width {
+  width: 100%;
+}
+
+.app-tabs--full-width .app-tab {
+  flex: 1 1 0;
+  justify-content: center;
+}
+
+/* Sizing */
+.app-tabs--size-sm {
+  --tab-py: var(--size-6);
+  --tab-px: var(--size-12);
+  --tab-font: var(--font-size-sm);
+  --tab-radius: var(--radius-sm);
+}
+
+.app-tabs--size-md {
+  --tab-py: var(--size-10);
+  --tab-px: var(--size-16);
+  --tab-font: var(--font-size-md);
+  --tab-radius: var(--radius-sm);
+}
+
+.app-tabs--size-lg {
+  --tab-py: var(--size-14);
+  --tab-px: var(--size-20);
+  --tab-font: var(--font-size-lg);
+  --tab-radius: var(--radius-md);
+}
+
+.app-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-8);
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  outline: none;
+  background: var(--tabs-bg);
+  color: var(--tabs-text);
+  border: none;
+  transition: all var(--transition-fast);
+  padding: var(--tab-py) var(--tab-px);
+  font-size: var(--tab-font);
+}
+
+.app-tab:focus-visible {
+  box-shadow: 0 0 0 2px var(--surface-page), 0 0 0 4px var(--clr-primary);
+  border-radius: var(--tab-radius);
+}
+
+.app-tab:hover:not(.app-tab--active) {
+  color: var(--text-secondary);
+}
+
+.app-tab--active {
+  color: var(--tabs-text-active);
+}
+
+/* --- Appearances --- */
+
+/* Line */
+.app-tabs--line {
+  border-bottom: 2px solid var(--tabs-border);
+  gap: var(--size-16);
+}
+
+.app-tabs--line .app-tab {
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px; /* Overlap the container border */
+  border-radius: var(--tab-radius) var(--tab-radius) 0 0;
+  padding-left: var(--size-4);
+  padding-right: var(--size-4);
+}
+
+.app-tabs--line .app-tab--active {
+  border-bottom-color: var(--tabs-border-active);
+}
+
+/* Pill */
+.app-tabs--pill {
+  gap: var(--size-4);
+}
+
+.app-tabs--pill .app-tab {
+  border-radius: var(--radius-pill);
+}
+
+.app-tabs--pill .app-tab--active {
+  background: var(--tabs-bg-active);
+}
+
+/* Enclosed */
+.app-tabs--enclosed {
+  background: var(--surface-container);
+  padding: var(--size-4);
+  border-radius: calc(var(--tab-radius) + var(--size-4));
+}
+
+.app-tabs--enclosed .app-tab {
+  border-radius: var(--tab-radius);
+}
+
+.app-tabs--enclosed .app-tab--active {
+  background: var(--surface-card);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-primary);
+}
