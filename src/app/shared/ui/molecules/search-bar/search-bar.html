@@ -1,0 +1,13 @@
+<div class="search-bar">
+  <svg lucideSearch class="search-bar__icon" aria-hidden="true"></svg>
+  
+  <div class="search-bar__input-wrapper">
+    <ng-content select="input"></ng-content>
+  </div>
+  
+  @if (hasValue()) {
+    <button type="button" class="search-bar__clear" (click)="onClear()" aria-label="Clear search">
+      <svg lucideX aria-hidden="true"></svg>
+    </button>
+  }
+</div>
