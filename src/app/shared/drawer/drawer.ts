@@ -15,10 +15,10 @@ import {
   Injector,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { DRAWER_DEFAULTS, DrawerPosition } from './drawer.model';
-import { DrawerScrollService } from './drawer-scroll.service';
-import { DrawerFocusService } from './drawer-focus.service';
-import { DrawerDragService } from './drawer-drag.service';
+import { DRAWER_DEFAULTS, DrawerPosition } from '../ui/overlays/drawer/drawer.model';
+import { DrawerScrollService } from '../ui/overlays/drawer/drawer-scroll.service';
+import { DrawerFocusService } from '../ui/overlays/drawer/drawer-focus.service';
+import { DrawerDragService } from '../ui/overlays/drawer/drawer-drag.service';
 
 import { Button } from '../ui/atoms/button/button';
 

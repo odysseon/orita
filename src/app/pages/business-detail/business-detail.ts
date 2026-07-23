@@ -20,6 +20,8 @@ import {
   LucideSend,
 } from '@lucide/angular';
 import { Logo } from '../../shared/logo/logo';
+import { Badge } from '../../shared/ui/atoms/badge/badge';
+import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.interface';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
@@ -63,6 +65,8 @@ const DAY_LABELS: Record<string, string> = {
     LucideSend,
     DatePipe,
     ShareModalComponent,
+    Badge,
+    Skeleton
   ],
   templateUrl: './business-detail.html',
   styleUrl: './business-detail.css',
@@ -98,9 +102,9 @@ export class BusinessDetail implements LayoutPage {
   readonly verificationBadge = computed(() => {
     switch (this.business.value()?.verificationStatus) {
       case 'VERIFIED':
-        return { label: 'Verified', cls: 'badge--success' };
+        return { label: 'Verified', intent: 'success' as const };
       case 'PENDING':
-        return { label: 'Pending review', cls: 'badge--warning' };
+        return { label: 'Pending review', intent: 'warning' as const };
       default:
         return null;
     }

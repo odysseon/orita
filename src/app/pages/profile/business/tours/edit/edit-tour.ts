@@ -13,6 +13,7 @@ import { environment } from '../../../../../../environments/environment';
 import { ToastService } from '../../../../../core/services/toast';
 import { form, FormField, required } from '@angular/forms/signals';
 import { AppFormField } from '../../../../../shared/form-field/form-field';
+import { Skeleton } from '../../../../../shared/ui/atoms/skeleton/skeleton';
 import { BusinessTourService, IBusinessTour, BusinessTourStatus, IBusinessTourMediaItem } from '../../../../../core/services/business-tour.service';
 
 @Component({
@@ -23,6 +24,7 @@ import { BusinessTourService, IBusinessTour, BusinessTourStatus, IBusinessTourMe
     LucideSave,
     LucideImagePlus,
     LucideX,
+    Skeleton
   ],
   templateUrl: './edit-tour.html',
   styleUrl: './edit-tour.css',

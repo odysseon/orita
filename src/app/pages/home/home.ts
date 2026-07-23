@@ -13,6 +13,7 @@ import { FeedService, FeedItemView } from '../../core/services/feed.service';
 import { ToastService } from '../../core/services/toast';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { ExplorationService } from '../../core/services/exploration.service';
+import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,7 @@ import { ExplorationService } from '../../core/services/exploration.service';
     AppGrid,
     SeoComponent,
     LucideMapPin,
+    Skeleton,
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',

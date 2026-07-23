@@ -1,26 +1,26 @@
 @if (business.isLoading()) {
 <div class="biz-detail__skeleton">
-  <div class="skeleton skeleton--banner" style="border-radius: var(--radius-lg);"></div>
-  <div style="display: flex; align-items: flex-start; gap: var(--size-12); margin-top: calc(var(--size-32) * -1); padding: 0 var(--size-4);">
-    <div class="skeleton skeleton--avatar" style="border: 3px solid var(--surface-page); box-shadow: var(--shadow-sm); z-index: 1; border-radius: var(--radius-lg); width: var(--size-64); height: var(--size-64);"></div>
-    <div style="display: flex; flex-direction: column; gap: var(--size-4); flex: 1; padding-top: var(--size-32);">
-      <div class="skeleton skeleton--title"></div>
-      <div class="skeleton skeleton--text" style="width: 40%;"></div>
+  <app-skeleton class="skeleton--banner" style="border-radius: var(--radius-lg);"></app-skeleton>
+  <div class="biz-detail__header">
+    <app-skeleton shape="circle" class="skeleton--avatar" style="border: 3px solid var(--surface-page); box-shadow: var(--shadow-sm); z-index: 1; border-radius: var(--radius-lg); width: var(--size-64); height: var(--size-64);"></app-skeleton>
+    <div class="biz-identity">
+      <app-skeleton class="skeleton--title"></app-skeleton>
+      <app-skeleton shape="text" style="width: 40%;"></app-skeleton>
     </div>
   </div>
-  <div style="display: flex; flex-direction: column; gap: var(--size-8); margin-top: var(--size-12);">
-    <div class="skeleton skeleton--text" style="width: 100%;"></div>
-    <div class="skeleton skeleton--text" style="width: 90%;"></div>
-    <div class="skeleton skeleton--text" style="width: 70%;"></div>
+  <div class="biz-detail__info">
+    <app-skeleton shape="text" style="width: 100%;"></app-skeleton>
+    <app-skeleton shape="text" style="width: 90%;"></app-skeleton>
+    <app-skeleton shape="text" style="width: 70%;"></app-skeleton>
   </div>
-  <div style="display: flex; gap: var(--size-8); margin-top: var(--size-12);">
-    <div class="skeleton" style="height: 40px; flex: 1; border-radius: var(--radius-md);"></div>
-    <div class="skeleton" style="height: 40px; flex: 1; border-radius: var(--radius-md);"></div>
+  <div style="display: flex; gap: var(--size-16); margin-top: var(--size-24);">
+    <app-skeleton style="height: 40px; flex: 1; border-radius: var(--radius-md);"></app-skeleton>
+    <app-skeleton style="height: 40px; flex: 1; border-radius: var(--radius-md);"></app-skeleton>
   </div>
 </div>
 } @if (business.error()) {
 <ui-empty-state icon="store" title="This business could not be found.">
-  <button class="btn btn--ghost" routerLink="/home">Go back</button>
+  <button app-button appearance="ghost" routerLink="/home">Go back</button>
 </ui-empty-state>
 } @if (business.hasValue()) { @let biz = business.value()!;
 <app-seo [config]="seoConfig()" />
@@ -49,10 +49,10 @@
           <div style="display: flex; align-items: center; gap: var(--size-8);">
             <h1 class="biz-identity__name">{{ biz.name }}</h1>
             @if (verificationBadge(); as badge) {
-            <span class="badge" [class]="badge.cls" style="gap: var(--size-4)">
+            <app-badge [intent]="badge.intent || 'neutral'" style="gap: var(--size-4)">
               <svg lucideBadgeCheck style="width: var(--size-12); height: var(--size-12)" aria-hidden="true"></svg>
               {{ badge.label }}
-            </span>
+            </app-badge>
             }
           </div>
           @if (biz.location) {
@@ -64,7 +64,7 @@
         </div>
         
         <div style="display: flex; gap: var(--size-8); margin-top: var(--size-32);">
-          <button class="btn btn--icon btn--outline" (click)="showShareModal.set(true)" aria-label="Send">
+          <button app-button appearance="outline" shape="square" (click)="showShareModal.set(true)" aria-label="Send">
             <svg lucideSend aria-hidden="true"></svg>
           </button>
           <app-share-button [title]="biz.name" [text]="biz.description || ''" />
@@ -95,17 +95,17 @@
   <!-- Contact actions -->
   <div class="biz-actions">
     @if (biz.phoneNumber) {
-    <button class="btn btn--ghost" style="flex: 1" (click)="callPhone(biz.phoneNumber)" type="button">
+    <button app-button appearance="ghost" style="flex: 1" (click)="callPhone(biz.phoneNumber)" type="button">
       <svg lucidePhone style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
       Call
     </button>
     } @if (biz.whatsapp) {
-    <button class="btn btn--ghost" style="flex: 1" (click)="openWhatsapp(biz.whatsapp)" type="button">
+    <button app-button appearance="ghost" style="flex: 1" (click)="openWhatsapp(biz.whatsapp)" type="button">
       <svg lucideMessageCircle style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
       WhatsApp
     </button>
     } @if (biz.email) {
-    <button class="btn btn--ghost" style="flex: 1" (click)="sendEmail(biz.email)" type="button">
+    <button app-button appearance="ghost" style="flex: 1" (click)="sendEmail(biz.email)" type="button">
       <svg lucideMail style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
       Email
     </button>
@@ -139,14 +139,14 @@
     <h2 class="biz-section__title">
       <svg lucidePackage aria-hidden="true"></svg>
       Listings @if (listings.hasValue()) {
-      <span class="badge badge--neutral" style="min-width: 20px; height: 20px; display: inline-flex; justify-content: center;">{{ listings.value()!.total }}</span>
+      <app-badge intent="neutral" style="min-width: 20px; height: 20px; display: inline-flex; justify-content: center;">{{ listings.value()!.total }}</app-badge>
       }
     </h2>
 
     @if (listings.isLoading()) {
     <div class="biz-listing-grid">
       @for (i of [1,2,3,4]; track i) {
-      <div class="skeleton biz-listing-skeleton"></div>
+      <app-skeleton class="biz-listing-skeleton"></app-skeleton>
       }
     </div>
     } @if (listings.hasValue() && listings.value()!.items.length === 0) {
@@ -178,7 +178,7 @@
     <h2 class="biz-section__title">
       <svg lucideImage aria-hidden="true"></svg>
       Store Tours
-      <span class="badge badge--neutral" style="min-width: 20px; height: 20px; display: inline-flex; justify-content: center;">{{ tours.value()!.total }}</span>
+      <app-badge intent="neutral" style="min-width: 20px; height: 20px; display: inline-flex; justify-content: center;">{{ tours.value()!.total }}</app-badge>
     </h2>
 
     <div class="biz-listing-grid">

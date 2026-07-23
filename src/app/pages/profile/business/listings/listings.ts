@@ -18,6 +18,7 @@ import { IListing, ICategory, ICreateListing } from './listing.interface';
 import { environment } from '../../../../../environments/environment';
 import { IBusinessProfile } from '../business.interface';
 import { Button } from '../../../../shared/ui/atoms/button/button';
+import { Skeleton } from '../../../../shared/ui/atoms/skeleton/skeleton';
 
 import { AppFormField } from '../../../../shared/form-field/form-field';
 import { Drawer } from '../../../../shared/drawer/drawer';
@@ -43,6 +44,7 @@ import { PublicationReadinessDialog } from '../../../../shared/publication-readi
     CompletionNudge,
     PublicationReadinessDialog,
     Button,
+    Skeleton,
   ],
   templateUrl: './listings.html',
   styleUrl: './listings.css',

@@ -114,7 +114,9 @@ body {
   --z-overlay: 100;
   --z-nav: 200;
   --z-modal: 300;
-  --z-toast: 400;
+  --z-dropdown: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
 }
 
 :root:not([data-theme]) {
@@ -420,16 +422,71 @@ body {
   -webkit-backdrop-filter: blur(24px) saturate(1.8);
 }
 
-.divider {
-  height: 1px;
-  width: 100%;
-  background: var(--border-subtle);
-  border: none;
-}
+
 
 /* ============================================================
  * 6 Components
  * ============================================================ */
+
+/* ============================================================
+ * SHARED COMPONENT INTENTS
+ * ============================================================ */
+.intent-primary {
+  --comp-base: var(--clr-primary);
+  --comp-on-base: var(--clr-on-primary);
+  --comp-container: var(--clr-primary-container);
+  --comp-on-container: var(--clr-on-primary-container);
+  --comp-border: var(--clr-primary);
+}
+
+.intent-secondary {
+  --comp-base: var(--text-primary);
+  --comp-on-base: var(--surface-page);
+  --comp-container: var(--surface-container);
+  --comp-on-container: var(--text-primary);
+  --comp-border: var(--border-default);
+}
+
+.intent-success {
+  --comp-base: var(--clr-success);
+  --comp-on-base: var(--surface-page);
+  --comp-container: var(--clr-success-container);
+  --comp-on-container: var(--clr-on-success-container);
+  --comp-border: var(--clr-success);
+}
+
+.intent-warning {
+  --comp-base: var(--clr-warning);
+  --comp-on-base: var(--surface-page);
+  --comp-container: var(--clr-warning-container);
+  --comp-on-container: var(--clr-on-warning-container);
+  --comp-border: var(--clr-warning);
+}
+
+.intent-danger, .intent-error {
+  --comp-base: var(--clr-error);
+  --comp-on-base: var(--clr-on-error);
+  --comp-container: var(--clr-error-container);
+  --comp-on-container: var(--clr-on-error-container);
+  --comp-border: var(--clr-error);
+}
+
+.intent-info {
+  --comp-base: var(--clr-primary);
+  --comp-on-base: var(--clr-on-primary);
+  --comp-container: var(--clr-primary-container);
+  --comp-on-container: var(--clr-on-primary-container);
+  --comp-border: var(--clr-primary);
+}
+
+.intent-neutral {
+  --comp-base: var(--text-secondary);
+  --comp-on-base: var(--surface-page);
+  --comp-container: var(--surface-container-high);
+  --comp-on-container: var(--text-primary);
+  --comp-border: var(--border-subtle);
+}
+
 
 
 /* ============================================================
@@ -687,81 +744,7 @@ svg[lucideStar].star--filled {
   color: var(--clr-primary);
 }
 
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--size-2) var(--size-8);
-  border-radius: var(--radius-pill);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-}
 
-.badge--primary {
-  background: var(--clr-primary-container);
-  color: var(--clr-primary);
-}
-
-.badge--success {
-  background: var(--clr-success-container);
-  color: var(--clr-success);
-}
-
-.badge--warning {
-  background: var(--clr-warning-container);
-  color: var(--clr-warning);
-}
-
-.badge--error {
-  background: var(--clr-error-container);
-  color: var(--clr-error);
-}
-
-.badge--neutral {
-  background: var(--surface-container-high);
-  color: var(--text-muted);
-}
-
-.chip {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--size-4) var(--size-12);
-  border-radius: var(--radius-pill);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  background: var(--surface-container);
-  color: var(--text-primary);
-  border: 1px solid var(--border-subtle);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast),
-    border-color var(--transition-fast);
-}
-
-.chip:hover {
-  background: var(--surface-container-high);
-  border-color: var(--border-default);
-}
-
-@keyframes shimmer {
-  from {
-    background-position: -200% center;
-  }
-  to {
-    background-position: 200% center;
-  }
-}
-
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--surface-container) 25%,
-    var(--surface-container-high) 50%,
-    var(--surface-container) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.6s var(--ease-standard) infinite;
-  border-radius: var(--radius-xs);
-}
 
 /* ============================================================
  * 7 Utilities

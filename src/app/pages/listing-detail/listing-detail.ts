@@ -23,6 +23,8 @@ import { ListingReviews } from './components/listing-reviews/listing-reviews';
 import { ListingAttributes } from './components/listing-attributes/listing-attributes';
 import { ListingBusinessCard } from './components/listing-business-card/listing-business-card';
 
+import { Button } from '../../shared/ui/atoms/button/button';
+
 @Component({
   selector: 'app-listing-detail',
   imports: [
@@ -38,6 +40,7 @@ import { ListingBusinessCard } from './components/listing-business-card/listing-
     ListingAttributes,
     ListingBusinessCard,
     ShareModalComponent,
+    Button,
   ],
   templateUrl: './listing-detail.html',
   styleUrl: './listing-detail.css',

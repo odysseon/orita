@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Divider } from '../../../../shared/ui/atoms/divider/divider';
 
 interface FooterLink {
   readonly label: string;
@@ -9,7 +10,7 @@ interface FooterLink {
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, Divider],
   templateUrl: './footer.html',
   styleUrl: './footer.css',
 })

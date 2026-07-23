@@ -145,8 +145,8 @@
             <h2 class="section__title">Popular Businesses</h2>
             <app-grid>
               @if (popularBusinessesResource.isLoading()) {
-                <div class="skeleton biz-card-skeleton"></div>
-                <div class="skeleton biz-card-skeleton"></div>
+                <app-skeleton class="biz-card-skeleton"></app-skeleton>
+                <app-skeleton class="biz-card-skeleton"></app-skeleton>
               } @else if (popularBusinessesResource.hasValue()) {
                 @for (biz of popularBusinessesResource.value()?.items || []; track biz.id) {
                   <app-biz-card [biz]="biz" />
