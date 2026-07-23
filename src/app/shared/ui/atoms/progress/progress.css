@@ -1,0 +1,34 @@
+.progress {
+  display: block;
+  width: 100%;
+}
+
+.progress__track {
+  width: 100%;
+  background: var(--surface-container-high);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.progress__fill {
+  height: 100%;
+  background: var(--comp-base);
+  border-radius: var(--radius-pill);
+  transition: width var(--transition-normal);
+}
+
+.progress--sm .progress__track { height: var(--size-4); }
+.progress--md .progress__track { height: var(--size-8); }
+.progress--lg .progress__track { height: var(--size-12); }
+
+.progress--indeterminate .progress__fill {
+  width: 50% !important;
+  animation: progress-indeterminate 1.5s infinite linear;
+  transform-origin: left;
+}
+
+@keyframes progress-indeterminate {
+  0% { transform: translateX(-100%); width: 50%; }
+  50% { transform: translateX(50%); width: 80%; }
+  100% { transform: translateX(200%); width: 50%; }
+}
