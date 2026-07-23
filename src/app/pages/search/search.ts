@@ -24,13 +24,14 @@ import { TrendingCategories } from './components/trending-categories/trending-ca
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { Button } from '../../shared/ui/atoms/button/button';
+import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 
 @Component({
   selector: 'app-search',
   imports: [
     LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
     AppListingCard, AppBizCard, AppLocationCard, AppUserCard, TourCard, AppHeader, ScrollHideDirective,
-    AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState, Button
+    AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState, Button, Skeleton
   ],
   templateUrl: './search.html',
   styleUrl: './search.css',

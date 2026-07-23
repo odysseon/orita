@@ -12,12 +12,13 @@ import { ISavedListingItem, IFollowedBusinessItem, IPaginated } from './saved.in
 import { environment } from '../../../../environments/environment';
 import { ToastService } from '../../../core/services/toast';
 import { Button } from '../../../shared/ui/atoms/button/button';
+import { Skeleton } from '../../../shared/ui/atoms/skeleton/skeleton';
 
 type SavedTab = 'following' | 'listings';
 
 @Component({
   selector: 'app-saved',
-  imports: [RouterLink, LucideStore, LucidePackage, LucideBookmark, LucideX],
+  imports: [RouterLink, LucideStore, LucidePackage, LucideBookmark, LucideX, Skeleton],
   templateUrl: './saved.html',
   styleUrl: './saved.css',
 })

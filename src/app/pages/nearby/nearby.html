@@ -19,16 +19,16 @@
         <app-grid>
           @for (i of [1,2,3,4,5,6]; track i) {
           <div class="skeleton-card">
-            <div class="skeleton skeleton-card__media"></div>
+            <app-skeleton class="skeleton-card__media"></app-skeleton>
             <div class="skeleton-card__header">
-              <div class="skeleton skeleton-card__avatar"></div>
+              <app-skeleton shape="circle" class="skeleton-card__avatar"></app-skeleton>
               <div class="skeleton-card__lines">
-                <div class="skeleton" style="height: 12px; width: 40%"></div>
+                <app-skeleton shape="text" style="height: 12px; width: 40%"></app-skeleton>
               </div>
             </div>
             <div class="skeleton-card__lines">
-              <div class="skeleton" style="height: 16px; width: 70%"></div>
-              <div class="skeleton" style="height: 14px; width: 90%"></div>
+              <app-skeleton shape="text" style="height: 16px; width: 70%"></app-skeleton>
+              <app-skeleton shape="text" style="height: 14px; width: 90%"></app-skeleton>
             </div>
           </div>
           }
@@ -69,7 +69,7 @@
         <app-grid>
           @for (i of [1,2,3]; track i) {
           <div class="skeleton-card">
-            <div class="skeleton skeleton-card__media"></div>
+            <app-skeleton class="skeleton-card__media"></app-skeleton>
           </div>
           }
         </app-grid>

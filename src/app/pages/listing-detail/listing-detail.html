@@ -25,7 +25,7 @@
 </div>
 } @if (listing.error()) {
 <ui-empty-state icon="package" title="This listing could not be found.">
-  <button class="btn btn--ghost" routerLink="/home">Go back</button>
+  <button app-button appearance="ghost" routerLink="/home">Go back</button>
 </ui-empty-state>
 } @if (listing.hasValue()) { @let item = listing.value()!;
 
@@ -54,7 +54,7 @@
         <span class="listing-main__price">{{ priceLabel() }}</span>
       </div>
       <div style="display: flex; gap: var(--size-8);">
-        <button class="btn btn--icon btn--outline" (click)="showShareModal.set(true)" aria-label="Send">
+        <button app-button appearance="outline" shape="square" (click)="showShareModal.set(true)" aria-label="Send">
           <svg lucideSend aria-hidden="true"></svg>
         </button>
         <app-share-button [title]="item.title" [text]="item.description || ''" />

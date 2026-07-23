@@ -22,6 +22,7 @@ import { ICategory } from '../../../home/home.interface';
 import { CategoryPicker } from '../../../../shared/category-picker/category-picker';
 import { LocationPicker } from '../../../../shared/location-picker/location-picker';
 import { Button } from '../../../../shared/ui/atoms/button/button';
+import { Skeleton } from '../../../../shared/ui/atoms/skeleton/skeleton';
 import { Location } from '../../../../core/services/location.service';
 import { MediaService } from '../../../../core/services/media.service';
 
@@ -49,7 +50,7 @@ export interface IEditBusinessForm {
 
 @Component({
   selector: 'app-edit-business',
-  imports: [FormField, AppFormField, MediaSelector, LocationPicker, LucideLoaderCircle, CategoryPicker],
+  imports: [FormField, AppFormField, MediaSelector, LocationPicker, LucideLoaderCircle, CategoryPicker, Button, Skeleton],
   templateUrl: './edit-business.html',
   styleUrl: './edit-business.css',
 })

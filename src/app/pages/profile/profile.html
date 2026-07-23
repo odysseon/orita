@@ -2,31 +2,35 @@
 <div class="profile-page">
   @if (profile.isLoading()) {
   <div class="profile-skeleton" style="display: flex; flex-direction: column; align-items: center; gap: var(--size-8); margin-bottom: var(--size-32);">
-    <div class="skeleton" style="width: var(--size-96); height: var(--size-96); border-radius: var(--radius-full); margin-bottom: var(--size-8);"></div>
-    <div class="skeleton" style="height: var(--size-28); width: 40%; border-radius: 4px;"></div>
-    <div class="skeleton" style="height: var(--size-14); width: 50%; border-radius: 4px;"></div>
-    <div style="display: flex; gap: var(--size-8); margin-top: var(--size-8);">
-      <div class="skeleton" style="height: var(--size-28); width: 80px; border-radius: var(--radius-full);"></div>
-      <div class="skeleton" style="height: var(--size-28); width: 120px; border-radius: var(--radius-full);"></div>
+    <app-skeleton shape="circle" style="width: var(--size-96); height: var(--size-96); margin-bottom: var(--size-8);"></app-skeleton>
+    <app-skeleton shape="text" style="height: var(--size-28); width: 40%;"></app-skeleton>
+    <app-skeleton shape="text" style="height: var(--size-14); width: 50%;"></app-skeleton>
+    <div style="display: flex; gap: var(--size-8); margin-top: var(--size-16);">
+      <app-skeleton shape="circle" style="height: var(--size-28); width: 80px;"></app-skeleton>
+      <app-skeleton shape="circle" style="height: var(--size-28); width: 120px;"></app-skeleton>
     </div>
   </div>
-  <div style="display: flex; flex-direction: column; gap: var(--size-24); width: 100%;">
-    @for (i of [1,2]; track i) {
-      <div style="display: flex; flex-direction: column; gap: var(--size-12);">
-        <div class="skeleton" style="height: var(--size-16); width: 120px; border-radius: 4px; margin-left: var(--size-16);"></div>
-        <div style="background: var(--surface-card); border-radius: var(--radius-xl); border: 1px solid var(--border-subtle); display: flex; flex-direction: column;">
-          @for (j of [1,2]; track j) {
-            <div style="display: flex; align-items: center; gap: var(--size-16); padding: var(--size-16);">
-              <div class="skeleton" style="width: var(--size-40); height: var(--size-40); border-radius: var(--radius-md);"></div>
-              <div style="display: flex; flex-direction: column; gap: var(--size-6); flex: 1;">
-                <div class="skeleton" style="height: var(--size-16); width: 40%; border-radius: 4px;"></div>
-                <div class="skeleton" style="height: var(--size-14); width: 60%; border-radius: 4px;"></div>
+
+  <div class="profile-skeleton" style="display: flex; flex-direction: column; gap: var(--size-32);">
+    <div>
+      <div style="display: flex; align-items: center;">
+        <app-skeleton shape="circle" style="width: var(--size-24); height: var(--size-24);"></app-skeleton>
+        <app-skeleton shape="text" style="height: var(--size-16); width: 120px; margin-left: var(--size-16); margin-bottom: 0;"></app-skeleton>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--size-16); margin-top: var(--size-16);">
+        @for (i of [1,2,3]; track i) {
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: var(--size-16); flex: 1;">
+              <app-skeleton shape="text" style="width: var(--size-40); height: var(--size-40);"></app-skeleton>
+              <div style="display: flex; flex-direction: column; gap: var(--size-4); flex: 1;">
+                <app-skeleton shape="text" style="height: var(--size-16); width: 40%; margin-bottom: 0;"></app-skeleton>
+                <app-skeleton shape="text" style="height: var(--size-14); width: 60%; margin-bottom: 0;"></app-skeleton>
               </div>
             </div>
-          }
-        </div>
+          </div>
+        }
       </div>
-    }
+    </div>
   </div>
   } @if (profile.error()) {
   <div class="profile-error">

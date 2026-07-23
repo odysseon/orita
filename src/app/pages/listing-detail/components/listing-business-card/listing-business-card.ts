@@ -3,9 +3,11 @@ import { RouterLink } from '@angular/router';
 import { LucideStore, LucideMapPin, LucidePhone, LucideMessageCircle } from '@lucide/angular';
 import { MessagingFacade } from '../../../../core/services/messaging.facade';
 
+import { Button } from '../../../../shared/ui/atoms/button/button';
+
 @Component({
   selector: 'app-listing-business-card',
-  imports: [RouterLink, LucideStore, LucideMapPin, LucidePhone, LucideMessageCircle],
+  imports: [RouterLink, LucideStore, LucideMapPin, LucidePhone, LucideMessageCircle, Button],
   templateUrl: './listing-business-card.html',
   styleUrl: './listing-business-card.css',
 })

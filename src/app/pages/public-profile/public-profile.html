@@ -15,25 +15,22 @@
   <main class="profile-content">
     @if (state() === 'loading') {
       <div class="skeleton-layout">
-        <div class="skeleton-banner skeleton"></div>
+        <app-skeleton class="skeleton-banner"></app-skeleton>
         <div class="container skeleton-container">
-          <div class="skeleton-avatar skeleton"></div>
+          <app-skeleton shape="circle" class="skeleton-avatar"></app-skeleton>
           <div class="skeleton-actions">
-            <div class="skeleton-btn skeleton"></div>
+            <app-skeleton class="skeleton-btn"></app-skeleton>
           </div>
-          
           <div class="skeleton-info">
-            <div class="skeleton-name skeleton"></div>
-            <div class="skeleton-username skeleton"></div>
-            
+            <app-skeleton class="skeleton-name"></app-skeleton>
+            <app-skeleton class="skeleton-username"></app-skeleton>
             <div class="skeleton-bio">
-              <div class="skeleton-line skeleton"></div>
-              <div class="skeleton-line skeleton" style="width: 80%"></div>
+              <app-skeleton shape="text" class="skeleton-line"></app-skeleton>
+              <app-skeleton shape="text" class="skeleton-line" style="width: 80%"></app-skeleton>
             </div>
-            
             <div class="skeleton-stats">
-              <div class="skeleton-stat skeleton"></div>
-              <div class="skeleton-stat skeleton"></div>
+              <app-skeleton class="skeleton-stat"></app-skeleton>
+              <app-skeleton class="skeleton-stat"></app-skeleton>
             </div>
           </div>
         </div>
@@ -144,9 +141,10 @@
                       </div>
                       <div class="premium-card-title-wrap">
                         <h3 class="premium-card-title">{{ business.name }}</h3>
-                        <span class="badge badge--success verified-badge">
-                          <svg lucideCheck aria-hidden="true"></svg> Verified
-                        </span>
+                        <app-badge intent="success" class="verified-badge">
+                          <svg lucideBadgeCheck aria-hidden="true"></svg>
+                          Verified
+                        </app-badge>
                       </div>
                     </div>
                     

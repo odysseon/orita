@@ -8,7 +8,7 @@
       <button class="message-tab" [class.active]="activeTab === 'updates'" (click)="activeTab = 'updates'">
         Updates
         @if (notificationService.unreadCount() > 0) {
-          <span class="badge">{{ notificationService.unreadCount() > 99 ? '99+' : notificationService.unreadCount() }}</span>
+          <app-badge intent="error">{{ notificationService.unreadCount() > 99 ? '99+' : notificationService.unreadCount() }}</app-badge>
         }
       </button>
     </div>

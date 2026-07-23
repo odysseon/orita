@@ -1,9 +1,9 @@
 <div class="edit-biz-page">
   @if (business.isLoading()) {
     <div class="edit-biz-skeleton">
-      <div class="skeleton skeleton--title"></div>
-      <div class="skeleton skeleton--text"></div>
-      <div class="skeleton skeleton--text" style="height: 120px;"></div>
+      <app-skeleton class="skeleton--title"></app-skeleton>
+      <app-skeleton class="skeleton--text"></app-skeleton>
+      <app-skeleton class="skeleton--text" style="height: 120px;"></app-skeleton>
     </div>
   } @else if (business.hasValue()) {
     <form (submit)="onSubmit($event)" class="edit-biz-form">

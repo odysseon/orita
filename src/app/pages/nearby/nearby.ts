@@ -15,11 +15,12 @@ import { AppGrid } from '../../shared/grid/grid';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { LucideMapPin } from '@lucide/angular';
+import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 
 @Component({
   selector: 'app-nearby',
   standalone: true,
-  imports: [CommonModule, RouterModule, NearbyItemCard, NewPostSheet, AppHeader, AppGrid, EmptyState, ScrollHideDirective, LucideMapPin],
+  imports: [CommonModule, RouterModule, NearbyItemCard, NewPostSheet, AppHeader, AppGrid, EmptyState, ScrollHideDirective, LucideMapPin, Skeleton],
   templateUrl: './nearby.html',
   styleUrls: ['./nearby.css'],
 })

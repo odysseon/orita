@@ -26,7 +26,7 @@
   @if (activeTab() === 'following') { @if (followedBusinesses.isLoading()) {
   <div class="saved-list">
     @for (i of [1,2,3]; track i) {
-    <div class="skeleton saved-item-skeleton"></div>
+    <app-skeleton class="saved-item-skeleton"></app-skeleton>
     }
   </div>
   } @if (followedBusinesses.hasValue() && followedBusinesses.value()!.length === 0) {
@@ -73,7 +73,7 @@
   @if (activeTab() === 'listings') { @if (savedListings.isLoading()) {
   <div class="saved-list">
     @for (i of [1,2,3]; track i) {
-    <div class="skeleton saved-item-skeleton"></div>
+    <app-skeleton class="saved-item-skeleton"></app-skeleton>
     }
   </div>
   } @if (savedListings.hasValue() && savedListings.value()!.items.length === 0) {

@@ -80,7 +80,7 @@
   @if (listings.isLoading()) {
   <div class="listings__skeletons">
     @for (i of [1,2,3]; track i) {
-    <div class="skeleton listing-skeleton"></div>
+    <app-skeleton class="listing-skeleton"></app-skeleton>
     }
   </div>
   }

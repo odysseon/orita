@@ -1,9 +1,11 @@
 import { Component, input } from '@angular/core';
 import { LucideStar } from '@lucide/angular';
+import { Badge } from '../../../../shared/ui/atoms/badge/badge';
 
 @Component({
   selector: 'app-listing-reviews',
-  imports: [LucideStar],
+  standalone: true,
+  imports: [LucideStar, Badge],
   templateUrl: './listing-reviews.html',
   styleUrl: './listing-reviews.css',
 })

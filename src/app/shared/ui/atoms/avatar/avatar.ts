@@ -1,4 +1,13 @@
-import { Component, input, computed, signal, effect, ViewEncapsulation, booleanAttribute, output } from '@angular/core';
+import {
+  Component,
+  input,
+  computed,
+  signal,
+  effect,
+  ViewEncapsulation,
+  booleanAttribute,
+  output,
+} from '@angular/core';
 import { LucideUser, LucideLogIn } from '@lucide/angular';
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -17,7 +26,7 @@ export type AvatarStatus = 'online' | 'offline' | 'away' | 'busy';
     '[class]': 'classes()',
     '[attr.data-size]': 'size()',
     '[attr.data-shape]': 'shape()',
-  }
+  },
 })
 export class Avatar {
   src = input<string | null>();
@@ -27,7 +36,7 @@ export class Avatar {
   shape = input<AvatarShape>('circle');
   loading = input<AvatarLoading>('lazy');
   status = input<AvatarStatus>();
-  
+
   authenticated = input<boolean, unknown>(true, { transform: booleanAttribute });
   guestClick = output<void>();
 
@@ -36,18 +45,14 @@ export class Avatar {
 
   constructor() {
     effect(() => {
-      this.src(); // track it
+      this.src();
       this.imageLoaded.set(false);
       this.imageError.set(false);
-    }, { allowSignalWrites: true });
+    });
   }
 
   classes = computed(() => {
-    const classList = [
-      'avatar',
-      `avatar--${this.size()}`,
-      `avatar--${this.shape()}`
-    ];
+    const classList = ['avatar', `avatar--${this.size()}`, `avatar--${this.shape()}`];
     if (!this.authenticated()) {
       classList.push('is-guest');
     }
@@ -61,7 +66,7 @@ export class Avatar {
   onError() {
     this.imageError.set(true);
   }
-  
+
   onGuestClick() {
     if (!this.authenticated()) {
       this.guestClick.emit();
