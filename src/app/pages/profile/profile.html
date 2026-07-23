@@ -40,6 +40,7 @@
       <app-avatar
         [src]="profile.value()!.avatarUrl"
         [alt]="profile.value()!.username"
+        [fallback]="profile.value()!.username ? profile.value()!.username.charAt(0).toUpperCase() : ''"
         size="xl"
       ></app-avatar>
     </div>

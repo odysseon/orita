@@ -15,6 +15,7 @@ import { LucideMapPin } from '@lucide/angular';
         <app-avatar
           [src]="user().avatarUrl"
           [alt]="user().username"
+          [fallback]="user().username ? user().username.charAt(0).toUpperCase() : ''"
           size="lg"
         ></app-avatar>
         <div class="user-info">

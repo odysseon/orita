@@ -57,6 +57,7 @@
       class="feed-card__avatar"
       [src]="business.logoUrl"
       [alt]="business.name"
+      [fallback]="business.name ? business.name.charAt(0).toUpperCase() : ''"
       size="sm"
     ></app-avatar>
     <div class="feed-card__meta">

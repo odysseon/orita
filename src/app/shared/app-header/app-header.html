@@ -32,6 +32,7 @@
         [authenticated]="!!authService.token()"
         [src]="authService.currentUser()?.avatarUrl"
         [alt]="authService.currentUser()?.username || '?'"
+        [fallback]="authService.currentUser()?.username ? authService.currentUser()!.username.charAt(0).toUpperCase() : '?'"
         size="sm"
         (click)="goToProfile()"
         (guestClick)="goToProfile()"

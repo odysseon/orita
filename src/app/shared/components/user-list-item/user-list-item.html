@@ -1,6 +1,6 @@
 <li class="user-item" [class.selected]="selected()" (click)="onToggle($event)">
   <div class="user-avatar">
-    <app-avatar [src]="avatarUrl()" [alt]="displayName() || username()" size="md"></app-avatar>
+    <app-avatar [src]="avatarUrl()" [alt]="displayName() || username()" [fallback]="(displayName() || username()) ? (displayName() || username())!.charAt(0).toUpperCase() : ''" size="md"></app-avatar>
   </div>
   <div class="user-details">
     <span class="user-name">{{ displayName() || username() }}</span>
