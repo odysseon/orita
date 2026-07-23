@@ -1,0 +1,15 @@
+.spinner {
+  display: inline-block;
+  width: var(--size-20);
+  height: var(--size-20);
+  border: var(--size-2) solid color-mix(in oklch, currentColor 30%, transparent);
+  border-left-color: currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

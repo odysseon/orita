@@ -430,95 +430,7 @@ body {
 /* ============================================================
  * 6 Components
  * ============================================================ */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 40px;
-  padding: 0 20px;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-sans);
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast),
-    opacity var(--transition-fast),
-    border-color var(--transition-fast);
 
-  &:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--clr-primary);
-    outline-offset: 2px;
-  }
-}
-
-/* -- Intent ----------------------------------------------- */
-.btn--primary {
-  background: var(--clr-primary);
-  color: var(--clr-on-primary);
-
-  &:hover:not(:disabled) {
-    background: var(--clr-primary-dark);
-  }
-}
-
-.btn--danger {
-  background: var(--clr-error);
-  color: var(--clr-on-error);
-
-  &:hover:not(:disabled) {
-    background: var(--clr-on-error-container);
-  }
-}
-
-/* -- Appearance ------------------------------------------- */
-.btn--ghost {
-  background: transparent;
-  color: var(--clr-primary);
-  border: 1.5px solid var(--border-default);
-
-  &:hover:not(:disabled) {
-    background: var(--clr-primary-container);
-    border-color: var(--clr-primary);
-  }
-}
-
-.btn--ghost.btn--danger {
-  color: var(--clr-error);
-  border-color: var(--clr-error-container);
-
-  &:hover:not(:disabled) {
-    background: var(--clr-error-container);
-    border-color: var(--clr-error);
-  }
-}
-
-.btn--subtle {
-  background: var(--surface-container);
-  color: var(--text-primary);
-
-  &:hover:not(:disabled) {
-    background: var(--surface-container-high);
-  }
-}
-
-/* -- Size ------------------------------------------------- */
-.btn--sm {
-  height: 32px;
-  padding: 0 12px;
-  font-size: var(--font-size-sm);
-}
-
-.btn--full {
-  width: 100%;
-}
 
 /* ============================================================
  * BACK BUTTON — ghost nav utility
@@ -688,11 +600,6 @@ body {
   }
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 .tabs {
   display: flex;
@@ -1219,17 +1126,3 @@ img.avatar-placeholder {
   height: var(--size-20);
 }
 
-.spinner {
-  display: inline-block;
-  width: var(--size-20);
-  height: var(--size-20);
-  border: 2px solid color-mix(in oklch, var(--clr-on-primary) 30%, transparent);
-  border-left-color: var(--clr-on-primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-.btn--subtle .spinner {
-  border: 2px solid color-mix(in oklch, var(--text-primary) 30%, transparent);
-  border-left-color: var(--text-primary);
-}
