@@ -1,4 +1,5 @@
 import { Component, Directive, input } from '@angular/core';
+import { ScrollHideDirective } from '../../../directives/scroll-hide.directive';
 
 @Directive({
   selector: '[uiHeaderStart]',
@@ -21,6 +22,12 @@ export class HeaderEnd {}
 @Component({
   selector: 'ui-header',
   standalone: true,
+  hostDirectives: [
+    {
+      directive: ScrollHideDirective,
+      inputs: ['uiScrollHide', 'scrollHidePosition']
+    }
+  ],
   template: `
     <div class="ui-header-start"><ng-content select="[uiHeaderStart]"></ng-content></div>
     <div class="ui-header-center"><ng-content select="[uiHeaderCenter]"></ng-content></div>
