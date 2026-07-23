@@ -58,7 +58,7 @@
       <h2 class="profile-nav-group__title">{{ group.title }}</h2>
       <nav class="profile-nav" aria-label="Profile navigation">
         @for (item of group.items; track item.route || item.action) {
-        <button class="profile-nav__item" (click)="navigate(item)">
+        <button app-button appearance="plain" class="profile-nav__item" (click)="navigate(item)">
           <div class="profile-nav__icon-wrap" aria-hidden="true">
             <svg [lucideIcon]="item.icon"></svg>
           </div>
@@ -73,7 +73,7 @@
     </div>
   }
 
-  <button class="btn btn--ghost btn--danger btn--full" style="margin-top: var(--size-8)" (click)="logout()">
+  <button app-button appearance="ghost" intent="danger" fullWidth style="margin-top: var(--size-8)" (click)="logout()">
     <svg lucideLogOut style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
     Sign out
   </button>

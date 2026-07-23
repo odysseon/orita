@@ -21,6 +21,7 @@ import { CreateBusiness } from './business/create/create-business';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { AppHeader } from '../../shared/app-header/app-header';
 import { Avatar } from '../../shared/ui/atoms/avatar/avatar';
+import { Button } from '../../shared/ui/atoms/button/button';
 
 interface NavItem {
   icon: LucideIconInput;
@@ -88,6 +89,7 @@ const START_BUSINESS: NavItem = {
     SeoComponent,
     AppHeader,
     Avatar,
+    Button,
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
