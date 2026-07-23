@@ -41,13 +41,15 @@
     </div>
 
     <button
-      class="btn btn--primary btn--full auth-form__submit"
+      app-button
+      intent="primary"
+      fullWidth
+      class="auth-form__submit"
       type="submit"
       [disabled]="loading() || isFormInvalid()"
+      [loading]="loading()"
     >
-      @if (loading()) {
-      <svg lucideLoaderCircle class="auth-form__spinner" aria-hidden="true"></svg>
-      Signing in… } @else { Sign in }
+      Sign in
     </button>
 
     <div class="auth-divider">

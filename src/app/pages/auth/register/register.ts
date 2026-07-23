@@ -10,6 +10,8 @@ import { AppPasswordField } from '../../../shared/password-field/password-field'
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
 import { ValidationService } from '../../../core/services/validation.service';
 
+import { Button } from '../../../shared/ui/atoms/button/button';
+
 @Component({
   selector: 'app-register',
   imports: [
@@ -19,6 +21,7 @@ import { ValidationService } from '../../../core/services/validation.service';
     AppFormField,
     AppPasswordField,
     AppGoogleSignIn,
+    Button,
   ],
   templateUrl: './register.html',
   styleUrls: ['../auth.css'],
