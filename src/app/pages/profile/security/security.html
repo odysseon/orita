@@ -20,7 +20,7 @@
               >Update your avatar, username, and email on your dedicated edit page.</span
             >
           </div>
-          <button type="button" class="btn btn--outline" routerLink="/profile/edit">
+          <button app-button type="button" appearance="outline" routerLink="/profile/edit">
             Open Edit Profile
           </button>
         </div>
@@ -35,7 +35,7 @@
             <span class="field-toggle-title">Password</span>
             <span class="field-toggle-desc">Change your password or add password credentials</span>
           </div>
-          <button type="button" class="btn btn--outline" (click)="isPasswordDrawerOpen.set(true)">
+          <button app-button type="button" appearance="outline" (click)="isPasswordDrawerOpen.set(true)">
             <svg lucideKey class="icon" aria-hidden="true"></svg>
             Manage Password
           </button>
@@ -48,7 +48,7 @@
               >Link or unlink your Google account for easier sign-in</span
             >
           </div>
-          <button type="button" class="btn btn--outline" (click)="isGoogleDrawerOpen.set(true)">
+          <button app-button type="button" appearance="outline" (click)="isGoogleDrawerOpen.set(true)">
             <svg lucideLink class="icon" aria-hidden="true"></svg>
             Manage Google
           </button>
@@ -70,7 +70,7 @@
               undone.</span
             >
           </div>
-          <button type="button" class="btn btn--danger" disabled (click)="onDeleteAccount()">
+          <button app-button type="button" intent="danger" disabled (click)="onDeleteAccount()">
             <svg lucideTrash2 class="icon" aria-hidden="true"></svg>
             Delete Account
           </button>
@@ -156,10 +156,10 @@
     </app-form-field>
 
     <div class="drawer-actions">
-      <button type="button" class="btn btn--ghost" (click)="isPasswordDrawerOpen.set(false)">
+      <button app-button type="button" appearance="ghost" (click)="isPasswordDrawerOpen.set(false)">
         Cancel
       </button>
-      <button type="submit" class="btn btn--primary" [disabled]="loading()">Change Password</button>
+      <button app-button type="submit" intent="primary" [disabled]="loading()">Change Password</button>
     </div>
   </form>
   } @else {
@@ -202,10 +202,10 @@
     </app-form-field>
 
     <div class="drawer-actions">
-      <button type="button" class="btn btn--ghost" (click)="isPasswordDrawerOpen.set(false)">
+      <button app-button type="button" appearance="ghost" (click)="isPasswordDrawerOpen.set(false)">
         Cancel
       </button>
-      <button type="submit" class="btn btn--primary" [disabled]="loading()">Add Password</button>
+      <button app-button type="submit" intent="primary" [disabled]="loading()">Add Password</button>
     </div>
   </form>
   }
@@ -224,7 +224,7 @@
         [autoLogin]="false"
         (idTokenReceived)="onGoogleIdTokenReceived($event)"
       ></app-google-sign-in>
-      <button type="button" class="btn btn--ghost btn--danger btn--full" (click)="onUnlinkGoogle()">
+      <button app-button type="button" appearance="ghost" intent="danger" fullWidth (click)="onUnlinkGoogle()">
         <svg lucideUnlink class="icon" aria-hidden="true"></svg>
         Unlink Google Account
       </button>

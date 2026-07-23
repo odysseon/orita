@@ -11,6 +11,7 @@ import {
   LucideMapPin,
   LucideLayoutGrid,
   LucideIconInput,
+  LucideTrash2,
 } from '@lucide/angular';
 import { ToastService } from '../../../../core/services/toast';
 import { IBusinessProfile, BusinessType } from '../business.interface';
@@ -20,6 +21,7 @@ import { MediaSelector } from '../../../../shared/media-selector/media-selector'
 import { ICategory } from '../../../home/home.interface';
 import { CategoryPicker } from '../../../../shared/category-picker/category-picker';
 import { LocationPicker } from '../../../../shared/location-picker/location-picker';
+import { Button } from '../../../../shared/ui/atoms/button/button';
 import { Location } from '../../../../core/services/location.service';
 import { MediaService } from '../../../../core/services/media.service';
 

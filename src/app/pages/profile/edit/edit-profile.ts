@@ -9,6 +9,7 @@ import { ToastService } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
 import { IProfile } from '../profile.interface';
 import { AppFormField } from '../../../shared/form-field/form-field';
+import { Button } from '../../../shared/ui/atoms/button/button';
 import { MediaSelector } from '../../../shared/media-selector/media-selector';
 import { MediaService } from '../../../core/services/media.service';
 

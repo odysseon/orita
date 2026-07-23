@@ -2,6 +2,7 @@ import { Component, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideSave } from '@lucide/angular';
 import { CategoryBrowser } from '../../../shared/category-browser/category-browser';
+import { Button } from '../../../shared/ui/atoms/button/button';
 import { UserService } from '../../../core/services/user.service';
 import { ToastService } from '../../../core/services/toast';
 import { httpResource } from '@angular/common/http';

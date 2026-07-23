@@ -30,7 +30,7 @@
         Create a business profile to reach customers, manage listings, and grow your presence on
         Orita.
       </p>
-      <button class="btn btn--primary" (click)="createBusiness()">
+      <button app-button intent="primary" (click)="createBusiness()">
         <svg lucidePlus aria-hidden="true"></svg>
         Create business profile
       </button>
@@ -60,16 +60,16 @@
           {{ isPublic() ? 'Public' : 'Hidden — not visible to others' }}
         </span>
         <div class="biz-identity__actions" style="display: flex; gap: var(--size-3); margin-top: var(--size-8);">
-          <button class="btn btn--subtle btn--sm" (click)="editBusiness()">
+          <button app-button intent="secondary" size="sm" (click)="editBusiness()">
             Edit Profile
           </button>
           
           @if (!isPublic()) {
-            <button class="btn btn--primary btn--sm" [disabled]="isPublishing()" (click)="publishBusiness()">
+            <button app-button intent="primary" size="sm" [disabled]="isPublishing()" (click)="publishBusiness()">
               Publish Business
             </button>
           } @else {
-            <button class="btn btn--danger-outline btn--sm" [disabled]="isPublishing()" (click)="unpublishBusiness()">
+            <button app-button intent="danger" appearance="outline" size="sm" [disabled]="isPublishing()" (click)="unpublishBusiness()">
               Unpublish
             </button>
           }

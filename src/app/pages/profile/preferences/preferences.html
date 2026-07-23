@@ -20,7 +20,8 @@
 
   <div class="preferences-actions">
     <button 
-      class="btn-save" 
+      app-button
+      intent="primary"
       [disabled]="isSaving() || !hasChanges()" 
       (click)="saveChanges()"
     >

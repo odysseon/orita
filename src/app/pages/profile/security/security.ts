@@ -18,6 +18,7 @@ import { environment } from '../../../../environments/environment';
 import { IProfile } from '../profile.interface';
 import { Drawer } from '../../../shared/drawer/drawer';
 import { AppFormField } from '../../../shared/form-field/form-field';
+import { Button } from '../../../shared/ui/atoms/button/button';
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
 import { ValidationService } from '../../../core/services/validation.service';
 
@@ -44,6 +45,7 @@ interface IAddPassword {
     Drawer,
     AppFormField,
     AppGoogleSignIn,
+    Button,
   ],
   templateUrl: './security.html',
   styleUrl: './security.css',

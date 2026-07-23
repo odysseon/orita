@@ -24,6 +24,7 @@ import { Drawer } from '../../../../shared/drawer/drawer';
 import { LocationSelector } from '../../../../shared/location-selector/location-selector';
 import { Location } from '../../../../core/services/location.service';
 import { CategoryPicker } from '../../../../shared/category-picker/category-picker';
+import { Button } from '../../../../shared/ui/atoms/button/button';
 import { ICategory } from '../../../home/home.interface';
 
 

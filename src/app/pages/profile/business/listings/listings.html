@@ -5,7 +5,7 @@
       <span class="listings__count">{{ listings.value()!.length }}</span>
       }
     </h2>
-    <button class="btn btn--sm btn--primary" (click)="openForm()" type="button" [disabled]="!canCreateListing()">
+    <button app-button size="sm" intent="primary" (click)="openForm()" type="button" [disabled]="!canCreateListing()">
       <svg lucidePlus aria-hidden="true"></svg>
       New listing
     </button>
@@ -61,9 +61,10 @@
       </app-form-field>
 
       <div class="listing-form__actions">
-        <button class="btn btn--ghost" type="button" (click)="closeForm()">Cancel</button>
+        <button app-button appearance="ghost" type="button" (click)="closeForm()">Cancel</button>
         <button
-          class="btn btn--primary"
+          app-button
+          intent="primary"
           type="submit"
           [disabled]="submitting() || isFormInvalid()"
         >
@@ -115,6 +116,8 @@
 
       <div class="listing-item__actions">
         <a
+          app-button
+          appearance="plain"
           class="listing-item__action"
           [routerLink]="['/profile/business/listings', listing.id, 'edit']"
           title="Edit Details & Media"
@@ -122,6 +125,8 @@
           <svg lucidePencil aria-hidden="true"></svg>
         </a>
         <button
+          app-button
+          appearance="plain"
           class="listing-item__action"
           type="button"
           [title]="listing.status === 'PUBLISHED' ? 'Set to draft' : 'Publish'"
@@ -137,6 +142,9 @@
           }
         </button>
         <button
+          app-button
+          appearance="plain"
+          intent="danger"
           class="listing-item__action listing-item__action--danger"
           type="button"
           title="Delete listing"
