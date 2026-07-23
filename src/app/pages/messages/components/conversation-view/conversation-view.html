@@ -2,7 +2,7 @@
   @if (conversation()) {
     <ui-app-header [showLogo]="false" [showLocationPill]="false" [showProfileBtn]="false">
       <div left-content class="view-header-left">
-        <button class="btn-icon" (click)="back.emit()" aria-label="Go back">
+        <button app-button appearance="ghost" shape="square" class="btn-icon" (click)="back.emit()" aria-label="Go back">
           <svg lucideArrowLeft aria-hidden="true"></svg>
         </button>
         <div class="view-header-user">

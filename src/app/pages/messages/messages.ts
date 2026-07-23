@@ -10,10 +10,11 @@ import { DraftMessageService } from '../../core/services/draft-message.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { NotificationsPage } from '../notifications/notifications';
 import { LucideTriangleAlert } from '@lucide/angular';
+import { Button } from '../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-messages',
-  imports: [AppHeader, ConversationSidebar, ConversationView, NotificationsPage, LucideTriangleAlert],
+  imports: [AppHeader, ConversationSidebar, ConversationView, NotificationsPage, LucideTriangleAlert, Button],
   templateUrl: './messages.html',
   styleUrl: './messages.css'
 })

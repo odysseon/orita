@@ -9,7 +9,7 @@
           <div class="attachment-chip__info">
             <span class="attachment-chip__title">Shared {{ embed.embedType }}</span>
           </div>
-          <button class="attachment-chip__remove" (click)="removeEmbed(embed.targetId)">
+          <button app-button appearance="ghost" shape="circle" size="xs" class="attachment-chip__remove" (click)="removeEmbed(embed.targetId)">
             <svg lucideX aria-hidden="true"></svg>
           </button>
         </div>
@@ -29,7 +29,7 @@
           <div class="attachment-chip__info">
             <span class="attachment-chip__title">{{ att.file.name }}</span>
           </div>
-          <button class="attachment-chip__remove" (click)="removeAttachment(att.id)">
+          <button app-button appearance="ghost" shape="circle" size="xs" class="attachment-chip__remove" (click)="removeAttachment(att.id)">
             <svg lucideX aria-hidden="true"></svg>
           </button>
         </div>
@@ -38,7 +38,7 @@
   }
 
   <div class="composer-input-row">
-    <button class="btn-attach" type="button" aria-label="Attach file" (click)="showAttachSheet.set(true)">
+    <button app-button appearance="ghost" shape="circle" class="btn-attach" type="button" aria-label="Attach file" (click)="showAttachSheet.set(true)">
       <svg lucidePaperclip aria-hidden="true"></svg>
     </button>
 
@@ -52,7 +52,8 @@
       />
     </div>
 
-    <button 
+    <button
+      app-button appearance="ghost" shape="circle"
       class="btn-send" 
       type="button" 
       aria-label="Send message"
