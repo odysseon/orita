@@ -6,6 +6,7 @@ import { PublicUserService, PublicUserProfile } from '../../core/services/public
 import { AuthService } from '../../core/services/auth.service';
 import { ShareService } from '../../core/services/share.service';
 import { Avatar } from '../../shared/ui/atoms/avatar/avatar';
+import { Button } from '../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-public-profile',
@@ -22,7 +23,8 @@ import { Avatar } from '../../shared/ui/atoms/avatar/avatar';
     LucideChevronRight,
     LucideUserCheck,
     LucideUserPlus,
-    LucideAlertCircle
+    LucideAlertCircle,
+    Button
   ],
   templateUrl: './public-profile.html',
   styleUrl: './public-profile.css'

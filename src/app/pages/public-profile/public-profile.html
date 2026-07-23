@@ -1,11 +1,11 @@
 <div class="profile-page surface-page">
   <header class="profile-header glass-sm">
     <div class="container header-container">
-      <button class="btn-icon" (click)="goBack()" aria-label="Go back">
+      <button app-button appearance="ghost" shape="circle" class="btn-icon" (click)="goBack()" aria-label="Go back">
         <svg lucideArrowLeft aria-hidden="true"></svg>
       </button>
       <div class="header-actions">
-        <button class="btn-icon" (click)="shareProfile()" aria-label="Share profile" [disabled]="state() !== 'loaded'">
+        <button app-button appearance="ghost" shape="circle" class="btn-icon" (click)="shareProfile()" aria-label="Share profile" [disabled]="state() !== 'loaded'">
           <svg lucideShare aria-hidden="true"></svg>
         </button>
       </div>
@@ -71,14 +71,15 @@
             
             <div class="profile-actions">
               @if (isCurrentUser()) {
-                <button class="btn btn--ghost profile-action-btn" (click)="editProfile()">
+                <button app-button appearance="ghost" class="profile-action-btn" (click)="editProfile()">
                   Edit Profile
                 </button>
               } @else {
                 <button 
-                  class="btn profile-action-btn follow-btn" 
-                  [class.btn--primary]="!p.isFollowing"
-                  [class.btn--subtle]="p.isFollowing"
+                  app-button 
+                  [intent]="p.isFollowing ? 'secondary' : 'primary'"
+                  [appearance]="p.isFollowing ? 'soft' : 'solid'"
+                  class="profile-action-btn follow-btn" 
                   [class.is-following]="p.isFollowing"
                   [disabled]="toggleFollowLoading()"
                   (click)="toggleFollow()">
@@ -112,11 +113,11 @@
             </div>
 
             <div class="profile-stats">
-              <button class="stat-item">
+              <button app-button appearance="plain" class="stat-item" style="flex-direction: column;">
                 <span class="stat-value">{{ p.followersCount }}</span>
                 <span class="stat-label">Followers</span>
               </button>
-              <button class="stat-item">
+              <button app-button appearance="plain" class="stat-item" style="flex-direction: column;">
                 <span class="stat-value">{{ p.followingCount }}</span>
                 <span class="stat-label">Following</span>
               </button>
