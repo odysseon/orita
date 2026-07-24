@@ -1,10 +1,3 @@
-.ui-location-identity {
-  display: flex;
-  align-items: center;
-  gap: var(--size-12);
-  text-align: left;
-}
-
 .ui-location-identity-icon-wrapper {
   display: flex;
   align-items: center;

@@ -1,30 +1,33 @@
 import { Component, input, computed, ViewEncapsulation } from '@angular/core';
 import { Avatar, AvatarSize, AvatarShape } from '../../../atoms/avatar/avatar';
 import { LucideBadgeCheck } from '@lucide/angular';
+import { Card } from '../../../atoms/card/card';
 
 @Component({
   selector: 'ui-business-identity',
   standalone: true,
-  imports: [Avatar, LucideBadgeCheck],
+  imports: [Avatar, LucideBadgeCheck, Card],
   template: `
-    <app-avatar
-      [src]="business().logoUrl || null"
-      [alt]="business().name"
-      [fallback]="business().name.charAt(0)"
-      [size]="avatarSize()"
-      [shape]="avatarShape()"
-    ></app-avatar>
-    <div class="ui-business-identity-info">
-      <div class="ui-business-identity-name-row">
-        <div class="ui-business-identity-name">{{ business().name }}</div>
-        @if (verificationStatus() === 'verified') {
-          <svg lucideBadgeCheck class="ui-business-identity-verified-icon" aria-hidden="true"></svg>
+    <app-card padding="none" appearance="plain" class="ui-business-identity-container">
+      <app-avatar
+        [src]="business().logoUrl || null"
+        [alt]="business().name"
+        [fallback]="business().name.charAt(0)"
+        [size]="avatarSize()"
+        [shape]="avatarShape()"
+      ></app-avatar>
+      <div class="ui-business-identity-info">
+        <div class="ui-business-identity-name-row">
+          <div class="ui-business-identity-name truncate">{{ business().name }}</div>
+          @if (verificationStatus() === 'verified') {
+            <svg lucideBadgeCheck class="ui-business-identity-verified-icon" aria-hidden="true"></svg>
+          }
+        </div>
+        @if (showCategory() && business().category) {
+          <div class="ui-business-identity-category truncate">{{ business().category }}</div>
         }
       </div>
-      @if (showCategory() && business().category) {
-        <div class="ui-business-identity-category">{{ business().category }}</div>
-      }
-    </div>
+    </app-card>
   `,
   styleUrl: './business-identity.css',
   encapsulation: ViewEncapsulation.None,

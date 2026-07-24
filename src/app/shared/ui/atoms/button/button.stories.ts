@@ -72,13 +72,19 @@ import { Component, input } from '@angular/core';
 })
 class ButtonRegressionComponent {
   intents = ['primary', 'secondary', 'success', 'warning', 'danger'] as const;
-  appearances = ['solid', 'outline', 'ghost', 'soft', 'link', 'plain'] as const;
+  appearances = ['solid', 'outline', 'ghost', 'soft', 'link', 'plain', 'glass'] as const;
   sizes = ['xs', 'sm', 'md', 'lg'] as const;
 }
 
 const meta: Meta<Button> = {
   title: 'Atoms/Button',
   component: Button,
+  argTypes: {
+    intent: { control: 'select', options: ['primary', 'secondary', 'success', 'warning', 'danger'] },
+    appearance: { control: 'select', options: ['solid', 'outline', 'ghost', 'soft', 'link', 'plain', 'glass'] },
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'icon'] },
+    layout: { control: 'select', options: ['horizontal', 'vertical'] },
+  },
 };
 
 export default meta;
@@ -95,6 +101,44 @@ export const Default: Story = {
     props: args,
     template: `<button app-button [intent]="intent" [appearance]="appearance" [size]="size" [disabled]="disabled" [loading]="loading" [fullWidth]="fullWidth" [type]="type">Button Text</button>`,
   }),
+};
+
+export const Outline: Story = {
+  args: {
+    intent: 'primary',
+    appearance: 'outline',
+  },
+};
+
+export const VerticalLayout: Story = {
+  args: {
+    intent: 'primary',
+    layout: 'vertical',
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <button app-button [intent]="intent" [appearance]="appearance" [size]="size" [shape]="shape" [layout]="layout" [disabled]="disabled" [loading]="loading" [fullWidth]="fullWidth">
+        <svg lucideHeart></svg>
+        <span>Favorite</span>
+      </button>
+    `
+  })
+};
+
+export const Glass: Story = {
+  args: {
+    intent: 'primary',
+    appearance: 'glass',
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="padding: 32px; background: url('https://images.unsplash.com/photo-1520975954732-57dd22299614?auto=format&fit=crop&q=80&w=600') center/cover; border-radius: var(--radius-lg);">
+        <button app-button [intent]="intent" [appearance]="appearance" [size]="size" [shape]="shape" [disabled]="disabled" [loading]="loading" [fullWidth]="fullWidth">Glass Button</button>
+      </div>
+    `
+  })
 };
 
 export const RegressionGrid: StoryObj<ButtonRegressionComponent> = {

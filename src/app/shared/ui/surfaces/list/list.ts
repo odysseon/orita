@@ -1,16 +1,28 @@
-import { Component, Directive, ViewEncapsulation } from '@angular/core';
+import { Component, Directive, ViewEncapsulation, input, computed } from '@angular/core';
 
 @Component({
   selector: 'ui-list',
   standalone: true,
   template: `<ng-content></ng-content>`,
   encapsulation: ViewEncapsulation.None,
+  host: {
+    '[class.ui-list--bordered]': 'bordered()',
+    '[class.ui-list--dividers]': 'dividers()',
+    '[class.ui-list--padding]': 'padding()',
+    '[class.ui-list--radius]': 'radius()',
+  },
   styles: [`
     ui-list {
       display: flex;
       flex-direction: column;
       background: var(--surface-default);
+    }
+    
+    ui-list.ui-list--bordered {
       border: 1px solid var(--border-subtle);
+    }
+
+    ui-list.ui-list--radius {
       border-radius: var(--radius-xl);
       overflow: hidden;
     }
@@ -20,7 +32,6 @@ import { Component, Directive, ViewEncapsulation } from '@angular/core';
       align-items: center;
       width: 100%;
       text-align: left;
-      padding: var(--size-16);
       background: transparent;
       border: none;
       text-decoration: none;
@@ -28,6 +39,10 @@ import { Component, Directive, ViewEncapsulation } from '@angular/core';
       transition: background-color var(--transition-fast) ease;
       gap: var(--size-16);
       font-family: inherit;
+    }
+
+    ui-list.ui-list--padding .ui-list-item {
+      padding: var(--size-16);
     }
 
     button.ui-list-item,
@@ -45,7 +60,7 @@ import { Component, Directive, ViewEncapsulation } from '@angular/core';
       background: var(--surface-container-high);
     }
 
-    .ui-list-item + .ui-list-item {
+    ui-list.ui-list--dividers .ui-list-item + .ui-list-item {
       border-top: 1px solid var(--border-subtle);
     }
 
@@ -92,7 +107,12 @@ import { Component, Directive, ViewEncapsulation } from '@angular/core';
     }
   `]
 })
-export class List {}
+export class List {
+  bordered = input<boolean>(true);
+  dividers = input<boolean>(true);
+  padding = input<boolean>(true);
+  radius = input<boolean>(true);
+}
 
 @Directive({
   selector: '[uiListItem]',

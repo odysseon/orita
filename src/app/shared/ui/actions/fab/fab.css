@@ -86,8 +86,21 @@
 }
 
 /* Intents */
-:host.intent-primary { background: var(--clr-primary); color: var(--clr-on-primary); }
-:host.intent-secondary { background: var(--surface-container-high); color: var(--text-primary); border: 1px solid var(--border-color); }
-:host.intent-success { background: var(--clr-success); color: white; }
-:host.intent-warning { background: var(--clr-warning); color: white; }
-:host.intent-danger { background: var(--clr-error); color: white; }
+:host.intent-primary.appearance-solid { background: var(--clr-primary); color: var(--clr-on-primary); }
+:host.intent-secondary.appearance-solid { background: var(--surface-container-high); color: var(--text-primary); border: 1px solid var(--border-color); }
+:host.intent-success.appearance-solid { background: var(--clr-success); color: white; }
+:host.intent-warning.appearance-solid { background: var(--clr-warning); color: white; }
+:host.intent-danger.appearance-solid { background: var(--clr-error); color: white; }
+
+/* Glass Appearance */
+:host.appearance-glass {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+:host.appearance-glass:hover {
+  background: rgba(255, 255, 255, 0.4);
+}

@@ -1,24 +1,30 @@
 import { Component, input, computed, ViewEncapsulation } from '@angular/core';
-import { Avatar, AvatarSize, AvatarShape } from '../../../atoms/avatar/avatar';
+import { CoverMedia } from '../../../surfaces/cover-media/cover-media';
+import { Card } from '../../../atoms/card/card';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'ui-listing-identity',
   standalone: true,
-  imports: [Avatar],
+  imports: [CoverMedia, CurrencyPipe, Card],
   template: `
-    <app-avatar
-      [src]="listing().imageUrl || null"
-      [alt]="listing().title"
-      [fallback]="listing().title.charAt(0)"
-      [size]="avatarSize()"
-      [shape]="avatarShape()"
-    ></app-avatar>
-    <div class="ui-listing-identity-info">
-      <div class="ui-listing-identity-title">{{ listing().title }}</div>
-      @if (showPrice() && listing().price) {
-        <div class="ui-listing-identity-price">{{ listing().price }}</div>
-      }
-    </div>
+    <app-card padding="none" appearance="plain" style="display: flex; align-items: center; gap: var(--size-12);">
+      <div class="ui-listing-identity-thumbnail" [class]="'size-' + size()">
+        <ui-cover-media
+          [src]="listing().imageUrl || null"
+          [alt]="listing().title"
+        ></ui-cover-media>
+      </div>
+      <div class="ui-listing-identity-info">
+        <div class="ui-listing-identity-title">{{ listing().title }}</div>
+        @if (showPrice() && listing().price) {
+          <div class="ui-listing-identity-price">{{ listing().price | currency:'NGN':'symbol-narrow':'1.0-0' }}</div>
+        }
+        @if (metadata()) {
+          <div class="ui-listing-identity-metadata">{{ metadata() }}</div>
+        }
+      </div>
+    </app-card>
   `,
   styleUrl: './listing-identity.css',
   encapsulation: ViewEncapsulation.None,
@@ -36,16 +42,7 @@ export class ListingIdentity {
 
   size = input<'sm' | 'md' | 'lg'>('md');
   showPrice = input<boolean>(true);
-
-  avatarSize = computed<AvatarSize>(() => {
-    switch (this.size()) {
-      case 'sm': return 'sm';
-      case 'md': return 'md';
-      case 'lg': return 'lg';
-    }
-  });
-
-  avatarShape = computed<AvatarShape>(() => 'rounded');
+  metadata = input<string | null>(null);
 
   classes = computed(() => {
     return `ui-listing-identity ui-listing-identity--${this.size()}`;

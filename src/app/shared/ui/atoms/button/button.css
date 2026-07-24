@@ -158,6 +158,17 @@
   background: color-mix(in oklch, var(--text-primary) 5%, transparent);
 }
 
+.btn--glass {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+.btn--glass:not(:disabled):hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
 /* ============================================================
  * SIZES
  * ============================================================ */
@@ -212,4 +223,14 @@
 
 .btn--shape-pill {
   border-radius: var(--radius-pill);
+}
+
+/* ============================================================
+ * LAYOUTS
+ * ============================================================ */
+.btn--layout-vertical {
+  flex-direction: column;
+  height: auto;
+  padding: var(--size-12) var(--size-16);
+  gap: var(--size-4);
 }
