@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { FormField } from './form-field';
+import { AppFormField } from './form-field';
 
-const meta: Meta<FormField> = {
+const meta: Meta<AppFormField> = {
   title: 'Atoms/FormField',
-  component: FormField,
+  component: AppFormField,
   tags: ['autodocs'],
   argTypes: {
     orientation: {
@@ -56,7 +56,7 @@ const meta: Meta<FormField> = {
 };
 
 export default meta;
-type Story = StoryObj<FormField>;
+type Story = StoryObj<AppFormField>;
 
 export const Default: Story = {
   args: {

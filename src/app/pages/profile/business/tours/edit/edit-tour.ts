@@ -12,19 +12,19 @@ import {
 import { environment } from '../../../../../../environments/environment';
 import { ToastService } from '../../../../../core/services/toast';
 import { form, FormField, required } from '@angular/forms/signals';
-import { AppFormField } from '../../../../../shared/form-field/form-field';
+import { AppFormField } from '../../../../../shared/ui/atoms/form-field/form-field';
 import { Skeleton } from '../../../../../shared/ui/atoms/skeleton/skeleton';
 import { BusinessTourService, IBusinessTour, BusinessTourStatus, IBusinessTourMediaItem } from '../../../../../core/services/business-tour.service';
+import { Button } from '../../../../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-edit-tour',
-  imports: [
-    FormField,
+  imports: [FormField, 
     AppFormField,
     LucideSave,
     LucideImagePlus,
     LucideX,
-    Skeleton
+    Skeleton, Button
   ],
   templateUrl: './edit-tour.html',
   styleUrl: './edit-tour.css',

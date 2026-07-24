@@ -5,7 +5,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { IRegister } from './register.interface';
 
 import { AppAuthCard } from '../../../shared/auth-card/auth-card';
-import { AppFormField } from '../../../shared/form-field/form-field';
+import { AppFormField } from '../../../shared/ui/atoms/form-field/form-field';
 import { AppPasswordField } from '../../../shared/password-field/password-field';
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
 import { ValidationService } from '../../../core/services/validation.service';
@@ -14,8 +14,8 @@ import { Button } from '../../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-register',
-  imports: [
-    FormField,
+  imports: [FormField, 
+    AppFormField,
     LucideLoaderCircle,
     AppAuthCard,
     AppFormField,

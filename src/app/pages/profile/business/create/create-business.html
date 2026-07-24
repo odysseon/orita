@@ -15,18 +15,17 @@
       <app-form-field
         label="Business name"
         fieldId="name"
-        [touched]="businessForm.name().touched()"
         [invalid]="businessForm.name().invalid()"
         [errorMessage]="businessForm.name().errors()[0]?.message"
       >
         <input
           id="name"
-          class="field__input"
+          class="app-input"
           type="text"
           placeholder="e.g. Tunde's Electronics"
           autocomplete="organization"
           [formField]="businessForm.name"
-          [class.field__input--error]="businessForm.name().touched() && businessForm.name().invalid()"
+          [attr.aria-invalid]="businessForm.name().touched() && businessForm.name().invalid()"
         />
       </app-form-field>
 
@@ -35,14 +34,13 @@
       <app-form-field
         label="Category"
         fieldId="primaryCategoryId"
-        [touched]="businessForm.primaryCategoryId().touched()"
         [invalid]="businessForm.primaryCategoryId().invalid()"
         [errorMessage]="businessForm.primaryCategoryId().errors()[0]?.message"
       >
         <app-category-picker
           [categoryId]="model().primaryCategoryId"
           (categoryIdChange)="onCategoryPicked($event)"
-          [class.field__input--error]="businessForm.primaryCategoryId().touched() && businessForm.primaryCategoryId().invalid()"
+          [attr.aria-invalid]="businessForm.primaryCategoryId().touched() && businessForm.primaryCategoryId().invalid()"
         ></app-category-picker>
       </app-form-field>
 
@@ -50,18 +48,17 @@
       <app-form-field
         label="Phone Number"
         fieldId="contactPhone"
-        [touched]="businessForm.contactPhone().touched()"
         [invalid]="businessForm.contactPhone().invalid()"
         [errorMessage]="businessForm.contactPhone().errors()[0]?.message"
       >
         <input
           id="contactPhone"
-          class="field__input"
+          class="app-input"
           type="tel"
           [placeholder]="phonePlaceholder()"
           autocomplete="tel"
           [formField]="businessForm.contactPhone"
-          [class.field__input--error]="businessForm.contactPhone().touched() && businessForm.contactPhone().invalid()"
+          [attr.aria-invalid]="businessForm.contactPhone().touched() && businessForm.contactPhone().invalid()"
         />
         @if (phoneWarning()) {
           <div style="font-size: var(--font-size-sm); color: var(--color-warning-600); margin-top: var(--size-4); display: flex; align-items: flex-start; gap: var(--size-4);">
@@ -75,13 +72,12 @@
       <app-form-field
         label="Description"
         fieldId="description"
-        [touched]="businessForm.description().touched()"
         [invalid]="businessForm.description().invalid()"
         [errorMessage]="businessForm.description().errors()[0]?.message"
       >
         <textarea
           id="description"
-          class="field__input field__textarea"
+          class="app-textarea"
           placeholder="Describe what your business offers...
 
 Example:
@@ -89,7 +85,7 @@ We sell smartphones, accessories and laptops.
 We also repair damaged phones and offer same-day screen replacement."
           rows="5"
           [formField]="businessForm.description"
-          [class.field__input--error]="businessForm.description().touched() && businessForm.description().invalid()"
+          [attr.aria-invalid]="businessForm.description().touched() && businessForm.description().invalid()"
         ></textarea>
       </app-form-field>
 
@@ -97,12 +93,11 @@ We also repair damaged phones and offer same-day screen replacement."
       <app-form-field
         label="Business Location"
         fieldId="location"
-        [touched]="businessForm.location().touched()"
         [invalid]="businessForm.location().invalid()"
         [errorMessage]="businessForm.location().errors()[0]?.message"
       >
         @if (model().location) {
-          <div class="field__input" style="display: flex; align-items: center; justify-content: space-between;">
+          <div class="app-input" style="display: flex; align-items: center; justify-content: space-between;">
             <div style="display: flex; align-items: center; gap: var(--size-8);">
               <svg lucideMapPin aria-hidden="true" style="width: var(--size-16); height: var(--size-16);"></svg>
               <span>{{ model().location }}</span>

@@ -18,6 +18,7 @@ import { IProfile } from './profile.interface';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 import { CreateBusiness } from './business/create/create-business';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../shared/ui/surfaces/list/list';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { PageHeader } from '../../shared/ui/organisms/page-header/page-header';
 import { Avatar } from '../../shared/ui/atoms/avatar/avatar';
@@ -92,6 +93,13 @@ const START_BUSINESS: NavItem = {
     Avatar,
     Button,
     Skeleton,
+    List,
+    ListItem,
+    ListItemStart,
+    ListItemContent,
+    ListItemTitle,
+    ListItemDescription,
+    ListItemEnd,
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.css',

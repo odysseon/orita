@@ -1,4 +1,4 @@
-<button type="button" class="btn btn--ghost location-picker__trigger" (click)="open.set(true)">
+<button app-button appearance="ghost" class="location-picker__trigger" type="button"  (click)="open.set(true)">
   <svg lucideMapPin aria-hidden="true"></svg>
   {{ currentAddress() || triggerLabel() }}
 </button>
@@ -27,10 +27,10 @@
       }
     </div>
     <div class="location-picker__actions-right">
-      <button type="button" class="btn btn--ghost" (click)="cancel()">Cancel</button>
-    <button
+      <button app-button appearance="ghost" type="button"  (click)="cancel()">Cancel</button>
+    <button app-button intent="primary"
       type="button"
-      class="btn btn--primary"
+      
       [disabled]="!provisional()"
       (click)="confirm()"
     >

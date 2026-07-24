@@ -23,7 +23,7 @@
 
       <div class="field">
         <label class="field__label" for="post-title">Title</label>
-        <input id="post-title" [formField]="postForm.title" placeholder="What's happening?" class="field__input" />
+        <input id="post-title" [formField]="postForm.title" placeholder="What's happening?" class="app-input" />
         @if (postForm.title().touched() && postForm.title().invalid()) {
           <span class="field__error">{{ postForm.title().errors()[0]?.message }}</span>
         }

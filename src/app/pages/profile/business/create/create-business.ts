@@ -19,7 +19,7 @@ import {
   ICreateBusinessResponse,
 } from './create-business.interface';
 import { environment } from '../../../../../environments/environment';
-import { AppFormField } from '../../../../shared/form-field/form-field';
+import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
 import { Drawer } from '../../../../shared/drawer/drawer';
 import { LocationSelector } from '../../../../shared/location-selector/location-selector';
 import { Location } from '../../../../core/services/location.service';
@@ -31,7 +31,7 @@ import { ICategory } from '../../../home/home.interface';
 
 @Component({
   selector: 'app-create-business',
-  imports: [FormField, LucideStore, LucideLoaderCircle, Drawer, AppFormField, LocationSelector, CategoryPicker],
+  imports: [FormField, AppFormField, LucideStore, LucideLoaderCircle, Drawer, AppFormField, LocationSelector, CategoryPicker],
   templateUrl: './create-business.html',
   styleUrl: './create-business.css',
   encapsulation: ViewEncapsulation.None,

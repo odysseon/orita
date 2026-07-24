@@ -13,14 +13,13 @@
           <app-form-field
             label="Business Name"
             fieldId="name"
-            [touched]="businessForm.name().touched()"
             [invalid]="businessForm.name().invalid()"
             [errorMessage]="businessForm.name().errors()[0]?.message"
           >
             <input
               id="name"
-              class="field__input"
-              [class.field__input--error]="businessForm.name().touched() && businessForm.name().invalid()"
+              class="app-input"
+              [attr.aria-invalid]="businessForm.name().touched() && businessForm.name().invalid()"
               type="text"
               [formField]="businessForm.name"
               placeholder="e.g. Acme Services"
@@ -47,7 +46,6 @@
           <app-form-field
             label="Description"
             fieldId="description"
-            [touched]="businessForm.description().touched()"
             [invalid]="businessForm.description().invalid()"
             [errorMessage]="businessForm.description().errors()[0]?.message"
           >
@@ -63,7 +61,6 @@
           <app-form-field
             label="Category"
             fieldId="primaryCategoryId"
-            [touched]="businessForm.primaryCategoryId().touched()"
             [invalid]="businessForm.primaryCategoryId().invalid()"
             [errorMessage]="businessForm.primaryCategoryId().errors()[0]?.message"
           >
@@ -71,7 +68,7 @@
               id="primaryCategoryId"
               [categoryId]="model().primaryCategoryId"
               (categoryIdChange)="onCategoryPicked($event)"
-              [class.field__input--error]="businessForm.primaryCategoryId().touched() && businessForm.primaryCategoryId().invalid()"
+              [attr.aria-invalid]="businessForm.primaryCategoryId().touched() && businessForm.primaryCategoryId().invalid()"
             ></app-category-picker>
           </app-form-field>
 
@@ -103,14 +100,13 @@
           <app-form-field
             label="Website URL"
             fieldId="websiteUrl"
-            [touched]="businessForm.websiteUrl().touched()"
             [invalid]="businessForm.websiteUrl().invalid()"
             [errorMessage]="businessForm.websiteUrl().errors()[0]?.message"
           >
             <input
               id="websiteUrl"
-              class="field__input"
-              [class.field__input--error]="businessForm.websiteUrl().touched() && businessForm.websiteUrl().invalid()"
+              class="app-input"
+              [attr.aria-invalid]="businessForm.websiteUrl().touched() && businessForm.websiteUrl().invalid()"
               type="url"
               [formField]="businessForm.websiteUrl"
               placeholder="https://example.com"
@@ -120,14 +116,13 @@
           <app-form-field
             label="Phone Number"
             fieldId="contactPhone"
-            [touched]="businessForm.contactPhone().touched()"
             [invalid]="businessForm.contactPhone().invalid()"
             [errorMessage]="businessForm.contactPhone().errors()[0]?.message"
           >
             <input
               id="contactPhone"
-              class="field__input"
-              [class.field__input--error]="businessForm.contactPhone().touched() && businessForm.contactPhone().invalid()"
+              class="app-input"
+              [attr.aria-invalid]="businessForm.contactPhone().touched() && businessForm.contactPhone().invalid()"
               type="tel"
               [formField]="businessForm.contactPhone"
               [placeholder]="phonePlaceholder()"
@@ -143,14 +138,13 @@
           <app-form-field
             label="WhatsApp Number"
             fieldId="whatsapp"
-            [touched]="businessForm.whatsapp().touched()"
             [invalid]="businessForm.whatsapp().invalid()"
             [errorMessage]="businessForm.whatsapp().errors()[0]?.message"
           >
             <input
               id="whatsapp"
-              class="field__input"
-              [class.field__input--error]="businessForm.whatsapp().touched() && businessForm.whatsapp().invalid()"
+              class="app-input"
+              [attr.aria-invalid]="businessForm.whatsapp().touched() && businessForm.whatsapp().invalid()"
               type="tel"
               [formField]="businessForm.whatsapp"
               [placeholder]="phonePlaceholder()"
@@ -166,14 +160,13 @@
           <app-form-field
             label="Email Address"
             fieldId="contactEmail"
-            [touched]="businessForm.contactEmail().touched()"
             [invalid]="businessForm.contactEmail().invalid()"
             [errorMessage]="businessForm.contactEmail().errors()[0]?.message"
           >
             <input
               id="contactEmail"
-              class="field__input"
-              [class.field__input--error]="businessForm.contactEmail().touched() && businessForm.contactEmail().invalid()"
+              class="app-input"
+              [attr.aria-invalid]="businessForm.contactEmail().touched() && businessForm.contactEmail().invalid()"
               type="email"
               [formField]="businessForm.contactEmail"
               placeholder="hello@example.com"

@@ -3,11 +3,11 @@ import { Field } from '@angular/forms/signals';
 import { FormField } from '@angular/forms/signals';
 import { InputDirective } from '../ui/atoms/forms';
 import { LucideEye, LucideEyeOff } from '@lucide/angular';
-import { AppFormField } from '../form-field/form-field';
+import { AppFormField } from '../ui/atoms/form-field/form-field';
 
 @Component({
   selector: 'app-password-field',
-  imports: [AppFormField, FormField, InputDirective, LucideEye, LucideEyeOff],
+  imports: [FormField, AppFormField, InputDirective, LucideEye, LucideEyeOff],
   templateUrl: './password-field.html',
   styleUrl: './password-field.css',
 })

@@ -1,10 +1,11 @@
 import { Component, input, output, signal, effect, inject, resource } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
 import { Drawer } from '../../../../shared/drawer/drawer';
-import { AppFormField } from '../../../../shared/form-field/form-field';
+import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
 import { CategoryService } from '../../../../core/services/category.service';
 import { LocationPicker } from '../../../../shared/location-picker/location-picker';
 import { Location } from '../../../../core/services/location.service';
+import { Button } from '../../../../shared/ui/atoms/button/button';
 
 export interface SearchFilterState {
   locationName: string | null;
@@ -20,11 +21,10 @@ export interface SearchFilterState {
 
 @Component({
   selector: 'app-search-filters',
-  imports: [
+  imports: [FormField, 
     Drawer,
-    FormField,
     AppFormField,
-    LocationPicker
+    LocationPicker, Button
   ],
   templateUrl: './search-filters.html',
   styleUrl: './search-filters.css',

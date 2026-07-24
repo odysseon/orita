@@ -72,11 +72,11 @@
         </section>
 
         <div class="edit-tour__actions">
-          <button class="btn btn--outline" (click)="saveChanges()" [disabled]="isSaving() || tourForm().invalid()">
+          <button app-button appearance="outline"  (click)="saveChanges()" [disabled]="isSaving() || tourForm().invalid()">
             <svg lucideSave aria-hidden="true"></svg>
             {{ isSaving() ? 'Saving...' : 'Save Draft' }}
           </button>
-          <button class="btn btn--primary" (click)="publishTour()" [disabled]="isSaving() || tourForm().invalid()">
+          <button app-button intent="primary"  (click)="publishTour()" [disabled]="isSaving() || tourForm().invalid()">
             Publish Tour
           </button>
         </div>

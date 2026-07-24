@@ -4,11 +4,12 @@ import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs';
 import { LucideMapPin, LucideSearch, LucideLoaderCircle } from '@lucide/angular';
 import { LocationService, Location } from '../../core/services/location.service';
 import { firstValueFrom, tap } from 'rxjs';
+import { Button } from '../ui/atoms/button/button';
 
 @Component({
   selector: 'app-location-selector',
   standalone: true,
-  imports: [LucideMapPin, LucideSearch, LucideLoaderCircle],
+  imports: [LucideMapPin, LucideSearch, LucideLoaderCircle, Button],
   templateUrl: './location-selector.html',
   styleUrl: './location-selector.css',
 })

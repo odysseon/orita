@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { Component, signal } from '@angular/core';
 import { InputDirective, TextareaDirective, CheckboxDirective, RadioDirective, SwitchDirective, SelectDirective } from './index';
-import { FormField } from '../form-field/form-field';
+import { AppFormField } from '../form-field/form-field';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     InputDirective, TextareaDirective, CheckboxDirective, 
     RadioDirective, SwitchDirective, SelectDirective, 
-    FormField, FormsModule
+    AppFormField, FormsModule
   ],
   template: `
     <div style="padding: 2rem; display: flex; flex-direction: column; gap: 3rem; background: var(--surface-page); font-family: sans-serif; max-width: 600px;">

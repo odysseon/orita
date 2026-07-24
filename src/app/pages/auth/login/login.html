@@ -8,18 +8,17 @@
     <app-form-field
       label="Email"
       fieldId="email"
-      [touched]="loginForm.email().touched()"
       [invalid]="loginForm.email().invalid()"
       [errorMessage]="loginForm.email().errors()[0]?.message"
     >
       <input
         id="email"
-        class="field__input"
+        class="app-input"
         type="email"
         placeholder="you@example.com"
         autocomplete="email"
         [formField]="loginForm.email"
-        [class.field__input--error]="loginForm.email().touched() && loginForm.email().invalid()"
+        [attr.aria-invalid]="loginForm.email().touched() && loginForm.email().invalid()"
       />
     </app-form-field>
 
@@ -27,7 +26,6 @@
       label="Password"
       fieldId="password"
       [formField]="loginForm.password"
-      [touched]="loginForm.password().touched()"
       [invalid]="loginForm.password().invalid()"
       [errorMessage]="loginForm.password().errors()[0]?.message"
     ></app-password-field>

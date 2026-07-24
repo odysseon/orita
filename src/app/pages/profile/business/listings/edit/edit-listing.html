@@ -14,7 +14,7 @@
         <app-form-field label="Title" fieldId="title">
           <input
             id="title"
-            class="field__input"
+            class="app-input"
             formControlName="title"
             placeholder="e.g., iPhone 13 Pro Max"
           />
@@ -48,7 +48,7 @@
           <app-form-field label="Min Price (NGN)" fieldId="minPrice">
             <input
               id="minPrice"
-              class="field__input"
+              class="app-input"
               type="number"
               [formField]="editForm.minPrice"
               placeholder="0"
@@ -58,7 +58,7 @@
           <app-form-field label="Max Price (NGN) (Optional)" fieldId="maxPrice">
             <input
               id="maxPrice"
-              class="field__input"
+              class="app-input"
               type="number"
               [formField]="editForm.maxPrice"
               placeholder="0"
@@ -105,7 +105,7 @@
             } @else if (attr.type === 'NUMBER') {
             <input
               [id]="'attr-' + attr.id"
-              class="field__input"
+              class="app-input"
               type="number"
               [value]="editModel().attributesData[attr.key] || ''"
               (input)="updateAttribute(attr.key, $any($event.target).value)"
@@ -114,7 +114,7 @@
             } @else {
             <input
               [id]="'attr-' + attr.id"
-              class="field__input"
+              class="app-input"
               type="text"
               [value]="editModel().attributesData[attr.key] || ''"
               (input)="updateAttribute(attr.key, $any($event.target).value)"
@@ -128,8 +128,8 @@
       }
 
       <div class="form-actions" style="margin-top: var(--space-sm)">
-        <button
-          class="btn btn--primary"
+        <button app-button intent="primary"
+          
           [disabled]="isSaving() || isLoading()"
           (click)="saveChanges()"
         >

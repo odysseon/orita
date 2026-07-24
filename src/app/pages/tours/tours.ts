@@ -1,14 +1,14 @@
 import { Component, inject, OnInit, OnDestroy, HostListener, signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { PageHeader } from '../../shared/ui/organisms/page-header/page-header';
+import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
 import { TourCard } from './components/tour-card/tour-card';
 import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
 import { MessagingFacade } from '../../core/services/messaging.facade';
 
 @Component({
   selector: 'app-tours-page',
-  imports: [PageHeader, TourCard],
+  imports: [RootHeader, TourCard],
   templateUrl: './tours.html',
   styleUrl: './tours.css',
 })

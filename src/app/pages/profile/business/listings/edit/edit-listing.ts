@@ -11,8 +11,9 @@ import { ToastService } from '../../../../../core/services/toast';
 import { MediaService } from '../../../../../core/services/media.service';
 import { IListing, ICategory } from '../listing.interface';
 import { form, FormField, required } from '@angular/forms/signals';
-import { AppFormField } from '../../../../../shared/form-field/form-field';
+import { AppFormField } from '../../../../../shared/ui/atoms/form-field/form-field';
 import { CategoryService, ICategoryAttribute } from '../../../../../core/services/category.service';
+import { Button } from '../../../../../shared/ui/atoms/button/button';
 
 interface IMedia {
   id: string;
@@ -22,7 +23,7 @@ interface IMedia {
 
 @Component({
   selector: 'app-edit-listing',
-  imports: [FormField, AppFormField, LucideSave, MediaSelector],
+  imports: [FormField, AppFormField, LucideSave, MediaSelector, Button],
   templateUrl: './edit-listing.html',
   styleUrl: './edit-listing.css',
 })

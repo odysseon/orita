@@ -15,7 +15,7 @@ export type FormFieldOrientation = 'vertical' | 'horizontal';
     '[attr.data-disabled]': 'disabled() ? "true" : null'
   }
 })
-export class FormField {
+export class AppFormField {
   label = input.required<string>();
   fieldId = input.required<string>();
   

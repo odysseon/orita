@@ -46,8 +46,8 @@
 
       <!-- Actions -->
       <div class="form-actions">
-        <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-        <button type="submit" class="btn btn-primary" [disabled]="tourForm().invalid() || isSubmitting()">
+        <button app-button intent="secondary" type="button"  (click)="onCancel()">Cancel</button>
+        <button app-button intent="primary" type="submit"  [disabled]="tourForm().invalid() || isSubmitting()">
           {{ isSubmitting() ? 'Saving...' : (isEdit() ? 'Update Tour' : 'Create Tour') }}
         </button>
       </div>

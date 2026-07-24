@@ -2,10 +2,11 @@ import { Component, computed, input, output } from '@angular/core';
 import { LucideXCircle, LucideAlertTriangle } from '@lucide/angular';
 import { PublicationIssue } from '../../core/services/business-profile.service';
 import { Drawer } from '../drawer/drawer';
+import { Button } from '../ui/atoms/button/button';
 
 @Component({
   selector: 'app-publication-readiness',
-  imports: [Drawer, LucideXCircle, LucideAlertTriangle],
+  imports: [Drawer, LucideXCircle, LucideAlertTriangle, Button],
   templateUrl: './publication-readiness.html',
   styleUrl: './publication-readiness.css',
 })

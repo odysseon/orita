@@ -6,11 +6,12 @@ import { Location } from '../../core/services/location.service';
 import { FollowService } from '../../core/services/follow.service';
 import { FollowButton } from '../follow-button/follow-button';
 import { firstValueFrom } from 'rxjs';
+import { Button } from '../ui/atoms/button/button';
 
 @Component({
   selector: 'app-location-picker',
   standalone: true,
-  imports: [Drawer, LocationSelector, LucideMapPin, FollowButton],
+  imports: [Drawer, LocationSelector, LucideMapPin, FollowButton, Button],
   templateUrl: './location-picker.html',
   styleUrl: './location-picker.css',
 })
