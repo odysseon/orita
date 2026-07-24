@@ -2,13 +2,13 @@ import { Component, inject, OnInit, OnDestroy, HostListener, signal } from '@ang
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
-import { TourCard } from './components/tour-card/tour-card';
+import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
 import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
 import { MessagingFacade } from '../../core/services/messaging.facade';
 
 @Component({
   selector: 'app-tours-page',
-  imports: [RootHeader, TourCard],
+  imports: [RootHeader, StoreTourCard],
   templateUrl: './tours.html',
   styleUrl: './tours.css',
 })

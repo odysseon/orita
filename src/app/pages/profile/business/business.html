@@ -133,7 +133,12 @@
       <div class="panel">
         <h2 class="panel__title">Here's what customers see</h2>
         <div class="panel__body" style="padding: 0;">
-          <app-biz-card [biz]="businessSummary()!"></app-biz-card>
+          <ui-business-card 
+            [business]="businessSummary()!" 
+            [coverUrl]="business.value()!.coverUrl"
+          >
+            <div card-description>{{ businessSummary()?.description }}</div>
+          </ui-business-card>
         </div>
       </div>
     }

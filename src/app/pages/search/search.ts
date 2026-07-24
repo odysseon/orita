@@ -10,11 +10,14 @@ import { ExplorationService } from '../../core/services/exploration.service';
 import { CategoryService } from '../../core/services/category.service';
 import { LocationService, Location } from '../../core/services/location.service';
 import { SearchFilters } from '../../core/models/search.model';
-import { AppListingCard } from '../../shared/listing-card/listing-card';
-import { AppBizCard } from '../../shared/biz-card/biz-card';
-import { AppLocationCard } from '../../shared/location-card/location-card';
-import { AppUserCard } from '../../shared/components/user-card/user-card';
-import { TourCard } from '../tours/components/tour-card/tour-card';
+import { BusinessCard } from '../../shared/ui/organisms/cards/business-card/business-card';
+import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
+import { ListingSearchResult } from '../../shared/ui/organisms/search-results/listing-search-result/listing-search-result';
+import { List, ListItem, ListItemStart, ListItemEnd } from '../../shared/ui/surfaces/list/list';
+import { UserIdentity } from '../../shared/ui/molecules/identity/user-identity/user-identity';
+import { BusinessIdentity } from '../../shared/ui/molecules/identity/business-identity/business-identity';
+import { FollowButton } from '../../shared/ui/actions/follow-button/follow-button';
+import { SaveButton } from '../../shared/ui/actions/save-button/save-button';
 import { SearchHeader } from '../../shared/ui/organisms/search-header/search-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { AppGrid } from '../../shared/grid/grid';
@@ -30,7 +33,7 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
   selector: 'app-search',
   imports: [
     LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
-    AppListingCard, AppBizCard, AppLocationCard, AppUserCard, TourCard, SearchHeader, ScrollHideDirective,
+    BusinessCard, StoreTourCard, ListingSearchResult, List, ListItem, ListItemStart, ListItemEnd, UserIdentity, BusinessIdentity, FollowButton, SaveButton, SearchHeader, ScrollHideDirective,
     AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState, Button, Skeleton
   ],
   templateUrl: './search.html',

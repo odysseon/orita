@@ -125,16 +125,23 @@
         <div class="popular-businesses-section">
           <section class="section">
             <h2 class="section__title">Popular Businesses</h2>
-            <app-grid>
+            <ui-list [bordered]="false" [radius]="false" [dividers]="true">
               @if (popularBusinessesResource.isLoading()) {
                 <app-skeleton class="biz-card-skeleton"></app-skeleton>
                 <app-skeleton class="biz-card-skeleton"></app-skeleton>
               } @else if (popularBusinessesResource.hasValue()) {
                 @for (biz of popularBusinessesResource.value()?.items || []; track biz.id) {
-                  <app-biz-card [biz]="biz" />
+                  <label uiListItem>
+                    <div uiListItemStart>
+                      <ui-business-identity [business]="biz"></ui-business-identity>
+                    </div>
+                    <div uiListItemEnd>
+                      <ui-follow-button [isFollowed]="!!$any(biz).isFollowed" display="icon"></ui-follow-button>
+                    </div>
+                  </label>
                 }
               }
-            </app-grid>
+            </ui-list>
           </section>
         </div>
       </div>
@@ -153,13 +160,18 @@
                 <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('people')">See all</button>
               }
             </div>
-            <div class="horizontal-scroll-list" style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px;">
+            <ui-list [bordered]="false" [radius]="false" [dividers]="true">
               @for (user of usersResource.value()?.items || []; track user.id) {
-                <div style="min-width: 250px;">
-                  <app-user-card [user]="user" />
-                </div>
+                <label uiListItem>
+                  <div uiListItemStart>
+                    <ui-user-identity [user]="{ id: user.id, displayName: $any(user).name || $any(user).displayName, username: $any(user).username || $any(user).slug || user.id, avatarUrl: user.avatarUrl }"></ui-user-identity>
+                  </div>
+                  <div uiListItemEnd>
+                    <ui-follow-button [isFollowed]="!!$any(user).isFollowed" display="icon"></ui-follow-button>
+                  </div>
+                </label>
               }
-            </div>
+            </ui-list>
           </section>
         }
 
@@ -171,13 +183,18 @@
                 <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('business')">See all</button>
               }
             </div>
-            <div class="horizontal-scroll-list" style="display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px;">
+            <ui-list [bordered]="false" [radius]="false" [dividers]="true">
               @for (biz of businessesResource.value()?.items || []; track biz.id) {
-                <div style="min-width: 280px;">
-                  <app-biz-card [biz]="biz" />
-                </div>
+                <label uiListItem>
+                  <div uiListItemStart>
+                    <ui-business-identity [business]="biz"></ui-business-identity>
+                  </div>
+                  <div uiListItemEnd>
+                    <ui-follow-button [isFollowed]="!!$any(biz).isFollowed" display="icon"></ui-follow-button>
+                  </div>
+                </label>
               }
-            </div>
+            </ui-list>
           </section>
         }
 
@@ -189,11 +206,15 @@
                 <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('listing')">See all</button>
               }
             </div>
-            <app-grid>
+            <ui-list [bordered]="false" [radius]="false" [dividers]="true">
               @for (item of listingsResource.value()?.items || []; track item.id) {
-                <app-listing-card [item]="item" />
+                <ui-listing-search-result [listing]="{ id: item.id, title: item.title, thumbnailUrl: $any(item).media?.[0]?.url || $any(item).imageUrl || $any(item).coverUrl, price: +($any(item).minPrice || 0), isSaved: item.isSaved }">
+                  <div result-action>
+                    <ui-save-button [isSaved]="!!item.isSaved" appearance="solid"></ui-save-button>
+                  </div>
+                </ui-listing-search-result>
               }
-            </app-grid>
+            </ui-list>
           </section>
         }
 
@@ -207,7 +228,7 @@
             </div>
             <app-grid>
               @for (tour of toursResource.value()?.items || []; track tour.id) {
-                <app-tour-card [tour]="tour" />
+                <ui-store-tour-card [tour]="tour" />
               }
             </app-grid>
           </section>
@@ -221,11 +242,16 @@
                 <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('location')">See all</button>
               }
             </div>
-            <div style="display: flex; flex-direction: column; gap: 16px;">
+            <ui-list [bordered]="false" [radius]="false" [dividers]="true">
               @for (loc of locationsResource.value() || []; track loc.id || loc.externalId) {
-                <app-location-card [location]="loc" />
+                <label uiListItem>
+                  <div uiListItemStart style="display: flex; align-items: center; gap: var(--size-8);">
+                    <svg lucideMapPin aria-hidden="true" style="color: var(--text-muted); width: 20px; height: 20px;"></svg>
+                    <span>{{ loc.name || loc.formattedAddress || 'Location' }}</span>
+                  </div>
+                </label>
               }
-            </div>
+            </ui-list>
           </section>
         }
         
@@ -239,11 +265,18 @@
         }
       </div>
     } @else if (searchType() === 'people') {
-      <div style="display: flex; flex-direction: column; gap: 16px;">
+      <ui-list [bordered]="false" [radius]="false" [dividers]="true">
         @for (user of usersResource.value()?.items || []; track user.id) {
-          <app-user-card [user]="user" />
+          <label uiListItem>
+            <div uiListItemStart>
+              <ui-user-identity [user]="{ id: user.id, displayName: $any(user).name || $any(user).displayName, username: $any(user).username || $any(user).slug || user.id, avatarUrl: user.avatarUrl }"></ui-user-identity>
+            </div>
+            <div uiListItemEnd>
+              <ui-follow-button [isFollowed]="!!$any(user).isFollowed" display="icon"></ui-follow-button>
+            </div>
+          </label>
         }
-      </div>
+      </ui-list>
       @if ((usersResource.value()?.items?.length || 0) === 0) {
         <ui-empty-state
           title="No people found"
@@ -257,11 +290,16 @@
         </div>
       }
     } @else if (searchType() === 'location') {
-      <div style="display: flex; flex-direction: column; gap: 16px;">
+      <ui-list [bordered]="false" [radius]="false" [dividers]="true">
         @for (loc of locationsResource.value() || []; track loc.id || loc.externalId) {
-          <app-location-card [location]="loc" />
+          <label uiListItem>
+            <div uiListItemStart style="display: flex; align-items: center; gap: var(--size-8);">
+              <svg lucideMapPin aria-hidden="true" style="color: var(--text-muted); width: 20px; height: 20px;"></svg>
+              <span>{{ loc.name || loc.formattedAddress || 'Location' }}</span>
+            </div>
+          </label>
         }
-      </div>
+      </ui-list>
       @if ((locationsResource.value()?.length || 0) === 0) {
         <ui-empty-state
           title="No locations found"
@@ -271,11 +309,15 @@
         </ui-empty-state>
       }
     } @else if (searchType() === 'listing') {
-      <app-grid>
+      <ui-list [bordered]="false" [radius]="false" [dividers]="true">
         @for (item of listingsResource.value()?.items || []; track item.id) {
-          <app-listing-card [item]="item" />
+          <ui-listing-search-result [listing]="{ id: item.id, title: item.title, thumbnailUrl: $any(item).media?.[0]?.url || $any(item).imageUrl || $any(item).coverUrl, price: +($any(item).minPrice || 0), isSaved: item.isSaved }">
+            <div result-action>
+              <ui-save-button [isSaved]="!!item.isSaved" appearance="solid"></ui-save-button>
+            </div>
+          </ui-listing-search-result>
         }
-      </app-grid>
+      </ui-list>
       @if ((listingsResource.value()?.items?.length || 0) === 0) {
         <ui-empty-state
           title="No listings found"
@@ -291,7 +333,7 @@
     } @else if (searchType() === 'tour') {
       <app-grid>
         @for (tour of toursResource.value()?.items || []; track tour.id) {
-          <app-tour-card [tour]="tour" />
+          <ui-store-tour-card [tour]="tour" />
         }
       </app-grid>
       @if ((toursResource.value()?.items?.length || 0) === 0) {
@@ -307,11 +349,18 @@
         </div>
       }
     } @else {
-      <app-grid>
+      <ui-list [bordered]="false" [radius]="false" [dividers]="true">
         @for (biz of businessesResource.value()?.items || []; track biz.id) {
-          <app-biz-card [biz]="biz" />
+          <label uiListItem>
+            <div uiListItemStart>
+              <ui-business-identity [business]="biz"></ui-business-identity>
+            </div>
+            <div uiListItemEnd>
+              <ui-follow-button [isFollowed]="!!$any(biz).isFollowed" display="icon"></ui-follow-button>
+            </div>
+          </label>
         }
-      </app-grid>
+      </ui-list>
       @if ((businessesResource.value()?.items?.length || 0) === 0) {
         <ui-empty-state
           title="No businesses found"
