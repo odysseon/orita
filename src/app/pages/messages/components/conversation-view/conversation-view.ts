@@ -8,7 +8,7 @@ import {
   IMessage,
   SendMessageDto,
 } from '../../../../core/services/messaging.types';
-import { AppHeader } from '../../../../shared/app-header/app-header';
+import { PageHeader } from '../../../../shared/ui/organisms/page-header/page-header';
 import { LucideArrowLeft, LucideMessageCircleMore, LucideUser } from '@lucide/angular';
 
 import { Button } from '../../../../shared/ui/atoms/button/button';
@@ -16,7 +16,7 @@ import { Button } from '../../../../shared/ui/atoms/button/button';
 @Component({
   selector: 'app-conversation-view',
   imports: [
-    AppHeader,
+    PageHeader,
     ConversationContext,
     MessageList,
     MessageComposer,

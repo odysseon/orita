@@ -1,7 +1,9 @@
 <div class="nearby">
-  <ui-app-header [uiScrollHide]="true" scrollHidePosition="top">
-    <button app-button intent="primary" size="sm" (click)="openNewPostSheet()">+ Post</button>
-  </ui-app-header>
+  <app-root-header [uiScrollHide]="true" scrollHidePosition="top">
+    <div rootHeaderEnd>
+      <button app-button intent="primary" size="sm" (click)="openNewPostSheet()">+ Post</button>
+    </div>
+  </app-root-header>
 
   @if (items().length === 0) {
     @if (error()) {

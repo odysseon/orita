@@ -8,26 +8,14 @@ import { StoreTours } from './components/store-tours/store-tours';
 import { BusinessCta } from './components/business-cta/business-cta';
 import { FinalCta } from './components/final-cta/final-cta';
 import { Footer } from './components/footer/footer';
-import { AppHeader } from '../../shared/app-header/app-header';
+import { LandingHeader } from '../../shared/ui/organisms/landing-header/landing-header';
 
 @Component({
   selector: 'app-landing',
-  imports: [Hero, Problem, Belief, WhyOrita, StoreTours, BusinessCta, FinalCta, Footer, AppHeader, RouterLink],
+  imports: [Hero, Problem, Belief, WhyOrita, StoreTours, BusinessCta, FinalCta, Footer, LandingHeader, RouterLink],
   templateUrl: './landing.html',
   styleUrl: './landing.css',
 })
 export class Landing {
   #router = inject(Router);
-
-  getStarted() {
-    this.#router.navigate(['/auth/register']);
-  }
-
-  login() {
-    this.#router.navigate(['/auth/login']);
-  }
-
-  explore() {
-    this.#router.navigate(['/home']);
-  }
 }

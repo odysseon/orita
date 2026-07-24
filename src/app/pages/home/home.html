@@ -1,6 +1,13 @@
 <div class="home">
   <app-seo [config]="seoConfig" />
-  <ui-app-header [uiScrollHide]="true" scrollHidePosition="top" [showLocationPill]="true" />
+  <app-root-header [uiScrollHide]="true" scrollHidePosition="top">
+    <div rootHeaderCenter>
+      <ui-location-picker 
+        [currentAddress]="activeLocation()?.name || ''" 
+        (confirmed)="setLocation($event)">
+      </ui-location-picker>
+    </div>
+  </app-root-header>
 
   @if (isLoading()) {
   <div class="feed-container">

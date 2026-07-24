@@ -1,37 +1,19 @@
 <div class="search-page page-container fade-in">
   <app-seo [config]="seoConfig()" />
-  <ui-app-header
-    [showLogo]="false"
-    [showLocationPill]="false"
+  <app-search-header
     [uiScrollHide]="true"
     scrollHidePosition="top"
+    [query]="rawQuery()"
+    placeholder="Search for something..."
+    (queryChange)="onSearchInputString($event)"
+    (filter)="openFilters()"
   >
-    <div left-content class="search-bar" style="width: 100%; min-width: 0;">
-      <input 
-        type="text" 
-        [value]="rawQuery()"
-        (input)="onSearchInput($event)"
-        placeholder="Search for something..." 
-        style="width: 100%;"
-      />
-      <svg icon lucideSearch class="icon-search" aria-hidden="true"></svg>
-      
-      @if (rawQuery()) {
-        <button app-button appearance="plain" class="clear-btn" (click)="clearSearch()" aria-label="Clear search">
-          <svg icon lucideX aria-hidden="true"></svg>
-        </button>
-      }
-    </div>
-    
-    <button app-button 
-      [intent]="(appliedLocationName() || appliedCategoryId()) ? 'primary' : 'secondary'"
-      [appearance]="(appliedLocationName() || appliedCategoryId()) ? 'solid' : 'outline'"
-      shape="square"
-      class="filter-toggle-btn" 
-      (click)="openFilters()">
-      <svg icon lucideSlidersHorizontal aria-hidden="true"></svg>
-    </button>
-  </ui-app-header>
+    @if (rawQuery()) {
+      <button searchHeaderEnd app-button appearance="ghost" size="icon" shape="circle" class="clear-btn" (click)="clearSearch()" aria-label="Clear search">
+        <svg lucideX aria-hidden="true"></svg>
+      </button>
+    }
+  </app-search-header>
   
   <div class="search-header">
     <div class="search-controls">

@@ -15,7 +15,7 @@ import { AppBizCard } from '../../shared/biz-card/biz-card';
 import { AppLocationCard } from '../../shared/location-card/location-card';
 import { AppUserCard } from '../../shared/components/user-card/user-card';
 import { TourCard } from '../tours/components/tour-card/tour-card';
-import { AppHeader } from '../../shared/app-header/app-header';
+import { SearchHeader } from '../../shared/ui/organisms/search-header/search-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { AppGrid } from '../../shared/grid/grid';
 import { SearchFiltersComponent, SearchFilterState } from './components/search-filters/search-filters';
@@ -30,7 +30,7 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
   selector: 'app-search',
   imports: [
     LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
-    AppListingCard, AppBizCard, AppLocationCard, AppUserCard, TourCard, AppHeader, ScrollHideDirective,
+    AppListingCard, AppBizCard, AppLocationCard, AppUserCard, TourCard, SearchHeader, ScrollHideDirective,
     AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState, Button, Skeleton
   ],
   templateUrl: './search.html',
@@ -206,9 +206,8 @@ export class Search {
   }
 
   // Search Input Actions
-  onSearchInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.rawQuery.set(input.value);
+  onSearchInputString(val: string) {
+    this.rawQuery.set(val);
   }
 
   clearSearch() {

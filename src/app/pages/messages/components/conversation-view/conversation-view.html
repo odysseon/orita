@@ -1,22 +1,17 @@
 <div class="view-container">
   @if (conversation()) {
-    <ui-app-header [showLogo]="false" [showLocationPill]="false" [showProfileBtn]="false">
-      <div left-content class="view-header-left">
-        <button app-button appearance="ghost" shape="square" class="btn-icon" (click)="back.emit()" aria-label="Go back">
-          <svg lucideArrowLeft aria-hidden="true"></svg>
-        </button>
-        <div class="view-header-user">
-          @if (conversation()!.avatarUrl) {
-            <img [src]="conversation()!.avatarUrl" alt="Avatar" class="view-header-avatar" />
-          } @else {
-            <div class="view-header-avatar-placeholder">
-              <svg lucideUser aria-hidden="true"></svg>
-            </div>
-          }
-          <h3 class="view-header-title">{{ conversation()!.title || 'Conversation' }}</h3>
-        </div>
+    <app-page-header [customBack]="true" (backAction)="back.emit()">
+      <div pageHeaderStart class="view-header-user">
+        @if (conversation()!.avatarUrl) {
+          <img [src]="conversation()!.avatarUrl" alt="Avatar" class="view-header-avatar" />
+        } @else {
+          <div class="view-header-avatar-placeholder">
+            <svg lucideUser aria-hidden="true"></svg>
+          </div>
+        }
+        <h3 class="view-header-title">{{ conversation()!.title || 'Conversation' }}</h3>
       </div>
-    </ui-app-header>
+    </app-page-header>
 
     <app-conversation-context [anchor]="conversation()!.anchor ?? null" />
 

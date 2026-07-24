@@ -6,7 +6,8 @@ import {
 } from '@lucide/angular';
 import { AppFeedCard } from '../../shared/feed-card/feed-card';
 import { EmptyState } from '../../shared/empty-state/empty-state';
-import { AppHeader } from '../../shared/app-header/app-header';
+import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
+import { LocationPicker } from '../../shared/ui/organisms/location-picker/location-picker';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { AppGrid } from '../../shared/grid/grid';
 import { FeedService, FeedItemView } from '../../core/services/feed.service';
@@ -21,7 +22,8 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
     RouterLink,
     AppFeedCard,
     EmptyState,
-    AppHeader,
+    RootHeader,
+    LocationPicker,
     ScrollHideDirective,
     AppGrid,
     SeoComponent,
@@ -41,6 +43,21 @@ export class Home {
   readonly isLoading = signal(true);
   readonly isLoadingMore = signal(false);
   readonly hasMore = signal(true);
+
+  readonly activeLocation = this.#exploration.activeLocation;
+
+  setLocation(result: any) {
+    const context = {
+      id: `geo_${result.latitude}_${result.longitude}`,
+      name: result.formattedAddress || result.name,
+      city: null,
+      state: null,
+      country: null,
+      lat: result.latitude,
+      lng: result.longitude,
+    };
+    this.#exploration.setLocation(context);
+  }
 
   // Grouped editorial sections for the view
   readonly editorialSections = computed(() => {

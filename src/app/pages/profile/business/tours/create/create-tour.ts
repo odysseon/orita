@@ -1,13 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TourForm } from '../components/tour-form/tour-form';
-import { AppHeader } from '../../../../../shared/app-header/app-header';
+import { PageHeader } from '../../../../../shared/ui/organisms/page-header/page-header';
 import { BusinessTourService, CreateBusinessTourDto, BusinessTourStatus } from '../../../../../core/services/business-tour.service';
 import { MediaService } from '../../../../../core/services/media.service';
 
 @Component({
   selector: 'app-create-tour',
-  imports: [AppHeader, TourForm],
+  imports: [PageHeader, TourForm],
   templateUrl: './create-tour.html',
   styleUrl: './create-tour.css'
 })

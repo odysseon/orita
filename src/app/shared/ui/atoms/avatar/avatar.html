@@ -1,5 +1,5 @@
 <div class="avatar__container" (click)="onGuestClick()">
-  @if (!authenticated()) {
+  @if (guest()) {
     <div class="avatar__fallback avatar__fallback--guest">
       <svg lucideLogIn aria-hidden="true" class="avatar__default-icon"></svg>
     </div>
@@ -28,6 +28,6 @@
   }
 </div>
 
-@if (status() && authenticated()) {
+@if (status() && !guest()) {
   <span class="avatar__status" [class]="'avatar__status--' + status()"></span>
 }

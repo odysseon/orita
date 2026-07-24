@@ -118,20 +118,24 @@ export class AuthService {
     }
   }
 
-  logout(expired = false, returnUrl?: string): void {
+  logout(expired = false, returnUrl?: string, shouldRedirect = true): void {
     // Unsubscribe from push notifications before removing the token
     this.#push.unsubscribe().catch((err) => console.error(err));
 
-    this.#cookie.delete(TOKEN_KEY);
+    this.#cookie.delete(TOKEN_KEY, { secure: environment.production });
     this.#cache.remove(CacheKeys.PROFILE);
     this.token.set(undefined);
     this.currentUser.set(null);
-    if (expired) {
+    
+    if (expired && shouldRedirect) {
       this.#toast.error('Session Expired', 'Please log in again to continue.');
-    } else {
+    } else if (!expired && shouldRedirect) {
       this.#toast.info('Goodbye', 'You have been logged out.');
     }
-    this.#router.navigate(['/auth/login'], returnUrl ? { queryParams: { returnUrl } } : undefined);
+    
+    if (shouldRedirect) {
+      this.#router.navigate(['/auth/login'], returnUrl ? { queryParams: { returnUrl } } : undefined);
+    }
   }
 
   #setToken(token: string, expires?: Date): void {

@@ -1,15 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { applicationConfig } from '@storybook/angular';
 import { LandingHeader } from './landing-header';
-import { provideRouter } from '@angular/router';
+import { provideRouter, ActivatedRoute } from '@angular/router';
 
 const meta: Meta<LandingHeader> = {
   title: 'Organisms/Headers/LandingHeader',
   component: LandingHeader,
   tags: ['autodocs'],
   decorators: [
-    (story) => ({
-      ...story(),
-      providers: [provideRouter([])]
+    applicationConfig({
+      providers: [
+        provideRouter([]),
+        { provide: ActivatedRoute, useValue: {} }
+      ]
     })
   ],
   render: (args) => ({
