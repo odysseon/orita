@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { Fab } from './fab';
 import { LucidePlus, LucidePenTool } from '@lucide/angular';
+import { CommonModule } from '@angular/common';
 
 const meta: Meta<Fab> = {
   title: 'Actions/Fab',
@@ -9,16 +10,18 @@ const meta: Meta<Fab> = {
   render: (args) => ({
     props: args,
     moduleMetadata: {
-      imports: [LucidePlus, LucidePenTool],
+      imports: [LucidePlus, LucidePenTool, CommonModule],
     },
     template: `
       <!-- Container to demonstrate positioning relative to screen, though FAB uses fixed positioning -->
-      <div style="height: 300px; background: var(--surface-container); border: 1px dashed var(--border-color); transform: translate(0); position: relative;">
-        <!-- Overriding position for storybook demo so it doesn't float over all of storybook UI -->
-        <button ui-fab [intent]="intent" [size]="size" [disabled]="disabled" [extended]="extended" style="position: absolute;">
+      <div style="position: relative; width: 100%; height: 300px; background: var(--surface-container); border: 1px dashed var(--border-subtle); border-radius: var(--radius-xl); overflow: hidden;">
+        
+        <img *ngIf="appearance === 'glass'" src="https://images.unsplash.com/photo-1520975954732-57dd22299614?auto=format&fit=crop&q=80&w=600" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" />
+        
+        <button ui-fab [intent]="intent" [appearance]="appearance" [size]="size" [disabled]="disabled" [extended]="extended" style="position: absolute; bottom: 24px; right: 24px;">
           <svg lucidePlus></svg>
           @if (extended) {
-            <span>New Post</span>
+            <span>Create</span>
           }
         </button>
       </div>
@@ -32,7 +35,9 @@ type Story = StoryObj<Fab>;
 export const Default: Story = {
   args: {
     intent: 'primary',
+    appearance: 'solid',
     size: 'md',
+    disabled: false,
     extended: false,
   },
 };
@@ -40,8 +45,20 @@ export const Default: Story = {
 export const Extended: Story = {
   args: {
     intent: 'primary',
+    appearance: 'solid',
     size: 'md',
+    disabled: false,
     extended: true,
+  },
+};
+
+export const Glass: Story = {
+  args: {
+    intent: 'primary',
+    appearance: 'glass',
+    size: 'md',
+    disabled: false,
+    extended: false,
   },
 };
 

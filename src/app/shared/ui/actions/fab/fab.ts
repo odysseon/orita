@@ -2,6 +2,7 @@ import { Component, input, HostBinding } from '@angular/core';
 import { ButtonIntent } from '../../atoms/button/button';
 
 export type FabSize = 'sm' | 'md' | 'lg';
+export type FabAppearance = 'solid' | 'glass';
 
 @Component({
   selector: 'button[ui-fab], a[ui-fab]',
@@ -11,12 +12,13 @@ export type FabSize = 'sm' | 'md' | 'lg';
 })
 export class Fab {
   intent = input<ButtonIntent>('primary');
+  appearance = input<FabAppearance>('solid');
   size = input<FabSize>('md');
   disabled = input<boolean>(false);
   extended = input<boolean>(false);
 
   @HostBinding('class') get hostClass() {
-    let base = `ui-fab intent-${this.intent()} size-${this.size()}`;
+    let base = `ui-fab intent-${this.intent()} appearance-${this.appearance()} size-${this.size()}`;
     if (this.extended()) {
       base += ' is-extended';
     }

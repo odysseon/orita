@@ -645,9 +645,21 @@ svg[lucideStar].star--filled {
 }
 
 .truncate {
+  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding: 0 1px;
+  margin: 0 -1px;
+}
+
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  padding: 0 1px;
+  margin: 0 -1px;
 }
 
 img.avatar-placeholder {

@@ -1,26 +1,29 @@
 import { Component, input, computed, ViewEncapsulation } from '@angular/core';
 import { Avatar, AvatarSize } from '../../../atoms/avatar/avatar';
+import { Card } from '../../../atoms/card/card';
 
 @Component({
   selector: 'ui-user-identity',
   standalone: true,
-  imports: [Avatar],
+  imports: [Avatar, Card],
   template: `
-    <app-avatar
-      [src]="user().avatarUrl || null"
-      [alt]="user().displayName"
-      [fallback]="user().displayName.charAt(0)"
-      [size]="avatarSize()"
-    ></app-avatar>
-    <div class="ui-user-identity-info">
-      <div class="ui-user-identity-name">{{ user().displayName }}</div>
-      @if (showUsername()) {
-        <div class="ui-user-identity-username">{{ '@' }}{{ user().username }}</div>
-      }
-      @if (metadata()) {
-        <div class="ui-user-identity-metadata">{{ metadata() }}</div>
-      }
-    </div>
+    <app-card padding="none" appearance="plain" style="display: flex; align-items: center; gap: var(--size-12);">
+      <app-avatar
+        [src]="user().avatarUrl || null"
+        [alt]="user().displayName"
+        [fallback]="user().displayName.charAt(0)"
+        [size]="avatarSize()"
+      ></app-avatar>
+      <div class="ui-user-identity-info">
+        <div class="ui-user-identity-name truncate">{{ user().displayName }}</div>
+        @if (showUsername() && user().username) {
+          <div class="ui-user-identity-handle truncate">&#64;{{ user().username }}</div>
+        }
+        @if (metadata()) {
+          <div class="ui-user-identity-metadata truncate">{{ metadata() }}</div>
+        }
+      </div>
+    </app-card>
   `,
   styleUrl: './user-identity.css',
   encapsulation: ViewEncapsulation.None,

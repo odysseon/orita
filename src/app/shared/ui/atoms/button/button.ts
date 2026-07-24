@@ -11,9 +11,10 @@ import { Spinner } from '../spinner/spinner';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonIntent = 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
-export type ButtonAppearance = 'solid' | 'outline' | 'ghost' | 'soft' | 'link' | 'plain';
+export type ButtonAppearance = 'solid' | 'outline' | 'ghost' | 'soft' | 'link' | 'plain' | 'glass';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'icon';
 export type ButtonShape = 'default' | 'square' | 'circle' | 'pill';
+export type ButtonLayout = 'horizontal' | 'vertical';
 
 @Component({
   selector: 'button[app-button], a[app-button]',
@@ -30,6 +31,7 @@ export type ButtonShape = 'default' | 'square' | 'circle' | 'pill';
     '[attr.data-intent]': 'intent()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-size]': 'size()',
+    '[attr.data-layout]': 'layout()',
     '[class]': 'classes()',
     '(click)': 'onClick($event)',
   },
@@ -42,6 +44,7 @@ export class Button {
   appearance = input<ButtonAppearance>('solid');
   shape = input<ButtonShape>('default');
   size = input<ButtonSize>('md');
+  layout = input<ButtonLayout>('horizontal');
   disabled = input<boolean, unknown>(false, { transform: booleanAttribute });
   loading = input<boolean, unknown>(false, { transform: booleanAttribute });
   fullWidth = input<boolean, unknown>(false, { transform: booleanAttribute });
@@ -54,6 +57,7 @@ export class Button {
       `btn--${this.intent()}`,
       `btn--${this.appearance()}`,
       `btn--${this.size()}`,
+      `btn--layout-${this.layout()}`,
     ];
 
     if (this.shape() !== 'default') classList.push(`btn--shape-${this.shape()}`);

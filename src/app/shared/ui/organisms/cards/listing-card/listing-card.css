@@ -1,0 +1,45 @@
+.ui-listing-card {
+  display: block;
+}
+
+.ui-listing-card-container {
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* Trigger cover media zoom on card hover */
+.ui-listing-card:hover ui-cover-media .ui-cover-media__img {
+  transform: scale(1.05);
+}
+
+.ui-listing-card__body {
+  padding: var(--size-12) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4);
+}
+
+.ui-listing-card__title {
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.ui-listing-card__meta {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.ui-listing-card__actions {
+  margin-top: var(--size-8);
+}
+
+.ui-listing-card__meta:empty,
+.ui-listing-card__actions:empty {
+  display: none;
+}

@@ -14,6 +14,12 @@ const meta: Meta<List> = {
   title: 'Surfaces/List',
   component: List,
   tags: ['autodocs'],
+  argTypes: {
+    bordered: { control: 'boolean' },
+    dividers: { control: 'boolean' },
+    padding: { control: 'boolean' },
+    radius: { control: 'boolean' }
+  },
   render: (args) => ({
     props: args,
     moduleMetadata: {
@@ -29,8 +35,8 @@ const meta: Meta<List> = {
     },
     template: `
       <div style="max-width: 400px; padding: 20px; background: var(--surface-container); border-radius: var(--radius-xl);">
-        <h3 style="margin-bottom: 16px; font-size: 14px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Settings Example</h3>
-        <ui-list>
+        <h3 style="margin-bottom: 16px; font-size: 14px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Dynamic List Example</h3>
+        <ui-list [bordered]="bordered" [dividers]="dividers" [padding]="padding" [radius]="radius">
           <button uiListItem>
             <div uiListItemStart>
               <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--clr-primary-container); color: var(--clr-on-primary-container); display: flex; align-items: center; justify-content: center;">
@@ -76,36 +82,6 @@ const meta: Meta<List> = {
             </div>
           </button>
         </ui-list>
-
-        <h3 style="margin-top: 32px; margin-bottom: 16px; font-size: 14px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Contacts Example</h3>
-        <ui-list>
-          <a href="#" uiListItem>
-            <div uiListItemStart>
-              <div style="width: 40px; height: 40px; border-radius: 20px; background: var(--surface-container-highest); display: flex; align-items: center; justify-content: center;">
-                <svg lucidePhone></svg>
-              </div>
-            </div>
-            <div uiListItemContent>
-              <div uiListItemTitle>Call Business</div>
-              <div uiListItemDescription>+1 (555) 123-4567</div>
-            </div>
-          </a>
-          
-          <a href="#" uiListItem>
-            <div uiListItemStart>
-              <div style="width: 40px; height: 40px; border-radius: 20px; background: var(--surface-container-highest); display: flex; align-items: center; justify-content: center;">
-                <svg lucideGlobe></svg>
-              </div>
-            </div>
-            <div uiListItemContent>
-              <div uiListItemTitle>Website</div>
-              <div uiListItemDescription>orita.app</div>
-            </div>
-            <div uiListItemEnd>
-               <svg lucideChevronRight></svg>
-            </div>
-          </a>
-        </ui-list>
       </div>
     `,
   }),
@@ -114,5 +90,29 @@ const meta: Meta<List> = {
 export default meta;
 type Story = StoryObj<List>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    bordered: true,
+    dividers: true,
+    padding: true,
+    radius: true
+  }
+};
 
+export const InboxStyle: Story = {
+  args: {
+    bordered: false,
+    dividers: true,
+    padding: true,
+    radius: false
+  }
+};
+
+export const MenuStyle: Story = {
+  args: {
+    bordered: false,
+    dividers: false,
+    padding: true,
+    radius: false
+  }
+};

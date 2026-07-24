@@ -1,0 +1,33 @@
+.ui-listing-search-result-host {
+  display: block;
+}
+
+.ui-listing-search-result__thumbnail {
+  width: var(--size-48);
+  height: var(--size-48);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--surface-container-high);
+}
+
+.ui-listing-search-result__price {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.ui-listing-search-result__status {
+  margin-left: var(--size-8);
+  font-size: var(--font-size-xs);
+  padding: var(--size-2) var(--size-6);
+  border-radius: var(--radius-pill);
+}
+
+.ui-listing-search-result__status.is-available {
+  background: var(--clr-success-container);
+  color: var(--clr-on-success-container);
+}
+
+.ui-listing-search-result__status.is-unavailable {
+  background: var(--clr-error-container);
+  color: var(--clr-on-error);
+}

@@ -62,6 +62,7 @@
 .card.is-interactive {
   cursor: pointer;
   transition: 
+    transform var(--transition-normal),
     background var(--transition-fast), 
     box-shadow var(--transition-fast),
     border-color var(--transition-fast);
@@ -74,20 +75,27 @@
 
 /* Interactive Hover rules per appearance */
 .card--plain.is-interactive:not(.is-disabled):hover {
+  transform: translateY(-4px);
   background: var(--surface-container);
+  box-shadow: var(--shadow-md);
 }
 
 .card--filled.is-interactive:not(.is-disabled):hover {
+  transform: translateY(-4px);
   background: var(--surface-container-high);
+  box-shadow: var(--shadow-md);
 }
 
 .card--outlined.is-interactive:not(.is-disabled):hover {
+  transform: translateY(-4px);
   background: var(--surface-container);
   border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
 }
 
 .card--elevated.is-interactive:not(.is-disabled):hover {
-  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
 
 /* ============================================================
