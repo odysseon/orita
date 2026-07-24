@@ -9,7 +9,7 @@ import { Subject, timer, Subscription, switchMap, filter, of, Observable } from 
 import { catchError, debounceTime, tap } from 'rxjs/operators';
 import { NearbyItemCard } from './components/nearby-item-card/nearby-item-card';
 import { NewPostSheet } from './components/new-post-sheet/new-post-sheet';
-import { AppHeader } from '../../shared/app-header/app-header';
+import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
 import { Button } from '../../shared/ui/atoms/button/button';
 import { AppGrid } from '../../shared/grid/grid';
 import { EmptyState } from '../../shared/empty-state/empty-state';
@@ -20,7 +20,7 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 @Component({
   selector: 'app-nearby',
   standalone: true,
-  imports: [CommonModule, RouterModule, NearbyItemCard, NewPostSheet, AppHeader, AppGrid, EmptyState, ScrollHideDirective, LucideMapPin, Skeleton],
+  imports: [CommonModule, RouterModule, NearbyItemCard, NewPostSheet, RootHeader, AppGrid, EmptyState, ScrollHideDirective, LucideMapPin, Skeleton],
   templateUrl: './nearby.html',
   styleUrls: ['./nearby.css'],
 })

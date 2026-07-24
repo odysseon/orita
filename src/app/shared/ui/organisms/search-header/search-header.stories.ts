@@ -1,15 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { applicationConfig } from '@storybook/angular';
 import { SearchHeader } from './search-header';
-import { provideRouter } from '@angular/router';
+import { provideRouter, ActivatedRoute } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { AuthService } from '../../../../core/services/auth.service';
+import { signal } from '@angular/core';
+
+const mockAuthService = {
+  token: signal('fake-token'),
+  currentUser: signal({ avatarUrl: 'https://i.pravatar.cc/150?img=11', username: 'testuser' })
+};
 
 const meta: Meta<SearchHeader> = {
   title: 'Organisms/Headers/SearchHeader',
   component: SearchHeader,
   tags: ['autodocs'],
   decorators: [
-    (story) => ({
-      ...story(),
-      providers: [provideRouter([])]
+    applicationConfig({
+      providers: [
+        provideHttpClient(),
+        provideRouter([]),
+        { provide: ActivatedRoute, useValue: {} },
+        { provide: AuthService, useValue: mockAuthService }
+      ]
     })
   ],
   render: (args) => ({
@@ -17,11 +30,13 @@ const meta: Meta<SearchHeader> = {
     template: `
       <div style="height: 300px; background: var(--surface-container-low); margin: -1rem;">
         <app-search-header 
-          [avatarSrc]="avatarSrc" 
           [sticky]="sticky"
           [placeholder]="placeholder"
           [query]="query"
-        ></app-search-header>
+          (search)="onSearch($event)"
+          (filter)="onFilter()"
+        >
+        </app-search-header>
       </div>
     `,
   }),
@@ -32,9 +47,8 @@ type Story = StoryObj<SearchHeader>;
 
 export const Default: Story = {
   args: {
-    avatarSrc: 'https://i.pravatar.cc/150?img=11',
     sticky: true,
-    placeholder: 'Search places, people...',
-    query: ''
+    placeholder: 'Search for tours, guides...',
+    query: '',
   },
 };

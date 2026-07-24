@@ -1,16 +1,12 @@
 import { Component, inject, signal, effect, EffectRef, Injector } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, RouterOutlet, ActivatedRoute } from '@angular/router';
-import { AppHeader } from '../../app-header/app-header';
-import { ScrollHideDirective } from '../../directives/scroll-hide.directive';
-import { LucideArrowLeft } from '@lucide/angular';
 import { isLayoutPage } from './layout-page.interface';
-
-import { Button } from '../../ui/atoms/button/button';
+import { PageHeader } from '../../ui/organisms/page-header/page-header';
 
 @Component({
   selector: 'app-sub-layout',
-  imports: [AppHeader, ScrollHideDirective, LucideArrowLeft, RouterOutlet, Button],
+  imports: [PageHeader, RouterOutlet],
   templateUrl: './sub-layout.html',
   styleUrl: './sub-layout.css',
 })
@@ -51,14 +47,5 @@ export class AppSubLayout {
 
     // 3. Fallback
     this.title.set('');
-  }
-
-  handleBack(): void {
-    const navId = history.state?.navigationId ?? 1;
-    if (navId > 1) {
-      this.#location.back();
-    } else {
-      this.#router.navigateByUrl('/home');
-    }
   }
 }

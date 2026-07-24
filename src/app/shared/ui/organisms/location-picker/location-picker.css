@@ -4,9 +4,10 @@
 }
 
 .location-picker__trigger svg {
-  width: var(--size-16);
-  height: var(--size-16);
+  width: var(--size-18);
+  height: var(--size-18);
   color: var(--text-muted);
+  transform: translateY(1px);
 }
 
 .location-picker__body {

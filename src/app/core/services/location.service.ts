@@ -29,7 +29,7 @@ export class LocationService {
 
     const params = { q: query };
 
-    return this.#http.get<Location[]>(`${this.#apiUrl}/locations/search`, { params }).pipe(
+    return this.#http.get<Location[]>(`${this.#apiUrl}/v1/locations/search`, { params }).pipe(
       catchError(() => of([]))
     );
   }
@@ -40,7 +40,7 @@ export class LocationService {
       lon: lng.toString(),
     };
 
-    return this.#http.get<Location>(`${this.#apiUrl}/locations/reverse`, { params }).pipe(
+    return this.#http.get<Location>(`${this.#apiUrl}/v1/locations/reverse`, { params }).pipe(
       catchError(() => of(null))
     );
   }
@@ -60,7 +60,7 @@ export class LocationService {
       payload.countryCode = String(location.countryCode);
     }
     
-    return this.#http.post<Location>(`${this.#apiUrl}/locations/ensure`, payload);
+    return this.#http.post<Location>(`${this.#apiUrl}/v1/locations/ensure`, payload);
   }
 
   getCurrentPosition(): Promise<GeolocationPosition> {

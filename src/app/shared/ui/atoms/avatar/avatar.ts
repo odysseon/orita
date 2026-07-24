@@ -37,7 +37,7 @@ export class Avatar {
   loading = input<AvatarLoading>('lazy');
   status = input<AvatarStatus>();
 
-  authenticated = input<boolean, unknown>(true, { transform: booleanAttribute });
+  guest = input<boolean, unknown>(false, { transform: booleanAttribute });
   guestClick = output<void>();
 
   imageLoaded = signal(false);
@@ -53,7 +53,7 @@ export class Avatar {
 
   classes = computed(() => {
     const classList = ['avatar', `avatar--${this.size()}`, `avatar--${this.shape()}`];
-    if (!this.authenticated()) {
+    if (this.guest()) {
       classList.push('is-guest');
     }
     return classList.join(' ');
@@ -68,7 +68,7 @@ export class Avatar {
   }
 
   onGuestClick() {
-    if (!this.authenticated()) {
+    if (this.guest()) {
       this.guestClick.emit();
     }
   }

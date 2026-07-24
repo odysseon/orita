@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { AppHeader } from '../../shared/app-header/app-header';
+import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
 import { ConversationSidebar } from './components/conversation-sidebar/conversation-sidebar';
 import { ConversationView } from './components/conversation-view/conversation-view';
 import { MessagingRepository } from '../../core/services/messaging-repository.service';
@@ -15,7 +15,7 @@ import { Badge } from '../../shared/ui/atoms/badge/badge';
 
 @Component({
   selector: 'app-messages',
-  imports: [AppHeader, ConversationSidebar, ConversationView, NotificationsPage, LucideTriangleAlert, Button, Badge],
+  imports: [RootHeader, ConversationSidebar, ConversationView, NotificationsPage, LucideTriangleAlert, Button, Badge],
   templateUrl: './messages.html',
   styleUrl: './messages.css'
 })

@@ -19,7 +19,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 import { CreateBusiness } from './business/create/create-business';
 import { SeoComponent } from '../../shared/seo/seo.component';
-import { AppHeader } from '../../shared/app-header/app-header';
+import { PageHeader } from '../../shared/ui/organisms/page-header/page-header';
 import { Avatar } from '../../shared/ui/atoms/avatar/avatar';
 import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 import { Button } from '../../shared/ui/atoms/button/button';
@@ -88,7 +88,7 @@ const START_BUSINESS: NavItem = {
     LucideTriangleAlert,
     CreateBusiness,
     SeoComponent,
-    AppHeader,
+    PageHeader,
     Avatar,
     Button,
     Skeleton,

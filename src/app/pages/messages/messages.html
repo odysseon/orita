@@ -1,7 +1,7 @@
 <div class="messages-page-wrapper">
 @if (isDesktop() || !activeConversationId()) {
-  <ui-app-header [showLogo]="false">
-    <div center-content class="message-tabs">
+  <app-root-header>
+    <div rootHeaderCenter class="message-tabs">
       <button class="message-tab" [class.active]="activeTab === 'inbox'" (click)="activeTab = 'inbox'">
         Inbox
       </button>
@@ -12,7 +12,7 @@
         }
       </button>
     </div>
-  </ui-app-header>
+  </app-root-header>
 }
 
   @if (activeTab === 'inbox') {

@@ -1,17 +1,5 @@
 <div class="sub-layout">
-  <ui-app-header [showLogo]="false" [showLocationPill]="false" [showProfileBtn]="false" [uiScrollHide]="true" scrollHidePosition="top">
-    <div left-content class="sub-layout__header-left">
-      <button app-button appearance="ghost" class="btn-back" (click)="handleBack()" type="button" aria-label="Go back">
-        <svg lucideArrowLeft aria-hidden="true"></svg>
-        Back
-      </button>
-    </div>
-    <div center-content class="sub-layout__header-center">
-      @if (title()) {
-        <h1 class="page-title">{{ title() }}</h1>
-      }
-    </div>
-  </ui-app-header>
+  <app-page-header [title]="title()" [uiScrollHide]="true" scrollHidePosition="top"></app-page-header>
   
   <div class="sub-layout__content">
     <router-outlet (activate)="onActivate($event)" />
