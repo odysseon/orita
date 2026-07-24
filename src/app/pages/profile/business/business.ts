@@ -24,7 +24,7 @@ import { Listings } from './listings/listings';
 import { AppBusinessTours } from './tours/tours';
 import { CompletionNudge } from '../../../shared/completion-nudge/completion-nudge';
 import { FirstListingCta } from './create/first-listing-cta/first-listing-cta';
-import { AppBizCard } from '../../../shared/biz-card/biz-card';
+import { BusinessCard } from '../../../shared/ui/organisms/cards/business-card/business-card';
 import { Button } from '../../../shared/ui/atoms/button/button';
 import { Skeleton } from '../../../shared/ui/atoms/skeleton/skeleton';
 import { IBusinessSummary } from '../../home/home.interface';
@@ -56,7 +56,7 @@ import { ToastService } from '../../../core/services/toast';
     AppBusinessTours,
     CompletionNudge,
     FirstListingCta,
-    AppBizCard,
+    BusinessCard,
     VisibilityScore,
     PublicationReadinessDialog,
   ],

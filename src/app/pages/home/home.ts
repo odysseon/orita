@@ -4,7 +4,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import {
   LucideMapPin,
 } from '@lucide/angular';
-import { AppFeedCard } from '../../shared/feed-card/feed-card';
+import { BusinessCard } from '../../shared/ui/organisms/cards/business-card/business-card';
+import { ListingCard } from '../../shared/ui/organisms/cards/listing-card/listing-card';
+import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
 import { LocationPicker } from '../../shared/ui/organisms/location-picker/location-picker';
@@ -21,7 +23,9 @@ import { Button } from '../../shared/ui/atoms/button/button';
   selector: 'app-home',
   imports: [
     RouterLink,
-    AppFeedCard,
+    BusinessCard,
+    ListingCard,
+    StoreTourCard,
     EmptyState,
     RootHeader,
     LocationPicker,

@@ -50,7 +50,39 @@
       }
       <app-grid>
         @for (item of group.items; track item.id) {
-        <app-feed-card [item]="item"></app-feed-card>
+          @if (item.itemType === 'TOUR' && item.tour) {
+            <ui-store-tour-card [tour]="{
+              id: item.tour.id,
+              title: item.tour.title,
+              thumbnailUrl: item.tour.media?.[0]?.url,
+              business: {
+                id: item.businessProfileId,
+                name: item.business?.name || '',
+                logoUrl: item.business?.logoUrl,
+                isVerified: !!$any(item.business).isVerified
+              }
+            }" />
+          } @else if (item.itemType === 'LISTING' && item.listing) {
+            <ui-listing-card [listing]="{
+              id: item.listing.id,
+              slug: item.listing.slug,
+              title: item.listing.title,
+              coverUrl: item.listing.media?.[0]?.url
+            }">
+              <div card-meta>
+                @if (item.listing.minPrice) {
+                  <span>{{ item.listing.currencyCode || 'USD' }} {{ item.listing.minPrice }}</span>
+                }
+              </div>
+            </ui-listing-card>
+          } @else if (item.itemType === 'BUSINESS' && item.business) {
+            <ui-business-card 
+              [business]="item.business" 
+              [coverUrl]="item.business.coverUrl"
+            >
+              <div card-description>{{ item.business.description }}</div>
+            </ui-business-card>
+          }
         }
       </app-grid>
     </section>

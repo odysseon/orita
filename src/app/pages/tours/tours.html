@@ -20,11 +20,15 @@
         <!-- Only render if it's the current, previous, or next item -->
         @if (i >= currentIndex() - 1 && i <= currentIndex() + 1) {
           <div class="tour-slide">
-            <app-tour-card
-              [tour]="tour"
-              [businessData]="mockBusinessData(tour)"
-              (actionClick)="onActionClick($event, tour)"
-            />
+            <ui-store-tour-card [tour]="{
+              id: tour.id,
+              title: tour.title,
+              thumbnailUrl: tour.media?.[0]?.url,
+              business: {
+                id: tour.businessProfileId,
+                name: mockBusinessData(tour).name
+              }
+            }" />
           </div>
         } @else {
           <!-- Empty placeholder to maintain track height -->
