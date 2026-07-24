@@ -22,15 +22,14 @@
           <app-form-field
             fieldId="username"
             label="Username"
-            [touched]="profileForm.username().touched()"
             [invalid]="profileForm.username().invalid()"
             [errorMessage]="profileForm.username().errors()[0]?.message"
           >
             <input
               type="text"
               id="username"
-              class="field__input"
-              [class.field__input--error]="profileForm.username().touched() && profileForm.username().invalid()"
+              class="app-input"
+              [attr.aria-invalid]="profileForm.username().touched() && profileForm.username().invalid()"
               [formField]="profileForm.username"
               placeholder="e.g. johndoe"
               autocomplete="username"

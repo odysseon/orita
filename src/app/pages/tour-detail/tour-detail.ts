@@ -9,6 +9,7 @@ import { LucideImage, LucideCalendar, LucideCheckCircle } from '@lucide/angular'
 import { LayoutPage } from '../../shared/layout/sub-layout/layout-page.interface';
 
 import { environment } from '../../../environments/environment';
+import { Button } from '../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-tour-detail',

@@ -321,7 +321,7 @@
         </ui-empty-state>
       } @else if ((businessesResource.value()?.items?.length || 0) < (businessesResource.value()?.total || 0)) {
         <div style="text-align: center; margin-top: 2rem;">
-          <button class="btn btn-outline" (click)="loadMore()">Load More</button>
+          <button app-button appearance="outline"  (click)="loadMore()">Load More</button>
         </div>
       }
     }

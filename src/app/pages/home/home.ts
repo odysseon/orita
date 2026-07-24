@@ -15,6 +15,7 @@ import { ToastService } from '../../core/services/toast';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { ExplorationService } from '../../core/services/exploration.service';
 import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
+import { Button } from '../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +29,7 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
     AppGrid,
     SeoComponent,
     LucideMapPin,
-    Skeleton,
+    Skeleton, Button,
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',

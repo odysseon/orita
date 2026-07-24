@@ -60,20 +60,22 @@
   @for (group of navGroups(); track group.title) {
     <div class="profile-nav-group">
       <h2 class="profile-nav-group__title">{{ group.title }}</h2>
-      <nav class="profile-nav" aria-label="Profile navigation">
+      <ui-list aria-label="Profile navigation">
         @for (item of group.items; track item.route || item.action) {
-        <button app-button appearance="plain" class="profile-nav__item" (click)="navigate(item)">
-          <div class="profile-nav__icon-wrap" aria-hidden="true">
+        <button uiListItem (click)="navigate(item)">
+          <div uiListItemStart aria-hidden="true">
             <svg [lucideIcon]="item.icon"></svg>
           </div>
-          <div class="profile-nav__text">
-            <span class="profile-nav__label">{{ item.label }}</span>
-            <span class="profile-nav__description">{{ item.description }}</span>
+          <div uiListItemContent>
+            <div uiListItemTitle>{{ item.label }}</div>
+            <div uiListItemDescription>{{ item.description }}</div>
           </div>
-          <svg lucideChevronRight class="profile-nav__chevron" aria-hidden="true"></svg>
+          <div uiListItemEnd>
+            <svg lucideChevronRight aria-hidden="true"></svg>
+          </div>
         </button>
         }
-      </nav>
+      </ui-list>
     </div>
   }
 

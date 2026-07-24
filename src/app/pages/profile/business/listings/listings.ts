@@ -20,7 +20,7 @@ import { IBusinessProfile } from '../business.interface';
 import { Button } from '../../../../shared/ui/atoms/button/button';
 import { Skeleton } from '../../../../shared/ui/atoms/skeleton/skeleton';
 
-import { AppFormField } from '../../../../shared/form-field/form-field';
+import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
 import { Drawer } from '../../../../shared/drawer/drawer';
 import { CompletionNudge } from '../../../../shared/completion-nudge/completion-nudge';
 import { ListingService } from '../../../../core/services/listing.service';
@@ -29,10 +29,10 @@ import { PublicationReadinessDialog } from '../../../../shared/publication-readi
 
 @Component({
   selector: 'app-listings',
-  imports: [
+  imports: [FormField, 
     AppFormField,
     Drawer,
-    FormField,
+    AppFormField,
     RouterLink,
     LucidePlus,
     LucidePackage,

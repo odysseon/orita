@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -57,6 +58,7 @@ export const routes: Routes = [
     path: 'nearby',
     loadComponent: () => import('./pages/nearby/nearby').then((m) => m.NearbyPage),
     data: { isRootAppPage: true },
+    canActivate: [authGuard],
   },
   {
     path: 'messages',

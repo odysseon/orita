@@ -21,7 +21,7 @@
           [(ngModel)]="newItem"
           (keyup.enter)="addItem()"
         />
-        <button type="button" class="btn btn-secondary" (click)="addItem()" [disabled]="!newItem().trim()">
+        <button app-button intent="secondary" type="button"  (click)="addItem()" [disabled]="!newItem().trim()">
           <svg lucidePlus aria-hidden="true"></svg>
           Add
         </button>

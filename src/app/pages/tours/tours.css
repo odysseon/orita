@@ -1,5 +1,13 @@
+:host {
+  display: block;
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+}
+
 .tours-nav {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -26,8 +34,8 @@
 }
 
 .tours-feed {
-  height: 100vh;
-  height: 100dvh;
+  height: 100%;
+
   width: 100%;
   overflow: hidden; /* We handle scrolling via translate */
   position: relative;

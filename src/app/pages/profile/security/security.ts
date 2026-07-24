@@ -17,10 +17,11 @@ import { ToastService } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
 import { IProfile } from '../profile.interface';
 import { Drawer } from '../../../shared/drawer/drawer';
-import { AppFormField } from '../../../shared/form-field/form-field';
+import { AppFormField } from '../../../shared/ui/atoms/form-field/form-field';
 import { Button } from '../../../shared/ui/atoms/button/button';
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
 import { ValidationService } from '../../../core/services/validation.service';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../../shared/ui/surfaces/list/list';
 
 interface IChangePassword {
   currentPassword: string;
@@ -33,8 +34,8 @@ interface IAddPassword {
 
 @Component({
   selector: 'app-security',
-  imports: [
-    FormField,
+  imports: [FormField, 
+    AppFormField,
     RouterLink,
     LucideKey,
     LucideTrash2,
@@ -43,6 +44,13 @@ interface IAddPassword {
     LucideEye,
     LucideEyeOff,
     Drawer,
+    List,
+    ListItem,
+    ListItemStart,
+    ListItemContent,
+    ListItemTitle,
+    ListItemDescription,
+    ListItemEnd,
     AppFormField,
     AppGoogleSignIn,
     Button,

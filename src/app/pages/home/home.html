@@ -36,7 +36,7 @@
       description="Be the first to create a business in your neighborhood!"
     >
       <svg lucideMapPin aria-hidden="true" icon></svg>
-      <button class="btn btn--primary btn--full" routerLink="/profile/business">
+      <button app-button intent="primary" class="btn--full"  routerLink="/profile/business">
         Start a Business
       </button>
     </ui-empty-state>
@@ -64,7 +64,7 @@
     </app-grid>
     } @if (hasMore()) {
     <div class="load-more-container">
-      <button class="btn btn--secondary" (click)="loadMore()" [disabled]="isLoadingMore()">
+      <button app-button intent="secondary"  (click)="loadMore()" [disabled]="isLoadingMore()">
         Load More Discoveries
       </button>
     </div>

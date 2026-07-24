@@ -8,7 +8,7 @@ import { LucideLoaderCircle } from '@lucide/angular';
 import { ToastService } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
 import { IProfile } from '../profile.interface';
-import { AppFormField } from '../../../shared/form-field/form-field';
+import { AppFormField } from '../../../shared/ui/atoms/form-field/form-field';
 import { Button } from '../../../shared/ui/atoms/button/button';
 import { MediaSelector } from '../../../shared/media-selector/media-selector';
 import { MediaService } from '../../../core/services/media.service';
@@ -19,7 +19,7 @@ interface IEditProfileForm {
 
 @Component({
   selector: 'app-edit-profile',
-  imports: [FormField, LucideLoaderCircle, AppFormField, MediaSelector],
+  imports: [FormField, AppFormField, LucideLoaderCircle, AppFormField, MediaSelector],
   templateUrl: './edit-profile.html',
   styleUrl: './edit-profile.css',
 })

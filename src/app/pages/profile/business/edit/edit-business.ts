@@ -16,7 +16,7 @@ import {
 import { ToastService } from '../../../../core/services/toast';
 import { IBusinessProfile, BusinessType } from '../business.interface';
 import { environment } from '../../../../../environments/environment';
-import { AppFormField } from '../../../../shared/form-field/form-field';
+import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
 import { MediaSelector } from '../../../../shared/media-selector/media-selector';
 import { ICategory } from '../../../home/home.interface';
 import { CategoryPicker } from '../../../../shared/category-picker/category-picker';

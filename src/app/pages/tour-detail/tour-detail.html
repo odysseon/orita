@@ -17,7 +17,7 @@
   </div>
 } @else if (tourResource.error()) {
   <ui-empty-state icon="image" title="Tour not found">
-    <button class="btn btn--outline" routerLink="/home">Go back</button>
+    <button app-button appearance="outline"  routerLink="/home">Go back</button>
   </ui-empty-state>
 } @else if (tourResource.hasValue()) {
   @let tour = tourResource.value()!;
