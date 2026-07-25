@@ -1,10 +1,27 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj, applicationConfig } from '@storybook/angular';
+import { provideRouter, ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 import { ChatHeader } from './chat-header';
 
 const meta: Meta<ChatHeader> = {
   title: 'Molecules/Messaging/ChatHeader',
   component: ChatHeader,
   tags: ['autodocs'],
+  decorators: [
+    applicationConfig({
+      providers: [
+        provideRouter([]),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: { params: {}, queryParams: {} },
+            params: of({}),
+            queryParams: of({})
+          }
+        }
+      ]
+    })
+  ],
   render: (args) => ({
     props: args,
     template: `
@@ -22,6 +39,8 @@ export const StandardUser: Story = {
   args: {
     conversation: {
       id: 'c1',
+      title: 'Tomiwa Adebe',
+      status: 'online',
       participants: [
         { participantId: 'p1', displayName: 'Tomiwa Adebe', avatarUrl: 'https://i.pravatar.cc/150?u=tom' }
       ]
@@ -33,6 +52,8 @@ export const BusinessParticipant: Story = {
   args: {
     conversation: {
       id: 'c2',
+      title: 'Vintage Leathers & Crafts',
+      status: 'online',
       participants: [
         { participantId: 'p2', displayName: 'Vintage Leathers & Crafts', avatarUrl: 'https://i.pravatar.cc/150?u=biz' }
       ]

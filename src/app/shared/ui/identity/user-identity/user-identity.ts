@@ -1,6 +1,6 @@
 import { Component, input, computed, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Avatar, AvatarSize } from '../avatar/avatar';
+import { Avatar, AvatarSize, AvatarStatus } from '../avatar/avatar';
 import { IdentityLink } from '../identity.model';
 
 @Component({
@@ -15,6 +15,7 @@ import { IdentityLink } from '../identity.model';
           [alt]="user().displayName"
           [fallback]="user().displayName.charAt(0)"
           [size]="avatarSize()"
+          [status]="resolvedStatus()"
         ></app-avatar>
         <div class="ui-user-identity-info">
           <div class="ui-user-identity-name truncate">{{ user().displayName }}</div>
@@ -32,6 +33,7 @@ import { IdentityLink } from '../identity.model';
         [alt]="user().displayName"
         [fallback]="user().displayName.charAt(0)"
         [size]="avatarSize()"
+        [status]="resolvedStatus()"
       ></app-avatar>
       <div class="ui-user-identity-info">
         <div class="ui-user-identity-name truncate">{{ user().displayName }}</div>
@@ -57,7 +59,17 @@ export class UserIdentity {
     username: string;
     avatarUrl?: string | null;
     profileUrl?: any[] | string | null;
+    status?: AvatarStatus | null;
   }>();
+
+  status = input<AvatarStatus | undefined>();
+
+  resolvedStatus = computed(() => {
+    const s = this.status();
+    if (s !== undefined && s !== null) return s;
+    const u = this.user() as any;
+    return u?.status || undefined;
+  });
 
   size = input<'sm' | 'md' | 'lg'>('md');
   showUsername = input<boolean>(true);
