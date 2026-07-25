@@ -8,6 +8,10 @@ export class TabsContext {
   
   /** The currently active tab value. */
   readonly value = signal<string | undefined>(undefined);
+  
+  /** Appearance and size synced from TabList */
+  readonly appearance = signal<'line' | 'pill' | 'enclosed'>('line');
+  readonly size = signal<'sm' | 'md' | 'lg'>('md');
 
   /** 
    * Selects a new tab. This is called by TabList and TabTrigger.

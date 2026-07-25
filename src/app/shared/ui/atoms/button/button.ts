@@ -2,6 +2,7 @@ import {
   Component,
   input,
   computed,
+  signal,
   booleanAttribute,
   ElementRef,
   inject,
@@ -49,14 +50,23 @@ export class Button {
   loading = input<boolean, unknown>(false, { transform: booleanAttribute });
   fullWidth = input<boolean, unknown>(false, { transform: booleanAttribute });
 
+  // Override signals for sibling behaviors (e.g. TabTrigger) on the same host
+  readonly overrideIntent = signal<ButtonIntent | null>(null);
+  readonly overrideAppearance = signal<ButtonAppearance | null>(null);
+  readonly overrideSize = signal<ButtonSize | null>(null);
+
   isButton = computed(() => this.el.nativeElement.tagName.toLowerCase() === 'button');
 
   classes = computed(() => {
+    const intent = this.overrideIntent() || this.intent();
+    const appearance = this.overrideAppearance() || this.appearance();
+    const size = this.overrideSize() || this.size();
+
     const classList = [
       'btn',
-      `btn--${this.intent()}`,
-      `btn--${this.appearance()}`,
-      `btn--${this.size()}`,
+      `btn--${intent}`,
+      `btn--${appearance}`,
+      `btn--${size}`,
       `btn--layout-${this.layout()}`,
     ];
 

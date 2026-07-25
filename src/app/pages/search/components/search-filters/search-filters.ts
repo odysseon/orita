@@ -3,7 +3,7 @@ import { form, FormField } from '@angular/forms/signals';
 import { Drawer } from '../../../../shared/drawer/drawer';
 import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
 import { CategoryService } from '../../../../core/services/category.service';
-import { LocationPicker } from '../../../../shared/location-picker/location-picker';
+import { LocationPicker } from '../../../../shared/ui/organisms/location-picker/location-picker';
 import { Location } from '../../../../core/services/location.service';
 import { Button } from '../../../../shared/ui/atoms/button/button';
 

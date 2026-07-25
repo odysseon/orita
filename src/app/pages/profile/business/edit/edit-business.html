@@ -175,7 +175,7 @@
 
           <div class="field">
             <span class="field__label">Location Address</span>
-            <app-location-picker
+            <ui-location-picker
               [currentAddress]="model().location || undefined"
               triggerLabel="Set Location"
               (confirmed)="onLocationPicked($event)"

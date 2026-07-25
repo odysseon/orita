@@ -13,7 +13,8 @@ import { SearchFilters } from '../../core/models/search.model';
 import { BusinessCard } from '../../shared/ui/organisms/cards/business-card/business-card';
 import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
 import { ListingSearchResult } from '../../shared/ui/organisms/search-results/listing-search-result/listing-search-result';
-import { List, ListItem, ListItemStart, ListItemEnd } from '../../shared/ui/surfaces/list/list';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription } from '../../shared/ui/surfaces/list/list';
+import { Tabs, TabList, TabTrigger } from '../../shared/ui/molecules/tabs';
 import { UserIdentity } from '../../shared/ui/molecules/identity/user-identity/user-identity';
 import { BusinessIdentity } from '../../shared/ui/molecules/identity/business-identity/business-identity';
 import { FollowButton } from '../../shared/ui/actions/follow-button/follow-button';
@@ -33,7 +34,7 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
   selector: 'app-search',
   imports: [
     LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
-    BusinessCard, StoreTourCard, ListingSearchResult, List, ListItem, ListItemStart, ListItemEnd, UserIdentity, BusinessIdentity, FollowButton, SaveButton, SearchHeader, ScrollHideDirective,
+    BusinessCard, StoreTourCard, ListingSearchResult, List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription, Tabs, TabList, TabTrigger, UserIdentity, BusinessIdentity, FollowButton, SaveButton, SearchHeader, ScrollHideDirective,
     AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState, Button, Skeleton
   ],
   templateUrl: './search.html',

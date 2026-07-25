@@ -79,16 +79,19 @@
   gap: var(--size-16);
 }
 
-.app-tabs--line .app-tab {
-  border-bottom: 2px solid transparent;
+.app-tabs--line .app-tab,
+.app-tabs--line .btn.app-tab {
+  border: 2px solid transparent;
   margin-bottom: -2px; /* Overlap the container border */
   border-radius: var(--tab-radius) var(--tab-radius) 0 0;
   padding-left: var(--size-4);
   padding-right: var(--size-4);
 }
 
-.app-tabs--line .app-tab--active {
+.app-tabs--line .app-tab--active,
+.app-tabs--line .btn.app-tab--active {
   border-bottom-color: var(--tabs-border-active);
+  color: var(--tabs-text-active);
 }
 
 /* Pill */
@@ -96,12 +99,15 @@
   gap: var(--size-4);
 }
 
-.app-tabs--pill .app-tab {
+.app-tabs--pill .app-tab,
+.app-tabs--pill .btn.app-tab {
   border-radius: var(--radius-pill);
 }
 
-.app-tabs--pill .app-tab--active {
+.app-tabs--pill .app-tab--active,
+.app-tabs--pill .btn.app-tab--active {
   background: var(--tabs-bg-active);
+  color: var(--clr-primary);
 }
 
 /* Enclosed */
@@ -111,11 +117,13 @@
   border-radius: calc(var(--tab-radius) + var(--size-4));
 }
 
-.app-tabs--enclosed .app-tab {
+.app-tabs--enclosed .app-tab,
+.app-tabs--enclosed .btn.app-tab {
   border-radius: var(--tab-radius);
 }
 
-.app-tabs--enclosed .app-tab--active {
+.app-tabs--enclosed .app-tab--active,
+.app-tabs--enclosed .btn.app-tab--active {
   background: var(--surface-card);
   box-shadow: var(--shadow-sm);
   color: var(--text-primary);

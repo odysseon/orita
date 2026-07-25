@@ -11,16 +11,17 @@ import { NearbyItemCard } from './components/nearby-item-card/nearby-item-card';
 import { NewPostSheet } from './components/new-post-sheet/new-post-sheet';
 import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
 import { Button } from '../../shared/ui/atoms/button/button';
+import { Fab } from '../../shared/ui/actions/fab/fab';
 import { AppGrid } from '../../shared/grid/grid';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
-import { LucideMapPin } from '@lucide/angular';
+import { LucideMapPin, LucidePlus } from '@lucide/angular';
 import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 
 @Component({
   selector: 'app-nearby',
   standalone: true,
-  imports: [CommonModule, RouterModule, NearbyItemCard, NewPostSheet, RootHeader, AppGrid, EmptyState, ScrollHideDirective, LucideMapPin, Skeleton],
+  imports: [CommonModule, RouterModule, NearbyItemCard, NewPostSheet, RootHeader, Button, Fab, AppGrid, EmptyState, ScrollHideDirective, LucideMapPin, LucidePlus, Skeleton],
   templateUrl: './nearby.html',
   styleUrls: ['./nearby.css'],
 })

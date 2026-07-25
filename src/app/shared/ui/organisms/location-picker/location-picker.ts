@@ -1,4 +1,4 @@
-import { Component, input, model, output, signal, inject } from '@angular/core';
+import { Component, input, model, output, signal, inject, computed } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { of, firstValueFrom } from 'rxjs';
@@ -27,6 +27,18 @@ export class LocationPicker {
   readonly open = model<boolean>(false);
   readonly triggerLabel = input<string>('Set Location');
   readonly currentAddress = input<string>();
+
+  readonly displayAddress = computed(() => {
+    const addr = this.currentAddress();
+    if (!addr) return this.triggerLabel();
+    const parts = addr.split(',')
+      .map(p => p.trim())
+      .filter(p => p.length > 0 && !/^\d+$/.test(p));
+    if (parts.length <= 2) {
+      return parts.join(', ');
+    }
+    return parts.slice(0, 2).join(', ');
+  });
 
   readonly confirmed = output<Location>();
 

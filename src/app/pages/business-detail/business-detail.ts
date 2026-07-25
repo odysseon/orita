@@ -19,7 +19,6 @@ import {
   LucideInfo,
   LucideSend,
 } from '@lucide/angular';
-import { Logo } from '../../shared/logo/logo';
 import { Badge } from '../../shared/ui/atoms/badge/badge';
 import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.interface';

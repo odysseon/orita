@@ -1,6 +1,8 @@
 .ui-user-identity {
-  display: block;
+  display: flex;
+  align-items: center;
   text-align: left;
+  min-width: 0;
 }
 
 .ui-user-identity-info {

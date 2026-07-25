@@ -17,7 +17,7 @@ interface NewPostModel {
 @Component({
   selector: 'app-new-post-sheet',
   standalone: true,
-  imports: [Drawer, FormField, FormRoot, LucideX, LucideLoaderCircle],
+  imports: [Drawer, FormField, FormRoot, Button, LucideX, LucideLoaderCircle],
   templateUrl: './new-post-sheet.html',
   styleUrls: ['./new-post-sheet.css'],
 })

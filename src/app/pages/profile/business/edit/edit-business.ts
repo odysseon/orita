@@ -20,7 +20,7 @@ import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field'
 import { MediaSelector } from '../../../../shared/media-selector/media-selector';
 import { ICategory } from '../../../home/home.interface';
 import { CategoryPicker } from '../../../../shared/category-picker/category-picker';
-import { LocationPicker } from '../../../../shared/location-picker/location-picker';
+import { LocationPicker } from '../../../../shared/ui/organisms/location-picker/location-picker';
 import { Button } from '../../../../shared/ui/atoms/button/button';
 import { Skeleton } from '../../../../shared/ui/atoms/skeleton/skeleton';
 import { Location } from '../../../../core/services/location.service';
