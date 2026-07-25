@@ -7,72 +7,46 @@
     placeholder="Search for something..."
     (queryChange)="onSearchInputString($event)"
     (filter)="openFilters()"
-  >
-    @if (rawQuery()) {
-      <button searchHeaderEnd app-button appearance="ghost" size="icon" shape="circle" class="clear-btn" (click)="clearSearch()" aria-label="Clear search">
-        <svg lucideX aria-hidden="true"></svg>
-      </button>
-    }
-  </app-search-header>
+  ></app-search-header>
   
   <div class="search-header">
     <div class="search-controls">
       
       <div class="search-tabs">
-        <button 
-          class="tab-btn" 
-          [class.active]="searchType() === 'all'"
-          (click)="setSearchType('all')"
-        >
-          All
-        </button>
-        <button 
-          class="tab-btn" 
-          [class.active]="searchType() === 'people'"
-          (click)="setSearchType('people')"
-        >
-          People
-          @if (usersResource.hasValue() && searchType() === 'people' && !isDebouncing()) {
-            <span class="count">({{ usersResource.value()?.total || 0 }})</span>
-          }
-        </button>
-        <button 
-          class="tab-btn" 
-          [class.active]="searchType() === 'listing'"
-          (click)="setSearchType('listing')"
-        >
-          Listings
-          @if (listingsResource.hasValue() && searchType() === 'listing' && !isDebouncing()) {
-            <span class="count">({{ listingsResource.value()?.total || 0 }})</span>
-          }
-        </button>
-        <button 
-          class="tab-btn" 
-          [class.active]="searchType() === 'business'"
-          (click)="setSearchType('business')"
-        >
-          Businesses
-          @if (businessesResource.hasValue() && searchType() === 'business' && !isDebouncing()) {
-            <span class="count">({{ businessesResource.value()?.total || 0 }})</span>
-          }
-        </button>
-        <button 
-          class="tab-btn" 
-          [class.active]="searchType() === 'tour'"
-          (click)="setSearchType('tour')"
-        >
-          Tours
-          @if (toursResource.hasValue() && searchType() === 'tour' && !isDebouncing()) {
-            <span class="count">({{ toursResource.value()?.total || 0 }})</span>
-          }
-        </button>
-        <button 
-          class="tab-btn" 
-          [class.active]="searchType() === 'location'"
-          (click)="setSearchType('location')"
-        >
-          Locations
-        </button>
+        <app-tabs [value]="searchType()" (valueChange)="setSearchType($any($event))">
+          <app-tab-list appearance="pill" size="sm">
+            <button app-button app-tab-trigger value="all">
+              All
+            </button>
+            <button app-button app-tab-trigger value="people">
+              People
+              @if (usersResource.hasValue() && searchType() === 'people' && !isDebouncing()) {
+                <span>({{ usersResource.value()?.total || 0 }})</span>
+              }
+            </button>
+            <button app-button app-tab-trigger value="listing">
+              Listings
+              @if (listingsResource.hasValue() && searchType() === 'listing' && !isDebouncing()) {
+                <span>({{ listingsResource.value()?.total || 0 }})</span>
+              }
+            </button>
+            <button app-button app-tab-trigger value="business">
+              Businesses
+              @if (businessesResource.hasValue() && searchType() === 'business' && !isDebouncing()) {
+                <span>({{ businessesResource.value()?.total || 0 }})</span>
+              }
+            </button>
+            <button app-button app-tab-trigger value="tour">
+              Tours
+              @if (toursResource.hasValue() && searchType() === 'tour' && !isDebouncing()) {
+                <span>({{ toursResource.value()?.total || 0 }})</span>
+              }
+            </button>
+            <button app-button app-tab-trigger value="location">
+              Locations
+            </button>
+          </app-tab-list>
+        </app-tabs>
       </div>
 
       <!-- Active Filter Chips (optional view) -->
@@ -132,7 +106,7 @@
               } @else if (popularBusinessesResource.hasValue()) {
                 @for (biz of popularBusinessesResource.value()?.items || []; track biz.id) {
                   <label uiListItem>
-                    <div uiListItemStart>
+                    <div uiListItemContent>
                       <ui-business-identity [business]="biz"></ui-business-identity>
                     </div>
                     <div uiListItemEnd>
@@ -163,7 +137,7 @@
             <ui-list [bordered]="false" [radius]="false" [dividers]="true">
               @for (user of usersResource.value()?.items || []; track user.id) {
                 <label uiListItem>
-                  <div uiListItemStart>
+                  <div uiListItemContent>
                     <ui-user-identity [user]="{ id: user.id, displayName: $any(user).name || $any(user).displayName, username: $any(user).username || $any(user).slug || user.id, avatarUrl: user.avatarUrl }"></ui-user-identity>
                   </div>
                   <div uiListItemEnd>
@@ -186,7 +160,7 @@
             <ui-list [bordered]="false" [radius]="false" [dividers]="true">
               @for (biz of businessesResource.value()?.items || []; track biz.id) {
                 <label uiListItem>
-                  <div uiListItemStart>
+                  <div uiListItemContent>
                     <ui-business-identity [business]="biz"></ui-business-identity>
                   </div>
                   <div uiListItemEnd>
@@ -245,9 +219,17 @@
             <ui-list [bordered]="false" [radius]="false" [dividers]="true">
               @for (loc of locationsResource.value() || []; track loc.id || loc.externalId) {
                 <label uiListItem>
-                  <div uiListItemStart style="display: flex; align-items: center; gap: var(--size-8);">
+                  <div uiListItemStart>
                     <svg lucideMapPin aria-hidden="true" style="color: var(--text-muted); width: 20px; height: 20px;"></svg>
-                    <span>{{ loc.name || loc.formattedAddress || 'Location' }}</span>
+                  </div>
+                  <div uiListItemContent>
+                    <div uiListItemTitle class="truncate">{{ loc.name || loc.formattedAddress || 'Location' }}</div>
+                    @if (loc.formattedAddress && loc.formattedAddress !== loc.name) {
+                      <div uiListItemDescription class="truncate">{{ loc.formattedAddress }}</div>
+                    }
+                  </div>
+                  <div uiListItemEnd>
+                    <ui-follow-button [isFollowed]="!!$any(loc).isFollowed" display="icon"></ui-follow-button>
                   </div>
                 </label>
               }
@@ -268,7 +250,7 @@
       <ui-list [bordered]="false" [radius]="false" [dividers]="true">
         @for (user of usersResource.value()?.items || []; track user.id) {
           <label uiListItem>
-            <div uiListItemStart>
+            <div uiListItemContent>
               <ui-user-identity [user]="{ id: user.id, displayName: $any(user).name || $any(user).displayName, username: $any(user).username || $any(user).slug || user.id, avatarUrl: user.avatarUrl }"></ui-user-identity>
             </div>
             <div uiListItemEnd>
@@ -293,9 +275,17 @@
       <ui-list [bordered]="false" [radius]="false" [dividers]="true">
         @for (loc of locationsResource.value() || []; track loc.id || loc.externalId) {
           <label uiListItem>
-            <div uiListItemStart style="display: flex; align-items: center; gap: var(--size-8);">
+            <div uiListItemStart>
               <svg lucideMapPin aria-hidden="true" style="color: var(--text-muted); width: 20px; height: 20px;"></svg>
-              <span>{{ loc.name || loc.formattedAddress || 'Location' }}</span>
+            </div>
+            <div uiListItemContent>
+              <div uiListItemTitle class="truncate">{{ loc.name || loc.formattedAddress || 'Location' }}</div>
+              @if (loc.formattedAddress && loc.formattedAddress !== loc.name) {
+                <div uiListItemDescription class="truncate">{{ loc.formattedAddress }}</div>
+              }
+            </div>
+            <div uiListItemEnd>
+              <ui-follow-button [isFollowed]="!!$any(loc).isFollowed" display="icon"></ui-follow-button>
             </div>
           </label>
         }
@@ -352,7 +342,7 @@
       <ui-list [bordered]="false" [radius]="false" [dividers]="true">
         @for (biz of businessesResource.value()?.items || []; track biz.id) {
           <label uiListItem>
-            <div uiListItemStart>
+            <div uiListItemContent>
               <ui-business-identity [business]="biz"></ui-business-identity>
             </div>
             <div uiListItemEnd>

@@ -5,7 +5,7 @@
     <div class="filter-section">
       <label>Location</label>
       
-      <app-location-picker
+      <ui-location-picker
         [currentAddress]="internalModel().locationName || undefined"
         triggerLabel="Anywhere"
         (confirmed)="onLocationPicked($event)"

@@ -102,44 +102,12 @@
 
 .search-tabs {
   display: flex;
-  gap: 0.5rem;
-  background-color: var(--background);
-  padding: 0.25rem;
-  border-radius: var(--radius-md);
   overflow-x: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 .search-tabs::-webkit-scrollbar {
   display: none;
-}
-
-.tab-btn {
-  flex: 1 0 auto;
-  padding: 0.5rem 1rem;
-  border: none;
-  background: transparent;
-  border-radius: var(--radius-sm);
-  font-weight: 500;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  white-space: nowrap;
-}
-
-.tab-btn .count {
-  font-size: 0.875rem;
-  opacity: 0.8;
-}
-
-.tab-btn.active {
-  background-color: var(--surface);
-  color: var(--text);
-  box-shadow: var(--shadow-sm);
 }
 
 .search-results {

@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { Component, signal } from '@angular/core';
 import { Tabs, TabList, TabTrigger, TabPanel } from './index';
+import { Button } from '../../atoms/button/button';
 import { LucideSettings, LucideUser, LucideBell, LucideStar } from '@lucide/angular';
 
 @Component({
   selector: 'app-tabs-story',
   standalone: true,
-  imports: [Tabs, TabList, TabTrigger, TabPanel, LucideSettings, LucideUser, LucideBell, LucideStar],
+  imports: [Tabs, TabList, TabTrigger, TabPanel, Button, LucideSettings, LucideUser, LucideBell, LucideStar],
   template: `
     <div style="padding: 2rem; display: flex; flex-direction: column; gap: 3rem; background: var(--surface-page); font-family: sans-serif;">
       
@@ -14,15 +15,15 @@ import { LucideSettings, LucideUser, LucideBell, LucideStar } from '@lucide/angu
         <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Line Appearance (Default)</h3>
         <app-tabs defaultValue="profile">
           <app-tab-list appearance="line" size="md">
-            <button app-tab-trigger value="profile">
+            <button app-button app-tab-trigger value="profile">
               <svg lucideUser></svg>
               Profile
             </button>
-            <button app-tab-trigger value="security">
+            <button app-button app-tab-trigger value="security">
               <svg lucideSettings></svg>
               Security
             </button>
-            <button app-tab-trigger value="notifications">
+            <button app-button app-tab-trigger value="notifications">
               <svg lucideBell></svg>
               Notifications
             </button>
@@ -46,14 +47,14 @@ import { LucideSettings, LucideUser, LucideBell, LucideStar } from '@lucide/angu
         <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Pill Appearance</h3>
         <app-tabs defaultValue="favorites">
           <app-tab-list appearance="pill" size="md">
-            <button app-tab-trigger value="favorites">
+            <button app-button app-tab-trigger value="favorites">
               <svg lucideStar></svg>
               Favorites
             </button>
-            <button app-tab-trigger value="recent">
+            <button app-button app-tab-trigger value="recent">
               Recent
             </button>
-            <button app-tab-trigger value="archived">
+            <button app-button app-tab-trigger value="archived">
               Archived
             </button>
           </app-tab-list>
@@ -70,9 +71,9 @@ import { LucideSettings, LucideUser, LucideBell, LucideStar } from '@lucide/angu
         <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Enclosed Appearance (Full Width)</h3>
         <app-tabs defaultValue="week">
           <app-tab-list appearance="enclosed" size="sm" [fullWidth]="true">
-            <button app-tab-trigger value="day">Day</button>
-            <button app-tab-trigger value="week">Week</button>
-            <button app-tab-trigger value="month">Month</button>
+            <button app-button app-tab-trigger value="day">Day</button>
+            <button app-button app-tab-trigger value="week">Week</button>
+            <button app-button app-tab-trigger value="month">Month</button>
           </app-tab-list>
         </app-tabs>
       </section>
@@ -82,20 +83,20 @@ import { LucideSettings, LucideUser, LucideBell, LucideStar } from '@lucide/angu
         <div style="display: flex; flex-direction: column; gap: 1rem;">
           <app-tabs defaultValue="1">
             <app-tab-list appearance="enclosed" size="sm">
-              <button app-tab-trigger value="1">Small Tab</button>
-              <button app-tab-trigger value="2">Second</button>
+              <button app-button app-tab-trigger value="1">Small Tab</button>
+              <button app-button app-tab-trigger value="2">Second</button>
             </app-tab-list>
           </app-tabs>
           <app-tabs defaultValue="1">
             <app-tab-list appearance="enclosed" size="md">
-              <button app-tab-trigger value="1">Medium Tab</button>
-              <button app-tab-trigger value="2">Second</button>
+              <button app-button app-tab-trigger value="1">Medium Tab</button>
+              <button app-button app-tab-trigger value="2">Second</button>
             </app-tab-list>
           </app-tabs>
           <app-tabs defaultValue="1">
             <app-tab-list appearance="enclosed" size="lg">
-              <button app-tab-trigger value="1">Large Tab</button>
-              <button app-tab-trigger value="2">Second</button>
+              <button app-button app-tab-trigger value="1">Large Tab</button>
+              <button app-button app-tab-trigger value="2">Second</button>
             </app-tab-list>
           </app-tabs>
         </div>

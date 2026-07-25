@@ -1,11 +1,14 @@
 .ui-business-identity {
-  display: block;
+  display: flex;
+  align-items: center;
   text-align: left;
+  min-width: 0;
 }
 
 .ui-business-identity-info {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: var(--size-2);
   min-width: 0;
 }

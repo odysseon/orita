@@ -62,12 +62,19 @@ export class HeaderEnd {}
     }
     .ui-header-center {
       display: flex;
+      align-items: center;
       justify-content: center;
       flex: 2;
+      min-width: 0;
+      max-width: calc(100% - 110px);
       text-align: center;
       font-weight: var(--font-weight-semibold);
       font-size: var(--font-size-md);
       color: var(--text-primary);
+    }
+    .ui-header-center > * {
+      min-width: 0;
+      max-width: 100%;
     }
   `],
   host: {

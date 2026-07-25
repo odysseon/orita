@@ -27,7 +27,10 @@ import { AuthService } from '../../../../core/services/auth.service';
       </ng-container>
     </ui-header>
   `,
-  styles: [':host { display: block; width: 100%; }']
+  styles: [`
+    :host { display: block; width: 100%; }
+    [rootHeaderCenter] { display: flex; align-items: center; justify-content: center; min-width: 0; max-width: 100%; }
+  `]
 })
 export class RootHeader {
   auth = inject(AuthService);

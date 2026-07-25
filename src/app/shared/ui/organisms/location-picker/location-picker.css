@@ -1,13 +1,42 @@
+:host {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+}
+
 .location-picker__trigger {
-  padding-left: 0;
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--size-6, 6px);
+  max-width: 100%;
+  padding-left: var(--size-8, 8px);
+  padding-right: var(--size-8, 8px);
   color: var(--text-secondary);
+  min-width: 0;
 }
 
 .location-picker__trigger svg {
-  width: var(--size-18);
-  height: var(--size-18);
+  flex-shrink: 0;
+  width: var(--size-18, 18px);
+  height: var(--size-18, 18px);
   color: var(--text-muted);
-  transform: translateY(1px);
+}
+
+.location-picker__label {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 200px;
+}
+
+@media (min-width: 640px) {
+  .location-picker__label {
+    max-width: 320px;
+  }
 }
 
 .location-picker__body {

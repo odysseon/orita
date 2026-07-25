@@ -1,4 +1,4 @@
-import { Component, computed, contentChildren, inject, input, ViewEncapsulation } from '@angular/core';
+import { Component, computed, contentChildren, effect, inject, input, ViewEncapsulation } from '@angular/core';
 import { TabsContext } from './tabs-context';
 import { TabTrigger } from './tab-trigger';
 
@@ -25,6 +25,13 @@ export class TabList {
   context = inject(TabsContext);
 
   classes = computed(() => `app-tabs--${this.appearance()} app-tabs--size-${this.size()}`);
+
+  constructor() {
+    effect(() => {
+      this.context.appearance.set(this.appearance());
+      this.context.size.set(this.size());
+    }, { allowSignalWrites: true });
+  }
 
   onKeydown(event: KeyboardEvent) {
     const triggerList = this.triggers().filter(t => !t.disabled());

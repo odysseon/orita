@@ -1,9 +1,5 @@
 <div class="nearby">
-  <app-root-header [uiScrollHide]="true" scrollHidePosition="top">
-    <div rootHeaderEnd>
-      <button app-button intent="primary" size="sm" (click)="openNewPostSheet()">+ Post</button>
-    </div>
-  </app-root-header>
+  <app-root-header [uiScrollHide]="true" scrollHidePosition="top"></app-root-header>
 
   @if (items().length === 0) {
     @if (error()) {
@@ -40,7 +36,7 @@
       <div class="feed-container">
         <ui-empty-state
           title="No activity nearby right now"
-          description="Be the first to post something in your neighborhood!"
+          description="Be the first to post an opportunity in your neighborhood!"
         >
           <svg lucideMapPin aria-hidden="true" icon></svg>
           <button app-button intent="primary" fullWidth (click)="openNewPostSheet()">
@@ -90,6 +86,11 @@
       }
     </div>
   }
+
+  <button ui-fab intent="primary" size="md" [extended]="true" (click)="openNewPostSheet()" aria-label="Post Opportunity">
+    <svg lucidePlus aria-hidden="true"></svg>
+    <span>Post Opportunity</span>
+  </button>
 
   @if (showNewPostSheet()) {
     <app-new-post-sheet (close)="showNewPostSheet.set(false)" (created)="refresh(true)" />
