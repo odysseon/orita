@@ -8,6 +8,7 @@ import {
   DestroyRef,
 } from '@angular/core';
 import { LucideUpload, LucideX } from '@lucide/angular';
+import { Button } from '../ui/atoms/button/button';
 
 export interface IMediaPreview {
   url: string;
@@ -17,7 +18,7 @@ export interface IMediaPreview {
 
 @Component({
   selector: 'app-media-selector',
-  imports: [LucideUpload, LucideX],
+  imports: [LucideUpload, LucideX, Button],
   templateUrl: './media-selector.html',
   styleUrl: './media-selector.css',
 })

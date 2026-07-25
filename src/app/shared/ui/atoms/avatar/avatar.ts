@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { LucideUser, LucideLogIn } from '@lucide/angular';
 
-export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 export type AvatarShape = 'circle' | 'rounded' | 'square';
 export type AvatarLoading = 'lazy' | 'eager';
 export type AvatarStatus = 'online' | 'offline' | 'away' | 'busy';

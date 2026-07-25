@@ -35,13 +35,14 @@
 
   <!-- Identity -->
   <div class="biz-identity">
-    <div class="biz-identity__avatar">
-      @if (biz.avatarUrl) {
-      <img [src]="biz.avatarUrl" [alt]="biz.name" />
-      } @else {
-      <svg lucideStore aria-hidden="true"></svg>
-      }
-    </div>
+    <app-avatar
+      [src]="biz.avatarUrl"
+      [alt]="biz.name"
+      [fallback]="biz.name ? biz.name.charAt(0).toUpperCase() : 'B'"
+      shape="rounded"
+      size="xl"
+      style="border: 3px solid var(--surface-page); box-shadow: var(--shadow-sm); z-index: 1; flex-shrink: 0;"
+    ></app-avatar>
 
     <div class="biz-identity__main">
       <div class="biz-identity__row">

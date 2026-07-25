@@ -39,6 +39,10 @@
         <div class="media-preview-card glass">
           <img [src]="preview.url" alt="Uploaded media preview" class="media-preview-image" />
           <button
+            app-button
+            appearance="solid"
+            shape="circle"
+            size="icon"
             type="button"
             class="media-preview-remove"
             (click)="removePreview(preview)"

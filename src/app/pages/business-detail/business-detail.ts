@@ -21,6 +21,7 @@ import {
 } from '@lucide/angular';
 import { Badge } from '../../shared/ui/atoms/badge/badge';
 import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
+import { Avatar } from '../../shared/ui/atoms/avatar/avatar';
 import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.interface';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
@@ -50,7 +51,6 @@ const DAY_LABELS: Record<string, string> = {
     FollowButton,
     EmptyState,
     SeoComponent,
-    LucideStore,
     LucideMapPin,
     LucidePhone,
     LucideMail,
@@ -65,7 +65,8 @@ const DAY_LABELS: Record<string, string> = {
     DatePipe,
     ShareModalComponent,
     Badge,
-    Skeleton
+    Skeleton,
+    Avatar
   ],
   templateUrl: './business-detail.html',
   styleUrl: './business-detail.css',

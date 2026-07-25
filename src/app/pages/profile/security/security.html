@@ -124,6 +124,10 @@
           [attr.aria-invalid]="changePasswordForm.currentPassword().touched() && changePasswordForm.currentPassword().invalid()"
         />
         <button
+          app-button
+          appearance="ghost"
+          size="icon"
+          shape="circle"
           class="app-input-toggle"
           type="button"
           [attr.aria-label]="showCurrentPassword() ? 'Hide password' : 'Show password'"
@@ -153,6 +157,10 @@
           [attr.aria-invalid]="changePasswordForm.newPassword().touched() && changePasswordForm.newPassword().invalid()"
         />
         <button
+          app-button
+          appearance="ghost"
+          size="icon"
+          shape="circle"
           class="app-input-toggle"
           type="button"
           [attr.aria-label]="showNewPassword() ? 'Hide password' : 'Show password'"
@@ -198,6 +206,10 @@
           [attr.aria-invalid]="addPasswordForm.password().touched() && addPasswordForm.password().invalid()"
         />
         <button
+          app-button
+          appearance="ghost"
+          size="icon"
+          shape="circle"
           class="app-input-toggle"
           type="button"
           [attr.aria-label]="showAddPassword() ? 'Hide password' : 'Show password'"

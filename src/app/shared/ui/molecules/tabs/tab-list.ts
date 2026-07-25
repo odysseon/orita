@@ -3,7 +3,7 @@ import { TabsContext } from './tabs-context';
 import { TabTrigger } from './tab-trigger';
 
 @Component({
-  selector: 'app-tab-list',
+  selector: 'ui-tab-list',
   standalone: true,
   template: `<ng-content></ng-content>`,
   styleUrl: './tabs.css',
