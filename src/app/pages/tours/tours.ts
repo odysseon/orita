@@ -116,10 +116,10 @@ export class ToursPage implements OnInit, OnDestroy {
     }, 400); // match css transition duration
   }
 
-  // Mocking the local context since the API doesn't return business location/rating directly in the Tour schema yet
   mockBusinessData(tour: IBusinessTour): any {
     return {
       name: 'The Place Restaurant', // Ideally we fetch this from business profile
+      slug: (tour as any).businessSlug || 'the-place-restaurant',
       rating: 4.8,
       locationText: 'Bodija, Ibadan',
       distanceStr: '120 m',
@@ -133,7 +133,7 @@ export class ToursPage implements OnInit, OnDestroy {
         console.log('Get directions to', tour.businessProfileId);
         break;
       case 'business':
-        this.#router.navigate(['/b', tour.businessProfileId]);
+        this.#router.navigate(['/b', (tour as any).businessSlug || this.mockBusinessData(tour).slug]);
         break;
       case 'message':
         this.#messagingFacade.messageBusiness(tour.businessProfileId, {

@@ -26,7 +26,7 @@
           </app-form-field>
 
           <app-form-field label="Status" fieldId="status">
-            <select id="status" [formField]="tourForm.status">
+            <select id="status" app-select [formField]="tourForm.status">
               <option value="DRAFT">Draft</option>
               <option value="PUBLISHED">Published</option>
             </select>

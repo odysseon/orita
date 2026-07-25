@@ -200,11 +200,11 @@
                 <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('tour')">See all</button>
               }
             </div>
-            <app-grid>
+            <ui-grid cols="2 md:3 lg:4" gap="sm">
               @for (tour of toursResource.value()?.items || []; track tour.id) {
                 <ui-store-tour-card [tour]="tour" />
               }
-            </app-grid>
+            </ui-grid>
           </section>
         }
 
@@ -321,11 +321,11 @@
         </div>
       }
     } @else if (searchType() === 'tour') {
-      <app-grid>
+      <ui-grid cols="2 md:3 lg:4" gap="sm">
         @for (tour of toursResource.value()?.items || []; track tour.id) {
           <ui-store-tour-card [tour]="tour" />
         }
-      </app-grid>
+      </ui-grid>
       @if ((toursResource.value()?.items?.length || 0) === 0) {
         <ui-empty-state
           title="No tours found"

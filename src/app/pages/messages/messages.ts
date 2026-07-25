@@ -13,9 +13,11 @@ import { LucideTriangleAlert } from '@lucide/angular';
 import { Button } from '../../shared/ui/atoms/button/button';
 import { Badge } from '../../shared/ui/atoms/badge/badge';
 
+import { Tabs, TabList, TabTrigger } from '../../shared/ui/molecules/tabs';
+
 @Component({
   selector: 'app-messages',
-  imports: [RootHeader, ConversationSidebar, ConversationView, NotificationsPage, LucideTriangleAlert, Button, Badge],
+  imports: [RootHeader, ConversationSidebar, ConversationView, NotificationsPage, LucideTriangleAlert, Button, Badge, Tabs, TabList, TabTrigger],
   templateUrl: './messages.html',
   styleUrl: './messages.css'
 })

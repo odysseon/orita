@@ -69,12 +69,10 @@
             <svg lucideSend aria-hidden="true"></svg>
           </button>
           <app-share-button [title]="biz.name" [text]="biz.description || ''" />
-          <app-follow-button 
-            [targetId]="biz.id"
-            targetType="business"
-            [followed]="biz.isFollowed || false" (followedChange)="biz.isFollowed = $event"
-            variant="action"
-          />
+          <ui-follow-button 
+            [isFollowed]="biz.isFollowed || false"
+            (toggle)="toggleFollow(biz)"
+          ></ui-follow-button>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { UserIdentity } from '../../molecules/identity/user-identity/user-identity';
-import { BusinessIdentity } from '../../molecules/identity/business-identity/business-identity';
+import { UserIdentity } from '../../identity/user-identity/user-identity';
+import { BusinessIdentity } from '../../identity/business-identity/business-identity';
+
 import { FollowButton } from '../../actions/follow-button/follow-button';
 import { ListItem, ListItemStart, ListItemContent, ListItemEnd, List } from '../../surfaces/list/list';
 

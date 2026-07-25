@@ -1,17 +1,19 @@
 <div class="messages-page-wrapper">
 @if (isDesktop() || !activeConversationId()) {
   <app-root-header>
-    <div rootHeaderCenter class="message-tabs">
-      <button class="message-tab" [class.active]="activeTab === 'inbox'" (click)="activeTab = 'inbox'">
-        Inbox
-      </button>
-      <button class="message-tab" [class.active]="activeTab === 'updates'" (click)="activeTab = 'updates'">
-        Updates
-        @if (notificationService.unreadCount() > 0) {
-          <app-badge intent="error">{{ notificationService.unreadCount() > 99 ? '99+' : notificationService.unreadCount() }}</app-badge>
-        }
-      </button>
-    </div>
+    <ui-tabs [value]="activeTab" (valueChange)="activeTab = $any($event)" rootHeaderCenter class="message-tabs-root">
+      <ui-tab-list appearance="enclosed" size="sm">
+        <button app-button app-tab-trigger value="inbox" (click)="activeTab = 'inbox'">
+          Inbox
+        </button>
+        <button app-button app-tab-trigger value="updates" (click)="activeTab = 'updates'">
+          Updates
+          @if (notificationService.unreadCount() > 0) {
+            <app-badge intent="error" appearance="solid" class="tab-pill-badge">{{ notificationService.unreadCount() > 99 ? '99+' : notificationService.unreadCount() }}</app-badge>
+          }
+        </button>
+      </ui-tab-list>
+    </ui-tabs>
   </app-root-header>
 }
 

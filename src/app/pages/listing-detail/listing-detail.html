@@ -39,10 +39,10 @@
     } @else {
     <svg lucidePackage aria-hidden="true"></svg>
     }
-    <app-save-button 
-      [itemId]="item.id" 
-      itemType="LISTING" 
-      [saved]="item.isSaved || false"
+    <ui-save-button 
+      [isSaved]="item.isSaved || false"
+      (toggle)="toggleSave(item)"
+      appearance="glass"
       style="position: absolute; top: var(--size-12); right: var(--size-12);" />
   </div>
 

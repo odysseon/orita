@@ -8,7 +8,7 @@
 
   <div class="preferences-content">
     @if (profile.hasValue()) {
-      <app-category-browser 
+      <ui-category-browser 
         mode="interest" 
         [selectedIds]="selectedIds()" 
         (selectionChange)="onSelectionChange($event)" 

@@ -7,7 +7,8 @@ import {
   ListItemDescription, 
   ListItemEnd 
 } from '../../../surfaces/list/list';
-import { Avatar } from '../../../atoms/avatar/avatar';
+import { Avatar } from '../../../identity/avatar/avatar';
+
 import { DatePipe } from '@angular/common';
 
 @Component({

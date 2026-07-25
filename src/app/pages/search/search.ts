@@ -15,13 +15,14 @@ import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/s
 import { ListingSearchResult } from '../../shared/ui/organisms/search-results/listing-search-result/listing-search-result';
 import { List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription } from '../../shared/ui/surfaces/list/list';
 import { Tabs, TabList, TabTrigger } from '../../shared/ui/molecules/tabs';
-import { UserIdentity } from '../../shared/ui/molecules/identity/user-identity/user-identity';
-import { BusinessIdentity } from '../../shared/ui/molecules/identity/business-identity/business-identity';
+import { UserIdentity } from '../../shared/ui/identity/user-identity/user-identity';
+import { BusinessIdentity } from '../../shared/ui/identity/business-identity/business-identity';
+
 import { FollowButton } from '../../shared/ui/actions/follow-button/follow-button';
 import { SaveButton } from '../../shared/ui/actions/save-button/save-button';
 import { SearchHeader } from '../../shared/ui/organisms/search-header/search-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
-import { AppGrid } from '../../shared/grid/grid';
+import { Grid } from '../../shared/ui/layouts/grid/grid';
 import { SearchFiltersComponent, SearchFilterState } from './components/search-filters/search-filters';
 import { RecentSearches } from './components/recent-searches/recent-searches';
 import { TrendingCategories } from './components/trending-categories/trending-categories';
@@ -35,8 +36,9 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
   imports: [
     LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
     BusinessCard, StoreTourCard, ListingSearchResult, List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription, Tabs, TabList, TabTrigger, UserIdentity, BusinessIdentity, FollowButton, SaveButton, SearchHeader, ScrollHideDirective,
-    AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState, Button, Skeleton
+    Grid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState, Button, Skeleton
   ],
+
   templateUrl: './search.html',
   styleUrl: './search.css',
 })

@@ -16,6 +16,7 @@ import { AppFormField } from '../../../../../shared/ui/atoms/form-field/form-fie
 import { Skeleton } from '../../../../../shared/ui/atoms/skeleton/skeleton';
 import { BusinessTourService, IBusinessTour, BusinessTourStatus, IBusinessTourMediaItem } from '../../../../../core/services/business-tour.service';
 import { Button } from '../../../../../shared/ui/atoms/button/button';
+import { SelectDirective } from '../../../../../shared/ui/atoms/forms/select';
 
 @Component({
   selector: 'app-edit-tour',
@@ -24,11 +25,12 @@ import { Button } from '../../../../../shared/ui/atoms/button/button';
     LucideSave,
     LucideImagePlus,
     LucideX,
-    Skeleton, Button
+    Skeleton, Button, SelectDirective
   ],
   templateUrl: './edit-tour.html',
   styleUrl: './edit-tour.css',
 })
+
 export class EditTour implements OnInit {
   #http = inject(HttpClient);
   #toast = inject(ToastService);

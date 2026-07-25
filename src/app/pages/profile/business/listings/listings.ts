@@ -21,7 +21,8 @@ import { Button } from '../../../../shared/ui/atoms/button/button';
 import { Skeleton } from '../../../../shared/ui/atoms/skeleton/skeleton';
 
 import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
-import { Drawer } from '../../../../shared/drawer/drawer';
+import { Drawer } from '../../../../shared/ui/overlays/drawer/drawer';
+
 import { CompletionNudge } from '../../../../shared/completion-nudge/completion-nudge';
 import { ListingService } from '../../../../core/services/listing.service';
 import { PublicationIssue } from '../../../../core/services/business-profile.service';

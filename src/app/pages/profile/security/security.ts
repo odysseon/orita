@@ -16,7 +16,8 @@ import { RouterLink } from '@angular/router';
 import { ToastService } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
 import { IProfile } from '../profile.interface';
-import { Drawer } from '../../../shared/drawer/drawer';
+import { Drawer } from '../../../shared/ui/overlays/drawer/drawer';
+
 import { AppFormField } from '../../../shared/ui/atoms/form-field/form-field';
 import { Button } from '../../../shared/ui/atoms/button/button';
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';

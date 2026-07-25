@@ -54,12 +54,10 @@
   <div class="location-picker__footer">
     <div class="location-picker__actions-left">
       @if (provisional()?.id) {
-        <app-follow-button 
-          [targetId]="provisional()!.id"
-          targetType="location"
-          [(followed)]="provisionalIsFollowed"
-          variant="action"
-        />
+        <ui-follow-button 
+          [isFollowed]="provisionalIsFollowed()"
+          (toggle)="toggleProvisionalFollow()"
+        ></ui-follow-button>
       }
     </div>
     <div class="location-picker__actions-right">

@@ -20,10 +20,15 @@ import { DrawerScrollService } from './drawer-scroll.service';
 import { DrawerFocusService } from './drawer-focus.service';
 import { DrawerDragService } from './drawer-drag.service';
 
-export type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
+import { Button } from '../../atoms/button/button';
+
+export type DrawerSize = 'sm' | 'md' | 'lg' | 'full' | string;
 
 @Component({
-  selector: 'app-drawer',
+
+  selector: 'ui-drawer, app-drawer',
+  imports: [Button],
+
   templateUrl: './drawer.html',
   styleUrl: './drawer.css',
   providers: [DrawerFocusService, DrawerDragService],
@@ -39,10 +44,12 @@ export class Drawer implements OnInit, OnDestroy {
 
   open = model<boolean>(false);
   position = input<DrawerPosition>(DRAWER_DEFAULTS.position);
-  size = input<DrawerSize>('md');
+  size = input<string>(DRAWER_DEFAULTS.size);
   closeOnBackdrop = input<boolean>(DRAWER_DEFAULTS.closeOnBackdrop);
   closeOnEscape = input<boolean>(DRAWER_DEFAULTS.closeOnEscape);
   dismissible = input<boolean>(DRAWER_DEFAULTS.dismissible);
+  showCloseButton = input<boolean>(DRAWER_DEFAULTS.showCloseButton);
+  title = input<string>();
   ariaLabel = input<string>(DRAWER_DEFAULTS.ariaLabel);
 
   opened = output<void>();
@@ -53,6 +60,8 @@ export class Drawer implements OnInit, OnDestroy {
 
   readonly isRendered = signal(false);
   readonly isOpenPhase = signal(false);
+
+  readonly showHeader = computed(() => !!this.title() || this.showCloseButton());
 
   readonly isCenter = computed(() => this.position() === 'center');
   readonly isVertical = computed(() => this.position() === 'top' || this.position() === 'bottom');
@@ -66,15 +75,33 @@ export class Drawer implements OnInit, OnDestroy {
   });
 
   positionClass = computed(() => `drawer-panel--${this.position()}`);
-  sizeClass = computed(() => `drawer-panel--size-${this.size()}`);
 
   panelStyle = computed(() => {
+    const pos = this.position();
+    const s = this.size();
     const base: Record<string, string> = {};
+
+    if (pos === 'left' || pos === 'right') {
+      base['width'] = s;
+      base['max-width'] = '100vw';
+      base['height'] = '100%';
+    } else if (pos === 'top' || pos === 'bottom') {
+      base['width'] = '100%';
+      base['height'] = s;
+      base['max-height'] = '100vh';
+    } else {
+      base['width'] = s;
+      base['max-width'] = '90vw';
+      base['max-height'] = '90vh';
+      base['border-radius'] = 'var(--radius-lg)';
+    }
+
     const dragTrans = this.dragService.dragTransform();
     if (dragTrans) {
       base['transform'] = dragTrans;
       base['transition'] = 'none';
     }
+
     return base;
   });
 

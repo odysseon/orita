@@ -14,6 +14,7 @@ import { form, FormField, required } from '@angular/forms/signals';
 import { AppFormField } from '../../../../../shared/ui/atoms/form-field/form-field';
 import { CategoryService, ICategoryAttribute } from '../../../../../core/services/category.service';
 import { Button } from '../../../../../shared/ui/atoms/button/button';
+import { SelectDirective } from '../../../../../shared/ui/atoms/forms/select';
 
 interface IMedia {
   id: string;
@@ -23,10 +24,11 @@ interface IMedia {
 
 @Component({
   selector: 'app-edit-listing',
-  imports: [FormField, AppFormField, LucideSave, MediaSelector, Button],
+  imports: [FormField, AppFormField, LucideSave, MediaSelector, Button, SelectDirective],
   templateUrl: './edit-listing.html',
   styleUrl: './edit-listing.css',
 })
+
 export class EditListing implements OnInit {
   #http = inject(HttpClient);
   #toast = inject(ToastService);

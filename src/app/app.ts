@@ -4,8 +4,9 @@ import { RouterOutlet, Router, ActivatedRoute, NavigationEnd } from '@angular/ro
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
 import { ToastContainer } from './core/components/toast-container/toast-container';
-import { NavList } from './shared/nav-list/nav-list';
-import { NavItem } from './shared/nav-item/nav-item';
+import { Tabs, TabList, TabTrigger } from './shared/ui/molecules/tabs';
+import { Button } from './shared/ui/atoms/button/button';
+
 import { ScrollHideDirective } from './shared/directives/scroll-hide.directive';
 import { Badge } from './shared/ui/atoms/badge/badge';
 import { LucideHouse, LucideSearch, LucideCompass, LucideMessageCircle, LucideMapPin } from '@lucide/angular';
@@ -18,8 +19,10 @@ import { MessagingRepository } from './core/services/messaging-repository.servic
   imports: [
     RouterOutlet,
     ToastContainer,
-    NavList,
-    NavItem,
+    Tabs,
+    TabList,
+    TabTrigger,
+    Button,
     ScrollHideDirective,
     LucideHouse,
     LucideSearch,
@@ -59,6 +62,14 @@ export class App {
     return isRoot;
   });
 
+  readonly currentNavValue = toSignal(
+    this.#router.events.pipe(
+      filter((e) => e instanceof NavigationEnd),
+      map(() => this.getNavTabValue(this.#router.url))
+    ),
+    { initialValue: this.getNavTabValue(this.#router.url) }
+  );
+
   readonly isLanding = toSignal(
     this.#router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
@@ -94,6 +105,14 @@ export class App {
       current = current.firstChild;
     }
     return current.data?.['isLandingPage'] === true;
+  }
+
+  private getNavTabValue(url: string): string {
+    if (url.startsWith('/search')) return 'search';
+    if (url.startsWith('/tours')) return 'tours';
+    if (url.startsWith('/messages')) return 'messages';
+    if (url.startsWith('/nearby')) return 'nearby';
+    return 'home';
   }
 
   isActive(path: string): boolean {

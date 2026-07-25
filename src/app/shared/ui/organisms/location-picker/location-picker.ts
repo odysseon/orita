@@ -3,7 +3,8 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { of, firstValueFrom } from 'rxjs';
 import { LucideMapPin } from '@lucide/angular';
-import { Drawer } from '../../../drawer/drawer';
+import { Drawer } from '../../overlays/drawer/drawer';
+
 import { LocationGpsButton } from '../../molecules/location-gps-button/location-gps-button';
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from '../../molecules/combobox';
 import { SearchBar } from '../../molecules/search-bar/search-bar';
@@ -11,7 +12,7 @@ import { InputDirective } from '../../atoms/forms';
 import { Button } from '../../atoms/button/button';
 import { LocationService, Location } from '../../../../core/services/location.service';
 import { FollowService } from '../../../../core/services/follow.service';
-import { FollowButton } from '../../../follow-button/follow-button';
+import { FollowButton } from '../../actions/follow-button/follow-button';
 
 @Component({
   selector: 'ui-location-picker',
@@ -108,5 +109,21 @@ export class LocationPicker {
   onDismissed(): void {
     this.provisional.set(null);
     this.provisionalIsFollowed.set(false);
+  }
+
+  async toggleProvisionalFollow(): Promise<void> {
+    const loc = this.provisional();
+    if (!loc?.id) return;
+    const current = this.provisionalIsFollowed();
+    try {
+      if (current) {
+        await firstValueFrom(this.#followService.unfollow('location', loc.id));
+      } else {
+        await firstValueFrom(this.#followService.follow('location', loc.id));
+      }
+      this.provisionalIsFollowed.set(!current);
+    } catch {
+      // ignore
+    }
   }
 }

@@ -23,7 +23,7 @@
     } @else if (step === 'location') {
       <div class="welcome-location">
         <h2 class="welcome-location-title">Where are you exploring?</h2>
-        <app-location-selector (locationSelected)="onLocationSelected($event)" />
+        <ui-location-picker triggerLabel="Select your location" (confirmed)="onLocationSelected($event)"></ui-location-picker>
       </div>
     } @else if (step === 'interests') {
       <div class="welcome-interests">
@@ -31,7 +31,7 @@
         <p class="welcome-interests-subtitle">Choose a few interests to personalize your discovery feed. You can change these anytime.</p>
         
         <div class="welcome-interests-browser">
-          <app-category-browser 
+          <ui-category-browser 
             mode="interest" 
             (selectionChange)="onInterestsChange($event)" 
           />

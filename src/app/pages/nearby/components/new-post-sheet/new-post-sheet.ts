@@ -4,8 +4,10 @@ import { form, required, FormField, FormRoot, SchemaPathTree, FieldTree } from '
 import { OpportunityService, CreateOpportunityDto } from '../../../../core/services/opportunity.service';
 import { LocationService } from '../../../../core/services/location.service';
 import { ToastService } from '../../../../core/services/toast';
-import { Drawer } from '../../../../shared/drawer/drawer';
+import { Drawer } from '../../../../shared/ui/overlays/drawer/drawer';
+
 import { Button } from '../../../../shared/ui/atoms/button/button';
+import { SelectDirective } from '../../../../shared/ui/atoms/forms/select';
 import { LucideX, LucideLoaderCircle } from '@lucide/angular';
 
 interface NewPostModel {
@@ -17,10 +19,11 @@ interface NewPostModel {
 @Component({
   selector: 'app-new-post-sheet',
   standalone: true,
-  imports: [Drawer, FormField, FormRoot, Button, LucideX, LucideLoaderCircle],
+  imports: [Drawer, FormField, FormRoot, Button, SelectDirective, LucideX, LucideLoaderCircle],
   templateUrl: './new-post-sheet.html',
   styleUrls: ['./new-post-sheet.css'],
 })
+
 export class NewPostSheet {
   #opportunityService = inject(OpportunityService);
   #locationService = inject(LocationService);

@@ -1,5 +1,6 @@
 import { Component, input, ViewEncapsulation } from '@angular/core';
-import { UserIdentity } from '../../../molecules/identity/user-identity/user-identity';
+import { UserIdentity } from '../../../identity/user-identity/user-identity';
+
 import { Card } from '../../../atoms/card/card';
 
 @Component({
