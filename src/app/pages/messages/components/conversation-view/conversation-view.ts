@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
-import { ConversationContext } from './conversation-context/conversation-context';
-import { MessageList } from './message-list/message-list';
-import { MessageComposer } from './message-composer/message-composer';
+import { ConversationContext } from '../../../../shared/ui/molecules/messaging/conversation-context/conversation-context';
+import { MessageList } from '../../../../shared/ui/organisms/messaging/message-list/message-list';
+import { MessageComposer } from '../../../../shared/ui/molecules/messaging/message-composer/message-composer';
 import {
   IConversation,
   IConversationPreview,

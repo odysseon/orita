@@ -1,9 +1,9 @@
 import { Component, input, output, ViewChild, ElementRef, AfterViewChecked, effect } from '@angular/core';
-import { MessageBubble } from '../message-bubble/message-bubble';
+import { MessageBubble } from '../../../molecules/messaging/message-bubble/message-bubble';
 import { IMessage } from '../../../../../core/services/messaging.types';
 
 @Component({
-  selector: 'app-message-list',
+  selector: 'ui-message-list',
   imports: [MessageBubble],
   templateUrl: './message-list.html',
   styleUrl: './message-list.css'

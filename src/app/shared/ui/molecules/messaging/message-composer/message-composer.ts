@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { LucideSend, LucidePaperclip, LucidePackage, LucideX, LucideFile, LucideVideo } from '@lucide/angular';
 import { SendMessageCommand, AttachmentSelection, AttachmentSource } from '../../../../../core/services/messaging.types';
 import { DraftMessageService } from '../../../../../core/services/draft-message.service';
-import { AttachSheetComponent } from '../../../../../shared/components/attach-sheet/attach-sheet';
+import { AttachSheetComponent } from '../../../organisms/attach-sheet/attach-sheet';
 import { AttachmentPreviewService } from '../../../../../core/services/attachment-preview.service';
 import { AttachmentValidatorService } from '../../../../../core/services/attachment-validator.service';
 
@@ -15,10 +15,10 @@ interface ComposerAttachment {
   kind: 'IMAGE' | 'VIDEO' | 'AUDIO' | 'FILE';
 }
 
-import { Button } from '../../../../../shared/ui/atoms/button/button';
+import { Button } from '../../../atoms/button/button';
 
 @Component({
-  selector: 'app-message-composer',
+  selector: 'ui-message-composer',
   standalone: true,
   imports: [FormsModule, LucideSend, LucidePaperclip, LucidePackage, LucideX, LucideFile, LucideVideo, AttachSheetComponent, Button],
   templateUrl: './message-composer.html',
