@@ -5,12 +5,17 @@ import {
   ShareService,
   RecentShareableDto,
   ShareableSearchResult,
-} from '../../../core/services/share.service';
-import { DraftMessageService } from '../../../core/services/draft-message.service';
+} from '../../../../core/services/share.service';
+import { DraftMessageService } from '../../../../core/services/draft-message.service';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
-import { AttachmentSelection } from '../../../core/services/messaging.types';
-import { Drawer } from '../../ui/overlays/drawer/drawer';
-
+import { AttachmentSelection } from '../../../../core/services/messaging.types';
+import { Drawer } from '../../overlays/drawer/drawer';
+import { Tabs, TabList, TabTrigger } from '../../molecules/tabs';
+import { Button } from '../../atoms/button/button';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../surfaces/list/list';
+import { SearchBar } from '../../molecules/search-bar/search-bar';
+import { ListingSearchResult } from '../search-results/listing-search-result/listing-search-result';
+import { InputDirective, CheckboxDirective } from '../../atoms/forms';
 import {
   LucideSearch,
   LucidePackage,
@@ -20,16 +25,21 @@ import {
   LucideCamera,
   LucideFileImage,
 } from '@lucide/angular';
-import { SaveService } from '../../../core/services/save.service';
-import { FollowService } from '../../../core/services/follow.service';
+import { SaveService } from '../../../../core/services/save.service';
+import { FollowService } from '../../../../core/services/follow.service';
 
 @Component({
-  selector: 'app-attach-sheet',
+  selector: 'ui-attach-sheet',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
     Drawer,
+    Tabs, TabList, TabTrigger, Button,
+    List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd,
+    SearchBar,
+    ListingSearchResult,
+    InputDirective, CheckboxDirective,
     LucideSearch,
     LucidePackage,
     LucideStore,
@@ -110,6 +120,18 @@ export class AttachSheetComponent implements OnInit {
     this.searchQuery$.next(q);
   }
 
+  onClearSearch() {
+    this.searchQuery.set('');
+    this.searchResults.set([]);
+    this.isSearching.set(false);
+  }
+
+  onTabChanged(val: string | undefined) {
+    if (val === 'ORITA' || val === 'MEDIA') {
+      this.activeTab.set(val);
+    }
+  }
+
   async performSearch(query: string) {
     if (!query.trim()) {
       this.searchResults.set([]);
@@ -134,7 +156,7 @@ export class AttachSheetComponent implements OnInit {
     }
 
     this.#draftStore.attachEmbed(cid, {
-      embedType: type,
+      embedType: type as any,
       targetId: targetId,
     });
     this.onDrawerClose();

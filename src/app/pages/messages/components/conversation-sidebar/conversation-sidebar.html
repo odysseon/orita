@@ -1,35 +1,34 @@
 <aside class="sidebar-container">
-      <div class="sidebar-header">
-        <h2>Messages</h2>
-        <div class="search-box">
-          <svg lucideSearch aria-hidden="true"></svg>
-          <input
-            type="text"
-            placeholder="Search conversations..."
-            [(ngModel)]="searchQuery"
-          />
-        </div>
-      </div>
+  <div class="sidebar-header">
+    <h2>Messages</h2>
+    <ui-search-bar (clear)="searchQuery.set('')">
+      <input
+        app-input
+        type="text"
+        placeholder="Search conversations..."
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+      />
+    </ui-search-bar>
+  </div>
 
-      <div class="sidebar-list">
-        @if (conversations().length === 0) {
-          <div class="empty-state">
-            <h3>Your conversations will appear here.</h3>
-            <p>Start by discovering people and businesses around you. Follow those you're interested in, and your network will grow.</p>
-            <a routerLink="/search" app-button intent="primary">Discover people & places</a>
-          </div>
-        } @else if (filteredConversations().length === 0) {
-          <div class="empty-state">
-            <p>No conversations found.</p>
-          </div>
-        } @else {
-          @for (conv of filteredConversations(); track conv.id) {
-            <app-conversation-item
-              [conversation]="conv"
-              [isActive]="activeId() === conv.id"
-              (select)="selectConversation.emit($event)"
-            />
-          }
-        }
+  <div class="sidebar-list">
+    @if (conversations().length === 0) {
+      <div class="empty-state">
+        <h3>Your conversations will appear here.</h3>
+        <p>Start by discovering people and businesses around you. Follow those you're interested in, and your network will grow.</p>
+        <a routerLink="/search" app-button intent="primary">Discover people & places</a>
       </div>
-    </aside>
+    } @else if (filteredConversations().length === 0) {
+      <div class="empty-state">
+        <p>No conversations found.</p>
+      </div>
+    } @else {
+      @for (conv of filteredConversations(); track conv.id) {
+        <div class="conv-item-wrap" [class.active-item]="activeId() === conv.id" (click)="selectConversation.emit(conv.id)" style="cursor: pointer;">
+          <ui-conversation-list-item [conversation]="toListItemDto(conv)" />
+        </div>
+      }
+    }
+  </div>
+</aside>

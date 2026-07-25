@@ -27,7 +27,7 @@ import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
 import { ShareButton } from '../../shared/share-button/share-button';
-import { ShareModalComponent } from '../../shared/components/share-modal/share-modal';
+import { ShareModalComponent } from '../../shared/ui/organisms/share-modal/share-modal';
 import { FollowButton } from '../../shared/ui/actions/follow-button/follow-button';
 import { FollowService } from '../../core/services/follow.service';
 import { EmptyState } from '../../shared/empty-state/empty-state';

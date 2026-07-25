@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { IConversationAnchor } from '../../../../../core/services/messaging.types';
 
 @Component({
-  selector: 'app-conversation-context',
+  selector: 'ui-conversation-context',
   templateUrl: './conversation-context.html',
   styleUrl: './conversation-context.css'
 })

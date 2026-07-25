@@ -11,7 +11,7 @@ import {
 } from '@lucide/angular';
 import { environment } from '../../../environments/environment';
 import { ShareButton } from '../../shared/share-button/share-button';
-import { ShareModalComponent } from '../../shared/components/share-modal/share-modal';
+import { ShareModalComponent } from '../../shared/ui/organisms/share-modal/share-modal';
 import { SaveButton } from '../../shared/ui/actions/save-button/save-button';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { SeoComponent } from '../../shared/seo/seo.component';

@@ -3,16 +3,16 @@ import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideCheck, LucideCheckCheck, LucideClock, LucideAlertCircle } from '@lucide/angular';
 import { IMessage } from '../../../../../core/services/messaging.types';
-import { MediaGalleryComponent } from '../../../../../shared/components/media-gallery/media-gallery';
-import { MediaGalleryItem } from '../../../../../shared/components/media-viewer/media-viewer.types';
+import { MediaGalleryComponent } from '../../../../components/media-gallery/media-gallery';
+import { MediaGalleryItem } from '../../../../components/media-viewer/media-viewer.types';
 import { AttachmentPreviewService } from '../../../../../core/services/attachment-preview.service';
 
-import { Button } from '../../../../../shared/ui/atoms/button/button';
-import { Avatar } from '../../../../../shared/ui/identity/avatar/avatar';
+import { Button } from '../../../atoms/button/button';
+import { Avatar } from '../../../identity/avatar/avatar';
 
 
 @Component({
-  selector: 'app-message-bubble',
+  selector: 'ui-message-bubble',
   standalone: true,
   imports: [DatePipe, RouterLink, LucideCheck, LucideCheckCheck, LucideClock, LucideAlertCircle, MediaGalleryComponent, Button, Avatar],
   templateUrl: './message-bubble.html',
