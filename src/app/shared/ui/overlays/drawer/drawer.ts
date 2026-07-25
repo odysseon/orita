@@ -15,14 +15,14 @@ import {
   Injector,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { DRAWER_DEFAULTS, DrawerPosition } from './drawer.model';
+import { DRAWER_DEFAULTS, DrawerPosition, DrawerSize } from './drawer.model';
 import { DrawerScrollService } from './drawer-scroll.service';
 import { DrawerFocusService } from './drawer-focus.service';
 import { DrawerDragService } from './drawer-drag.service';
 
 import { Button } from '../../atoms/button/button';
 
-export type DrawerSize = 'sm' | 'md' | 'lg' | 'full' | string;
+export type { DrawerSize };
 
 @Component({
 
@@ -44,7 +44,7 @@ export class Drawer implements OnInit, OnDestroy {
 
   open = model<boolean>(false);
   position = input<DrawerPosition>(DRAWER_DEFAULTS.position);
-  size = input<string>(DRAWER_DEFAULTS.size);
+  size = input<DrawerSize>(DRAWER_DEFAULTS.size);
   closeOnBackdrop = input<boolean>(DRAWER_DEFAULTS.closeOnBackdrop);
   closeOnEscape = input<boolean>(DRAWER_DEFAULTS.closeOnEscape);
   dismissible = input<boolean>(DRAWER_DEFAULTS.dismissible);
@@ -82,17 +82,41 @@ export class Drawer implements OnInit, OnDestroy {
     const base: Record<string, string> = {};
 
     if (pos === 'left' || pos === 'right') {
-      base['width'] = s;
+      const widthMap: Record<DrawerSize, string> = {
+        sm: 'var(--size-320, 320px)',
+        md: 'var(--size-400, 400px)',
+        lg: 'var(--size-560, 560px)',
+        full: '100vw',
+      };
+      base['width'] = widthMap[s] ?? 'var(--size-400, 400px)';
       base['max-width'] = '100vw';
       base['height'] = '100%';
     } else if (pos === 'top' || pos === 'bottom') {
+      const maxHeightMap: Record<DrawerSize, string> = {
+        sm: 'min(45vh, 45dvh)',
+        md: 'min(65vh, 65dvh)',
+        lg: 'min(85vh, 85dvh)',
+        full: '100vh',
+      };
       base['width'] = '100%';
-      base['height'] = s;
-      base['max-height'] = '100vh';
+      base['height'] = 'auto';
+      base['max-height'] = maxHeightMap[s] ?? 'min(65vh, 65dvh)';
     } else {
-      base['width'] = s;
+      const widthMap: Record<DrawerSize, string> = {
+        sm: 'var(--size-360, 360px)',
+        md: 'var(--size-480, 480px)',
+        lg: 'var(--size-640, 640px)',
+        full: '95vw',
+      };
+      const maxHeightMap: Record<DrawerSize, string> = {
+        sm: '50vh',
+        md: '75vh',
+        lg: '85vh',
+        full: '95vh',
+      };
+      base['width'] = widthMap[s] ?? 'var(--size-480, 480px)';
       base['max-width'] = '90vw';
-      base['max-height'] = '90vh';
+      base['max-height'] = maxHeightMap[s] ?? '75vh';
       base['border-radius'] = 'var(--radius-lg)';
     }
 
