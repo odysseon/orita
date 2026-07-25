@@ -1,22 +1,20 @@
-<header class="chat-header">
-      <button app-button appearance="ghost" shape="square" class="btn-back" (click)="back.emit()" aria-label="Back">
-        <svg lucideChevronLeft aria-hidden="true"></svg>
-      </button>
+<app-page-header [customBack]="true" (backAction)="back.emit()">
+  <ui-user-identity
+    pageHeaderStart
+    [user]="headerUser()"
+    [showUsername]="false"
+    [interactive]="false"
+    size="md"
+  />
 
-      <div class="chat-title-info">
-        <app-avatar
-          [src]="conversation()?.avatarUrl"
-          [alt]="conversation()?.title || 'User'"
-          [fallback]="(conversation()?.title || 'U').charAt(0).toUpperCase()"
-          size="md"
-        ></app-avatar>
-        <div class="chat-title-text">
-          <h2>{{ conversation()?.title }}</h2>
-          <span class="online-status">Online</span>
-        </div>
-      </div>
-
-      <button app-button appearance="ghost" shape="square" class="btn-icon" aria-label="More options">
-        <svg lucideMoreVertical aria-hidden="true"></svg>
-      </button>
-    </header>
+  <button
+    pageHeaderEnd
+    app-button
+    appearance="ghost"
+    shape="circle"
+    size="icon"
+    aria-label="More options"
+  >
+    <svg lucideMoreVertical aria-hidden="true"></svg>
+  </button>
+</app-page-header>

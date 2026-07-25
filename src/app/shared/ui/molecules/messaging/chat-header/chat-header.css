@@ -1,95 +1,11 @@
-.chat-header {
-  display: flex;
-  align-items: center;
-  padding: var(--size-12) var(--space-sm);
-  border-bottom: var(--size-1) solid var(--border-subtle);
-  gap: var(--size-12);
+:host {
+  display: block;
+  width: 100%;
 }
 
-.btn-back {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: var(--size-40);
-  height: var(--size-40);
-  background: none;
-  border: none;
-  border-radius: var(--radius-pill);
-  color: var(--text-primary);
-  cursor: pointer;
-  margin-left: calc(var(--size-8) * -1);
-  transition: background var(--transition-fast);
-}
-
-.btn-back:hover {
-  background: var(--surface-container);
-}
-
-.chat-title-info {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: var(--size-12);
-}
-
-.avatar-placeholder {
-  width: var(--size-40);
-  height: var(--size-40);
-  background: var(--clr-primary);
-  color: var(--clr-on-primary);
-  border-radius: var(--radius-pill);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-lg);
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-
-.chat-title-text {
-  min-width: 0;
-}
-
-.chat-title-text h2 {
-  margin: 0;
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.online-status {
-  font-size: var(--font-size-sm);
-  color: var(--clr-success);
-}
-
-.btn-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--size-40);
-  height: var(--size-40);
-  background: none;
-  border: none;
-  border-radius: var(--radius-pill);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition:
-    background var(--transition-fast),
-    color var(--transition-fast);
-}
-
-.btn-icon:hover {
-  background: var(--surface-container);
-  color: var(--text-primary);
-}
-
-@media (max-width: 768px) {
-  .btn-back {
-    display: flex;
+/* Hide back button on desktop screens where conversation sidebar is visible */
+@media (min-width: 768px) {
+  :host ::ng-deep button[aria-label="Go Back"] {
+    display: none;
   }
 }
