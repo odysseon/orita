@@ -126,8 +126,44 @@
   border-radius: 4px;
 }
 
+.app-checkbox.app-checkbox--sm {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+.app-checkbox.app-checkbox--lg {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.app-checkbox.app-checkbox--circle {
+  border-radius: var(--radius-pill, 9999px);
+  aspect-ratio: 1 / 1;
+}
+
+.app-checkbox.app-checkbox--ghost {
+  border-color: var(--border-subtle);
+  background-color: transparent;
+}
+
+.app-checkbox.app-checkbox--plain {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.app-checkbox.app-checkbox--ghost:hover,
+.app-checkbox.app-checkbox--plain:hover {
+  background-color: var(--surface-container);
+  border-color: var(--border-default);
+}
+
 .app-checkbox:checked,
-.app-checkbox:indeterminate {
+.app-checkbox:indeterminate,
+.app-checkbox.app-checkbox--ghost:checked,
+.app-checkbox.app-checkbox--plain:checked,
+.app-checkbox.app-checkbox--outline:checked {
   background-color: var(--clr-primary);
   border-color: var(--clr-primary);
 }
