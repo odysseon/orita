@@ -66,7 +66,7 @@ import { FormsModule } from '@angular/forms';
       <section>
         <h3 style="margin-bottom: 1.5rem; color: var(--text-primary);">4. Checkbox & Radio (Custom CSS, Native Inputs)</h3>
         
-        <div style="display: flex; gap: 3rem;">
+        <div style="display: flex; gap: 3rem; margin-bottom: 2rem;">
           <div style="display: flex; flex-direction: column; gap: 1rem;">
             <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
               <input type="checkbox" app-checkbox /> Default Checkbox
@@ -96,6 +96,48 @@ import { FormsModule } from '@angular/forms';
             
             <label style="display: flex; align-items: center; gap: 0.75rem; cursor: not-allowed; opacity: 0.7;">
               <input type="radio" name="demo-radio2" app-radio disabled checked /> Disabled Radio
+            </label>
+          </div>
+        </div>
+
+        <h4 style="margin-bottom: 1rem; color: var(--text-secondary);">Checkbox Regression Grid: Shapes & Appearances</h4>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; background: var(--surface-card); padding: 1.5rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);">
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <span style="font-size: 0.85rem; font-weight: bold; color: var(--text-muted);">Solid (Default)</span>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" app-checkbox size="sm" checked /> Small Square
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" app-checkbox size="md" checked /> Medium Square
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" app-checkbox size="lg" checked /> Large Square
+            </label>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <span style="font-size: 0.85rem; font-weight: bold; color: var(--text-muted);">Circular Shape (Ghost & Plain)</span>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" app-checkbox shape="circle" appearance="ghost" size="sm" checked /> Ghost Circle (sm)
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" app-checkbox shape="circle" appearance="ghost" size="md" checked /> Ghost Circle (md)
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" app-checkbox shape="circle" appearance="plain" size="lg" /> Plain Circle Unchecked (lg)
+            </label>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <span style="font-size: 0.85rem; font-weight: bold; color: var(--text-muted);">States & Variations</span>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" app-checkbox shape="circle" appearance="solid" [indeterminate]="true" /> Circular Indeterminate
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: not-allowed; opacity: 0.5;">
+              <input type="checkbox" app-checkbox shape="circle" appearance="ghost" checked disabled /> Disabled Circle
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" app-checkbox shape="circle" [attr.aria-invalid]="true" /> Error Circle
             </label>
           </div>
         </div>
