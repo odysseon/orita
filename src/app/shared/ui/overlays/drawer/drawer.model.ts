@@ -1,8 +1,9 @@
 export type DrawerPosition = 'left' | 'right' | 'top' | 'bottom' | 'center';
+export type DrawerSize = 'sm' | 'md' | 'lg' | 'full';
 
 export interface DrawerConfig {
   position: DrawerPosition;
-  size?: string;
+  size?: DrawerSize;
   closeOnBackdrop?: boolean;
   closeOnEscape?: boolean;
   dismissible?: boolean;
@@ -13,7 +14,7 @@ export interface DrawerConfig {
 
 export const DRAWER_DEFAULTS: Required<Omit<DrawerConfig, 'title'>> = {
   position: 'right',
-  size: '400px',
+  size: 'md',
   closeOnBackdrop: true,
   closeOnEscape: true,
   dismissible: true,
