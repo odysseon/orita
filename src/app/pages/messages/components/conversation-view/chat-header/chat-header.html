@@ -4,13 +4,12 @@
       </button>
 
       <div class="chat-title-info">
-        @if (conversation()?.avatarUrl) {
-          <img [src]="conversation()?.avatarUrl" alt="Avatar" class="avatar-placeholder" />
-        } @else {
-          <div class="avatar-placeholder">
-            {{ (conversation()?.title || 'U')[0] }}
-          </div>
-        }
+        <app-avatar
+          [src]="conversation()?.avatarUrl"
+          [alt]="conversation()?.title || 'User'"
+          [fallback]="(conversation()?.title || 'U').charAt(0).toUpperCase()"
+          size="md"
+        ></app-avatar>
         <div class="chat-title-text">
           <h2>{{ conversation()?.title }}</h2>
           <span class="online-status">Online</span>

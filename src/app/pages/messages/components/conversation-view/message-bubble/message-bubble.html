@@ -1,9 +1,11 @@
 <div class="msg-wrapper" [class.is-mine]="isMine()">
       
       @if (!isMine()) {
-        <div class="msg-avatar">
-          {{ message().senderDisplayName?.[0] || 'U' }}
-        </div>
+        <app-avatar
+          [fallback]="(message().senderDisplayName || 'U').charAt(0).toUpperCase()"
+          size="xs"
+          style="margin-top: var(--size-2);"
+        ></app-avatar>
       }
 
       <div class="msg-content-col">

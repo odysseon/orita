@@ -13,8 +13,8 @@
     <div class="search-controls">
       
       <div class="search-tabs">
-        <app-tabs [value]="searchType()" (valueChange)="setSearchType($any($event))">
-          <app-tab-list appearance="pill" size="sm">
+        <ui-tabs [value]="searchType()" (valueChange)="setSearchType($any($event))">
+          <ui-tab-list appearance="pill" size="sm">
             <button app-button app-tab-trigger value="all">
               All
             </button>
@@ -45,8 +45,8 @@
             <button app-button app-tab-trigger value="location">
               Locations
             </button>
-          </app-tab-list>
-        </app-tabs>
+          </ui-tab-list>
+        </ui-tabs>
       </div>
 
       <!-- Active Filter Chips (optional view) -->

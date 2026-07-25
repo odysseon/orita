@@ -10,10 +10,11 @@ import { SeoComponent } from '../../shared/seo/seo.component';
 import { Logo } from '../../shared/ui/atoms/logo/logo';
 import { CategoryBrowser } from '../../shared/category-browser/category-browser';
 import { UserService } from '../../core/services/user.service';
+import { Button } from '../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-welcome',
-  imports: [LucideCompass, LucideStore, LucideGlobe, LocationSelector, SeoComponent, Logo, CategoryBrowser],
+  imports: [LucideCompass, LucideStore, LucideGlobe, LocationSelector, SeoComponent, Logo, CategoryBrowser, Button],
   templateUrl: './welcome.html',
   styleUrl: './welcome.css',
 })

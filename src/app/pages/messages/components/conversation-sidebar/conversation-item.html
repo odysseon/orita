@@ -5,13 +5,12 @@
       (click)="select.emit(conversation().id)"
     >
       <div class="conv-avatar">
-        @if (conversation().avatarUrl) {
-          <img [src]="conversation().avatarUrl" alt="Avatar" class="avatar-placeholder" />
-        } @else {
-          <div class="avatar-placeholder">
-            {{ (conversation().title || 'U')[0] }}
-          </div>
-        }
+        <app-avatar
+          [src]="conversation().avatarUrl"
+          [alt]="conversation().title || 'User'"
+          [fallback]="conversation().title ? conversation().title.charAt(0).toUpperCase() : 'U'"
+          size="md"
+        ></app-avatar>
         @if (conversation().unreadCount > 0) {
           <div class="unread-badge">{{ conversation().unreadCount }}</div>
         }

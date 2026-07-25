@@ -2,7 +2,7 @@ import { Component, effect, inject, input, model, OnInit } from '@angular/core';
 import { TabsContext } from './tabs-context';
 
 @Component({
-  selector: 'app-tabs',
+  selector: 'ui-tabs',
   standalone: true,
   template: `<ng-content></ng-content>`,
   providers: [TabsContext],

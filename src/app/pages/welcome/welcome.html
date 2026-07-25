@@ -9,15 +9,15 @@
     </div>
 
     @if (step === 'start') {
-      <div class="welcome-actions">
-        <button class="welcome-btn welcome-btn--explore" (click)="onExplore()">
-          <svg lucideCompass class="welcome-btn-icon" aria-hidden="true"></svg>
-          <span class="welcome-btn-text">Explore nearby</span>
+      <div class="welcome-actions" style="display: flex; flex-direction: column; gap: var(--size-12);">
+        <button app-button appearance="outline" size="lg" fullWidth (click)="onExplore()">
+          <svg lucideCompass aria-hidden="true" style="width: var(--size-20); height: var(--size-20);"></svg>
+          Explore nearby
         </button>
 
-        <button class="welcome-btn welcome-btn--create" (click)="onCreateBusiness()">
-          <svg lucideStore class="welcome-btn-icon" aria-hidden="true"></svg>
-          <span class="welcome-btn-text">Create a business</span>
+        <button app-button intent="primary" size="lg" fullWidth (click)="onCreateBusiness()">
+          <svg lucideStore aria-hidden="true" style="width: var(--size-20); height: var(--size-20);"></svg>
+          Create a business
         </button>
       </div>
     } @else if (step === 'location') {
@@ -37,12 +37,12 @@
           />
         </div>
 
-        <div class="welcome-interests-actions">
-          <button class="welcome-btn-secondary" (click)="skipInterests()">
+        <div class="welcome-interests-actions" style="display: flex; gap: var(--size-12); margin-top: var(--size-24);">
+          <button app-button appearance="ghost" style="flex: 1;" (click)="skipInterests()">
             Skip for now
           </button>
-          <button class="welcome-btn-primary" (click)="finishOnboarding()" [disabled]="isSaving">
-            {{ isSaving ? 'Saving...' : 'Continue' }}
+          <button app-button intent="primary" style="flex: 2;" (click)="finishOnboarding()" [disabled]="isSaving" [loading]="isSaving">
+            Continue
           </button>
         </div>
       </div>

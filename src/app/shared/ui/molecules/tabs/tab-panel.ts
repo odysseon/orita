@@ -2,7 +2,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { TabsContext } from './tabs-context';
 
 @Component({
-  selector: 'app-tab-panel',
+  selector: 'ui-tab-panel',
   standalone: true,
   template: `
     @if (isActive()) {

@@ -3,10 +3,11 @@ import { DatePipe } from '@angular/common';
 import { IConversationPreview } from '../../../../core/services/messaging.types';
 import { MessagePreviewPipe } from '../../../../shared/pipes/message-preview.pipe';
 import { LucideMapPin, LucideShoppingBag, LucideMap, LucideFootprints, LucideVideo, LucideImage } from '@lucide/angular';
+import { Avatar } from '../../../../shared/ui/atoms/avatar/avatar';
 
 @Component({
   selector: 'app-conversation-item',
-  imports: [DatePipe, MessagePreviewPipe, LucideMapPin, LucideShoppingBag, LucideMap, LucideFootprints, LucideVideo, LucideImage],
+  imports: [DatePipe, MessagePreviewPipe, LucideMapPin, LucideShoppingBag, LucideMap, LucideFootprints, LucideVideo, LucideImage, Avatar],
   templateUrl: './conversation-item.html',
   styleUrl: './conversation-item.css'
 })

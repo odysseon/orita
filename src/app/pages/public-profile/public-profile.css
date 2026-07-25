@@ -38,7 +38,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: calc(var(--size-64) * -1); /* Pull avatar up into banner */
+  margin-top: calc(var(--size-40) * -1); /* Pull avatar halfway up into banner */
   margin-bottom: var(--space-sm);
 }
 
