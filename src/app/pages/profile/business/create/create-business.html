@@ -37,11 +37,11 @@
         [invalid]="businessForm.primaryCategoryId().invalid()"
         [errorMessage]="businessForm.primaryCategoryId().errors()[0]?.message"
       >
-        <app-category-picker
+        <ui-category-picker
           [categoryId]="model().primaryCategoryId"
           (categoryIdChange)="onCategoryPicked($event)"
           [attr.aria-invalid]="businessForm.primaryCategoryId().touched() && businessForm.primaryCategoryId().invalid()"
-        ></app-category-picker>
+        ></ui-category-picker>
       </app-form-field>
 
       <!-- Phone -->
@@ -105,7 +105,7 @@ We also repair damaged phones and offer same-day screen replacement."
             <button app-button type="button" appearance="ghost" size="sm" (click)="model.update(m => ({ ...m, location: '', latitude: 0, longitude: 0 }))">Change</button>
           </div>
         } @else {
-          <app-location-selector (locationSelected)="onLocationPicked($event)" />
+          <ui-location-picker triggerLabel="Pick location" (confirmed)="onLocationPicked($event)"></ui-location-picker>
         }
       </app-form-field>
 

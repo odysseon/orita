@@ -1,0 +1,81 @@
+.ui-user-identity {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  min-width: 0;
+}
+
+.ui-user-identity-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--size-2);
+  min-width: 0;
+}
+
+.ui-user-identity-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  line-height: var(--line-height-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui-user-identity-username,
+.ui-user-identity-metadata {
+  color: var(--text-secondary);
+  line-height: var(--line-height-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Size Variants */
+.ui-user-identity--sm {
+  gap: var(--size-8);
+}
+.ui-user-identity--sm .ui-user-identity-name {
+  font-size: var(--font-size-sm);
+}
+.ui-user-identity--sm .ui-user-identity-username,
+.ui-user-identity--sm .ui-user-identity-metadata {
+  font-size: var(--font-size-xs);
+}
+
+.ui-user-identity--md {
+  gap: var(--size-12);
+}
+.ui-user-identity--md .ui-user-identity-name {
+  font-size: var(--font-size-md);
+}
+.ui-user-identity--md .ui-user-identity-username,
+.ui-user-identity--md .ui-user-identity-metadata {
+  font-size: var(--font-size-sm);
+}
+
+.ui-user-identity--lg {
+  gap: var(--size-16);
+}
+.ui-user-identity--lg .ui-user-identity-name {
+  font-size: var(--font-size-lg);
+}
+.ui-user-identity--lg .ui-user-identity-username,
+.ui-user-identity--lg .ui-user-identity-metadata {
+  font-size: var(--font-size-md);
+}
+
+.ui-identity-link {
+  display: flex;
+  align-items: inherit;
+  gap: inherit;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  min-width: 0;
+}
+.ui-identity-link:hover .ui-user-identity-name {
+  text-decoration: underline;
+  color: var(--clr-primary, var(--text-primary));
+}
+

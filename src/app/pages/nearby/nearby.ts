@@ -12,7 +12,7 @@ import { NewPostSheet } from './components/new-post-sheet/new-post-sheet';
 import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
 import { Button } from '../../shared/ui/atoms/button/button';
 import { Fab } from '../../shared/ui/actions/fab/fab';
-import { AppGrid } from '../../shared/grid/grid';
+import { Grid } from '../../shared/ui/layouts/grid/grid';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { LucideMapPin, LucidePlus } from '@lucide/angular';
@@ -21,10 +21,11 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 @Component({
   selector: 'app-nearby',
   standalone: true,
-  imports: [CommonModule, RouterModule, NearbyItemCard, NewPostSheet, RootHeader, Button, Fab, AppGrid, EmptyState, ScrollHideDirective, LucideMapPin, LucidePlus, Skeleton],
+  imports: [CommonModule, RouterModule, NearbyItemCard, NewPostSheet, RootHeader, Button, Fab, Grid, EmptyState, ScrollHideDirective, LucideMapPin, LucidePlus, Skeleton],
   templateUrl: './nearby.html',
   styleUrls: ['./nearby.css'],
 })
+
 export class NearbyPage implements OnInit, OnDestroy {
   #discovery = inject(DiscoveryService);
   #location = inject(LocationService);

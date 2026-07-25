@@ -14,7 +14,8 @@
     <form [formRoot]="postForm" class="stack">
       <div class="field">
         <label class="field__label" for="post-type">Type</label>
-        <select id="post-type" [formField]="postForm.type" class="field__select">
+        <select id="post-type" app-select [formField]="postForm.type">
+
           @for (type of types; track type.value) {
             <option [value]="type.value">{{ type.label }}</option>
           }

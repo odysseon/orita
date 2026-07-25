@@ -64,12 +64,12 @@
             [invalid]="businessForm.primaryCategoryId().invalid()"
             [errorMessage]="businessForm.primaryCategoryId().errors()[0]?.message"
           >
-            <app-category-picker
+            <ui-category-picker
               id="primaryCategoryId"
               [categoryId]="model().primaryCategoryId"
               (categoryIdChange)="onCategoryPicked($event)"
               [attr.aria-invalid]="businessForm.primaryCategoryId().touched() && businessForm.primaryCategoryId().invalid()"
-            ></app-category-picker>
+            ></ui-category-picker>
           </app-form-field>
 
           @if (model().primaryCategoryId) {

@@ -14,7 +14,7 @@
       </div>
     } @else if (loading()) {
       <div class="feed-container">
-        <app-grid>
+        <ui-grid cols="2 md:3 lg:4" gap="sm">
           @for (i of [1,2,3,4,5,6]; track i) {
           <div class="skeleton-card">
             <app-skeleton class="skeleton-card__media"></app-skeleton>
@@ -30,7 +30,7 @@
             </div>
           </div>
           }
-        </app-grid>
+        </ui-grid>
       </div>
     } @else {
       <div class="feed-container">
@@ -56,21 +56,21 @@
       }
 
       <section class="section">
-        <app-grid>
+        <ui-grid cols="2 md:3 lg:4" gap="sm">
           @for (item of items(); track item.id) {
             <app-nearby-item-card [item]="item" />
           }
-        </app-grid>
+        </ui-grid>
       </section>
 
       @if (loading()) {
-        <app-grid>
+        <ui-grid cols="2 md:3 lg:4" gap="sm">
           @for (i of [1,2,3]; track i) {
           <div class="skeleton-card">
             <app-skeleton class="skeleton-card__media"></app-skeleton>
           </div>
           }
-        </app-grid>
+        </ui-grid>
       }
 
       @if (hasMore() && !loading() && !error()) {

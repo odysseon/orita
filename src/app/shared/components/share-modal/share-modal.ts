@@ -5,12 +5,14 @@ import { UserSearchService } from '../../../core/services/user-search.service';
 import { UserSearchResult } from '../../../core/types/share.types';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
-import { Drawer } from '../../drawer/drawer';
+import { Drawer } from '../../ui/overlays/drawer/drawer';
+
 import { UserListItem } from '../user-list-item/user-list-item';
 import { LucideSearch, LucideX } from '@lucide/angular';
 import { InputDirective } from '../../ui/atoms/forms';
 
-import { Avatar } from '../../ui/atoms/avatar/avatar';
+import { Avatar } from '../../ui/identity/avatar/avatar';
+
 
 @Component({
   selector: 'app-share-modal',

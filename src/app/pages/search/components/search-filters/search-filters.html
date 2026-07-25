@@ -15,10 +15,9 @@
     <!-- Radius Section -->
     <div class="filter-section">
       <label for="radius">Distance</label>
-      <select id="radius" 
+      <select id="radius" app-select
               [value]="internalModel().radius" 
-              (change)="updateRadius($any($event.target).value)" 
-              class="form-input">
+              (change)="updateRadius($any($event.target).value)">
         <option value="5">Within 5 km</option>
         <option value="10">Within 10 km</option>
         <option value="25">Within 25 km</option>
@@ -29,19 +28,34 @@
 
     <!-- Category Section -->
     <div class="filter-section">
-      <label for="category">Category</label>
-      <select id="category" [formField]="filtersForm.categoryId" class="form-input">
-        <option value="">All Categories</option>
-        @for (cat of categories(); track cat.id) {
-          <option [value]="cat.id">{{ cat.name }}</option>
-        }
-      </select>
+      <label>Category</label>
+      <ui-combobox (selected)="onCategorySelected($event)" [value]="internalModel().categoryId ? { id: internalModel().categoryId } : { id: '' }">
+        <input
+          uiComboboxInput
+          app-input
+          [value]="categoryQuery() || getCategoryName(internalModel().categoryId)"
+          (input)="categoryQuery.set($any($event.target).value)"
+          placeholder="Search categories..."
+          class="form-input"
+        />
+        <ui-combobox-list style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); margin-top: var(--size-4);">
+          <button type="button" uiComboboxOption [value]="{ id: '', name: 'All Categories' }">
+            All Categories
+          </button>
+          @for (cat of filteredCategories(); track cat.id) {
+            <button type="button" uiComboboxOption [value]="cat">
+              {{ cat.name }}
+            </button>
+          }
+        </ui-combobox-list>
+      </ui-combobox>
     </div>
+
 
     <!-- Sort Section -->
     <div class="filter-section">
       <label for="sort">Sort By</label>
-      <select id="sort" [formField]="filtersForm.sort" class="form-input">
+      <select id="sort" app-select [formField]="filtersForm.sort">
         <option value="relevance">Best Match</option>
         <option value="distance">Distance</option>
         @if (searchType() === 'listing') {
@@ -81,7 +95,7 @@
             @for (attr of categoryAttributesResource.value(); track attr.id) {
               <app-form-field [label]="attr.label" [fieldId]="'filter-' + attr.key">
                 @if (attr.type === 'SELECT' && attr.options) {
-                  <select [id]="'filter-' + attr.key" class="form-input" 
+                  <select [id]="'filter-' + attr.key" app-select 
                           [value]="internalModel().filters[attr.key] || ''"
                           (change)="updateFilter(attr.key, $any($event.target).value)">
                     <option value="">Any</option>

@@ -9,7 +9,8 @@ import {
 import { DraftMessageService } from '../../../core/services/draft-message.service';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AttachmentSelection } from '../../../core/services/messaging.types';
-import { Drawer } from '../../drawer/drawer';
+import { Drawer } from '../../ui/overlays/drawer/drawer';
+
 import {
   LucideSearch,
   LucidePackage,

@@ -10,7 +10,7 @@
 <div
   #panel
   class="drawer-panel"
-  [class]="positionClass() + ' ' + sizeClass()"
+  [class]="positionClass()"
   [class.drawer-panel--open]="isOpenPhase()"
   [class.drawer-panel--dragging]="dragService.isDragging()"
   [style]="panelStyle()"
@@ -31,8 +31,32 @@
     (pointerup)="dragService.onPointerUp($event)"
     (pointercancel)="dragService.onPointerCancel()"
   ></div>
+  } @if (showHeader()) {
+  <header class="drawer-header">
+    @if (title()) {
+    <h2 class="drawer-title">{{ title() }}</h2>
+    } @else {
+    <span></span>
+    } @if (showCloseButton()) {
+    <button
+      app-button
+      appearance="ghost"
+      shape="circle"
+      size="sm"
+      class="drawer-close"
+      type="button"
+      aria-label="Close drawer"
+      [disabled]="!dismissible()"
+      (click)="requestClose()"
+    >
+      ×
+    </button>
+    }
+  </header>
   }
 
-  <ng-content />
+  <div class="drawer-body">
+    <ng-content />
+  </div>
 </div>
 }

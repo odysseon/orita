@@ -20,10 +20,11 @@ import {
 } from './create-business.interface';
 import { environment } from '../../../../../environments/environment';
 import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
-import { Drawer } from '../../../../shared/drawer/drawer';
-import { LocationSelector } from '../../../../shared/location-selector/location-selector';
+import { Drawer } from '../../../../shared/ui/overlays/drawer/drawer';
+
+import { LocationPicker } from '../../../../shared/ui/organisms/location-picker/location-picker';
 import { Location } from '../../../../core/services/location.service';
-import { CategoryPicker } from '../../../../shared/category-picker/category-picker';
+import { CategoryPicker } from '../../../../shared/ui/organisms/category-picker/category-picker';
 import { Button } from '../../../../shared/ui/atoms/button/button';
 import { ICategory } from '../../../home/home.interface';
 
@@ -31,7 +32,7 @@ import { ICategory } from '../../../home/home.interface';
 
 @Component({
   selector: 'app-create-business',
-  imports: [FormField, AppFormField, LucideStore, LucideLoaderCircle, Drawer, AppFormField, LocationSelector, CategoryPicker],
+  imports: [FormField, AppFormField, LucideStore, LucideLoaderCircle, Drawer, AppFormField, LocationPicker, CategoryPicker],
   templateUrl: './create-business.html',
   styleUrl: './create-business.css',
   encapsulation: ViewEncapsulation.None,

@@ -11,7 +11,7 @@
 
   @if (isLoading()) {
   <div class="feed-container">
-    <app-grid>
+    <ui-grid cols="2 md:3 lg:4" gap="sm">
       @for (i of [1,2,3,4,5,6]; track i) {
       <div class="skeleton-card">
         <div class="skeleton skeleton-card__media"></div>
@@ -27,7 +27,7 @@
         </div>
       </div>
       }
-    </app-grid>
+    </ui-grid>
   </div>
   } @else if (editorialSections().length === 0) {
   <div class="feed-container">
@@ -48,7 +48,7 @@
       @if (group.title) {
         <h2 class="section__title">{{ group.title }}</h2>
       }
-      <app-grid>
+      <ui-grid cols="2 md:3 lg:4" gap="sm">
         @for (item of group.items; track item.id) {
           @if (item.itemType === 'TOUR' && item.tour) {
             <ui-store-tour-card [tour]="{
@@ -58,6 +58,7 @@
               business: {
                 id: item.businessProfileId,
                 name: item.business?.name || '',
+                slug: item.business?.slug,
                 logoUrl: item.business?.logoUrl,
                 isVerified: !!$any(item.business).isVerified
               }
@@ -84,16 +85,16 @@
             </ui-business-card>
           }
         }
-      </app-grid>
+      </ui-grid>
     </section>
     } @if (isLoadingMore()) {
-    <app-grid>
+    <ui-grid cols="2 md:3 lg:4" gap="sm">
       @for (i of [1,2,3]; track i) {
       <div class="skeleton-card">
         <app-skeleton class="skeleton-card__media"></app-skeleton>
       </div>
       }
-    </app-grid>
+    </ui-grid>
     } @if (hasMore()) {
     <div class="load-more-container">
       <button app-button intent="secondary"  (click)="loadMore()" [disabled]="isLoadingMore()">

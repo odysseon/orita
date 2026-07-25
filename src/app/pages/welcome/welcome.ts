@@ -2,19 +2,19 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { LucideCompass, LucideStore, LucideGlobe } from '@lucide/angular';
-import { LocationSelector } from '../../shared/location-selector/location-selector';
+import { LocationPicker } from '../../shared/ui/organisms/location-picker/location-picker';
 import { Location } from '../../core/services/location.service';
 import { ExplorationService } from '../../core/services/exploration.service';
 import { ActiveLocation } from '../../core/services/exploration-storage';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { Logo } from '../../shared/ui/atoms/logo/logo';
-import { CategoryBrowser } from '../../shared/category-browser/category-browser';
+import { CategoryBrowser } from '../../shared/ui/organisms/category-browser/category-browser';
 import { UserService } from '../../core/services/user.service';
 import { Button } from '../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-welcome',
-  imports: [LucideCompass, LucideStore, LucideGlobe, LocationSelector, SeoComponent, Logo, CategoryBrowser, Button],
+  imports: [LucideCompass, LucideStore, LucideGlobe, LocationPicker, SeoComponent, Logo, CategoryBrowser, Button],
   templateUrl: './welcome.html',
   styleUrl: './welcome.css',
 })

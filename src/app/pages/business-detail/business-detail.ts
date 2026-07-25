@@ -21,13 +21,15 @@ import {
 } from '@lucide/angular';
 import { Badge } from '../../shared/ui/atoms/badge/badge';
 import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
-import { Avatar } from '../../shared/ui/atoms/avatar/avatar';
+import { Avatar } from '../../shared/ui/identity/avatar/avatar';
+
 import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.interface';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
 import { ShareButton } from '../../shared/share-button/share-button';
 import { ShareModalComponent } from '../../shared/components/share-modal/share-modal';
-import { FollowButton } from '../../shared/follow-button/follow-button';
+import { FollowButton } from '../../shared/ui/actions/follow-button/follow-button';
+import { FollowService } from '../../core/services/follow.service';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
@@ -76,6 +78,7 @@ export class BusinessDetail implements LayoutPage {
   #router = inject(Router);
   #http = inject(HttpClient);
   #tourService = inject(BusinessTourService);
+  #followService = inject(FollowService);
 
   readonly showShareModal = signal(false);
 
@@ -172,5 +175,20 @@ export class BusinessDetail implements LayoutPage {
 
   sendEmail(email: string): void {
     window.location.href = `mailto:${email}`;
+  }
+
+  async toggleFollow(biz: IBusinessDetail): Promise<void> {
+    if (!biz) return;
+    const current = biz.isFollowed || false;
+    try {
+      if (current) {
+        await firstValueFrom(this.#followService.unfollow('business', biz.id));
+      } else {
+        await firstValueFrom(this.#followService.follow('business', biz.id));
+      }
+      biz.isFollowed = !current;
+    } catch {
+      // ignore
+    }
   }
 }

@@ -12,7 +12,7 @@ import {
 import { environment } from '../../../environments/environment';
 import { ShareButton } from '../../shared/share-button/share-button';
 import { ShareModalComponent } from '../../shared/components/share-modal/share-modal';
-import { SaveButton } from '../../shared/save-button/save-button';
+import { SaveButton } from '../../shared/ui/actions/save-button/save-button';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { IBusinessLite, IListingDetail } from './listing.detail.interface';
@@ -150,5 +150,21 @@ export class ListingDetail implements LayoutPage {
 
   openWhatsapp(number: string): void {
     window.open(`https://wa.me/${number.replace(/\D/g, '')}`, '_blank');
+  }
+
+  async toggleSave(item: IListingDetail): Promise<void> {
+    if (!item) return;
+    const current = item.isSaved || false;
+    const endpoint = `${environment.apiUrl}/listings/${item.id}/save`;
+    try {
+      if (current) {
+        await firstValueFrom(this.#http.delete(endpoint));
+      } else {
+        await firstValueFrom(this.#http.post(endpoint, {}));
+      }
+      item.isSaved = !current;
+    } catch {
+      // ignore
+    }
   }
 }

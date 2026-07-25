@@ -1,7 +1,8 @@
 import { Component, input, output, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Header, HeaderStart, HeaderCenter, HeaderEnd } from '../../layouts/header/header';
-import { Avatar } from '../../atoms/avatar/avatar';
+import { Avatar } from '../../identity/avatar/avatar';
+
 import { SearchBar } from '../../molecules/search-bar/search-bar';
 import { InputDirective } from '../../atoms/forms/input';
 import { Button } from '../../atoms/button/button';

@@ -1,0 +1,101 @@
+.ui-business-identity {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  min-width: 0;
+}
+
+.ui-business-identity-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--size-2);
+  min-width: 0;
+}
+
+.ui-business-identity-name-row {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+  min-width: 0;
+}
+
+.ui-business-identity-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  line-height: var(--line-height-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui-business-identity-verified-icon {
+  color: var(--clr-primary);
+  flex-shrink: 0;
+}
+
+.ui-business-identity-category {
+  color: var(--text-secondary);
+  line-height: var(--line-height-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Size Variants */
+.ui-business-identity--sm {
+  gap: var(--size-8);
+}
+.ui-business-identity--sm .ui-business-identity-name {
+  font-size: var(--font-size-sm);
+}
+.ui-business-identity--sm .ui-business-identity-category {
+  font-size: var(--font-size-xs);
+}
+.ui-business-identity--sm .ui-business-identity-verified-icon {
+  width: var(--size-12);
+  height: var(--size-12);
+}
+
+.ui-business-identity--md {
+  gap: var(--size-12);
+}
+.ui-business-identity--md .ui-business-identity-name {
+  font-size: var(--font-size-md);
+}
+.ui-business-identity--md .ui-business-identity-category {
+  font-size: var(--font-size-sm);
+}
+.ui-business-identity--md .ui-business-identity-verified-icon {
+  width: var(--size-14);
+  height: var(--size-14);
+}
+
+.ui-business-identity--lg {
+  gap: var(--size-16);
+}
+.ui-business-identity--lg .ui-business-identity-name {
+  font-size: var(--font-size-lg);
+}
+.ui-business-identity--lg .ui-business-identity-category {
+  font-size: var(--font-size-md);
+}
+.ui-business-identity--lg .ui-business-identity-verified-icon {
+  width: var(--size-16);
+  height: var(--size-16);
+}
+
+.ui-identity-link {
+  display: flex;
+  align-items: inherit;
+  gap: inherit;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  min-width: 0;
+}
+.ui-identity-link:hover .ui-business-identity-name {
+  text-decoration: underline;
+  color: var(--clr-primary, var(--text-primary));
+}
+

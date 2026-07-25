@@ -1,5 +1,6 @@
 import { Component, input, ViewEncapsulation } from '@angular/core';
-import { BusinessIdentity } from '../../../molecules/identity/business-identity/business-identity';
+import { BusinessIdentity } from '../../../identity/business-identity/business-identity';
+
 import { CoverMedia } from '../../../surfaces/cover-media/cover-media';
 import { Card } from '../../../atoms/card/card';
 
@@ -41,9 +42,11 @@ export class BusinessCard {
   business = input.required<{
     id: string;
     name: string;
+    slug?: string | null;
     logoUrl?: string | null;
     category?: string | null;
     isVerified?: boolean;
+    profileUrl?: any[] | string | null;
   }>();
 
   coverUrl = input<string | null | undefined>(null);

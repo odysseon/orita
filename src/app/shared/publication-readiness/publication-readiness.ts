@@ -1,7 +1,8 @@
 import { Component, computed, input, output } from '@angular/core';
 import { LucideXCircle, LucideAlertTriangle } from '@lucide/angular';
 import { PublicationIssue } from '../../core/services/business-profile.service';
-import { Drawer } from '../drawer/drawer';
+import { Drawer } from '../ui/overlays/drawer/drawer';
+
 import { Button } from '../ui/atoms/button/button';
 
 @Component({

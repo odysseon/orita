@@ -1,11 +1,15 @@
-import { Component, input, output, signal, effect, inject, resource } from '@angular/core';
+import { Component, input, output, signal, computed, effect, inject, resource } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
-import { Drawer } from '../../../../shared/drawer/drawer';
+import { Drawer } from '../../../../shared/ui/overlays/drawer/drawer';
+
 import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
 import { CategoryService } from '../../../../core/services/category.service';
 import { LocationPicker } from '../../../../shared/ui/organisms/location-picker/location-picker';
 import { Location } from '../../../../core/services/location.service';
 import { Button } from '../../../../shared/ui/atoms/button/button';
+import { SelectDirective } from '../../../../shared/ui/atoms/forms/select';
+import { InputDirective } from '../../../../shared/ui/atoms/forms/input';
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from '../../../../shared/ui/molecules/combobox';
 
 export interface SearchFilterState {
   locationName: string | null;
@@ -24,7 +28,7 @@ export interface SearchFilterState {
   imports: [FormField, 
     Drawer,
     AppFormField,
-    LocationPicker, Button
+    LocationPicker, Button, SelectDirective, InputDirective, Combobox, ComboboxInput, ComboboxList, ComboboxOption
   ],
   templateUrl: './search-filters.html',
   styleUrl: './search-filters.css',
@@ -54,6 +58,14 @@ export class SearchFiltersComponent {
   readonly currentLat = signal<number | null>(null);
   readonly currentLng = signal<number | null>(null);
 
+  readonly categoryQuery = signal<string>('');
+  readonly filteredCategories = computed(() => {
+    const q = this.categoryQuery().toLowerCase().trim();
+    const all = this.categories() || [];
+    if (!q) return all;
+    return all.filter(c => c.name?.toLowerCase().includes(q));
+  });
+
   readonly internalModel = signal({
     locationName: '',
     radius: 10,
@@ -63,6 +75,7 @@ export class SearchFiltersComponent {
     maxPrice: null as number | null,
     filters: {} as Record<string, any>
   });
+
 
   readonly filtersForm = form(this.internalModel, () => {});
 
@@ -117,6 +130,19 @@ export class SearchFiltersComponent {
   updateRadius(val: string) {
     this.internalModel.update(m => ({ ...m, radius: Number(val) }));
   }
+
+  onCategorySelected(val: any) {
+    const id = val?.id || '';
+    this.internalModel.update(m => ({ ...m, categoryId: id, filters: {} }));
+    this.categoryQuery.set('');
+  }
+
+  getCategoryName(id: string | null | undefined): string {
+    if (!id) return '';
+    const cat = (this.categories() || []).find(c => c.id === id);
+    return cat ? cat.name : '';
+  }
+
 
   onApply() {
     this.emitApply();

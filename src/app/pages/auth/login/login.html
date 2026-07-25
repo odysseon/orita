@@ -22,13 +22,13 @@
       />
     </app-form-field>
 
-    <app-password-field
+    <ui-password-field
       label="Password"
       fieldId="password"
       [formField]="loginForm.password"
       [invalid]="loginForm.password().invalid()"
       [errorMessage]="loginForm.password().errors()[0]?.message"
-    ></app-password-field>
+    ></ui-password-field>
 
     <div class="auth-form__row">
       <label class="auth-form__remember">

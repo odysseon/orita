@@ -8,7 +8,8 @@ import { MediaGalleryItem } from '../../../../../shared/components/media-viewer/
 import { AttachmentPreviewService } from '../../../../../core/services/attachment-preview.service';
 
 import { Button } from '../../../../../shared/ui/atoms/button/button';
-import { Avatar } from '../../../../../shared/ui/atoms/avatar/avatar';
+import { Avatar } from '../../../../../shared/ui/identity/avatar/avatar';
+
 
 @Component({
   selector: 'app-message-bubble',

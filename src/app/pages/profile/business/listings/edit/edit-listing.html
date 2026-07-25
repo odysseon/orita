@@ -23,7 +23,7 @@
         <app-form-field label="Category" fieldId="category">
           <select
             id="category"
-            class="field__select"
+            app-select
             [formField]="editForm.categoryId"
             (change)="onCategoryChange($any($event.target).value)"
           >
@@ -87,7 +87,7 @@
             [hint]="attr.isRequired ? 'required' : undefined"
           >
             @if (attr.type === 'SELECT' && attr.options) {
-            <select [id]="'attr-' + attr.id" class="field__select" 
+            <select [id]="'attr-' + attr.id" app-select 
                     [value]="editModel().attributesData[attr.key] || ''"
                     (change)="updateAttribute(attr.key, $any($event.target).value)">
               <option value="">Select {{ attr.label }}</option>

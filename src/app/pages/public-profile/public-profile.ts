@@ -5,7 +5,8 @@ import { LucideShare,  LucideBriefcase, LucideArrowLeft, LucideCheck, LucideChev
 import { PublicUserService, PublicUserProfile } from '../../core/services/public-user.service';
 import { AuthService } from '../../core/services/auth.service';
 import { ShareService } from '../../core/services/share.service';
-import { Avatar } from '../../shared/ui/atoms/avatar/avatar';
+import { Avatar } from '../../shared/ui/identity/avatar/avatar';
+
 import { Button } from '../../shared/ui/atoms/button/button';
 import { Badge } from '../../shared/ui/atoms/badge/badge';
 import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';

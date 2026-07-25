@@ -11,7 +11,7 @@ import { EmptyState } from '../../shared/empty-state/empty-state';
 import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
 import { LocationPicker } from '../../shared/ui/organisms/location-picker/location-picker';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
-import { AppGrid } from '../../shared/grid/grid';
+import { Grid } from '../../shared/ui/layouts/grid/grid';
 import { FeedService, FeedItemView } from '../../core/services/feed.service';
 import { ToastService } from '../../core/services/toast';
 import { SeoComponent } from '../../shared/seo/seo.component';
@@ -30,8 +30,9 @@ import { Button } from '../../shared/ui/atoms/button/button';
     RootHeader,
     LocationPicker,
     ScrollHideDirective,
-    AppGrid,
+    Grid,
     SeoComponent,
+
     LucideMapPin,
     Skeleton, Button,
   ],
