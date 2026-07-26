@@ -132,17 +132,10 @@
         (keydown)="onKeyDown($event)"
         class="message-input"
       />
-      <button
-        class="send-btn"
+      <ui-share-button
         [disabled]="selectedRecipients().size === 0 || isSending()"
-        (click)="onSend()"
-      >
-        <span class="send-label">Send</span>
-        @if (selectedRecipients().size > 0) {
-        <span class="send-badge">{{ selectedRecipients().size }}</span>
-        }
-        <svg lucideSend class="send-icon" aria-hidden="true"></svg>
-      </button>
+        (share)="onSend()"
+      />
     </div>
     }
   </div>

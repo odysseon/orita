@@ -11,6 +11,7 @@ import { LucideX, LucideCheck, LucideSend } from '@lucide/angular';
 import { InputDirective, CheckboxDirective } from '../../atoms/forms';
 import { Avatar } from '../../identity/avatar/avatar';
 import { Button } from '../../atoms/button/button';
+import { ShareButton as UiShareButton } from '../../actions/share-button/share-button';
 
 @Component({
   selector: 'ui-share-modal',
@@ -19,7 +20,7 @@ import { Button } from '../../atoms/button/button';
     List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd,
     SearchBar,
     LucideX, LucideCheck, LucideSend, 
-    Avatar, InputDirective, CheckboxDirective, Button
+    Avatar, InputDirective, CheckboxDirective, Button, UiShareButton
   ],
   templateUrl: './share-modal.html',
   styleUrl: './share-modal.css',
