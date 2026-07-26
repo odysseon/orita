@@ -7,7 +7,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { Drawer } from '../../overlays/drawer/drawer';
 import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../surfaces/list/list';
 import { SearchBar } from '../../molecules/search-bar/search-bar';
-import { LucideX, LucideCheck, LucideSend } from '@lucide/angular';
+import { LucideX, LucideCheck } from '@lucide/angular';
 import { InputDirective, CheckboxDirective } from '../../atoms/forms';
 import { Avatar } from '../../identity/avatar/avatar';
 import { Button } from '../../atoms/button/button';
@@ -19,7 +19,7 @@ import { ShareButton as UiShareButton } from '../../actions/share-button/share-b
     Drawer, 
     List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd,
     SearchBar,
-    LucideX, LucideCheck, LucideSend, 
+    LucideX, LucideCheck, 
     Avatar, InputDirective, CheckboxDirective, Button, UiShareButton
   ],
   templateUrl: './share-modal.html',

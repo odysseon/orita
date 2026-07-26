@@ -7,7 +7,6 @@ import {
   LucidePackage,
   LucideBookmark,
   LucideStar,
-  LucideSend,
 } from '@lucide/angular';
 import { environment } from '../../../environments/environment';
 import { ShareButton } from '../../shared/share-button/share-button';
@@ -38,7 +37,6 @@ import { CoverMedia } from '../../shared/ui/surfaces/cover-media/cover-media';
     SeoComponent,
     LucidePackage,
     LucideStar,
-    LucideSend,
     ListingReviews,
     ListingAttributes,
     ListingBusinessCard,
