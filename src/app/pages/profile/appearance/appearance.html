@@ -3,26 +3,27 @@
     Choose how Orita looks to you. System follows your device preference automatically.
   </p>
 
-  <div class="theme-options">
+  <ui-list>
     @for (option of options; track option.value) {
-    <button
-      class="theme-option"
-      [class.theme-option--active]="theme.preference() === option.value"
-      (click)="select(option.value)"
-      type="button"
-    >
-      <div class="theme-option__icon">
+    <label uiListItem>
+      <div uiListItemStart class="theme-option__icon">
         <svg [lucideIcon]="option.icon" aria-hidden="true"></svg>
       </div>
-      <div class="theme-option__text">
-        <span class="theme-option__label">{{ option.label }}</span>
-        <span class="theme-option__description">{{ option.description }}</span>
+      <div uiListItemContent>
+        <div uiListItemTitle>{{ option.label }}</div>
+        <div uiListItemDescription>{{ option.description }}</div>
       </div>
-      <div
-        class="theme-option__indicator"
-        [class.theme-option__indicator--active]="theme.preference() === option.value"
-      ></div>
-    </button>
+      <div uiListItemEnd>
+        <input 
+          type="radio" 
+          app-radio 
+          name="themePreference"
+          [value]="option.value"
+          [checked]="theme.preference() === option.value"
+          (change)="select(option.value)"
+        />
+      </div>
+    </label>
     }
-  </div>
+  </ui-list>
 </div>

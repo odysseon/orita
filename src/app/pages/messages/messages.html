@@ -1,0 +1,68 @@
+<div class="messages-page-wrapper">
+@if (isDesktop() || !activeConversationId()) {
+  <app-root-header>
+    <ui-tabs [value]="activeTab" (valueChange)="activeTab = $any($event)" rootHeaderCenter class="message-tabs-root">
+      <ui-tab-list appearance="enclosed" size="sm">
+        <button app-button app-tab-trigger value="inbox" (click)="activeTab = 'inbox'">
+          Inbox
+        </button>
+        <button app-button app-tab-trigger value="updates" (click)="activeTab = 'updates'">
+          Updates
+          @if (notificationService.unreadCount() > 0) {
+            <app-badge intent="error" appearance="solid" class="tab-pill-badge">{{ notificationService.unreadCount() > 99 ? '99+' : notificationService.unreadCount() }}</app-badge>
+          }
+        </button>
+      </ui-tab-list>
+    </ui-tabs>
+  </app-root-header>
+}
+
+  @if (activeTab === 'inbox') {
+    <main class="messages-layout">
+
+      <!-- Sidebar: hidden on mobile if a chat is active -->
+      @if (isDesktop() || !activeConversationId()) {
+        <div class="layout-sidebar">
+          <ui-conversation-sidebar
+            [conversations]="messaging.conversations()"
+            [activeId]="activeConversationId()"
+            (selectConversation)="onSelectConversation($event)"
+          />
+        </div>
+      }
+
+      <!-- Chat View: hidden on mobile if NO chat is active -->
+      @if (isDesktop() || activeConversationId()) {
+        <div class="layout-view">
+          @if (activeConversationId() && messaging.conversationStatus()[activeConversationId()!] === 'error') {
+            <div class="empty-view">
+              <div class="empty-icon"><svg lucideTriangleAlert class="empty-icon-svg" aria-hidden="true" style="width: 1em; height: 1em;"></svg></div>
+              <h3>Failed to load</h3>
+              <p>We couldn't load this conversation. Please try again.</p>
+              <button app-button intent="primary" style="margin-top: var(--space-sm);" (click)="onSelectConversation(activeConversationId()!)">Retry</button>
+            </div>
+          } @else if (activeConversationId() && messaging.conversationStatus()[activeConversationId()!] === 'loading') {
+            <div class="empty-view">
+              <div class="spinner"></div>
+              <p style="margin-top: var(--space-sm); color: var(--text-secondary);">Loading messages...</p>
+            </div>
+          } @else {
+            <ui-conversation-view
+              [conversation]="messaging.activeConversation()"
+              [messages]="messaging.activeMessages()"
+              [viewerParticipantId]="viewerParticipantId()"
+              (back)="onBackToSidebar()"
+              (send)="onSendMessage($event)"
+              (retry)="onRetry($event)"
+              (discard)="onDiscard($event)"
+            />
+          }
+        </div>
+      }
+    </main>
+  } @else {
+    <main class="updates-layout">
+      <app-notifications></app-notifications>
+    </main>
+  }
+</div>

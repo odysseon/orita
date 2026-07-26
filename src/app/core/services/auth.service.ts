@@ -8,6 +8,10 @@ import { ILogin, ILoginResponse } from '../../pages/auth/login/login.interface';
 import { IRegister } from '../../pages/auth/register/register.interface';
 import { environment } from '../../../environments/environment';
 import { ExplorationService } from './exploration.service';
+import { IProfile } from '../../pages/profile/profile.interface';
+import { effect } from '@angular/core';
+import { NotificationPermissionService } from './notification-permission.service';
+import { CacheService, CacheKeys } from './cache.service';
 
 const TOKEN_KEY = 'auth_token';
 
@@ -18,8 +22,34 @@ export class AuthService {
   #toast = inject(ToastService);
   #cookie = inject(CookieService);
   #exploration = inject(ExplorationService);
+  #push = inject(NotificationPermissionService);
+  #cache = inject(CacheService);
 
   readonly token = signal<string | undefined>(this.#cookie.get(TOKEN_KEY));
+  readonly currentUser = signal<IProfile | null>(this.#cache.get<IProfile>(CacheKeys.PROFILE));
+
+  constructor() {
+    effect(() => {
+      const t = this.token();
+      if (t) {
+        this.fetchCurrentUser();
+      } else {
+        this.currentUser.set(null);
+      }
+    });
+  }
+
+  async fetchCurrentUser(): Promise<void> {
+    try {
+      const profile = await firstValueFrom(
+        this.#http.get<IProfile>(`${environment.apiUrl}/users/me`)
+      );
+      this.#cache.set(CacheKeys.PROFILE, profile);
+      this.currentUser.set(profile);
+    } catch (err) {
+      console.error('Failed to fetch user profile', err);
+    }
+  }
 
   async login(credentials: ILogin & { remember: boolean }, returnUrl: string = '/home'): Promise<boolean> {
     try {
@@ -88,15 +118,24 @@ export class AuthService {
     }
   }
 
-  logout(expired = false, returnUrl?: string): void {
-    this.#cookie.delete(TOKEN_KEY);
+  logout(expired = false, returnUrl?: string, shouldRedirect = true): void {
+    // Unsubscribe from push notifications before removing the token
+    this.#push.unsubscribe().catch((err) => console.error(err));
+
+    this.#cookie.delete(TOKEN_KEY, { secure: environment.production });
+    this.#cache.remove(CacheKeys.PROFILE);
     this.token.set(undefined);
-    if (expired) {
+    this.currentUser.set(null);
+    
+    if (expired && shouldRedirect) {
       this.#toast.error('Session Expired', 'Please log in again to continue.');
-    } else {
+    } else if (!expired && shouldRedirect) {
       this.#toast.info('Goodbye', 'You have been logged out.');
     }
-    this.#router.navigate(['/auth/login'], returnUrl ? { queryParams: { returnUrl } } : undefined);
+    
+    if (shouldRedirect) {
+      this.#router.navigate(['/auth/login'], returnUrl ? { queryParams: { returnUrl } } : undefined);
+    }
   }
 
   #setToken(token: string, expires?: Date): void {

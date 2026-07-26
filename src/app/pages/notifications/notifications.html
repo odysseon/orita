@@ -1,0 +1,59 @@
+<div class="notifications-page">
+  <div class="notifications-header">
+    <h1>Notifications</h1>
+    @if (notificationService.unreadCount() > 0) {
+      <button app-button appearance="ghost" size="sm" (click)="notificationService.markAllAsRead()">
+        Mark all as read
+      </button>
+    }
+  </div>
+
+  @if (notificationService.isLoading() && notificationService.notifications().length === 0) {
+    <div class="empty-state">
+      <p>Loading notifications...</p>
+    </div>
+  } @else if (notificationService.notifications().length === 0) {
+    <div class="empty-state">
+      <svg icon lucideBell aria-hidden="true" width="48" height="48"></svg>
+      <p>You have no notifications right now.</p>
+    </div>
+  } @else {
+    <ui-list [bordered]="true" [radius]="true" [dividers]="true" class="notif-list">
+      @for (notif of notificationService.notifications(); track notif.id) {
+        <button uiListItem class="notif-item" [class.is-unread]="!notif.isRead" (click)="onNotificationClick(notif)">
+          <div uiListItemStart>
+            <div class="notif-icon-wrap" [class.is-unread-icon]="!notif.isRead">
+              @if (notif.icon === 'lucideTag') {
+                <svg lucideTag aria-hidden="true"></svg>
+              } @else {
+                <svg lucideBell aria-hidden="true"></svg>
+              }
+            </div>
+          </div>
+          
+          <div uiListItemContent>
+            <div uiListItemTitle [class.is-unread-title]="!notif.isRead">{{ notif.title }}</div>
+            @if (notif.subtitle) {
+              <div uiListItemDescription>{{ notif.subtitle }}</div>
+            }
+          </div>
+
+          <div uiListItemEnd class="notif-end">
+            <span class="timestamp">{{ notif.createdAt | date:'shortTime' }}</span>
+            @if (!notif.isRead) {
+              <span class="unread-dot" aria-label="Unread"></span>
+            }
+          </div>
+        </button>
+      }
+    </ui-list>
+
+    @if (notificationService.hasMore()) {
+      <div style="margin-top: var(--space-md); text-align: center;">
+        <button app-button appearance="outline" size="md" (click)="notificationService.loadMore()" [disabled]="notificationService.isLoading()">
+          {{ notificationService.isLoading() ? 'Loading...' : 'Load Older' }}
+        </button>
+      </div>
+    }
+  }
+</div>

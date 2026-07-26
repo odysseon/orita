@@ -20,4 +20,5 @@ export interface IProfile {
   activeExplorationLat?: number | null;
   activeExplorationLng?: number | null;
   activeExplorationName?: string | null;
+  interestedCategories?: string[];
 }

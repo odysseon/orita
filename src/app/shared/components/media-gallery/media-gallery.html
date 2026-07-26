@@ -1,0 +1,34 @@
+<div class="media-gallery-container" [ngClass]="'layout-' + layout().type.toLowerCase()">
+  @for (item of visibleItems(); track item.id; let i = $index) {
+    <div class="media-tile" (click)="openViewer(i)">
+      @if (item.kind === 'IMAGE') {
+        <img class="media-image" [src]="item.thumbnailUrl || item.previewUrl" [alt]="item.alt || ''" loading="lazy" />
+      } @else if (item.kind === 'VIDEO') {
+        <div class="media-video-wrapper">
+          <video class="media-video" [src]="item.previewUrl" preload="metadata"></video>
+          <div class="media-video-overlay">
+            <svg lucideVideo aria-hidden="true"></svg>
+          </div>
+        </div>
+      } @else {
+        <div class="media-file-placeholder">
+          <svg lucideFile aria-hidden="true"></svg>
+        </div>
+      }
+
+      @if (i === 3 && layout().hasMore) {
+        <div class="media-more-overlay">
+          <span>+{{ layout().moreCount }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+@if (isViewerOpen) {
+  <app-media-viewer
+    [items]="viewerItems"
+    [initialIndex]="viewerInitialIndex"
+    (close)="closeViewer()"
+  />
+}

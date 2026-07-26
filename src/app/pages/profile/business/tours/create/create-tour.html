@@ -1,0 +1,19 @@
+<div class="page-container">
+      <!-- We use a standard header, the user can click cancel to go back -->
+      <app-page-header title="Create Tour"></app-page-header>
+      
+      <main class="page-content">
+        <div class="content-wrapper">
+          <header class="page-header">
+            <h1>Create a Tour</h1>
+            <p>Showcase a visual story of your business to potential visitors.</p>
+          </header>
+
+          <app-tour-form
+            [isSubmitting]="isSubmitting()"
+            (save)="onSave($event)"
+            (cancel)="onCancel()"
+          />
+        </div>
+      </main>
+    </div>

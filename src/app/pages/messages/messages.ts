@@ -1,62 +1,96 @@
-import { Component } from '@angular/core';
-import { LucideMessageCircle } from '@lucide/angular';
-import { AppHeader } from '../../shared/app-header/app-header';
+import { Component, inject, OnInit, signal, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
+import { ConversationSidebar } from '../../shared/ui/organisms/messaging/conversation-sidebar/conversation-sidebar';
+import { ConversationView } from '../../shared/ui/organisms/messaging/conversation-view/conversation-view';
+import { MessagingRepository } from '../../core/services/messaging-repository.service';
+import { SendMessageCommand } from '../../core/services/messaging.types';
+import { AuthService } from '../../core/services/auth.service';
+import { DraftMessageService } from '../../core/services/draft-message.service';
+import { NotificationService } from '../../core/services/notification.service';
+import { NotificationsPage } from '../notifications/notifications';
+import { LucideTriangleAlert } from '@lucide/angular';
+import { Button } from '../../shared/ui/atoms/button/button';
+import { Badge } from '../../shared/ui/atoms/badge/badge';
+
+import { Tabs, TabList, TabTrigger } from '../../shared/ui/molecules/tabs';
 
 @Component({
-  selector: 'app-messages-page',
-  imports: [AppHeader, LucideMessageCircle],
-  template: `
-    <ui-app-header pageTitle="Messages" [showLogo]="false"></ui-app-header>
-    <div class="empty-state-wrapper">
-      <div class="empty-state">
-        <div class="empty-state__icon">
-          <svg lucideMessageCircle aria-hidden="true" style="width: 40px; height: 40px;"></svg>
-        </div>
-        <h2 class="empty-state__title">Connect with Locals</h2>
-        <p class="empty-state__desc">
-          Get ready to chat directly with businesses, tour guides, and other locals. We're building a seamless messaging experience just for you.
-        </p>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .empty-state-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: calc(100vh - var(--app-header-height) - var(--nav-height, 0px));
-      padding: var(--size-24);
-    }
-    .empty-state {
-      text-align: center;
-      max-width: 400px;
-    }
-    .empty-state__icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto var(--size-24);
-      background: var(--surface-2);
-      border-radius: var(--radius-full);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary);
-    }
-    .empty-state__icon svg {
-      width: 40px;
-      height: 40px;
-    }
-    .empty-state__title {
-      font-size: var(--size-24);
-      font-weight: 700;
-      color: var(--text-1);
-      margin-bottom: var(--size-12);
-    }
-    .empty-state__desc {
-      font-size: var(--size-16);
-      color: var(--text-2);
-      line-height: 1.5;
-    }
-  `],
+  selector: 'app-messages',
+  imports: [RootHeader, ConversationSidebar, ConversationView, NotificationsPage, LucideTriangleAlert, Button, Badge, Tabs, TabList, TabTrigger],
+  templateUrl: './messages.html',
+  styleUrl: './messages.css'
 })
-export class MessagesPage {}
+export class MessagesPage implements OnInit {
+  messaging = inject(MessagingRepository);
+  notificationService = inject(NotificationService);
+  #auth = inject(AuthService);
+  #draftStore = inject(DraftMessageService);
+
+  activeTab: 'inbox' | 'updates' = 'inbox';
+
+  readonly isDesktop = signal<boolean>(false);
+  #platformId = inject(PLATFORM_ID);
+
+  constructor() {
+    if (isPlatformBrowser(this.#platformId)) {
+      const mediaQuery = window.matchMedia('(min-width: 768px)');
+      this.isDesktop.set(mediaQuery.matches);
+
+      mediaQuery.addEventListener('change', (e) => {
+        this.isDesktop.set(e.matches);
+      });
+    }
+  }
+
+  get activeConversationId(): () => string | null {
+    return this.messaging.activeConversation() ? () => this.messaging.activeConversation()!.id : () => null;
+  }
+
+  get viewerParticipantId(): () => string | undefined {
+    return this.messaging.activeConversation() ? () => (this.messaging.activeConversation() as any)!.viewer?.participantId : () => undefined;
+  }
+
+  ngOnInit(): void {
+    this.messaging.loadConversations();
+  }
+
+  onSelectConversation(id: string): void {
+    this.messaging.loadConversation(id);
+  }
+
+  onBackToSidebar(): void {
+    // Clear active conversation to go back to list on mobile
+    this.messaging.clearActiveConversation();
+  }
+
+  async onSendMessage(command: SendMessageCommand): Promise<void> {
+    const id = this.activeConversationId();
+    if (!id) return;
+    
+    // In real app, currentUserId is retrieved from Auth or User profile
+    const userId = 'self';
+    
+    try {
+      await this.messaging.sendMessage(id, command);
+      // Clear drafts on success
+      this.#draftStore.clearDraft(id);
+    } catch (err) {
+      console.error('Failed to send message', err);
+    }
+  }
+
+  onRetry(messageId: string): void {
+    const id = this.activeConversationId();
+    if (id) {
+      this.messaging.retryMessage(id, messageId);
+    }
+  }
+
+  onDiscard(messageId: string): void {
+    const id = this.activeConversationId();
+    if (id) {
+      this.messaging.discardMessage(id, messageId);
+    }
+  }
+}

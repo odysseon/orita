@@ -124,7 +124,7 @@
   height: var(--size-20);
   border-radius: var(--radius-pill);
   border: none;
-  background: oklch(0% 0 0 / 0.6);
+  background: var(--surface-ink);
   color: white;
   cursor: pointer;
   opacity: 0;

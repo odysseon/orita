@@ -1,0 +1,132 @@
+:host {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.location-picker__trigger {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--size-6, 6px);
+  max-width: 100%;
+  padding-left: var(--size-8, 8px);
+  padding-right: var(--size-8, 8px);
+  color: var(--text-secondary);
+  min-width: 0;
+}
+
+.location-picker__trigger svg {
+  flex-shrink: 0;
+  width: var(--size-18, 18px);
+  height: var(--size-18, 18px);
+  color: var(--text-muted);
+}
+
+.location-picker__label {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 200px;
+}
+
+@media (min-width: 640px) {
+  .location-picker__label {
+    max-width: 320px;
+  }
+}
+
+.location-picker__body {
+  display: flex;
+  flex-direction: column;
+  padding: var(--size-16);
+  gap: var(--size-16);
+}
+
+.location-picker__divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  margin: var(--size-8) 0;
+}
+
+.location-picker__divider::before,
+.location-picker__divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.location-picker__divider span {
+  padding: 0 var(--size-16);
+}
+
+.location-picker__results {
+  max-height: 250px;
+  overflow-y: auto;
+  margin-top: var(--size-8);
+}
+
+.location-picker__loading {
+  padding: var(--size-16);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.result-icon {
+  width: var(--size-16);
+  height: var(--size-16);
+  color: var(--text-muted);
+  margin-right: var(--size-12);
+  flex-shrink: 0;
+}
+
+.result-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.result-name {
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.result-display {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.location-picker__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--size-16);
+  border-top: 1px solid var(--border-subtle);
+  background: var(--surface-card);
+}
+
+.location-picker__actions-left {
+  display: flex;
+  align-items: center;
+}
+
+.location-picker__actions-right {
+  display: flex;
+  align-items: center;
+  gap: var(--size-12);
+}

@@ -1,0 +1,103 @@
+/* ============================================================
+ * FORM FIELD
+ * ============================================================ */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.form-field--horizontal {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.form-field--horizontal .form-field__header {
+  flex: 0 0 30%;
+  padding-top: var(--size-10); /* Align label visually with input text baseline */
+}
+
+.form-field--horizontal .form-field__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+/* ============================================================
+ * HEADER (Label + Description)
+ * ============================================================ */
+.form-field__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-2);
+}
+
+.form-field__label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--size-4);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  /* Encourage clicking the label to focus the control */
+  cursor: pointer;
+}
+
+.form-field.is-disabled .form-field__label {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.form-field__required-indicator {
+  color: var(--clr-error);
+}
+
+.form-field__optional-indicator {
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.form-field__description {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.form-field.is-disabled .form-field__description {
+  opacity: 0.55;
+}
+
+/* ============================================================
+ * BODY & FOOTER
+ * ============================================================ */
+.form-field__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4);
+}
+
+.form-field__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-2);
+}
+
+.form-field__hint {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.form-field.is-disabled .form-field__hint {
+  opacity: 0.55;
+}
+
+.form-field__error {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--clr-error);
+}
+
+

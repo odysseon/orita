@@ -1,25 +1,25 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { form, FormField, required, email, pattern } from '@angular/forms/signals';
-import { LucideLoaderCircle } from '@lucide/angular';
 import { AuthService } from '../../../core/services/auth.service';
 
 import { AppAuthCard } from '../../../shared/auth-card/auth-card';
-import { AppFormField } from '../../../shared/form-field/form-field';
-import { AppPasswordField } from '../../../shared/password-field/password-field';
+import { AppFormField } from '../../../shared/ui/atoms/form-field/form-field';
+import { PasswordField } from '../../../shared/ui/molecules/password-field';
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
 import { ValidationService } from '../../../core/services/validation.service';
 
+import { Button } from '../../../shared/ui/atoms/button/button';
+
 @Component({
   selector: 'app-login',
-  imports: [
+  imports: [FormField, 
     RouterLink,
-    FormField,
-    LucideLoaderCircle,
-    AppAuthCard,
     AppFormField,
-    AppPasswordField,
+    AppAuthCard,
+    PasswordField,
     AppGoogleSignIn,
+    Button,
   ],
   templateUrl: './login.html',
   styleUrls: ['../auth.css'],

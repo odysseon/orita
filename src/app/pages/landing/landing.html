@@ -1,13 +1,5 @@
-<ui-app-header layout="wide" [showLocationPill]="false">
-  <nav class="hero__links">
-    <a routerLink="/auth/register" class="hero__link-business">For Businesses</a>
-  </nav>
-
-  <div class="hero__actions">
-    <button class="btn btn--ghost btn--sm" (click)="login()">Log In</button>
-    <button class="btn btn--primary btn--sm hero__action-primary" (click)="explore()">Start Exploring</button>
-  </div>
-</ui-app-header>
+<app-landing-header [uiScrollHide]="true" exploreLink="/home" registerLink="/auth/register">
+</app-landing-header>
 
 <main class="landing">
   <app-hero />

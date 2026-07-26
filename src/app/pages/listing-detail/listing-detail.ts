@@ -4,39 +4,45 @@ import { resource } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
-
   LucidePackage,
   LucideBookmark,
-  LucideStore,
-  LucideMessageCircle,
-  LucidePhone,
   LucideStar,
-  LucideMapPin,
 } from '@lucide/angular';
 import { environment } from '../../../environments/environment';
 import { ShareButton } from '../../shared/share-button/share-button';
-import { SaveButton } from '../../shared/save-button/save-button';
+import { ShareButton as UiShareButton } from '../../shared/ui/actions/share-button/share-button';
+import { ShareModalComponent } from '../../shared/ui/organisms/share-modal/share-modal';
+import { SaveButton } from '../../shared/ui/actions/save-button/save-button';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { IBusinessLite, IListingDetail } from './listing.detail.interface';
 import { LayoutPage } from '../../shared/layout/sub-layout/layout-page.interface';
 import { CategoryService } from '../../core/services/category.service';
 import { ListingAttributeFormatter, DisplayAttribute } from '../../shared/utils/listing-attribute-formatter';
+import { ListingReviews } from './components/listing-reviews/listing-reviews';
+import { ListingAttributes } from './components/listing-attributes/listing-attributes';
+import { ListingBusinessCard } from './components/listing-business-card/listing-business-card';
+
+import { Button } from '../../shared/ui/atoms/button/button';
+import { CoverMedia } from '../../shared/ui/surfaces/cover-media/cover-media';
 
 @Component({
   selector: 'app-listing-detail',
   imports: [
     RouterLink,
     ShareButton,
+    UiShareButton,
     SaveButton,
     EmptyState,
     SeoComponent,
     LucidePackage,
-    LucideStore,
-    LucideMessageCircle,
-    LucidePhone,
     LucideStar,
-    LucideMapPin,
+    ListingReviews,
+    ListingAttributes,
+    ListingBusinessCard,
+    ShareModalComponent,
+    Button,
+    CoverMedia,
   ],
   templateUrl: './listing-detail.html',
   styleUrl: './listing-detail.css',
@@ -48,6 +54,7 @@ export class ListingDetail implements LayoutPage {
   #categoryService = inject(CategoryService);
 
   readonly Math = Math;
+  readonly showShareModal = signal(false);
 
   readonly slug = computed(() => this.#route.snapshot.paramMap.get('slug') ?? '');
 
@@ -58,9 +65,9 @@ export class ListingDetail implements LayoutPage {
   readonly pageTitle = computed(() => this.listing.value()?.title);
 
   readonly business = httpResource<IBusinessLite>(() => {
-    const businessId = this.listing.value()?.businessProfileId;
-    if (!businessId) return undefined;
-    return `${environment.apiUrl}/businesses/${businessId}`;
+    const slug = this.listing.value()?.businessProfileSlug;
+    if (!slug) return undefined;
+    return `${environment.apiUrl}/businesses/${slug}`;
   });
 
   readonly avgRating = computed(() => {
@@ -145,5 +152,21 @@ export class ListingDetail implements LayoutPage {
 
   openWhatsapp(number: string): void {
     window.open(`https://wa.me/${number.replace(/\D/g, '')}`, '_blank');
+  }
+
+  async toggleSave(item: IListingDetail): Promise<void> {
+    if (!item) return;
+    const current = item.isSaved || false;
+    const endpoint = `${environment.apiUrl}/listings/${item.id}/save`;
+    try {
+      if (current) {
+        await firstValueFrom(this.#http.delete(endpoint));
+      } else {
+        await firstValueFrom(this.#http.post(endpoint, {}));
+      }
+      item.isSaved = !current;
+    } catch {
+      // ignore
+    }
   }
 }

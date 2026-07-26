@@ -1,0 +1,66 @@
+/* 
+  The host element is a wrapper around the actual button that has uiListItem.
+  We use display: contents so the button participates directly in the list's flex layout.
+*/
+.ui-conversation-list-item-host {
+  display: contents;
+}
+
+.ui-conversation-list-item {
+  /* Inherits styles from uiListItem (.ui-list-item) */
+}
+
+.ui-conversation-list-item__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ui-conversation-list-item__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--size-8);
+}
+
+.ui-conversation-list-item__snippet {
+  flex-grow: 1;
+}
+
+.ui-conversation-list-item__time {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.ui-conversation-list-item__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--clr-primary);
+  color: var(--clr-on-primary, #ffffff);
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 9px;
+  flex-shrink: 0;
+}
+
+/* Unread states */
+.ui-conversation-list-item__header .ui-list-item-title.is-unread {
+  font-weight: var(--font-weight-bold);
+}
+
+.ui-conversation-list-item__time.is-unread {
+  color: var(--clr-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.ui-conversation-list-item__snippet.is-unread {
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+}

@@ -1,0 +1,59 @@
+<div class="media-viewer-overlay" (click)="onClose()">
+  <div class="viewer-controls">
+    <span class="viewer-counter">{{ currentIndex() + 1 }} / {{ items().length }}</span>
+    <button class="btn-icon" (click)="onClose(); $event.stopPropagation()">
+      <svg lucideX aria-hidden="true"></svg>
+    </button>
+  </div>
+
+  @if (hasPrev()) {
+    <button class="nav-btn prev-btn" (click)="prev(); $event.stopPropagation()">
+      <svg lucideChevronLeft aria-hidden="true"></svg>
+    </button>
+  }
+
+  <div class="viewer-content" 
+       (touchstart)="onTouchStart($event)"
+       (touchmove)="onTouchMove($event)"
+       (touchend)="onTouchEnd($event)"
+       (click)="$event.stopPropagation(); onTap($event)">
+    
+    @for (item of items(); track item.id; let i = $index) {
+      @if (shouldPreload(i)) {
+        <div class="media-slide" [class.active]="i === currentIndex()">
+          @if (item.kind === 'IMAGE') {
+            <img 
+              [src]="item.url" 
+              [alt]="item.alt || 'Media viewer image'"
+              class="viewer-media image"
+              [style.transform]="'scale(' + scale() + ') translate(' + translateX() + 'px, ' + translateY() + 'px)'"
+              [style.transition]="isSwiping ? 'none' : 'transform 0.2s ease-out'"
+            />
+          } @else if (item.kind === 'VIDEO') {
+            <video 
+              [src]="item.url" 
+              class="viewer-media video" 
+              controls 
+              controlsList="nodownload"
+              [style.transform]="'scale(' + scale() + ')'"
+            ></video>
+          } @else {
+            <div class="file-preview-card">
+              <span class="file-name">{{ item.alt || 'File attachment' }}</span>
+              <a [href]="item.url" download class="btn-download" (click)="$event.stopPropagation()">
+                <svg lucideDownload aria-hidden="true"></svg>
+                Download
+              </a>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+
+  @if (hasNext()) {
+    <button class="nav-btn next-btn" (click)="next(); $event.stopPropagation()">
+      <svg lucideChevronRight aria-hidden="true"></svg>
+    </button>
+  }
+</div>

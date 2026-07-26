@@ -1,0 +1,37 @@
+<ui-drawer [open]="isOpen()" position="right" size="md" title="Cannot publish yet" (closed)="onClose()">
+  <div class="readiness-content">
+    <p class="readiness-desc">Please resolve the following issues before publishing.</p>
+
+    @if (errors().length > 0) {
+      <div class="issue-group">
+        <h3 class="issue-group-title">Errors</h3>
+        <ul class="issue-list">
+          @for (err of errors(); track err.code) {
+            <li class="issue-item issue-error">
+              <svg lucideXCircle aria-hidden="true" class="issue-icon"></svg>
+              <span>{{ err.message }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    @if (warnings().length > 0) {
+      <div class="issue-group">
+        <h3 class="issue-group-title">Suggestions</h3>
+        <ul class="issue-list">
+          @for (warn of warnings(); track warn.code) {
+            <li class="issue-item issue-warning">
+              <svg lucideAlertTriangle aria-hidden="true" class="issue-icon"></svg>
+              <span>{{ warn.message }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    <div class="readiness-actions">
+      <button app-button intent="primary"  style="width: 100%;" (click)="onClose()">Got it</button>
+    </div>
+  </div>
+</ui-drawer>

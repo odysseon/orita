@@ -8,47 +8,44 @@
     <app-form-field
       label="Username"
       fieldId="username"
-      [touched]="registerForm.username().touched()"
       [invalid]="registerForm.username().invalid()"
       [errorMessage]="registerForm.username().errors()[0]?.message"
     >
       <input
         id="username"
-        class="field__input"
+        class="app-input"
         type="text"
         placeholder="hammed_anu"
         autocomplete="username"
         [formField]="registerForm.username"
-        [class.field__input--error]="registerForm.username().touched() && registerForm.username().invalid()"
+        [attr.aria-invalid]="registerForm.username().touched() && registerForm.username().invalid()"
       />
     </app-form-field>
 
     <app-form-field
       label="Email"
       fieldId="email"
-      [touched]="registerForm.email().touched()"
       [invalid]="registerForm.email().invalid()"
       [errorMessage]="registerForm.email().errors()[0]?.message"
     >
       <input
         id="email"
-        class="field__input"
+        class="app-input"
         type="email"
         placeholder="you@example.com"
         autocomplete="email"
         [formField]="registerForm.email"
-        [class.field__input--error]="registerForm.email().touched() && registerForm.email().invalid()"
+        [attr.aria-invalid]="registerForm.email().touched() && registerForm.email().invalid()"
       />
     </app-form-field>
 
-    <app-password-field
+    <ui-password-field
       label="Password"
       fieldId="password"
       [formField]="registerForm.password"
-      [touched]="registerForm.password().touched()"
       [invalid]="registerForm.password().invalid()"
       [errorMessage]="registerForm.password().errors()[0]?.message"
-    ></app-password-field>
+    ></ui-password-field>
 
     <p class="auth-form__legal">
       By creating an account, you agree to our 
@@ -57,13 +54,15 @@
     </p>
 
     <button
-      class="btn btn--primary btn--full auth-form__submit"
+      app-button
+      intent="primary"
+      fullWidth
+      class="auth-form__submit"
       type="submit"
       [disabled]="loading() || isFormInvalid()"
+      [loading]="loading()"
     >
-      @if (loading()) {
-      <svg lucideLoaderCircle class="auth-form__spinner" aria-hidden="true"></svg>
-      Creating account… } @else { Create account }
+      Create account
     </button>
 
     <div class="auth-divider">

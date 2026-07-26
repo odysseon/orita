@@ -3,6 +3,7 @@ import { httpResource } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 import { IListingSummary, IBusinessSummary, IPaginated } from '../../pages/home/home.interface';
+import { IProfile } from '../../pages/profile/profile.interface';
 import { SearchFilters } from '../models/search.model';
 
 @Service()
@@ -39,6 +40,18 @@ export class SearchService {
   getBusinessesResource(paramsSignal: Signal<SearchFilters | null>) {
     return httpResource<IPaginated<IBusinessSummary>>(() => 
       this.buildUrl(`${this.#apiUrl}/businesses`, paramsSignal())
+    );
+  }
+
+  getUsersResource(paramsSignal: Signal<SearchFilters | null>) {
+    return httpResource<IPaginated<IProfile>>(() => 
+      this.buildUrl(`${this.#apiUrl}/users`, paramsSignal())
+    );
+  }
+
+  getToursResource(paramsSignal: Signal<SearchFilters | null>) {
+    return httpResource<IPaginated<any>>(() => 
+      this.buildUrl(`${this.#apiUrl}/tours`, paramsSignal())
     );
   }
 }

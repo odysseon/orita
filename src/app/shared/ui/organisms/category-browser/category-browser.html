@@ -1,0 +1,62 @@
+<div class="category-browser" [attr.data-mode]="mode()">
+  @if (viewState() === 'loading') {
+    <div class="category-browser-loading">Loading categories...</div>
+  } @else if (viewState() === 'empty') {
+    <div class="category-browser-empty">No categories found.</div>
+  } @else if (viewState() === 'roots') {
+    <div class="category-list">
+      @for (category of categories.value(); track category.id) {
+        <button 
+          class="category-item" 
+          (click)="selectParent(category)"
+        >
+          <div class="category-info">
+            <span class="category-name">{{ category.name }}</span>
+          </div>
+          <svg lucideChevronRight class="category-icon" aria-hidden="true"></svg>
+        </button>
+      }
+    </div>
+  } @else if (viewState() === 'children') {
+    @if (activeParent(); as parent) {
+      <div class="category-header">
+        <button class="category-back-btn" (click)="goBack()">
+          <svg lucideChevronDown class="category-icon category-icon--rotated" aria-hidden="true"></svg>
+          <span class="category-name">{{ parent.name }}</span>
+        </button>
+      </div>
+
+      <div class="category-list">
+        @if (config().selectableRoots) {
+          <label class="category-checkbox-item category-checkbox-item--root">
+            <input 
+              type="checkbox" 
+              [checked]="isSelected(parent.id)"
+              (change)="toggleSelection(parent, true)"
+            >
+            <span class="checkbox-custom">
+              <svg lucideCheck class="checkbox-icon" aria-hidden="true"></svg>
+            </span>
+            <span class="category-name">Follow entire category</span>
+          </label>
+          <div class="category-divider"></div>
+        }
+
+        @for (child of parent.children; track child.id) {
+          <label class="category-checkbox-item">
+            <input 
+              type="checkbox" 
+              [checked]="isSelected(child.id)"
+              (change)="toggleSelection(child, false)"
+              [disabled]="config().selectableRoots && isSelected(parent.id)"
+            >
+            <span class="checkbox-custom">
+              <svg lucideCheck class="checkbox-icon" aria-hidden="true"></svg>
+            </span>
+            <span class="category-name">{{ child.name }}</span>
+          </label>
+        }
+      </div>
+    }
+  }
+</div>

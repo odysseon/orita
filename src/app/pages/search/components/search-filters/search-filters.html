@@ -1,12 +1,12 @@
-<ui-drawer [open]="isOpen()" (openChange)="isOpenChange.emit($event)" position="bottom" size="auto" title="Filters" [showCloseButton]="true">
-  <form class="drawer-content" [formGroup]="filtersForm" (submit)="$event.preventDefault()">
+<ui-drawer [open]="isOpen()" (openChange)="isOpenChange.emit($event)" position="bottom" size="lg" title="Filters" [showCloseButton]="true">
+  <form class="drawer-content" (submit)="$event.preventDefault()">
     
     <!-- Location Section -->
     <div class="filter-section">
       <label>Location</label>
       
-      <app-location-picker
-        [currentAddress]="filtersForm.value.locationName || undefined"
+      <ui-location-picker
+        [currentAddress]="internalModel().locationName || undefined"
         triggerLabel="Anywhere"
         (confirmed)="onLocationPicked($event)"
       />
@@ -15,30 +15,47 @@
     <!-- Radius Section -->
     <div class="filter-section">
       <label for="radius">Distance</label>
-      <select id="radius" formControlName="radius" class="form-input">
-        <option [ngValue]="5">Within 5 km</option>
-        <option [ngValue]="10">Within 10 km</option>
-        <option [ngValue]="25">Within 25 km</option>
-        <option [ngValue]="50">Within 50 km</option>
-        <option [ngValue]="100">Within 100 km</option>
+      <select id="radius" app-select
+              [value]="internalModel().radius" 
+              (change)="updateRadius($any($event.target).value)">
+        <option value="5">Within 5 km</option>
+        <option value="10">Within 10 km</option>
+        <option value="25">Within 25 km</option>
+        <option value="50">Within 50 km</option>
+        <option value="100">Within 100 km</option>
       </select>
     </div>
 
     <!-- Category Section -->
     <div class="filter-section">
-      <label for="category">Category</label>
-      <select id="category" formControlName="categoryId" class="form-input">
-        <option value="">All Categories</option>
-        @for (cat of categories(); track cat.id) {
-          <option [value]="cat.id">{{ cat.name }}</option>
-        }
-      </select>
+      <label>Category</label>
+      <ui-combobox (selected)="onCategorySelected($event)" [value]="internalModel().categoryId ? { id: internalModel().categoryId } : { id: '' }">
+        <input
+          uiComboboxInput
+          app-input
+          [value]="categoryQuery() || getCategoryName(internalModel().categoryId)"
+          (input)="categoryQuery.set($any($event.target).value)"
+          placeholder="Search categories..."
+          class="form-input"
+        />
+        <ui-combobox-list style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); margin-top: var(--size-4);">
+          <button type="button" uiComboboxOption [value]="{ id: '', name: 'All Categories' }">
+            All Categories
+          </button>
+          @for (cat of filteredCategories(); track cat.id) {
+            <button type="button" uiComboboxOption [value]="cat">
+              {{ cat.name }}
+            </button>
+          }
+        </ui-combobox-list>
+      </ui-combobox>
     </div>
+
 
     <!-- Sort Section -->
     <div class="filter-section">
       <label for="sort">Sort By</label>
-      <select id="sort" formControlName="sort" class="form-input">
+      <select id="sort" app-select [formField]="filtersForm.sort">
         <option value="relevance">Best Match</option>
         <option value="distance">Distance</option>
         @if (searchType() === 'listing') {
@@ -58,13 +75,13 @@
         <div style="display: flex; gap: 8px;">
           <input 
             type="number" 
-            formControlName="minPrice"
+            [formField]="filtersForm.minPrice"
             placeholder="Min Price"
             class="form-input"
           />
           <input 
             type="number" 
-            formControlName="maxPrice"
+            [formField]="filtersForm.maxPrice"
             placeholder="Max Price"
             class="form-input"
           />
@@ -72,27 +89,35 @@
       </div>
 
       @if (categoryAttributesResource.hasValue() && categoryAttributesResource.value()?.length) {
-        <div class="filter-section" formGroupName="filters">
+        <div class="filter-section">
           <label>Features</label>
           <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 4px;">
             @for (attr of categoryAttributesResource.value(); track attr.id) {
               <app-form-field [label]="attr.label" [fieldId]="'filter-' + attr.key">
                 @if (attr.type === 'SELECT' && attr.options) {
-                  <select [id]="'filter-' + attr.key" class="form-input" [formControlName]="attr.key">
-                    <option [ngValue]="undefined">Any</option>
+                  <select [id]="'filter-' + attr.key" app-select 
+                          [value]="internalModel().filters[attr.key] || ''"
+                          (change)="updateFilter(attr.key, $any($event.target).value)">
+                    <option value="">Any</option>
                     @for (opt of attr.options; track opt) {
                       <option [value]="opt">{{ opt }}</option>
                     }
                   </select>
                 } @else if (attr.type === 'BOOLEAN') {
                   <label class="checkbox-label">
-                    <input [id]="'filter-' + attr.key" type="checkbox" [formControlName]="attr.key" />
+                    <input [id]="'filter-' + attr.key" type="checkbox" 
+                           [checked]="internalModel().filters[attr.key]"
+                           (change)="updateFilter(attr.key, $any($event.target).checked)" />
                     <span>Yes</span>
                   </label>
                 } @else if (attr.type === 'NUMBER') {
-                  <input [id]="'filter-' + attr.key" class="form-input" type="number" [formControlName]="attr.key" placeholder="e.g. 5" />
+                  <input [id]="'filter-' + attr.key" class="form-input" type="number" 
+                         [value]="internalModel().filters[attr.key] || ''"
+                         (input)="updateFilter(attr.key, $any($event.target).value)" placeholder="e.g. 5" />
                 } @else {
-                  <input [id]="'filter-' + attr.key" class="form-input" type="text" [formControlName]="attr.key" placeholder="e.g. value" />
+                  <input [id]="'filter-' + attr.key" class="form-input" type="text" 
+                         [value]="internalModel().filters[attr.key] || ''"
+                         (input)="updateFilter(attr.key, $any($event.target).value)" placeholder="e.g. value" />
                 }
               </app-form-field>
             }
@@ -105,8 +130,8 @@
 
   <!-- Drawer Footer Actions -->
   <div class="drawer-footer">
-    <button class="btn btn-outline" (click)="clearFilters()">Clear</button>
-    <button class="btn btn-primary" (click)="onApply()">
+    <button app-button appearance="outline"  (click)="clearFilters()">Clear</button>
+    <button app-button intent="primary"  (click)="onApply()">
       Apply Filters
     </button>
   </div>

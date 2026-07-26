@@ -8,13 +8,17 @@ export type MediaResourceType =
   | 'business-profile'
   | 'listing'
   | 'review'
-  | 'business-tour';
+  | 'business-tour'
+  | 'user-profile'
+  | 'message';
 
 const ROUTE_MAP: Record<MediaResourceType, string> = {
   'business-profile': 'business-profiles',
   listing: 'listings',
   review: 'reviews',
   'business-tour': 'business-tours',
+  'user-profile': 'users',
+  'message': 'conversations',
 };
 
 export interface IMediaResponse {
@@ -68,8 +72,9 @@ export class MediaService {
     role: string
   ): Observable<IUploadIntentResponse> {
     const route = ROUTE_MAP[resourceType];
+    const path = resourceType === 'user-profile' ? `${route}/me` : `${route}/${resourceId}`;
     return this.#http.post<IUploadIntentResponse>(
-      `${this.#apiUrl}/${route}/${resourceId}/media/upload-intent`,
+      `${this.#apiUrl}/${path}/media/upload-intent`,
       { role }
     );
   }
@@ -121,8 +126,9 @@ export class MediaService {
     payload: IConsumeIntentRequest
   ): Observable<IMediaResponse> {
     const route = ROUTE_MAP[resourceType];
+    const path = resourceType === 'user-profile' ? `${route}/me` : `${route}/${resourceId}`;
     return this.#http.post<IMediaResponse>(
-      `${this.#apiUrl}/${route}/${resourceId}/media`,
+      `${this.#apiUrl}/${path}/media`,
       payload
     );
   }

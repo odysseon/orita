@@ -7,7 +7,7 @@
     >
       <svg lucideStore aria-hidden="true"></svg>
       Following @if (followedBusinesses.hasValue()) {
-      <span class="saved-tab__count">{{ followedBusinesses.value()!.total }}</span>
+      <span class="saved-tab__count">{{ followedBusinesses.value()!.length }}</span>
       }
     </button>
     <button
@@ -26,29 +26,27 @@
   @if (activeTab() === 'following') { @if (followedBusinesses.isLoading()) {
   <div class="saved-list">
     @for (i of [1,2,3]; track i) {
-    <div class="skeleton saved-item-skeleton"></div>
+    <app-skeleton class="saved-item-skeleton"></app-skeleton>
     }
   </div>
-  } @if (followedBusinesses.hasValue() && followedBusinesses.value()!.items.length === 0) {
+  } @if (followedBusinesses.hasValue() && followedBusinesses.value()!.length === 0) {
   <div class="saved-empty">
     <svg lucideBookmark aria-hidden="true"></svg>
     <p>No saved businesses yet.</p>
   </div>
-  } @if (followedBusinesses.hasValue() && followedBusinesses.value()!.items.length > 0) {
+  } @if (followedBusinesses.hasValue() && followedBusinesses.value()!.length > 0) {
   <div class="saved-list">
-    @for (saved of followedBusinesses.value()!.items; track saved.id) {
+    @for (saved of followedBusinesses.value()!; track saved.id) {
     <div class="saved-item">
       <a class="saved-item__link" [routerLink]="['/b', saved.business.slug]">
-        <div class="saved-item__image">
+        <div class="saved-item__avatar">
           @if (saved.business.media?.[0]?.url) {
           <img [src]="saved.business.media![0].url" [alt]="saved.business.name" loading="lazy" />
           } @else {
-          <div class="saved-item__placeholder">
-            <svg lucideStore aria-hidden="true"></svg>
-          </div>
+          <svg lucideStore aria-hidden="true"></svg>
           }
         </div>
-        <div class="saved-item__content">
+        <div class="saved-item__text">
           <span class="saved-item__title">{{ saved.business.name }}</span>
           @if (saved.business.description) {
           <span class="saved-item__subtitle">{{ saved.business.description }}</span>
@@ -56,11 +54,13 @@
         </div>
       </a>
       <button
-        type="button"
-        class="btn-icon saved-item__action"
+        app-button
+        appearance="plain"
+        class="saved-item__remove"
         [disabled]="removingId() === saved.businessId"
         (click)="unfollowBusiness(saved.businessId)"
-        aria-label="Remove from saved"
+        type="button"
+        aria-label="Unfollow"
       >
         <svg lucideX aria-hidden="true"></svg>
       </button>
@@ -73,7 +73,7 @@
   @if (activeTab() === 'listings') { @if (savedListings.isLoading()) {
   <div class="saved-list">
     @for (i of [1,2,3]; track i) {
-    <div class="skeleton saved-item-skeleton"></div>
+    <app-skeleton class="saved-item-skeleton"></app-skeleton>
     }
   </div>
   } @if (savedListings.hasValue() && savedListings.value()!.items.length === 0) {
@@ -95,6 +95,8 @@
         </div>
       </a>
       <button
+        app-button
+        appearance="plain"
         class="saved-item__remove"
         [disabled]="removingId() === saved.listingId"
         (click)="unsaveListing(saved.listingId)"

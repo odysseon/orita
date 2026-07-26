@@ -1,0 +1,203 @@
+.share-modal-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-x: hidden;
+  background: var(--surface-card);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+}
+
+/* -- Header ------------------------------------------------- */
+.target-header {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm);
+  gap: var(--size-12);
+  border-bottom: var(--size-1) solid var(--border-subtle);
+}
+
+.target-image,
+.target-image-placeholder {
+  width: var(--size-48);
+  height: var(--size-48);
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: var(--surface-container);
+}
+
+.target-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.target-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.target-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin: var(--size-2) 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+
+/* -- Auth prompt ---------------------------------------------- */
+.auth-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xl) var(--space-sm);
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: var(--font-size-md);
+}
+
+/* -- Search ----------------------------------------------------- */
+.search-box {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm) var(--space-sm) var(--space-xs);
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: calc(var(--space-sm) * 2);
+  width: var(--size-20);
+  height: var(--size-20);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-input {
+  padding-left: var(--size-48);
+  border-radius: var(--radius-pill);
+  background: var(--surface-container);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-input:focus {
+  background: var(--surface-card);
+  border-color: var(--clr-primary);
+}
+
+/* -- Composer ----------------------------------------------------- */
+.composer-row {
+  display: flex;
+  align-items: center;
+  gap: var(--size-12);
+  padding: var(--space-xs) var(--space-sm);
+  border-top: var(--size-1) solid var(--border-subtle);
+  background: var(--surface-card);
+}
+
+.message-input {
+  flex: 1;
+  min-width: 0;
+  border-radius: var(--radius-pill);
+}
+
+.message-input::placeholder {
+  color: var(--text-muted);
+}
+
+.message-input:focus {
+  border-color: var(--clr-primary);
+  background: var(--surface-card);
+}
+
+.send-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--size-6);
+  min-height: var(--size-40); /* was implicit ~32px via padding */
+  background: var(--clr-primary);
+  color: var(--clr-on-primary);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: var(--size-8) var(--space-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background var(--transition-fast),
+    opacity var(--transition-fast);
+}
+
+.send-btn:hover:not(:disabled) {
+  background: var(--clr-primary-dark);
+}
+
+.send-btn:disabled {
+  background: var(--surface-container-high);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.send-badge {
+  background: var(--clr-on-primary);
+  color: var(--clr-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  min-width: var(--size-16);
+  height: var(--size-16);
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--size-4);
+}
+
+.send-icon {
+  width: var(--size-16);
+  height: var(--size-16);
+}
+
+/* -- Small phones: tighten density ------------------------------- */
+@media (max-width: 380px) {
+  .target-image,
+  .target-image-placeholder {
+    width: var(--size-40);
+    height: var(--size-40);
+  }
+
+  .selected-chip span {
+    max-width: var(--size-64);
+  }
+}
+
+/* -- Tablet / desktop: stop being a full-bleed sheet -------------- */
+@media (min-width: 640px) {
+  .share-modal-content {
+    max-width: var(--size-480);
+    margin-inline: auto;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+}
+
+/* -- Reduced motion ------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .close-btn,
+  .search-input,
+  .message-input,
+  .send-btn {
+    transition-duration: 1ms;
+  }
+}

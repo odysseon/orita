@@ -1,0 +1,54 @@
+<form (ngSubmit)="onSubmit()" class="tour-form">
+      <!-- Media Section -->
+      <div class="form-section">
+        <h3>Media</h3>
+        <p class="section-desc">Upload a video or high-quality images. Vertical video (9:16) works best.</p>
+        <app-media-selector
+          [multiple]="true"
+          accept="image/*,video/*"
+          [maxSizeMb]="50"
+          [initialUrls]="initialMediaUrls"
+          (filesChanged)="onFilesChanged($event)"
+          (mediaRemoved)="onMediaRemoved($event)"
+        />
+      </div>
+
+      <!-- Details Section -->
+      <div class="form-section">
+        <h3>Details</h3>
+        
+        <div class="form-group">
+          <label for="title">Tour Title *</label>
+          <input type="text" id="title" class="form-control" [formField]="tourForm.title" placeholder="e.g. A walk through our new bakery">
+          @if (tourForm.title().touched() && tourForm.title().invalid()) {
+            <span class="error-text">Title is required.</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="summary">Summary</label>
+          <textarea id="summary" class="form-control" [formField]="tourForm.summary" rows="3" placeholder="Tell the story of this tour..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="visitDate">Visit Date *</label>
+          <input type="date" id="visitDate" class="form-control" [formField]="tourForm.visitDate">
+        </div>
+      </div>
+
+      <!-- Highlights Section -->
+      <div class="form-section">
+        <app-tour-form-highlights
+          [items]="highlights()"
+          (itemsChange)="onHighlightsChange($event)"
+        />
+      </div>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button app-button intent="secondary" type="button"  (click)="onCancel()">Cancel</button>
+        <button app-button intent="primary" type="submit"  [disabled]="tourForm().invalid() || isSubmitting()">
+          {{ isSubmitting() ? 'Saving...' : (isEdit() ? 'Update Tour' : 'Create Tour') }}
+        </button>
+      </div>
+    </form>

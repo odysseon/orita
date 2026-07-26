@@ -10,9 +10,11 @@ import { environment } from '../../../../../../environments/environment';
 import { ToastService } from '../../../../../core/services/toast';
 import { MediaService } from '../../../../../core/services/media.service';
 import { IListing, ICategory } from '../listing.interface';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { AppFormField } from '../../../../../shared/form-field/form-field';
+import { form, FormField, required } from '@angular/forms/signals';
+import { AppFormField } from '../../../../../shared/ui/atoms/form-field/form-field';
 import { CategoryService, ICategoryAttribute } from '../../../../../core/services/category.service';
+import { Button } from '../../../../../shared/ui/atoms/button/button';
+import { SelectDirective } from '../../../../../shared/ui/atoms/forms/select';
 
 interface IMedia {
   id: string;
@@ -22,10 +24,11 @@ interface IMedia {
 
 @Component({
   selector: 'app-edit-listing',
-  imports: [ReactiveFormsModule, AppFormField, LucideSave, MediaSelector],
+  imports: [FormField, AppFormField, LucideSave, MediaSelector, Button, SelectDirective],
   templateUrl: './edit-listing.html',
   styleUrl: './edit-listing.css',
 })
+
 export class EditListing implements OnInit {
   #http = inject(HttpClient);
   #toast = inject(ToastService);
@@ -33,8 +36,6 @@ export class EditListing implements OnInit {
   #router = inject(Router);
   #categoryService = inject(CategoryService);
   #mediaService = inject(MediaService);
-
-  #fb = inject(FormBuilder);
 
   readonly listingId = signal<string>('');
   readonly listing = signal<IListing | null>(null);
@@ -54,14 +55,18 @@ export class EditListing implements OnInit {
   readonly mediaIdsToDelete = signal<string[]>([]);
 
   // Form State
-  readonly editForm = this.#fb.group({
-    title: [''],
-    description: [''],
-    categoryId: [''],
-    minPrice: this.#fb.control<number | null>(null),
-    maxPrice: this.#fb.control<number | null>(null),
-    isNegotiable: [false],
-    attributesData: this.#fb.record<any>({}),
+  readonly editModel = signal({
+    title: '',
+    description: '',
+    categoryId: '',
+    minPrice: null as number | null,
+    maxPrice: null as number | null,
+    isNegotiable: false,
+    attributesData: {} as Record<string, any>,
+  });
+
+  readonly editForm = form(this.editModel, (f) => {
+    required(f.title, { message: 'Title is required' });
   });
 
   readonly isLoading = signal(true);
@@ -85,19 +90,16 @@ export class EditListing implements OnInit {
       );
       this.listing.set(l);
 
-      this.editForm.patchValue({
+      const attrsData = l.attributes || {};
+      
+      this.editModel.set({
         title: l.title,
         description: l.description || '',
         categoryId: l.categoryId || '',
         minPrice: l.minPrice ? Number(l.minPrice) : null,
         maxPrice: l.maxPrice ? Number(l.maxPrice) : null,
         isNegotiable: l.isNegotiable,
-      });
-
-      const attrsData = l.attributes || {};
-      const attributesRecord = this.editForm.controls.attributesData;
-      Object.keys(attrsData).forEach((k) => {
-        attributesRecord.addControl(k, this.#fb.control(attrsData[k]));
+        attributesData: attrsData
       });
 
       const mediaRes = await firstValueFrom(
@@ -123,32 +125,45 @@ export class EditListing implements OnInit {
     if (catId) {
       const attrs = await this.#categoryService.getCategoryAttributes(catId);
       this.attributes.set(attrs);
-      const attributesRecord = this.editForm.controls.attributesData;
-      attrs.forEach((attr) => {
-        if (!attributesRecord.contains(attr.key)) {
-          attributesRecord.addControl(attr.key, this.#fb.control(''));
-        }
+      
+      this.editModel.update(m => {
+        const currentAttrs = { ...m.attributesData };
+        attrs.forEach(attr => {
+          if (currentAttrs[attr.key] === undefined) {
+            currentAttrs[attr.key] = '';
+          }
+        });
+        return { ...m, attributesData: currentAttrs };
       });
     } else {
       this.attributes.set([]);
     }
   }
 
-  async onCategoryChange() {
-    const catId = this.editForm.value.categoryId || '';
-    this.editForm.setControl('attributesData', this.#fb.record<any>({}));
+  async onCategoryChange(catId: string) {
+    this.editModel.update(m => ({ ...m, categoryId: catId, attributesData: {} }));
     await this.loadCategoryAttributes(catId);
   }
 
+  updateAttribute(key: string, value: any) {
+    this.editModel.update(m => ({
+      ...m,
+      attributesData: {
+        ...m.attributesData,
+        [key]: value
+      }
+    }));
+  }
+
   async saveChanges() {
-    if (this.editForm.invalid) {
-      this.editForm.markAllAsTouched();
+    if (this.editForm().invalid()) {
+      this.editForm().markAsTouched();
       return;
     }
     this.isSaving.set(true);
     try {
       // 1. Save listing details
-      const val = this.editForm.value;
+      const val = this.editModel();
       const payload = {
         title: val.title,
         description: val.description,

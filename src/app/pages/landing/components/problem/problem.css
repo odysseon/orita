@@ -64,15 +64,15 @@
 }
 
 .negative {
-  background: rgba(220, 38, 38, 0.12);
+  background: var(--clr-error-container);
 
-  color: rgb(220, 38, 38);
+  color: var(--clr-error);
 }
 
 .positive {
-  background: rgba(34, 197, 94, 0.12);
+  background: var(--clr-success-container);
 
-  color: rgb(34, 197, 94);
+  color: var(--clr-success);
 }
 
 @media (max-width: 768px) {

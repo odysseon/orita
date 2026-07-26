@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { httpResource } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { parsePhoneNumberWithError, CountryCode, getCountryCallingCode } from 'libphonenumber-js';
 import { form, FormField, required, minLength, maxLength } from '@angular/forms/signals';
 import {
   LucideLoaderCircle,
@@ -10,15 +11,18 @@ import {
   LucideMapPin,
   LucideLayoutGrid,
   LucideIconInput,
+  LucideTrash2,
 } from '@lucide/angular';
 import { ToastService } from '../../../../core/services/toast';
 import { IBusinessProfile, BusinessType } from '../business.interface';
 import { environment } from '../../../../../environments/environment';
-import { AppFormField } from '../../../../shared/form-field/form-field';
+import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
 import { MediaSelector } from '../../../../shared/media-selector/media-selector';
 import { ICategory } from '../../../home/home.interface';
-import { CategoryPicker } from '../../../../shared/category-picker/category-picker';
-import { LocationPicker } from '../../../../shared/location-picker/location-picker';
+import { CategoryPicker } from '../../../../shared/ui/organisms/category-picker/category-picker';
+import { LocationPicker } from '../../../../shared/ui/organisms/location-picker/location-picker';
+import { Button } from '../../../../shared/ui/atoms/button/button';
+import { Skeleton } from '../../../../shared/ui/atoms/skeleton/skeleton';
 import { Location } from '../../../../core/services/location.service';
 import { MediaService } from '../../../../core/services/media.service';
 
@@ -40,14 +44,13 @@ export interface IEditBusinessForm {
   location: string;
   latitude: number | null;
   longitude: number | null;
-  isPublic: boolean;
   primaryCategoryId: string;
   secondaryCategoryIds: string[];
 }
 
 @Component({
   selector: 'app-edit-business',
-  imports: [FormField, AppFormField, MediaSelector, LocationPicker, LucideLoaderCircle, CategoryPicker],
+  imports: [FormField, AppFormField, MediaSelector, LocationPicker, LucideLoaderCircle, CategoryPicker, Button, Skeleton],
   templateUrl: './edit-business.html',
   styleUrl: './edit-business.css',
 })
@@ -64,6 +67,7 @@ export class EditBusiness implements OnInit {
   readonly avatarFile = signal<File | null>(null);
   readonly coverFile = signal<File | null>(null);
   #mediaService = inject(MediaService);
+  readonly selectedCountryCode = signal<CountryCode | undefined>(undefined);
 
   readonly categories = signal<ICategory[]>([]);
 
@@ -94,6 +98,9 @@ export class EditBusiness implements OnInit {
   }
 
   onLocationPicked(loc: Location): void {
+    if (loc.countryCode) {
+      this.selectedCountryCode.set(loc.countryCode.toUpperCase() as CountryCode);
+    }
     this.model.update((m) => ({
       ...m,
       location: loc.name || loc.formattedAddress || 'Unknown',
@@ -117,7 +124,6 @@ export class EditBusiness implements OnInit {
     location: '',
     latitude: null,
     longitude: null,
-    isPublic: false,
     primaryCategoryId: '',
     secondaryCategoryIds: [],
   });
@@ -135,6 +141,44 @@ export class EditBusiness implements OnInit {
   });
 
   readonly isFormInvalid = computed(() => this.businessForm().invalid());
+
+  readonly phonePlaceholder = computed(() => {
+    const cc = this.selectedCountryCode();
+    if (cc) {
+      try {
+        return `e.g. +${getCountryCallingCode(cc)}...`;
+      } catch { }
+    }
+    return 'e.g. +1234567890';
+  });
+
+  readonly phoneWarning = computed(() => {
+    const phone = this.model().contactPhone;
+    const locCountry = this.selectedCountryCode();
+    if (phone && locCountry) {
+      try {
+        const parsed = parsePhoneNumberWithError(phone, locCountry);
+        if (parsed.isValid() && parsed.country && parsed.country !== locCountry) {
+          return `This business is located in ${locCountry} but uses a ${parsed.country} phone number.`;
+        }
+      } catch { }
+    }
+    return null;
+  });
+
+  readonly whatsappWarning = computed(() => {
+    const phone = this.model().whatsapp;
+    const locCountry = this.selectedCountryCode();
+    if (phone && locCountry) {
+      try {
+        const parsed = parsePhoneNumberWithError(phone, locCountry);
+        if (parsed.isValid() && parsed.country && parsed.country !== locCountry) {
+          return `This business is located in ${locCountry} but uses a ${parsed.country} WhatsApp number.`;
+        }
+      } catch { }
+    }
+    return null;
+  });
 
   readonly typeOptions: BusinessTypeOption[] = [
     {
@@ -172,7 +216,6 @@ export class EditBusiness implements OnInit {
           location: biz.location ?? '',
           latitude: biz.latitude ?? null,
           longitude: biz.longitude ?? null,
-          isPublic: biz.isPublic,
           primaryCategoryId: biz.primaryCategoryId ?? '',
           secondaryCategoryIds: biz.secondaryCategoryIds ?? [],
         });
@@ -222,10 +265,34 @@ export class EditBusiness implements OnInit {
         ...(this.model().location && { location: this.model().location }),
         ...(this.model().latitude !== null && { latitude: this.model().latitude }),
         ...(this.model().longitude !== null && { longitude: this.model().longitude }),
-        isPublic: this.model().isPublic,
         primaryCategoryId: this.model().primaryCategoryId,
         ...(this.model().secondaryCategoryIds.length > 0 && { secondaryCategoryIds: this.model().secondaryCategoryIds }),
       };
+
+      try {
+        if (payload.contactPhone) {
+          const parsed = parsePhoneNumberWithError(payload.contactPhone, this.selectedCountryCode());
+          if (!parsed.isValid()) {
+             this.#toast.error('Invalid phone', 'Please enter a valid phone number.');
+             this.loading.set(false);
+             return;
+          }
+          payload.contactPhone = parsed.format('E.164');
+        }
+        if (payload.whatsapp) {
+          const parsed = parsePhoneNumberWithError(payload.whatsapp, this.selectedCountryCode());
+          if (!parsed.isValid()) {
+             this.#toast.error('Invalid WhatsApp', 'Please enter a valid WhatsApp number.');
+             this.loading.set(false);
+             return;
+          }
+          payload.whatsapp = parsed.format('E.164');
+        }
+      } catch {
+        this.#toast.error('Invalid phone', 'Please enter a valid phone/WhatsApp number.');
+        this.loading.set(false);
+        return;
+      }
 
       await firstValueFrom(
         this.#http.patch(`${environment.apiUrl}/business/${biz.id}`, payload)

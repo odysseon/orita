@@ -4,31 +4,40 @@ import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { httpResource } from '@angular/common/http';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { LucideSearch, LucideX, LucideClock, LucideSlidersHorizontal, LucideMapPin, LucideNavigation } from '@lucide/angular';
+import { LucideX, LucideMapPin } from '@lucide/angular';
 import { SearchService } from '../../core/services/search.service';
 import { ExplorationService } from '../../core/services/exploration.service';
 import { CategoryService } from '../../core/services/category.service';
 import { LocationService, Location } from '../../core/services/location.service';
 import { SearchFilters } from '../../core/models/search.model';
-import { AppListingCard } from '../../shared/listing-card/listing-card';
-import { AppBizCard } from '../../shared/biz-card/biz-card';
-import { AppLocationCard } from '../../shared/location-card/location-card';
-import { AppHeader } from '../../shared/app-header/app-header';
+import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
+import { ListingSearchResult } from '../../shared/ui/organisms/search-results/listing-search-result/listing-search-result';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription } from '../../shared/ui/surfaces/list/list';
+import { Tabs, TabList, TabTrigger } from '../../shared/ui/molecules/tabs';
+import { UserIdentity } from '../../shared/ui/identity/user-identity/user-identity';
+import { BusinessIdentity } from '../../shared/ui/identity/business-identity/business-identity';
+
+import { FollowButton } from '../../shared/ui/actions/follow-button/follow-button';
+import { SaveButton } from '../../shared/ui/actions/save-button/save-button';
+import { SearchHeader } from '../../shared/ui/organisms/search-header/search-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
-import { AppGrid } from '../../shared/grid/grid';
+import { Grid } from '../../shared/ui/layouts/grid/grid';
 import { SearchFiltersComponent, SearchFilterState } from './components/search-filters/search-filters';
 import { RecentSearches } from './components/recent-searches/recent-searches';
 import { TrendingCategories } from './components/trending-categories/trending-categories';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { EmptyState } from '../../shared/empty-state/empty-state';
+import { Button } from '../../shared/ui/atoms/button/button';
+import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 
 @Component({
   selector: 'app-search',
   imports: [
-    LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
-    AppListingCard, AppBizCard, AppLocationCard, AppHeader, ScrollHideDirective,
-    AppGrid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState
+    LucideX, LucideMapPin,
+    StoreTourCard, ListingSearchResult, List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription, Tabs, TabList, TabTrigger, UserIdentity, BusinessIdentity, FollowButton, SearchHeader, ScrollHideDirective,
+    Grid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState, Button, Skeleton
   ],
+
   templateUrl: './search.html',
   styleUrl: './search.css',
 })
@@ -46,8 +55,8 @@ export class Search {
   // URL State
   readonly queryParamMap = toSignal(this.#route.queryParamMap);
 
-  readonly searchType = computed<'listing' | 'business' | 'location'>(() => {
-    return (this.queryParamMap()?.get('tab') as any) || 'listing';
+  readonly searchType = computed<'all' | 'people' | 'listing' | 'business' | 'location' | 'tour'>(() => {
+    return (this.queryParamMap()?.get('tab') as any) || 'all';
   });
 
   readonly searchQuery = computed(() => this.queryParamMap()?.get('q') || '');
@@ -108,7 +117,7 @@ export class Search {
 
   // Derived API Parameters
   readonly listingParams = computed<SearchFilters | null>(() => {
-    if (this.searchType() !== 'listing') return null;
+    if (this.searchType() !== 'listing' && this.searchType() !== 'all') return null;
     if (!this.searchQuery().trim() && !this.appliedLocationName() && !this.appliedCategoryId()) return null;
     return {
       q: this.searchQuery().trim(),
@@ -117,7 +126,7 @@ export class Search {
       radius: this.appliedRadius(),
       categoryId: this.appliedCategoryId(),
       sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
-      limit: this.appliedLimit() !== 20 ? this.appliedLimit() : undefined,
+      limit: this.searchType() === 'all' ? 5 : (this.appliedLimit() !== 20 ? this.appliedLimit() : undefined),
       minPrice: this.appliedMinPrice(),
       maxPrice: this.appliedMaxPrice(),
       filter: this.queryParamMap()?.getAll('filter') || []
@@ -125,7 +134,7 @@ export class Search {
   });
 
   readonly businessParams = computed<SearchFilters | null>(() => {
-    if (this.searchType() !== 'business') return null;
+    if (this.searchType() !== 'business' && this.searchType() !== 'all') return null;
     if (!this.searchQuery().trim() && !this.appliedLocationName() && !this.appliedCategoryId()) return null;
     return {
       q: this.searchQuery().trim(),
@@ -134,15 +143,39 @@ export class Search {
       radius: this.appliedRadius(),
       categoryId: this.appliedCategoryId(),
       sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
-      limit: this.appliedLimit() !== 20 ? this.appliedLimit() : undefined
+      limit: this.searchType() === 'all' ? 5 : (this.appliedLimit() !== 20 ? this.appliedLimit() : undefined)
+    };
+  });
+
+  readonly userParams = computed<SearchFilters | null>(() => {
+    if (this.searchType() !== 'people' && this.searchType() !== 'all') return null;
+    if (!this.searchQuery().trim()) return null;
+    return {
+      q: this.searchQuery().trim(),
+      limit: this.searchType() === 'all' ? 5 : (this.appliedLimit() !== 20 ? this.appliedLimit() : undefined)
+    };
+  });
+
+  readonly tourParams = computed<SearchFilters | null>(() => {
+    if (this.searchType() !== 'tour' && this.searchType() !== 'all') return null;
+    if (!this.searchQuery().trim() && !this.appliedLocationName()) return null;
+    return {
+      q: this.searchQuery().trim(),
+      lat: this.appliedLat(),
+      lng: this.appliedLng(),
+      radius: this.appliedRadius(),
+      sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
+      limit: this.searchType() === 'all' ? 5 : (this.appliedLimit() !== 20 ? this.appliedLimit() : undefined)
     };
   });
 
   readonly listingsResource = this.#searchService.getListingsResource(this.listingParams);
   readonly businessesResource = this.#searchService.getBusinessesResource(this.businessParams);
+  readonly usersResource = this.#searchService.getUsersResource(this.userParams);
+  readonly toursResource = this.#searchService.getToursResource(this.tourParams);
   
   readonly locationsParams = computed<string | null>(() => {
-    if (this.searchType() !== 'location') return null;
+    if (this.searchType() !== 'location' && this.searchType() !== 'all') return null;
     const q = this.searchQuery().trim();
     if (!q || q.length < 2) return null;
     return q;
@@ -150,7 +183,9 @@ export class Search {
 
   readonly locationsResource = httpResource<Location[]>(() => {
     const q = this.locationsParams();
-    return q ? `${environment.apiUrl}/v1/locations/search?q=${encodeURIComponent(q)}` : undefined;
+    const url = q ? `${environment.apiUrl}/v1/locations/search?q=${encodeURIComponent(q)}` : undefined;
+    if (!url) return undefined;
+    return this.searchType() === 'all' ? `${url}&limit=5` : url;
   });
   // Empty State Data
   readonly popularBusinessesResource = this.#searchService.getBusinessesResource(computed(() => ({ limit: 10 })));
@@ -176,9 +211,8 @@ export class Search {
   }
 
   // Search Input Actions
-  onSearchInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.rawQuery.set(input.value);
+  onSearchInputString(val: string) {
+    this.rawQuery.set(val);
   }
 
   clearSearch() {
@@ -186,7 +220,7 @@ export class Search {
     this.updateUrl({ limit: null });
   }
 
-  setSearchType(type: 'listing' | 'business' | 'location') {
+  setSearchType(type: 'all' | 'people' | 'listing' | 'business' | 'location' | 'tour') {
     this.updateUrl({ tab: type, limit: null });
   }
 

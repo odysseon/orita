@@ -13,68 +13,82 @@
     <div class="panel">
       <h2 class="panel__title">Profile Information</h2>
       <div class="panel__body edit-biz-panel-body">
-        <div class="field-toggle-row">
-          <div class="field-toggle-info">
-            <span class="field-toggle-title">Edit profile details</span>
-            <span class="field-toggle-desc"
-              >Update your avatar, username, and email on your dedicated edit page.</span
-            >
+        <ui-list>
+          <div uiListItem>
+            <div uiListItemContent>
+              <div uiListItemTitle>Edit profile details</div>
+              <div uiListItemDescription
+                >Update your avatar, username, and email on your dedicated edit page.</div
+              >
+            </div>
+            <div uiListItemEnd>
+              <button app-button type="button" appearance="outline" routerLink="/profile/edit">
+                Open Edit Profile
+              </button>
+            </div>
           </div>
-          <button type="button" class="btn btn--outline" routerLink="/profile/edit">
-            Open Edit Profile
-          </button>
-        </div>
+        </ui-list>
       </div>
     </div>
 
     <div class="panel">
       <h2 class="panel__title">Authentication & Security</h2>
       <div class="panel__body edit-biz-panel-body">
-        <div class="field-toggle-row">
-          <div class="field-toggle-info">
-            <span class="field-toggle-title">Password</span>
-            <span class="field-toggle-desc">Change your password or add password credentials</span>
+        <ui-list>
+          <div uiListItem>
+            <div uiListItemContent>
+              <div uiListItemTitle>Password</div>
+              <div uiListItemDescription>Change your password or add password credentials</div>
+            </div>
+            <div uiListItemEnd>
+              <button app-button type="button" appearance="outline" (click)="isPasswordDrawerOpen.set(true)">
+                <svg lucideKey class="icon" aria-hidden="true"></svg>
+                Manage Password
+              </button>
+            </div>
           </div>
-          <button type="button" class="btn btn--outline" (click)="isPasswordDrawerOpen.set(true)">
-            <svg lucideKey class="icon" aria-hidden="true"></svg>
-            Manage Password
-          </button>
-        </div>
 
-        <div class="field-toggle-row" style="margin-top: var(--size-16)">
-          <div class="field-toggle-info">
-            <span class="field-toggle-title">Google Account</span>
-            <span class="field-toggle-desc"
-              >Link or unlink your Google account for easier sign-in</span
-            >
+          <div uiListItem>
+            <div uiListItemContent>
+              <div uiListItemTitle>Google Account</div>
+              <div uiListItemDescription
+                >Link or unlink your Google account for easier sign-in</div
+              >
+            </div>
+            <div uiListItemEnd>
+              <button app-button type="button" appearance="outline" (click)="isGoogleDrawerOpen.set(true)">
+                <svg lucideLink class="icon" aria-hidden="true"></svg>
+                Manage Google
+              </button>
+            </div>
           </div>
-          <button type="button" class="btn btn--outline" (click)="isGoogleDrawerOpen.set(true)">
-            <svg lucideLink class="icon" aria-hidden="true"></svg>
-            Manage Google
-          </button>
-        </div>
+        </ui-list>
       </div>
     </div>
 
     <div
       class="panel panel--danger"
-      style="border-color: var(--text-danger); background: rgba(239, 68, 68, 0.05)"
+      style="border-color: var(--clr-error); background: var(--clr-error-container)"
     >
       <h2 class="panel__title" style="color: var(--text-danger)">Danger Zone</h2>
       <div class="panel__body edit-biz-panel-body">
-        <div class="field-toggle-row">
-          <div class="field-toggle-info">
-            <span class="field-toggle-title">Delete Account</span>
-            <span class="field-toggle-desc"
-              >Permanently remove your account and all associated data. This action cannot be
-              undone.</span
-            >
+        <ui-list>
+          <div uiListItem>
+            <div uiListItemContent>
+              <div uiListItemTitle>Delete Account</div>
+              <div uiListItemDescription
+                >Permanently remove your account and all associated data. This action cannot be
+                undone.</div
+              >
+            </div>
+            <div uiListItemEnd>
+              <button app-button type="button" intent="danger" disabled (click)="onDeleteAccount()">
+                <svg lucideTrash2 class="icon" aria-hidden="true"></svg>
+                Delete Account
+              </button>
+            </div>
           </div>
-          <button type="button" class="btn btn--danger" disabled (click)="onDeleteAccount()">
-            <svg lucideTrash2 class="icon" aria-hidden="true"></svg>
-            Delete Account
-          </button>
-        </div>
+        </ui-list>
       </div>
     </div>
   </div>
@@ -98,20 +112,23 @@
     <app-form-field
       label="Current Password"
       fieldId="currentPassword"
-      [touched]="changePasswordForm.currentPassword().touched()"
       [invalid]="changePasswordForm.currentPassword().invalid()"
       [errorMessage]="changePasswordForm.currentPassword().errors()[0]?.message"
     >
-      <div class="field__input-wrap">
+      <div class="app-input-wrap">
         <input
           id="currentPassword"
-          class="field__input field__input--padded"
+          class="field__input app-input--padded"
           [type]="showCurrentPassword() ? 'text' : 'password'"
           [formField]="changePasswordForm.currentPassword"
-          [class.field__input--error]="changePasswordForm.currentPassword().touched() && changePasswordForm.currentPassword().invalid()"
+          [attr.aria-invalid]="changePasswordForm.currentPassword().touched() && changePasswordForm.currentPassword().invalid()"
         />
         <button
-          class="field__toggle"
+          app-button
+          appearance="ghost"
+          size="icon"
+          shape="circle"
+          class="app-input-toggle"
           type="button"
           [attr.aria-label]="showCurrentPassword() ? 'Hide password' : 'Show password'"
           (click)="showCurrentPassword.set(!showCurrentPassword())"
@@ -128,20 +145,23 @@
     <app-form-field
       label="New Password"
       fieldId="newPassword"
-      [touched]="changePasswordForm.newPassword().touched()"
       [invalid]="changePasswordForm.newPassword().invalid()"
       [errorMessage]="changePasswordForm.newPassword().errors()[0]?.message"
     >
-      <div class="field__input-wrap">
+      <div class="app-input-wrap">
         <input
           id="newPassword"
-          class="field__input field__input--padded"
+          class="field__input app-input--padded"
           [type]="showNewPassword() ? 'text' : 'password'"
           [formField]="changePasswordForm.newPassword"
-          [class.field__input--error]="changePasswordForm.newPassword().touched() && changePasswordForm.newPassword().invalid()"
+          [attr.aria-invalid]="changePasswordForm.newPassword().touched() && changePasswordForm.newPassword().invalid()"
         />
         <button
-          class="field__toggle"
+          app-button
+          appearance="ghost"
+          size="icon"
+          shape="circle"
+          class="app-input-toggle"
           type="button"
           [attr.aria-label]="showNewPassword() ? 'Hide password' : 'Show password'"
           (click)="showNewPassword.set(!showNewPassword())"
@@ -156,10 +176,10 @@
     </app-form-field>
 
     <div class="drawer-actions">
-      <button type="button" class="btn btn--ghost" (click)="isPasswordDrawerOpen.set(false)">
+      <button app-button type="button" appearance="ghost" (click)="isPasswordDrawerOpen.set(false)">
         Cancel
       </button>
-      <button type="submit" class="btn btn--primary" [disabled]="loading()">Change Password</button>
+      <button app-button type="submit" intent="primary" [disabled]="loading()">Change Password</button>
     </div>
   </form>
   } @else {
@@ -174,20 +194,23 @@
     <app-form-field
       label="Password"
       fieldId="addPassword"
-      [touched]="addPasswordForm.password().touched()"
       [invalid]="addPasswordForm.password().invalid()"
       [errorMessage]="addPasswordForm.password().errors()[0]?.message"
     >
-      <div class="field__input-wrap">
+      <div class="app-input-wrap">
         <input
           id="addPassword"
-          class="field__input field__input--padded"
+          class="field__input app-input--padded"
           [type]="showAddPassword() ? 'text' : 'password'"
           [formField]="addPasswordForm.password"
-          [class.field__input--error]="addPasswordForm.password().touched() && addPasswordForm.password().invalid()"
+          [attr.aria-invalid]="addPasswordForm.password().touched() && addPasswordForm.password().invalid()"
         />
         <button
-          class="field__toggle"
+          app-button
+          appearance="ghost"
+          size="icon"
+          shape="circle"
+          class="app-input-toggle"
           type="button"
           [attr.aria-label]="showAddPassword() ? 'Hide password' : 'Show password'"
           (click)="showAddPassword.set(!showAddPassword())"
@@ -202,10 +225,10 @@
     </app-form-field>
 
     <div class="drawer-actions">
-      <button type="button" class="btn btn--ghost" (click)="isPasswordDrawerOpen.set(false)">
+      <button app-button type="button" appearance="ghost" (click)="isPasswordDrawerOpen.set(false)">
         Cancel
       </button>
-      <button type="submit" class="btn btn--primary" [disabled]="loading()">Add Password</button>
+      <button app-button type="submit" intent="primary" [disabled]="loading()">Add Password</button>
     </div>
   </form>
   }
@@ -224,7 +247,7 @@
         [autoLogin]="false"
         (idTokenReceived)="onGoogleIdTokenReceived($event)"
       ></app-google-sign-in>
-      <button type="button" class="btn btn--ghost btn--danger btn--full" (click)="onUnlinkGoogle()">
+      <button app-button type="button" appearance="ghost" intent="danger" fullWidth (click)="onUnlinkGoogle()">
         <svg lucideUnlink class="icon" aria-hidden="true"></svg>
         Unlink Google Account
       </button>

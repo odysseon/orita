@@ -40,10 +40,12 @@ export class CookieService {
     document.cookie = cookie;
   }
 
-  delete(name: string, options: Pick<CookieOptions, 'path' | 'sameSite'> = {}): void {
+  delete(name: string, options: Pick<CookieOptions, 'path' | 'sameSite' | 'secure'> = {}): void {
     if (!isPlatformBrowser(this.#platformId)) return;
-    const { path = '/', sameSite = 'Strict' } = options;
-    document.cookie = `${name}=; path=${path}; expires=${new Date(0).toUTCString()}; SameSite=${sameSite}`;
+    const { path = '/', sameSite = 'Strict', secure = false } = options;
+    let cookie = `${name}=; path=${path}; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=${sameSite}`;
+    if (secure) cookie += '; Secure';
+    document.cookie = cookie;
   }
 
   has(name: string): boolean {

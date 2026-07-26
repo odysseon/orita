@@ -3,15 +3,15 @@
   @if (business.isLoading()) {
   <div class="biz-skeleton">
     <div class="biz-skeleton__header">
-      <div class="skeleton skeleton--avatar"></div>
+      <app-skeleton shape="circle" class="skeleton--avatar"></app-skeleton>
       <div class="biz-skeleton__lines">
-        <div class="skeleton skeleton--title"></div>
-        <div class="skeleton skeleton--subtitle"></div>
+        <app-skeleton class="skeleton--title"></app-skeleton>
+        <app-skeleton class="skeleton--subtitle"></app-skeleton>
       </div>
     </div>
     <div class="biz-skeleton__stats">
       @for (i of [1,2,3,4]; track i) {
-      <div class="skeleton skeleton--stat"></div>
+      <app-skeleton class="skeleton--stat"></app-skeleton>
       }
     </div>
   </div>
@@ -30,7 +30,7 @@
         Create a business profile to reach customers, manage listings, and grow your presence on
         Orita.
       </p>
-      <button class="btn btn--primary" (click)="createBusiness()">
+      <button app-button intent="primary" (click)="createBusiness()">
         <svg lucidePlus aria-hidden="true"></svg>
         Create business profile
       </button>
@@ -44,13 +44,14 @@
 
 
     <div class="biz-identity">
-      <div class="biz-avatar">
-        @if (business.value()!.avatarUrl) {
-        <img [src]="business.value()!.avatarUrl" [alt]="business.value()!.name" />
-        } @else {
-        <svg lucideStore aria-hidden="true"></svg>
-        }
-      </div>
+      <app-avatar
+        [src]="business.value()!.avatarUrl"
+        [alt]="business.value()!.name"
+        [fallback]="business.value()!.name ? business.value()!.name.charAt(0).toUpperCase() : 'B'"
+        shape="rounded"
+        size="xl"
+        style="border: 3px solid var(--surface-page); box-shadow: var(--shadow-sm); flex-shrink: 0;"
+      ></app-avatar>
       <div class="biz-identity__text">
         <div class="biz-identity__row">
           <h1 class="biz-identity__name">{{ business.value()!.name }}</h1>
@@ -59,9 +60,21 @@
         <span class="biz-visibility" [class.biz-visibility--public]="isPublic()">
           {{ isPublic() ? 'Public' : 'Hidden — not visible to others' }}
         </span>
-        <button class="btn btn--subtle btn--sm" style="margin-top: var(--size-8); align-self: flex-start;" (click)="editBusiness()">
-          Edit Profile
-        </button>
+        <div class="biz-identity__actions" style="display: flex; gap: var(--size-3); margin-top: var(--size-8);">
+          <button app-button intent="secondary" size="sm" (click)="editBusiness()">
+            Edit Profile
+          </button>
+          
+          @if (!isPublic()) {
+            <button app-button intent="primary" size="sm" [disabled]="isPublishing()" (click)="publishBusiness()">
+              Publish Business
+            </button>
+          } @else {
+            <button app-button intent="danger" appearance="outline" size="sm" [disabled]="isPublishing()" (click)="unpublishBusiness()">
+              Unpublish
+            </button>
+          }
+        </div>
       </div>
     </div>
   </div>
@@ -121,7 +134,12 @@
       <div class="panel">
         <h2 class="panel__title">Here's what customers see</h2>
         <div class="panel__body" style="padding: 0;">
-          <app-biz-card [biz]="businessSummary()!"></app-biz-card>
+          <ui-business-card 
+            [business]="businessSummary()!" 
+            [coverUrl]="business.value()!.coverUrl"
+          >
+            <div card-description>{{ businessSummary()?.description }}</div>
+          </ui-business-card>
         </div>
       </div>
     }
@@ -159,7 +177,7 @@
     } @if (stats.isLoading()) {
     <div class="biz-stats">
       @for (i of [1,2,3,4]; track i) {
-      <div class="skeleton skeleton--stat"></div>
+      <app-skeleton class="skeleton--stat"></app-skeleton>
       }
     </div>
     }
@@ -251,4 +269,5 @@
   } }
 
   <app-create-business [(isOpen)]="isCreateBusinessOpen" (created)="onBusinessCreated()" />
+  <app-publication-readiness [isOpen]="isReadinessDialogOpen()" [issues]="readinessIssues()" (close)="closeReadinessDialog()"></app-publication-readiness>
 </div>

@@ -1,63 +1,52 @@
 <div class="search-page page-container fade-in">
   <app-seo [config]="seoConfig()" />
-  <ui-app-header
-    [showLogo]="false"
-    [showLocationPill]="false"
+  <app-search-header
     [uiScrollHide]="true"
     scrollHidePosition="top"
-  >
-    <div class="search-bar">
-      <input 
-        type="text" 
-        [value]="rawQuery()"
-        (input)="onSearchInput($event)"
-        placeholder="Search for something..." 
-      />
-      <svg icon lucideSearch class="icon-search" aria-hidden="true"></svg>
-      
-      @if (rawQuery()) {
-        <button class="clear-btn" (click)="clearSearch()" aria-label="Clear search">
-          <svg icon lucideX aria-hidden="true"></svg>
-        </button>
-      }
-    </div>
-    
-    <button class="filter-toggle-btn" (click)="openFilters()" [class.has-filters]="appliedLocationName() || appliedCategoryId()">
-      <svg icon lucideSlidersHorizontal aria-hidden="true"></svg>
-    </button>
-  </ui-app-header>
+    [query]="rawQuery()"
+    placeholder="Search for something..."
+    (queryChange)="onSearchInputString($event)"
+    (filter)="openFilters()"
+  ></app-search-header>
   
   <div class="search-header">
     <div class="search-controls">
       
       <div class="search-tabs">
-        <button 
-          class="tab-btn" 
-          [class.active]="searchType() === 'listing'"
-          (click)="setSearchType('listing')"
-        >
-          Listings
-          @if (listingsResource.hasValue() && searchType() === 'listing' && !isDebouncing()) {
-            <span class="count">({{ listingsResource.value()?.total || 0 }})</span>
-          }
-        </button>
-        <button 
-          class="tab-btn" 
-          [class.active]="searchType() === 'business'"
-          (click)="setSearchType('business')"
-        >
-          Businesses
-          @if (businessesResource.hasValue() && searchType() === 'business' && !isDebouncing()) {
-            <span class="count">({{ businessesResource.value()?.total || 0 }})</span>
-          }
-        </button>
-        <button 
-          class="tab-btn" 
-          [class.active]="searchType() === 'location'"
-          (click)="setSearchType('location')"
-        >
-          Locations
-        </button>
+        <ui-tabs [value]="searchType()" (valueChange)="setSearchType($any($event))">
+          <ui-tab-list appearance="pill" size="sm">
+            <button app-button app-tab-trigger value="all">
+              All
+            </button>
+            <button app-button app-tab-trigger value="people">
+              People
+              @if (usersResource.hasValue() && searchType() === 'people' && !isDebouncing()) {
+                <span>({{ usersResource.value()?.total || 0 }})</span>
+              }
+            </button>
+            <button app-button app-tab-trigger value="listing">
+              Listings
+              @if (listingsResource.hasValue() && searchType() === 'listing' && !isDebouncing()) {
+                <span>({{ listingsResource.value()?.total || 0 }})</span>
+              }
+            </button>
+            <button app-button app-tab-trigger value="business">
+              Businesses
+              @if (businessesResource.hasValue() && searchType() === 'business' && !isDebouncing()) {
+                <span>({{ businessesResource.value()?.total || 0 }})</span>
+              }
+            </button>
+            <button app-button app-tab-trigger value="tour">
+              Tours
+              @if (toursResource.hasValue() && searchType() === 'tour' && !isDebouncing()) {
+                <span>({{ toursResource.value()?.total || 0 }})</span>
+              }
+            </button>
+            <button app-button app-tab-trigger value="location">
+              Locations
+            </button>
+          </ui-tab-list>
+        </ui-tabs>
       </div>
 
       <!-- Active Filter Chips (optional view) -->
@@ -72,7 +61,7 @@
           @if (appliedCategoryId()) {
             <span class="filter-chip">
               Category applied
-              <button class="clear-btn" style="position: static; margin-left: 4px;" (click)="clearCategory()" aria-label="Clear category">
+              <button app-button appearance="plain" class="clear-btn" style="position: static; margin-left: 4px;" (click)="clearCategory()" aria-label="Clear category">
                 <svg icon lucideX aria-hidden="true"></svg>
               </button>
             </span>
@@ -110,16 +99,23 @@
         <div class="popular-businesses-section">
           <section class="section">
             <h2 class="section__title">Popular Businesses</h2>
-            <app-grid>
+            <ui-list [bordered]="false" [radius]="false" [dividers]="true">
               @if (popularBusinessesResource.isLoading()) {
-                <div class="skeleton biz-card-skeleton"></div>
-                <div class="skeleton biz-card-skeleton"></div>
+                <app-skeleton class="biz-card-skeleton"></app-skeleton>
+                <app-skeleton class="biz-card-skeleton"></app-skeleton>
               } @else if (popularBusinessesResource.hasValue()) {
                 @for (biz of popularBusinessesResource.value()?.items || []; track biz.id) {
-                  <app-biz-card [biz]="biz" />
+                  <label uiListItem>
+                    <div uiListItemContent>
+                      <ui-business-identity [business]="biz"></ui-business-identity>
+                    </div>
+                    <div uiListItemEnd>
+                      <ui-follow-button [isFollowed]="!!$any(biz).isFollowed" display="icon"></ui-follow-button>
+                    </div>
+                  </label>
                 }
               }
-            </app-grid>
+            </ui-list>
           </section>
         </div>
       </div>
@@ -128,54 +124,235 @@
         <div class="spinner"></div>
         <p>Searching...</p>
       </div>
-    } @else if (searchType() === 'location') {
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-        @for (loc of locationsResource.value() || []; track loc.id || loc.externalId) {
-          <app-location-card [location]="loc" />
+    } @else if (searchType() === 'all') {
+      <div class="aggregator-view">
+        @if (usersResource.hasValue() && usersResource.value()?.items?.length) {
+          <section class="section">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 class="section__title">People</h2>
+              @if ((usersResource.value()?.total || 0) > 5) {
+                <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('people')">See all</button>
+              }
+            </div>
+            <ui-list [bordered]="false" [radius]="false" [dividers]="true">
+              @for (user of usersResource.value()?.items || []; track user.id) {
+                <label uiListItem>
+                  <div uiListItemContent>
+                    <ui-user-identity [user]="{ id: user.id, displayName: $any(user).name || $any(user).displayName, username: $any(user).username || $any(user).slug || user.id, avatarUrl: user.avatarUrl }"></ui-user-identity>
+                  </div>
+                  <div uiListItemEnd>
+                    <ui-follow-button [isFollowed]="!!$any(user).isFollowed" display="icon"></ui-follow-button>
+                  </div>
+                </label>
+              }
+            </ui-list>
+          </section>
+        }
+
+        @if (businessesResource.hasValue() && businessesResource.value()?.items?.length) {
+          <section class="section">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 class="section__title">Businesses</h2>
+              @if ((businessesResource.value()?.total || 0) > 5) {
+                <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('business')">See all</button>
+              }
+            </div>
+            <ui-list [bordered]="false" [radius]="false" [dividers]="true">
+              @for (biz of businessesResource.value()?.items || []; track biz.id) {
+                <label uiListItem>
+                  <div uiListItemContent>
+                    <ui-business-identity [business]="biz"></ui-business-identity>
+                  </div>
+                  <div uiListItemEnd>
+                    <ui-follow-button [isFollowed]="!!$any(biz).isFollowed" display="icon"></ui-follow-button>
+                  </div>
+                </label>
+              }
+            </ui-list>
+          </section>
+        }
+
+        @if (listingsResource.hasValue() && listingsResource.value()?.items?.length) {
+          <section class="section">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 class="section__title">Listings</h2>
+              @if ((listingsResource.value()?.total || 0) > 5) {
+                <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('listing')">See all</button>
+              }
+            </div>
+            <ui-list [bordered]="false" [radius]="false" [dividers]="true">
+              @for (item of listingsResource.value()?.items || []; track item.id) {
+                <ui-listing-search-result [listing]="{ id: item.id, title: item.title, thumbnailUrl: $any(item).media?.[0]?.url || $any(item).imageUrl || $any(item).coverUrl, price: +($any(item).minPrice || 0), isSaved: item.isSaved }" />
+              }
+            </ui-list>
+          </section>
+        }
+
+        @if (toursResource.hasValue() && toursResource.value()?.items?.length) {
+          <section class="section">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 class="section__title">Tours</h2>
+              @if ((toursResource.value()?.total || 0) > 5) {
+                <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('tour')">See all</button>
+              }
+            </div>
+            <ui-grid cols="2 md:3 lg:4" gap="sm">
+              @for (tour of toursResource.value()?.items || []; track tour.id) {
+                <ui-store-tour-card [tour]="tour" />
+              }
+            </ui-grid>
+          </section>
+        }
+
+        @if (locationsResource.hasValue() && locationsResource.value()?.length) {
+          <section class="section">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 class="section__title">Locations</h2>
+              @if ((locationsResource.value()?.length || 0) >= 5) {
+                <button app-button appearance="ghost" size="sm" class="btn-text" (click)="setSearchType('location')">See all</button>
+              }
+            </div>
+            <ui-list [bordered]="false" [radius]="false" [dividers]="true">
+              @for (loc of locationsResource.value() || []; track loc.id || loc.externalId) {
+                <label uiListItem>
+                  <div uiListItemStart>
+                    <svg lucideMapPin aria-hidden="true" style="color: var(--text-muted); width: 20px; height: 20px;"></svg>
+                  </div>
+                  <div uiListItemContent>
+                    <div uiListItemTitle class="truncate">{{ loc.name || loc.formattedAddress || 'Location' }}</div>
+                    @if (loc.formattedAddress && loc.formattedAddress !== loc.name) {
+                      <div uiListItemDescription class="truncate">{{ loc.formattedAddress }}</div>
+                    }
+                  </div>
+                  <div uiListItemEnd>
+                    <ui-follow-button [isFollowed]="!!$any(loc).isFollowed" display="icon"></ui-follow-button>
+                  </div>
+                </label>
+              }
+            </ui-list>
+          </section>
+        }
+        
+        @if (!usersResource.value()?.items?.length && !businessesResource.value()?.items?.length && !listingsResource.value()?.items?.length && !toursResource.value()?.items?.length && !locationsResource.value()?.length) {
+          <ui-empty-state
+            title="No results found"
+            description="We couldn't find anything matching your search."
+          >
+            <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
+          </ui-empty-state>
         }
       </div>
+    } @else if (searchType() === 'people') {
+      <ui-list [bordered]="false" [radius]="false" [dividers]="true">
+        @for (user of usersResource.value()?.items || []; track user.id) {
+          <label uiListItem>
+            <div uiListItemContent>
+              <ui-user-identity [user]="{ id: user.id, displayName: $any(user).name || $any(user).displayName, username: $any(user).username || $any(user).slug || user.id, avatarUrl: user.avatarUrl }"></ui-user-identity>
+            </div>
+            <div uiListItemEnd>
+              <ui-follow-button [isFollowed]="!!$any(user).isFollowed" display="icon"></ui-follow-button>
+            </div>
+          </label>
+        }
+      </ui-list>
+      @if ((usersResource.value()?.items?.length || 0) === 0) {
+        <ui-empty-state
+          title="No people found"
+          description="We couldn't find anyone matching your search."
+        >
+          <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
+        </ui-empty-state>
+      } @else if ((usersResource.value()?.items?.length || 0) < (usersResource.value()?.total || 0)) {
+        <div style="text-align: center; margin-top: 2rem;">
+          <button app-button appearance="outline" (click)="loadMore()">Load More</button>
+        </div>
+      }
+    } @else if (searchType() === 'location') {
+      <ui-list [bordered]="false" [radius]="false" [dividers]="true">
+        @for (loc of locationsResource.value() || []; track loc.id || loc.externalId) {
+          <label uiListItem>
+            <div uiListItemStart>
+              <svg lucideMapPin aria-hidden="true" style="color: var(--text-muted); width: 20px; height: 20px;"></svg>
+            </div>
+            <div uiListItemContent>
+              <div uiListItemTitle class="truncate">{{ loc.name || loc.formattedAddress || 'Location' }}</div>
+              @if (loc.formattedAddress && loc.formattedAddress !== loc.name) {
+                <div uiListItemDescription class="truncate">{{ loc.formattedAddress }}</div>
+              }
+            </div>
+            <div uiListItemEnd>
+              <ui-follow-button [isFollowed]="!!$any(loc).isFollowed" display="icon"></ui-follow-button>
+            </div>
+          </label>
+        }
+      </ui-list>
       @if ((locationsResource.value()?.length || 0) === 0) {
         <ui-empty-state
           title="No locations found"
           description="We couldn't find any locations matching your search."
         >
-          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+          <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
         </ui-empty-state>
       }
     } @else if (searchType() === 'listing') {
-      <app-grid>
+      <ui-list [bordered]="false" [radius]="false" [dividers]="true">
         @for (item of listingsResource.value()?.items || []; track item.id) {
-          <app-listing-card [item]="item" />
+          <ui-listing-search-result [listing]="{ id: item.id, title: item.title, thumbnailUrl: $any(item).media?.[0]?.url || $any(item).imageUrl || $any(item).coverUrl, price: +($any(item).minPrice || 0), isSaved: item.isSaved }" />
         }
-      </app-grid>
+      </ui-list>
       @if ((listingsResource.value()?.items?.length || 0) === 0) {
         <ui-empty-state
           title="No listings found"
           description="We couldn't find any listings matching your search. Try adjusting your filters or expanding your radius."
         >
-          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+          <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
         </ui-empty-state>
       } @else if ((listingsResource.value()?.items?.length || 0) < (listingsResource.value()?.total || 0)) {
         <div style="text-align: center; margin-top: 2rem;">
-          <button class="btn btn-outline" (click)="loadMore()">Load More</button>
+          <button app-button appearance="outline" (click)="loadMore()">Load More</button>
+        </div>
+      }
+    } @else if (searchType() === 'tour') {
+      <ui-grid cols="2 md:3 lg:4" gap="sm">
+        @for (tour of toursResource.value()?.items || []; track tour.id) {
+          <ui-store-tour-card [tour]="tour" />
+        }
+      </ui-grid>
+      @if ((toursResource.value()?.items?.length || 0) === 0) {
+        <ui-empty-state
+          title="No tours found"
+          description="We couldn't find any tours matching your search."
+        >
+          <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
+        </ui-empty-state>
+      } @else if ((toursResource.value()?.items?.length || 0) < (toursResource.value()?.total || 0)) {
+        <div style="text-align: center; margin-top: 2rem;">
+          <button app-button appearance="outline" (click)="loadMore()">Load More</button>
         </div>
       }
     } @else {
-      <app-grid>
+      <ui-list [bordered]="false" [radius]="false" [dividers]="true">
         @for (biz of businessesResource.value()?.items || []; track biz.id) {
-          <app-biz-card [biz]="biz" />
+          <label uiListItem>
+            <div uiListItemContent>
+              <ui-business-identity [business]="biz"></ui-business-identity>
+            </div>
+            <div uiListItemEnd>
+              <ui-follow-button [isFollowed]="!!$any(biz).isFollowed" display="icon"></ui-follow-button>
+            </div>
+          </label>
         }
-      </app-grid>
+      </ui-list>
       @if ((businessesResource.value()?.items?.length || 0) === 0) {
         <ui-empty-state
           title="No businesses found"
           description="We couldn't find any businesses matching your search. Try adjusting your filters or expanding your radius."
         >
-          <button class="btn btn--outline" (click)="clearSearch()">Clear Search</button>
+          <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
         </ui-empty-state>
       } @else if ((businessesResource.value()?.items?.length || 0) < (businessesResource.value()?.total || 0)) {
         <div style="text-align: center; margin-top: 2rem;">
-          <button class="btn btn-outline" (click)="loadMore()">Load More</button>
+          <button app-button appearance="outline"  (click)="loadMore()">Load More</button>
         </div>
       }
     }

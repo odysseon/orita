@@ -1,0 +1,158 @@
+/* ============================================================
+ * AVATAR
+ * ============================================================ */
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar__container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+  background: var(--surface-container);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Base image */
+.avatar__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  z-index: 2;
+}
+
+.avatar__image.is-loaded {
+  opacity: 1;
+}
+
+/* Fallback */
+.avatar__fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  z-index: 1;
+}
+
+.avatar__default-icon {
+  width: 50%;
+  height: 50%;
+  opacity: 0.5;
+}
+
+/* Guest State */
+.avatar.is-guest .avatar__container {
+  background: transparent;
+  border: var(--size-2) dashed var(--border-default);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.avatar.is-guest:hover .avatar__container {
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+}
+
+/* ============================================================
+ * SIZES
+ * ============================================================ */
+.avatar--xs {
+  width: var(--size-24);
+  height: var(--size-24);
+  font-size: var(--font-size-xs);
+}
+
+.avatar--sm {
+  width: var(--size-32);
+  height: var(--size-32);
+  font-size: var(--font-size-sm);
+}
+
+.avatar--md {
+  width: var(--size-40);
+  height: var(--size-40);
+  font-size: var(--font-size-md);
+}
+
+.avatar--lg {
+  width: var(--size-48);
+  height: var(--size-48);
+  font-size: var(--font-size-lg);
+}
+
+.avatar--xl {
+  width: var(--size-64);
+  height: var(--size-64);
+  font-size: var(--font-size-xl);
+}
+
+.avatar--xxl {
+  width: var(--size-80);
+  height: var(--size-80);
+  font-size: var(--font-size-2xl);
+}
+
+/* ============================================================
+ * SHAPES
+ * ============================================================ */
+.avatar--circle {
+  border-radius: var(--radius-pill);
+}
+
+.avatar--rounded {
+  border-radius: var(--radius-md);
+}
+
+.avatar--square {
+  border-radius: var(--radius-xs);
+}
+
+/* ============================================================
+ * STATUS BADGE
+ * ============================================================ */
+.avatar__status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28%;
+  height: 28%;
+  min-width: var(--size-8);
+  min-height: var(--size-8);
+  border-radius: var(--radius-pill);
+  border: var(--size-2) solid var(--surface-page);
+  z-index: 3;
+}
+
+.avatar--circle .avatar__status {
+  /* Offset for circular bounds using Pythagorean theorem roughly */
+  transform: translate(15%, 15%);
+}
+
+.avatar--rounded .avatar__status,
+.avatar--square .avatar__status {
+  transform: translate(30%, 30%);
+}
+
+.avatar__status--online { background: var(--clr-success); }
+.avatar__status--offline { background: var(--text-muted); }
+.avatar__status--away { background: var(--clr-warning); }
+.avatar__status--busy { background: var(--clr-error); }

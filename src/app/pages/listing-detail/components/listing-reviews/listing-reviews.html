@@ -1,0 +1,21 @@
+<section class="listing-reviews">
+  <h2 class="listing-reviews__title">
+    Reviews
+    <app-badge intent="neutral" style="min-width: 20px; height: 20px; display: inline-flex; justify-content: center;">{{ reviews().length }}</app-badge>
+  </h2>
+  <div class="listing-reviews__list">
+    @for (review of reviews(); track review.id) {
+    <div class="review-item">
+      <div class="review-item__stars">
+        @for (filled of starArray(review.rating); track $index) {
+        <svg lucideStar [class.star--filled]="filled" aria-hidden="true"></svg>
+        }
+      </div>
+      @if (review.comment) {
+      <p class="review-item__comment">{{ review.comment }}</p>
+      }
+      <span class="review-item__date">{{ formatDate(review.createdAt) }}</span>
+    </div>
+    }
+  </div>
+</section>

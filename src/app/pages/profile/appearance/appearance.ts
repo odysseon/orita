@@ -6,6 +6,16 @@ import {
   LucideDynamicIcon,
   LucideIconInput,
 } from '@lucide/angular';
+import {
+  List,
+  ListItem,
+  ListItemStart,
+  ListItemContent,
+  ListItemTitle,
+  ListItemDescription,
+  ListItemEnd,
+} from '../../../shared/ui/surfaces/list/list';
+import { RadioDirective } from '../../../shared/ui/atoms/forms/radio';
 import { ThemeService, ThemePreference } from '../../../core/services/theme.service';
 
 interface ThemeOption {
@@ -17,7 +27,17 @@ interface ThemeOption {
 
 @Component({
   selector: 'app-appearance',
-  imports: [LucideDynamicIcon],
+  imports: [
+    LucideDynamicIcon,
+    List,
+    ListItem,
+    ListItemStart,
+    ListItemContent,
+    ListItemTitle,
+    ListItemDescription,
+    ListItemEnd,
+    RadioDirective,
+  ],
   templateUrl: './appearance.html',
   styleUrl: './appearance.css',
 })

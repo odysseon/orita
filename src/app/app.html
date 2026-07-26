@@ -8,74 +8,43 @@
   </main>
 
   @if (showNav() && !isLanding()) {
-  <ui-nav-list
-    [position]="isDesktop() ? 'side' : 'bottom'"
-    [justify]="isDesktop() ? 'start' : 'around'"
+  <ui-tabs
+    [value]="currentNavValue()"
+    class="root-app-navigation"
+    [class.root-app-navigation--side]="isDesktop()"
+    [class.root-app-navigation--bottom]="!isDesktop()"
     [uiScrollHide]="!isDesktop()"
-    [expanded]="false"
   >
-    <ui-nav-item
-      [layout]="isDesktop() ? 'horizontal' : 'vertical'"
-      iconSize="md"
-      [active]="isActive('/home')"
-      (clicked)="go('/home')"
-    >
-      <svg icon lucideHouse aria-hidden="true"></svg>
-      <span label>Home</span>
-    </ui-nav-item>
+    <ui-tab-list appearance="pill" size="md" [fullWidth]="!isDesktop()">
+      <button app-button app-tab-trigger value="home" (click)="go('/home')" class="nav-tab-button">
+        <svg icon lucideHouse aria-hidden="true"></svg>
+        <span class="nav-tab-label">Home</span>
+      </button>
 
-    <ui-nav-item
-      [layout]="isDesktop() ? 'horizontal' : 'vertical'"
-      iconSize="md"
-      [active]="isActive('/search')"
-      (clicked)="go('/search')"
-    >
-      <svg icon lucideSearch aria-hidden="true"></svg>
-      <span label>Search</span>
-    </ui-nav-item>
+      <button app-button app-tab-trigger value="search" (click)="go('/search')" class="nav-tab-button">
+        <svg icon lucideSearch aria-hidden="true"></svg>
+        <span class="nav-tab-label">Search</span>
+      </button>
 
-    <ui-nav-item
-      [layout]="isDesktop() ? 'horizontal' : 'vertical'"
-      iconSize="md"
-      [active]="isActive('/tours')"
-      (clicked)="go('/tours')"
-    >
-      <svg icon lucideCompass aria-hidden="true"></svg>
-      <span label>Tours</span>
-    </ui-nav-item>
+      <button app-button app-tab-trigger value="tours" (click)="go('/tours')" class="nav-tab-button">
+        <svg icon lucideCompass aria-hidden="true"></svg>
+        <span class="nav-tab-label">Tours</span>
+      </button>
 
-    <ui-nav-item
-      [layout]="isDesktop() ? 'horizontal' : 'vertical'"
-      iconSize="md"
-      [active]="isActive('/messages')"
-      (clicked)="go('/messages')"
-    >
-      <svg icon lucideMessageCircle aria-hidden="true"></svg>
-      <span label>Messages</span>
-    </ui-nav-item>
+      <button app-button app-tab-trigger value="messages" (click)="go('/messages')" class="nav-tab-button">
+        <svg icon lucideMessageCircle aria-hidden="true"></svg>
+        <span class="nav-tab-label">Activity</span>
+        @if (notificationService.unreadCount() > 0) {
+          <app-badge intent="error" appearance="solid" class="nav-badge">{{ notificationService.unreadCount() > 99 ? '99+' : notificationService.unreadCount() }}</app-badge>
+        }
+      </button>
 
-    @if (isAuthenticated()) {
-    <ui-nav-item
-      [layout]="isDesktop() ? 'horizontal' : 'vertical'"
-      iconSize="md"
-      [active]="isActive('/profile')"
-      (clicked)="go('/profile')"
-    >
-      <svg icon lucideUser aria-hidden="true"></svg>
-      <span label>Profile</span>
-    </ui-nav-item>
-    } @else {
-    <ui-nav-item
-      [layout]="isDesktop() ? 'horizontal' : 'vertical'"
-      iconSize="md"
-      [active]="isActive('/auth/login')"
-      (clicked)="go('/auth/login')"
-    >
-      <svg icon lucideLogIn aria-hidden="true"></svg>
-      <span label>Login</span>
-    </ui-nav-item>
-    }
-  </ui-nav-list>
+      <button app-button app-tab-trigger value="nearby" (click)="go('/nearby')" class="nav-tab-button">
+        <svg icon lucideMapPin aria-hidden="true"></svg>
+        <span class="nav-tab-label">Nearby</span>
+      </button>
+    </ui-tab-list>
+  </ui-tabs>
   }
 </div>
 

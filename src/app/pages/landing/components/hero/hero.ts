@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DiscoveryPreview } from './discovery-preview';
+import { Button } from '../../../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [DiscoveryPreview],
+  imports: [DiscoveryPreview, Button],
   templateUrl: './hero.html',
   styleUrl: './hero.css',
 })

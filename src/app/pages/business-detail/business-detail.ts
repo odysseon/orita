@@ -18,12 +18,22 @@ import {
   LucideImage,
   LucideInfo,
 } from '@lucide/angular';
-import { Logo } from '../../shared/logo/logo';
+import { Badge } from '../../shared/ui/atoms/badge/badge';
+import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
+import { Avatar } from '../../shared/ui/identity/avatar/avatar';
+import { CoverMedia } from '../../shared/ui/surfaces/cover-media/cover-media';
+import { Grid } from '../../shared/ui/layouts/grid/grid';
+import { ListingCard } from '../../shared/ui/organisms/cards/listing-card/listing-card';
+import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
+
 import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.interface';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
 import { ShareButton } from '../../shared/share-button/share-button';
-import { FollowButton } from '../../shared/follow-button/follow-button';
+import { ShareButton as UiShareButton } from '../../shared/ui/actions/share-button/share-button';
+import { ShareModalComponent } from '../../shared/ui/organisms/share-modal/share-modal';
+import { FollowButton } from '../../shared/ui/actions/follow-button/follow-button';
+import { FollowService } from '../../core/services/follow.service';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
@@ -44,10 +54,10 @@ const DAY_LABELS: Record<string, string> = {
   imports: [
     RouterLink,
     ShareButton,
+    UiShareButton,
     FollowButton,
     EmptyState,
     SeoComponent,
-    LucideStore,
     LucideMapPin,
     LucidePhone,
     LucideMail,
@@ -59,6 +69,14 @@ const DAY_LABELS: Record<string, string> = {
     LucideImage,
     LucideInfo,
     DatePipe,
+    ShareModalComponent,
+    Badge,
+    Skeleton,
+    Avatar,
+    CoverMedia,
+    Grid,
+    ListingCard,
+    StoreTourCard,
   ],
   templateUrl: './business-detail.html',
   styleUrl: './business-detail.css',
@@ -68,6 +86,9 @@ export class BusinessDetail implements LayoutPage {
   #router = inject(Router);
   #http = inject(HttpClient);
   #tourService = inject(BusinessTourService);
+  #followService = inject(FollowService);
+
+  readonly showShareModal = signal(false);
 
   readonly slug = computed(() => this.#route.snapshot.paramMap.get('slug') ?? '');
 
@@ -92,9 +113,9 @@ export class BusinessDetail implements LayoutPage {
   readonly verificationBadge = computed(() => {
     switch (this.business.value()?.verificationStatus) {
       case 'VERIFIED':
-        return { label: 'Verified', cls: 'badge--success' };
+        return { label: 'Verified', intent: 'success' as const };
       case 'PENDING':
-        return { label: 'Pending review', cls: 'badge--warning' };
+        return { label: 'Pending review', intent: 'warning' as const };
       default:
         return null;
     }
@@ -162,5 +183,20 @@ export class BusinessDetail implements LayoutPage {
 
   sendEmail(email: string): void {
     window.location.href = `mailto:${email}`;
+  }
+
+  async toggleFollow(biz: IBusinessDetail): Promise<void> {
+    if (!biz) return;
+    const current = biz.isFollowed || false;
+    try {
+      if (current) {
+        await firstValueFrom(this.#followService.unfollow('business', biz.id));
+      } else {
+        await firstValueFrom(this.#followService.follow('business', biz.id));
+      }
+      biz.isFollowed = !current;
+    } catch {
+      // ignore
+    }
   }
 }

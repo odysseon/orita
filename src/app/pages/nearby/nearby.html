@@ -1,0 +1,98 @@
+<div class="nearby">
+  <app-root-header [uiScrollHide]="true" scrollHidePosition="top"></app-root-header>
+
+  @if (items().length === 0) {
+    @if (error()) {
+      <div class="feed-container">
+        <ui-empty-state
+          [title]="error()!.title"
+          [description]="error()!.message"
+        >
+          <svg lucideMapPin aria-hidden="true" icon></svg>
+          <button app-button intent="secondary" (click)="refresh(true)">Retry</button>
+        </ui-empty-state>
+      </div>
+    } @else if (loading()) {
+      <div class="feed-container">
+        <ui-grid cols="2 md:3 lg:4" gap="sm">
+          @for (i of [1,2,3,4,5,6]; track i) {
+          <div class="skeleton-card">
+            <app-skeleton class="skeleton-card__media"></app-skeleton>
+            <div class="skeleton-card__header">
+              <app-skeleton shape="circle" class="skeleton-card__avatar"></app-skeleton>
+              <div class="skeleton-card__lines">
+                <app-skeleton shape="text" style="height: 12px; width: 40%"></app-skeleton>
+              </div>
+            </div>
+            <div class="skeleton-card__lines">
+              <app-skeleton shape="text" style="height: 16px; width: 70%"></app-skeleton>
+              <app-skeleton shape="text" style="height: 14px; width: 90%"></app-skeleton>
+            </div>
+          </div>
+          }
+        </ui-grid>
+      </div>
+    } @else {
+      <div class="feed-container">
+        <ui-empty-state
+          title="No activity nearby right now"
+          description="Be the first to post an opportunity in your neighborhood!"
+        >
+          <svg lucideMapPin aria-hidden="true" icon></svg>
+          <button app-button intent="primary" fullWidth (click)="openNewPostSheet()">
+            Create a Post
+          </button>
+        </ui-empty-state>
+      </div>
+    }
+  } @else {
+    <div class="feed-container">
+      @if (error()) {
+        <div class="surface-container" style="padding: var(--space-sm); border-radius: var(--radius-sm); color: var(--clr-error); margin-bottom: var(--space-md); text-align: center; border: 1px solid var(--clr-error-container); display: flex; flex-direction: column; gap: var(--space-xs); align-items: center;">
+          <strong style="font-weight: 500;">{{ error()!.title }}</strong>
+          <span>{{ error()!.message }}</span>
+          <button app-button appearance="ghost" size="sm" (click)="loadMore()">Retry</button>
+        </div>
+      }
+
+      <section class="section">
+        <ui-grid cols="2 md:3 lg:4" gap="sm">
+          @for (item of items(); track item.id) {
+            <app-nearby-item-card [item]="item" />
+          }
+        </ui-grid>
+      </section>
+
+      @if (loading()) {
+        <ui-grid cols="2 md:3 lg:4" gap="sm">
+          @for (i of [1,2,3]; track i) {
+          <div class="skeleton-card">
+            <app-skeleton class="skeleton-card__media"></app-skeleton>
+          </div>
+          }
+        </ui-grid>
+      }
+
+      @if (hasMore() && !loading() && !error()) {
+        <div class="load-more-container">
+          <button app-button intent="secondary" (click)="loadMore()">
+            Load More Discoveries
+          </button>
+        </div>
+      } @else if (!hasMore() && !loading() && !error()) {
+        <div class="end-of-feed">
+          <p>You've seen everything nearby for today!</p>
+        </div>
+      }
+    </div>
+  }
+
+  <button ui-fab intent="primary" size="md" [extended]="true" (click)="openNewPostSheet()" aria-label="Post Opportunity">
+    <svg lucidePlus aria-hidden="true"></svg>
+    <span>Post Opportunity</span>
+  </button>
+
+  @if (showNewPostSheet()) {
+    <app-new-post-sheet (close)="showNewPostSheet.set(false)" (created)="refresh(true)" />
+  }
+</div>

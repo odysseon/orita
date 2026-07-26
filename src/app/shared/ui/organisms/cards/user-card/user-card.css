@@ -1,0 +1,31 @@
+.ui-user-card {
+  display: block;
+}
+
+.ui-user-card-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-12);
+}
+
+.ui-user-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--size-12);
+}
+
+.ui-user-card__identity-wrapper {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.ui-user-card__actions {
+  flex-shrink: 0;
+}
+
+.ui-user-card__bio {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
+}

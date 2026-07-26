@@ -4,26 +4,32 @@ import { RouterOutlet, Router, ActivatedRoute, NavigationEnd } from '@angular/ro
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
 import { ToastContainer } from './core/components/toast-container/toast-container';
-import { NavList } from './shared/nav-list/nav-list';
-import { NavItem } from './shared/nav-item/nav-item';
+import { Tabs, TabList, TabTrigger } from './shared/ui/molecules/tabs';
+import { Button } from './shared/ui/atoms/button/button';
+
 import { ScrollHideDirective } from './shared/directives/scroll-hide.directive';
-import { LucideHouse, LucideUser, LucideLogIn, LucideSearch, LucideCompass, LucideMessageCircle } from '@lucide/angular';
+import { Badge } from './shared/ui/atoms/badge/badge';
+import { LucideHouse, LucideSearch, LucideCompass, LucideMessageCircle, LucideMapPin } from '@lucide/angular';
 import { AuthService } from './core/services/auth.service';
+import { NotificationService } from './core/services/notification.service';
+import { MessagingRepository } from './core/services/messaging-repository.service';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet,
     ToastContainer,
-    NavList,
-    NavItem,
+    Tabs,
+    TabList,
+    TabTrigger,
+    Button,
     ScrollHideDirective,
     LucideHouse,
-    LucideUser,
-    LucideLogIn,
     LucideSearch,
     LucideCompass,
     LucideMessageCircle,
+    LucideMapPin,
+    Badge,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -34,24 +40,42 @@ export class App {
   #router = inject(Router);
   #route = inject(ActivatedRoute);
   #platformId = inject(PLATFORM_ID);
-  #auth = inject(AuthService);
+  readonly authService = inject(AuthService);
+  readonly notificationService = inject(NotificationService);
+  readonly messaging = inject(MessagingRepository);
 
-  readonly isAuthenticated = computed(() => !!this.#auth.token());
+  readonly isAuthenticated = computed(() => !!this.authService.token());
 
-  readonly showNav = toSignal(
+  readonly isRootAppPage = toSignal(
     this.#router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
-      map(() => this.getDeepestIsRoot(this.#route.snapshot)),
+      map(() => this.getDeepestIsRoot(this.#router.routerState.snapshot.root)),
     ),
-    { initialValue: this.getDeepestIsRoot(this.#route.snapshot) },
+    { initialValue: this.getDeepestIsRoot(this.#router.routerState.snapshot.root) },
+  );
+
+  readonly showNav = computed(() => {
+    const isRoot = this.isRootAppPage();
+    if (!this.isDesktop() && this.messaging.activeConversation()) {
+      return false;
+    }
+    return isRoot;
+  });
+
+  readonly currentNavValue = toSignal(
+    this.#router.events.pipe(
+      filter((e) => e instanceof NavigationEnd),
+      map(() => this.getNavTabValue(this.#router.url))
+    ),
+    { initialValue: this.getNavTabValue(this.#router.url) }
   );
 
   readonly isLanding = toSignal(
     this.#router.events.pipe(
       filter((e) => e instanceof NavigationEnd),
-      map(() => this.getDeepestIsLanding(this.#route.snapshot)),
+      map(() => this.getDeepestIsLanding(this.#router.routerState.snapshot.root)),
     ),
-    { initialValue: this.getDeepestIsLanding(this.#route.snapshot) },
+    { initialValue: this.getDeepestIsLanding(this.#router.routerState.snapshot.root) },
   );
 
   readonly isDesktop = signal<boolean>(false);
@@ -81,6 +105,15 @@ export class App {
       current = current.firstChild;
     }
     return current.data?.['isLandingPage'] === true;
+  }
+
+  private getNavTabValue(url: string): string | undefined {
+    if (url.startsWith('/search')) return 'search';
+    if (url.startsWith('/tours')) return 'tours';
+    if (url.startsWith('/messages')) return 'messages';
+    if (url.startsWith('/nearby')) return 'nearby';
+    if (url.startsWith('/home') || url === '/') return 'home';
+    return undefined;
   }
 
   isActive(path: string): boolean {

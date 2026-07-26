@@ -1,0 +1,246 @@
+/* ============================================================
+ * BASE BUTTON STYLES
+ * ============================================================ */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-8);
+  height: var(--size-40);
+  padding: 0 var(--size-20);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    opacity var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+  outline: none;
+  text-decoration: none; /* For anchors */
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn:focus-visible {
+  outline: var(--size-2) solid var(--clr-primary);
+  outline-offset: var(--size-2);
+}
+
+/* ============================================================
+ * LOADING UX
+ * ============================================================ */
+.btn.is-loading {
+  pointer-events: none;
+}
+
+.btn.is-loading .btn__content {
+  opacity: 0; /* Hides content but preserves exact width */
+}
+
+.btn__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: inherit;
+  gap: inherit;
+  width: 100%;
+  height: 100%;
+}
+
+.btn__spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================
+ * INTENT VARIABLES
+ * ============================================================ */
+.btn--primary {
+  --btn-base: var(--clr-primary);
+  --btn-on-base: var(--clr-on-primary);
+  --btn-hover: var(--clr-primary-dark);
+  --btn-container: var(--clr-primary-container);
+  --btn-outline: var(--clr-primary);
+}
+
+.btn--secondary {
+  --btn-base: var(--text-primary);
+  --btn-on-base: var(--surface-page);
+  --btn-hover: var(--text-secondary);
+  --btn-container: var(--surface-container);
+  --btn-outline: var(--border-default);
+}
+
+.btn--success {
+  --btn-base: var(--clr-success);
+  --btn-on-base: var(--clr-on-success-container);
+  --btn-hover: color-mix(in oklch, var(--clr-success) 80%, black);
+  --btn-container: var(--clr-success-container);
+  --btn-outline: var(--clr-success);
+}
+
+.btn--warning {
+  --btn-base: var(--clr-warning);
+  --btn-on-base: var(--clr-on-warning-container);
+  --btn-hover: color-mix(in oklch, var(--clr-warning) 80%, black);
+  --btn-container: var(--clr-warning-container);
+  --btn-outline: var(--clr-warning);
+}
+
+.btn--danger {
+  --btn-base: var(--clr-error);
+  --btn-on-base: var(--clr-on-error);
+  --btn-hover: color-mix(in oklch, var(--clr-error) 80%, black);
+  --btn-container: var(--clr-error-container);
+  --btn-outline: var(--clr-error);
+}
+
+/* ============================================================
+ * APPEARANCES
+ * ============================================================ */
+.btn--solid {
+  background: var(--btn-base);
+  color: var(--btn-on-base);
+  border: var(--size-2) solid transparent;
+}
+.btn--solid:not(:disabled):hover {
+  background: var(--btn-hover);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--btn-base);
+  border: var(--size-2) solid var(--btn-outline);
+}
+.btn--outline:not(:disabled):hover {
+  background: var(--btn-container);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--btn-base);
+  border: var(--size-2) solid transparent;
+}
+.btn--ghost:not(:disabled):hover {
+  background: var(--btn-container);
+}
+
+.btn--soft {
+  background: var(--btn-container);
+  color: var(--btn-base);
+  border: var(--size-2) solid transparent;
+}
+.btn--soft:not(:disabled):hover {
+  background: color-mix(in oklch, var(--btn-container) 90%, black);
+}
+
+.btn--link {
+  background: transparent;
+  color: var(--btn-base);
+  border-color: transparent;
+  padding: 0;
+  height: auto;
+}
+.btn--link:not(:disabled):hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.btn--plain {
+  background: transparent;
+  color: var(--btn-base);
+  border: var(--size-2) solid transparent;
+}
+.btn--plain:not(:disabled):hover {
+  color: var(--btn-hover);
+  background: color-mix(in oklch, var(--text-primary) 5%, transparent);
+}
+
+.btn--glass {
+  background: color-mix(in oklch, var(--text-on-dark) 25%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid color-mix(in oklch, var(--text-on-dark) 20%, transparent);
+  color: #ffffff;
+}
+.btn--glass:not(:disabled):hover {
+  background: color-mix(in oklch, var(--text-on-dark) 40%, transparent);
+}
+
+/* ============================================================
+ * SIZES
+ * ============================================================ */
+.btn--xs {
+  height: var(--size-24);
+  padding: 0 var(--size-8);
+  font-size: var(--font-size-xs);
+  border-radius: var(--radius-xs);
+}
+
+.btn--sm {
+  height: var(--size-32);
+  padding: 0 var(--size-12);
+  font-size: var(--font-size-sm);
+}
+
+.btn--md {
+  height: var(--size-40);
+  padding: 0 var(--size-20);
+  font-size: var(--font-size-md);
+}
+
+.btn--lg {
+  height: var(--size-48);
+  padding: 0 var(--size-24);
+  font-size: var(--font-size-lg);
+  border-radius: var(--radius-md);
+}
+
+.btn--icon {
+  height: var(--size-40);
+  width: var(--size-40);
+  padding: 0;
+}
+
+.btn--full {
+  width: 100%;
+}
+
+/* ============================================================
+ * SHAPES
+ * ============================================================ */
+.btn--shape-square,
+.btn--shape-circle {
+  padding: 0;
+  aspect-ratio: 1 / 1;
+}
+
+.btn--shape-circle {
+  border-radius: var(--radius-pill);
+}
+
+.btn--shape-pill {
+  border-radius: var(--radius-pill);
+}
+
+/* ============================================================
+ * LAYOUTS
+ * ============================================================ */
+.btn--layout-vertical {
+  flex-direction: column;
+  height: auto;
+  padding: var(--size-12) var(--size-16);
+  gap: var(--size-4);
+}

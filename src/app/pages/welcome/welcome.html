@@ -3,27 +3,48 @@
 <div class="welcome-page">
   <div class="welcome-container">
     <div class="welcome-header">
-      <app-logo />
-      <h1 class="welcome-title">Welcome to Oríta 🌍</h1>
+      <ui-logo variant="mark" size="xl" />
+      <h1 class="welcome-title">Welcome to Oríta <svg lucideGlobe aria-hidden="true" style="width: 1em; height: 1em; vertical-align: middle;"></svg></h1>
       <p class="welcome-subtitle">What would you like to do?</p>
     </div>
 
-    @if (!showLocationPicker) {
-      <div class="welcome-actions">
-        <button class="welcome-btn welcome-btn--explore" (click)="onExplore()">
-          <svg lucideCompass class="welcome-btn-icon" aria-hidden="true"></svg>
-          <span class="welcome-btn-text">Explore nearby</span>
+    @if (step === 'start') {
+      <div class="welcome-actions" style="display: flex; flex-direction: column; gap: var(--size-12);">
+        <button app-button appearance="outline" size="lg" fullWidth (click)="onExplore()">
+          <svg lucideCompass aria-hidden="true" style="width: var(--size-20); height: var(--size-20);"></svg>
+          Explore nearby
         </button>
 
-        <button class="welcome-btn welcome-btn--create" (click)="onCreateBusiness()">
-          <svg lucideStore class="welcome-btn-icon" aria-hidden="true"></svg>
-          <span class="welcome-btn-text">Create a business</span>
+        <button app-button intent="primary" size="lg" fullWidth (click)="onCreateBusiness()">
+          <svg lucideStore aria-hidden="true" style="width: var(--size-20); height: var(--size-20);"></svg>
+          Create a business
         </button>
       </div>
-    } @else {
+    } @else if (step === 'location') {
       <div class="welcome-location">
         <h2 class="welcome-location-title">Where are you exploring?</h2>
-        <app-location-selector (locationSelected)="onLocationSelected($event)" />
+        <ui-location-picker triggerLabel="Select your location" (confirmed)="onLocationSelected($event)"></ui-location-picker>
+      </div>
+    } @else if (step === 'interests') {
+      <div class="welcome-interests">
+        <h2 class="welcome-interests-title">Discovery Preferences</h2>
+        <p class="welcome-interests-subtitle">Choose a few interests to personalize your discovery feed. You can change these anytime.</p>
+        
+        <div class="welcome-interests-browser">
+          <ui-category-browser 
+            mode="interest" 
+            (selectionChange)="onInterestsChange($event)" 
+          />
+        </div>
+
+        <div class="welcome-interests-actions" style="display: flex; gap: var(--size-12); margin-top: var(--size-24);">
+          <button app-button appearance="ghost" style="flex: 1;" (click)="skipInterests()">
+            Skip for now
+          </button>
+          <button app-button intent="primary" style="flex: 2;" (click)="finishOnboarding()" [disabled]="isSaving" [loading]="isSaving">
+            Continue
+          </button>
+        </div>
       </div>
     }
   </div>

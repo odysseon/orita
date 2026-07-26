@@ -1,0 +1,71 @@
+.listing-business-card {
+  display: flex;
+  align-items: center;
+  gap: var(--size-10);
+  padding: var(--size-12);
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: border-color var(--transition-fast);
+}
+
+.listing-business-card:hover {
+  border-color: var(--border-default);
+}
+
+.listing-business-card__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-40);
+  height: var(--size-40);
+  border-radius: var(--radius-sm);
+  background: var(--surface-container);
+  color: var(--text-muted);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.listing-business-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.listing-business-card__avatar svg {
+  width: var(--size-18);
+  height: var(--size-18);
+}
+
+.listing-business-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-2);
+  min-width: 0;
+}
+
+.listing-business-card__name {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.listing-business-card__location {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.listing-business-card__location svg {
+  width: var(--size-11);
+  height: var(--size-11);
+}
+
+.listing-actions {
+  display: flex;
+  gap: var(--size-8);
+  margin-top: var(--size-12);
+}

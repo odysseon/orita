@@ -11,12 +11,14 @@ import {
 import { ISavedListingItem, IFollowedBusinessItem, IPaginated } from './saved.interface';
 import { environment } from '../../../../environments/environment';
 import { ToastService } from '../../../core/services/toast';
+import { Button } from '../../../shared/ui/atoms/button/button';
+import { Skeleton } from '../../../shared/ui/atoms/skeleton/skeleton';
 
 type SavedTab = 'following' | 'listings';
 
 @Component({
   selector: 'app-saved',
-  imports: [RouterLink, LucideStore, LucidePackage, LucideBookmark, LucideX],
+  imports: [RouterLink, LucideStore, LucidePackage, LucideBookmark, LucideX, Skeleton],
   templateUrl: './saved.html',
   styleUrl: './saved.css',
 })
@@ -28,8 +30,8 @@ export class Saved {
   readonly activeTab = signal<SavedTab>('following');
   readonly removingId = signal<string | null>(null);
 
-  readonly followedBusinesses = httpResource<IPaginated<IFollowedBusinessItem>>(
-    () => `${environment.apiUrl}/follows?type=business`,
+  readonly followedBusinesses = httpResource<IFollowedBusinessItem[]>(
+    () => `${environment.apiUrl}/v1/follows?type=business`,
   );
 
   readonly savedListings = httpResource<IPaginated<ISavedListingItem>>(
@@ -54,7 +56,7 @@ export class Saved {
     this.removingId.set(businessProfileId);
     try {
       await firstValueFrom(
-        this.#http.delete(`${environment.apiUrl}/follows/business/${businessProfileId}`),
+        this.#http.delete(`${environment.apiUrl}/v1/follows/business/${businessProfileId}`),
       );
       this.#toast.info('Removed from saved');
       this.followedBusinesses.reload();

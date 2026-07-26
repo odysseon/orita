@@ -1,62 +1,151 @@
-import { Component } from '@angular/core';
-import { LucideCompass } from '@lucide/angular';
-import { AppHeader } from '../../shared/app-header/app-header';
+import { Component, inject, OnInit, OnDestroy, HostListener, signal } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
+import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
+import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
+import { MessagingFacade } from '../../core/services/messaging.facade';
 
 @Component({
   selector: 'app-tours-page',
-  imports: [AppHeader, LucideCompass],
-  template: `
-    <ui-app-header pageTitle="Tours" [showLogo]="false"></ui-app-header>
-    <div class="empty-state-wrapper">
-      <div class="empty-state">
-        <div class="empty-state__icon">
-          <svg lucideCompass aria-hidden="true" style="width: 40px; height: 40px;"></svg>
-        </div>
-        <h2 class="empty-state__title">Discover Local Tours</h2>
-        <p class="empty-state__desc">
-          We're brewing up something amazing. Soon, you'll be able to explore, book, and experience unforgettable local tours right from here. Stay tuned!
-        </p>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .empty-state-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: calc(100vh - var(--app-header-height) - var(--nav-height, 0px));
-      padding: var(--size-24);
-    }
-    .empty-state {
-      text-align: center;
-      max-width: 400px;
-    }
-    .empty-state__icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto var(--size-24);
-      background: var(--surface-2);
-      border-radius: var(--radius-full);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary);
-    }
-    .empty-state__icon svg {
-      width: 40px;
-      height: 40px;
-    }
-    .empty-state__title {
-      font-size: var(--size-24);
-      font-weight: 700;
-      color: var(--text-1);
-      margin-bottom: var(--size-12);
-    }
-    .empty-state__desc {
-      font-size: var(--size-16);
-      color: var(--text-2);
-      line-height: 1.5;
-    }
-  `],
+  imports: [RootHeader, StoreTourCard],
+  templateUrl: './tours.html',
+  styleUrl: './tours.css',
 })
-export class ToursPage {}
+export class ToursPage implements OnInit, OnDestroy {
+  #title = inject(Title);
+  #router = inject(Router);
+  #tourService = inject(BusinessTourService);
+  #messagingFacade = inject(MessagingFacade);
+
+  readonly tours = signal<IBusinessTour[]>([]);
+  readonly loading = signal(true);
+  readonly currentIndex = signal(0);
+
+  #page = 1;
+  #hasMore = true;
+  #isScrolling = false;
+
+  // For touch support
+  #touchStartY = 0;
+  #touchEndY = 0;
+
+  ngOnInit(): void {
+    this.#title.setTitle('Discover Tours | Oríta');
+    this.loadMoreTours();
+  }
+
+  loadMoreTours(): void {
+    if (!this.#hasMore) return;
+    this.loading.set(true);
+
+    this.#tourService
+      .discoverGlobal({ page: this.#page, limit: 10, status: 'PUBLISHED' as any })
+      .subscribe({
+        next: (res) => {
+          this.tours.update((prev) => [...prev, ...res.items]);
+          this.#hasMore = res.page * res.limit < res.total;
+          this.#page++;
+          this.loading.set(false);
+        },
+        error: (err) => {
+          console.error('Error loading tours', err);
+          this.loading.set(false);
+        },
+      });
+  }
+
+  @HostListener('window:wheel', ['$event'])
+  onWheel(event: WheelEvent): void {
+    // Only handle scroll if over the feed area, but since it's full screen, it's fine.
+    if (this.#isScrolling || this.tours().length === 0) return;
+
+    if (event.deltaY > 50) {
+      this.nextSlide();
+    } else if (event.deltaY < -50) {
+      this.prevSlide();
+    }
+  }
+
+  @HostListener('window:touchstart', ['$event'])
+  onTouchStart(event: TouchEvent): void {
+    this.#touchStartY = event.changedTouches[0].screenY;
+  }
+
+  @HostListener('window:touchend', ['$event'])
+  onTouchEnd(event: TouchEvent): void {
+    if (this.#isScrolling || this.tours().length === 0) return;
+
+    this.#touchEndY = event.changedTouches[0].screenY;
+    this.handleSwipe();
+  }
+
+  private handleSwipe(): void {
+    const threshold = 50; // min distance
+    const diff = this.#touchStartY - this.#touchEndY;
+
+    if (diff > threshold) {
+      this.nextSlide();
+    } else if (diff < -threshold) {
+      this.prevSlide();
+    }
+  }
+
+  private nextSlide(): void {
+    if (this.currentIndex() < this.tours().length - 1) {
+      this.setIndex(this.currentIndex() + 1);
+
+      // Load more if getting close to the end
+      if (this.currentIndex() >= this.tours().length - 3) {
+        this.loadMoreTours();
+      }
+    }
+  }
+
+  private prevSlide(): void {
+    if (this.currentIndex() > 0) {
+      this.setIndex(this.currentIndex() - 1);
+    }
+  }
+
+  private setIndex(index: number): void {
+    this.currentIndex.set(index);
+    this.#isScrolling = true;
+    setTimeout(() => {
+      this.#isScrolling = false;
+    }, 400); // match css transition duration
+  }
+
+  mockBusinessData(tour: IBusinessTour): any {
+    return {
+      name: 'The Place Restaurant', // Ideally we fetch this from business profile
+      slug: (tour as any).businessSlug || 'the-place-restaurant',
+      rating: 4.8,
+      locationText: 'Bodija, Ibadan',
+      distanceStr: '120 m',
+      isOpen: true,
+    };
+  }
+
+  onActionClick(action: string, tour: IBusinessTour): void {
+    switch (action) {
+      case 'directions':
+        console.log('Get directions to', tour.businessProfileId);
+        break;
+      case 'business':
+        this.#router.navigate(['/b', (tour as any).businessSlug || this.mockBusinessData(tour).slug]);
+        break;
+      case 'message':
+        this.#messagingFacade.messageBusiness(tour.businessProfileId, {
+          embedType: 'TOUR',
+          targetId: tour.id
+        });
+        break;
+      case 'save':
+        console.log('Save tour', tour.id);
+        break;
+    }
+  }
+
+  ngOnDestroy(): void {}
+}

@@ -3,9 +3,9 @@
 
   @if (isLoading()) {
     <div class="skeleton-form">
-      <div class="skeleton skeleton-input"></div>
-      <div class="skeleton skeleton-textarea"></div>
-      <div class="skeleton skeleton-box"></div>
+      <app-skeleton class="skeleton-input"></app-skeleton>
+      <app-skeleton class="skeleton-textarea"></app-skeleton>
+      <app-skeleton class="skeleton-box"></app-skeleton>
     </div>
   } @else {
     <div class="edit-tour-content">
@@ -26,7 +26,7 @@
           </app-form-field>
 
           <app-form-field label="Status" fieldId="status">
-            <select id="status" [formField]="tourForm.status">
+            <select id="status" app-select [formField]="tourForm.status">
               <option value="DRAFT">Draft</option>
               <option value="PUBLISHED">Published</option>
             </select>
@@ -72,11 +72,11 @@
         </section>
 
         <div class="edit-tour__actions">
-          <button class="btn btn--outline" (click)="saveChanges()" [disabled]="isSaving() || tourForm().invalid()">
+          <button app-button appearance="outline"  (click)="saveChanges()" [disabled]="isSaving() || tourForm().invalid()">
             <svg lucideSave aria-hidden="true"></svg>
             {{ isSaving() ? 'Saving...' : 'Save Draft' }}
           </button>
-          <button class="btn btn--primary" (click)="publishTour()" [disabled]="isSaving() || tourForm().invalid()">
+          <button app-button intent="primary"  (click)="publishTour()" [disabled]="isSaving() || tourForm().invalid()">
             Publish Tour
           </button>
         </div>

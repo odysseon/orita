@@ -1,9 +1,9 @@
 <div class="edit-biz-page">
   @if (business.isLoading()) {
     <div class="edit-biz-skeleton">
-      <div class="skeleton skeleton--title"></div>
-      <div class="skeleton skeleton--text"></div>
-      <div class="skeleton skeleton--text" style="height: 120px;"></div>
+      <app-skeleton class="skeleton--title"></app-skeleton>
+      <app-skeleton class="skeleton--text"></app-skeleton>
+      <app-skeleton class="skeleton--text" style="height: 120px;"></app-skeleton>
     </div>
   } @else if (business.hasValue()) {
     <form (submit)="onSubmit($event)" class="edit-biz-form">
@@ -13,14 +13,13 @@
           <app-form-field
             label="Business Name"
             fieldId="name"
-            [touched]="businessForm.name().touched()"
             [invalid]="businessForm.name().invalid()"
             [errorMessage]="businessForm.name().errors()[0]?.message"
           >
             <input
               id="name"
-              class="field__input"
-              [class.field__input--error]="businessForm.name().touched() && businessForm.name().invalid()"
+              class="app-input"
+              [attr.aria-invalid]="businessForm.name().touched() && businessForm.name().invalid()"
               type="text"
               [formField]="businessForm.name"
               placeholder="e.g. Acme Services"
@@ -47,7 +46,6 @@
           <app-form-field
             label="Description"
             fieldId="description"
-            [touched]="businessForm.description().touched()"
             [invalid]="businessForm.description().invalid()"
             [errorMessage]="businessForm.description().errors()[0]?.message"
           >
@@ -63,15 +61,15 @@
           <app-form-field
             label="Category"
             fieldId="primaryCategoryId"
-            [touched]="businessForm.primaryCategoryId().touched()"
             [invalid]="businessForm.primaryCategoryId().invalid()"
             [errorMessage]="businessForm.primaryCategoryId().errors()[0]?.message"
           >
-            <app-category-picker
+            <ui-category-picker
+              id="primaryCategoryId"
               [categoryId]="model().primaryCategoryId"
               (categoryIdChange)="onCategoryPicked($event)"
-              [class.field__input--error]="businessForm.primaryCategoryId().touched() && businessForm.primaryCategoryId().invalid()"
-            ></app-category-picker>
+              [attr.aria-invalid]="businessForm.primaryCategoryId().touched() && businessForm.primaryCategoryId().invalid()"
+            ></ui-category-picker>
           </app-form-field>
 
           @if (model().primaryCategoryId) {
@@ -102,14 +100,13 @@
           <app-form-field
             label="Website URL"
             fieldId="websiteUrl"
-            [touched]="businessForm.websiteUrl().touched()"
             [invalid]="businessForm.websiteUrl().invalid()"
             [errorMessage]="businessForm.websiteUrl().errors()[0]?.message"
           >
             <input
               id="websiteUrl"
-              class="field__input"
-              [class.field__input--error]="businessForm.websiteUrl().touched() && businessForm.websiteUrl().invalid()"
+              class="app-input"
+              [attr.aria-invalid]="businessForm.websiteUrl().touched() && businessForm.websiteUrl().invalid()"
               type="url"
               [formField]="businessForm.websiteUrl"
               placeholder="https://example.com"
@@ -119,48 +116,57 @@
           <app-form-field
             label="Phone Number"
             fieldId="contactPhone"
-            [touched]="businessForm.contactPhone().touched()"
             [invalid]="businessForm.contactPhone().invalid()"
             [errorMessage]="businessForm.contactPhone().errors()[0]?.message"
           >
             <input
               id="contactPhone"
-              class="field__input"
-              [class.field__input--error]="businessForm.contactPhone().touched() && businessForm.contactPhone().invalid()"
+              class="app-input"
+              [attr.aria-invalid]="businessForm.contactPhone().touched() && businessForm.contactPhone().invalid()"
               type="tel"
               [formField]="businessForm.contactPhone"
-              placeholder="+1234567890"
+              [placeholder]="phonePlaceholder()"
             />
+            @if (phoneWarning()) {
+              <div style="font-size: var(--font-size-sm); color: var(--color-warning-600); margin-top: var(--size-4); display: flex; align-items: flex-start; gap: var(--size-4);">
+                <svg lucideGlobe aria-hidden="true" style="width: var(--size-14); height: var(--size-14); flex-shrink: 0; margin-top: 2px;"></svg>
+                <span>{{ phoneWarning() }}</span>
+              </div>
+            }
           </app-form-field>
 
           <app-form-field
             label="WhatsApp Number"
             fieldId="whatsapp"
-            [touched]="businessForm.whatsapp().touched()"
             [invalid]="businessForm.whatsapp().invalid()"
             [errorMessage]="businessForm.whatsapp().errors()[0]?.message"
           >
             <input
               id="whatsapp"
-              class="field__input"
-              [class.field__input--error]="businessForm.whatsapp().touched() && businessForm.whatsapp().invalid()"
+              class="app-input"
+              [attr.aria-invalid]="businessForm.whatsapp().touched() && businessForm.whatsapp().invalid()"
               type="tel"
               [formField]="businessForm.whatsapp"
-              placeholder="+1234567890"
+              [placeholder]="phonePlaceholder()"
             />
+            @if (whatsappWarning()) {
+              <div style="font-size: var(--font-size-sm); color: var(--color-warning-600); margin-top: var(--size-4); display: flex; align-items: flex-start; gap: var(--size-4);">
+                <svg lucideGlobe aria-hidden="true" style="width: var(--size-14); height: var(--size-14); flex-shrink: 0; margin-top: 2px;"></svg>
+                <span>{{ whatsappWarning() }}</span>
+              </div>
+            }
           </app-form-field>
 
           <app-form-field
             label="Email Address"
             fieldId="contactEmail"
-            [touched]="businessForm.contactEmail().touched()"
             [invalid]="businessForm.contactEmail().invalid()"
             [errorMessage]="businessForm.contactEmail().errors()[0]?.message"
           >
             <input
               id="contactEmail"
-              class="field__input"
-              [class.field__input--error]="businessForm.contactEmail().touched() && businessForm.contactEmail().invalid()"
+              class="app-input"
+              [attr.aria-invalid]="businessForm.contactEmail().touched() && businessForm.contactEmail().invalid()"
               type="email"
               [formField]="businessForm.contactEmail"
               placeholder="hello@example.com"
@@ -169,7 +175,7 @@
 
           <div class="field">
             <span class="field__label">Location Address</span>
-            <app-location-picker
+            <ui-location-picker
               [currentAddress]="model().location || undefined"
               triggerLabel="Set Location"
               (confirmed)="onLocationPicked($event)"
@@ -203,29 +209,11 @@
         </div>
       </div>
 
-      <div class="panel">
-        <h2 class="panel__title">Settings</h2>
-        <div class="panel__body edit-biz-panel-body">
-          <div class="field-toggle-row">
-            <div class="field-toggle-text">
-              <span class="field-toggle-label">Public Visibility</span>
-              <span class="field-toggle-hint">Make this business visible to visitors on Orita</span>
-            </div>
-            <label class="toggle-switch">
-              <input
-                type="checkbox"
-                [formField]="businessForm.isPublic"
-              />
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
-      </div>
-
       <div class="form-actions">
         <button
+          app-button
           type="submit"
-          class="btn btn--primary"
+          intent="primary"
           [disabled]="isFormInvalid() || loading()"
         >
           @if (loading()) {

@@ -1,0 +1,110 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  background: var(--clr-primary);
+  color: var(--clr-on-primary);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  box-shadow: var(--shadow-lg);
+  font-weight: 600;
+  text-decoration: none;
+  outline: none;
+  border-radius: 9999px; /* Fully rounded by default */
+  /* Fixed positioning so it stays on screen */
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+}
+
+:host-context(.app-layout--with-bottom-nav) {
+  bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+}
+
+:host:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+:host:active {
+  box-shadow: var(--shadow-md);
+  transform: translateY(0);
+}
+
+:host:focus-visible {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 2px;
+}
+
+:host[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+/* Sizes */
+:host.size-sm {
+  height: 40px;
+  min-width: 40px;
+  padding: 0;
+  font-size: 0.875rem;
+}
+:host.size-sm.is-extended {
+  padding: 0 16px;
+}
+:host.size-sm ::ng-deep svg {
+  width: 20px;
+  height: 20px;
+}
+
+:host.size-md {
+  height: 56px;
+  min-width: 56px;
+  padding: 0;
+  font-size: 1rem;
+}
+:host.size-md.is-extended {
+  padding: 0 24px;
+}
+:host.size-md ::ng-deep svg {
+  width: 24px;
+  height: 24px;
+}
+
+:host.size-lg {
+  height: 72px;
+  min-width: 72px;
+  padding: 0;
+  font-size: 1.125rem;
+}
+:host.size-lg.is-extended {
+  padding: 0 32px;
+}
+:host.size-lg ::ng-deep svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* Intents */
+:host.intent-primary.appearance-solid { background: var(--clr-primary); color: var(--clr-on-primary); }
+:host.intent-secondary.appearance-solid { background: var(--surface-container-high); color: var(--text-primary); border: 1px solid var(--border-color); }
+:host.intent-success.appearance-solid { background: var(--clr-success); color: white; }
+:host.intent-warning.appearance-solid { background: var(--clr-warning); color: white; }
+:host.intent-danger.appearance-solid { background: var(--clr-error); color: white; }
+
+/* Glass Appearance */
+:host.appearance-glass {
+  background: color-mix(in oklch, var(--text-on-dark) 25%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid color-mix(in oklch, var(--text-on-dark) 20%, transparent);
+  color: #ffffff;
+}
+
+:host.appearance-glass:hover {
+  background: color-mix(in oklch, var(--text-on-dark) 40%, transparent);
+}

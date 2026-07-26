@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,10 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'u/:username',
+    loadComponent: () => import('./pages/public-profile/public-profile').then((m) => m.PublicProfile),
+  },
+  {
     path: 'home',
     loadComponent: () => import('./pages/home/home').then((m) => m.Home),
     data: { isRootAppPage: true },
@@ -50,8 +55,19 @@ export const routes: Routes = [
     data: { isRootAppPage: true },
   },
   {
+    path: 'nearby',
+    loadComponent: () => import('./pages/nearby/nearby').then((m) => m.NearbyPage),
+    data: { isRootAppPage: true },
+    canActivate: [authGuard],
+  },
+  {
     path: 'messages',
     loadComponent: () => import('./pages/messages/messages').then((m) => m.MessagesPage),
+    data: { isRootAppPage: true },
+  },
+  {
+    path: 'notifications',
+    loadComponent: () => import('./pages/notifications/notifications').then((m) => m.NotificationsPage),
     data: { isRootAppPage: true },
   },
   {

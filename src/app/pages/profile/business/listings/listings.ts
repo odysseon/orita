@@ -17,17 +17,23 @@ import { ToastService } from '../../../../core/services/toast';
 import { IListing, ICategory, ICreateListing } from './listing.interface';
 import { environment } from '../../../../../environments/environment';
 import { IBusinessProfile } from '../business.interface';
+import { Button } from '../../../../shared/ui/atoms/button/button';
+import { Skeleton } from '../../../../shared/ui/atoms/skeleton/skeleton';
 
-import { AppFormField } from '../../../../shared/form-field/form-field';
-import { Drawer } from '../../../../shared/drawer/drawer';
+import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
+import { Drawer } from '../../../../shared/ui/overlays/drawer/drawer';
+
 import { CompletionNudge } from '../../../../shared/completion-nudge/completion-nudge';
+import { ListingService } from '../../../../core/services/listing.service';
+import { PublicationIssue } from '../../../../core/services/business-profile.service';
+import { PublicationReadinessDialog } from '../../../../shared/publication-readiness/publication-readiness';
 
 @Component({
   selector: 'app-listings',
-  imports: [
+  imports: [FormField, 
     AppFormField,
     Drawer,
-    FormField,
+    AppFormField,
     RouterLink,
     LucidePlus,
     LucidePackage,
@@ -37,6 +43,9 @@ import { CompletionNudge } from '../../../../shared/completion-nudge/completion-
     LucideLoaderCircle,
     LucidePencil,
     CompletionNudge,
+    PublicationReadinessDialog,
+    Button,
+    Skeleton,
   ],
   templateUrl: './listings.html',
   styleUrl: './listings.css',
@@ -45,6 +54,7 @@ export class Listings {
   #http = inject(HttpClient);
   #toast = inject(ToastService);
   #router = inject(Router);
+  #listingService = inject(ListingService);
 
   readonly businessId = input.required<string>();
   readonly businessProfile = input<IBusinessProfile>();
@@ -53,6 +63,13 @@ export class Listings {
   readonly submitting = signal(false);
   readonly deletingId = signal<string | null>(null);
   readonly togglingId = signal<string | null>(null);
+
+  readonly isReadinessDialogOpen = signal(false);
+  readonly readinessIssues = signal<PublicationIssue[]>([]);
+
+  readonly canCreateListing = computed(() => {
+    return !!this.businessProfile()?.primaryCategoryId;
+  });
 
   readonly listings = httpResource<IListing[]>(
     () => `${environment.apiUrl}/businesses/${this.businessId()}/listings/mine`,
@@ -81,6 +98,10 @@ export class Listings {
   readonly isFormInvalid = computed(() => this.createForm().invalid());
 
   openForm(): void {
+    if (!this.canCreateListing()) {
+      this.#toast.error('Missing Category', 'Please set a primary category for your business first.');
+      return;
+    }
     this.model.set({ title: '', description: '' });
     this.showForm.set(true);
   }
@@ -103,6 +124,10 @@ export class Listings {
 
   navigateToEdit(listingId: string): void {
     this.#router.navigate(['/profile/business/listings', listingId, 'edit']);
+  }
+
+  navigateToEditBusiness(): void {
+    this.#router.navigate(['/profile/business/edit']);
   }
 
   async createListing(event: Event): Promise<void> {
@@ -140,6 +165,21 @@ export class Listings {
 
   async toggleStatus(listing: IListing): Promise<void> {
     const next = listing.status === 'PUBLISHED' ? 'DRAFT' : 'PUBLISHED';
+    
+    if (next === 'PUBLISHED') {
+      try {
+        const readiness = await this.#listingService.checkReadiness(listing.id);
+        if (!readiness.ready) {
+          this.readinessIssues.set(readiness.issues);
+          this.isReadinessDialogOpen.set(true);
+          return;
+        }
+      } catch (err) {
+        this.#toast.error('Error', 'Failed to check listing readiness.');
+        return;
+      }
+    }
+
     this.togglingId.set(listing.id);
     try {
       await firstValueFrom(
@@ -166,5 +206,9 @@ export class Listings {
     } finally {
       this.deletingId.set(null);
     }
+  }
+
+  closeReadinessDialog(): void {
+    this.isReadinessDialogOpen.set(false);
   }
 }

@@ -9,39 +9,20 @@
   background: var(--surface-page);
 }
 
-.sub-layout__header {
+.sub-layout__header-left {
+  display: flex;
+  align-items: center;
+}
+
+.sub-layout__header-center {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  position: relative;
-  min-height: var(--size-32); /* Ensure header has height even without title */
 }
 
 .btn-back {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  padding: var(--size-8);
   margin-left: calc(var(--size-8) * -1);
-  display: flex;
-  align-items: center;
-  gap: var(--size-4);
-  font-family: inherit;
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-secondary);
-  cursor: pointer;
-  border-radius: var(--radius-md);
-  transition: background-color var(--transition-fast), color var(--transition-fast);
-}
-
-.btn-back:hover {
-  background-color: var(--surface-hover);
-  color: var(--text-primary);
 }
 
 .btn-back svg {
@@ -59,7 +40,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
-  max-width: 60%; /* Prevent title from overlapping the back button */
+  max-width: 100%;
+
 }
 
 .sub-layout__content {

@@ -1,0 +1,148 @@
+<div class="profile-page surface-page">
+  <header class="profile-header glass-sm">
+    <div class="container header-container">
+      <button app-button appearance="ghost" shape="circle" class="btn-icon" (click)="goBack()" aria-label="Go back">
+        <svg lucideArrowLeft aria-hidden="true"></svg>
+      </button>
+      <div class="header-actions">
+        <button app-button appearance="ghost" shape="circle" class="btn-icon" (click)="shareProfile()" aria-label="Share profile" [disabled]="state() !== 'loaded'">
+          <svg lucideShare aria-hidden="true"></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="profile-content">
+    @if (state() === 'loading') {
+      <div class="skeleton-layout">
+        <app-skeleton class="skeleton-banner"></app-skeleton>
+        <div class="container skeleton-container">
+          <app-skeleton shape="circle" class="skeleton-avatar"></app-skeleton>
+          <div class="skeleton-actions">
+            <app-skeleton class="skeleton-btn"></app-skeleton>
+          </div>
+          <div class="skeleton-info">
+            <app-skeleton class="skeleton-name"></app-skeleton>
+            <app-skeleton class="skeleton-username"></app-skeleton>
+            <div class="skeleton-bio">
+              <app-skeleton shape="text" class="skeleton-line"></app-skeleton>
+              <app-skeleton shape="text" class="skeleton-line" style="width: 80%"></app-skeleton>
+            </div>
+            <div class="skeleton-stats">
+              <app-skeleton class="skeleton-stat"></app-skeleton>
+              <app-skeleton class="skeleton-stat"></app-skeleton>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (state() === 'error') {
+      <div class="error-state">
+        <div class="error-icon">
+          <svg lucideAlertCircle aria-hidden="true"></svg>
+        </div>
+        <h1 class="error-title">User not found</h1>
+        <p class="error-desc">We couldn't find a user with that username.</p>
+        <a app-button intent="primary" routerLink="/home" >Go Home</a>
+      </div>
+    }
+
+    @if (state() === 'loaded' && profile(); as p) {
+      <div class="profile-hero">
+        <div class="profile-banner">
+          <!-- Tasteful gradient banner -->
+        </div>
+        
+        <div class="container">
+          <div class="profile-header-content">
+            <div class="profile-avatar-wrapper">
+              <app-avatar
+                [src]="p.avatarUrl"
+                [alt]="p.displayName || p.username"
+                [fallback]="(p.displayName || p.username) ? (p.displayName || p.username).charAt(0).toUpperCase() : ''"
+                size="xxl"
+                class="profile-avatar-component"
+              ></app-avatar>
+            </div>
+            
+            <div class="profile-actions">
+              @if (isCurrentUser()) {
+                <button app-button appearance="ghost" class="profile-action-btn" (click)="editProfile()">
+                  Edit Profile
+                </button>
+              } @else {
+                <button 
+                  app-button 
+                  [intent]="p.isFollowing ? 'secondary' : 'primary'"
+                  [appearance]="p.isFollowing ? 'soft' : 'solid'"
+                  class="profile-action-btn follow-btn" 
+                  [class.is-following]="p.isFollowing"
+                  [disabled]="toggleFollowLoading()"
+                  (click)="toggleFollow()">
+                  @if (toggleFollowLoading()) {
+                    <span class="spinner"></span>
+                  } @else {
+                    @if (p.isFollowing) {
+                      <span class="follow-status-icon"><svg lucideUserCheck aria-hidden="true"></svg></span>
+                      <span class="text-following">Following</span>
+                      <span class="text-unfollow">Unfollow</span>
+                    } @else {
+                      <span class="follow-status-icon"><svg lucideUserPlus aria-hidden="true"></svg></span>
+                      <span>Follow</span>
+                    }
+                  }
+                </button>
+              }
+            </div>
+          </div>
+
+          <div class="profile-identity">
+            <h1 class="profile-display-name">{{ p.displayName || p.username }}</h1>
+            <span class="profile-username">@{{ p.username }}</span>
+            
+            @if (p.bio) {
+              <p class="profile-bio">{{ p.bio }}</p>
+            }
+
+            <div class="profile-meta">
+              <span class="meta-item">Member since {{ p.joinedAt | date:'MMMM yyyy' }}</span>
+            </div>
+
+            <div class="profile-stats">
+              <button app-button appearance="plain" class="stat-item" style="flex-direction: column;">
+                <span class="stat-value">{{ p.followersCount }}</span>
+                <span class="stat-label">Followers</span>
+              </button>
+              <button app-button appearance="plain" class="stat-item" style="flex-direction: column;">
+                <span class="stat-value">{{ p.followingCount }}</span>
+                <span class="stat-label">Following</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      @if (p.businesses && p.businesses.length > 0) {
+        <div class="container profile-sections">
+          <div class="section-divider"></div>
+          
+          <section class="profile-section">
+            <h2 class="section-title">Business</h2>
+            
+            <ui-grid cols="1 sm:2 md:3" gap="md">
+              @for (business of p.businesses; track business.id) {
+                <ui-business-card [business]="{
+                  id: business.id,
+                  name: business.name,
+                  slug: business.slug,
+                  isVerified: true
+                }"></ui-business-card>
+              }
+            </ui-grid>
+          </section>
+        </div>
+      }
+    }
+  </main>
+</div>

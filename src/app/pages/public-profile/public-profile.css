@@ -1,0 +1,192 @@
+.profile-page {
+  min-height: 100vh;
+  padding-bottom: var(--space-xxl);
+}
+
+.profile-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  border-bottom: var(--size-1) solid var(--border-subtle);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--size-56);
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+/* Hero Section */
+.profile-hero {
+  position: relative;
+  margin-bottom: var(--space-xl);
+}
+
+.profile-banner {
+  height: var(--size-140);
+  background: var(--gradient-hero);
+  width: 100%;
+}
+
+.profile-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: calc(var(--size-40) * -1); /* Pull avatar halfway up into banner */
+  margin-bottom: var(--space-sm);
+}
+
+.profile-avatar-wrapper {
+  padding: var(--size-4);
+  background: var(--surface-page);
+  border-radius: var(--radius-pill);
+}
+
+/* Adjust the Avatar component size strictly inside the wrapper if needed */
+.profile-avatar-component {
+  display: block;
+}
+
+.profile-actions {
+  margin-bottom: var(--space-xs);
+}
+
+.profile-action-btn {
+  min-width: var(--size-140);
+}
+
+/* Follow Button states */
+.follow-btn .follow-status-icon {
+  display: flex;
+  align-items: center;
+}
+
+.follow-btn .follow-status-icon svg {
+  width: var(--size-16);
+  height: var(--size-16);
+}
+
+.follow-btn.is-following .text-unfollow {
+  display: none;
+}
+
+.follow-btn.is-following:hover {
+  background: var(--clr-error-container);
+  color: var(--clr-error);
+  border-color: var(--clr-error-container);
+}
+
+.follow-btn.is-following:hover .text-following {
+  display: none;
+}
+
+.follow-btn.is-following:hover .text-unfollow {
+  display: inline;
+}
+
+.follow-btn.is-following:hover .follow-status-icon {
+  display: none;
+}
+
+/* Identity Info */
+.profile-identity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.profile-display-name {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  line-height: var(--line-height-tight);
+  margin: 0;
+}
+
+.profile-username {
+  font-size: var(--font-size-md);
+  color: var(--text-muted);
+}
+
+.profile-bio {
+  font-size: var(--font-size-md);
+  color: var(--text-secondary);
+  margin-top: var(--space-xs);
+  line-height: var(--line-height-relaxed);
+  max-width: var(--size-560);
+}
+
+.profile-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* Stats */
+.profile-stats {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: var(--size-6);
+  background: transparent;
+  border: none;
+  padding: var(--size-0);
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+.stat-item:hover .stat-label {
+  color: var(--text-primary);
+}
+
+.stat-value {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-size: var(--font-size-md);
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+/* Sections */
+.profile-sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.section-divider {
+  width: 100%;
+  height: var(--size-1);
+  background: var(--border-subtle);
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.section-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+

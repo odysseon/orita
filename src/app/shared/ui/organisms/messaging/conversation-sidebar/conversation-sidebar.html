@@ -1,0 +1,38 @@
+<aside class="sidebar-container">
+  <div class="sidebar-header">
+    <h2>Messages</h2>
+    <ui-search-bar (clear)="searchQuery.set('')">
+      <input
+        app-input
+        type="text"
+        placeholder="Search conversations..."
+        [value]="searchQuery()"
+        (input)="searchQuery.set($any($event.target).value)"
+      />
+    </ui-search-bar>
+  </div>
+
+  <div class="sidebar-list">
+    @if (conversations().length === 0) {
+      <div class="empty-state">
+        <h3>Your conversations will appear here.</h3>
+        <p>Start by discovering people and businesses around you. Follow those you're interested in, and your network will grow.</p>
+        <a routerLink="/search" app-button intent="primary">Discover people & places</a>
+      </div>
+    } @else if (filteredConversations().length === 0) {
+      <div class="empty-state">
+        <p>No conversations found.</p>
+      </div>
+    } @else {
+      <ui-list [bordered]="false" [radius]="false" [dividers]="true">
+        @for (conv of filteredConversations(); track conv.id) {
+          <ui-conversation-list-item 
+            [conversation]="toListItemDto(conv)" 
+            [active]="activeId() === conv.id"
+            (click)="selectConversation.emit(conv.id)" 
+          />
+        }
+      </ui-list>
+    }
+  </div>
+</aside>

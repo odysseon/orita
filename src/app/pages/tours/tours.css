@@ -1,0 +1,73 @@
+:host {
+  display: block;
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+}
+
+.tours-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  /* Pass through clicks if user taps between header items */
+  pointer-events: none;
+}
+.tours-nav app-page-header {
+  pointer-events: auto;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tours-nav app-page-header::part(header) {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklch, var(--surface-ink) 40%, transparent) 0%,
+    transparent 100%
+  ) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: white !important;
+  border-bottom: none !important;
+}
+
+.tours-feed {
+  height: 100%;
+
+  width: 100%;
+  overflow: hidden; /* We handle scrolling via translate */
+  position: relative;
+}
+
+.tours-track {
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  width: 100%;
+  height: 100%;
+}
+
+.tour-slide {
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.tours-loading,
+.tours-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: var(--size-24);
+}
+.tours-empty h2 {
+  margin: 0 0 var(--size-8) 0;
+  font-size: var(--size-24);
+}
+.tours-empty p {
+  margin: 0;
+  opacity: 0.7;
+}

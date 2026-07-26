@@ -2,13 +2,13 @@ import { Component, computed, inject, signal, ViewEncapsulation, model, output }
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { form, FormField, required, minLength, maxLength } from '@angular/forms/signals';
+import { parsePhoneNumberWithError, CountryCode, getCountryCallingCode } from 'libphonenumber-js';
+import { form, FormField, required, minLength, maxLength, pattern } from '@angular/forms/signals';
 import {
   LucideMapPin,
   LucideStore,
   LucideGlobe,
   LucideLayoutGrid,
-  LucideLoaderCircle,
   LucideDynamicIcon,
   LucideIconInput,
 } from '@lucide/angular';
@@ -18,18 +18,20 @@ import {
   ICreateBusinessResponse,
 } from './create-business.interface';
 import { environment } from '../../../../../environments/environment';
-import { AppFormField } from '../../../../shared/form-field/form-field';
-import { Drawer } from '../../../../shared/drawer/drawer';
-import { LocationSelector } from '../../../../shared/location-selector/location-selector';
+import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
+import { Drawer } from '../../../../shared/ui/overlays/drawer/drawer';
+
+import { LocationPicker } from '../../../../shared/ui/organisms/location-picker/location-picker';
 import { Location } from '../../../../core/services/location.service';
-import { CategoryPicker } from '../../../../shared/category-picker/category-picker';
+import { CategoryPicker } from '../../../../shared/ui/organisms/category-picker/category-picker';
+import { Button } from '../../../../shared/ui/atoms/button/button';
 import { ICategory } from '../../../home/home.interface';
 
 
 
 @Component({
   selector: 'app-create-business',
-  imports: [FormField, LucideStore, LucideLoaderCircle, Drawer, AppFormField, LocationSelector, CategoryPicker],
+  imports: [FormField, AppFormField, LucideStore, Drawer, AppFormField, LocationPicker, CategoryPicker, Button],
   templateUrl: './create-business.html',
   styleUrl: './create-business.css',
   encapsulation: ViewEncapsulation.None,
@@ -42,6 +44,7 @@ export class CreateBusiness {
   readonly isOpen = model<boolean>(false);
   readonly created = output<ICreateBusinessResponse>();
   readonly loading = signal(false);
+  readonly selectedCountryCode = signal<CountryCode | undefined>(undefined);
 
   readonly model = signal<ICreateBusiness>({
     name: '',
@@ -67,7 +70,34 @@ export class CreateBusiness {
 
   readonly isFormInvalid = computed(() => this.businessForm().invalid());
 
+  readonly phonePlaceholder = computed(() => {
+    const cc = this.selectedCountryCode();
+    if (cc) {
+      try {
+        return `e.g. +${getCountryCallingCode(cc)}...`;
+      } catch { }
+    }
+    return 'e.g. +234 800 000 0000';
+  });
+
+  readonly phoneWarning = computed(() => {
+    const phone = this.model().contactPhone;
+    const locCountry = this.selectedCountryCode();
+    if (phone && locCountry) {
+      try {
+        const parsed = parsePhoneNumberWithError(phone, locCountry);
+        if (parsed.isValid() && parsed.country && parsed.country !== locCountry) {
+          return `This business is located in ${locCountry} but uses a ${parsed.country} phone number.`;
+        }
+      } catch { }
+    }
+    return null;
+  });
+
   onLocationPicked(loc: Location): void {
+    if (loc.countryCode) {
+      this.selectedCountryCode.set(loc.countryCode.toUpperCase() as CountryCode);
+    }
     this.model.update((m) => ({
       ...m,
       location: loc.name || loc.formattedAddress || 'Unknown',
@@ -92,7 +122,22 @@ export class CreateBusiness {
     }
     this.loading.set(true);
     try {
-      const payload = this.model();
+      const payload = { ...this.model() };
+      
+      try {
+        const parsed = parsePhoneNumberWithError(payload.contactPhone, this.selectedCountryCode());
+        if (!parsed.isValid()) {
+           this.#toast.error('Invalid phone', 'Please enter a valid phone number.');
+           this.loading.set(false);
+           return;
+        }
+        payload.contactPhone = parsed.format('E.164');
+      } catch {
+        this.#toast.error('Invalid phone', 'Please enter a valid phone number.');
+        this.loading.set(false);
+        return;
+      }
+
       const res = await firstValueFrom(
         this.#http.post<ICreateBusinessResponse>(`${environment.apiUrl}/business`, payload),
       );

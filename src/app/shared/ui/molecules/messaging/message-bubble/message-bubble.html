@@ -1,0 +1,75 @@
+<div class="msg-wrapper" [class.is-mine]="isMine()">
+      
+      @if (!isMine()) {
+        <app-avatar
+          [fallback]="(message().senderDisplayName || 'U').charAt(0).toUpperCase()"
+          size="xs"
+          style="margin-top: var(--size-2);"
+        ></app-avatar>
+      }
+
+      <div class="msg-content-col">
+        @if (!isMine()) {
+          <span class="msg-sender">{{ message().senderDisplayName }}</span>
+        }
+        
+        <div class="msg-bubble-card" [class.optimistic]="message().syncState === 'SENDING' || message().syncState === 'QUEUED' || message().syncState === 'UPLOADING' || message().syncState === 'UPLOADED'" [class.failed]="message().syncState === 'FAILED_UPLOAD' || message().syncState === 'FAILED_SEND'">
+          
+          @if (galleryItems().length > 0) {
+            <app-media-gallery [items]="galleryItems()"></app-media-gallery>
+          }
+
+          @if (message().content) {
+            <p class="msg-text">{{ message().content }}</p>
+          }
+
+          @for (embed of message().embeds; track embed.id) {
+            <div class="msg-embed">
+              @if (embed.imageUrl) {
+                <img [src]="embed.imageUrl" class="msg-embed-img" alt="Embed image" />
+              }
+              <div class="msg-embed-info">
+                <strong>{{ embed.title }}</strong>
+                @if (embed.subtitle) {
+                  <span>{{ embed.subtitle }}</span>
+                }
+              </div>
+              @if (embed.ctaPath) {
+                <a [routerLink]="embed.ctaPath" app-button size="sm" appearance="soft" class="msg-embed-btn">
+                  {{ embed.ctaLabel || 'View' }}
+                </a>
+              }
+            </div>
+          }
+
+          <div class="msg-meta">
+            <span class="msg-time">{{ message().createdAt | date:'shortTime' }}</span>
+            
+            @if (isMine()) {
+              <span class="msg-status">
+                @if (message().syncState === 'FAILED_UPLOAD' || message().syncState === 'FAILED_SEND') {
+                  <svg lucideAlertCircle class="status-icon text-error" aria-hidden="true"></svg>
+                } @else if (message().syncState === 'SENDING' || message().syncState === 'QUEUED' || message().syncState === 'UPLOADING' || message().syncState === 'UPLOADED') {
+                  <svg lucideClock class="status-icon" aria-hidden="true"></svg>
+                } @else if (message().readReceipts?.length) {
+                  <svg lucideCheckCheck class="status-icon text-primary" aria-hidden="true"></svg>
+                } @else {
+                  <svg lucideCheck class="status-icon" aria-hidden="true"></svg>
+                }
+              </span>
+            }
+          </div>
+        </div>
+
+        @if (message().syncState === 'FAILED_UPLOAD' || message().syncState === 'FAILED_SEND') {
+          <div class="error-msg">
+            <span class="error-text">❗ {{ message().syncState === 'FAILED_UPLOAD' ? 'Upload failed' : 'Not sent' }}</span>
+            <div class="error-actions">
+              <button type="button" app-button appearance="link" (click)="retry.emit()">Retry</button>
+              <span class="separator">·</span>
+              <button type="button" app-button appearance="link" (click)="discard.emit()">Discard</button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>

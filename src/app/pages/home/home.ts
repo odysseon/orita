@@ -4,27 +4,37 @@ import { HttpErrorResponse } from '@angular/common/http';
 import {
   LucideMapPin,
 } from '@lucide/angular';
-import { AppFeedCard } from '../../shared/feed-card/feed-card';
+import { BusinessCard } from '../../shared/ui/organisms/cards/business-card/business-card';
+import { ListingCard } from '../../shared/ui/organisms/cards/listing-card/listing-card';
+import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
 import { EmptyState } from '../../shared/empty-state/empty-state';
-import { AppHeader } from '../../shared/app-header/app-header';
+import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
+import { LocationPicker } from '../../shared/ui/organisms/location-picker/location-picker';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
-import { AppGrid } from '../../shared/grid/grid';
+import { Grid } from '../../shared/ui/layouts/grid/grid';
 import { FeedService, FeedItemView } from '../../core/services/feed.service';
 import { ToastService } from '../../core/services/toast';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { ExplorationService } from '../../core/services/exploration.service';
+import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
+import { Button } from '../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-home',
   imports: [
     RouterLink,
-    AppFeedCard,
+    BusinessCard,
+    ListingCard,
+    StoreTourCard,
     EmptyState,
-    AppHeader,
+    RootHeader,
+    LocationPicker,
     ScrollHideDirective,
-    AppGrid,
+    Grid,
     SeoComponent,
+
     LucideMapPin,
+    Skeleton, Button,
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',
@@ -39,6 +49,21 @@ export class Home {
   readonly isLoading = signal(true);
   readonly isLoadingMore = signal(false);
   readonly hasMore = signal(true);
+
+  readonly activeLocation = this.#exploration.activeLocation;
+
+  setLocation(result: any) {
+    const context = {
+      id: `geo_${result.latitude}_${result.longitude}`,
+      name: result.formattedAddress || result.name,
+      city: null,
+      state: null,
+      country: null,
+      lat: result.latitude,
+      lng: result.longitude,
+    };
+    this.#exploration.setLocation(context);
+  }
 
   // Grouped editorial sections for the view
   readonly editorialSections = computed(() => {

@@ -1,0 +1,19 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <header class="auth-card__header">
+      <div class="auth-card__logo">
+        <ui-logo variant="full" size="xl" />
+      </div>
+      <p class="auth-card__subtitle">{{ subtitle() }}</p>
+    </header>
+    <div class="auth-card__body">
+      <ng-content />
+    </div>
+    <footer class="auth-card__footer">
+      {{ footerText() }}
+      <a class="auth-card__footer-link" [routerLink]="footerLinkRoute()">
+        {{ footerLinkLabel() }}
+      </a>
+    </footer>
+  </div>
+</div>

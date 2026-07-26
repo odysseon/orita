@@ -1,0 +1,75 @@
+<button app-button appearance="ghost" class="location-picker__trigger" (click)="open.set(true)">
+  <svg lucideMapPin aria-hidden="true"></svg>
+  <span class="location-picker__label">{{ displayAddress() }}</span>
+</button>
+
+<ui-drawer
+  [(open)]="open"
+  position="bottom"
+  size="md"
+  title="Set Location"
+  [closeOnBackdrop]="true"
+  (dismissed)="onDismissed()"
+>
+  <div class="location-picker__body">
+    <ui-location-gps-button (locationSelected)="onProvisionalPick($event)" />
+
+    <div class="location-picker__divider">
+      <span>or search a city</span>
+    </div>
+
+    <ui-combobox (selected)="onProvisionalPick($event)" [value]="provisional()">
+      <ui-search-bar>
+        <input
+          uiComboboxInput
+          app-input
+          [value]="searchQuery()"
+          (input)="onSearchInput($event)"
+          placeholder="Enter city, neighborhood..."
+        />
+      </ui-search-bar>
+
+      <ui-combobox-list class="location-picker__results">
+        @if (isSearching()) {
+          <div class="location-picker__loading">Searching...</div>
+        } @else {
+          @for (location of searchResults(); track location.id) {
+            <button uiComboboxOption [value]="location">
+              <svg lucideMapPin class="result-icon"></svg>
+              <div class="result-text">
+                <span class="result-name">{{ location.formattedAddress }}</span>
+                <span class="result-display">{{ location.name }}</span>
+              </div>
+            </button>
+          } @empty {
+            @if (searchQuery().trim()) {
+              <div class="location-picker__loading">No results found for "{{ searchQuery() }}"</div>
+            }
+          }
+        }
+      </ui-combobox-list>
+    </ui-combobox>
+  </div>
+
+  <div class="location-picker__footer">
+    <div class="location-picker__actions-left">
+      @if (provisional()?.id) {
+        <ui-follow-button 
+          [isFollowed]="provisionalIsFollowed()"
+          (toggle)="toggleProvisionalFollow()"
+        ></ui-follow-button>
+      }
+    </div>
+    <div class="location-picker__actions-right">
+      <button app-button appearance="ghost" (click)="cancel()">Cancel</button>
+      <button
+        app-button
+        intent="primary"
+        [disabled]="!provisional()"
+        (click)="confirm()"
+      >
+        Confirm Location
+      </button>
+    </div>
+  </div>
+</ui-drawer>

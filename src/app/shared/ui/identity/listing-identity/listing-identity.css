@@ -1,0 +1,72 @@
+.ui-listing-identity {
+  display: block;
+  text-align: left;
+}
+
+.ui-listing-identity-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-2);
+  min-width: 0;
+}
+
+.ui-listing-identity-title {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  line-height: var(--line-height-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui-listing-identity-price {
+  font-weight: var(--font-weight-medium);
+  color: var(--clr-primary);
+  line-height: var(--line-height-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Size Variants */
+.ui-listing-identity--sm {
+  gap: var(--size-8);
+}
+.ui-listing-identity--sm .ui-listing-identity-title {
+  font-size: var(--font-size-sm);
+}
+.ui-listing-identity--sm .ui-listing-identity-price {
+  font-size: var(--font-size-xs);
+}
+
+.ui-listing-identity--md {
+  gap: var(--size-12);
+}
+.ui-listing-identity--md .ui-listing-identity-title {
+  font-size: var(--font-size-md);
+}
+.ui-listing-identity--md .ui-listing-identity-price {
+  font-size: var(--font-size-sm);
+}
+
+.ui-listing-identity--lg {
+  gap: var(--size-16);
+}
+.ui-listing-identity--lg .ui-listing-identity-title {
+  font-size: var(--font-size-lg);
+}
+.ui-listing-identity--lg .ui-listing-identity-price {
+  font-size: var(--font-size-md);
+}
+
+.ui-identity-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+.ui-identity-link:hover .ui-listing-identity-title {
+  text-decoration: underline;
+  color: var(--clr-primary, var(--text-primary));
+}
+

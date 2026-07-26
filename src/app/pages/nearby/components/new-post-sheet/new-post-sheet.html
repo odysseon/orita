@@ -1,0 +1,50 @@
+<ui-drawer [open]="true" position="bottom" size="lg" [showCloseButton]="false" (closed)="close.emit()">
+  <div class="new-post-content">
+
+    <button app-button appearance="ghost" shape="circle" class="btn-icon new-post-close" (click)="close.emit()" aria-label="Close">
+      <svg lucideX aria-hidden="true"></svg>
+    </button>
+
+    <h2 class="section__title new-post-title">New Post</h2>
+
+    @if (postForm().errors().length > 0) {
+      <div class="new-post-error">{{ postForm().errors()[0].message }}</div>
+    }
+
+    <form [formRoot]="postForm" class="stack">
+      <div class="field">
+        <label class="field__label" for="post-type">Type</label>
+        <select id="post-type" app-select [formField]="postForm.type">
+
+          @for (type of types; track type.value) {
+            <option [value]="type.value">{{ type.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="post-title">Title</label>
+        <input id="post-title" [formField]="postForm.title" placeholder="What's happening?" class="app-input" />
+        @if (postForm.title().touched() && postForm.title().invalid()) {
+          <span class="field__error">{{ postForm.title().errors()[0]?.message }}</span>
+        }
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="post-body">Details (optional)</label>
+        <textarea id="post-body" [formField]="postForm.body" placeholder="Add more details..." class="field__textarea"></textarea>
+      </div>
+
+      <div class="new-post-actions cluster">
+        <button app-button type="button" appearance="ghost" (click)="close.emit()" [disabled]="postForm().submitting()">Cancel</button>
+        <button app-button type="submit" intent="primary" [disabled]="postForm().submitting() || postForm().invalid()">
+          @if (postForm().submitting()) {
+            <svg lucideLoaderCircle class="spin" aria-hidden="true"></svg>
+          } @else {
+            Post
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</ui-drawer>

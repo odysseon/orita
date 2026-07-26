@@ -1,14 +1,17 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { httpResource } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { form, FormField, required, minLength, email } from '@angular/forms/signals';
 import { LucideLoaderCircle } from '@lucide/angular';
 import { ToastService } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
 import { IProfile } from '../profile.interface';
-import { AppFormField } from '../../../shared/form-field/form-field';
+import { AppFormField } from '../../../shared/ui/atoms/form-field/form-field';
+import { Button } from '../../../shared/ui/atoms/button/button';
 import { MediaSelector } from '../../../shared/media-selector/media-selector';
+import { MediaService } from '../../../core/services/media.service';
 
 interface IEditProfileForm {
   username: string;
@@ -16,13 +19,15 @@ interface IEditProfileForm {
 
 @Component({
   selector: 'app-edit-profile',
-  imports: [FormField, LucideLoaderCircle, AppFormField, MediaSelector],
+  imports: [FormField, AppFormField, LucideLoaderCircle, AppFormField, MediaSelector],
   templateUrl: './edit-profile.html',
   styleUrl: './edit-profile.css',
 })
 export class EditProfile {
   #http = inject(HttpClient);
   #toast = inject(ToastService);
+  #media = inject(MediaService);
+  #router = inject(Router);
 
   readonly profile = httpResource<IProfile>(() => `${environment.apiUrl}/users/me`);
   readonly loading = signal(false);
@@ -65,14 +70,21 @@ export class EditProfile {
 
       const avatar = this.avatarFile();
       if (avatar) {
-        const formData = new FormData();
-        formData.append('file', avatar);
-        await firstValueFrom(this.#http.post(`${environment.apiUrl}/users/me/avatar`, formData));
+        await new Promise<void>((resolve, reject) => {
+          this.#media.uploadMedia('user-profile', '', 'AVATAR', avatar).subscribe({
+            next: (state) => {
+              // Intentionally swallowing state updates for now, showing global 'Saving...' loader.
+            },
+            error: (err) => reject(err),
+            complete: () => resolve(),
+          });
+        });
         this.avatarFile.set(null);
       }
 
       this.#toast.success('Profile updated', 'Your personal details have been saved.');
       this.profile.reload();
+      this.#router.navigate(['/profile']);
     } catch (err) {
       const message =
         err instanceof HttpErrorResponse

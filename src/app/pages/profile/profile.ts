@@ -11,14 +11,20 @@ import {
   LucideLogOut,
   LucideTriangleAlert,
   LucideDynamicIcon,
+  LucideList,
   LucideIconInput,
 } from '@lucide/angular';
 import { IProfile } from './profile.interface';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 import { CreateBusiness } from './business/create/create-business';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../shared/ui/surfaces/list/list';
 import { SeoComponent } from '../../shared/seo/seo.component';
-import { AppHeader } from '../../shared/app-header/app-header';
+import { PageHeader } from '../../shared/ui/organisms/page-header/page-header';
+import { Avatar } from '../../shared/ui/identity/avatar/avatar';
+
+import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
+import { Button } from '../../shared/ui/atoms/button/button';
 
 interface NavItem {
   icon: LucideIconInput;
@@ -34,6 +40,12 @@ interface NavGroup {
 }
 
 const ALWAYS_VISIBLE_SETTINGS: NavItem[] = [
+  {
+    icon: LucideList,
+    label: 'Discovery Preferences',
+    description: 'Personalize your feed and interests',
+    route: '/profile/preferences',
+  },
   {
     icon: LucideShieldCheck,
     label: 'Privacy & Security',
@@ -72,14 +84,23 @@ const START_BUSINESS: NavItem = {
 @Component({
   selector: 'app-profile',
   imports: [
-    LucideUser,
     LucideDynamicIcon,
     LucideChevronRight,
     LucideLogOut,
     LucideTriangleAlert,
     CreateBusiness,
     SeoComponent,
-    AppHeader,
+    PageHeader,
+    Avatar,
+    Button,
+    Skeleton,
+    List,
+    ListItem,
+    ListItemStart,
+    ListItemContent,
+    ListItemTitle,
+    ListItemDescription,
+    ListItemEnd,
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.css',

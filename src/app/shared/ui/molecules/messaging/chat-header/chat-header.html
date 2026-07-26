@@ -1,0 +1,20 @@
+<app-page-header [customBack]="true" (backAction)="back.emit()">
+  <ui-user-identity
+    pageHeaderStart
+    [user]="headerUser()"
+    [showUsername]="false"
+    [interactive]="false"
+    size="md"
+  />
+
+  <button
+    pageHeaderEnd
+    app-button
+    appearance="ghost"
+    shape="circle"
+    size="icon"
+    aria-label="More options"
+  >
+    <svg lucideMoreVertical aria-hidden="true"></svg>
+  </button>
+</app-page-header>

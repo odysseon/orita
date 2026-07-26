@@ -1,0 +1,26 @@
+import { Component, computed, input, output } from '@angular/core';
+import { LucideXCircle, LucideAlertTriangle } from '@lucide/angular';
+import { PublicationIssue } from '../../core/services/business-profile.service';
+import { Drawer } from '../ui/overlays/drawer/drawer';
+
+import { Button } from '../ui/atoms/button/button';
+
+@Component({
+  selector: 'app-publication-readiness',
+  imports: [Drawer, LucideXCircle, LucideAlertTriangle, Button],
+  templateUrl: './publication-readiness.html',
+  styleUrl: './publication-readiness.css',
+})
+export class PublicationReadinessDialog {
+  readonly isOpen = input.required<boolean>();
+  readonly issues = input.required<PublicationIssue[]>();
+  
+  readonly close = output<void>();
+
+  readonly errors = computed(() => this.issues().filter(i => i.severity === 'ERROR'));
+  readonly warnings = computed(() => this.issues().filter(i => i.severity === 'WARNING'));
+
+  onClose() {
+    this.close.emit();
+  }
+}

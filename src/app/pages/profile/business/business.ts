@@ -24,9 +24,15 @@ import { Listings } from './listings/listings';
 import { AppBusinessTours } from './tours/tours';
 import { CompletionNudge } from '../../../shared/completion-nudge/completion-nudge';
 import { FirstListingCta } from './create/first-listing-cta/first-listing-cta';
-import { AppBizCard } from '../../../shared/biz-card/biz-card';
+import { BusinessCard } from '../../../shared/ui/organisms/cards/business-card/business-card';
+import { Button } from '../../../shared/ui/atoms/button/button';
+import { Skeleton } from '../../../shared/ui/atoms/skeleton/skeleton';
+import { Avatar } from '../../../shared/ui/identity/avatar/avatar';
 import { IBusinessSummary } from '../../home/home.interface';
 import { VisibilityScore } from '../../../shared/visibility-score/visibility-score';
+import { BusinessProfileService, PublicationIssue } from '../../../core/services/business-profile.service';
+import { PublicationReadinessDialog } from '../../../shared/publication-readiness/publication-readiness';
+import { ToastService } from '../../../core/services/toast';
 
 @Component({
   selector: 'app-page-business',
@@ -38,6 +44,9 @@ import { VisibilityScore } from '../../../shared/visibility-score/visibility-sco
     LucideChartBar,
     LucideClock,
     LucideList,
+    Button,
+    Skeleton,
+    Avatar,
     LucideEye,
     LucideBookmark,
     LucideMousePointerClick,
@@ -49,8 +58,9 @@ import { VisibilityScore } from '../../../shared/visibility-score/visibility-sco
     AppBusinessTours,
     CompletionNudge,
     FirstListingCta,
-    AppBizCard,
+    BusinessCard,
     VisibilityScore,
+    PublicationReadinessDialog,
   ],
   templateUrl: './business.html',
   styleUrl: './business.css',
@@ -58,6 +68,8 @@ import { VisibilityScore } from '../../../shared/visibility-score/visibility-sco
 export class Business implements OnInit {
   #router = inject(Router);
   #route = inject(ActivatedRoute);
+  #businessService = inject(BusinessProfileService);
+  #toast = inject(ToastService);
 
   readonly business = httpResource<IBusinessProfile>(
     () => `${environment.apiUrl}/users/me/business`,
@@ -71,6 +83,10 @@ export class Business implements OnInit {
   readonly activeTab = signal<'overview' | 'hours' | 'listings' | 'tours'>('overview');
   readonly isCreateBusinessOpen = signal(false);
   readonly showFirstListingCta = signal(false);
+  readonly isReadinessDialogOpen = signal(false);
+  readonly readinessIssues = signal<PublicationIssue[]>([]);
+  readonly isPublishing = signal(false);
+
   readonly hasBusiness = computed(() => {
     if (this.business.error()) return false;
     try {
@@ -184,5 +200,48 @@ export class Business implements OnInit {
 
   setTab(tab: 'overview' | 'hours' | 'listings' | 'tours'): void {
     this.activeTab.set(tab);
+  }
+
+  async publishBusiness(): Promise<void> {
+    const biz = this.business.value();
+    if (!biz) return;
+    
+    this.isPublishing.set(true);
+    try {
+      const readiness = await this.#businessService.checkReadiness(biz.id);
+      if (!readiness.ready) {
+        this.readinessIssues.set(readiness.issues);
+        this.isReadinessDialogOpen.set(true);
+        return;
+      }
+      
+      await this.#businessService.publish(biz.id);
+      this.#toast.success('Published', 'Your business is now public!');
+      this.business.reload();
+    } catch (err) {
+      this.#toast.error('Error', 'Failed to publish business.');
+    } finally {
+      this.isPublishing.set(false);
+    }
+  }
+
+  async unpublishBusiness(): Promise<void> {
+    const biz = this.business.value();
+    if (!biz) return;
+    
+    this.isPublishing.set(true);
+    try {
+      await this.#businessService.unpublish(biz.id);
+      this.#toast.success('Unpublished', 'Your business is now private.');
+      this.business.reload();
+    } catch (err) {
+      this.#toast.error('Error', 'Failed to unpublish business.');
+    } finally {
+      this.isPublishing.set(false);
+    }
+  }
+
+  closeReadinessDialog(): void {
+    this.isReadinessDialogOpen.set(false);
   }
 }

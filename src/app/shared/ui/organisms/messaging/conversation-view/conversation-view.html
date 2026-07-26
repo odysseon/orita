@@ -1,0 +1,27 @@
+<div class="view-container">
+  @if (conversation()) {
+    <ui-chat-header [conversation]="conversation()" (back)="back.emit()" />
+
+    <ui-conversation-context [anchor]="conversation()!.anchor ?? null" />
+
+    <ui-message-list
+      [messages]="messages()"
+      [viewerParticipantId]="viewerParticipantId()"
+      (retryMessage)="retry.emit($event)"
+      (discardMessage)="discard.emit($event)"
+    />
+
+    <ui-message-composer
+      [conversationId]="conversation()?.id"
+      (send)="onSend($event)"
+    />
+  } @else {
+    <div class="empty-view">
+      <div class="empty-icon">
+      <svg lucideMessageCircleMore></svg>
+      </div>
+      <h3>Your Messages</h3>
+      <p>Select a conversation from the sidebar to start chatting.</p>
+    </div>
+  }
+</div>

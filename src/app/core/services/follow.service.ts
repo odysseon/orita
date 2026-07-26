@@ -17,11 +17,11 @@ export class FollowService {
   #apiUrl = environment.apiUrl;
 
   follow(type: FollowType, targetId: string): Observable<void> {
-    return this.#http.post<void>(`${this.#apiUrl}/v1/follows/${type}/${targetId}`, {});
+    return this.#http.post<void>(`${this.#apiUrl}/follows/${type}/${targetId}`, {});
   }
 
   unfollow(type: FollowType, targetId: string): Observable<void> {
-    return this.#http.delete<void>(`${this.#apiUrl}/v1/follows/${type}/${targetId}`);
+    return this.#http.delete<void>(`${this.#apiUrl}/follows/${type}/${targetId}`);
   }
 
   toggleFollow(type: FollowType, targetId: string, currentlyFollowed: boolean): Observable<void> {
@@ -44,6 +44,10 @@ export class FollowService {
   }
 
   getStatus(type: FollowType, targetId: string): Observable<FollowStatus> {
-    return this.#http.get<FollowStatus>(`${this.#apiUrl}/v1/follows/${type}/${targetId}/status`);
+    return this.#http.get<FollowStatus>(`${this.#apiUrl}/follows/${type}/${targetId}/status`);
+  }
+
+  getFollowing(params?: any): Observable<any> {
+    return this.#http.get<any>(`${this.#apiUrl}/follows`, { params });
   }
 }

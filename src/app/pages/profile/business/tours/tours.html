@@ -1,53 +1,47 @@
 <div class="tours-container">
   <div class="tours-header">
-    <h2>Store Tours</h2>
-    <button class="btn btn--primary btn--sm" (click)="openCreateModal()" [disabled]="isCreating()">
+    <div>
+      <h2 class="tours-title">Tours</h2>
+      <p class="tours-subtitle">Manage your visual tours and stories</p>
+    </div>
+    
+    <!-- Link to the new create orchestrator -->
+    <a app-button intent="primary" [routerLink]="['/profile/business', businessId(), 'tours', 'create']">
       <svg lucidePlus aria-hidden="true"></svg>
-      New Tour
-    </button>
+      Create Tour
+    </a>
   </div>
 
   @if (toursResource.isLoading()) {
-    <div class="tours-grid">
-      @for (i of [1,2,3]; track i) {
-        <div class="skeleton tour-skeleton"></div>
-      }
-    </div>
-  } @else if (toursResource.hasValue()) {
-    @if (toursResource.value()!.items.length === 0) {
+    <div class="loading-state">Loading tours...</div>
+  } @else if (toursResource.value(); as tours) {
+    @if (tours.items.length === 0) {
       <div class="empty-state">
-        <svg lucideImage aria-hidden="true"></svg>
-        <p>You haven't uploaded any store tours yet.</p>
-        <button class="btn btn--outline" (click)="openCreateModal()">Create your first tour</button>
+        <div class="empty-icon">
+          <svg lucidePlus aria-hidden="true"></svg>
+        </div>
+        <h3>No tours yet</h3>
+        <p>Create your first tour to showcase your business.</p>
+        <a app-button intent="primary" [routerLink]="['/profile/business', businessId(), 'tours', 'create']" class="mt-4">
+          Create Tour
+        </a>
       </div>
     } @else {
-      <div class="tours-grid">
-        @for (tour of toursResource.value()!.items; track tour.id) {
+      <div class="tours-list">
+        @for (tour of tours.items; track tour.id) {
           <div class="tour-card">
-            <div class="tour-card__cover">
-              @if (tour.media && tour.media.length > 0) {
-                <img [src]="tour.media[0].url" [alt]="tour.title" />
-              } @else {
-                <div class="tour-card__placeholder">
-                  <svg lucideImage aria-hidden="true"></svg>
-                </div>
-              }
-            </div>
-            <div class="tour-card__body">
-              <div class="tour-card__title-row">
-                <span class="tour-card__title">{{ tour.title }}</span>
-                <span class="badge" [class.badge--success]="tour.status === 'PUBLISHED'" [class.badge--neutral]="tour.status === 'DRAFT'">
+            <div class="tour-card-content">
+              <h4>{{ tour.title }}</h4>
+              <p class="tour-meta">
+                <span class="status-badge" [class.published]="tour.status === 'PUBLISHED'">
                   {{ tour.status }}
                 </span>
-              </div>
-              <span class="tour-card__date">{{ tour.visitDate | date:'mediumDate' }}</span>
-              <p class="tour-card__summary">{{ tour.summary || 'No summary provided.' }}</p>
+                • Visit Date: {{ tour.visitDate | date:'mediumDate' }}
+              </p>
             </div>
-            <div class="tour-card__actions">
-              <button class="btn-icon" aria-label="Edit tour" title="Edit" [routerLink]="['/profile/business/tours', tour.id, 'edit']">
-                <svg lucideEdit3 aria-hidden="true"></svg>
-              </button>
-              <button class="btn-icon btn-icon--danger" aria-label="Delete tour" title="Delete" (click)="deleteTour(tour.id)">
+            
+            <div class="tour-actions">
+              <button app-button appearance="ghost" intent="danger" shape="circle" class="btn-icon" (click)="deleteTour(tour.id)" title="Delete">
                 <svg lucideTrash2 aria-hidden="true"></svg>
               </button>
             </div>
@@ -57,25 +51,3 @@
     }
   }
 </div>
-
-@if (isModalOpen()) {
-  <div class="modal-backdrop" (click)="closeCreateModal()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <h3>Create New Tour</h3>
-      <div class="form-group">
-        <label for="tourTitle">Title</label>
-        <input id="tourTitle" type="text" [formField]="tourForm.title" placeholder="e.g., Summer Collection Walkthrough" />
-      </div>
-      <div class="form-group">
-        <label for="tourDate">Visit Date</label>
-        <input id="tourDate" type="date" [formField]="tourForm.visitDate" />
-      </div>
-      <div class="modal-actions">
-        <button class="btn btn--outline" (click)="closeCreateModal()">Cancel</button>
-        <button class="btn btn--primary" (click)="createTour()" [disabled]="isCreating() || tourForm().invalid()">
-          {{ isCreating() ? 'Creating...' : 'Create' }}
-        </button>
-      </div>
-    </div>
-  </div>
-}
