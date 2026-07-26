@@ -26,7 +26,7 @@ export class Tabs implements OnInit {
       if (v !== undefined) {
         this.context.select(v);
       }
-    }, { allowSignalWrites: true });
+    });
 
     // Sync context -> model
     effect(() => {
@@ -34,7 +34,7 @@ export class Tabs implements OnInit {
       if (ctxV !== undefined && ctxV !== this.value()) {
         this.value.set(ctxV);
       }
-    }, { allowSignalWrites: true });
+    });
   }
 
   ngOnInit() {

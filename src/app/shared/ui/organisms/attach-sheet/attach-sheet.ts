@@ -1,5 +1,4 @@
 import { Component, input, signal, inject, OnInit, output, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   ShareService,
@@ -31,7 +30,6 @@ import { FollowService } from '../../../../core/services/follow.service';
   selector: 'ui-attach-sheet',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     Drawer,
     Tabs, TabList, TabTrigger, Button,

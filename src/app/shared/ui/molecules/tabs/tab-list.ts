@@ -30,7 +30,7 @@ export class TabList {
     effect(() => {
       this.context.appearance.set(this.appearance());
       this.context.size.set(this.size());
-    }, { allowSignalWrites: true });
+    });
   }
 
   onKeydown(event: KeyboardEvent) {

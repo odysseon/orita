@@ -1,12 +1,11 @@
 import { Component, input, output, signal, HostListener, computed, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { LucideX, LucideChevronLeft, LucideChevronRight, LucideDownload } from '@lucide/angular';
 import { MediaViewerItem } from './media-viewer.types';
 
 @Component({
   selector: 'app-media-viewer',
   standalone: true,
-  imports: [CommonModule, LucideX, LucideChevronLeft, LucideChevronRight, LucideDownload],
+  imports: [LucideX, LucideChevronLeft, LucideChevronRight, LucideDownload],
   templateUrl: './media-viewer.html',
   styleUrl: './media-viewer.css'
 })
@@ -33,7 +32,7 @@ export class MediaViewerComponent {
     effect(() => {
       // Set initial index only once when it changes
       this.currentIndex.set(this.initialIndex());
-    }, { allowSignalWrites: true });
+    });
   }
 
   activeItem = computed(() => this.items()[this.currentIndex()]);

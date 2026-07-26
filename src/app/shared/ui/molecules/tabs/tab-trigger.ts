@@ -47,7 +47,7 @@ export class TabTrigger {
           btn.overrideIntent.set('secondary');
         }
       }
-    }, { allowSignalWrites: true });
+    });
   }
 
   @HostListener('click')

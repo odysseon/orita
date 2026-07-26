@@ -1,5 +1,4 @@
 import { Component, input, output, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { LucideVideo, LucideFile } from '@lucide/angular';
 import { MediaGalleryItem, MediaViewerItem } from '../media-viewer/media-viewer.types';
 import { MediaGalleryLayoutService, GalleryLayout } from './media-gallery-layout.service';
@@ -9,7 +8,7 @@ import { MediaViewerComponent } from '../media-viewer/media-viewer';
 @Component({
   selector: 'app-media-gallery',
   standalone: true,
-  imports: [CommonModule, LucideVideo, LucideFile, MediaViewerComponent],
+  imports: [LucideVideo, LucideFile, MediaViewerComponent],
   templateUrl: './media-gallery.html',
   styleUrl: './media-gallery.css'
 })

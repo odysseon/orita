@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, OnDestroy, signal, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DiscoveryService } from '../../core/services/discovery.service';
 import { LocationService } from '../../core/services/location.service';
@@ -21,7 +21,7 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 @Component({
   selector: 'app-nearby',
   standalone: true,
-  imports: [CommonModule, RouterModule, NearbyItemCard, NewPostSheet, RootHeader, Button, Fab, Grid, EmptyState, ScrollHideDirective, LucideMapPin, LucidePlus, Skeleton],
+  imports: [RouterModule, NearbyItemCard, NewPostSheet, RootHeader, Button, Fab, Grid, EmptyState, ScrollHideDirective, LucideMapPin, LucidePlus, Skeleton],
   templateUrl: './nearby.html',
   styleUrls: ['./nearby.css'],
 })

@@ -15,7 +15,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgTemplateOutlet } from '@angular/common';
 import { AnchorPlacement, AnchorPosition, AnchorPositionService } from '../anchor-position.service';
 import { Drawer } from '../drawer/drawer';
 
@@ -148,7 +148,7 @@ export class DropdownTrigger implements OnDestroy {
 @Component({
   selector: 'app-dropdown-desktop',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgTemplateOutlet],
   styleUrl: './dropdown.css',
   template: `<ng-container *ngTemplateOutlet="template()"></ng-container>`,
   host: {
@@ -175,7 +175,7 @@ export class DropdownDesktop {
 @Component({
   selector: 'app-dropdown-mobile',
   standalone: true,
-  imports: [CommonModule, Drawer],
+  imports: [NgTemplateOutlet, Drawer],
   template: `
     <app-drawer [(open)]="isOpen" position="bottom" size="sm">
       <ng-container *ngTemplateOutlet="template()"></ng-container>

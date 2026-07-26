@@ -1,5 +1,4 @@
 import { Component, input, output, computed, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { LucideChevronRight, LucideChevronDown, LucideCheck } from '@lucide/angular';
 import { CategoryService } from '../../../../core/services/category.service';
 import { ICategory } from '../../../../pages/home/home.interface';
@@ -8,7 +7,7 @@ export type CategoryBrowserMode = 'single-leaf' | 'multi-leaf' | 'interest' | 'f
 
 @Component({
   selector: 'ui-category-browser',
-  imports: [CommonModule, LucideChevronRight, LucideChevronDown, LucideCheck],
+  imports: [LucideChevronRight, LucideChevronDown, LucideCheck],
   templateUrl: './category-browser.html',
   styleUrl: './category-browser.css',
 })

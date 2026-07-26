@@ -70,6 +70,6 @@ export class MessageBubble {
       }
       
       this.galleryItems.set(newItems);
-    }, { allowSignalWrites: true });
+    });
   }
 }

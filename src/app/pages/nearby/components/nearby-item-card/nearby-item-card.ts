@@ -1,12 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Button } from '../../../../shared/ui/atoms/button/button';
 import { NearbyItemDto, NearbyItemKind } from '../../../../core/models/discovery';
 
 @Component({
   selector: 'app-nearby-item-card',
   standalone: true,
-  imports: [CommonModule, Button],
+  imports: [Button],
   templateUrl: './nearby-item-card.html',
   styleUrls: ['./nearby-item-card.css'],
 })
