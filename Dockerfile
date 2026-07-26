@@ -2,7 +2,7 @@
 FROM node:26-slim AS build
 
 # Install pnpm 11
-RUN npm install -g pnpm@11.9.0
+RUN npm install -g pnpm@11.15.0
 
 WORKDIR /app
 
