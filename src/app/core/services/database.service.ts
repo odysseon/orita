@@ -1,4 +1,4 @@
-import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { Service, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { openDB, IDBPDatabase, DBSchema } from 'idb';
 import { IConversationPreview, IMessage, SendMessageDto, QueuedMessage, PendingAttachment } from './messaging.types';
@@ -34,7 +34,7 @@ export interface OritaDB extends DBSchema {
   };
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class DatabaseService {
   private dbPromise: Promise<IDBPDatabase<OritaDB>> | null = null;
   private platformId = inject(PLATFORM_ID);

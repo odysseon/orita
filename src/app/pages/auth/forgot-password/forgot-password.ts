@@ -1,7 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
@@ -12,7 +10,7 @@ import { Button } from '../../../shared/ui/atoms/button/button';
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, LucideArrowLeft, Button],
+  imports: [RouterLink, LucideArrowLeft, Button],
   templateUrl: './forgot-password.html',
   styleUrl: './forgot-password.css',
 })

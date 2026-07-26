@@ -1,7 +1,7 @@
-import { Injectable, OnDestroy, inject } from '@angular/core';
+import { Service, OnDestroy, inject } from '@angular/core';
 import { DatabaseService } from './database.service';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AttachmentPreviewService implements OnDestroy {
   #db = inject(DatabaseService);
   private objectUrls = new Map<string, string>(); // blobId -> objectUrl

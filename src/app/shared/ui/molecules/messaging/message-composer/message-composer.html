@@ -47,7 +47,8 @@
         type="text" 
         class="composer-input"
         placeholder="Type a message..."
-        [(ngModel)]="content"
+        [value]="content()"
+        (input)="content.set($any($event.target).value)"
         (keyup.enter)="onSend()"
       />
     </div>

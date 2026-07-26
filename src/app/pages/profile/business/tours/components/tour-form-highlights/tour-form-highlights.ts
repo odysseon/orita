@@ -1,11 +1,10 @@
 import { Component, input, output, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { LucidePlus, LucideX } from '@lucide/angular';
 import { Button } from '../../../../../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-tour-form-highlights',
-  imports: [FormsModule, LucidePlus, LucideX, Button],
+  imports: [LucidePlus, LucideX, Button],
   templateUrl: './tour-form-highlights.html',
   styleUrl: './tour-form-highlights.css'
 })
