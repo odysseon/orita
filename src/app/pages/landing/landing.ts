@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { Hero } from './components/hero/hero';
 import { Problem } from './components/problem/problem';
 import { Belief } from './components/belief/belief';
@@ -12,7 +12,7 @@ import { LandingHeader } from '../../shared/ui/organisms/landing-header/landing-
 
 @Component({
   selector: 'app-landing',
-  imports: [Hero, Problem, Belief, WhyOrita, StoreTours, BusinessCta, FinalCta, Footer, LandingHeader, RouterLink],
+  imports: [Hero, Problem, Belief, WhyOrita, StoreTours, BusinessCta, FinalCta, Footer, LandingHeader],
   templateUrl: './landing.html',
   styleUrl: './landing.css',
 })

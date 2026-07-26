@@ -26,7 +26,7 @@ import { Logo } from '../../atoms/logo/logo';
 })
 export class LandingHeader {
   sticky = input<boolean>(true);
-  uiScrollHide = input<boolean>(false);
+  uiScrollHide = input<boolean>(true);
   scrollHidePosition = input<'top' | 'bottom'>('top');
   layout = input<'default' | 'wide'>('wide');
   exploreLink = input<string>('/explore');
