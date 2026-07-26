@@ -59,7 +59,7 @@
   position: absolute;
   top: var(--spacing-xs);
   right: var(--spacing-xs);
-  background: oklch(0% 0 0 / 0.5);
+  background: color-mix(in oklch, var(--surface-ink) 50%, transparent);
   color: white;
   width: 28px;
   height: 28px;

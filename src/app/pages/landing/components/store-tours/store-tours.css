@@ -41,7 +41,7 @@
 
   inset: 0;
 
-  background: radial-gradient(circle at top right, oklch(100% 0 0 / 0.12), transparent 45%);
+  background: radial-gradient(circle at top right, color-mix(in oklch, var(--text-on-dark) 12%, transparent), transparent 45%);
 }
 
 .tour__badge {
@@ -55,7 +55,7 @@
 
   border-radius: 999px;
 
-  background: oklch(100% 0 0 / 0.9);
+  background: color-mix(in oklch, var(--text-on-dark) 90%, transparent);
 
   font-weight: 600;
 }

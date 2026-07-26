@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal, computed, effect } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LucideShare,  LucideBriefcase, LucideArrowLeft, LucideChevronRight, LucideUserCheck, LucideUserPlus, LucideAlertCircle } from '@lucide/angular';
 import { PublicUserService, PublicUserProfile } from '../../core/services/public-user.service';
@@ -15,6 +16,7 @@ import { Grid } from '../../shared/ui/layouts/grid/grid';
   selector: 'app-public-profile',
   standalone: true,
   imports: [
+    DatePipe,
     RouterLink,
     Avatar,
     LucideShare,

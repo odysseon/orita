@@ -9,7 +9,6 @@ import {
   LucideStore,
   LucideGlobe,
   LucideLayoutGrid,
-  LucideLoaderCircle,
   LucideDynamicIcon,
   LucideIconInput,
 } from '@lucide/angular';
@@ -32,7 +31,7 @@ import { ICategory } from '../../../home/home.interface';
 
 @Component({
   selector: 'app-create-business',
-  imports: [FormField, AppFormField, LucideStore, LucideLoaderCircle, Drawer, AppFormField, LocationPicker, CategoryPicker, Button],
+  imports: [FormField, AppFormField, LucideStore, Drawer, AppFormField, LocationPicker, CategoryPicker, Button],
   templateUrl: './create-business.html',
   styleUrl: './create-business.css',
   encapsulation: ViewEncapsulation.None,
