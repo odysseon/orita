@@ -107,12 +107,13 @@ export class App {
     return current.data?.['isLandingPage'] === true;
   }
 
-  private getNavTabValue(url: string): string {
+  private getNavTabValue(url: string): string | undefined {
     if (url.startsWith('/search')) return 'search';
     if (url.startsWith('/tours')) return 'tours';
     if (url.startsWith('/messages')) return 'messages';
     if (url.startsWith('/nearby')) return 'nearby';
-    return 'home';
+    if (url.startsWith('/home') || url === '/') return 'home';
+    return undefined;
   }
 
   isActive(path: string): boolean {

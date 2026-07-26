@@ -115,10 +115,8 @@ We also repair damaged phones and offer same-day screen replacement."
         <a routerLink="/legal/privacy" style="color: var(--color-primary-600); text-decoration: underline;">Privacy Policy</a>.
       </p>
 
-      <button app-button intent="primary" fullWidth class="create-biz-submit" type="submit" [disabled]="loading() || isFormInvalid()">
-        @if (loading()) {
-        <svg lucideLoaderCircle class="create-biz-submit__spinner" aria-hidden="true"></svg>
-        Creating… } @else { Create business }
+      <button app-button intent="primary" fullWidth class="create-biz-submit" type="submit" [disabled]="isFormInvalid()" [loading]="loading()">
+        Create business
       </button>
     </form>
   </div>

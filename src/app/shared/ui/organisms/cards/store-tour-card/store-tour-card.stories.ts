@@ -30,7 +30,7 @@ const meta: Meta<StoreTourCard> = {
             position: absolute;
             bottom: 8px;
             right: 8px;
-            background: rgba(0, 0, 0, 0.8);
+            background: oklch(0% 0 0 / 0.8);
             color: white;
             font-size: 12px;
             font-weight: 500;

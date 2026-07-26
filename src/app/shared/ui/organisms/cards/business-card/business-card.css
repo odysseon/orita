@@ -19,7 +19,7 @@ a.ui-business-card-container:hover, button.ui-business-card-container:hover {
   border-color: var(--border-default);
   background: var(--surface-container);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
 }
 

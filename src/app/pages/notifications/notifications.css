@@ -60,7 +60,7 @@
 }
 
 .notif-icon-wrap.is-unread-icon {
-  background-color: var(--clr-primary-subtle, rgba(59, 130, 246, 0.15));
+  background-color: var(--clr-primary-container);
   color: var(--clr-primary);
 }
 

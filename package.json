@@ -10,7 +10,6 @@
     "test": "ng test",
     "check:architecture": "node scripts/check-architecture.mjs",
     "serve:ssr:orita": "node dist/orita/server/server.mjs",
-
     "storybook": "ng run orita:storybook",
     "build-storybook": "ng run orita:build-storybook"
   },
@@ -55,7 +54,7 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": ">=11.5.0",
+      "version": ">=11.15.0",
       "onFail": "error"
     },
     "runtime": {

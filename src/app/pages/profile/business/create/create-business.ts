@@ -32,7 +32,7 @@ import { ICategory } from '../../../home/home.interface';
 
 @Component({
   selector: 'app-create-business',
-  imports: [FormField, AppFormField, LucideStore, LucideLoaderCircle, Drawer, AppFormField, LocationPicker, CategoryPicker],
+  imports: [FormField, AppFormField, LucideStore, LucideLoaderCircle, Drawer, AppFormField, LocationPicker, CategoryPicker, Button],
   templateUrl: './create-business.html',
   styleUrl: './create-business.css',
   encapsulation: ViewEncapsulation.None,

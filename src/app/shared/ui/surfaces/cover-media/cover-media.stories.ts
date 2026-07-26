@@ -29,7 +29,7 @@ const meta: Meta<CoverMedia> = {
           [overlayGradient]="overlayGradient"
         >
           <svg cover-placeholder lucideImage style="width: 32px; height: 32px; opacity: 0.3;"></svg>
-          <div style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.5); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+          <div style="position: absolute; top: 12px; right: 12px; background: oklch(0% 0 0 / 0.5); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
             Overlay Content
           </div>
         </ui-cover-media>

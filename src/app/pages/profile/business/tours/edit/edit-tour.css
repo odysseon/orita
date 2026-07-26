@@ -59,7 +59,7 @@
   position: absolute;
   top: var(--spacing-xs);
   right: var(--spacing-xs);
-  background: rgba(0, 0, 0, 0.5);
+  background: oklch(0% 0 0 / 0.5);
   color: white;
   width: 28px;
   height: 28px;
@@ -85,7 +85,7 @@
 
 .media-upload-placeholder:not(.is-uploading):hover {
   border-color: var(--color-primary);
-  background: rgba(var(--color-primary-rgb), 0.05);
+  background: var(--clr-primary-container);
 }
 
 .media-upload-placeholder label {

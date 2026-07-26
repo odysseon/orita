@@ -17,7 +17,7 @@
 /* Trigger cover media zoom on card hover */
 .ui-listing-card:hover .ui-listing-card-container {
   border-color: var(--border-default);
-  box-shadow: var(--shadow-sm, 0 4px 12px rgba(0, 0, 0, 0.05));
+  box-shadow: var(--shadow-sm);
   transform: translateY(-2px);
 }
 
