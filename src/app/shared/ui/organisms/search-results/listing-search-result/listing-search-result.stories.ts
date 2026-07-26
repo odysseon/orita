@@ -1,4 +1,5 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj, applicationConfig } from '@storybook/angular';
+import { provideRouter } from '@angular/router';
 import { ListingSearchResult } from './listing-search-result';
 import { SaveButton } from '../../../actions/save-button/save-button';
 import { List } from '../../../surfaces/list/list';
@@ -7,6 +8,11 @@ const meta: Meta<ListingSearchResult> = {
   title: 'Organisms/SearchResults/ListingSearchResult',
   component: ListingSearchResult,
   tags: ['autodocs'],
+  decorators: [
+    applicationConfig({
+      providers: [provideRouter([])]
+    })
+  ],
   render: (args) => ({
     props: args,
     moduleMetadata: {

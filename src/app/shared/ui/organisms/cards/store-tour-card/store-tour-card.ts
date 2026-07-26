@@ -13,12 +13,12 @@ import { ShareButton } from '../../../../share-button/share-button';
     <app-card appearance="plain" padding="none" [interactive]="true" class="ui-store-tour-card-container">
       <div class="ui-store-tour-card__media">
         <ui-cover-media [src]="tour().thumbnailUrl" aspectRatio="16/9" [overlayGradient]="true">
-          <div style="position: absolute; top: var(--size-10); right: var(--size-10); display: flex; gap: var(--size-6); z-index: 2;">
-            <ng-content select="[card-media-overlay]"></ng-content>
-            @if (showSave()) {
+          <ng-content select="[card-media-overlay]"></ng-content>
+          @if (showSave()) {
+            <div style="position: absolute; top: var(--size-10); right: var(--size-10); z-index: 3;" (click)="$event.stopPropagation()">
               <ui-save-button [isSaved]="tour().isSaved ?? false" (toggle)="saveToggle.emit(tour())" />
-            }
-          </div>
+            </div>
+          }
         </ui-cover-media>
       </div>
       <div class="ui-store-tour-card__body">
