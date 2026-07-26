@@ -2,7 +2,6 @@ import { Component, input, output, inject, ViewEncapsulation } from '@angular/co
 import { CoverMedia } from '../../../surfaces/cover-media/cover-media';
 import { Card } from '../../../atoms/card/card';
 import { BusinessIdentity } from '../../../identity/business-identity/business-identity';
-import { SaveButton } from '../../../actions/save-button/save-button';
 import { ShareButton } from '../../../../share-button/share-button';
 import { Button } from '../../../atoms/button/button';
 import { LucideMessageCircle } from '@lucide/angular';
@@ -12,7 +11,7 @@ import { ListingSearchResult } from '../../search-results/listing-search-result/
 @Component({
   selector: 'ui-listing-card',
   standalone: true,
-  imports: [CoverMedia, Card, BusinessIdentity, SaveButton, ShareButton, Button, LucideMessageCircle, ListingSearchResult],
+  imports: [CoverMedia, Card, BusinessIdentity, ShareButton, Button, LucideMessageCircle, ListingSearchResult],
   template: `
     <app-card appearance="plain" padding="none" [interactive]="true" class="ui-listing-card-container">
       <ui-cover-media [src]="listing().coverUrl" aspectRatio="4/3" [overlayGradient]="true">
@@ -35,12 +34,9 @@ import { ListingSearchResult } from '../../search-results/listing-search-result/
               availability: listing().availability,
               isSaved: listing().isSaved
             }" 
-            [hideThumbnail]="true">
-            @if (showSave()) {
-              <div result-action (click)="$event.stopPropagation()">
-                <ui-save-button [isSaved]="listing().isSaved ?? false" (toggle)="saveToggle.emit(listing())" />
-              </div>
-            }
+            [hideThumbnail]="true"
+            [showSave]="showSave()"
+            (saveToggle)="saveToggle.emit($event)">
           </ui-listing-search-result>
 
           <div class="ui-listing-card__meta">

@@ -34,7 +34,7 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
   selector: 'app-search',
   imports: [
     LucideX, LucideMapPin,
-    StoreTourCard, ListingSearchResult, List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription, Tabs, TabList, TabTrigger, UserIdentity, BusinessIdentity, FollowButton, SaveButton, SearchHeader, ScrollHideDirective,
+    StoreTourCard, ListingSearchResult, List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription, Tabs, TabList, TabTrigger, UserIdentity, BusinessIdentity, FollowButton, SearchHeader, ScrollHideDirective,
     Grid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState, Button, Skeleton
   ],
 

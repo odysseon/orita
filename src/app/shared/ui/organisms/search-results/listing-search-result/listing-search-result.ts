@@ -1,32 +1,35 @@
-import { Component, input, ViewEncapsulation } from '@angular/core';
+import { Component, input, output, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../../surfaces/list/list';
+import { ListItem } from '../../../surfaces/list/list';
 import { CoverMedia } from '../../../surfaces/cover-media/cover-media';
+import { SaveButton } from '../../../actions/save-button/save-button';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'ui-listing-search-result',
   standalone: true,
-  imports: [RouterLink, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd, CoverMedia, CurrencyPipe],
+  imports: [RouterLink, ListItem, CoverMedia, SaveButton, CurrencyPipe],
   template: `
-    <a uiListItem [routerLink]="getListingLink()" class="ui-listing-search-result">
+    <a uiListItem [routerLink]="getListingLink()" class="ui-listing-search-result-row">
       @if (!hideThumbnail()) {
-        <div uiListItemStart class="ui-listing-search-result__start">
+        <div class="ui-listing-search-result__start">
           <ng-content select="[result-leading-action]"></ng-content>
-          <div class="ui-listing-search-result__thumbnail">
-            <ui-cover-media 
-              [src]="listing().thumbnailUrl || null" 
-              aspectRatio="square"
-              fallbackIcon="package"
-            ></ui-cover-media>
-          </div>
+          @if (listing().thumbnailUrl) {
+            <div class="ui-listing-search-result__thumbnail">
+              <ui-cover-media 
+                [src]="listing().thumbnailUrl || null" 
+                aspectRatio="square"
+                fallbackIcon="package"
+              ></ui-cover-media>
+            </div>
+          }
         </div>
       }
       
-      <div uiListItemContent>
-        <div uiListItemTitle class="truncate">{{ listing().title }}</div>
+      <div class="ui-listing-search-result__content">
+        <div class="ui-listing-search-result__title truncate">{{ listing().title }}</div>
         @if (listing().price !== undefined) {
-          <div uiListItemDescription class="truncate">
+          <div class="ui-listing-search-result__description truncate">
             <span class="ui-listing-search-result__price">{{ listing().price! | currency:'NGN':'symbol-narrow':'1.0-0' }}</span>
             @if (listing().availability === 'in-stock') {
               <span class="ui-listing-search-result__status is-available">In Stock</span>
@@ -37,8 +40,11 @@ import { CurrencyPipe } from '@angular/common';
         }
       </div>
 
-      <div uiListItemEnd class="ui-listing-search-result__end">
+      <div class="ui-listing-search-result__end" (click)="$event.stopPropagation()">
         <ng-content select="[result-action]"></ng-content>
+        @if (showSave()) {
+          <ui-save-button [isSaved]="listing().isSaved ?? false" appearance="solid" size="sm" (toggle)="saveToggle.emit(listing())"></ui-save-button>
+        }
       </div>
     </a>
   `,
@@ -60,6 +66,9 @@ export class ListingSearchResult {
   }>();
 
   hideThumbnail = input<boolean>(false);
+  showSave = input<boolean>(true);
+
+  saveToggle = output<any>();
 
   getListingLink(): any[] | null {
     const slug = this.listing().slug || this.listing().id;

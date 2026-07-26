@@ -43,6 +43,7 @@
                   @for (item of searchResults(); track item.targetId) {
                     @if (item.type === 'LISTING') {
                       <ui-listing-search-result 
+                        [showSave]="false"
                         [listing]="{ id: item.targetId, title: item.title, thumbnailUrl: null, price: 0, availability: 'in-stock' }"
                         (click)="selectItem(item.type, item.targetId)"
                       >
@@ -86,6 +87,7 @@
                   @for (item of recent(); track item.targetId) {
                     @if (item.type === 'LISTING') {
                       <ui-listing-search-result 
+                        [showSave]="false"
                         [listing]="{ id: item.targetId, title: item.title, thumbnailUrl: null, price: 0, availability: 'in-stock' }"
                         (click)="selectItem(item.type, item.targetId)"
                       >
@@ -126,6 +128,7 @@
                   <ui-list [bordered]="false" [dividers]="false">
                     @for (item of savedItems(); track item.id) {
                       <ui-listing-search-result 
+                        [showSave]="false"
                         [listing]="{ id: item.listingId || item.id, title: item.listing?.title || item.title || 'Saved Item', thumbnailUrl: item.listing?.thumbnailUrl || null, price: item.listing?.price || 0, availability: 'in-stock', isSaved: true }"
                         (click)="selectItem('LISTING', item.listingId || item.id)"
                       >
