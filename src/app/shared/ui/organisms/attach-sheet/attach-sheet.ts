@@ -17,7 +17,6 @@ import { SearchBar } from '../../molecules/search-bar/search-bar';
 import { ListingSearchResult } from '../search-results/listing-search-result/listing-search-result';
 import { InputDirective, CheckboxDirective } from '../../atoms/forms';
 import {
-  LucideSearch,
   LucidePackage,
   LucideStore,
   LucideImage,
@@ -40,7 +39,6 @@ import { FollowService } from '../../../../core/services/follow.service';
     SearchBar,
     ListingSearchResult,
     InputDirective, CheckboxDirective,
-    LucideSearch,
     LucidePackage,
     LucideStore,
     LucideImage,

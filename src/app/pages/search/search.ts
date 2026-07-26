@@ -4,13 +4,12 @@ import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { httpResource } from '@angular/common/http';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { LucideSearch, LucideX, LucideClock, LucideSlidersHorizontal, LucideMapPin, LucideNavigation } from '@lucide/angular';
+import { LucideX, LucideMapPin } from '@lucide/angular';
 import { SearchService } from '../../core/services/search.service';
 import { ExplorationService } from '../../core/services/exploration.service';
 import { CategoryService } from '../../core/services/category.service';
 import { LocationService, Location } from '../../core/services/location.service';
 import { SearchFilters } from '../../core/models/search.model';
-import { BusinessCard } from '../../shared/ui/organisms/cards/business-card/business-card';
 import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
 import { ListingSearchResult } from '../../shared/ui/organisms/search-results/listing-search-result/listing-search-result';
 import { List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription } from '../../shared/ui/surfaces/list/list';
@@ -34,8 +33,8 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 @Component({
   selector: 'app-search',
   imports: [
-    LucideSearch, LucideX, LucideSlidersHorizontal, LucideMapPin,
-    BusinessCard, StoreTourCard, ListingSearchResult, List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription, Tabs, TabList, TabTrigger, UserIdentity, BusinessIdentity, FollowButton, SaveButton, SearchHeader, ScrollHideDirective,
+    LucideX, LucideMapPin,
+    StoreTourCard, ListingSearchResult, List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription, Tabs, TabList, TabTrigger, UserIdentity, BusinessIdentity, FollowButton, SaveButton, SearchHeader, ScrollHideDirective,
     Grid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState, Button, Skeleton
   ],
 

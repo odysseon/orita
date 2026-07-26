@@ -1,6 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { form, FormField, required, email, minLength } from '@angular/forms/signals';
-import { LucideLoaderCircle } from '@lucide/angular';
 import { AuthService } from '../../../core/services/auth.service';
 import { IRegister } from './register.interface';
 
@@ -16,9 +15,7 @@ import { Button } from '../../../shared/ui/atoms/button/button';
   selector: 'app-register',
   imports: [FormField, 
     AppFormField,
-    LucideLoaderCircle,
     AppAuthCard,
-    AppFormField,
     PasswordField,
     AppGoogleSignIn,
     Button,

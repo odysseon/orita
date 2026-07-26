@@ -8,7 +8,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { Drawer } from '../../overlays/drawer/drawer';
 import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../surfaces/list/list';
 import { SearchBar } from '../../molecules/search-bar/search-bar';
-import { LucideSearch, LucideX, LucideCheck, LucideSend } from '@lucide/angular';
+import { LucideX, LucideCheck, LucideSend } from '@lucide/angular';
 import { InputDirective, CheckboxDirective } from '../../atoms/forms';
 import { Avatar } from '../../identity/avatar/avatar';
 
@@ -19,7 +19,7 @@ import { Avatar } from '../../identity/avatar/avatar';
     Drawer, 
     List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd,
     SearchBar,
-    LucideSearch, LucideX, LucideCheck, LucideSend, 
+    LucideX, LucideCheck, LucideSend, 
     Avatar, InputDirective, CheckboxDirective
   ],
   templateUrl: './share-modal.html',

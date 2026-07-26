@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { Button } from './button';
-import { LucideSearch, LucideHeart, LucideTrash } from '@lucide/angular';
+import { LucideSearch, LucideHeart } from '@lucide/angular';
 import { Component, input } from '@angular/core';
 
 @Component({
   standalone: true,
   selector: 'app-button-regression',
-  imports: [Button, LucideSearch, LucideHeart, LucideTrash],
+  imports: [Button, LucideSearch, LucideHeart],
   template: `
     <div style="display: flex; flex-direction: column; gap: 3rem; padding: 2rem;">
       @for (intent of intents; track intent) {
