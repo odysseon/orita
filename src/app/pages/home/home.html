@@ -68,7 +68,14 @@
               id: item.listing.id,
               slug: item.listing.slug,
               title: item.listing.title,
-              coverUrl: item.listing.media?.[0]?.url
+              coverUrl: item.listing.media?.[0]?.url,
+              business: item.business ? {
+                id: item.businessProfileId || item.business.id,
+                name: item.business.name || '',
+                slug: item.business.slug,
+                logoUrl: item.business.logoUrl,
+                isVerified: !!$any(item.business).isVerified
+              } : null
             }">
               <div card-meta>
                 @if (item.listing.minPrice) {

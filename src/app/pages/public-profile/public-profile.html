@@ -130,31 +130,16 @@
           <section class="profile-section">
             <h2 class="section-title">Business</h2>
             
-            <div class="business-grid">
+            <ui-grid cols="1 sm:2 md:3" gap="md">
               @for (business of p.businesses; track business.id) {
-                <a [routerLink]="['/b', business.slug]" class="card card--interactive premium-business-card">
-                  <div class="premium-card-banner"></div>
-                  <div class="premium-card-content">
-                    <div class="premium-card-header">
-                      <div class="premium-card-icon">
-                        <svg lucideBriefcase aria-hidden="true"></svg>
-                      </div>
-                      <div class="premium-card-title-wrap">
-                        <h3 class="premium-card-title">{{ business.name }}</h3>
-                        <app-badge intent="success" class="verified-badge">
-                          <svg lucideBadgeCheck aria-hidden="true"></svg>
-                          Verified
-                        </app-badge>
-                      </div>
-                    </div>
-                    
-                    <div class="premium-card-footer">
-                      <span class="open-link">Open <svg lucideChevronRight aria-hidden="true"></svg></span>
-                    </div>
-                  </div>
-                </a>
+                <ui-business-card [business]="{
+                  id: business.id,
+                  name: business.name,
+                  slug: business.slug,
+                  isVerified: true
+                }"></ui-business-card>
               }
-            </div>
+            </ui-grid>
           </section>
         </div>
       }

@@ -44,13 +44,14 @@
 
 
     <div class="biz-identity">
-      <div class="biz-avatar">
-        @if (business.value()!.avatarUrl) {
-        <img [src]="business.value()!.avatarUrl" [alt]="business.value()!.name" />
-        } @else {
-        <svg lucideStore aria-hidden="true"></svg>
-        }
-      </div>
+      <app-avatar
+        [src]="business.value()!.avatarUrl"
+        [alt]="business.value()!.name"
+        [fallback]="business.value()!.name ? business.value()!.name.charAt(0).toUpperCase() : 'B'"
+        shape="rounded"
+        size="xl"
+        style="border: 3px solid var(--surface-page); box-shadow: var(--shadow-sm); flex-shrink: 0;"
+      ></app-avatar>
       <div class="biz-identity__text">
         <div class="biz-identity__row">
           <h1 class="biz-identity__name">{{ business.value()!.name }}</h1>

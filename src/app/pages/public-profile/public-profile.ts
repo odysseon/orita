@@ -8,8 +8,9 @@ import { ShareService } from '../../core/services/share.service';
 import { Avatar } from '../../shared/ui/identity/avatar/avatar';
 
 import { Button } from '../../shared/ui/atoms/button/button';
-import { Badge } from '../../shared/ui/atoms/badge/badge';
 import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
+import { BusinessCard } from '../../shared/ui/organisms/cards/business-card/business-card';
+import { Grid } from '../../shared/ui/layouts/grid/grid';
 
 @Component({
   selector: 'app-public-profile',
@@ -19,16 +20,14 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
     RouterLink,
     Avatar,
     LucideShare,
-    
-    LucideBriefcase,
     LucideArrowLeft,
-    LucideChevronRight,
     LucideUserCheck,
     LucideUserPlus,
     LucideAlertCircle,
     Button,
-    Badge,
-    Skeleton
+    Skeleton,
+    BusinessCard,
+    Grid,
   ],
   templateUrl: './public-profile.html',
   styleUrl: './public-profile.css'
