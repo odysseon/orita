@@ -1,7 +1,8 @@
 <div class="notifications-page">
   <div class="notifications-header">
+    <h1>Notifications</h1>
     @if (notificationService.unreadCount() > 0) {
-      <button class="mark-read-btn" (click)="notificationService.markAllAsRead()">
+      <button app-button appearance="ghost" size="sm" (click)="notificationService.markAllAsRead()">
         Mark all as read
       </button>
     }
@@ -17,37 +18,42 @@
       <p>You have no notifications right now.</p>
     </div>
   } @else {
-    <div class="notification-list">
+    <ui-list [bordered]="true" [radius]="true" [dividers]="true" class="notif-list">
       @for (notif of notificationService.notifications(); track notif.id) {
-        <div class="notification-card" [class.unread]="!notif.isRead" (click)="onNotificationClick(notif)">
-          @if (!notif.isRead) {
-            <div class="unread-indicator"></div>
-          }
-          
-          <div class="icon-wrapper">
-            <!-- Basic mapping. In a real app we'd map `notif.icon` string to actual lucide components dynamically -->
-            @if (notif.icon === 'lucideTag') {
-              <svg icon lucideTag aria-hidden="true"></svg>
-            } @else {
-              <svg icon lucideBell aria-hidden="true"></svg>
-            }
+        <button uiListItem class="notif-item" [class.is-unread]="!notif.isRead" (click)="onNotificationClick(notif)">
+          <div uiListItemStart>
+            <div class="notif-icon-wrap" [class.is-unread-icon]="!notif.isRead">
+              @if (notif.icon === 'lucideTag') {
+                <svg lucideTag aria-hidden="true"></svg>
+              } @else {
+                <svg lucideBell aria-hidden="true"></svg>
+              }
+            </div>
           </div>
           
-          <div class="content-wrapper">
-            <div class="title">{{ notif.title }}</div>
+          <div uiListItemContent>
+            <div uiListItemTitle [class.is-unread-title]="!notif.isRead">{{ notif.title }}</div>
             @if (notif.subtitle) {
-              <div class="subtitle">{{ notif.subtitle }}</div>
+              <div uiListItemDescription>{{ notif.subtitle }}</div>
             }
-            <div class="timestamp">{{ notif.createdAt | date:'short' }}</div>
           </div>
-        </div>
+
+          <div uiListItemEnd class="notif-end">
+            <span class="timestamp">{{ notif.createdAt | date:'shortTime' }}</span>
+            @if (!notif.isRead) {
+              <span class="unread-dot" aria-label="Unread"></span>
+            }
+          </div>
+        </button>
       }
-    </div>
+    </ui-list>
 
     @if (notificationService.hasMore()) {
-      <button class="load-more" (click)="notificationService.loadMore()" [disabled]="notificationService.isLoading()">
-        {{ notificationService.isLoading() ? 'Loading...' : 'Load Older' }}
-      </button>
+      <div style="margin-top: var(--space-md); text-align: center;">
+        <button app-button appearance="outline" size="md" (click)="notificationService.loadMore()" [disabled]="notificationService.isLoading()">
+          {{ notificationService.isLoading() ? 'Loading...' : 'Load Older' }}
+        </button>
+      </div>
     }
   }
 </div>

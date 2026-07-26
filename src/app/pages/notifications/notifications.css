@@ -1,6 +1,6 @@
 .notifications-page {
-  padding: var(--space-4) var(--space-4) calc(var(--bottom-nav-height) + var(--space-8));
-  max-width: 600px;
+  padding: var(--space-md) var(--space-md) calc(var(--bottom-nav-height, 70px) + var(--space-xl));
+  max-width: var(--size-640, 640px);
   margin: 0 auto;
 }
 
@@ -8,29 +8,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-md);
 }
 
 .notifications-header h1 {
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  color: var(--color-gray-900);
-}
-
-.mark-read-btn {
-  background: none;
-  border: none;
-  color: var(--color-primary-600);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  cursor: pointer;
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  transition: background-color 0.2s ease;
-}
-
-.mark-read-btn:hover {
-  background-color: var(--color-primary-50);
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
 }
 
 .empty-state {
@@ -38,108 +23,73 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--space-12) 0;
-  color: var(--color-gray-500);
+  padding: var(--space-2xl) 0;
+  color: var(--text-muted);
   text-align: center;
+  gap: var(--space-sm);
 }
 
 .empty-state svg {
-  color: var(--color-gray-300);
-  margin-bottom: var(--space-4);
+  color: var(--text-tertiary);
 }
 
-.notification-list {
+.notif-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
 }
 
-.notification-card {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-4);
-  padding: var(--space-4);
-  background-color: var(--color-white);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-gray-200);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
+.notif-item {
+  transition: background-color var(--transition-fast);
 }
 
-.notification-card:hover {
-  border-color: var(--color-primary-300);
-  box-shadow: var(--shadow-sm);
+.notif-item.is-unread {
+  background-color: var(--surface-container-low);
 }
 
-.notification-card.unread {
-  background-color: var(--color-primary-50);
-  border-color: var(--color-primary-200);
-}
-
-.unread-indicator {
-  position: absolute;
-  top: var(--space-4);
-  right: var(--space-4);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--color-primary-500);
-}
-
-.icon-wrapper {
+.notif-icon-wrap {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--color-primary-100);
-  color: var(--color-primary-600);
+  width: var(--size-40);
+  height: var(--size-40);
+  border-radius: var(--radius-full);
+  background-color: var(--surface-container);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all var(--transition-fast);
 }
 
-.icon-wrapper svg {
-  width: 20px;
-  height: 20px;
+.notif-icon-wrap.is-unread-icon {
+  background-color: var(--clr-primary-subtle, rgba(59, 130, 246, 0.15));
+  color: var(--clr-primary);
 }
 
-.content-wrapper {
-  flex-grow: 1;
+.notif-icon-wrap svg {
+  width: var(--size-20);
+  height: var(--size-20);
 }
 
-.title {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--color-gray-900);
-  margin-bottom: var(--space-1);
+.ui-list-item-title.is-unread-title {
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
 }
 
-.subtitle {
-  font-size: var(--text-sm);
-  color: var(--color-gray-600);
-  margin-bottom: var(--space-2);
+.notif-end {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--size-4);
 }
 
 .timestamp {
-  font-size: var(--text-xs);
-  color: var(--color-gray-400);
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
 }
 
-.load-more {
-  width: 100%;
-  padding: var(--space-4);
-  margin-top: var(--space-6);
-  background-color: transparent;
-  border: 1px solid var(--color-gray-300);
-  border-radius: var(--radius-md);
-  color: var(--color-gray-700);
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.load-more:hover {
-  background-color: var(--color-gray-50);
-  border-color: var(--color-gray-400);
+.unread-dot {
+  width: var(--size-8);
+  height: var(--size-8);
+  border-radius: var(--radius-full);
+  background-color: var(--clr-primary);
+  display: inline-block;
 }
