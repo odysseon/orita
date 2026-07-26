@@ -27,6 +27,7 @@ import { FirstListingCta } from './create/first-listing-cta/first-listing-cta';
 import { BusinessCard } from '../../../shared/ui/organisms/cards/business-card/business-card';
 import { Button } from '../../../shared/ui/atoms/button/button';
 import { Skeleton } from '../../../shared/ui/atoms/skeleton/skeleton';
+import { Avatar } from '../../../shared/ui/identity/avatar/avatar';
 import { IBusinessSummary } from '../../home/home.interface';
 import { VisibilityScore } from '../../../shared/visibility-score/visibility-score';
 import { BusinessProfileService, PublicationIssue } from '../../../core/services/business-profile.service';
@@ -45,6 +46,7 @@ import { ToastService } from '../../../core/services/toast';
     LucideList,
     Button,
     Skeleton,
+    Avatar,
     LucideEye,
     LucideBookmark,
     LucideMousePointerClick,
