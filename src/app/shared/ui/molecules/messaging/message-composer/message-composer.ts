@@ -16,11 +16,12 @@ interface ComposerAttachment {
 }
 
 import { Button } from '../../../atoms/button/button';
+import { ShareButton as UiShareButton } from '../../../actions/share-button/share-button';
 
 @Component({
   selector: 'ui-message-composer',
   standalone: true,
-  imports: [FormsModule, LucideSend, LucidePaperclip, LucidePackage, LucideX, LucideFile, LucideVideo, AttachSheetComponent, Button],
+  imports: [FormsModule, LucideSend, LucidePaperclip, LucidePackage, LucideX, LucideFile, LucideVideo, AttachSheetComponent, Button, UiShareButton],
   templateUrl: './message-composer.html',
   styleUrl: './message-composer.css',
 })

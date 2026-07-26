@@ -52,16 +52,10 @@
       />
     </div>
 
-    <button
-      app-button appearance="ghost" shape="circle"
-      class="btn-send" 
-      type="button" 
-      aria-label="Send message"
+    <ui-share-button
       [disabled]="!content().trim() && draftEmbeds().length === 0 && attachments().length === 0"
-      (click)="onSend()"
-    >
-      <svg lucideSend aria-hidden="true"></svg>
-    </button>
+      (share)="onSend()"
+    />
   </div>
 </div>
 
