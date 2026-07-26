@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 
 export interface GalleryLayout {
   type: 'SINGLE' | 'DOUBLE' | 'TRIPLE' | 'QUAD' | 'MULTIPLE';
@@ -7,7 +7,7 @@ export interface GalleryLayout {
   moreCount: number;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class MediaGalleryLayoutService {
   calculateLayout(itemCount: number): GalleryLayout {
     if (itemCount === 1) {

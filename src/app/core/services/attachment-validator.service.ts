@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 
 export interface ValidationResult {
   valid: boolean;
   error?: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AttachmentValidatorService {
   private readonly MAX_ATTACHMENTS = 10;
   private readonly MAX_FILE_SIZE_BYTES = 50 * 1024 * 1024; // 50MB

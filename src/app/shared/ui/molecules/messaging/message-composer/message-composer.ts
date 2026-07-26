@@ -1,6 +1,6 @@
 import { Component, output, signal, input, inject, effect, OnDestroy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { LucideSend, LucidePaperclip, LucidePackage, LucideX, LucideFile, LucideVideo } from '@lucide/angular';
+
+import { LucidePaperclip, LucidePackage, LucideX, LucideFile, LucideVideo } from '@lucide/angular';
 import { SendMessageCommand, AttachmentSelection, AttachmentSource } from '../../../../../core/services/messaging.types';
 import { DraftMessageService } from '../../../../../core/services/draft-message.service';
 import { AttachSheetComponent } from '../../../organisms/attach-sheet/attach-sheet';
@@ -21,7 +21,7 @@ import { ShareButton as UiShareButton } from '../../../actions/share-button/shar
 @Component({
   selector: 'ui-message-composer',
   standalone: true,
-  imports: [FormsModule, LucideSend, LucidePaperclip, LucidePackage, LucideX, LucideFile, LucideVideo, AttachSheetComponent, Button, UiShareButton],
+  imports: [LucidePaperclip, LucidePackage, LucideX, LucideFile, LucideVideo, AttachSheetComponent, Button, UiShareButton],
   templateUrl: './message-composer.html',
   styleUrl: './message-composer.css',
 })

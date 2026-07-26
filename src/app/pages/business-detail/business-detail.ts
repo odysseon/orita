@@ -17,7 +17,6 @@ import {
   LucideBadgeCheck,
   LucideImage,
   LucideInfo,
-  LucideSend,
 } from '@lucide/angular';
 import { Badge } from '../../shared/ui/atoms/badge/badge';
 import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
@@ -69,7 +68,6 @@ const DAY_LABELS: Record<string, string> = {
     LucideBadgeCheck,
     LucideImage,
     LucideInfo,
-    LucideSend,
     DatePipe,
     ShareModalComponent,
     Badge,

@@ -18,7 +18,8 @@
           type="text" 
           class="form-control" 
           placeholder="Add a highlight..." 
-          [(ngModel)]="newItem"
+          [value]="newItem()"
+          (input)="newItem.set($any($event.target).value)"
           (keyup.enter)="addItem()"
         />
         <button app-button intent="secondary" type="button"  (click)="addItem()" [disabled]="!newItem().trim()">

@@ -1,4 +1,4 @@
-import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { Service, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 export enum CacheKeys {
@@ -62,7 +62,7 @@ export class LocalStorageAdapter implements StorageAdapter {
   }
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class CacheService {
   private readonly SCHEMA_VERSION = 'v1';
   private readonly SCHEMA_KEY = 'ORITA_CACHE_SCHEMA_VERSION';
