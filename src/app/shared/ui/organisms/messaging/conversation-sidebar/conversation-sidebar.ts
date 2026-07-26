@@ -1,16 +1,16 @@
 import { Component, input, output, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { LucideMessageCircleMore } from '@lucide/angular';
-import { ConversationListItem } from '../../../../shared/ui/organisms/list-items/conversation-list-item/conversation-list-item';
-import { SearchBar } from '../../../../shared/ui/molecules/search-bar/search-bar';
-import { InputDirective } from '../../../../shared/ui/atoms/forms';
-import { IConversationPreview } from '../../../../core/services/messaging.types';
-import { Button } from '../../../../shared/ui/atoms/button/button';
+import { ConversationListItem } from '../../list-items/conversation-list-item/conversation-list-item';
+import { List } from '../../../surfaces/list/list';
+import { SearchBar } from '../../../molecules/search-bar/search-bar';
+import { InputDirective } from '../../../atoms/forms';
+import { IConversationPreview } from '../../../../../core/services/messaging.types';
+import { Button } from '../../../atoms/button/button';
 
 @Component({
-  selector: 'app-conversation-sidebar',
-  imports: [FormsModule, RouterLink, LucideMessageCircleMore, ConversationListItem, SearchBar, InputDirective, Button],
+  selector: 'ui-conversation-sidebar',
+  imports: [FormsModule, RouterLink, List, ConversationListItem, SearchBar, InputDirective, Button],
   templateUrl: './conversation-sidebar.html',
   styleUrl: './conversation-sidebar.css'
 })

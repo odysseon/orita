@@ -24,11 +24,15 @@
         <p>No conversations found.</p>
       </div>
     } @else {
-      @for (conv of filteredConversations(); track conv.id) {
-        <div class="conv-item-wrap" [class.active-item]="activeId() === conv.id" (click)="selectConversation.emit(conv.id)" style="cursor: pointer;">
-          <ui-conversation-list-item [conversation]="toListItemDto(conv)" />
-        </div>
-      }
+      <ui-list [bordered]="false" [radius]="false" [dividers]="true">
+        @for (conv of filteredConversations(); track conv.id) {
+          <ui-conversation-list-item 
+            [conversation]="toListItemDto(conv)" 
+            [active]="activeId() === conv.id"
+            (click)="selectConversation.emit(conv.id)" 
+          />
+        }
+      </ui-list>
     }
   </div>
 </aside>

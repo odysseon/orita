@@ -23,7 +23,7 @@
       <!-- Sidebar: hidden on mobile if a chat is active -->
       @if (isDesktop() || !activeConversationId()) {
         <div class="layout-sidebar">
-          <app-conversation-sidebar
+          <ui-conversation-sidebar
             [conversations]="messaging.conversations()"
             [activeId]="activeConversationId()"
             (selectConversation)="onSelectConversation($event)"
@@ -47,7 +47,7 @@
               <p style="margin-top: var(--space-sm); color: var(--text-secondary);">Loading messages...</p>
             </div>
           } @else {
-            <app-conversation-view
+            <ui-conversation-view
               [conversation]="messaging.activeConversation()"
               [messages]="messaging.activeMessages()"
               [viewerParticipantId]="viewerParticipantId()"

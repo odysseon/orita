@@ -1,29 +1,24 @@
 import { Component, input, output } from '@angular/core';
-import { ConversationContext } from '../../../../shared/ui/molecules/messaging/conversation-context/conversation-context';
-import { MessageList } from '../../../../shared/ui/organisms/messaging/message-list/message-list';
-import { MessageComposer } from '../../../../shared/ui/molecules/messaging/message-composer/message-composer';
+import { ConversationContext } from '../../../molecules/messaging/conversation-context/conversation-context';
+import { MessageList } from '../message-list/message-list';
+import { MessageComposer } from '../../../molecules/messaging/message-composer/message-composer';
+import { ChatHeader } from '../../../molecules/messaging/chat-header/chat-header';
 import {
   IConversation,
   IConversationPreview,
   IMessage,
   SendMessageDto,
-} from '../../../../core/services/messaging.types';
-import { PageHeader } from '../../../../shared/ui/organisms/page-header/page-header';
-import { LucideArrowLeft, LucideMessageCircleMore, LucideUser } from '@lucide/angular';
-
-import { Button } from '../../../../shared/ui/atoms/button/button';
+} from '../../../../../core/services/messaging.types';
+import { LucideMessageCircleMore } from '@lucide/angular';
 
 @Component({
-  selector: 'app-conversation-view',
+  selector: 'ui-conversation-view',
   imports: [
-    PageHeader,
+    ChatHeader,
     ConversationContext,
     MessageList,
     MessageComposer,
     LucideMessageCircleMore,
-    LucideArrowLeft,
-    LucideUser,
-    Button,
   ],
   templateUrl: './conversation-view.html',
   styleUrl: './conversation-view.css',

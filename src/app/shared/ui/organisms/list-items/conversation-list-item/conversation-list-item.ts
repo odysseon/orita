@@ -4,8 +4,7 @@ import {
   ListItemStart, 
   ListItemContent, 
   ListItemTitle, 
-  ListItemDescription, 
-  ListItemEnd 
+  ListItemDescription 
 } from '../../../surfaces/list/list';
 import { Avatar } from '../../../identity/avatar/avatar';
 
@@ -19,13 +18,12 @@ import { DatePipe } from '@angular/common';
     ListItemStart, 
     ListItemContent, 
     ListItemTitle, 
-    ListItemDescription, 
-    ListItemEnd,
+    ListItemDescription,
     Avatar,
     DatePipe
   ],
   template: `
-    <button uiListItem class="ui-conversation-list-item">
+    <button uiListItem class="ui-conversation-list-item" [class.is-active]="active()">
       <div uiListItemStart>
         <app-avatar
           [src]="conversation().participant.avatarUrl || null"
@@ -65,6 +63,8 @@ import { DatePipe } from '@angular/common';
   }
 })
 export class ConversationListItem {
+  active = input<boolean>(false);
+
   // We accept a generic participant (user or business)
   // We decompose the identity rather than composing UserIdentity directly,
   // to properly align the last message text underneath the name (WhatsApp style layout).
