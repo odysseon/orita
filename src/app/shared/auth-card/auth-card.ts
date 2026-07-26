@@ -1,9 +1,10 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Logo } from '../ui/atoms/logo/logo';
 
 @Component({
   selector: 'app-auth-card',
-  imports: [RouterLink],
+  imports: [RouterLink, Logo],
   templateUrl: './auth-card.html',
   styleUrl: './auth-card.css',
 })
