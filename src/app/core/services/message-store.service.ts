@@ -83,11 +83,17 @@ export class MessageStore {
     // Update messages map
     this.messages.update(map => {
       const existing = map[cid] || [];
-      // Replace optimistic message if it exists (matching by temp id)
-      const filtered = existing.filter(m => m.id !== message.id);
+      // Replace optimistic message if it exists (matching by temp id or correlationId)
+      const filtered = existing.filter(m => 
+        m.id !== message.id && 
+        (!message.correlationId || m.id !== message.correlationId)
+      );
+      const deduplicated = [...filtered, message].filter((m, idx, self) => 
+        idx === self.findIndex(x => x.id === m.id)
+      );
       return {
         ...map,
-        [cid]: [...filtered, message]
+        [cid]: deduplicated
       };
     });
 

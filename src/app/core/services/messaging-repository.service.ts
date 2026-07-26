@@ -152,10 +152,12 @@ export class MessagingRepository implements OnDestroy {
             this.#socket.markRead(id, unreadIds);
             
             this.#store.markConversationRead(id);
-            this.#store.conversations().find(c => c.id === id && (async () => {
-              c.unreadCount = 0;
-              await this.#db.saveConversationPreview(c);
-            })());
+            const preview = this.#store.conversations().find(c => c.id === id);
+            if (preview) {
+              void this.#db.saveConversationPreview(preview).catch(err => {
+                console.error(`Failed to save conversation preview for ${id}`, err);
+              });
+            }
           }
         }
       },
@@ -222,7 +224,8 @@ export class MessagingRepository implements OnDestroy {
 
     const payload: SendMessageDto = {
       content: command.content,
-      embeds: command.embeds
+      embeds: command.embeds,
+      correlationId: tempId
     };
     
     this.#queue.enqueue(conversationId, tempId, payload, queuedAttachments);
@@ -351,9 +354,13 @@ export class MessagingRepository implements OnDestroy {
 
         this.#store.messages.update(map => {
           const list = map[conversationId] || [];
+          const replaced = list.map(m => (m.id === tempId || m.correlationId === tempId) ? serverMessage : m);
+          const deduplicated = replaced.filter((m, idx, self) =>
+            idx === self.findIndex(x => x.id === m.id)
+          );
           return {
             ...map,
-            [conversationId]: list.map(m => m.id === tempId ? serverMessage : m)
+            [conversationId]: deduplicated
           };
         });
       } catch (err: any) {
@@ -433,7 +440,8 @@ export class MessagingRepository implements OnDestroy {
       })) : [],
       createdAt: new Date(p.createdAt).toISOString(),
       readReceipts: [],
-      syncState: p.status
+      syncState: p.status,
+      correlationId: p.payload.correlationId || p.id
     }));
 
     return [...serverMessages, ...localMessages];

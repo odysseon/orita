@@ -47,6 +47,7 @@
         type="text" 
         class="composer-input"
         placeholder="Type a message..."
+        aria-label="Message"
         [value]="content()"
         (input)="content.set($any($event.target).value)"
         (keyup.enter)="onSend()"

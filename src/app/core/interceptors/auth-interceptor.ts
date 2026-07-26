@@ -26,7 +26,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && !isSkipped) {
         if (isPlatformBrowser(platformId)) {
-          const publicRoutes = ['/', '/home', '/search', '/tours', '/nearby', '/welcome', '/auth', '/u/', '/b/', '/l/'];
+          const publicRoutes = ['/', '/home', '/search', '/tours', '/welcome', '/auth', '/u/', '/b/', '/l/'];
           const fullUrl = router.url;
           const pathOnly = fullUrl.split('?')[0];
           

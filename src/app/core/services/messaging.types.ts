@@ -54,6 +54,7 @@ export interface IMessage {
   // UI state for optimistic updates
   syncState?: MessageSyncState;
   attachmentViews?: MessageAttachmentView[];
+  correlationId?: string;
 }
 
 export interface IConversationAnchor {
@@ -128,6 +129,7 @@ export interface SendMessageDto {
   mediaType?: MediaType; // Legacy/backward compatibility
   attachmentIds?: string[]; // Referencing uploaded media resources
   embeds?: { embedType: string; targetId: string }[];
+  correlationId?: string;
 }
 
 export type AttachmentSource = 'CAMERA' | 'GALLERY' | 'FILES' | 'AUDIO';
