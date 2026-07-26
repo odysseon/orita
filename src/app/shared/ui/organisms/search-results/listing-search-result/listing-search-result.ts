@@ -1,13 +1,12 @@
 import { Component, input, ViewEncapsulation } from '@angular/core';
 import { ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../../surfaces/list/list';
 import { CoverMedia } from '../../../surfaces/cover-media/cover-media';
-import { SaveButton } from '../../../actions/save-button/save-button';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'ui-listing-search-result',
   standalone: true,
-  imports: [ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd, CoverMedia, SaveButton, CurrencyPipe],
+  imports: [ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd, CoverMedia, CurrencyPipe],
   template: `
     <a uiListItem class="ui-listing-search-result">
       <div uiListItemStart class="ui-listing-search-result__start">

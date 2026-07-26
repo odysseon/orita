@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { LucideShare,  LucideBriefcase, LucideArrowLeft, LucideCheck, LucideChevronRight, LucideUserCheck, LucideUserPlus, LucideAlertCircle } from '@lucide/angular';
+import { LucideShare,  LucideBriefcase, LucideArrowLeft, LucideChevronRight, LucideUserCheck, LucideUserPlus, LucideAlertCircle } from '@lucide/angular';
 import { PublicUserService, PublicUserProfile } from '../../core/services/public-user.service';
 import { AuthService } from '../../core/services/auth.service';
 import { ShareService } from '../../core/services/share.service';
@@ -22,7 +22,6 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
     
     LucideBriefcase,
     LucideArrowLeft,
-    LucideCheck,
     LucideChevronRight,
     LucideUserCheck,
     LucideUserPlus,

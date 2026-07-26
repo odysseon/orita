@@ -1,7 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { form, FormField, required, email, pattern } from '@angular/forms/signals';
-import { LucideLoaderCircle } from '@lucide/angular';
 import { AuthService } from '../../../core/services/auth.service';
 
 import { AppAuthCard } from '../../../shared/auth-card/auth-card';
@@ -17,9 +16,7 @@ import { Button } from '../../../shared/ui/atoms/button/button';
   imports: [FormField, 
     RouterLink,
     AppFormField,
-    LucideLoaderCircle,
     AppAuthCard,
-    AppFormField,
     PasswordField,
     AppGoogleSignIn,
     Button,
