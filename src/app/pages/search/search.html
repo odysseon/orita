@@ -182,11 +182,7 @@
             </div>
             <ui-list [bordered]="false" [radius]="false" [dividers]="true">
               @for (item of listingsResource.value()?.items || []; track item.id) {
-                <ui-listing-search-result [listing]="{ id: item.id, title: item.title, thumbnailUrl: $any(item).media?.[0]?.url || $any(item).imageUrl || $any(item).coverUrl, price: +($any(item).minPrice || 0), isSaved: item.isSaved }">
-                  <div result-action>
-                    <ui-save-button [isSaved]="!!item.isSaved" appearance="solid"></ui-save-button>
-                  </div>
-                </ui-listing-search-result>
+                <ui-listing-search-result [listing]="{ id: item.id, title: item.title, thumbnailUrl: $any(item).media?.[0]?.url || $any(item).imageUrl || $any(item).coverUrl, price: +($any(item).minPrice || 0), isSaved: item.isSaved }" />
               }
             </ui-list>
           </section>
@@ -301,11 +297,7 @@
     } @else if (searchType() === 'listing') {
       <ui-list [bordered]="false" [radius]="false" [dividers]="true">
         @for (item of listingsResource.value()?.items || []; track item.id) {
-          <ui-listing-search-result [listing]="{ id: item.id, title: item.title, thumbnailUrl: $any(item).media?.[0]?.url || $any(item).imageUrl || $any(item).coverUrl, price: +($any(item).minPrice || 0), isSaved: item.isSaved }">
-            <div result-action>
-              <ui-save-button [isSaved]="!!item.isSaved" appearance="solid"></ui-save-button>
-            </div>
-          </ui-listing-search-result>
+          <ui-listing-search-result [listing]="{ id: item.id, title: item.title, thumbnailUrl: $any(item).media?.[0]?.url || $any(item).imageUrl || $any(item).coverUrl, price: +($any(item).minPrice || 0), isSaved: item.isSaved }" />
         }
       </ui-list>
       @if ((listingsResource.value()?.items?.length || 0) === 0) {

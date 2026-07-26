@@ -20,11 +20,7 @@ const meta: Meta<ListingSearchResult> = {
     },
     template: `
       <ui-list style="max-width: 400px; display: block;">
-        <ui-listing-search-result [listing]="listing">
-          <div result-action>
-            <ui-save-button [isSaved]="listing.isSaved" size="sm" appearance="solid"></ui-save-button>
-          </div>
-        </ui-listing-search-result>
+        <ui-listing-search-result [listing]="listing"></ui-listing-search-result>
       </ui-list>
     `
   })
