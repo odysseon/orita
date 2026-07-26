@@ -18,7 +18,7 @@
         <p class="target-subtitle">{{ subtitle() }}</p>
         }
       </div>
-      <button class="btn-icon" (click)="onDrawerClose()" aria-label="Close">
+      <button app-button appearance="ghost" shape="circle" size="sm" (click)="onDrawerClose()" aria-label="Close">
         <svg lucideX aria-hidden="true"></svg>
       </button>
     </div>
@@ -127,7 +127,8 @@
         app-input
         type="text"
         placeholder="Add a message (optional)"
-        [(ngModel)]="messageContent"
+        [value]="messageContent()"
+        (input)="messageContent.set($any($event.target).value)"
         (keydown)="onKeyDown($event)"
         class="message-input"
       />

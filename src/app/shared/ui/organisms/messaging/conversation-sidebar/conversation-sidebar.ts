@@ -1,5 +1,4 @@
 import { Component, input, output, signal, computed } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ConversationListItem } from '../../list-items/conversation-list-item/conversation-list-item';
 import { List } from '../../../surfaces/list/list';
@@ -10,7 +9,7 @@ import { Button } from '../../../atoms/button/button';
 
 @Component({
   selector: 'ui-conversation-sidebar',
-  imports: [FormsModule, RouterLink, List, ConversationListItem, SearchBar, InputDirective, Button],
+  imports: [RouterLink, List, ConversationListItem, SearchBar, InputDirective, Button],
   templateUrl: './conversation-sidebar.html',
   styleUrl: './conversation-sidebar.css'
 })

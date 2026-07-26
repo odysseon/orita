@@ -31,6 +31,7 @@ import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast';
 import { ShareButton } from '../../shared/share-button/share-button';
+import { ShareButton as UiShareButton } from '../../shared/ui/actions/share-button/share-button';
 import { ShareModalComponent } from '../../shared/ui/organisms/share-modal/share-modal';
 import { FollowButton } from '../../shared/ui/actions/follow-button/follow-button';
 import { FollowService } from '../../core/services/follow.service';
@@ -54,6 +55,7 @@ const DAY_LABELS: Record<string, string> = {
   imports: [
     RouterLink,
     ShareButton,
+    UiShareButton,
     FollowButton,
     EmptyState,
     SeoComponent,

@@ -2,18 +2,17 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from './index';
 import { SearchBar } from '../search-bar/search-bar';
 import { InputDirective } from '../../atoms/forms';
-import { FormsModule } from '@angular/forms';
 import { Component, computed, signal } from '@angular/core';
 
 @Component({
   selector: 'app-combobox-demo',
-  imports: [Combobox, ComboboxInput, ComboboxList, ComboboxOption, SearchBar, InputDirective, FormsModule],
+  imports: [Combobox, ComboboxInput, ComboboxList, ComboboxOption, SearchBar, InputDirective],
   template: `
     <div style="max-width: 400px; padding: 20px; border: 1px solid var(--border-default); border-radius: var(--radius-md);">
       
       <ui-combobox [value]="selected()" (selected)="onSelect($event)">
         <ui-search-bar>
-          <input uiComboboxInput app-input type="text" placeholder="Search cities..." [(ngModel)]="query" />
+          <input uiComboboxInput app-input type="text" placeholder="Search cities..." [value]="query()" (input)="query.set($any($event.target).value)" />
         </ui-search-bar>
 
         <ui-combobox-list style="margin-top: 8px;">

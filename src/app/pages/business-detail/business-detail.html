@@ -65,9 +65,7 @@
         </div>
         
         <div style="display: flex; gap: var(--size-8); margin-top: var(--size-32);">
-          <button app-button appearance="outline" shape="square" (click)="showShareModal.set(true)" aria-label="Send">
-            <svg lucideSend aria-hidden="true"></svg>
-          </button>
+          <ui-share-button (share)="showShareModal.set(true)" />
           <app-share-button [title]="biz.name" [text]="biz.description || ''" />
           <ui-follow-button 
             [isFollowed]="biz.isFollowed || false"

@@ -1,4 +1,5 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, input, output, PLATFORM_ID, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { LucideChevronLeft, LucideChevronRight, LucideChevronsLeft, LucideChevronsRight, LucideMoreHorizontal } from '@lucide/angular';
 
 export type PaginationItem = {
@@ -80,12 +81,19 @@ export class Pagination {
 
   pageChange = output<number>();
 
-  isMobile = signal(window.matchMedia('(max-width: 600px)').matches);
+  isMobile = signal(false);
 
   constructor() {
-    window.matchMedia('(max-width: 600px)').addEventListener('change', e => {
-      this.isMobile.set(e.matches);
-    });
+    const platformId = inject(PLATFORM_ID);
+    const destroyRef = inject(DestroyRef);
+
+    if (isPlatformBrowser(platformId)) {
+      const mql = window.matchMedia('(max-width: 600px)');
+      this.isMobile.set(mql.matches);
+      const listener = (e: MediaQueryListEvent) => this.isMobile.set(e.matches);
+      mql.addEventListener('change', listener);
+      destroyRef.onDestroy(() => mql.removeEventListener('change', listener));
+    }
   }
 
   items = computed<PaginationItem[]>(() => {

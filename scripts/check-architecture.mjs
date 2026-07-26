@@ -4,12 +4,12 @@ import path from 'node:path';
 const SRC_DIR = path.resolve('src/app');
 
 const FORBIDDEN_IMPORTS = [
-  { pattern: /shared\/atoms\/avatar/g, replacement: 'shared/ui/identity/avatar/avatar' },
-  { pattern: /shared\/nav-list\/nav-list/g, replacement: 'shared/ui/navigation/nav-list/nav-list' },
-  { pattern: /shared\/nav-item\/nav-item/g, replacement: 'shared/ui/navigation/nav-item/nav-item' },
-  { pattern: /shared\/grid\/grid/g, replacement: 'shared/ui/layouts/grid/grid' },
-  { pattern: /shared\/drawer\/drawer/g, replacement: 'shared/ui/overlays/drawer/drawer' },
-  { pattern: /shared\/ui\/molecules\/identity/g, replacement: 'shared/ui/identity' }
+  { pattern: /shared\/atoms\/avatar/, replacement: 'shared/ui/identity/avatar/avatar' },
+  { pattern: /shared\/nav-list\/nav-list/, replacement: 'shared/ui/navigation/nav-list/nav-list' },
+  { pattern: /shared\/nav-item\/nav-item/, replacement: 'shared/ui/navigation/nav-item/nav-item' },
+  { pattern: /shared\/grid\/grid/, replacement: 'shared/ui/layouts/grid/grid' },
+  { pattern: /shared\/drawer\/drawer/, replacement: 'shared/ui/overlays/drawer/drawer' },
+  { pattern: /shared\/ui\/molecules\/identity/, replacement: 'shared/ui/identity' }
 ];
 
 let errorCount = 0;

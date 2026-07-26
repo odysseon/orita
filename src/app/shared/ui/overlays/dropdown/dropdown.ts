@@ -1,11 +1,13 @@
 import {
   Component,
   ComponentRef,
+  DestroyRef,
   Directive,
   ElementRef,
   HostListener,
   Injector,
   OnDestroy,
+  PLATFORM_ID,
   TemplateRef,
   ViewContainerRef,
   effect,
@@ -13,7 +15,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AnchorPlacement, AnchorPosition, AnchorPositionService } from '../anchor-position.service';
 import { Drawer } from '../drawer/drawer';
 
@@ -37,15 +39,24 @@ export class DropdownTrigger implements OnDestroy {
   private anchorService = inject(AnchorPositionService);
 
   isOpen = signal(false);
-  private isMobile = signal(window.matchMedia('(max-width: 600px)').matches);
+  private isMobile = signal(false);
   private desktopRef: ComponentRef<DropdownDesktop> | null = null;
   private mobileRef: ComponentRef<DropdownMobile> | null = null;
 
   constructor() {
-    window.matchMedia('(max-width: 600px)').addEventListener('change', (e) => {
-      this.isMobile.set(e.matches);
-      if (this.isOpen()) this.close();
-    });
+    const platformId = inject(PLATFORM_ID);
+    const destroyRef = inject(DestroyRef);
+
+    if (isPlatformBrowser(platformId)) {
+      const mql = window.matchMedia('(max-width: 600px)');
+      this.isMobile.set(mql.matches);
+      const listener = (e: MediaQueryListEvent) => {
+        this.isMobile.set(e.matches);
+        if (this.isOpen()) this.close();
+      };
+      mql.addEventListener('change', listener);
+      destroyRef.onDestroy(() => mql.removeEventListener('change', listener));
+    }
 
     this.anchorService.init({
       trigger: () => this.el.nativeElement,
