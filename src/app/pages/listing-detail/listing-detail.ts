@@ -24,6 +24,7 @@ import { ListingAttributes } from './components/listing-attributes/listing-attri
 import { ListingBusinessCard } from './components/listing-business-card/listing-business-card';
 
 import { Button } from '../../shared/ui/atoms/button/button';
+import { CoverMedia } from '../../shared/ui/surfaces/cover-media/cover-media';
 
 @Component({
   selector: 'app-listing-detail',
@@ -41,6 +42,7 @@ import { Button } from '../../shared/ui/atoms/button/button';
     ListingBusinessCard,
     ShareModalComponent,
     Button,
+    CoverMedia,
   ],
   templateUrl: './listing-detail.html',
   styleUrl: './listing-detail.css',

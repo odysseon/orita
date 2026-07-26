@@ -22,6 +22,10 @@ import {
 import { Badge } from '../../shared/ui/atoms/badge/badge';
 import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 import { Avatar } from '../../shared/ui/identity/avatar/avatar';
+import { CoverMedia } from '../../shared/ui/surfaces/cover-media/cover-media';
+import { Grid } from '../../shared/ui/layouts/grid/grid';
+import { ListingCard } from '../../shared/ui/organisms/cards/listing-card/listing-card';
+import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
 
 import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.interface';
 import { environment } from '../../../environments/environment';
@@ -68,7 +72,11 @@ const DAY_LABELS: Record<string, string> = {
     ShareModalComponent,
     Badge,
     Skeleton,
-    Avatar
+    Avatar,
+    CoverMedia,
+    Grid,
+    ListingCard,
+    StoreTourCard,
   ],
   templateUrl: './business-detail.html',
   styleUrl: './business-detail.css',
