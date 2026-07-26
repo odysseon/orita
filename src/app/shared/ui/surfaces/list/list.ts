@@ -60,7 +60,15 @@ import { Component, Directive, ViewEncapsulation, input, computed } from '@angul
       background: var(--surface-container-high);
     }
 
-    ui-list.ui-list--dividers .ui-list-item + .ui-list-item {
+    button.ui-list-item.is-active,
+    a.ui-list-item.is-active,
+    .ui-list-item.is-active {
+      background: var(--surface-container-high);
+      border-left: var(--size-3) solid var(--clr-primary);
+    }
+
+    ui-list.ui-list--dividers .ui-list-item + .ui-list-item,
+    ui-list.ui-list--dividers > :not(:first-child) > .ui-list-item {
       border-top: 1px solid var(--border-subtle);
     }
 
