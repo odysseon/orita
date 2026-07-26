@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { Component, signal } from '@angular/core';
 import { InputDirective, TextareaDirective, CheckboxDirective, RadioDirective, SwitchDirective, SelectDirective } from './index';
 import { AppFormField } from '../form-field/form-field';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-forms-story',
@@ -10,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     InputDirective, TextareaDirective, CheckboxDirective, 
     RadioDirective, SwitchDirective, SelectDirective, 
-    AppFormField, FormsModule
+    AppFormField
   ],
   template: `
     <div style="padding: 2rem; display: flex; flex-direction: column; gap: 3rem; background: var(--surface-page); font-family: sans-serif; max-width: 600px;">
@@ -36,9 +35,9 @@ import { FormsModule } from '@angular/forms';
       <section>
         <h3 style="margin-bottom: 1.5rem; color: var(--text-primary);">2. Textarea (Auto-resizing)</h3>
         <app-form-field label="Bio" fieldId="bio-textarea" hint="Try typing multiple lines. It auto-resizes!">
-          <textarea id="bio-textarea" app-textarea placeholder="Tell us about yourself..." [(ngModel)]="bioValue"></textarea>
+          <textarea id="bio-textarea" app-textarea placeholder="Tell us about yourself..." [value]="bioValue()" (input)="bioValue.set($any($event.target).value)"></textarea>
         </app-form-field>
-        <button (click)="bioValue = 'Programmatic update!\nSecond line.\nThird line.'" style="margin-top: 1rem; padding: 0.5rem; cursor: pointer;">
+        <button (click)="bioValue.set('Programmatic update!\nSecond line.\nThird line.')" style="margin-top: 1rem; padding: 0.5rem; cursor: pointer;">
           Trigger Programmatic Update
         </button>
       </section>
@@ -165,7 +164,7 @@ import { FormsModule } from '@angular/forms';
   `
 })
 class FormsStoryComponent {
-  bioValue = '';
+  bioValue = signal('');
 }
 
 const meta: Meta<FormsStoryComponent> = {

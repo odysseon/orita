@@ -56,9 +56,7 @@
         <span class="listing-main__price">{{ priceLabel() }}</span>
       </div>
       <div style="display: flex; gap: var(--size-8);">
-        <button app-button appearance="outline" shape="square" (click)="showShareModal.set(true)" aria-label="Send">
-          <svg lucideSend aria-hidden="true"></svg>
-        </button>
+        <ui-share-button (share)="showShareModal.set(true)" />
         <app-share-button [title]="item.title" [text]="item.description || ''" />
       </div>
     </div>

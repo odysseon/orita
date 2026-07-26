@@ -1,5 +1,4 @@
 import { Component, input, signal, inject, OnInit, output, computed } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ShareService, SuggestedShareRecipientDto } from '../../../../core/services/share.service';
 import { UserSearchService } from '../../../../core/services/user-search.service';
 import { UserSearchResult } from '../../../../core/types/share.types';
@@ -11,16 +10,16 @@ import { SearchBar } from '../../molecules/search-bar/search-bar';
 import { LucideX, LucideCheck, LucideSend } from '@lucide/angular';
 import { InputDirective, CheckboxDirective } from '../../atoms/forms';
 import { Avatar } from '../../identity/avatar/avatar';
+import { Button } from '../../atoms/button/button';
 
 @Component({
   selector: 'ui-share-modal',
   imports: [
-    FormsModule, 
     Drawer, 
     List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd,
     SearchBar,
     LucideX, LucideCheck, LucideSend, 
-    Avatar, InputDirective, CheckboxDirective
+    Avatar, InputDirective, CheckboxDirective, Button
   ],
   templateUrl: './share-modal.html',
   styleUrl: './share-modal.css',

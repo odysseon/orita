@@ -1,16 +1,15 @@
 import { Meta, StoryObj } from '@storybook/angular';
 import { SearchBar } from './search-bar';
 import { InputDirective } from '../../atoms/forms';
-import { FormsModule } from '@angular/forms';
 import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-search-bar-demo',
-  imports: [SearchBar, InputDirective, FormsModule],
+  imports: [SearchBar, InputDirective],
   template: `
     <div style="max-width: 400px;">
       <ui-search-bar (clear)="onClear()">
-        <input app-input type="text" placeholder="Search locations..." [(ngModel)]="query" />
+        <input app-input type="text" placeholder="Search locations..." [value]="query()" (input)="query.set($any($event.target).value)" />
       </ui-search-bar>
       <p style="margin-top: 1rem; color: var(--text-muted); font-size: 14px;">
         Current Query: <strong>{{ query() || 'empty' }}</strong>

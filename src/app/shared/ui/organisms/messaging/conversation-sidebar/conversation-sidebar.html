@@ -6,8 +6,8 @@
         app-input
         type="text"
         placeholder="Search conversations..."
-        [ngModel]="searchQuery()"
-        (ngModelChange)="searchQuery.set($event)"
+        [value]="searchQuery()"
+        (input)="searchQuery.set($any($event.target).value)"
       />
     </ui-search-bar>
   </div>

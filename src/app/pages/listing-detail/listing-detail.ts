@@ -11,6 +11,7 @@ import {
 } from '@lucide/angular';
 import { environment } from '../../../environments/environment';
 import { ShareButton } from '../../shared/share-button/share-button';
+import { ShareButton as UiShareButton } from '../../shared/ui/actions/share-button/share-button';
 import { ShareModalComponent } from '../../shared/ui/organisms/share-modal/share-modal';
 import { SaveButton } from '../../shared/ui/actions/save-button/save-button';
 import { EmptyState } from '../../shared/empty-state/empty-state';
@@ -31,6 +32,7 @@ import { CoverMedia } from '../../shared/ui/surfaces/cover-media/cover-media';
   imports: [
     RouterLink,
     ShareButton,
+    UiShareButton,
     SaveButton,
     EmptyState,
     SeoComponent,
