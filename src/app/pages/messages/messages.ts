@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
-import { ConversationSidebar } from './components/conversation-sidebar/conversation-sidebar';
-import { ConversationView } from './components/conversation-view/conversation-view';
+import { ConversationSidebar } from '../../shared/ui/organisms/messaging/conversation-sidebar/conversation-sidebar';
+import { ConversationView } from '../../shared/ui/organisms/messaging/conversation-view/conversation-view';
 import { MessagingRepository } from '../../core/services/messaging-repository.service';
 import { SendMessageCommand } from '../../core/services/messaging.types';
 import { AuthService } from '../../core/services/auth.service';

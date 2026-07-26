@@ -63,19 +63,6 @@
   overflow-x: hidden;
 }
 
-.conv-item-wrap {
-  transition: background-color var(--transition-fast);
-}
-
-.conv-item-wrap:hover {
-  background: var(--surface-container-low);
-}
-
-.conv-item-wrap.active-item {
-  background: var(--surface-container-high);
-  border-left: var(--size-3) solid var(--clr-primary);
-}
-
 .empty-state {
   padding: var(--space-lg) var(--space-md);
   text-align: center;

@@ -1,17 +1,6 @@
 <div class="view-container">
   @if (conversation()) {
-    <app-page-header [customBack]="true" (backAction)="back.emit()">
-      <div pageHeaderStart class="view-header-user">
-        @if (conversation()!.avatarUrl) {
-          <img [src]="conversation()!.avatarUrl" alt="Avatar" class="view-header-avatar" />
-        } @else {
-          <div class="view-header-avatar-placeholder">
-            <svg lucideUser aria-hidden="true"></svg>
-          </div>
-        }
-        <h3 class="view-header-title">{{ conversation()!.title || 'Conversation' }}</h3>
-      </div>
-    </app-page-header>
+    <ui-chat-header [conversation]="conversation()" (back)="back.emit()" />
 
     <ui-conversation-context [anchor]="conversation()!.anchor ?? null" />
 
