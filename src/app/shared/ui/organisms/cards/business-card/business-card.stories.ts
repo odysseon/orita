@@ -1,4 +1,5 @@
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata, applicationConfig } from '@storybook/angular';
+import { provideRouter } from '@angular/router';
 import { BusinessCard } from './business-card';
 import { ShareService } from '../../../../../core/services/share.service';
 
@@ -13,8 +14,13 @@ const meta: Meta<BusinessCard> = {
   component: BusinessCard,
   tags: ['autodocs'],
   decorators: [
+    applicationConfig({
+      providers: [provideRouter([])]
+    }),
     moduleMetadata({
-      providers: [{ provide: ShareService, useClass: MockShareService }]
+      providers: [
+        { provide: ShareService, useClass: MockShareService }
+      ]
     })
   ],
   render: (args) => ({

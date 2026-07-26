@@ -7,29 +7,42 @@ import { ShareButton } from '../../../../share-button/share-button';
 import { Button } from '../../../atoms/button/button';
 import { LucideMessageCircle } from '@lucide/angular';
 import { MessagingFacade } from '../../../../../core/services/messaging.facade';
+import { ListingSearchResult } from '../../search-results/listing-search-result/listing-search-result';
 
 @Component({
   selector: 'ui-listing-card',
   standalone: true,
-  imports: [CoverMedia, Card, BusinessIdentity, SaveButton, ShareButton, Button, LucideMessageCircle],
+  imports: [CoverMedia, Card, BusinessIdentity, SaveButton, ShareButton, Button, LucideMessageCircle, ListingSearchResult],
   template: `
     <app-card appearance="plain" padding="none" [interactive]="true" class="ui-listing-card-container">
       <ui-cover-media [src]="listing().coverUrl" aspectRatio="4/3" [overlayGradient]="true">
-        <div style="position: absolute; top: var(--size-10); right: var(--size-10); display: flex; gap: var(--size-6); z-index: 2;">
-          <ng-content select="[card-media-overlay]"></ng-content>
-          @if (showSave()) {
-            <ui-save-button [isSaved]="listing().isSaved ?? false" (toggle)="saveToggle.emit(listing())" />
-          }
-        </div>
+        <ng-content select="[card-media-overlay]"></ng-content>
       </ui-cover-media>
       <div class="ui-listing-card__body">
         <div>
           @if (listing().business; as business) {
-            <div class="ui-listing-card__header" style="margin-bottom: var(--size-6);">
+            <div class="ui-listing-card__header" style="margin-bottom: var(--size-4);">
               <ui-business-identity [business]="business" size="sm" [showCategory]="false"></ui-business-identity>
             </div>
           }
-          <h3 class="ui-listing-card__title truncate">{{ listing().title }}</h3>
+          
+          <ui-listing-search-result 
+            [listing]="{
+              id: listing().id,
+              slug: listing().slug,
+              title: listing().title,
+              price: listing().price ?? 0,
+              availability: listing().availability,
+              isSaved: listing().isSaved
+            }" 
+            [hideThumbnail]="true">
+            @if (showSave()) {
+              <div result-action (click)="$event.stopPropagation()">
+                <ui-save-button [isSaved]="listing().isSaved ?? false" (toggle)="saveToggle.emit(listing())" />
+              </div>
+            }
+          </ui-listing-search-result>
+
           <div class="ui-listing-card__meta">
             <ng-content select="[card-meta]"></ng-content>
           </div>
@@ -68,6 +81,9 @@ export class ListingCard {
     slug: string;
     title: string;
     coverUrl?: string | null;
+    thumbnailUrl?: string | null;
+    price?: number;
+    availability?: 'in-stock' | 'out-of-stock' | 'pre-order';
     isSaved?: boolean;
     business?: {
       id: string;

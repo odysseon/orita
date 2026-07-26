@@ -19,22 +19,8 @@ import { Card } from '../../../atoms/card/card';
         </div>
       }
       <div class="ui-business-card__body">
-        <div class="ui-business-card__top-row" style="display: flex; align-items: flex-start; justify-content: space-between; gap: var(--size-8);">
-          <div style="flex-grow: 1; min-width: 0;">
-            <ui-business-identity [business]="business()"></ui-business-identity>
-          </div>
-          <div style="display: flex; align-items: center; gap: var(--size-4); flex-shrink: 0;">
-            @if (showFollow()) {
-              <div (click)="$event.stopPropagation()">
-                <ui-follow-button [isFollowed]="business().isFollowed ?? false" size="sm" (toggle)="followToggle.emit(business())"></ui-follow-button>
-              </div>
-            }
-            @if (showShare()) {
-              <div (click)="$event.stopPropagation()">
-                <app-share-button [title]="business().name" [text]="'Check out ' + business().name + ' on Orita'" [url]="getShareUrl()" variant="icon" size="sm" />
-              </div>
-            }
-          </div>
+        <div class="ui-business-card__identity-header" style="width: 100%;">
+          <ui-business-identity [business]="business()"></ui-business-identity>
         </div>
         
         <div class="ui-business-card__content">
@@ -45,8 +31,20 @@ import { Card } from '../../../atoms/card/card';
           <ng-content select="[card-stats]"></ng-content>
         </div>
         
-        <div class="ui-business-card__actions">
-          <ng-content select="[card-actions]"></ng-content>
+        <div class="ui-business-card__actions" style="display: flex; align-items: center; justify-content: space-between; gap: var(--size-8); margin-top: var(--size-8); padding-top: var(--size-8); border-top: 1px solid var(--border-subtle);">
+          <div style="flex: 1; display: flex; align-items: center; gap: var(--size-8);">
+            @if (showFollow()) {
+              <div (click)="$event.stopPropagation()" style="flex: 1;">
+                <ui-follow-button [isFollowed]="business().isFollowed ?? false" [fullWidth]="true" size="sm" (toggle)="followToggle.emit(business())"></ui-follow-button>
+              </div>
+            }
+            <ng-content select="[card-actions]"></ng-content>
+          </div>
+          @if (showShare()) {
+            <div (click)="$event.stopPropagation()" style="flex-shrink: 0;">
+              <app-share-button [title]="business().name" [text]="'Check out ' + business().name + ' on Orita'" [url]="getShareUrl()" variant="icon" size="sm" />
+            </div>
+          }
         </div>
       </div>
     </app-card>
