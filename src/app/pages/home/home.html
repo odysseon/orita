@@ -36,7 +36,7 @@
       description="Be the first to create a business in your neighborhood!"
     >
       <svg lucideMapPin aria-hidden="true" icon></svg>
-      <button app-button intent="primary" class="btn--full"  routerLink="/profile/business">
+      <button app-button intent="primary" class="btn--full" routerLink="/profile/business">
         Start a Business
       </button>
     </ui-empty-state>
@@ -64,32 +64,36 @@
               }
             }" />
           } @else if (item.itemType === 'LISTING' && item.listing) {
-            <ui-listing-card [listing]="{
-              id: item.listing.id,
-              slug: item.listing.slug,
-              title: item.listing.title,
-              coverUrl: item.listing.media?.[0]?.url,
-              business: item.business ? {
-                id: item.businessProfileId || item.business.id,
-                name: item.business.name || '',
+            <ui-listing-card
+              [listing]="{
+                id: item.listing.id,
+                slug: item.listing.slug,
+                title: item.listing.title,
+                coverUrl: item.listing.media?.[0]?.url,
+                isSaved: isSaved(item.listing),
+                business: item.business ? {
+                  id: item.businessProfileId || item.business.id,
+                  name: item.business.name || '',
+                  slug: item.business.slug,
+                  logoUrl: item.business.logoUrl,
+                  isVerified: !!$any(item.business).isVerified
+                } : null
+              }"
+              (saveToggle)="onSaveToggle(item.listing.id, $event)"
+            />
+          } @else if (item.itemType === 'BUSINESS' && item.business) {
+            <ui-business-card
+              [business]="{
+                id: item.business.id,
+                name: item.business.name,
                 slug: item.business.slug,
                 logoUrl: item.business.logoUrl,
-                isVerified: !!$any(item.business).isVerified
-              } : null
-            }">
-              <div card-meta>
-                @if (item.listing.minPrice) {
-                  <span>{{ item.listing.currencyCode || 'USD' }} {{ item.listing.minPrice }}</span>
-                }
-              </div>
-            </ui-listing-card>
-          } @else if (item.itemType === 'BUSINESS' && item.business) {
-            <ui-business-card 
-              [business]="item.business" 
+                isVerified: !!$any(item.business).isVerified,
+                isFollowed: isFollowed(item.business)
+              }"
               [coverUrl]="item.business.coverUrl"
-            >
-              <div card-description>{{ item.business.description }}</div>
-            </ui-business-card>
+              (followToggle)="onFollowToggle('business', item.business.id, $event)"
+            />
           }
         }
       </ui-grid>
@@ -104,7 +108,7 @@
     </ui-grid>
     } @if (hasMore()) {
     <div class="load-more-container">
-      <button app-button intent="secondary"  (click)="loadMore()" [disabled]="isLoadingMore()">
+      <button app-button intent="secondary" (click)="loadMore()" [disabled]="isLoadingMore()">
         Load More Discoveries
       </button>
     </div>

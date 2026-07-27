@@ -14,13 +14,18 @@
   color: inherit;
 }
 
-/* If the host is an anchor tag or button */
+/* Card hover lift */
 a.ui-business-card-container:hover, button.ui-business-card-container:hover {
   border-color: var(--border-default);
   background: var(--surface-container);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
   cursor: pointer;
+}
+
+/* Cover image zoom on hover — matches listing-card behaviour */
+.ui-business-card:hover ui-cover-media .ui-cover-media__img {
+  transform: scale(1.05);
 }
 
 .ui-business-card__body {
@@ -52,9 +57,3 @@ a.ui-business-card-container:hover, button.ui-business-card-container:hover {
   line-height: var(--line-height-normal);
 }
 
-/* Hide empty slots */
-.ui-business-card__content:empty,
-.ui-business-card__stats:empty,
-.ui-business-card__actions:empty {
-  display: none;
-}
