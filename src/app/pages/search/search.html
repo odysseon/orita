@@ -110,7 +110,7 @@
                       <ui-business-identity [business]="biz"></ui-business-identity>
                     </div>
                     <div uiListItemEnd>
-                      <ui-follow-button [isFollowed]="!!$any(biz).isFollowed" display="icon"></ui-follow-button>
+                      <ui-follow-button [isFollowed]="!!$any(biz).isFollowed" ></ui-follow-button>
                     </div>
                   </label>
                 }
@@ -141,7 +141,7 @@
                     <ui-user-identity [user]="{ id: user.id, displayName: $any(user).name || $any(user).displayName, username: $any(user).username || $any(user).slug || user.id, avatarUrl: user.avatarUrl }"></ui-user-identity>
                   </div>
                   <div uiListItemEnd>
-                    <ui-follow-button [isFollowed]="!!$any(user).isFollowed" display="icon"></ui-follow-button>
+                    <ui-follow-button [isFollowed]="!!$any(user).isFollowed" ></ui-follow-button>
                   </div>
                 </label>
               }
@@ -164,7 +164,7 @@
                     <ui-business-identity [business]="biz"></ui-business-identity>
                   </div>
                   <div uiListItemEnd>
-                    <ui-follow-button [isFollowed]="!!$any(biz).isFollowed" display="icon"></ui-follow-button>
+                    <ui-follow-button [isFollowed]="!!$any(biz).isFollowed" ></ui-follow-button>
                   </div>
                 </label>
               }
@@ -225,7 +225,7 @@
                     }
                   </div>
                   <div uiListItemEnd>
-                    <ui-follow-button [isFollowed]="!!$any(loc).isFollowed" display="icon"></ui-follow-button>
+                    <ui-follow-button [isFollowed]="!!$any(loc).isFollowed" ></ui-follow-button>
                   </div>
                 </label>
               }
@@ -250,7 +250,7 @@
               <ui-user-identity [user]="{ id: user.id, displayName: $any(user).name || $any(user).displayName, username: $any(user).username || $any(user).slug || user.id, avatarUrl: user.avatarUrl }"></ui-user-identity>
             </div>
             <div uiListItemEnd>
-              <ui-follow-button [isFollowed]="!!$any(user).isFollowed" display="icon"></ui-follow-button>
+              <ui-follow-button [isFollowed]="!!$any(user).isFollowed" ></ui-follow-button>
             </div>
           </label>
         }
@@ -281,7 +281,7 @@
               }
             </div>
             <div uiListItemEnd>
-              <ui-follow-button [isFollowed]="!!$any(loc).isFollowed" display="icon"></ui-follow-button>
+              <ui-follow-button [isFollowed]="!!$any(loc).isFollowed" ></ui-follow-button>
             </div>
           </label>
         }
@@ -338,7 +338,7 @@
               <ui-business-identity [business]="biz"></ui-business-identity>
             </div>
             <div uiListItemEnd>
-              <ui-follow-button [isFollowed]="!!$any(biz).isFollowed" display="icon"></ui-follow-button>
+              <ui-follow-button [isFollowed]="!!$any(biz).isFollowed" ></ui-follow-button>
             </div>
           </label>
         }

@@ -1,5 +1,4 @@
 <button
-  type="button"
   app-button
   [intent]="intent()"
   [appearance]="appearance()"
@@ -7,14 +6,13 @@
   [layout]="layout()"
   [fullWidth]="fullWidth()"
   [shape]="display() === 'icon' ? 'square' : 'default'"
-  [disabled]="isDisabled()"
+  [disabled]="disabled()"
+  [loading]="loading()"
   [attr.aria-label]="display() === 'icon' ? label() : null"
   [attr.aria-pressed]="isFollowed()"
-  (click)="toggle.emit()"
+  (click)="toggle.emit(!isFollowed())"
 >
-  @if (display() !== 'text') { @if (loading()) {
-  <svg lucideLoaderCircle class="animate-spin" aria-hidden="true"></svg>
-  } @else if (isFollowed()) {
+  @if (display() !== 'text') { @if (isFollowed()) {
   <svg lucideUserCheck aria-hidden="true"></svg>
   } @else {
   <svg lucideUserPlus aria-hidden="true"></svg>
