@@ -9,20 +9,32 @@ import { SearchService } from '../../core/services/search.service';
 import { ExplorationService } from '../../core/services/exploration.service';
 import { CategoryService } from '../../core/services/category.service';
 import { LocationService, Location } from '../../core/services/location.service';
+import { FollowService, FollowType } from '../../core/services/follow.service';
+import { SaveService } from '../../core/services/save.service';
 import { SearchFilters } from '../../core/models/search.model';
 import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
 import { ListingSearchResult } from '../../shared/ui/organisms/search-results/listing-search-result/listing-search-result';
-import { List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription } from '../../shared/ui/surfaces/list/list';
+import {
+  List,
+  ListItem,
+  ListItemStart,
+  ListItemContent,
+  ListItemEnd,
+  ListItemTitle,
+  ListItemDescription,
+} from '../../shared/ui/surfaces/list/list';
 import { Tabs, TabList, TabTrigger } from '../../shared/ui/molecules/tabs';
 import { UserIdentity } from '../../shared/ui/identity/user-identity/user-identity';
 import { BusinessIdentity } from '../../shared/ui/identity/business-identity/business-identity';
 
 import { FollowButton } from '../../shared/ui/actions/follow-button/follow-button';
-import { SaveButton } from '../../shared/ui/actions/save-button/save-button';
 import { SearchHeader } from '../../shared/ui/organisms/search-header/search-header';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { Grid } from '../../shared/ui/layouts/grid/grid';
-import { SearchFiltersComponent, SearchFilterState } from './components/search-filters/search-filters';
+import {
+  SearchFiltersComponent,
+  SearchFilterState,
+} from './components/search-filters/search-filters';
 import { RecentSearches } from './components/recent-searches/recent-searches';
 import { TrendingCategories } from './components/trending-categories/trending-categories';
 import { SeoComponent } from '../../shared/seo/seo.component';
@@ -33,9 +45,33 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 @Component({
   selector: 'app-search',
   imports: [
-    LucideX, LucideMapPin,
-    StoreTourCard, ListingSearchResult, List, ListItem, ListItemStart, ListItemContent, ListItemEnd, ListItemTitle, ListItemDescription, Tabs, TabList, TabTrigger, UserIdentity, BusinessIdentity, FollowButton, SearchHeader, ScrollHideDirective,
-    Grid, SearchFiltersComponent, RecentSearches, TrendingCategories, SeoComponent, EmptyState, Button, Skeleton
+    LucideX,
+    LucideMapPin,
+    StoreTourCard,
+    ListingSearchResult,
+    List,
+    ListItem,
+    ListItemStart,
+    ListItemContent,
+    ListItemEnd,
+    ListItemTitle,
+    ListItemDescription,
+    Tabs,
+    TabList,
+    TabTrigger,
+    UserIdentity,
+    BusinessIdentity,
+    FollowButton,
+    SearchHeader,
+    ScrollHideDirective,
+    Grid,
+    SearchFiltersComponent,
+    RecentSearches,
+    TrendingCategories,
+    SeoComponent,
+    EmptyState,
+    Button,
+    Skeleton,
   ],
 
   templateUrl: './search.html',
@@ -46,6 +82,8 @@ export class Search {
   #exploration = inject(ExplorationService);
   #categoryService = inject(CategoryService);
   #locationService = inject(LocationService);
+  #followService = inject(FollowService);
+  #saveService = inject(SaveService);
   #route = inject(ActivatedRoute);
   #router = inject(Router);
 
@@ -55,9 +93,11 @@ export class Search {
   // URL State
   readonly queryParamMap = toSignal(this.#route.queryParamMap);
 
-  readonly searchType = computed<'all' | 'people' | 'listing' | 'business' | 'location' | 'tour'>(() => {
-    return (this.queryParamMap()?.get('tab') as any) || 'all';
-  });
+  readonly searchType = computed<'all' | 'people' | 'listing' | 'business' | 'location' | 'tour'>(
+    () => {
+      return (this.queryParamMap()?.get('tab') as any) || 'all';
+    },
+  );
 
   readonly searchQuery = computed(() => this.queryParamMap()?.get('q') || '');
   readonly appliedLocationName = computed(() => this.queryParamMap()?.get('locationName') || '');
@@ -100,7 +140,7 @@ export class Search {
 
   // Drawer & Filter State
   readonly isFiltersOpen = signal(false);
-  
+
   readonly currentFiltersState = computed<SearchFilterState>(() => {
     return {
       locationName: this.appliedLocationName() || null,
@@ -111,14 +151,19 @@ export class Search {
       sort: this.appliedSort() || 'relevance',
       minPrice: this.appliedMinPrice() || null,
       maxPrice: this.appliedMaxPrice() || null,
-      filters: this.queryParamMap()?.getAll('filter') || null
+      filters: this.queryParamMap()?.getAll('filter') || null,
     };
   });
+
+  // Optimistic UI overrides for follow/save toggles
+  readonly followOverrides = signal<Record<string, boolean>>({});
+  readonly saveOverrides = signal<Record<string, boolean>>({});
 
   // Derived API Parameters
   readonly listingParams = computed<SearchFilters | null>(() => {
     if (this.searchType() !== 'listing' && this.searchType() !== 'all') return null;
-    if (!this.searchQuery().trim() && !this.appliedLocationName() && !this.appliedCategoryId()) return null;
+    if (!this.searchQuery().trim() && !this.appliedLocationName() && !this.appliedCategoryId())
+      return null;
     return {
       q: this.searchQuery().trim(),
       lat: this.appliedLat(),
@@ -126,16 +171,22 @@ export class Search {
       radius: this.appliedRadius(),
       categoryId: this.appliedCategoryId(),
       sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
-      limit: this.searchType() === 'all' ? 5 : (this.appliedLimit() !== 20 ? this.appliedLimit() : undefined),
+      limit:
+        this.searchType() === 'all'
+          ? 5
+          : this.appliedLimit() !== 20
+            ? this.appliedLimit()
+            : undefined,
       minPrice: this.appliedMinPrice(),
       maxPrice: this.appliedMaxPrice(),
-      filter: this.queryParamMap()?.getAll('filter') || []
+      filter: this.queryParamMap()?.getAll('filter') || [],
     };
   });
 
   readonly businessParams = computed<SearchFilters | null>(() => {
     if (this.searchType() !== 'business' && this.searchType() !== 'all') return null;
-    if (!this.searchQuery().trim() && !this.appliedLocationName() && !this.appliedCategoryId()) return null;
+    if (!this.searchQuery().trim() && !this.appliedLocationName() && !this.appliedCategoryId())
+      return null;
     return {
       q: this.searchQuery().trim(),
       lat: this.appliedLat(),
@@ -143,7 +194,12 @@ export class Search {
       radius: this.appliedRadius(),
       categoryId: this.appliedCategoryId(),
       sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
-      limit: this.searchType() === 'all' ? 5 : (this.appliedLimit() !== 20 ? this.appliedLimit() : undefined)
+      limit:
+        this.searchType() === 'all'
+          ? 5
+          : this.appliedLimit() !== 20
+            ? this.appliedLimit()
+            : undefined,
     };
   });
 
@@ -152,7 +208,12 @@ export class Search {
     if (!this.searchQuery().trim()) return null;
     return {
       q: this.searchQuery().trim(),
-      limit: this.searchType() === 'all' ? 5 : (this.appliedLimit() !== 20 ? this.appliedLimit() : undefined)
+      limit:
+        this.searchType() === 'all'
+          ? 5
+          : this.appliedLimit() !== 20
+            ? this.appliedLimit()
+            : undefined,
     };
   });
 
@@ -165,7 +226,12 @@ export class Search {
       lng: this.appliedLng(),
       radius: this.appliedRadius(),
       sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
-      limit: this.searchType() === 'all' ? 5 : (this.appliedLimit() !== 20 ? this.appliedLimit() : undefined)
+      limit:
+        this.searchType() === 'all'
+          ? 5
+          : this.appliedLimit() !== 20
+            ? this.appliedLimit()
+            : undefined,
     };
   });
 
@@ -173,7 +239,7 @@ export class Search {
   readonly businessesResource = this.#searchService.getBusinessesResource(this.businessParams);
   readonly usersResource = this.#searchService.getUsersResource(this.userParams);
   readonly toursResource = this.#searchService.getToursResource(this.tourParams);
-  
+
   readonly locationsParams = computed<string | null>(() => {
     if (this.searchType() !== 'location' && this.searchType() !== 'all') return null;
     const q = this.searchQuery().trim();
@@ -183,12 +249,16 @@ export class Search {
 
   readonly locationsResource = httpResource<Location[]>(() => {
     const q = this.locationsParams();
-    const url = q ? `${environment.apiUrl}/v1/locations/search?q=${encodeURIComponent(q)}` : undefined;
+    const url = q
+      ? `${environment.apiUrl}/v1/locations/search?q=${encodeURIComponent(q)}`
+      : undefined;
     if (!url) return undefined;
     return this.searchType() === 'all' ? `${url}&limit=5` : url;
   });
   // Empty State Data
-  readonly popularBusinessesResource = this.#searchService.getBusinessesResource(computed(() => ({ limit: 10 })));
+  readonly popularBusinessesResource = this.#searchService.getBusinessesResource(
+    computed(() => ({ limit: 10 })),
+  );
 
   readonly seoConfig = computed(() => {
     const q = this.searchQuery();
@@ -199,14 +269,50 @@ export class Search {
   });
 
   constructor() {
-    toObservable(this.rawQuery).pipe(
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe(q => {
-      this.updateUrl({ q: q || null });
-      if (q && q.trim().length > 0) {
-        this.saveToLocalList('orita_recent_searches', q.trim(), this.recentSearches);
-      }
+    toObservable(this.rawQuery)
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((q) => {
+        this.updateUrl({ q: q || null });
+        if (q && q.trim().length > 0) {
+          this.saveToLocalList('orita_recent_searches', q.trim(), this.recentSearches);
+        }
+      });
+  }
+
+  // Follow / Save Helpers
+  isFollowed(item: any): boolean {
+    return this.followOverrides()[item.id] ?? !!item.isFollowed;
+  }
+
+  isSaved(item: any): boolean {
+    return this.saveOverrides()[item.id] ?? !!item.isSaved;
+  }
+
+  onFollowToggle(type: FollowType, id: string | undefined, wantToFollow: boolean) {
+    if (!id) return;
+
+    this.followOverrides.update((map) => ({ ...map, [id]: wantToFollow }));
+
+    const action$ = wantToFollow
+      ? this.#followService.follow(type, id)
+      : this.#followService.unfollow(type, id);
+
+    action$.subscribe({
+      error: () => {
+        this.followOverrides.update((map) => ({ ...map, [id!]: !wantToFollow }));
+      },
+    });
+  }
+
+  onSaveToggle(listingId: string, wantToSave: boolean) {
+    this.saveOverrides.update((map) => ({ ...map, [listingId]: wantToSave }));
+
+    // toggleSaveListing takes (id, currentlySaved).
+    // If we want to save, currentlySaved is false. If we want to unsave, currentlySaved is true.
+    this.#saveService.toggleSaveListing(listingId, !wantToSave).subscribe({
+      error: () => {
+        this.saveOverrides.update((map) => ({ ...map, [listingId]: !wantToSave }));
+      },
     });
   }
 
@@ -255,7 +361,7 @@ export class Search {
       minPrice: filters.minPrice || null,
       maxPrice: filters.maxPrice || null,
       filter: filters.filters || null,
-      limit: null
+      limit: null,
     });
   }
 
@@ -264,7 +370,7 @@ export class Search {
       relativeTo: this.#route,
       queryParams: params,
       queryParamsHandling: 'merge',
-      replaceUrl: true
+      replaceUrl: true,
     });
   }
 
@@ -278,10 +384,15 @@ export class Search {
     }
   }
 
-  private saveToLocalList(key: string, item: any, signalRef: any, comparator: (a: any, b: any) => boolean = (a, b) => a === b) {
+  private saveToLocalList(
+    key: string,
+    item: any,
+    signalRef: any,
+    comparator: (a: any, b: any) => boolean = (a, b) => a === b,
+  ) {
     try {
       const current = this.loadLocalStorage(key);
-      const filtered = current.filter(existing => !comparator(existing, item));
+      const filtered = current.filter((existing) => !comparator(existing, item));
       const updated = [item, ...filtered].slice(0, 5);
       localStorage.setItem(key, JSON.stringify(updated));
       signalRef.set(updated);

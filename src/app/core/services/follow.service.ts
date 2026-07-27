@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { LocationService, Location } from './location.service';
 
-export type FollowType = 'business' | 'location';
+export type FollowType = 'business' | 'location' | 'user';
 
 export interface FollowStatus {
   following: boolean;
@@ -14,7 +14,7 @@ export interface FollowStatus {
 @Service()
 export class FollowService {
   #http = inject(HttpClient);
-  #apiUrl = environment.apiUrl;
+  #apiUrl = `${environment.apiUrl}/v1`;
 
   follow(type: FollowType, targetId: string): Observable<void> {
     return this.#http.post<void>(`${this.#apiUrl}/follows/${type}/${targetId}`, {});
@@ -32,9 +32,9 @@ export class FollowService {
 
   followLocation(location: Location): Observable<void> {
     if (!location.persisted && !location.id) {
-      return this.#locationService.ensure(location).pipe(
-        switchMap(persistedLoc => this.follow('location', persistedLoc.id))
-      );
+      return this.#locationService
+        .ensure(location)
+        .pipe(switchMap((persistedLoc) => this.follow('location', persistedLoc.id)));
     }
     return this.follow('location', location.id);
   }
