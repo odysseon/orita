@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-marketing-card',
   standalone: true,
   templateUrl: './marketing-card.html',
   styleUrl: './marketing-card.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  
 })
 export class MarketingCard {
   readonly title = input.required<string>();

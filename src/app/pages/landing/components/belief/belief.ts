@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Section } from '../section/section';
 
 @Component({
@@ -7,7 +7,7 @@ import { Section } from '../section/section';
   imports: [Section],
   templateUrl: './belief.html',
   styleUrl: './belief.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  
 })
 export class Belief {
   protected readonly content = {
