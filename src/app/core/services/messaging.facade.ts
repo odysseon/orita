@@ -31,8 +31,11 @@ export class MessagingFacade {
           const draft = this.#draftStore.getDraft(businessId);
           if (draft) {
             this.#draftStore.setDraft(conv.id, draft);
-            // Optionally clear the old businessId draft if it's no longer needed
-            this.#draftStore.clearDraft(businessId);
+            // Only clear the businessId-keyed draft if the conv has a different ID
+            // to avoid wiping the embed before the composer reads it.
+            if (conv.id !== businessId) {
+              this.#draftStore.clearDraft(businessId);
+            }
           }
         }
 

@@ -1,7 +1,8 @@
-import { Component, input, inject } from '@angular/core';
+import { Component, input, inject, signal } from '@angular/core';
 import { LucidePhone, LucideMessageCircle } from '@lucide/angular';
 import { MessagingFacade } from '../../../../core/services/messaging.facade';
-
+import { FollowService } from '../../../../core/services/follow.service';
+import { ToastService } from '../../../../core/services/toast';
 import { Button } from '../../../../shared/ui/atoms/button/button';
 import { BusinessCard } from '../../../../shared/ui/organisms/cards/business-card/business-card';
 
@@ -13,9 +14,20 @@ import { BusinessCard } from '../../../../shared/ui/organisms/cards/business-car
 })
 export class ListingBusinessCard {
   biz = input.required<any>();
-  listingId = input<string>(); // Added input to optionally pass listingId
+  listingId = input<string>();
 
   #messagingFacade = inject(MessagingFacade);
+  #followService = inject(FollowService);
+  #toast = inject(ToastService);
+
+  // Optimistic follow state
+  readonly followOverride = signal<boolean | null>(null);
+
+  isFollowed(): boolean {
+    const override = this.followOverride();
+    if (override !== null) return override;
+    return !!this.biz().isFollowed;
+  }
 
   callPhone(phone: string): void {
     window.location.href = `tel:${phone}`;
@@ -33,5 +45,22 @@ export class ListingBusinessCard {
       embedType: 'LISTING',
       targetId: this.listingId()!
     } : undefined);
+  }
+
+  onFollowToggle(wantToFollow: boolean): void {
+    const businessId = this.biz().id;
+    if (!businessId) return;
+
+    this.followOverride.set(wantToFollow);
+    const action$ = wantToFollow
+      ? this.#followService.follow('business', businessId)
+      : this.#followService.unfollow('business', businessId);
+
+    action$.subscribe({
+      error: () => {
+        this.followOverride.set(!wantToFollow);
+        this.#toast.error('Error', 'Could not update follow status.');
+      },
+    });
   }
 }
