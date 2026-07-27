@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Section } from '../section/section';
 import { MarketingCard } from '../marketing-card/marketing-card';
 
@@ -14,7 +14,7 @@ interface Card {
   imports: [Section, MarketingCard],
   templateUrl: './why-orita.html',
   styleUrl: './why-orita.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  
 })
 export class WhyOrita {
   protected readonly content = {

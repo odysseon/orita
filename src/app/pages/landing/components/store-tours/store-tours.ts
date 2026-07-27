@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Section } from '../section/section';
 import { LucideCheck } from '@lucide/angular';
 
@@ -8,7 +8,7 @@ import { LucideCheck } from '@lucide/angular';
   imports: [Section, LucideCheck],
   templateUrl: './store-tours.html',
   styleUrl: './store-tours.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  
 })
 export class StoreTours {
   protected readonly content = {
