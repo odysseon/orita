@@ -4,7 +4,6 @@
 }
 
 .ui-listing-search-result-row,
-a.ui-listing-search-result-row,
 .ui-list-item.ui-listing-search-result-row {
   display: flex !important;
   flex-direction: row !important;
@@ -14,7 +13,6 @@ a.ui-listing-search-result-row,
   width: 100%;
   gap: var(--size-12);
   padding: var(--size-12) 0;
-  text-decoration: none;
   color: inherit;
   box-sizing: border-box;
 }
@@ -28,6 +26,18 @@ ui-list .ui-listing-search-result-row {
   align-items: center;
   flex-shrink: 0;
   gap: var(--size-12);
+}
+
+.ui-listing-search-result__main-link {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  gap: var(--size-12);
+  text-decoration: none;
+  color: inherit;
+  box-sizing: border-box;
 }
 
 .ui-listing-search-result__thumbnail {
@@ -44,7 +54,7 @@ ui-list .ui-listing-search-result-row {
   flex-direction: column !important;
   justify-content: center;
   flex: 1 1 0% !important;
-  min-width: 0 !important; /* MANDATORY: forces truncation instead of wrapping flex siblings! */
+  min-width: 0 !important;
   gap: var(--size-2);
 }
 

@@ -1,0 +1,48 @@
+<div uiListItem class="ui-listing-search-result-row">
+  @if (!hideThumbnail()) {
+  <div class="ui-listing-search-result__start">
+    <ng-content select="[result-leading-action]"></ng-content>
+  </div>
+  }
+
+  <a [routerLink]="getListingLink()" class="ui-listing-search-result__main-link">
+    @if (!hideThumbnail() && listing().thumbnailUrl) {
+    <div class="ui-listing-search-result__thumbnail">
+      <ui-cover-media
+        [src]="listing().thumbnailUrl || null"
+        aspectRatio="square"
+        fallbackIcon="package"
+      ></ui-cover-media>
+    </div>
+    }
+
+    <div class="ui-listing-search-result__content">
+      <div class="ui-listing-search-result__title truncate">{{ listing().title }}</div>
+
+      @if (listing().price !== undefined) {
+      <div class="ui-listing-search-result__description truncate">
+        <span class="ui-listing-search-result__price">
+          {{ listing().price! | currency:'NGN':'symbol-narrow':'1.0-0' }}
+        </span>
+
+        @if (listing().availability === 'in-stock') {
+        <span class="ui-listing-search-result__status is-available">In Stock</span>
+        } @else if (listing().availability === 'out-of-stock') {
+        <span class="ui-listing-search-result__status is-unavailable">Out of Stock</span>
+        }
+      </div>
+      }
+    </div>
+  </a>
+
+  <div class="ui-listing-search-result__end">
+    <ng-content select="[result-action]"></ng-content>
+
+    @if (showSave()) {
+    <ui-save-button
+      [isSaved]="listing().isSaved ?? false"
+      (toggle)="saveToggle.emit($event)"
+    ></ui-save-button>
+    }
+  </div>
+</div>
