@@ -18,6 +18,8 @@ import { SeoComponent } from '../../shared/seo/seo.component';
 import { ExplorationService } from '../../core/services/exploration.service';
 import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 import { Button } from '../../shared/ui/atoms/button/button';
+import { FollowService, FollowType } from '../../core/services/follow.service';
+import { SaveService } from '../../core/services/save.service';
 
 @Component({
   selector: 'app-home',
@@ -32,7 +34,6 @@ import { Button } from '../../shared/ui/atoms/button/button';
     ScrollHideDirective,
     Grid,
     SeoComponent,
-
     LucideMapPin,
     Skeleton, Button,
   ],
@@ -44,11 +45,17 @@ export class Home {
   #toast = inject(ToastService);
   #exploration = inject(ExplorationService);
   #router = inject(Router);
+  #followService = inject(FollowService);
+  #saveService = inject(SaveService);
 
   readonly feedItems = signal<FeedItemView[]>([]);
   readonly isLoading = signal(true);
   readonly isLoadingMore = signal(false);
   readonly hasMore = signal(true);
+
+  // Optimistic UI overrides for follow/save
+  readonly followOverrides = signal<Record<string, boolean>>({});
+  readonly saveOverrides = signal<Record<string, boolean>>({});
 
   readonly activeLocation = this.#exploration.activeLocation;
 
@@ -65,13 +72,45 @@ export class Home {
     this.#exploration.setLocation(context);
   }
 
+  isFollowed(item: any): boolean {
+    if (!item?.id) return false;
+    return this.followOverrides()[item.id] ?? !!item.isFollowed;
+  }
+
+  isSaved(item: any): boolean {
+    if (!item?.id) return false;
+    return this.saveOverrides()[item.id] ?? !!item.isSaved;
+  }
+
+  onFollowToggle(type: FollowType, id: string | undefined, wantToFollow: boolean): void {
+    if (!id) return;
+    this.followOverrides.update((map) => ({ ...map, [id]: wantToFollow }));
+    const action$ = wantToFollow
+      ? this.#followService.follow(type, id)
+      : this.#followService.unfollow(type, id);
+    action$.subscribe({
+      error: () => {
+        this.followOverrides.update((map) => ({ ...map, [id]: !wantToFollow }));
+        this.#toast.error('Error', 'Could not update follow status.');
+      },
+    });
+  }
+
+  onSaveToggle(listingId: string, wantToSave: boolean): void {
+    this.saveOverrides.update((map) => ({ ...map, [listingId]: wantToSave }));
+    this.#saveService.toggleSaveListing(listingId, !wantToSave).subscribe({
+      error: () => {
+        this.saveOverrides.update((map) => ({ ...map, [listingId]: !wantToSave }));
+        this.#toast.error('Error', 'Could not update saved status.');
+      },
+    });
+  }
+
   // Grouped editorial sections for the view
   readonly editorialSections = computed(() => {
     const items = this.feedItems();
     if (items.length === 0) return [];
 
-    // Simple grouping logic: every 5 items creates a section
-    // In a real app, this could be driven by backend flags
     const groups: { title?: string; items: FeedItemView[] }[] = [];
     const titles = ["Just Opened Nearby", "Fresh Listings", "Popular This Week", "Explore Your Neighborhood"];
     let titleIndex = 0;
@@ -79,7 +118,7 @@ export class Home {
     for (let i = 0; i < items.length; i += 5) {
       const slice = items.slice(i, i + 5);
       if (i === 0) {
-        groups.push({ items: slice }); // First group has no header, just raw feed
+        groups.push({ items: slice });
       } else {
         groups.push({ title: titles[titleIndex % titles.length], items: slice });
         titleIndex++;

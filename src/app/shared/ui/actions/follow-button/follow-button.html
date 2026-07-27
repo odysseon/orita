@@ -5,18 +5,10 @@
   [size]="size()"
   [layout]="layout()"
   [fullWidth]="fullWidth()"
-  [shape]="display() === 'icon' ? 'square' : 'default'"
   [disabled]="disabled()"
   [loading]="loading()"
-  [attr.aria-label]="display() === 'icon' ? label() : null"
   [attr.aria-pressed]="isFollowed()"
-  (click)="toggle.emit(!isFollowed())"
+  (click)="$event.stopPropagation(); $event.preventDefault(); toggle.emit(!isFollowed())"
 >
-  @if (display() !== 'text') { @if (isFollowed()) {
-  <svg lucideUserCheck aria-hidden="true"></svg>
-  } @else {
-  <svg lucideUserPlus aria-hidden="true"></svg>
-  } } @if (display() !== 'icon') {
   <span>{{ label() }}</span>
-  }
 </button>

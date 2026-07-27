@@ -9,7 +9,7 @@
   [loading]="loading()"
   [attr.aria-label]="label()"
   [attr.aria-pressed]="isSaved()"
-  (click)="toggle.emit(!isSaved())"
+  (click)="$event.stopPropagation(); $event.preventDefault(); toggle.emit(!isSaved())"
 >
   <svg lucideBookmark [class.is-saved]="isSaved()" aria-hidden="true"></svg>
 </button>
