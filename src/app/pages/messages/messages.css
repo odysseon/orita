@@ -59,3 +59,11 @@ app-badge.tab-pill-badge {
   overflow-x: hidden;
   background-color: var(--surface-page);
 }
+
+.messages-skeleton-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-12);
+  padding: var(--size-24) var(--size-16);
+  flex: 1;
+}

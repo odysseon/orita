@@ -42,9 +42,12 @@
               <button app-button intent="primary" style="margin-top: var(--space-sm);" (click)="onSelectConversation(activeConversationId()!)">Retry</button>
             </div>
           } @else if (activeConversationId() && messaging.conversationStatus()[activeConversationId()!] === 'loading') {
-            <div class="empty-view">
-              <div class="spinner"></div>
-              <p style="margin-top: var(--space-sm); color: var(--text-secondary);">Loading messages...</p>
+            <div class="messages-skeleton-view">
+              <app-skeleton style="height: 40px; width: 55%; border-radius: var(--radius-lg); align-self: flex-start;"></app-skeleton>
+              <app-skeleton style="height: 40px; width: 65%; border-radius: var(--radius-lg); align-self: flex-end;"></app-skeleton>
+              <app-skeleton style="height: 56px; width: 70%; border-radius: var(--radius-lg); align-self: flex-start;"></app-skeleton>
+              <app-skeleton style="height: 40px; width: 50%; border-radius: var(--radius-lg); align-self: flex-end;"></app-skeleton>
+              <app-skeleton style="height: 40px; width: 60%; border-radius: var(--radius-lg); align-self: flex-start;"></app-skeleton>
             </div>
           } @else {
             <ui-conversation-view

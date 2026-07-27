@@ -1,19 +1,27 @@
-<ui-business-card 
-  [business]="{
-    id: biz().id,
-    name: biz().name,
-    slug: biz().slug,
-    logoUrl: biz().avatarUrl,
-    category: biz().location || null,
-    isVerified: biz().verificationStatus === 'VERIFIED'
-  }">
-  <div card-actions class="listing-actions" style="display: flex; gap: var(--size-8); margin-top: var(--size-12);">
+<div class="listing-business-card">
+  <ui-business-card
+    [business]="{
+      id: biz().id,
+      name: biz().name,
+      slug: biz().slug,
+      logoUrl: biz().avatarUrl,
+      category: biz().location || null,
+      isVerified: biz().verificationStatus === 'VERIFIED',
+      isFollowed: isFollowed()
+    }"
+    [showShare]="false"
+    (followToggle)="onFollowToggle($event)"
+  />
+
+  <!-- Contact actions rendered as a sibling row below the card -->
+  <div class="listing-contact-actions">
     @if (biz().phoneNumber) {
     <button app-button intent="primary" style="flex: 1" (click)="callPhone(biz().phoneNumber)" type="button">
       <svg lucidePhone style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
       Call
     </button>
-    } @if (biz().whatsapp) {
+    }
+    @if (biz().whatsapp) {
     <button app-button intent="primary" style="flex: 1" (click)="openWhatsapp(biz().whatsapp)" type="button">
       <svg lucideMessageCircle style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
       WhatsApp
@@ -24,4 +32,4 @@
       Message
     </button>
   </div>
-</ui-business-card>
+</div>
