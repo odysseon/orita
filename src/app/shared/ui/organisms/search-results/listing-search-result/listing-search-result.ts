@@ -9,50 +9,12 @@ import { CurrencyPipe } from '@angular/common';
   selector: 'ui-listing-search-result',
   standalone: true,
   imports: [RouterLink, ListItem, CoverMedia, SaveButton, CurrencyPipe],
-  template: `
-    <a uiListItem [routerLink]="getListingLink()" class="ui-listing-search-result-row">
-      @if (!hideThumbnail()) {
-        <div class="ui-listing-search-result__start">
-          <ng-content select="[result-leading-action]"></ng-content>
-          @if (listing().thumbnailUrl) {
-            <div class="ui-listing-search-result__thumbnail">
-              <ui-cover-media 
-                [src]="listing().thumbnailUrl || null" 
-                aspectRatio="square"
-                fallbackIcon="package"
-              ></ui-cover-media>
-            </div>
-          }
-        </div>
-      }
-      
-      <div class="ui-listing-search-result__content">
-        <div class="ui-listing-search-result__title truncate">{{ listing().title }}</div>
-        @if (listing().price !== undefined) {
-          <div class="ui-listing-search-result__description truncate">
-            <span class="ui-listing-search-result__price">{{ listing().price! | currency:'NGN':'symbol-narrow':'1.0-0' }}</span>
-            @if (listing().availability === 'in-stock') {
-              <span class="ui-listing-search-result__status is-available">In Stock</span>
-            } @else if (listing().availability === 'out-of-stock') {
-              <span class="ui-listing-search-result__status is-unavailable">Out of Stock</span>
-            }
-          </div>
-        }
-      </div>
-
-      <div class="ui-listing-search-result__end" (click)="$event.stopPropagation()">
-        <ng-content select="[result-action]"></ng-content>
-        @if (showSave()) {
-          <ui-save-button [isSaved]="listing().isSaved ?? false" appearance="solid" size="sm" (toggle)="saveToggle.emit(listing())"></ui-save-button>
-        }
-      </div>
-    </a>
-  `,
+  templateUrl: './listing-search-result.html',
   styleUrl: './listing-search-result.css',
   encapsulation: ViewEncapsulation.None,
   host: {
-    '[class.ui-listing-search-result-host]': 'true'
-  }
+    '[class.ui-listing-search-result-host]': 'true',
+  },
 })
 export class ListingSearchResult {
   listing = input.required<{
@@ -68,7 +30,8 @@ export class ListingSearchResult {
   hideThumbnail = input<boolean>(false);
   showSave = input<boolean>(true);
 
-  saveToggle = output<any>();
+  /** `true` = user wants to save; `false` = user wants to unsave */
+  saveToggle = output<boolean>();
 
   getListingLink(): any[] | null {
     const slug = this.listing().slug || this.listing().id;
