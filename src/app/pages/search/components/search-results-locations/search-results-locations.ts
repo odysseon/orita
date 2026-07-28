@@ -43,7 +43,7 @@ import { LucideMapPin } from '@lucide/angular';
       </ui-list>
     </section>
     }
-    @if (items().length === 0) {
+    @if (items().length === 0 && showEmptyState()) {
     <ui-empty-state title="No locations found" description="We couldn't find any locations matching your search."></ui-empty-state>
     }
   `,
@@ -51,6 +51,7 @@ import { LucideMapPin } from '@lucide/angular';
 export class SearchResultsLocations {
   items = input<any[]>([]);
   total = input<number>(0);
+  showEmptyState = input<boolean>(true);
 
   followToggle = output<{ id: string | undefined; wantToFollow: boolean }>();
   viewAll = output<void>();

@@ -32,7 +32,7 @@
         </span>
       </div>
     </div>
-    <app-share-button [title]="tour.title" [text]="tour.summary || ''" />
+    <ui-share-button (share)="showShareModal.set(true)" />
   </div>
 
   @if (tour.summary) {
@@ -69,4 +69,14 @@
       </ul>
     </div>
   }
+
+  <ui-share-modal
+    [isOpen]="showShareModal()"
+    (close)="showShareModal.set(false)"
+    embedType="TOUR"
+    [targetId]="tour.id"
+    [title]="tour.title"
+    [subtitle]="$any(tour).business?.name"
+    [imageUrl]="tour.media?.[0]?.url"
+  />
 }

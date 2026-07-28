@@ -33,12 +33,12 @@
 
 <div style="display: flex; flex-direction: column; gap: var(--size-16);">
   <!-- Cover -->
-  <div class="listing-cover-wrapper" style="border-radius: var(--radius-lg); overflow: hidden; position: relative;">
+  <div class="media-cover">
     @if (item.coverUrl) {
-      <ui-cover-media [src]="item.coverUrl" aspectRatio="16/9"></ui-cover-media>
+      <ui-cover-media [src]="item.coverUrl"></ui-cover-media>
     } @else {
-      <div class="listing-cover" style="display: flex; align-items: center; justify-content: center; background: var(--surface-container); height: 280px;">
-        <svg lucidePackage aria-hidden="true"></svg>
+      <div class="listing-cover" style="display: flex; align-items: center; justify-content: center; background: var(--surface-container); height: 100%;">
+        <svg lucidePackage style="width: 48px; height: 48px; color: var(--text-muted); opacity: 0.5;"></svg>
       </div>
     }
     <ui-save-button 

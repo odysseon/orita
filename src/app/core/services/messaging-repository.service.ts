@@ -1,4 +1,4 @@
-import { Service, inject, OnDestroy } from '@angular/core';
+import { Service, inject, OnDestroy, effect } from '@angular/core';
 import { MessagingApiService } from './messaging-api.service';
 import { MessagingSocket } from './messaging-socket.service';
 import { MessageStore } from './message-store.service';
@@ -29,6 +29,14 @@ export class MessagingRepository implements OnDestroy {
   readonly conversationError = this.#store.conversationError;
 
   constructor() {
+    effect(() => {
+      const user = this.#auth.currentUser();
+      if (!user) {
+        this.#store.clear();
+        this.#queue.clear();
+      }
+    });
+
     this.#socket.connect();
 
     this.#subs.add(
@@ -224,11 +232,10 @@ export class MessagingRepository implements OnDestroy {
 
     const payload: SendMessageDto = {
       content: command.content,
-      embeds: command.embeds,
-      correlationId: tempId
+      embeds: command.embeds
     };
     
-    this.#queue.enqueue(conversationId, tempId, payload, queuedAttachments);
+    this.#queue.enqueue(conversationId, tempId, payload, tempId, queuedAttachments);
     
     const merged = this._mergePendingMessages(conversationId, this._getServerMessages(conversationId));
     this.#store.setMessages(conversationId, merged);
@@ -441,7 +448,7 @@ export class MessagingRepository implements OnDestroy {
       createdAt: new Date(p.createdAt).toISOString(),
       readReceipts: [],
       syncState: p.status,
-      correlationId: p.payload.correlationId || p.id
+      correlationId: p.correlationId || p.id
     }));
 
     return [...serverMessages, ...localMessages];

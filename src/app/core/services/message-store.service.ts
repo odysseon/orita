@@ -174,4 +174,13 @@ export class MessageStore {
   setActiveConversationDetails(conversation: IConversation): void {
     this.activeConversationDetails.set(conversation);
   }
+
+  clear(): void {
+    this.conversations.set([]);
+    this.activeConversationId.set(null);
+    this.activeConversationDetails.set(null);
+    this.messages.set({});
+    this.conversationStatus.set({});
+    this.conversationError.set({});
+  }
 }

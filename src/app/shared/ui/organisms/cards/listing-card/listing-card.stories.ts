@@ -57,7 +57,7 @@ export const Default: Story = {
       title: 'Vintage Classic Leather Jacket (Brown) - Excellent Condition',
       coverUrl: 'https://images.unsplash.com/photo-1520975954732-57dd22299614?auto=format&fit=crop&q=80&w=600',
       price: 1250000,
-      availability: 'in-stock',
+      availability: 'IN_STOCK',
       isSaved: true,
       business: {
         id: 'biz1',

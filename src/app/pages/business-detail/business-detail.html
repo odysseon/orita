@@ -27,9 +27,9 @@
 
 <div style="display: flex; flex-direction: column; gap: var(--size-20);">
   <!-- Banner -->
-  <div class="biz-banner-wrapper" style="border-radius: var(--radius-lg); overflow: hidden;">
+  <div class="media-cover">
     @if (biz.coverUrl) {
-      <ui-cover-media [src]="biz.coverUrl" aspectRatio="16/9"></ui-cover-media>
+      <ui-cover-media [src]="biz.coverUrl"></ui-cover-media>
     }
   </div>
 
@@ -66,7 +66,6 @@
         
         <div style="display: flex; gap: var(--size-8); margin-top: var(--size-32);">
           <ui-share-button (share)="showShareModal.set(true)" />
-          <app-share-button [title]="biz.name" [text]="biz.description || ''" />
           <ui-follow-button 
             [isFollowed]="biz.isFollowed || false"
             (toggle)="toggleFollow(biz)"

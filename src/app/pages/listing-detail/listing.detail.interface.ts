@@ -1,4 +1,5 @@
 export type ListingStatus = 'DRAFT' | 'PUBLISHED' | 'PAUSED' | 'ARCHIVED';
+export type ListingAvailability = 'IN_STOCK' | 'OUT_OF_STOCK' | 'PRE_ORDER';
 
 export interface IReview {
   id: string;
@@ -16,6 +17,7 @@ export interface IListingDetail {
   slug: string;
   description: string | null;
   status: ListingStatus;
+  availability: ListingAvailability;
   minPrice: string | null;
   maxPrice: string | null;
   currencyCode: string | null;

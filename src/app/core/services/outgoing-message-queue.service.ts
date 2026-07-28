@@ -41,9 +41,10 @@ export class OutgoingMessageQueue {
     return this.queue;
   }
 
-  enqueue(conversationId: string, id: string, payload: SendMessageDto, attachments?: import('./messaging.types').QueuedAttachment[]): QueuedMessage {
+  enqueue(conversationId: string, id: string, payload: SendMessageDto, correlationId: string, attachments?: import('./messaging.types').QueuedAttachment[]): QueuedMessage {
     const msg: QueuedMessage = {
       id,
+      correlationId,
       conversationId,
       payload,
       attemptCount: 0,
@@ -110,5 +111,10 @@ export class OutgoingMessageQueue {
 
   getForConversation(conversationId: string): QueuedMessage[] {
     return this.queue.filter(m => m.conversationId === conversationId);
+  }
+
+  clear(): void {
+    this.queue = [];
+    this.isLoaded = false;
   }
 }

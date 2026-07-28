@@ -22,7 +22,7 @@
   text-overflow: ellipsis;
 }
 
-.ui-user-identity-username,
+.ui-user-identity-handle,
 .ui-user-identity-metadata {
   color: var(--text-secondary);
   line-height: var(--line-height-tight);
@@ -38,7 +38,7 @@
 .ui-user-identity--sm .ui-user-identity-name {
   font-size: var(--font-size-sm);
 }
-.ui-user-identity--sm .ui-user-identity-username,
+.ui-user-identity--sm .ui-user-identity-handle,
 .ui-user-identity--sm .ui-user-identity-metadata {
   font-size: var(--font-size-xs);
 }
@@ -49,7 +49,7 @@
 .ui-user-identity--md .ui-user-identity-name {
   font-size: var(--font-size-md);
 }
-.ui-user-identity--md .ui-user-identity-username,
+.ui-user-identity--md .ui-user-identity-handle,
 .ui-user-identity--md .ui-user-identity-metadata {
   font-size: var(--font-size-sm);
 }
@@ -60,7 +60,7 @@
 .ui-user-identity--lg .ui-user-identity-name {
   font-size: var(--font-size-lg);
 }
-.ui-user-identity--lg .ui-user-identity-username,
+.ui-user-identity--lg .ui-user-identity-handle,
 .ui-user-identity--lg .ui-user-identity-metadata {
   font-size: var(--font-size-md);
 }

@@ -59,6 +59,7 @@ export class SearchFiltersComponent {
   readonly currentLng = signal<number | null>(null);
 
   readonly categoryQuery = signal<string>('');
+  readonly categoryInputFocused = signal<boolean>(false);
   readonly filteredCategories = computed(() => {
     const q = this.categoryQuery().toLowerCase().trim();
     const all = this.categories() || [];

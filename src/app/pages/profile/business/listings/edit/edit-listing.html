@@ -70,6 +70,18 @@
           <input type="checkbox" [formField]="editForm.isNegotiable" />
           <span>Price is negotiable</span>
         </label>
+
+        <app-form-field label="Availability" fieldId="availability" style="margin-top: var(--space-md); display: block;">
+          <select
+            id="availability"
+            app-select
+            [formField]="editForm.availability"
+          >
+            <option value="IN_STOCK">In Stock</option>
+            <option value="OUT_OF_STOCK">Out of Stock</option>
+            <option value="PRE_ORDER">Pre-order</option>
+          </select>
+        </app-form-field>
       </section>
 
       @if (attributes().length > 0) {

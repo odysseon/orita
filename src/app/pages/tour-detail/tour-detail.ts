@@ -1,8 +1,9 @@
-import { Component, input, computed, inject } from '@angular/core';
+import { Component, input, computed, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { httpResource } from '@angular/common/http';
 import { BusinessTourService, IBusinessTour } from '../../core/services/business-tour.service';
-import { ShareButton } from '../../shared/share-button/share-button';
+import { ShareButton as UiShareButton } from '../../shared/ui/actions/share-button/share-button';
+import { ShareModalComponent } from '../../shared/ui/organisms/share-modal/share-modal';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { LucideImage, LucideCalendar, LucideCheckCircle } from '@lucide/angular';
@@ -13,13 +14,15 @@ import { Button } from '../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-tour-detail',
-  imports: [ShareButton, EmptyState, SeoComponent, LucideImage, LucideCalendar, LucideCheckCircle, DatePipe],
+  imports: [UiShareButton, ShareModalComponent, EmptyState, SeoComponent, LucideImage, LucideCalendar, LucideCheckCircle, DatePipe],
   templateUrl: './tour-detail.html',
   styleUrl: './tour-detail.css'
 })
 export class TourDetail implements LayoutPage {
   readonly id = input.required<string>();
   #tourService = inject(BusinessTourService);
+  
+  showShareModal = signal(false);
 
   readonly tourResource = httpResource<IBusinessTour>(() => `${environment.apiUrl}/business-tours/${this.id()}`);
 

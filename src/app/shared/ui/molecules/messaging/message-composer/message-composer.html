@@ -2,24 +2,17 @@
   @if (draftEmbeds().length > 0 || attachments().length > 0) {
   <div class="composer-attachments">
     @for (embed of draftEmbeds(); track embed.targetId) {
-    <div class="attachment-chip">
-      <div class="attachment-chip__icon">
-        <svg lucidePackage aria-hidden="true"></svg>
-      </div>
-      <div class="attachment-chip__info">
-        <span class="attachment-chip__title">Shared {{ embed.embedType }}</span>
-      </div>
-      <button
-        app-button
-        appearance="ghost"
-        shape="circle"
-        size="xs"
+    <ui-listing-search-result
+      [showSave]="false"
+      [listing]="{ id: embed.targetId, title: 'Shared ' + embed.embedType, thumbnailUrl: null, price: 0 }"
+      style="display: block; width: fit-content; background: var(--surface-container); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 8px;"
+    >
+      <button result-action app-button appearance="ghost" shape="circle" size="xs"
         class="attachment-chip__remove"
-        (click)="removeEmbed(embed.targetId)"
-      >
+        (click)="removeEmbed(embed.targetId)" aria-label="Remove">
         <svg lucideX aria-hidden="true"></svg>
       </button>
-    </div>
+    </ui-listing-search-result>
     } @for (att of attachments(); track att.id) {
     <div class="attachment-chip">
       <div class="attachment-chip__icon">

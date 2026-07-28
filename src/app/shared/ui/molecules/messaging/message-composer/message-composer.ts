@@ -22,12 +22,12 @@ interface ComposerAttachment {
 
 import { Button } from '../../../atoms/button/button';
 import { ShareButton as UiShareButton } from '../../../actions/share-button/share-button';
+import { ListingSearchResult } from '../../../organisms/search-results/listing-search-result/listing-search-result';
 
 @Component({
   selector: 'ui-message-composer',
   standalone: true,
   imports: [
-    LucidePackage,
     LucideX,
     LucideFile,
     LucideVideo,
@@ -35,6 +35,7 @@ import { ShareButton as UiShareButton } from '../../../actions/share-button/shar
     Button,
     UiShareButton,
     AttachButton,
+    ListingSearchResult,
   ],
   templateUrl: './message-composer.html',
   styleUrl: './message-composer.css',

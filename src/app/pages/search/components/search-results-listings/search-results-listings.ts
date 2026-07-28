@@ -14,6 +14,7 @@ import { EmptyState } from '../../../../shared/empty-state/empty-state';
 export class SearchResultsListings {
   items = input<any[]>([]);
   total = input<number>(0);
+  showEmptyState = input<boolean>(true);
 
   saveToggle = output<{ id: string; wantToSave: boolean }>();
   loadMore = output<void>();
