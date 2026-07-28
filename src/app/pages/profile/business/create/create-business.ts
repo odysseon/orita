@@ -19,6 +19,8 @@ import {
 } from './create-business.interface';
 import { environment } from '../../../../../environments/environment';
 import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
+import { InputDirective } from '../../../../shared/ui/atoms/forms/input';
+import { TextareaDirective } from '../../../../shared/ui/atoms/forms/textarea';
 import { Drawer } from '../../../../shared/ui/overlays/drawer/drawer';
 
 import { LocationPicker } from '../../../../shared/ui/organisms/location-picker/location-picker';
@@ -31,7 +33,7 @@ import { ICategory } from '../../../home/home.interface';
 
 @Component({
   selector: 'app-create-business',
-  imports: [FormField, AppFormField, LucideStore, Drawer, AppFormField, LocationPicker, CategoryPicker, Button],
+  imports: [FormField, AppFormField, LucideStore, Drawer, LocationPicker, CategoryPicker, Button, InputDirective, TextareaDirective],
   templateUrl: './create-business.html',
   styleUrl: './create-business.css',
   encapsulation: ViewEncapsulation.None,
