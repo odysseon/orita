@@ -3,13 +3,8 @@ import { httpResource, HttpClient } from '@angular/common/http';
 import { resource } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import {
-  LucidePackage,
-  LucideBookmark,
-  LucideStar,
-} from '@lucide/angular';
+import { LucidePackage, LucideBookmark, LucideStar } from '@lucide/angular';
 import { environment } from '../../../environments/environment';
-import { ShareButton } from '../../shared/share-button/share-button';
 import { ShareButton as UiShareButton } from '../../shared/ui/actions/share-button/share-button';
 import { ShareModalComponent } from '../../shared/ui/organisms/share-modal/share-modal';
 import { SaveButton } from '../../shared/ui/actions/save-button/save-button';
@@ -18,7 +13,10 @@ import { SeoComponent } from '../../shared/seo/seo.component';
 import { IBusinessLite, IListingDetail } from './listing.detail.interface';
 import { LayoutPage } from '../../shared/layout/sub-layout/layout-page.interface';
 import { CategoryService } from '../../core/services/category.service';
-import { ListingAttributeFormatter, DisplayAttribute } from '../../shared/utils/listing-attribute-formatter';
+import {
+  ListingAttributeFormatter,
+  DisplayAttribute,
+} from '../../shared/utils/listing-attribute-formatter';
 import { ListingReviews } from './components/listing-reviews/listing-reviews';
 import { ListingAttributes } from './components/listing-attributes/listing-attributes';
 import { ListingBusinessCard } from './components/listing-business-card/listing-business-card';
@@ -30,7 +28,6 @@ import { CoverMedia } from '../../shared/ui/surfaces/cover-media/cover-media';
   selector: 'app-listing-detail',
   imports: [
     RouterLink,
-    ShareButton,
     UiShareButton,
     SaveButton,
     EmptyState,
@@ -87,7 +84,10 @@ export class ListingDetail implements LayoutPage {
     return max ? `${currency} ${min} – ${max}` : `${currency} ${min}`;
   });
 
-  readonly attributesResource = resource<DisplayAttribute[], { categoryId: string | null; attributes: Record<string, unknown> | null }>({
+  readonly attributesResource = resource<
+    DisplayAttribute[],
+    { categoryId: string | null; attributes: Record<string, unknown> | null }
+  >({
     params: () => ({
       categoryId: this.listing.value()?.categoryId ?? null,
       attributes: this.listing.value()?.attributes ?? null,
@@ -105,7 +105,7 @@ export class ListingDetail implements LayoutPage {
 
     const biz = this.business.value();
     const minPrice = item.minPrice ? Number(item.minPrice) : 0;
-    
+
     return {
       title: item.title,
       description: item.description || `Check out ${item.title} on Orita.`,
@@ -113,22 +113,24 @@ export class ListingDetail implements LayoutPage {
       url: `https://orita.onrender.com/l/${item.slug}`,
       type: 'product' as const,
       jsonLd: {
-        "@type": "Product",
-        "name": item.title,
-        "image": biz?.avatarUrl,
-        "description": item.description,
-        "offers": {
-          "@type": "Offer",
-          "priceCurrency": item.currencyCode || "NGN",
-          "price": minPrice,
-          "itemCondition": "https://schema.org/NewCondition",
-          "availability": "https://schema.org/InStock",
-          "seller": biz ? {
-            "@type": "Organization",
-            "name": biz.name
-          } : undefined
-        }
-      }
+        '@type': 'Product',
+        name: item.title,
+        image: biz?.avatarUrl,
+        description: item.description,
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: item.currencyCode || 'NGN',
+          price: minPrice,
+          itemCondition: 'https://schema.org/NewCondition',
+          availability: 'https://schema.org/InStock',
+          seller: biz
+            ? {
+                '@type': 'Organization',
+                name: biz.name,
+              }
+            : undefined,
+        },
+      },
     };
   });
 
@@ -143,8 +145,6 @@ export class ListingDetail implements LayoutPage {
       year: 'numeric',
     }).format(new Date(iso));
   }
-
-
 
   callPhone(phone: string): void {
     window.location.href = `tel:${phone}`;

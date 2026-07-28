@@ -1,0 +1,48 @@
+.orita-tab-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.orita-tab-search {
+  padding: 0 var(--space-sm);
+  margin-bottom: var(--size-12);
+}
+
+.orita-tab-scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.section {
+  margin-bottom: var(--size-16);
+}
+
+.section-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  padding: 0 var(--space-sm);
+  margin-bottom: var(--size-8);
+}
+
+.subsection {
+  margin-bottom: var(--size-12);
+}
+
+.subsection-title {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 var(--space-sm);
+  margin-bottom: var(--size-4);
+}
+
+.loading-state,
+.empty-state {
+  padding: var(--size-16) var(--space-sm);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
