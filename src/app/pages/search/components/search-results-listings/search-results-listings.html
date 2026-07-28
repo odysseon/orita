@@ -18,13 +18,13 @@
   </ui-list>
 </section>
 }
-@if (items().length === 0) {
+@if (items().length === 0 && showEmptyState()) {
 <ui-empty-state
   title="No listings found"
   description="We couldn't find any listings matching your search. Try adjusting your filters or expanding your radius."
 >
 </ui-empty-state>
-} @else if (items().length < total()) {
+} @else if (items().length > 0 && items().length < total()) {
 <div style="text-align: center; margin-top: 2rem">
   <button app-button appearance="outline" (click)="loadMore.emit()">Load More</button>
 </div>

@@ -76,7 +76,7 @@ export class ListingCard {
     coverUrl?: string | null;
     thumbnailUrl?: string | null;
     price?: number;
-    availability?: 'in-stock' | 'out-of-stock' | 'pre-order';
+    availability?: string;
     isSaved?: boolean;
     business?: {
       id: string;

@@ -25,10 +25,12 @@
           {{ listing().price! | currency:'NGN':'symbol-narrow':'1.0-0' }}
         </span>
 
-        @if (listing().availability === 'in-stock') {
+        @if (listing().availability === 'IN_STOCK') {
         <span class="ui-listing-search-result__status is-available">In Stock</span>
-        } @else if (listing().availability === 'out-of-stock') {
+        } @else if (listing().availability === 'OUT_OF_STOCK') {
         <span class="ui-listing-search-result__status is-unavailable">Out of Stock</span>
+        } @else if (listing().availability === 'PRE_ORDER') {
+        <span class="ui-listing-search-result__status is-preorder" style="color: var(--clr-warning);">Pre-order</span>
         }
       </div>
       }

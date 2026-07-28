@@ -134,6 +134,17 @@ export class DatabaseService {
     return db.getAllFromIndex('messages', 'by-conversation', conversationId);
   }
 
+  async clearConversationsAndMessages(): Promise<void> {
+    if (!this.dbPromise) return;
+    const db = await this.dbPromise;
+    await Promise.all([
+      db.clear('conversations'),
+      db.clear('messages'),
+      db.clear('outgoing_messages'),
+      db.clear('attachments')
+    ]);
+  }
+
   // --- Attachments ---
 
   async saveAttachment(attachment: PendingAttachment): Promise<void> {

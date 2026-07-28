@@ -62,11 +62,13 @@ export class EditListing implements OnInit {
     minPrice: null as number | null,
     maxPrice: null as number | null,
     isNegotiable: false,
+    availability: 'IN_STOCK',
     attributesData: {} as Record<string, any>,
   });
 
   readonly editForm = form(this.editModel, (f) => {
     required(f.title, { message: 'Title is required' });
+    required(f.availability, { message: 'Availability is required' });
   });
 
   readonly isLoading = signal(true);
@@ -99,6 +101,7 @@ export class EditListing implements OnInit {
         minPrice: l.minPrice ? Number(l.minPrice) : null,
         maxPrice: l.maxPrice ? Number(l.maxPrice) : null,
         isNegotiable: l.isNegotiable,
+        availability: l.availability || 'IN_STOCK',
         attributesData: attrsData
       });
 
@@ -168,6 +171,7 @@ export class EditListing implements OnInit {
         title: val.title,
         description: val.description,
         categoryId: val.categoryId,
+        availability: val.availability,
         price: {
           minPrice: val.minPrice,
           maxPrice: val.maxPrice,

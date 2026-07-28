@@ -132,6 +132,11 @@
         (keydown)="onKeyDown($event)"
         class="message-input"
       />
+      <button app-button appearance="ghost" shape="circle" size="md" type="button"
+        title="Share externally"
+        (click)="onNativeShare()">
+        <svg lucideShare aria-hidden="true"></svg>
+      </button>
       <ui-share-button
         [disabled]="selectedRecipients().size === 0 || isSending()"
         (share)="onSend()"

@@ -24,11 +24,11 @@ import { EmptyState } from '../../../../shared/empty-state/empty-state';
       </ui-grid>
     </section>
     }
-    @if (items().length === 0) {
+    @if (items().length === 0 && showEmptyState()) {
     <ui-empty-state title="No tours found" description="We couldn't find any tours matching your search.">
       <button app-button appearance="outline" (click)="clearSearch.emit()">Clear Search</button>
     </ui-empty-state>
-    } @else if (items().length < total()) {
+    } @else if (items().length > 0 && items().length < total()) {
     <div style="text-align: center; margin-top: 2rem">
       <button app-button appearance="outline" (click)="loadMore.emit()">Load More</button>
     </div>
@@ -38,6 +38,7 @@ import { EmptyState } from '../../../../shared/empty-state/empty-state';
 export class SearchResultsTours {
   items = input<any[]>([]);
   total = input<number>(0);
+  showEmptyState = input<boolean>(true);
 
   loadMore = output<void>();
   viewAll = output<void>();

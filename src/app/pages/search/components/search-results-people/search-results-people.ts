@@ -29,11 +29,11 @@ import { EmptyState } from '../../../../shared/empty-state/empty-state';
       </label>
       }
     </ui-list>
-    @if (items().length === 0) {
+    @if (items().length === 0 && showEmptyState()) {
     <ui-empty-state title="No people found" description="We couldn't find anyone matching your search.">
       <button app-button appearance="outline" (click)="clearSearch.emit()">Clear Search</button>
     </ui-empty-state>
-    } @else if (items().length < total()) {
+    } @else if (items().length > 0 && items().length < total()) {
     <div style="text-align: center; margin-top: 2rem">
       <button app-button appearance="outline" (click)="loadMore.emit()">Load More</button>
     </div>
@@ -43,6 +43,7 @@ import { EmptyState } from '../../../../shared/empty-state/empty-state';
 export class SearchResultsPeople {
   items = input<any[]>([]);
   total = input<number>(0);
+  showEmptyState = input<boolean>(true);
 
   followToggle = output<{ id: string; wantToFollow: boolean }>();
   loadMore = output<void>();

@@ -999,3 +999,12 @@ img.avatar-placeholder {
   height: var(--size-20);
 }
 
+/* -- Media Covers ------------------------------------------- */
+.media-cover {
+  aspect-ratio: 16 / 9;
+  max-height: 320px;
+  overflow: hidden;
+  position: relative;
+  border-radius: var(--radius-lg);
+}
+

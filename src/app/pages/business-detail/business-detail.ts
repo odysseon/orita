@@ -53,7 +53,6 @@ const DAY_LABELS: Record<string, string> = {
   selector: 'app-business-detail',
   imports: [
     RouterLink,
-    ShareButton,
     UiShareButton,
     FollowButton,
     EmptyState,

@@ -35,19 +35,22 @@
           app-input
           [value]="categoryQuery() || getCategoryName(internalModel().categoryId)"
           (input)="categoryQuery.set($any($event.target).value)"
+          (focus)="categoryInputFocused.set(true)"
+          (blur)="categoryInputFocused.set(false)"
           placeholder="Search categories..."
-          class="form-input"
         />
-        <ui-combobox-list style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); margin-top: var(--size-4);">
-          <button type="button" uiComboboxOption [value]="{ id: '', name: 'All Categories' }">
-            All Categories
-          </button>
-          @for (cat of filteredCategories(); track cat.id) {
-            <button type="button" uiComboboxOption [value]="cat">
-              {{ cat.name }}
+        @if (categoryQuery() || categoryInputFocused()) {
+          <ui-combobox-list style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); margin-top: var(--size-4);">
+            <button type="button" uiComboboxOption [value]="{ id: '', name: 'All Categories' }" (mousedown)="$event.preventDefault()">
+              All Categories
             </button>
-          }
-        </ui-combobox-list>
+            @for (cat of filteredCategories(); track cat.id) {
+              <button type="button" uiComboboxOption [value]="cat" (mousedown)="$event.preventDefault()">
+                {{ cat.name }}
+              </button>
+            }
+          </ui-combobox-list>
+        }
       </ui-combobox>
     </div>
 
@@ -74,16 +77,16 @@
         <label>Price Range (NGN)</label>
         <div style="display: flex; gap: 8px;">
           <input 
+            app-input
             type="number" 
             [formField]="filtersForm.minPrice"
             placeholder="Min Price"
-            class="form-input"
           />
           <input 
+            app-input
             type="number" 
             [formField]="filtersForm.maxPrice"
             placeholder="Max Price"
-            class="form-input"
           />
         </div>
       </div>
@@ -111,11 +114,11 @@
                     <span>Yes</span>
                   </label>
                 } @else if (attr.type === 'NUMBER') {
-                  <input [id]="'filter-' + attr.key" class="form-input" type="number" 
+                  <input [id]="'filter-' + attr.key" app-input type="number" 
                          [value]="internalModel().filters[attr.key] || ''"
                          (input)="updateFilter(attr.key, $any($event.target).value)" placeholder="e.g. 5" />
                 } @else {
-                  <input [id]="'filter-' + attr.key" class="form-input" type="text" 
+                  <input [id]="'filter-' + attr.key" app-input type="text" 
                          [value]="internalModel().filters[attr.key] || ''"
                          (input)="updateFilter(attr.key, $any($event.target).value)" placeholder="e.g. value" />
                 }

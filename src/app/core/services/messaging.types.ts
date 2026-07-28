@@ -129,7 +129,6 @@ export interface SendMessageDto {
   mediaType?: MediaType; // Legacy/backward compatibility
   attachmentIds?: string[]; // Referencing uploaded media resources
   embeds?: { embedType: string; targetId: string }[];
-  correlationId?: string;
 }
 
 export type AttachmentSource = 'CAMERA' | 'GALLERY' | 'FILES' | 'AUDIO';
@@ -175,6 +174,7 @@ export interface QueuedAttachment {
 
 export interface QueuedMessage {
   id: string;
+  correlationId: string;
   conversationId: string;
   payload: SendMessageDto;
   attemptCount: number;

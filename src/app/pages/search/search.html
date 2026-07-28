@@ -85,6 +85,7 @@
       <app-search-results-people
         [items]="userItems()"
         [total]="usersResource.value()?.total || 0"
+        [showEmptyState]="false"
         (followToggle)="onFollowToggle('user', $event.id, $event.wantToFollow)"
         (loadMore)="loadMore()"
         (viewAll)="setSearchType('people')"
@@ -93,6 +94,7 @@
       <app-search-results-businesses
         [items]="businessItems()"
         [total]="businessesResource.value()?.total || 0"
+        [showEmptyState]="false"
         (followToggle)="onFollowToggle('business', $event.id, $event.wantToFollow)"
         (loadMore)="loadMore()"
         (viewAll)="setSearchType('business')"
@@ -100,6 +102,7 @@
       <app-search-results-listings
         [items]="listingItems()"
         [total]="listingsResource.value()?.total || 0"
+        [showEmptyState]="false"
         (saveToggle)="onSaveToggle($event.id, $event.wantToSave)"
         (loadMore)="loadMore()"
         (viewAll)="setSearchType('listing')"
@@ -107,6 +110,7 @@
       <app-search-results-tours
         [items]="toursResource.value()?.items || []"
         [total]="toursResource.value()?.total || 0"
+        [showEmptyState]="false"
         (loadMore)="loadMore()"
         (viewAll)="setSearchType('tour')"
         (clearSearch)="clearSearch()"
@@ -114,6 +118,7 @@
       <app-search-results-locations
         [items]="locationItems()"
         [total]="locationsResource.value()?.length || 0"
+        [showEmptyState]="false"
         (followToggle)="onFollowToggle('location', $event.id, $event.wantToFollow)"
         (viewAll)="setSearchType('location')"
       />

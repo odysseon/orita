@@ -23,7 +23,7 @@ export class ListingSearchResult {
     slug?: string | null;
     thumbnailUrl?: string | null;
     price?: number;
-    availability?: 'in-stock' | 'out-of-stock' | 'pre-order';
+    availability?: string;
     isSaved?: boolean;
   }>();
 

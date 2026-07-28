@@ -2,12 +2,12 @@ import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { catchError, switchMap, filter, take } from 'rxjs/operators';
+import { throwError, from, BehaviorSubject } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { environment } from '../../../environments/environment';
 
-const SKIP_ENDPOINTS = ['/auth/login', '/accounts/register'];
+const SKIP_ENDPOINTS = ['/auth/login', '/accounts/register', '/auth/refresh'];
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
@@ -26,17 +26,27 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && !isSkipped) {
         if (isPlatformBrowser(platformId)) {
-          const publicRoutes = ['/', '/home', '/search', '/tours', '/welcome', '/auth', '/u/', '/b/', '/l/'];
-          const fullUrl = router.url;
-          const pathOnly = fullUrl.split('?')[0];
-          
-          let isPublic = false;
-          if (pathOnly === '/') isPublic = true;
-          else {
-            isPublic = publicRoutes.some(pr => pr !== '/' && pathOnly.startsWith(pr));
-          }
+          return from(authService.refreshToken()).pipe(
+            switchMap(newToken => {
+              if (newToken) {
+                const newReq = req.clone({ setHeaders: { Authorization: `Bearer ${newToken}` } });
+                return next(newReq);
+              } else {
+                const publicRoutes = ['/', '/home', '/search', '/tours', '/welcome', '/auth', '/u/', '/b/', '/l/'];
+                const fullUrl = router.url;
+                const pathOnly = fullUrl.split('?')[0];
+                
+                let isPublic = false;
+                if (pathOnly === '/') isPublic = true;
+                else {
+                  isPublic = publicRoutes.some(pr => pr !== '/' && pathOnly.startsWith(pr));
+                }
 
-          authService.logout(true, fullUrl, !isPublic);
+                authService.logout(true, fullUrl, !isPublic);
+                return throwError(() => error);
+              }
+            })
+          );
         }
       }
       return throwError(() => error);

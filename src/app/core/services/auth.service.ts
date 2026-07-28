@@ -12,6 +12,7 @@ import { IProfile } from '../../pages/profile/profile.interface';
 import { effect } from '@angular/core';
 import { NotificationPermissionService } from './notification-permission.service';
 import { CacheService, CacheKeys } from './cache.service';
+import { DatabaseService } from './database.service';
 
 const TOKEN_KEY = 'auth_token';
 
@@ -24,6 +25,7 @@ export class AuthService {
   #exploration = inject(ExplorationService);
   #push = inject(NotificationPermissionService);
   #cache = inject(CacheService);
+  #db = inject(DatabaseService);
 
   readonly token = signal<string | undefined>(this.#cookie.get(TOKEN_KEY));
   readonly currentUser = signal<IProfile | null>(this.#cache.get<IProfile>(CacheKeys.PROFILE));
@@ -126,6 +128,7 @@ export class AuthService {
     this.#cache.remove(CacheKeys.PROFILE);
     this.token.set(undefined);
     this.currentUser.set(null);
+    this.#db.clearConversationsAndMessages().catch(err => console.error(err));
     
     if (expired && shouldRedirect) {
       this.#toast.error('Session Expired', 'Please log in again to continue.');
@@ -136,6 +139,31 @@ export class AuthService {
     if (shouldRedirect) {
       this.#router.navigate(['/auth/login'], returnUrl ? { queryParams: { returnUrl } } : undefined);
     }
+  }
+
+  #refreshPromise: Promise<string | null> | null = null;
+
+  async refreshToken(): Promise<string | null> {
+    if (this.#refreshPromise) return this.#refreshPromise;
+
+    this.#refreshPromise = (async () => {
+      try {
+        const res = await firstValueFrom(
+          this.#http.post<{ token: string; expiresAt: string }>(`${environment.apiUrl}/auth/refresh`, {})
+        );
+        if (res.token) {
+          this.#setToken(res.token, res.expiresAt ? new Date(res.expiresAt) : undefined);
+          return res.token;
+        }
+        return null;
+      } catch (err) {
+        return null;
+      } finally {
+        this.#refreshPromise = null;
+      }
+    })();
+
+    return this.#refreshPromise;
   }
 
   #setToken(token: string, expires?: Date): void {

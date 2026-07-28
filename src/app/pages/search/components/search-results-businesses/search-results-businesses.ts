@@ -37,9 +37,9 @@ import { EmptyState } from '../../../../shared/empty-state/empty-state';
       </ui-list>
     </section>
     }
-    @if (items().length === 0) {
+    @if (items().length === 0 && showEmptyState()) {
     <ui-empty-state title="No businesses found" description="We couldn't find any businesses matching your search."></ui-empty-state>
-    } @else if (items().length < total()) {
+    } @else if (items().length > 0 && items().length < total()) {
     <div style="text-align: center; margin-top: 2rem">
       <button app-button appearance="outline" (click)="loadMore.emit()">Load More</button>
     </div>
@@ -49,6 +49,7 @@ import { EmptyState } from '../../../../shared/empty-state/empty-state';
 export class SearchResultsBusinesses {
   items = input<any[]>([]);
   total = input<number>(0);
+  showEmptyState = input<boolean>(true);
 
   followToggle = output<{ id: string; wantToFollow: boolean }>();
   loadMore = output<void>();
