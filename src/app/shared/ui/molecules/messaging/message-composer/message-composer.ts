@@ -1,11 +1,16 @@
 import { Component, output, signal, input, inject, effect, OnDestroy } from '@angular/core';
 
-import { LucidePaperclip, LucidePackage, LucideX, LucideFile, LucideVideo } from '@lucide/angular';
-import { SendMessageCommand, AttachmentSelection, AttachmentSource } from '../../../../../core/services/messaging.types';
+import { LucidePackage, LucideX, LucideFile, LucideVideo } from '@lucide/angular';
+import {
+  SendMessageCommand,
+  AttachmentSelection,
+  AttachmentSource,
+} from '../../../../../core/services/messaging.types';
 import { DraftMessageService } from '../../../../../core/services/draft-message.service';
 import { AttachSheetComponent } from '../../../organisms/attach-sheet/attach-sheet';
 import { AttachmentPreviewService } from '../../../../../core/services/attachment-preview.service';
 import { AttachmentValidatorService } from '../../../../../core/services/attachment-validator.service';
+import { AttachButton } from '../../../actions/attach-button/attach-button';
 
 interface ComposerAttachment {
   id: string;
@@ -21,7 +26,16 @@ import { ShareButton as UiShareButton } from '../../../actions/share-button/shar
 @Component({
   selector: 'ui-message-composer',
   standalone: true,
-  imports: [LucidePaperclip, LucidePackage, LucideX, LucideFile, LucideVideo, AttachSheetComponent, Button, UiShareButton],
+  imports: [
+    LucidePackage,
+    LucideX,
+    LucideFile,
+    LucideVideo,
+    AttachSheetComponent,
+    Button,
+    UiShareButton,
+    AttachButton,
+  ],
   templateUrl: './message-composer.html',
   styleUrl: './message-composer.css',
 })
@@ -56,14 +70,14 @@ export class MessageComposer implements OnDestroy {
     const current = this.attachments();
     const result = this.#validator.validateAttachments(current.length, selection.files);
     if (!result.valid) {
-      alert(result.error); // Basic error handling, can be improved
+      alert(result.error);
       return;
     }
 
-    const newAttachments: ComposerAttachment[] = selection.files.map(file => {
+    const newAttachments: ComposerAttachment[] = selection.files.map((file) => {
       const id = `cmp-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
       const previewUrl = this.#previewService.createPreview(id, file);
-      
+
       let kind: 'IMAGE' | 'VIDEO' | 'AUDIO' | 'FILE' = 'FILE';
       if (file.type.startsWith('image/')) kind = 'IMAGE';
       else if (file.type.startsWith('video/')) kind = 'VIDEO';
@@ -72,7 +86,7 @@ export class MessageComposer implements OnDestroy {
       return { id, source: selection.source, file, previewUrl, kind };
     });
 
-    this.attachments.update(a => [...a, ...newAttachments]);
+    this.attachments.update((a) => [...a, ...newAttachments]);
   }
 
   removeEmbed(targetId: string): void {
@@ -84,7 +98,7 @@ export class MessageComposer implements OnDestroy {
 
   removeAttachment(id: string): void {
     this.#previewService.revokePreview(id);
-    this.attachments.update(a => a.filter(att => att.id !== id));
+    this.attachments.update((a) => a.filter((att) => att.id !== id));
   }
 
   onSend(): void {
@@ -94,23 +108,25 @@ export class MessageComposer implements OnDestroy {
 
     if (!val && embeds.length === 0 && atts.length === 0) return;
 
-    // Group files back into AttachmentSelection[] by source
     const attachmentSelections: AttachmentSelection[] = [];
     const sourceMap = new Map<string, File[]>();
-    
+
     for (const att of atts) {
       if (!sourceMap.has(att.source)) sourceMap.set(att.source, []);
       sourceMap.get(att.source)!.push(att.file);
     }
-    
+
     for (const [source, files] of sourceMap.entries()) {
       attachmentSelections.push({ source: source as any, files });
     }
 
-    this.send.emit({ content: val, embeds, attachments: attachmentSelections.length > 0 ? attachmentSelections : undefined });
-    this.content.set(''); // clear input
-    
-    // Revoke previews since we're done with them in the composer
+    this.send.emit({
+      content: val,
+      embeds,
+      attachments: attachmentSelections.length > 0 ? attachmentSelections : undefined,
+    });
+    this.content.set('');
+
     for (const att of atts) {
       this.#previewService.revokePreview(att.id);
     }
@@ -123,7 +139,7 @@ export class MessageComposer implements OnDestroy {
       this.#draftStore.clearDraft(cid);
     }
   }
-  
+
   ngOnDestroy() {
     for (const att of this.attachments()) {
       this.#previewService.revokePreview(att.id);

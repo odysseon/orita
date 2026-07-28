@@ -1,50 +1,60 @@
 <div class="composer-container">
   @if (draftEmbeds().length > 0 || attachments().length > 0) {
-    <div class="composer-attachments">
-      @for (embed of draftEmbeds(); track embed.targetId) {
-        <div class="attachment-chip">
-          <div class="attachment-chip__icon">
-            <svg lucidePackage aria-hidden="true"></svg>
-          </div>
-          <div class="attachment-chip__info">
-            <span class="attachment-chip__title">Shared {{ embed.embedType }}</span>
-          </div>
-          <button app-button appearance="ghost" shape="circle" size="xs" class="attachment-chip__remove" (click)="removeEmbed(embed.targetId)">
-            <svg lucideX aria-hidden="true"></svg>
-          </button>
-        </div>
-      }
-      
-      @for (att of attachments(); track att.id) {
-        <div class="attachment-chip">
-          <div class="attachment-chip__icon">
-            @if (att.kind === 'IMAGE') {
-              <img [src]="att.previewUrl" class="attachment-preview-img" alt="preview" />
-            } @else if (att.kind === 'VIDEO') {
-              <svg lucideVideo aria-hidden="true"></svg>
-            } @else {
-              <svg lucideFile aria-hidden="true"></svg>
-            }
-          </div>
-          <div class="attachment-chip__info">
-            <span class="attachment-chip__title">{{ att.file.name }}</span>
-          </div>
-          <button app-button appearance="ghost" shape="circle" size="xs" class="attachment-chip__remove" (click)="removeAttachment(att.id)">
-            <svg lucideX aria-hidden="true"></svg>
-          </button>
-        </div>
-      }
+  <div class="composer-attachments">
+    @for (embed of draftEmbeds(); track embed.targetId) {
+    <div class="attachment-chip">
+      <div class="attachment-chip__icon">
+        <svg lucidePackage aria-hidden="true"></svg>
+      </div>
+      <div class="attachment-chip__info">
+        <span class="attachment-chip__title">Shared {{ embed.embedType }}</span>
+      </div>
+      <button
+        app-button
+        appearance="ghost"
+        shape="circle"
+        size="xs"
+        class="attachment-chip__remove"
+        (click)="removeEmbed(embed.targetId)"
+      >
+        <svg lucideX aria-hidden="true"></svg>
+      </button>
     </div>
+    } @for (att of attachments(); track att.id) {
+    <div class="attachment-chip">
+      <div class="attachment-chip__icon">
+        @if (att.kind === 'IMAGE') {
+        <img [src]="att.previewUrl" class="attachment-preview-img" alt="preview" />
+        } @else if (att.kind === 'VIDEO') {
+        <svg lucideVideo aria-hidden="true"></svg>
+        } @else {
+        <svg lucideFile aria-hidden="true"></svg>
+        }
+      </div>
+      <div class="attachment-chip__info">
+        <span class="attachment-chip__title">{{ att.file.name }}</span>
+      </div>
+      <button
+        app-button
+        appearance="ghost"
+        shape="circle"
+        size="xs"
+        class="attachment-chip__remove"
+        (click)="removeAttachment(att.id)"
+      >
+        <svg lucideX aria-hidden="true"></svg>
+      </button>
+    </div>
+    }
+  </div>
   }
 
   <div class="composer-input-row">
-    <button app-button appearance="ghost" shape="circle" class="btn-attach" type="button" aria-label="Attach file" (click)="showAttachSheet.set(true)">
-      <svg lucidePaperclip aria-hidden="true"></svg>
-    </button>
+    <ui-attach-button (attach)="showAttachSheet.set(true)" />
 
     <div class="input-wrapper">
-      <input 
-        type="text" 
+      <input
+        type="text"
         class="composer-input"
         placeholder="Type a message..."
         aria-label="Message"
