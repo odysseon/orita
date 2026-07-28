@@ -1,0 +1,31 @@
+@if (items().length) {
+<section class="section">
+  <div class="section-header" style="display: flex; justify-content: space-between; align-items: center">
+    <h2 class="section__title">Listings</h2>
+    @if (total() > 5) {
+      <button app-button appearance="ghost" size="sm" class="btn-text" (click)="viewAll.emit()">
+        See all
+      </button>
+    }
+  </div>
+  <ui-list [bordered]="false" [radius]="false" [dividers]="true">
+    @for (item of items(); track item.id) {
+      <ui-listing-search-result
+        [listing]="{ id: item.id, title: item.title, thumbnailUrl: $any(item).media?.[0]?.url || $any(item).imageUrl || $any(item).coverUrl, price: +($any(item).minPrice || 0), isSaved: item.isSaved }"
+        (saveToggle)="onSaveToggle(item.id, $event)"
+      />
+    }
+  </ui-list>
+</section>
+}
+@if (items().length === 0) {
+<ui-empty-state
+  title="No listings found"
+  description="We couldn't find any listings matching your search. Try adjusting your filters or expanding your radius."
+>
+</ui-empty-state>
+} @else if (items().length < total()) {
+<div style="text-align: center; margin-top: 2rem">
+  <button app-button appearance="outline" (click)="loadMore.emit()">Load More</button>
+</div>
+}
