@@ -1,0 +1,13 @@
+<button
+  type="button"
+  app-button
+  [appearance]="appearance()"
+  shape="circle"
+  size="icon"
+  [disabled]="disabled()"
+  [loading]="loading()"
+  [attr.aria-label]="label()"
+  (click)="attach.emit()"
+>
+  <svg lucidePaperclip aria-hidden="true"></svg>
+</button>

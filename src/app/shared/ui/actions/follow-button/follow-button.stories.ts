@@ -7,11 +7,10 @@ const meta: Meta<FollowButton> = {
   tags: ['autodocs'],
   argTypes: {
     isFollowed: { control: 'boolean' },
-    display: { control: 'select', options: ['text', 'icon', 'icon-text'] },
     layout: { control: 'select', options: ['horizontal', 'vertical'] },
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
     fullWidth: { control: 'boolean' },
-    toggle: { action: 'toggled' }
+    toggle: { action: 'toggled' },
   },
   render: (args) => ({
     props: args,
@@ -24,8 +23,8 @@ const meta: Meta<FollowButton> = {
         [fullWidth]="fullWidth"
         (toggle)="toggle($event)"
       ></ui-follow-button>
-    `
-  })
+    `,
+  }),
 };
 
 export default meta;
@@ -34,57 +33,52 @@ type Story = StoryObj<FollowButton>;
 export const Default: Story = {
   args: {
     isFollowed: false,
-    display: 'text',
     layout: 'horizontal',
     size: 'md',
-    fullWidth: false
-  }
+    fullWidth: false,
+  },
 };
 
 export const Following: Story = {
   args: {
     isFollowed: true,
-    display: 'text',
     layout: 'horizontal',
     size: 'md',
-    fullWidth: false
-  }
+    fullWidth: false,
+  },
 };
 
 export const IconText: Story = {
   args: {
     isFollowed: false,
-    display: 'icon-text',
     layout: 'horizontal',
     size: 'md',
-    fullWidth: false
-  }
+    fullWidth: false,
+  },
 };
 
 export const VerticalIconText: Story = {
   args: {
     isFollowed: false,
-    display: 'icon-text',
     layout: 'vertical',
     size: 'md',
-    fullWidth: false
-  }
+    fullWidth: false,
+  },
 };
 
 export const IconOnly: Story = {
   args: {
     isFollowed: false,
-    display: 'icon',
     layout: 'horizontal',
     size: 'md',
-    fullWidth: false
-  }
+    fullWidth: false,
+  },
 };
 
 export const Small: Story = {
   args: {
     isFollowed: false,
     size: 'sm',
-    fullWidth: false
-  }
+    fullWidth: false,
+  },
 };
