@@ -1,0 +1,158 @@
+<div class="orita-tab-content">
+  <!-- Search Input -->
+  <div class="orita-tab-search">
+    <ui-search-bar (clear)="onClearSearch()">
+      <input
+        app-input
+        type="text"
+        placeholder="Search Orita..."
+        [value]="searchQuery()"
+        (input)="onSearchInput($event)"
+      />
+    </ui-search-bar>
+  </div>
+
+  <div class="orita-tab-scroll">
+    @if (searchQuery().trim()) {
+      <!-- Search Results -->
+      <div class="section">
+        <h4 class="section-title">Search Results</h4>
+        @if (isSearching()) {
+          <div class="loading-state">Searching...</div>
+        } @else if (searchResults().length > 0) {
+          <ui-list [bordered]="false" [dividers]="false">
+            @for (item of searchResults(); track item.targetId) {
+              @if (item.type === 'LISTING') {
+                <ui-listing-search-result
+                  [showSave]="false"
+                  [listing]="{ id: item.targetId, title: item.title, thumbnailUrl: null, price: 0, availability: 'in-stock' }"
+                  (click)="selectItem(item.type, item.targetId)"
+                >
+                  <input result-action type="checkbox" app-checkbox shape="circle" appearance="ghost" size="md"
+                    (click)="$event.stopPropagation(); selectItem(item.type, item.targetId)" />
+                </ui-listing-search-result>
+              } @else {
+                <button type="button" uiListItem (click)="selectItem(item.type, item.targetId)">
+                  <div uiListItemStart>
+                    @if (item.type === 'BUSINESS') {
+                      <svg lucideStore aria-hidden="true"></svg>
+                    } @else if (item.type === 'TOUR') {
+                      <svg lucideImage aria-hidden="true"></svg>
+                    } @else {
+                      <svg lucideMapPin aria-hidden="true"></svg>
+                    }
+                  </div>
+                  <div uiListItemContent>
+                    <div uiListItemTitle>{{ item.title }}</div>
+                    @if (item.subtitle) {
+                      <div uiListItemDescription>{{ item.subtitle }}</div>
+                    }
+                  </div>
+                  <div uiListItemEnd>
+                    <input type="checkbox" app-checkbox shape="circle" appearance="ghost" size="md"
+                      (click)="$event.stopPropagation(); selectItem(item.type, item.targetId)" />
+                  </div>
+                </button>
+              }
+            }
+          </ui-list>
+        } @else {
+          <div class="empty-state">No results found.</div>
+        }
+      </div>
+
+    } @else {
+
+      <!-- Recent -->
+      @if (recent().length > 0) {
+        <div class="section">
+          <h4 class="section-title">Recent</h4>
+          <ui-list [bordered]="false" [dividers]="false">
+            @for (item of recent(); track item.targetId) {
+              @if (item.type === 'LISTING') {
+                <ui-listing-search-result
+                  [showSave]="false"
+                  [listing]="{ id: item.targetId, title: item.title, thumbnailUrl: null, price: 0, availability: 'in-stock' }"
+                  (click)="selectItem(item.type, item.targetId)"
+                >
+                  <input result-action type="checkbox" app-checkbox shape="circle" appearance="ghost" size="md"
+                    (click)="$event.stopPropagation(); selectItem(item.type, item.targetId)" />
+                </ui-listing-search-result>
+              } @else {
+                <button type="button" uiListItem (click)="selectItem(item.type, item.targetId)">
+                  <div uiListItemStart>
+                    @if (item.type === 'BUSINESS') {
+                      <svg lucideStore aria-hidden="true"></svg>
+                    } @else if (item.type === 'TOUR') {
+                      <svg lucideImage aria-hidden="true"></svg>
+                    } @else {
+                      <svg lucideMapPin aria-hidden="true"></svg>
+                    }
+                  </div>
+                  <div uiListItemContent>
+                    <div uiListItemTitle>{{ item.title }}</div>
+                  </div>
+                  <div uiListItemEnd>
+                    <input type="checkbox" app-checkbox shape="circle" appearance="ghost" size="md"
+                      (click)="$event.stopPropagation(); selectItem(item.type, item.targetId)" />
+                  </div>
+                </button>
+              }
+            }
+          </ui-list>
+        </div>
+      }
+
+      <!-- Library -->
+      <div class="section">
+        <h4 class="section-title">Library</h4>
+
+        <!-- Saved -->
+        <div class="subsection">
+          <h5 class="subsection-title">Saved</h5>
+          @if (savedItems().length > 0) {
+            <ui-list [bordered]="false" [dividers]="false">
+              @for (item of savedItems(); track item.id) {
+                <ui-listing-search-result
+                  [showSave]="false"
+                  [listing]="{ id: item.listingId || item.id, title: item.listing?.title || item.title || 'Saved Item', thumbnailUrl: item.listing?.thumbnailUrl || null, price: item.listing?.price || 0, availability: 'in-stock', isSaved: true }"
+                  (click)="selectItem('LISTING', item.listingId || item.id)"
+                >
+                  <input result-action type="checkbox" app-checkbox shape="circle" appearance="ghost" size="md"
+                    (click)="$event.stopPropagation(); selectItem('LISTING', item.listingId || item.id)" />
+                </ui-listing-search-result>
+              }
+            </ui-list>
+          } @else {
+            <div class="empty-state">No saved items.</div>
+          }
+        </div>
+
+        <!-- Following -->
+        <div class="subsection">
+          <h5 class="subsection-title">Following</h5>
+          @if (followingItems().length > 0) {
+            <ui-list [bordered]="false" [dividers]="false">
+              @for (item of followingItems(); track item.id) {
+                <button type="button" uiListItem (click)="selectItem('BUSINESS', item.businessId || item.id)">
+                  <div uiListItemStart>
+                    <svg lucideStore aria-hidden="true"></svg>
+                  </div>
+                  <div uiListItemContent>
+                    <div uiListItemTitle>{{ item.business?.name || item.name || 'Following Item' }}</div>
+                  </div>
+                  <div uiListItemEnd>
+                    <input type="checkbox" app-checkbox shape="circle" appearance="ghost" size="md"
+                      (click)="$event.stopPropagation(); selectItem('BUSINESS', item.businessId || item.id)" />
+                  </div>
+                </button>
+              }
+            </ui-list>
+          } @else {
+            <div class="empty-state">Not following anything.</div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>
