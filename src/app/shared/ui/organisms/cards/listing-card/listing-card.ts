@@ -8,29 +8,41 @@ import { LucideMessageCircle } from '@lucide/angular';
 import { MessagingFacade } from '../../../../../core/services/messaging.facade';
 import { ListingSearchResult } from '../../search-results/listing-search-result/listing-search-result';
 
+import { RouterLink } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
+import { SaveButton } from '../../../actions/save-button/save-button';
+
 @Component({
   selector: 'ui-listing-card',
   standalone: true,
-  imports: [CoverMedia, Card, ShareButton, ShareModalComponent, Button, LucideMessageCircle, ListingSearchResult],
+  imports: [CoverMedia, Card, ShareButton, ShareModalComponent, Button, LucideMessageCircle, RouterLink, CurrencyPipe, SaveButton],
   template: `
-    <app-card appearance="plain" padding="none" [interactive]="true" class="ui-listing-card-container">
-      <ui-cover-media [src]="listing().coverUrl" aspectRatio="4/3" [overlayGradient]="true"></ui-cover-media>
-      <div class="ui-listing-card__body">
-        <ui-listing-search-result
-          [listing]="{
-            id: listing().id,
-            slug: listing().slug,
-            title: listing().title,
-            price: listing().price ?? 0,
-            availability: listing().availability,
-            isSaved: listing().isSaved
-          }"
-          [hideThumbnail]="true"
-          [showSave]="showSave()"
-          (saveToggle)="saveToggle.emit($event)">
-        </ui-listing-search-result>
+    <a [routerLink]="['/l', listing().slug || listing().id]" style="text-decoration: none; color: inherit; display: block;">
+      <app-card appearance="plain" padding="none" [interactive]="true" class="ui-listing-card-container">
+        <ui-cover-media [src]="listing().coverUrl" aspectRatio="4/3" [overlayGradient]="true"></ui-cover-media>
+        <div class="ui-listing-card__body">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: var(--size-8);">
+            <div style="flex: 1; min-width: 0;">
+              <div class="truncate" style="font-weight: var(--font-weight-semibold); font-size: var(--font-size-md);">{{ listing().title }}</div>
+              <div style="display: flex; align-items: center; gap: var(--size-8); margin-top: var(--size-4);">
+                <span style="font-weight: var(--font-weight-medium);">{{ (listing().price || 0) | currency:'NGN':'symbol-narrow':'1.0-0' }}</span>
+                @if (listing().availability === 'IN_STOCK') {
+                  <span style="font-size: var(--font-size-xs); color: var(--text-secondary);">In Stock</span>
+                } @else if (listing().availability === 'OUT_OF_STOCK') {
+                  <span style="font-size: var(--font-size-xs); color: var(--text-secondary);">Out of Stock</span>
+                } @else if (listing().availability === 'PRE_ORDER') {
+                  <span style="font-size: var(--font-size-xs); color: var(--clr-warning);">Pre-order</span>
+                }
+              </div>
+            </div>
+            @if (showSave()) {
+              <div (click)="$event.preventDefault(); $event.stopPropagation()">
+                <ui-save-button [isSaved]="listing().isSaved ?? false" (toggle)="saveToggle.emit($event)"></ui-save-button>
+              </div>
+            }
+          </div>
 
-        <div class="ui-listing-card__actions">
+        <div class="ui-listing-card__actions" style="display: flex; align-items: center; justify-content: space-between; gap: var(--size-8); margin-top: var(--size-8); padding-top: var(--size-8); border-top: 1px solid var(--border-subtle);">
           <div style="display: flex; align-items: center; gap: var(--size-8); flex: 1;">
             @if (showMessage() && listing().business) {
               <button app-button intent="secondary" size="sm" appearance="outline"
@@ -46,8 +58,9 @@ import { ListingSearchResult } from '../../search-results/listing-search-result/
             </div>
           }
         </div>
-      </div>
-    </app-card>
+        </div>
+      </app-card>
+    </a>
 
     @if (showShare()) {
       <ui-share-modal

@@ -72,7 +72,7 @@ export class Listings {
   });
 
   readonly listings = httpResource<IListing[]>(
-    () => `${environment.apiUrl}/businesses/${this.businessId()}/listings/mine`,
+    () => `${environment.apiUrl}/listings/mine`,
   );
 
   readonly categories = httpResource<ICategory[]>(() => `${environment.apiUrl}/categories`);
@@ -145,7 +145,7 @@ export class Listings {
         categoryId: this.businessProfile()?.primaryCategoryId,
       };
       const createdListing = await firstValueFrom(
-        this.#http.post<IListing>(`${environment.apiUrl}/businesses/${this.businessId()}/listings`, payload),
+        this.#http.post<IListing>(`${environment.apiUrl}/listings`, payload),
       );
       this.#toast.success('Done', 'Listing created.');
       this.closeForm();

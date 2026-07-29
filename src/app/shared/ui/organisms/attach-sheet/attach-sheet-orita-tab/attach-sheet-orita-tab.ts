@@ -18,7 +18,7 @@ import {
   ListItemEnd,
 } from '../../../surfaces/list/list';
 import { ListingSearchResult } from '../../search-results/listing-search-result/listing-search-result';
-import { CheckboxDirective } from '../../../atoms/forms';
+import { CheckboxDirective, InputDirective } from '../../../atoms/forms';
 import { LucideStore, LucideImage, LucideMapPin } from '@lucide/angular';
 
 export interface AttachSheetOritaItemSelected {
@@ -40,6 +40,7 @@ export interface AttachSheetOritaItemSelected {
     ListItemEnd,
     ListingSearchResult,
     CheckboxDirective,
+    InputDirective,
     LucideStore,
     LucideImage,
     LucideMapPin,
