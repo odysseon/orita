@@ -5,6 +5,7 @@
         app-input
         type="text"
         placeholder="Search Orita..."
+        aria-label="Search Orita"
         [value]="searchQuery()"
         (input)="onSearchInput($event)"
       />
@@ -31,7 +32,7 @@
                     (click)="$event.stopPropagation(); selectItem(item.type, item.targetId)" />
                 </ui-listing-search-result>
               } @else {
-                <button type="button" uiListItem (click)="selectItem(item.type, item.targetId)">
+                <label uiListItem>
                   <div uiListItemStart>
                     @if (item.type === 'BUSINESS') {
                       <svg lucideStore aria-hidden="true"></svg>
@@ -49,9 +50,9 @@
                   </div>
                   <div uiListItemEnd>
                     <input type="checkbox" app-checkbox shape="circle" appearance="ghost" size="md"
-                      (click)="$event.stopPropagation(); selectItem(item.type, item.targetId)" />
+                      (change)="selectItem(item.type, item.targetId)" />
                   </div>
-                </button>
+                </label>
               }
             }
           </ui-list>
@@ -78,7 +79,7 @@
                     (click)="$event.stopPropagation(); selectItem(item.type, item.targetId)" />
                 </ui-listing-search-result>
               } @else {
-                <button type="button" uiListItem (click)="selectItem(item.type, item.targetId)">
+                <label uiListItem>
                   <div uiListItemStart>
                     @if (item.type === 'BUSINESS') {
                       <svg lucideStore aria-hidden="true"></svg>
@@ -93,9 +94,9 @@
                   </div>
                   <div uiListItemEnd>
                     <input type="checkbox" app-checkbox shape="circle" appearance="ghost" size="md"
-                      (click)="$event.stopPropagation(); selectItem(item.type, item.targetId)" />
+                      (change)="selectItem(item.type, item.targetId)" />
                   </div>
-                </button>
+                </label>
               }
             }
           </ui-list>
@@ -133,7 +134,7 @@
           @if (followingItems().length > 0) {
             <ui-list [bordered]="false" [dividers]="false">
               @for (item of followingItems(); track item.id) {
-                <button type="button" uiListItem (click)="selectItem('BUSINESS', item.businessId || item.id)">
+                <label uiListItem>
                   <div uiListItemStart>
                     <svg lucideStore aria-hidden="true"></svg>
                   </div>
@@ -142,9 +143,9 @@
                   </div>
                   <div uiListItemEnd>
                     <input type="checkbox" app-checkbox shape="circle" appearance="ghost" size="md"
-                      (click)="$event.stopPropagation(); selectItem('BUSINESS', item.businessId || item.id)" />
+                      (change)="selectItem('BUSINESS', item.businessId || item.id)" />
                   </div>
-                </button>
+                </label>
               }
             </ui-list>
           } @else {
