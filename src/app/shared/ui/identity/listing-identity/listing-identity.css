@@ -1,6 +1,30 @@
 .ui-listing-identity {
-  display: block;
+  display: flex;
+  align-items: center;
   text-align: left;
+  min-width: 0;
+}
+
+.ui-listing-identity-thumbnail {
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+/* Thumbnail sizes */
+.ui-listing-identity-thumbnail.size-sm {
+  width: var(--size-32);
+  height: var(--size-32);
+}
+
+.ui-listing-identity-thumbnail.size-md {
+  width: var(--size-48);
+  height: var(--size-48);
+}
+
+.ui-listing-identity-thumbnail.size-lg {
+  width: var(--size-64);
+  height: var(--size-64);
 }
 
 .ui-listing-identity-info {
