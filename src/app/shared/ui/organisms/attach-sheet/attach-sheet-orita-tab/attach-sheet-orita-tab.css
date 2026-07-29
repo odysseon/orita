@@ -47,13 +47,3 @@
   color: var(--text-muted);
 }
 
-.search-input-override {
-  border: none !important;
-  box-shadow: none !important;
-  background: transparent !important;
-}
-
-.search-input-override:focus-visible {
-  border-color: transparent !important;
-  box-shadow: none !important;
-}

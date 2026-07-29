@@ -1,10 +1,8 @@
 <div class="orita-tab-content">
-  <!-- Search Input -->
   <div class="orita-tab-search">
     <ui-search-bar (clear)="onClearSearch()">
       <input
         app-input
-        class="search-input-override"
         type="text"
         placeholder="Search Orita..."
         [value]="searchQuery()"
