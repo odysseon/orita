@@ -1,4 +1,6 @@
-import { Component, inject, OnInit, signal, PLATFORM_ID } from '@angular/core';
+import { Component, inject, OnInit, signal, PLATFORM_ID, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
 import { ConversationSidebar } from '../../shared/ui/organisms/messaging/conversation-sidebar/conversation-sidebar';
@@ -27,6 +29,8 @@ export class MessagesPage implements OnInit {
   notificationService = inject(NotificationService);
   #auth = inject(AuthService);
   #draftStore = inject(DraftMessageService);
+  #route = inject(ActivatedRoute);
+  #destroyRef = inject(DestroyRef);
 
   activeTab: 'inbox' | 'updates' = 'inbox';
 
@@ -54,6 +58,12 @@ export class MessagesPage implements OnInit {
 
   ngOnInit(): void {
     this.messaging.loadConversations();
+    this.#route.paramMap.pipe(takeUntilDestroyed(this.#destroyRef)).subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.messaging.loadConversation(id);
+      }
+    });
   }
 
   onSelectConversation(id: string): void {
