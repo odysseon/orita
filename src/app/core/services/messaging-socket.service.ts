@@ -1,4 +1,4 @@
-import { Service, inject, OnDestroy } from '@angular/core';
+import { Service, inject, OnDestroy, effect } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Subject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -23,6 +23,24 @@ export class MessagingSocket implements OnDestroy {
   readonly messageNew$: Observable<WsMessageNewEvent> = this.#messageNew$.asObservable();
   readonly messageRead$: Observable<WsReadReceiptEvent> = this.#messageRead$.asObservable();
   readonly connected$: Observable<void> = this.#connected$.asObservable();
+
+  constructor() {
+    effect(() => {
+      const token = this.#auth.token();
+      if (this.#socket) {
+        if (token) {
+          // If token changes and we are connected, update auth and reconnect
+          this.#socket.auth = { token };
+          if (this.#socket.connected) {
+            this.#socket.disconnect().connect();
+          }
+        } else {
+          // If token is removed, disconnect
+          this.disconnect();
+        }
+      }
+    });
+  }
 
   connect(): void {
     if (this.#socket?.connected) return;
