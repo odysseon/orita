@@ -4,6 +4,7 @@
     @for (embed of draftEmbeds(); track embed.targetId) {
     <ui-listing-search-result
       [showSave]="false"
+      [embedType]="embed.embedType"
       [listing]="{ id: embed.targetId, title: 'Shared ' + embed.embedType, thumbnailUrl: null, price: 0 }"
       style="display: block; width: fit-content; background: var(--surface-container); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 8px;"
     >
