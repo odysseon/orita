@@ -15,6 +15,7 @@ import { CacheService, CacheKeys } from './cache.service';
 import { DatabaseService } from './database.service';
 
 const TOKEN_KEY = 'auth_token';
+const REFRESH_TOKEN_KEY = 'auth_refresh_token';
 
 @Service()
 export class AuthService {
@@ -28,6 +29,7 @@ export class AuthService {
   #db = inject(DatabaseService);
 
   readonly token = signal<string | undefined>(this.#cookie.get(TOKEN_KEY));
+  readonly refreshTokenVal = signal<string | undefined>(this.#cookie.get(REFRESH_TOKEN_KEY));
   readonly currentUser = signal<IProfile | null>(this.#cache.get<IProfile>(CacheKeys.PROFILE));
 
   constructor() {
@@ -59,7 +61,7 @@ export class AuthService {
       const res = await firstValueFrom(
         this.#http.post<ILoginResponse>(`${environment.apiUrl}/auth/login`, payload),
       );
-      this.#setToken(res.token, remember ? new Date(res.expiresAt) : undefined);
+      this.#setToken(res.token, res.refreshToken, remember ? new Date(res.expiresAt) : undefined);
       this.#toast.success('Logged in', 'Welcome back!');
       await this.#router.navigateByUrl(returnUrl);
       return true;
@@ -80,7 +82,7 @@ export class AuthService {
       );
       
       if (res.token) {
-        this.#setToken(res.token, res.expiresAt ? new Date(res.expiresAt) : undefined);
+        this.#setToken(res.token, res.refreshToken, res.expiresAt ? new Date(res.expiresAt) : undefined);
       }
 
       if (returnUrl === '/home' && !this.#exploration.hasLocation()) {
@@ -125,8 +127,10 @@ export class AuthService {
     this.#push.unsubscribe().catch((err) => console.error(err));
 
     this.#cookie.delete(TOKEN_KEY, { secure: environment.production });
+    this.#cookie.delete(REFRESH_TOKEN_KEY, { secure: environment.production });
     this.#cache.remove(CacheKeys.PROFILE);
     this.token.set(undefined);
+    this.refreshTokenVal.set(undefined);
     this.currentUser.set(null);
     this.#db.clearConversationsAndMessages().catch(err => console.error(err));
     
@@ -145,14 +149,16 @@ export class AuthService {
 
   async refreshToken(): Promise<string | null> {
     if (this.#refreshPromise) return this.#refreshPromise;
+    const currentRefresh = this.refreshTokenVal();
+    if (!currentRefresh) return null;
 
     this.#refreshPromise = (async () => {
       try {
         const res = await firstValueFrom(
-          this.#http.post<{ token: string; expiresAt: string }>(`${environment.apiUrl}/auth/refresh`, {})
+          this.#http.post<ILoginResponse>(`${environment.apiUrl}/auth/refresh`, { token: currentRefresh })
         );
         if (res.token) {
-          this.#setToken(res.token, res.expiresAt ? new Date(res.expiresAt) : undefined);
+          this.#setToken(res.token, res.refreshToken, res.expiresAt ? new Date(res.expiresAt) : undefined);
           return res.token;
         }
         return null;
@@ -166,11 +172,16 @@ export class AuthService {
     return this.#refreshPromise;
   }
 
-  #setToken(token: string, expires?: Date): void {
+  #setToken(token: string, refreshToken: string, expires?: Date): void {
     this.#cookie.set(TOKEN_KEY, token, {
       expires,
       secure: environment.production,
     });
+    this.#cookie.set(REFRESH_TOKEN_KEY, refreshToken, {
+      expires,
+      secure: environment.production,
+    });
     this.token.set(token);
+    this.refreshTokenVal.set(refreshToken);
   }
 }
