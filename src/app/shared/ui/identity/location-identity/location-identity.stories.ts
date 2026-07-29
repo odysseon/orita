@@ -1,16 +1,10 @@
-import { Meta, StoryObj, applicationConfig } from '@storybook/angular';
-import { provideRouter } from '@angular/router';
+import { Meta, StoryObj } from '@storybook/angular';
 import { LocationIdentity } from './location-identity';
 
 const meta: Meta<LocationIdentity> = {
   title: 'Molecules/Identity/LocationIdentity',
   component: LocationIdentity,
   tags: ['autodocs'],
-  decorators: [
-    applicationConfig({
-      providers: [provideRouter([])]
-    })
-  ],
   argTypes: {
     size: {
       control: 'radio',
