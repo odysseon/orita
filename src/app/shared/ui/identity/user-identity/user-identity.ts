@@ -13,7 +13,7 @@ import { IdentityLink } from '../identity.model';
         <app-avatar
           [src]="user().avatarUrl || null"
           [alt]="user().displayName"
-          [fallback]="user().displayName.charAt(0)"
+          [fallback]="(user().displayName || user().username || 'U').charAt(0)"
           [size]="avatarSize()"
           [status]="resolvedStatus()"
         ></app-avatar>
@@ -31,7 +31,7 @@ import { IdentityLink } from '../identity.model';
       <app-avatar
         [src]="user().avatarUrl || null"
         [alt]="user().displayName"
-        [fallback]="user().displayName.charAt(0)"
+        [fallback]="(user().displayName || user().username || 'U').charAt(0)"
         [size]="avatarSize()"
         [status]="resolvedStatus()"
       ></app-avatar>

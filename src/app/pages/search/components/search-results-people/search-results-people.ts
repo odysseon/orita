@@ -17,7 +17,7 @@ import { EmptyState } from '../../../../shared/empty-state/empty-state';
       <label uiListItem>
         <div uiListItemContent>
           <ui-user-identity
-            [user]="{ id: user.id, displayName: $any(user).name || $any(user).displayName, username: $any(user).username || $any(user).slug || user.id, avatarUrl: user.avatarUrl }"
+            [user]="{ id: user.id, displayName: $any(user).name || $any(user).displayName || $any(user).username || 'Unknown', username: $any(user).username || $any(user).slug || user.id, avatarUrl: user.avatarUrl }"
           ></ui-user-identity>
         </div>
         <div uiListItemEnd>
