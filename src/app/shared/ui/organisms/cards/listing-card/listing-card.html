@@ -1,0 +1,46 @@
+<app-card appearance="outlined" padding="none" radius="lg" class="ui-listing-card-container">
+  <a [routerLink]="getLink()" class="ui-listing-card__media-link">
+    <ui-cover-media [src]="listing().coverUrl" aspectRatio="4/3" [overlayGradient]="true"></ui-cover-media>
+  </a>
+
+  <div class="ui-listing-card__body">
+    <div class="ui-listing-card__header">
+      <a [routerLink]="getLink()" class="ui-listing-card__info-link">
+        <h3 class="ui-listing-card__title truncate">{{ listing().title }}</h3>
+        <ui-listing-meta [price]="listing().price" [availability]="listing().availability" />
+      </a>
+
+      @if (showSave()) {
+        <ui-save-button
+          [isSaved]="listing().isSaved ?? false"
+          (toggle)="saveToggle.emit($event)"
+        ></ui-save-button>
+      }
+    </div>
+
+    <div class="ui-listing-card__footer">
+      @if (showMessage() && listing().business) {
+        <ui-message-button
+          [businessId]="listing().business.id"
+          embedType="LISTING"
+          [targetId]="listing().id"
+        />
+      }
+      @if (showShare()) {
+        <ui-share-button size="sm" (share)="showShareModal.set(true)" />
+      }
+    </div>
+  </div>
+
+  @if (showShare()) {
+    <ui-share-modal
+      [isOpen]="showShareModal()"
+      (close)="showShareModal.set(false)"
+      embedType="LISTING"
+      [targetId]="listing().id"
+      [targetSlug]="listing().slug || undefined"
+      [title]="listing().title"
+      [imageUrl]="listing().coverUrl || undefined"
+    />
+  }
+</app-card>

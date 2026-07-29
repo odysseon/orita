@@ -18,7 +18,7 @@
           >
             <input
               id="name"
-              class="app-input"
+              app-input
               [attr.aria-invalid]="businessForm.name().touched() && businessForm.name().invalid()"
               type="text"
               [formField]="businessForm.name"
@@ -26,8 +26,7 @@
             />
           </app-form-field>
 
-          <div class="field">
-            <span class="field__label">Business Type</span>
+          <app-form-field label="Business Type" fieldId="businessType">
             <div class="biz-type-grid">
               @for (option of typeOptions; track option.value) {
                 <button
@@ -41,7 +40,7 @@
                 </button>
               }
             </div>
-          </div>
+          </app-form-field>
 
           <app-form-field
             label="Description"
@@ -51,7 +50,7 @@
           >
             <textarea
               id="description"
-              class="field__textarea"
+              app-textarea
               [class.field__textarea--error]="businessForm.description().touched() && businessForm.description().invalid()"
               [formField]="businessForm.description"
               placeholder="Tell your customers about what you do..."
@@ -105,7 +104,7 @@
           >
             <input
               id="websiteUrl"
-              class="app-input"
+              app-input
               [attr.aria-invalid]="businessForm.websiteUrl().touched() && businessForm.websiteUrl().invalid()"
               type="url"
               [formField]="businessForm.websiteUrl"
@@ -121,7 +120,7 @@
           >
             <input
               id="contactPhone"
-              class="app-input"
+              app-input
               [attr.aria-invalid]="businessForm.contactPhone().touched() && businessForm.contactPhone().invalid()"
               type="tel"
               [formField]="businessForm.contactPhone"
@@ -143,7 +142,7 @@
           >
             <input
               id="whatsapp"
-              class="app-input"
+              app-input
               [attr.aria-invalid]="businessForm.whatsapp().touched() && businessForm.whatsapp().invalid()"
               type="tel"
               [formField]="businessForm.whatsapp"
@@ -165,7 +164,7 @@
           >
             <input
               id="contactEmail"
-              class="app-input"
+              app-input
               [attr.aria-invalid]="businessForm.contactEmail().touched() && businessForm.contactEmail().invalid()"
               type="email"
               [formField]="businessForm.contactEmail"
@@ -173,39 +172,36 @@
             />
           </app-form-field>
 
-          <div class="field">
-            <span class="field__label">Location Address</span>
+          <app-form-field label="Location Address" fieldId="location">
             <ui-location-picker
               [currentAddress]="model().location || undefined"
               triggerLabel="Set Location"
               (confirmed)="onLocationPicked($event)"
             />
-          </div>
+          </app-form-field>
         </div>
       </div>
 
       <div class="panel">
         <h2 class="panel__title">Business Images</h2>
         <div class="panel__body edit-biz-panel-body">
-          <div class="field">
-            <span class="field__label">Logo / Avatar</span>
+          <app-form-field label="Logo / Avatar" fieldId="logo">
             <app-media-selector
               [multiple]="false"
               [initialUrls]="business.value()?.avatarUrl || ''"
               (filesChanged)="onAvatarChanged($event)"
               (mediaRemoved)="onAvatarRemoved()"
             ></app-media-selector>
-          </div>
+          </app-form-field>
 
-          <div class="field">
-            <span class="field__label">Cover Photo</span>
+          <app-form-field label="Cover Photo" fieldId="cover">
             <app-media-selector
               [multiple]="false"
               [initialUrls]="business.value()?.coverUrl || ''"
               (filesChanged)="onCoverChanged($event)"
               (mediaRemoved)="onCoverRemoved()"
             ></app-media-selector>
-          </div>
+          </app-form-field>
         </div>
       </div>
 

@@ -27,6 +27,7 @@ export class ConversationView {
   conversation = input<IConversation | IConversationPreview | null>(null);
   messages = input<IMessage[]>([]);
   viewerParticipantId = input<string | undefined>(undefined);
+  status = input<string>('loaded');
 
   send = output<SendMessageDto>();
   back = output<void>();

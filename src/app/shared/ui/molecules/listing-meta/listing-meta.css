@@ -1,0 +1,33 @@
+.ui-listing-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-8);
+}
+
+.ui-listing-meta__price {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.ui-listing-meta__status {
+  font-size: var(--font-size-xs);
+  padding: var(--size-2) var(--size-6);
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+
+.ui-listing-meta__status[data-availability='IN_STOCK'] {
+  background: var(--clr-success-container);
+  color: var(--clr-on-success-container);
+}
+
+.ui-listing-meta__status[data-availability='OUT_OF_STOCK'] {
+  background: var(--clr-error-container);
+  color: var(--clr-on-error-container);
+}
+
+.ui-listing-meta__status[data-availability='PRE_ORDER'] {
+  background: var(--clr-warning-container);
+  color: var(--clr-on-warning-container);
+}

@@ -3,11 +3,12 @@ import { LucideXCircle, LucideAlertTriangle } from '@lucide/angular';
 import { PublicationIssue } from '../../core/services/business-profile.service';
 import { Drawer } from '../ui/overlays/drawer/drawer';
 
+import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle } from '../ui/surfaces/list/list';
 import { Button } from '../ui/atoms/button/button';
 
 @Component({
   selector: 'app-publication-readiness',
-  imports: [Drawer, LucideXCircle, LucideAlertTriangle, Button],
+  imports: [Drawer, LucideXCircle, LucideAlertTriangle, Button, List, ListItem, ListItemStart, ListItemContent, ListItemTitle],
   templateUrl: './publication-readiness.html',
   styleUrl: './publication-readiness.css',
 })

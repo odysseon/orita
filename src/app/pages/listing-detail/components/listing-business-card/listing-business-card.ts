@@ -5,10 +5,11 @@ import { FollowService } from '../../../../core/services/follow.service';
 import { ToastService } from '../../../../core/services/toast';
 import { Button } from '../../../../shared/ui/atoms/button/button';
 import { BusinessCard } from '../../../../shared/ui/organisms/cards/business-card/business-card';
+import { MessageButton } from '../../../../shared/ui/actions/message-button/message-button';
 
 @Component({
   selector: 'app-listing-business-card',
-  imports: [LucidePhone, LucideMessageCircle, Button, BusinessCard],
+  imports: [LucidePhone, LucideMessageCircle, Button, BusinessCard, MessageButton],
   templateUrl: './listing-business-card.html',
   styleUrl: './listing-business-card.css',
 })
@@ -35,16 +36,6 @@ export class ListingBusinessCard {
 
   openWhatsapp(number: string): void {
     window.open(`https://wa.me/${number.replace(/\D/g, '')}`, '_blank');
-  }
-
-  onMessage(): void {
-    const businessId = this.biz().id;
-    if (!businessId) return;
-
-    this.#messagingFacade.messageBusiness(businessId, this.listingId() ? {
-      embedType: 'LISTING',
-      targetId: this.listingId()!
-    } : undefined);
   }
 
   onFollowToggle(wantToFollow: boolean): void {

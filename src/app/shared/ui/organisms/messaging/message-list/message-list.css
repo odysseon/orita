@@ -21,6 +21,13 @@
   min-height: min-content;
 }
 
+.message-list-skeleton {
+  display: flex;
+  flex-direction: column;
+  padding: var(--size-16);
+}
+
+.empty-view,
 .empty-state {
   flex: 1;
   display: flex;

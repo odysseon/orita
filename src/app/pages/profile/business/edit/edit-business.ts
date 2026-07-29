@@ -23,6 +23,8 @@ import { CategoryPicker } from '../../../../shared/ui/organisms/category-picker/
 import { LocationPicker } from '../../../../shared/ui/organisms/location-picker/location-picker';
 import { Button } from '../../../../shared/ui/atoms/button/button';
 import { Skeleton } from '../../../../shared/ui/atoms/skeleton/skeleton';
+import { InputDirective } from '../../../../shared/ui/atoms/forms/input';
+import { TextareaDirective } from '../../../../shared/ui/atoms/forms/textarea';
 import { Location } from '../../../../core/services/location.service';
 import { MediaService } from '../../../../core/services/media.service';
 
@@ -50,7 +52,7 @@ export interface IEditBusinessForm {
 
 @Component({
   selector: 'app-edit-business',
-  imports: [FormField, AppFormField, MediaSelector, LocationPicker, LucideLoaderCircle, CategoryPicker, Button, Skeleton],
+  imports: [FormField, AppFormField, MediaSelector, LocationPicker, LucideLoaderCircle, CategoryPicker, Button, Skeleton, InputDirective, TextareaDirective],
   templateUrl: './edit-business.html',
   styleUrl: './edit-business.css',
 })

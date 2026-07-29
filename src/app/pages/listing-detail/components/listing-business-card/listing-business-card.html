@@ -27,9 +27,6 @@
       WhatsApp
     </button>
     }
-    <button app-button intent="primary" style="flex: 1" (click)="onMessage()" type="button">
-      <svg lucideMessageCircle style="width: var(--size-16); height: var(--size-16)" aria-hidden="true"></svg>
-      Message
-    </button>
+    <ui-message-button intent="primary" style="flex: 1" [businessId]="biz().id" embedType="LISTING" [targetId]="listingId()" />
   </div>
 </div>
