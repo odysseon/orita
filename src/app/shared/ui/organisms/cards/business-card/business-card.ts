@@ -68,6 +68,7 @@ import { Card } from '../../../atoms/card/card';
         (close)="showShareModal.set(false)"
         embedType="BUSINESS"
         [targetId]="business().id"
+        [targetSlug]="business().slug || undefined"
         [title]="business().name"
         [imageUrl]="business().logoUrl || undefined"
       />
