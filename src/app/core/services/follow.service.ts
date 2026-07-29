@@ -31,7 +31,7 @@ export class FollowService {
   #locationService = inject(LocationService);
 
   followLocation(location: Location): Observable<void> {
-    if (!location.persisted && !location.id) {
+    if (!location.persisted) {
       return this.#locationService
         .ensure(location)
         .pipe(switchMap((persistedLoc) => this.follow('location', persistedLoc.id)));

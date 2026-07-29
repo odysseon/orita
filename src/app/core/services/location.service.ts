@@ -47,14 +47,15 @@ export class LocationService {
 
   ensure(location: Location): Observable<Location> {
     const payload: any = {
-      provider: location.provider,
-      name: location.name,
-      formattedAddress: location.formattedAddress || '',
-      lat: location.latitude,
-      lng: location.longitude,
+      provider: location.provider || 'nominatim',
+      name: location.name || location.formattedAddress || 'Location',
+      formattedAddress: location.formattedAddress || location.name || '',
+      lat: location.latitude ?? (location as any).lat ?? 0,
+      lng: location.longitude ?? (location as any).lng ?? (location as any).lon ?? 0,
     };
-    if (location.externalId) {
-      payload.externalId = String(location.externalId);
+    const extId = location.externalId || (location.persisted ? undefined : location.id);
+    if (extId) {
+      payload.externalId = String(extId);
     }
     if (location.countryCode) {
       payload.countryCode = String(location.countryCode);
