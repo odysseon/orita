@@ -1,10 +1,16 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj, applicationConfig } from '@storybook/angular';
+import { provideRouter } from '@angular/router';
 import { UserIdentity } from './user-identity';
 
 const meta: Meta<UserIdentity> = {
   title: 'Molecules/Identity/UserIdentity',
   component: UserIdentity,
   tags: ['autodocs'],
+  decorators: [
+    applicationConfig({
+      providers: [provideRouter([])]
+    })
+  ],
   argTypes: {
     size: {
       control: 'radio',
