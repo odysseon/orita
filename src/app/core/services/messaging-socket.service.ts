@@ -28,14 +28,8 @@ export class MessagingSocket implements OnDestroy {
     effect(() => {
       const token = this.#auth.token();
       if (this.#socket) {
-        if (token) {
-          // If token changes and we are connected, update auth and reconnect
-          this.#socket.auth = { token };
-          if (this.#socket.connected) {
-            this.#socket.disconnect().connect();
-          }
-        } else {
-          // If token is removed, disconnect
+        this.#socket.auth = { token };
+        if (!token) {
           this.disconnect();
         }
       }
@@ -50,7 +44,7 @@ export class MessagingSocket implements OnDestroy {
     const token = this.#auth.token();
     
     this.#socket = io(`${this.#apiUrl}/ws/messaging`, {
-      auth: { token }, // socket.io 4+ standard way to pass tokens
+      auth: (cb: (data: { token?: string }) => void) => cb({ token: this.#auth.token() }),
       transports: ['websocket'],
       withCredentials: true
     });
