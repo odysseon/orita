@@ -7,4 +7,5 @@ export interface ILoginResponse {
   token: string;
   refreshToken: string;
   expiresAt: string;
+  refreshExpiresAt?: string;
 }

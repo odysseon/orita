@@ -37,6 +37,8 @@ export class AuthService {
       const t = this.token();
       if (t) {
         this.fetchCurrentUser();
+      } else if (this.refreshTokenVal()) {
+        this.refreshToken();
       } else {
         this.currentUser.set(null);
       }
@@ -61,7 +63,7 @@ export class AuthService {
       const res = await firstValueFrom(
         this.#http.post<ILoginResponse>(`${environment.apiUrl}/auth/login`, payload),
       );
-      this.#setToken(res.token, res.refreshToken, new Date(res.expiresAt));
+      this.#setToken(res.token, res.refreshToken, undefined, this.#getRefreshExpiry(res));
       this.#toast.success('Logged in', 'Welcome back!');
       await this.#router.navigateByUrl(returnUrl);
       return true;
@@ -82,7 +84,7 @@ export class AuthService {
       );
       
       if (res.token) {
-        this.#setToken(res.token, res.refreshToken, res.expiresAt ? new Date(res.expiresAt) : undefined);
+        this.#setToken(res.token, res.refreshToken, undefined, this.#getRefreshExpiry(res));
       }
 
       if (returnUrl === '/home' && !this.#exploration.hasLocation()) {
@@ -158,7 +160,7 @@ export class AuthService {
           this.#http.post<ILoginResponse>(`${environment.apiUrl}/auth/refresh`, { token: currentRefresh })
         );
         if (res.token) {
-          this.#setToken(res.token, res.refreshToken, res.expiresAt ? new Date(res.expiresAt) : undefined);
+          this.#setToken(res.token, res.refreshToken, undefined, this.#getRefreshExpiry(res));
           return res.token;
         }
         return null;
@@ -172,13 +174,18 @@ export class AuthService {
     return this.#refreshPromise;
   }
 
-  #setToken(token: string, refreshToken: string, expires?: Date): void {
+  #getRefreshExpiry(res: ILoginResponse): Date | undefined {
+    const expStr = res.refreshExpiresAt || res.expiresAt;
+    return expStr ? new Date(expStr) : undefined;
+  }
+
+  #setToken(token: string, refreshToken: string, tokenExpires?: Date, refreshExpires?: Date): void {
     this.#cookie.set(TOKEN_KEY, token, {
-      expires,
+      expires: tokenExpires,
       secure: environment.production,
     });
     this.#cookie.set(REFRESH_TOKEN_KEY, refreshToken, {
-      expires,
+      expires: refreshExpires,
       secure: environment.production,
     });
     this.token.set(token);
