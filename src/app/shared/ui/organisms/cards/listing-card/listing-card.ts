@@ -68,6 +68,7 @@ import { SaveButton } from '../../../actions/save-button/save-button';
         (close)="showShareModal.set(false)"
         embedType="LISTING"
         [targetId]="listing().id"
+        [targetSlug]="listing().slug || undefined"
         [title]="listing().title"
         [imageUrl]="listing().coverUrl || undefined"
       />

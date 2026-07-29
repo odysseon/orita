@@ -4,6 +4,7 @@ import { UserSearchService } from '../../../../core/services/user-search.service
 import { UserSearchResult } from '../../../../core/types/share.types';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthService } from '../../../../core/services/auth.service';
+import { resolveEmbedRoute } from '../../../../shared/utils/embed.utils';
 import { Drawer } from '../../overlays/drawer/drawer';
 import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../surfaces/list/list';
 import { SearchBar } from '../../molecules/search-bar/search-bar';
@@ -29,6 +30,8 @@ export class ShareModalComponent implements OnInit {
   isOpen = input<boolean>(false);
   embedType = input.required<'BUSINESS' | 'LISTING' | 'TOUR' | 'LOCATION'>();
   targetId = input.required<string>();
+  targetSlug = input<string>();
+  canonicalUrl = input<string>();
   title = input.required<string>();
   subtitle = input<string>();
   imageUrl = input<string>();
@@ -168,10 +171,24 @@ export class ShareModalComponent implements OnInit {
   }
 
   async onNativeShare() {
+    let shareUrl = this.canonicalUrl();
+    if (!shareUrl) {
+      const route = resolveEmbedRoute({
+        embedType: this.embedType(),
+        targetId: this.targetId(),
+        slug: this.targetSlug(),
+      });
+      if (route && route.length > 0) {
+        shareUrl = `${window.location.origin}${route.join('/')}`;
+      } else {
+        shareUrl = window.location.href;
+      }
+    }
+
     const data = {
       title: this.title(),
       text: this.subtitle() || '',
-      url: window.location.href,
+      url: shareUrl,
     };
     await this.#shareService.share(data);
   }
