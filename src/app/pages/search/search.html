@@ -1,9 +1,9 @@
 <div class="search-page page-container fade-in">
-  <app-seo [config]="seoConfig()" />
+  <app-seo [config]="store.seoConfig()" />
   <app-search-header
     [uiScrollHide]="true"
     scrollHidePosition="top"
-    [query]="rawQuery()"
+    [query]="store.rawQuery()"
     placeholder="Search for something..."
     (queryChange)="onSearchInputString($event)"
     (filter)="openFilters()"
@@ -12,27 +12,27 @@
   <div class="search-header">
     <div class="search-controls">
       <div class="search-tabs">
-        <ui-tabs [value]="searchType()" (valueChange)="setSearchType($any($event))">
+        <ui-tabs [value]="store.searchType()" (valueChange)="setSearchType($any($event))">
           <ui-tab-list appearance="pill" size="sm">
             <button app-button app-tab-trigger value="all">All</button>
             <button app-button app-tab-trigger value="people">
-              People @if (usersResource.hasValue() && searchType() === 'people' && !isDebouncing()) {
-              <span>({{ usersResource.value()?.total || 0 }})</span>
+              People @if (store.usersResource.hasValue() && store.searchType() === 'people' && !store.isDebouncing()) {
+              <span>({{ store.usersResource.value()?.total || 0 }})</span>
               }
             </button>
             <button app-button app-tab-trigger value="listing">
-              Listings @if (listingsResource.hasValue() && searchType() === 'listing' && !isDebouncing()) {
-              <span>({{ listingsResource.value()?.total || 0 }})</span>
+              Listings @if (store.listingsResource.hasValue() && store.searchType() === 'listing' && !store.isDebouncing()) {
+              <span>({{ store.listingsResource.value()?.total || 0 }})</span>
               }
             </button>
             <button app-button app-tab-trigger value="business">
-              Businesses @if (businessesResource.hasValue() && searchType() === 'business' && !isDebouncing()) {
-              <span>({{ businessesResource.value()?.total || 0 }})</span>
+              Businesses @if (store.businessesResource.hasValue() && store.searchType() === 'business' && !store.isDebouncing()) {
+              <span>({{ store.businessesResource.value()?.total || 0 }})</span>
               }
             </button>
             <button app-button app-tab-trigger value="tour">
-              Tours @if (toursResource.hasValue() && searchType() === 'tour' && !isDebouncing()) {
-              <span>({{ toursResource.value()?.total || 0 }})</span>
+              Tours @if (store.toursResource.hasValue() && store.searchType() === 'tour' && !store.isDebouncing()) {
+              <span>({{ store.toursResource.value()?.total || 0 }})</span>
               }
             </button>
             <button app-button app-tab-trigger value="location">Locations</button>
@@ -40,15 +40,15 @@
         </ui-tabs>
       </div>
 
-      @if (appliedLocationName() || appliedCategoryId()) {
+      @if (store.appliedLocationName() || store.appliedCategoryId()) {
       <div class="active-filters">
-        @if (appliedLocationName()) {
+        @if (store.appliedLocationName()) {
         <span class="filter-chip">
           <svg icon lucideMapPin aria-hidden="true"></svg>
-          {{ appliedLocationName() }} ({{ appliedRadius() }}km)
+          {{ store.appliedLocationName() }} ({{ store.appliedRadius() }}km)
         </span>
         }
-        @if (appliedCategoryId()) {
+        @if (store.appliedCategoryId()) {
         <span class="filter-chip">
           Category applied
           <button app-button appearance="plain" class="clear-btn" style="position: static; margin-left: 4px"
@@ -63,120 +63,116 @@
   </div>
 
   <div class="search-results">
-    @if (!searchQuery() && !rawQuery() && !appliedLocationName() && !appliedCategoryId()) {
+    @if (!store.searchQuery() && !store.rawQuery() && !store.appliedLocationName() && !store.appliedCategoryId()) {
     <app-search-empty-dashboard
-      [recentSearches]="recentSearches()"
-      [categories]="categories()"
-      [popularBusinesses]="popularBusinessItems()"
-      [popularBusinessesLoading]="popularBusinessesResource.isLoading()"
+      [recentSearches]="store.recentSearches()"
+      [categories]="store.categories()"
+      [popularBusinesses]="store.popularBusinessItems()"
+      [popularBusinessesLoading]="store.popularBusinessesResource.isLoading()"
       (recentSelected)="applyRecentSearch($event)"
       (categorySelected)="setCategory($event)"
-      (followToggle)="onFollowToggle($any($event.type), $event.id, $event.wantToFollow)"
+      (followToggle)="store.onFollowToggle($any($event.type), $event.id, $event.wantToFollow)"
     />
 
-    } @else if (isDebouncing() || listingsResource.isLoading() || businessesResource.isLoading() || locationsResource.isLoading()) {
+    } @else if (store.isDebouncing() || store.listingsResource.isLoading() || store.businessesResource.isLoading() || store.locationsResource.isLoading()) {
     <div class="loading-state">
       <div class="spinner"></div>
       <p>Searching...</p>
     </div>
 
-    } @else if (searchType() === 'all') {
+    } @else if (store.searchType() === 'all') {
     <div class="aggregator-view">
       <app-search-results-people
-        [items]="userItems()"
-        [total]="usersResource.value()?.total || 0"
+        [items]="store.userItems()"
+        [total]="store.usersResource.value()?.total || 0"
         [showEmptyState]="false"
-        (followToggle)="onFollowToggle('user', $event.id, $event.wantToFollow)"
-        (loadMore)="loadMore()"
+        (followToggle)="store.onFollowToggle('user', $event.id, $event.wantToFollow)"
         (viewAll)="setSearchType('people')"
         (clearSearch)="clearSearch()"
       />
       <app-search-results-businesses
-        [items]="businessItems()"
-        [total]="businessesResource.value()?.total || 0"
+        [items]="store.businessItems()"
+        [total]="store.businessesResource.value()?.total || 0"
         [showEmptyState]="false"
-        (followToggle)="onFollowToggle('business', $event.id, $event.wantToFollow)"
-        (loadMore)="loadMore()"
+        (followToggle)="store.onFollowToggle('business', $event.id, $event.wantToFollow)"
         (viewAll)="setSearchType('business')"
       />
       <app-search-results-listings
-        [items]="listingItems()"
-        [total]="listingsResource.value()?.total || 0"
+        [items]="store.listingItems()"
+        [total]="store.listingsResource.value()?.total || 0"
         [showEmptyState]="false"
-        (saveToggle)="onSaveToggle($event.id, $event.wantToSave)"
-        (loadMore)="loadMore()"
+        (saveToggle)="store.onSaveToggle($event.id, $event.wantToSave)"
         (viewAll)="setSearchType('listing')"
       />
       <app-search-results-tours
-        [items]="toursResource.value()?.items || []"
-        [total]="toursResource.value()?.total || 0"
+        [items]="store.toursResource.value()?.items || []"
+        [total]="store.toursResource.value()?.total || 0"
         [showEmptyState]="false"
-        (loadMore)="loadMore()"
         (viewAll)="setSearchType('tour')"
         (clearSearch)="clearSearch()"
       />
       <app-search-results-locations
-        [items]="locationItems()"
-        [total]="locationsResource.value()?.length || 0"
+        [items]="store.locationItems()"
+        [total]="store.locationsResource.value()?.length || 0"
         [showEmptyState]="false"
-        (followToggle)="onFollowToggle('location', $event.id, $event.wantToFollow)"
+        (followToggle)="store.onFollowLocationToggle($event.location, $event.wantToFollow)"
         (viewAll)="setSearchType('location')"
       />
-      @if (!userItems().length && !businessItems().length && !listingItems().length && !toursResource.value()?.items?.length && !locationItems().length) {
+      @if (!store.userItems().length && !store.businessItems().length && !store.listingItems().length && !store.toursResource.value()?.items?.length && !store.locationItems().length) {
       <ui-empty-state title="No results found" description="We couldn't find anything matching your search.">
         <button app-button appearance="outline" (click)="clearSearch()">Clear Search</button>
       </ui-empty-state>
       }
     </div>
 
-    } @else if (searchType() === 'people') {
+    } @else if (store.searchType() === 'people') {
     <app-search-results-people
-      [items]="userItems()"
-      [total]="usersResource.value()?.total || 0"
-      (followToggle)="onFollowToggle('user', $event.id, $event.wantToFollow)"
+      [items]="store.userItems()"
+      [total]="store.usersResource.value()?.total || 0"
+      (followToggle)="store.onFollowToggle('user', $event.id, $event.wantToFollow)"
       (loadMore)="loadMore()"
       (clearSearch)="clearSearch()"
     />
 
-    } @else if (searchType() === 'location') {
+    } @else if (store.searchType() === 'location') {
     <app-search-results-locations
-      [items]="locationItems()"
-      [total]="locationsResource.value()?.length || 0"
-      (followToggle)="onFollowToggle('location', $event.id, $event.wantToFollow)"
+      [items]="store.locationItems()"
+      [total]="store.locationsResource.value()?.length || 0"
+      (followToggle)="store.onFollowLocationToggle($event.location, $event.wantToFollow)"
     />
 
-    } @else if (searchType() === 'listing') {
+    } @else if (store.searchType() === 'listing') {
     <app-search-results-listings
-      [items]="listingItems()"
-      [total]="listingsResource.value()?.total || 0"
-      (saveToggle)="onSaveToggle($event.id, $event.wantToSave)"
+      [items]="store.listingItems()"
+      [total]="store.listingsResource.value()?.total || 0"
+      (saveToggle)="store.onSaveToggle($event.id, $event.wantToSave)"
       (loadMore)="loadMore()"
     />
 
-    } @else if (searchType() === 'tour') {
+    } @else if (store.searchType() === 'tour') {
     <app-search-results-tours
-      [items]="toursResource.value()?.items || []"
-      [total]="toursResource.value()?.total || 0"
+      [items]="store.toursResource.value()?.items || []"
+      [total]="store.toursResource.value()?.total || 0"
       (loadMore)="loadMore()"
       (clearSearch)="clearSearch()"
     />
 
     } @else {
     <app-search-results-businesses
-      [items]="businessItems()"
-      [total]="businessesResource.value()?.total || 0"
-      (followToggle)="onFollowToggle('business', $event.id, $event.wantToFollow)"
+      [items]="store.businessItems()"
+      [total]="store.businessesResource.value()?.total || 0"
+      (followToggle)="store.onFollowToggle('business', $event.id, $event.wantToFollow)"
       (loadMore)="loadMore()"
     />
     }
   </div>
 
   <app-search-filters
-    [isOpen]="isFiltersOpen()"
-    (isOpenChange)="isFiltersOpen.set($event)"
-    [searchType]="searchType()"
-    [categories]="categories() || []"
-    [currentFilters]="currentFiltersState()"
+    [isOpen]="store.isFiltersOpen()"
+    (isOpenChange)="store.isFiltersOpen.set($event)"
+    [searchType]="store.searchType()"
+    [categories]="store.categories() || []"
+    [currentFilters]="store.currentFiltersState()"
     (applyFilters)="onApplyFilters($event)"
   />
 </div>
