@@ -66,6 +66,11 @@ export const routes: Routes = [
     data: { isRootAppPage: true },
   },
   {
+    path: 'messages/:id',
+    loadComponent: () => import('./pages/messages/messages').then((m) => m.MessagesPage),
+    data: { isRootAppPage: true },
+  },
+  {
     path: 'notifications',
     loadComponent: () => import('./pages/notifications/notifications').then((m) => m.NotificationsPage),
     data: { isRootAppPage: true },
