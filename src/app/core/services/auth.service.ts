@@ -61,7 +61,7 @@ export class AuthService {
       const res = await firstValueFrom(
         this.#http.post<ILoginResponse>(`${environment.apiUrl}/auth/login`, payload),
       );
-      this.#setToken(res.token, res.refreshToken, remember ? new Date(res.expiresAt) : undefined);
+      this.#setToken(res.token, res.refreshToken, new Date(res.expiresAt));
       this.#toast.success('Logged in', 'Welcome back!');
       await this.#router.navigateByUrl(returnUrl);
       return true;
