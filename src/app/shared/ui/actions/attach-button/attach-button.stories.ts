@@ -142,7 +142,7 @@ export const InMessageComposer: Story = {
         <input
           type="text"
           placeholder="Type a message..."
-          style="flex: 1; padding: 8px 12px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 14px; outline: none;"
+          style="flex: 1; padding: 8px 12px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 14px;"
         />
         <button
           style="padding: 8px 20px; background: #0066ff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500;"
