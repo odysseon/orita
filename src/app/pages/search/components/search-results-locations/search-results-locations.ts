@@ -35,7 +35,7 @@ import { LucideMapPin } from '@lucide/angular';
           <div uiListItemEnd>
             <ui-follow-button
               [isFollowed]="loc.isFollowed ?? false"
-              (toggle)="followToggle.emit({ id: loc.id || loc.externalId, wantToFollow: $event })"
+              (toggle)="followToggle.emit({ location: loc, wantToFollow: $event })"
             ></ui-follow-button>
           </div>
         </label>
@@ -53,6 +53,6 @@ export class SearchResultsLocations {
   total = input<number>(0);
   showEmptyState = input<boolean>(true);
 
-  followToggle = output<{ id: string | undefined; wantToFollow: boolean }>();
+  followToggle = output<{ location: any; wantToFollow: boolean }>();
   viewAll = output<void>();
 }
