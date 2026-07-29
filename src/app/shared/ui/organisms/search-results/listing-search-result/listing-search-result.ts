@@ -4,6 +4,7 @@ import { ListItem } from '../../../surfaces/list/list';
 import { CoverMedia } from '../../../surfaces/cover-media/cover-media';
 import { SaveButton } from '../../../actions/save-button/save-button';
 import { CurrencyPipe } from '@angular/common';
+import { resolveEmbedRoute } from '../../../../utils/embed.utils';
 
 @Component({
   selector: 'ui-listing-search-result',
@@ -27,6 +28,8 @@ export class ListingSearchResult {
     isSaved?: boolean;
   }>();
 
+  embedType = input<string>('LISTING');
+
   hideThumbnail = input<boolean>(false);
   showSave = input<boolean>(true);
 
@@ -34,7 +37,10 @@ export class ListingSearchResult {
   saveToggle = output<boolean>();
 
   getListingLink(): any[] | null {
-    const slug = this.listing().slug || this.listing().id;
-    return slug ? ['/l', slug] : null;
+    return resolveEmbedRoute({
+      embedType: this.embedType(),
+      targetId: this.listing().id,
+      slug: this.listing().slug
+    });
   }
 }
