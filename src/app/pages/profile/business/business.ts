@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, ViewChild, OnInit } from '@angular/core';
+import { Component, computed, inject, signal, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -33,37 +33,27 @@ import { VisibilityScore } from '../../../shared/visibility-score/visibility-sco
 import { BusinessProfileService, PublicationIssue } from '../../../core/services/business-profile.service';
 import { PublicationReadinessDialog } from '../../../shared/publication-readiness/publication-readiness';
 import { ToastService } from '../../../core/services/toast';
+import { BusinessOverview } from './components/business-overview';
+import { BusinessHours } from './components/business-hours';
 
 @Component({
   selector: 'app-page-business',
   imports: [
-    LucideStore,
-    LucideImage,
-    LucideMapPin,
-    LucidePlus,
-    LucideChartBar,
-    LucideClock,
-    LucideList,
     Button,
     Skeleton,
     Avatar,
-    LucideEye,
-    LucideBookmark,
-    LucideMousePointerClick,
-    LucideGlobe,
-    LucideMail,
-    LucidePhone,
     CreateBusiness,
     Listings,
     AppBusinessTours,
     CompletionNudge,
     FirstListingCta,
-    BusinessCard,
-    VisibilityScore,
     PublicationReadinessDialog,
+    BusinessOverview,
+    BusinessHours,
   ],
   templateUrl: './business.html',
   styleUrl: './business.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class Business implements OnInit {
   #router = inject(Router);

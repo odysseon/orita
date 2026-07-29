@@ -1,16 +1,18 @@
 import { Component, input, output, ViewChild, ElementRef, AfterViewChecked, effect } from '@angular/core';
 import { MessageBubble } from '../../../molecules/messaging/message-bubble/message-bubble';
+import { Skeleton } from '../../../atoms/skeleton/skeleton';
 import { IMessage } from '../../../../../core/services/messaging.types';
 
 @Component({
   selector: 'ui-message-list',
-  imports: [MessageBubble],
+  imports: [MessageBubble, Skeleton],
   templateUrl: './message-list.html',
   styleUrl: './message-list.css'
 })
 export class MessageList implements AfterViewChecked {
   messages = input<IMessage[]>([]);
   viewerParticipantId = input<string | undefined>(undefined);
+  status = input<string>('loaded');
 
   retryMessage = output<string>();
   discardMessage = output<string>();

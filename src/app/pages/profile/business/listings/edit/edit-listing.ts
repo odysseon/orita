@@ -15,6 +15,8 @@ import { AppFormField } from '../../../../../shared/ui/atoms/form-field/form-fie
 import { CategoryService, ICategoryAttribute } from '../../../../../core/services/category.service';
 import { Button } from '../../../../../shared/ui/atoms/button/button';
 import { SelectDirective } from '../../../../../shared/ui/atoms/forms/select';
+import { InputDirective } from '../../../../../shared/ui/atoms/forms/input';
+import { TextareaDirective } from '../../../../../shared/ui/atoms/forms/textarea';
 
 interface IMedia {
   id: string;
@@ -24,7 +26,7 @@ interface IMedia {
 
 @Component({
   selector: 'app-edit-listing',
-  imports: [FormField, AppFormField, LucideSave, MediaSelector, Button, SelectDirective],
+  imports: [FormField, AppFormField, LucideSave, MediaSelector, Button, SelectDirective, InputDirective, TextareaDirective],
   templateUrl: './edit-listing.html',
   styleUrl: './edit-listing.css',
 })

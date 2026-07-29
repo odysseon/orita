@@ -1,67 +1,67 @@
 .ui-listing-card {
   display: block;
-  height: 100%;
 }
 
 .ui-listing-card-container {
-  display: flex;
-  flex-direction: column;
-  background: var(--surface-default, var(--surface-card));
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  height: 100%;
-  transition: all var(--transition-fast) ease;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
-/* Trigger cover media zoom on card hover */
-.ui-listing-card:hover .ui-listing-card-container {
-  border-color: var(--border-default);
-  box-shadow: var(--shadow-sm);
+.ui-listing-card-container:hover {
   transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
-.ui-listing-card:hover ui-cover-media .ui-cover-media__img {
-  transform: scale(1.05);
+.ui-listing-card__media-link {
+  display: block;
+  text-decoration: none;
 }
 
 .ui-listing-card__body {
-  padding: var(--size-14) var(--size-16);
   display: flex;
   flex-direction: column;
-  gap: var(--size-8);
-  flex-grow: 1;
+  gap: var(--size-12);
+  padding: var(--size-16);
+}
+
+.ui-listing-card__header {
+  display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--size-8);
+}
+
+.ui-listing-card__info-link {
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4);
 }
 
 .ui-listing-card__title {
   margin: 0;
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-md);
-  font-weight: var(--font-weight-medium);
   color: var(--text-primary);
   line-height: var(--line-height-tight);
 }
 
-.ui-listing-card__meta {
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-  margin-top: var(--size-4);
-}
-
-.ui-listing-card__meta:empty {
-  display: none;
-}
-
-.ui-listing-card__actions {
+.ui-listing-card__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--size-8);
-  margin-top: var(--size-12);
-  padding-top: var(--size-10);
-  border-top: 1px solid var(--border-subtle);
+  margin-top: var(--size-8);
+  padding-top: var(--size-8);
+  border-top: var(--size-1) solid var(--border-subtle);
 }
 
-.ui-listing-card__actions:empty {
-  display: none;
+ui-save-button,
+ui-message-button,
+ui-share-button {
+  position: relative;
 }

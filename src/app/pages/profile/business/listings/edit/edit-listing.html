@@ -14,8 +14,8 @@
         <app-form-field label="Title" fieldId="title">
           <input
             id="title"
-            class="app-input"
-            formControlName="title"
+            app-input
+            [formField]="editForm.title"
             placeholder="e.g., iPhone 13 Pro Max"
           />
         </app-form-field>
@@ -37,7 +37,7 @@
         <app-form-field label="Description" fieldId="description">
           <textarea
             id="description"
-            class="field__textarea"
+            app-textarea
             [formField]="editForm.description"
             rows="4"
             placeholder="Describe the item or service..."
@@ -48,7 +48,7 @@
           <app-form-field label="Min Price (NGN)" fieldId="minPrice">
             <input
               id="minPrice"
-              class="app-input"
+              app-input
               type="number"
               [formField]="editForm.minPrice"
               placeholder="0"
@@ -58,7 +58,7 @@
           <app-form-field label="Max Price (NGN) (Optional)" fieldId="maxPrice">
             <input
               id="maxPrice"
-              class="app-input"
+              app-input
               type="number"
               [formField]="editForm.maxPrice"
               placeholder="0"

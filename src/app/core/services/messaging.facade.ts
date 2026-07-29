@@ -31,8 +31,6 @@ export class MessagingFacade {
           const draft = this.#draftStore.getDraft(businessId);
           if (draft) {
             this.#draftStore.setDraft(conv.id, draft);
-            // Only clear the businessId-keyed draft if the conv has a different ID
-            // to avoid wiping the embed before the composer reads it.
             if (conv.id !== businessId) {
               this.#draftStore.clearDraft(businessId);
             }
@@ -40,7 +38,7 @@ export class MessagingFacade {
         }
 
         this.#messagingService.loadConversation(conv.id);
-        this.#router.navigate(['/messages']);
+        this.#router.navigate(['/messages', conv.id]);
       },
       error: (err) => {
         console.error('Failed to open conversation', err);

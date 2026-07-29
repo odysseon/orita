@@ -1,6 +1,14 @@
 <div class="message-list-container" #scrollContainer>
-      @if (messages().length === 0) {
-        <div class="empty-state">
+      @if (status() === 'loading' && messages().length === 0) {
+        <div class="message-list-skeleton">
+          <app-skeleton style="height: 40px; width: 55%; border-radius: var(--radius-lg); align-self: flex-start; margin-bottom: 12px;"></app-skeleton>
+          <app-skeleton style="height: 40px; width: 65%; border-radius: var(--radius-lg); align-self: flex-end; margin-bottom: 12px;"></app-skeleton>
+          <app-skeleton style="height: 56px; width: 70%; border-radius: var(--radius-lg); align-self: flex-start; margin-bottom: 12px;"></app-skeleton>
+          <app-skeleton style="height: 40px; width: 50%; border-radius: var(--radius-lg); align-self: flex-end; margin-bottom: 12px;"></app-skeleton>
+          <app-skeleton style="height: 40px; width: 60%; border-radius: var(--radius-lg); align-self: flex-start; margin-bottom: 12px;"></app-skeleton>
+        </div>
+      } @else if (messages().length === 0) {
+        <div class="empty-view">
           <p>No messages yet. Start the conversation!</p>
         </div>
       } @else {

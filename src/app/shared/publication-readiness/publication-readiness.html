@@ -5,28 +5,36 @@
     @if (errors().length > 0) {
       <div class="issue-group">
         <h3 class="issue-group-title">Errors</h3>
-        <ul class="issue-list">
+        <ui-list [bordered]="true" [radius]="true">
           @for (err of errors(); track err.code) {
-            <li class="issue-item issue-error">
-              <svg lucideXCircle aria-hidden="true" class="issue-icon"></svg>
-              <span>{{ err.message }}</span>
+            <li uiListItem class="issue-item issue-error">
+              <div uiListItemStart>
+                <svg lucideXCircle aria-hidden="true" class="issue-icon"></svg>
+              </div>
+              <div uiListItemContent>
+                <span uiListItemTitle style="white-space: normal">{{ err.message }}</span>
+              </div>
             </li>
           }
-        </ul>
+        </ui-list>
       </div>
     }
 
     @if (warnings().length > 0) {
       <div class="issue-group">
         <h3 class="issue-group-title">Suggestions</h3>
-        <ul class="issue-list">
+        <ui-list [bordered]="true" [radius]="true">
           @for (warn of warnings(); track warn.code) {
-            <li class="issue-item issue-warning">
-              <svg lucideAlertTriangle aria-hidden="true" class="issue-icon"></svg>
-              <span>{{ warn.message }}</span>
+            <li uiListItem class="issue-item issue-warning">
+              <div uiListItemStart>
+                <svg lucideAlertTriangle aria-hidden="true" class="issue-icon"></svg>
+              </div>
+              <div uiListItemContent>
+                <span uiListItemTitle style="white-space: normal">{{ warn.message }}</span>
+              </div>
             </li>
           }
-        </ul>
+        </ui-list>
       </div>
     }
 

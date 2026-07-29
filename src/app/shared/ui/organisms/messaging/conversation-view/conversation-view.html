@@ -6,6 +6,7 @@
 
     <ui-message-list
       [messages]="messages()"
+      [status]="status()"
       [viewerParticipantId]="viewerParticipantId()"
       (retryMessage)="retry.emit($event)"
       (discardMessage)="discard.emit($event)"
