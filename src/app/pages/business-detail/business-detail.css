@@ -125,6 +125,41 @@
   }
 }
 
+.biz-serves-dropdown {
+  margin-top: var(--size-4);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.biz-serves-dropdown summary {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4);
+  cursor: pointer;
+  list-style: none;
+  font-weight: var(--font-weight-medium);
+  color: var(--clr-primary);
+  user-select: none;
+}
+
+.biz-serves-dropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.biz-serves-list {
+  margin: var(--size-4) 0 0 calc(var(--size-16) + var(--size-4));
+  padding: 0;
+  list-style: disc;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-2);
+}
+
+.biz-serves-list li {
+  margin: 0;
+}
+
 
 
 

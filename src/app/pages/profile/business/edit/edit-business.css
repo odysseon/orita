@@ -204,3 +204,178 @@ input:checked + .toggle-slider::before {
   color: var(--clr-primary);
   font-weight: var(--font-weight-medium);
 }
+
+.service-modes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mode-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.service-areas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.service-area-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--surface-container);
+}
+
+.sa-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sa-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sa-card-title {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.sa-card-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.sa-status-badge {
+  padding: 0.15rem 0.4rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.sa-status-badge.enabled {
+  background: var(--clr-success-container);
+  color: var(--clr-success);
+}
+
+.sa-status-badge.disabled {
+  background: var(--surface-container-highest);
+  color: var(--text-tertiary);
+}
+
+.service-area-card.disabled {
+  opacity: 0.7;
+  background: var(--surface-default);
+}
+
+.sa-card-icon {
+  color: var(--clr-primary);
+}
+
+.sa-card-text {
+  font-weight: 500;
+}
+
+.sa-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sa-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.sa-action-btn:hover {
+  color: var(--text-primary);
+}
+
+.sa-action-btn.sa-danger:hover {
+  color: var(--clr-danger);
+}
+
+.sa-action-btn lucide-edit-2,
+.sa-action-btn lucide-trash-2 {
+  width: 14px;
+  height: 14px;
+}
+
+.add-area-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: none;
+  border: 1px dashed var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.add-area-btn:hover {
+  background: var(--surface-container-hover);
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+
+.search-preview {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-default);
+}
+
+.search-preview h4 {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.search-preview-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.preview-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.preview-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.preview-empty {
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+}

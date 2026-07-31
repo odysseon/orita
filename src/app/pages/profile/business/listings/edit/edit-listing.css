@@ -106,3 +106,136 @@
 .main-preview {
   aspect-ratio: 16/9;
 }
+
+.availability-section {
+  border-top: 1px solid var(--border-default);
+  padding-top: var(--space-md);
+}
+
+.availability-modes {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+.service-areas-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  background: var(--surface-container);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+}
+
+.service-area-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background: var(--surface-default);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+}
+
+.sa-card-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sa-card-icon {
+  color: var(--clr-primary);
+  width: 16px;
+  height: 16px;
+}
+
+.sa-card-text {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sa-card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.sa-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.sa-action-btn:hover {
+  color: var(--text-primary);
+}
+
+.sa-action-btn.sa-danger:hover {
+  color: var(--clr-danger);
+}
+
+.sa-action-btn lucide-edit-2,
+.sa-action-btn lucide-trash-2 {
+  width: 12px;
+  height: 12px;
+}
+
+.add-area-btn {
+  background: none;
+  border: 1px dashed var(--border-default);
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.add-area-btn:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+  background: var(--surface-container-hover);
+}
+
+.inherited-areas {
+  margin: 0.5rem 0 1rem 1.75rem;
+  padding: 0.75rem;
+  background: var(--surface-container);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default);
+}
+
+.inherited-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.inherited-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.inherited-list li {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.empty-inherited {
+  font-style: italic;
+  color: var(--text-tertiary) !important;
+}

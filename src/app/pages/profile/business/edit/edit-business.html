@@ -183,6 +183,84 @@
       </div>
 
       <div class="panel">
+        <h2 class="panel__title">How customers receive products</h2>
+        <div class="panel__body edit-biz-panel-body">
+          <div class="service-modes-grid">
+            @for (mode of availableServiceModes; track mode.value) {
+              <label class="mode-checkbox">
+                <input 
+                  type="checkbox" 
+                  app-checkbox 
+                  [checked]="model().serviceModes.includes(mode.value)"
+                  (change)="toggleServiceMode(mode.value)"
+                >
+                <span>{{ mode.label }}</span>
+              </label>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel__title">Where you serve</h2>
+        <div class="panel__body edit-biz-panel-body">
+          <div class="service-areas-list">
+            @for (area of model().serviceAreas; track $index) {
+              <div class="service-area-card" [class.disabled]="!area.enabled">
+                <div class="sa-card-content">
+                  <div class="sa-card-header">
+                    <span class="sa-card-title">{{ area.name || formatServiceAreaText(area) }}</span>
+                  </div>
+                  <div class="sa-card-subtitle">
+                    <span class="sa-type">{{ area.type.replace('_', ' ') | titlecase }}</span>
+                    @if (!area.enabled) {
+                      <span class="sa-status-badge disabled">Disabled</span>
+                    } @else {
+                      <span class="sa-status-badge enabled">Enabled</span>
+                    }
+                  </div>
+                </div>
+                <div class="sa-card-actions">
+                  <button type="button" class="sa-action-btn" (click)="toggleServiceAreaEnabled($index)">
+                    @if (area.enabled) {
+                      <svg lucideEyeOff></svg> Disable
+                    } @else {
+                      <svg lucideEye></svg> Enable
+                    }
+                  </button>
+                  <button type="button" class="sa-action-btn" (click)="openServiceAreaModal(area, $index)">
+                    <svg lucideEdit2></svg> Edit
+                  </button>
+                </div>
+              </div>
+            }
+            
+            <button type="button" class="add-area-btn" (click)="openServiceAreaModal()">
+              <svg lucidePlus></svg> Add service area
+            </button>
+          </div>
+          
+          @if (model().serviceAreas.length > 0) {
+            <div class="search-preview">
+              <h4>Discovery Summary</h4>
+              <p class="search-preview-desc">Customers can find your business from:</p>
+              <div class="preview-list">
+                @for (area of getEnabledServiceAreas(); track $index) {
+                  <div class="preview-item">
+                    <svg lucideCheck class="sa-card-icon"></svg>
+                    <span>{{ formatServiceAreaText(area) }}</span>
+                  </div>
+                }
+                @if (getEnabledServiceAreas().length === 0) {
+                  <p class="preview-empty">No active service areas. Customers may not find your business in location searches.</p>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="panel">
         <h2 class="panel__title">Business Images</h2>
         <div class="panel__body edit-biz-panel-body">
           <app-form-field label="Logo / Avatar" fieldId="logo">
@@ -227,3 +305,13 @@
     </div>
   }
 </div>
+
+<ui-service-area-editor
+  [isOpen]="isServiceAreaModalOpen()"
+  [areaToEdit]="editingServiceArea()"
+  [businessCountry]="'Nigeria'"
+  [allowDelete]="editingServiceArea() !== null"
+  (save)="onSaveServiceArea($event)"
+  (delete)="onDeleteServiceArea()"
+  (close)="closeServiceAreaModal()"
+></ui-service-area-editor>

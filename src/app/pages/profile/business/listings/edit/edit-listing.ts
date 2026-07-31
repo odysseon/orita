@@ -17,6 +17,9 @@ import { Button } from '../../../../../shared/ui/atoms/button/button';
 import { SelectDirective } from '../../../../../shared/ui/atoms/forms/select';
 import { InputDirective } from '../../../../../shared/ui/atoms/forms/input';
 import { TextareaDirective } from '../../../../../shared/ui/atoms/forms/textarea';
+import { ServiceAreaEditor, ServiceAreaEditorSaveEvent } from '../../../../../shared/ui/organisms/service-area-editor/service-area-editor';
+import { IBaseServiceArea } from '../../business.interface';
+import { LucideCheck, LucideEdit2, LucidePlus, LucideTrash2 } from '@lucide/angular';
 
 interface IMedia {
   id: string;
@@ -26,7 +29,7 @@ interface IMedia {
 
 @Component({
   selector: 'app-edit-listing',
-  imports: [FormField, AppFormField, LucideSave, MediaSelector, Button, SelectDirective, InputDirective, TextareaDirective],
+  imports: [FormField, AppFormField, LucideSave, MediaSelector, Button, SelectDirective, InputDirective, TextareaDirective, ServiceAreaEditor, LucideCheck, LucideEdit2, LucidePlus, LucideTrash2],
   templateUrl: './edit-listing.html',
   styleUrl: './edit-listing.css',
 })
@@ -43,6 +46,7 @@ export class EditListing implements OnInit {
   readonly listing = signal<IListing | null>(null);
   readonly categories = signal<ICategory[]>([]);
   readonly attributes = signal<ICategoryAttribute[]>([]);
+  readonly businessServiceAreas = signal<IBaseServiceArea[]>([]);
 
   // Media State
   readonly coverMedia = signal<IMedia | null>(null);
@@ -66,12 +70,18 @@ export class EditListing implements OnInit {
     isNegotiable: false,
     availability: 'IN_STOCK',
     attributesData: {} as Record<string, any>,
+    serviceAreas: [] as IBaseServiceArea[],
   });
 
   readonly editForm = form(this.editModel, (f) => {
     required(f.title, { message: 'Title is required' });
     required(f.availability, { message: 'Availability is required' });
   });
+
+  readonly availabilityMode = signal<'INHERIT' | 'CUSTOM'>('INHERIT');
+  readonly isServiceAreaModalOpen = signal(false);
+  readonly editingServiceArea = signal<IBaseServiceArea | null>(null);
+  readonly editingServiceAreaIndex = signal<number | null>(null);
 
   readonly isLoading = signal(true);
   readonly isSaving = signal(false);
@@ -94,6 +104,11 @@ export class EditListing implements OnInit {
       );
       this.listing.set(l);
 
+      const biz = await firstValueFrom(
+        this.#http.get<any>(`${environment.apiUrl}/business/mine`)
+      );
+      this.businessServiceAreas.set(biz.serviceAreas || []);
+
       const attrsData = l.attributes || {};
       
       this.editModel.set({
@@ -102,10 +117,19 @@ export class EditListing implements OnInit {
         categoryId: l.categoryId || '',
         minPrice: l.minPrice ? Number(l.minPrice) : null,
         maxPrice: l.maxPrice ? Number(l.maxPrice) : null,
-        isNegotiable: l.isNegotiable,
-        availability: l.availability || 'IN_STOCK',
-        attributesData: attrsData
+        isNegotiable: l.isNegotiable ?? false,
+        availability: l.availability ?? 'IN_STOCK',
+        attributesData: attrsData,
+        serviceAreas: l.serviceAreas ?? [],
       });
+
+      if (l.serviceAreas && l.serviceAreas.some(a => a.type === 'INHERIT')) {
+        this.availabilityMode.set('INHERIT');
+      } else if (l.serviceAreas && l.serviceAreas.length > 0) {
+        this.availabilityMode.set('CUSTOM');
+      } else {
+        this.availabilityMode.set('INHERIT'); // default
+      }
 
       const mediaRes = await firstValueFrom(
         this.#http.get<{ cover?: IMedia; gallery: IMedia[] }>(
@@ -168,19 +192,22 @@ export class EditListing implements OnInit {
     this.isSaving.set(true);
     try {
       // 1. Save listing details
-      const val = this.editModel();
-      const payload = {
-        title: val.title,
-        description: val.description,
-        categoryId: val.categoryId,
-        availability: val.availability,
-        price: {
-          minPrice: val.minPrice,
-          maxPrice: val.maxPrice,
-          isNegotiable: val.isNegotiable,
-          currencyCode: 'NGN',
-        },
-        attributes: val.attributesData,
+      const m = this.editModel();
+      const payload: any = {
+        title: m.title,
+        description: m.description,
+        categoryId: m.categoryId,
+        price: (m.minPrice !== null || m.maxPrice !== null) ? {
+          minPrice: m.minPrice ?? 0,
+          maxPrice: m.maxPrice ?? undefined,
+          isNegotiable: m.isNegotiable,
+          currencyCode: 'NGN'
+        } : undefined,
+        availability: m.availability,
+        attributes: m.attributesData,
+        serviceAreas: this.availabilityMode() === 'INHERIT' 
+            ? [{ type: 'INHERIT' }] 
+            : m.serviceAreas
       };
 
       await firstValueFrom(
@@ -287,5 +314,57 @@ export class EditListing implements OnInit {
   get leafCategories() {
     const cats = this.categories() ?? [];
     return cats.flatMap((root) => root.children.filter((child) => child.isActive));
+  }
+
+  setAvailabilityMode(mode: 'INHERIT' | 'CUSTOM'): void {
+    this.availabilityMode.set(mode);
+  }
+
+  openServiceAreaModal(area?: IBaseServiceArea, index?: number): void {
+    this.editingServiceArea.set(area ?? null);
+    this.editingServiceAreaIndex.set(index ?? null);
+    this.isServiceAreaModalOpen.set(true);
+  }
+
+  closeServiceAreaModal(): void {
+    this.isServiceAreaModalOpen.set(false);
+    this.editingServiceArea.set(null);
+    this.editingServiceAreaIndex.set(null);
+  }
+
+  onSaveServiceArea(event: ServiceAreaEditorSaveEvent): void {
+    this.editModel.update((m) => {
+      const currentAreas = [...(m.serviceAreas ?? [])];
+      // Filter out any INHERIT if they were mistakenly added
+      const cleanAreas = currentAreas.filter(a => a.type !== 'INHERIT');
+      const idx = this.editingServiceAreaIndex();
+      if (idx !== null && cleanAreas[idx]) {
+        cleanAreas[idx] = event.area;
+      } else {
+        cleanAreas.push(event.area);
+      }
+      return { ...m, serviceAreas: cleanAreas };
+    });
+    this.closeServiceAreaModal();
+  }
+
+  removeServiceArea(index: number): void {
+    this.editModel.update((m) => {
+      const currentAreas = [...(m.serviceAreas ?? [])].filter(a => a.type !== 'INHERIT');
+      currentAreas.splice(index, 1);
+      return { ...m, serviceAreas: currentAreas };
+    });
+  }
+
+  formatServiceAreaText(area: IBaseServiceArea): string {
+    if (area.name) return area.name;
+    switch (area.type) {
+      case 'RADIUS': return `${area.radiusKm} km around your business`;
+      case 'ADMIN_REGION': return area.administrativeRegionId || 'Specific region';
+      case 'NATIONWIDE': return 'Nationwide';
+      case 'REMOTE': return 'Online only';
+      case 'INHERIT': return 'Use business service areas';
+      default: return 'Custom area';
+    }
   }
 }

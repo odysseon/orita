@@ -25,6 +25,7 @@ import { CoverMedia } from '../../shared/ui/surfaces/cover-media/cover-media';
 import { Grid } from '../../shared/ui/layouts/grid/grid';
 import { ListingCard } from '../../shared/ui/organisms/cards/listing-card/listing-card';
 import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
+import { IBaseServiceArea } from '../profile/business/business.interface';
 
 import { IBusinessDetail, IListingSummary, IPaginated } from './business-detail.interface';
 import { environment } from '../../../environments/environment';
@@ -197,5 +198,22 @@ export class BusinessDetail implements LayoutPage {
     } catch {
       // ignore
     }
+  }
+
+  formatServiceAreaText(area: IBaseServiceArea): string {
+    if (area.name) return area.name;
+    switch (area.type) {
+      case 'RADIUS': return `${area.radiusKm} km around location`;
+      case 'ADMIN_REGION': return area.administrativeRegionId || 'Specific region';
+      case 'NATIONWIDE': return 'Nationwide';
+      case 'REMOTE': return 'Online only';
+      case 'INHERIT': return 'Use business service areas';
+      default: return 'Custom area';
+    }
+  }
+
+  getPrimaryServiceArea(areas: IBaseServiceArea[]): string | null {
+    if (!areas || areas.length === 0) return null;
+    return this.formatServiceAreaText(areas[0]);
   }
 }

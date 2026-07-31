@@ -62,6 +62,20 @@
             {{ biz.location }}
           </span>
           }
+          
+          @if (biz.serviceAreas && biz.serviceAreas.length > 0) {
+          <details class="biz-serves-dropdown">
+            <summary>
+              <svg lucideGlobe aria-hidden="true" style="width: var(--size-16); height: var(--size-16)"></svg>
+              Serves {{ getPrimaryServiceArea(biz.serviceAreas) }} {{ biz.serviceAreas.length > 1 ? '+' + (biz.serviceAreas.length - 1) + ' more' : '' }}
+            </summary>
+            <ul class="biz-serves-list">
+              @for (area of biz.serviceAreas; track $index) {
+                <li>{{ formatServiceAreaText(area) }}</li>
+              }
+            </ul>
+          </details>
+          }
         </div>
         
         <div style="display: flex; gap: var(--size-8); margin-top: var(--size-32);">
