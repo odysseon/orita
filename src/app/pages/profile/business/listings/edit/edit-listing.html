@@ -71,17 +71,59 @@
           <span>Price is negotiable</span>
         </label>
 
-        <app-form-field label="Availability" fieldId="availability" style="margin-top: var(--space-md); display: block;">
-          <select
-            id="availability"
-            app-select
-            [formField]="editForm.availability"
-          >
-            <option value="IN_STOCK">In Stock</option>
-            <option value="OUT_OF_STOCK">Out of Stock</option>
-            <option value="PRE_ORDER">Pre-order</option>
-          </select>
-        </app-form-field>
+        <div class="availability-section" style="margin-top: var(--space-lg)">
+          <h3>Where can customers get this product or service?</h3>
+          <div class="availability-modes">
+            <label class="radio-label">
+              <input type="radio" name="availMode" [checked]="availabilityMode() === 'INHERIT'" (change)="setAvailabilityMode('INHERIT')">
+              Use business service areas
+            </label>
+            
+            @if (availabilityMode() === 'INHERIT') {
+              <div class="inherited-areas">
+                <p class="inherited-title">Current:</p>
+                <ul class="inherited-list">
+                  @for (area of businessServiceAreas(); track $index) {
+                    <li>• {{ formatServiceAreaText(area) }}</li>
+                  }
+                  @if (businessServiceAreas().length === 0) {
+                    <li class="empty-inherited">No service areas configured on business profile.</li>
+                  }
+                </ul>
+              </div>
+            }
+
+            <label class="radio-label">
+              <input type="radio" name="availMode" [checked]="availabilityMode() === 'CUSTOM'" (change)="setAvailabilityMode('CUSTOM')">
+              Custom availability
+            </label>
+          </div>
+
+          @if (availabilityMode() === 'CUSTOM') {
+            <div class="service-areas-list" style="margin-top: var(--space-md)">
+              @for (area of editModel().serviceAreas; track $index) {
+                <div class="service-area-card">
+                  <div class="sa-card-content">
+                    <svg lucideCheck class="sa-card-icon"></svg>
+                    <span class="sa-card-text">{{ formatServiceAreaText(area) }}</span>
+                  </div>
+                  <div class="sa-card-actions">
+                    <button type="button" class="sa-action-btn" (click)="openServiceAreaModal(area, $index)">
+                      <svg lucideEdit2></svg> Edit
+                    </button>
+                    <button type="button" class="sa-action-btn sa-danger" (click)="removeServiceArea($index)">
+                      <svg lucideTrash2></svg> Remove
+                    </button>
+                  </div>
+                </div>
+              }
+              
+              <button type="button" class="add-area-btn" (click)="openServiceAreaModal()">
+                <svg lucidePlus></svg> Add custom availability area
+              </button>
+            </div>
+          }
+        </div>
       </section>
 
       @if (attributes().length > 0) {
@@ -185,3 +227,13 @@
   </div>
   }
 </div>
+
+  <ui-service-area-editor
+    [isOpen]="isServiceAreaModalOpen()"
+    [areaToEdit]="editingServiceArea()"
+    businessCountry="Nigeria"
+    [allowDelete]="editingServiceArea() !== null"
+    (save)="onSaveServiceArea($event)"
+    (delete)="removeServiceArea(editingServiceAreaIndex()!)"
+    (close)="closeServiceAreaModal()"
+  ></ui-service-area-editor>

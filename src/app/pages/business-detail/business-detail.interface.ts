@@ -1,6 +1,7 @@
 export type VerificationStatus = 'UNVERIFIED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
 export type BusinessType = 'ONLINE' | 'PHYSICAL' | 'HYBRID';
 export type DayOfWeek = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN';
+import { IBaseServiceArea } from '../profile/business/business.interface';
 
 export interface IOperatingHours {
   id: string;
@@ -43,6 +44,7 @@ export interface IBusinessDetail {
   avatarUrl?: string;
   coverUrl?: string;
   isFollowed?: boolean;
+  serviceAreas?: IBaseServiceArea[];
 }
 
 export interface IListingSummary {

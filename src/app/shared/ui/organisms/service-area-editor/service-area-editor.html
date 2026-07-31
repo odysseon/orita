@@ -1,0 +1,158 @@
+<ui-drawer
+  [open]="isOpen()"
+  (openChange)="!$event && close.emit()"
+  title="Where You Serve"
+>
+  <div drawer-body class="sa-editor-body">
+    <p class="sa-editor-subtitle">Where can customers get this product or service?</p>
+    
+    <!-- Mode Selection -->
+    <div class="sa-mode-grid">
+      <button 
+        type="button" 
+        class="sa-mode-btn" 
+        [class.active]="mode() === 'RADIUS'"
+        (click)="setMode('RADIUS')"
+      >
+        <svg lucideMapPin class="sa-mode-icon"></svg>
+        <span>Around my business</span>
+      </button>
+
+      <button 
+        type="button" 
+        class="sa-mode-btn" 
+        [class.active]="mode() === 'ADMIN_REGION'"
+        (click)="setMode('ADMIN_REGION')"
+      >
+        <svg lucideMap class="sa-mode-icon"></svg>
+        <span>Specific places</span>
+      </button>
+
+      <button 
+        type="button" 
+        class="sa-mode-btn" 
+        [class.active]="mode() === 'NATIONWIDE'"
+        (click)="setMode('NATIONWIDE')"
+      >
+        <svg lucideGlobe class="sa-mode-icon"></svg>
+        <span>Anywhere in {{ businessCountry() }}</span>
+      </button>
+      
+      <button 
+        type="button" 
+        class="sa-mode-btn" 
+        [class.active]="mode() === 'REMOTE'"
+        (click)="setMode('REMOTE')"
+      >
+        <svg lucideGlobe class="sa-mode-icon"></svg>
+        <span>Online only</span>
+      </button>
+    </div>
+
+    <hr class="sa-divider" />
+
+    <!-- Details for Selected Mode -->
+    @if (mode() === 'RADIUS') {
+      <div class="sa-details radius-details">
+        <h3>How far do you travel or deliver?</h3>
+        
+        <div class="radius-presets">
+          <label class="radio-label">
+            <input type="radio" name="radius" [checked]="!isCustomRadius() && radiusKm() === 5" (change)="setRadius(5)">
+            5 km
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="radius" [checked]="!isCustomRadius() && radiusKm() === 10" (change)="setRadius(10)">
+            10 km
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="radius" [checked]="!isCustomRadius() && radiusKm() === 20" (change)="setRadius(20)">
+            20 km
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="radius" [checked]="!isCustomRadius() && radiusKm() === 50" (change)="setRadius(50)">
+            50 km
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="radius" [checked]="isCustomRadius()" (change)="setRadius('CUSTOM')">
+            Custom
+          </label>
+        </div>
+
+        @if (isCustomRadius()) {
+          <div class="custom-radius-input">
+            <input app-input type="number" min="1" max="1000" [value]="radiusKm()" (input)="onCustomRadiusChange($event)" placeholder="e.g. 15">
+            <span class="unit">km</span>
+          </div>
+        }
+      </div>
+    }
+
+    @if (mode() === 'ADMIN_REGION') {
+      <div class="sa-details admin-details">
+        <h3>Select specific regions</h3>
+        <p class="admin-help">Select a state or city. You can stop at any level.</p>
+        
+        <div class="breadcrumb-cascade">
+          <span class="crumb">{{ businessCountry() }}</span>
+          <span class="crumb-separator">></span>
+          
+          <select class="admin-select" (change)="selectedState.set($any($event.target).value)">
+            <option value="">Select State</option>
+            <option value="Osun" [selected]="selectedState() === 'Osun'">Osun</option>
+            <option value="Oyo" [selected]="selectedState() === 'Oyo'">Oyo</option>
+            <option value="Lagos" [selected]="selectedState() === 'Lagos'">Lagos</option>
+          </select>
+          
+          @if (selectedState()) {
+            <span class="crumb-separator">></span>
+            <select class="admin-select" (change)="selectedLga.set($any($event.target).value)">
+              <option value="">Select LGA (Optional)</option>
+              <option value="Ife Central" [selected]="selectedLga() === 'Ife Central'">Ife Central</option>
+              <option value="Ibadan North" [selected]="selectedLga() === 'Ibadan North'">Ibadan North</option>
+            </select>
+          }
+        </div>
+      </div>
+    }
+
+    @if (mode() === 'NATIONWIDE') {
+      <div class="sa-details simple-details">
+        <p>Customers anywhere in <strong>{{ businessCountry() }}</strong> will be able to discover this service.</p>
+      </div>
+    }
+
+    @if (mode() === 'REMOTE') {
+      <div class="sa-details simple-details">
+        <p>Customers globally will be able to discover this service. Ideal for digital products and virtual consulting.</p>
+      </div>
+    }
+
+    <hr class="sa-divider" />
+
+    <div class="advanced-options">
+      <button type="button" class="advanced-toggle" (click)="showAdvanced.set(!showAdvanced())">
+        Advanced Options 
+        <span class="chevron">{{ showAdvanced() ? '▲' : '▼' }}</span>
+      </button>
+
+      @if (showAdvanced()) {
+        <div class="advanced-content" style="margin-top: 1rem;">
+          <app-form-field label="Name (Optional)" fieldId="sa-name">
+            <input app-input type="text" id="sa-name" [value]="areaName()" (input)="areaName.set($any($event.target).value)" placeholder="e.g. Lagos Dispatch">
+          </app-form-field>
+        </div>
+      }
+    </div>
+
+  </div>
+
+  <div drawer-footer class="sa-editor-footer">
+    @if (areaToEdit() && allowDelete()) {
+      <button app-button intent="danger" variant="ghost" (click)="delete.emit()">Delete</button>
+    }
+    <div style="flex: 1"></div>
+    <button app-button variant="outline" (click)="close.emit()">Cancel</button>
+    <button app-button intent="primary" (click)="onSave()">Save Service Area</button>
+  </div>
+</ui-drawer>

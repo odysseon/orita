@@ -8,13 +8,18 @@ import { form, FormField, required, minLength, maxLength } from '@angular/forms/
 import {
   LucideLoaderCircle,
   LucideGlobe,
-  LucideMapPin,
   LucideLayoutGrid,
   LucideIconInput,
   LucideTrash2,
+  LucideCheck,
+  LucideEdit2,
+  LucidePlus,
+  LucideMapPin,
+  LucideEye,
+  LucideEyeOff,
 } from '@lucide/angular';
 import { ToastService } from '../../../../core/services/toast';
-import { IBusinessProfile, BusinessType } from '../business.interface';
+import { IBusinessProfile, BusinessType, ServiceMode, ServiceAreaType, IBaseServiceArea } from '../business.interface';
 import { environment } from '../../../../../environments/environment';
 import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
 import { MediaSelector } from '../../../../shared/media-selector/media-selector';
@@ -24,7 +29,9 @@ import { LocationPicker } from '../../../../shared/ui/organisms/location-picker/
 import { Button } from '../../../../shared/ui/atoms/button/button';
 import { Skeleton } from '../../../../shared/ui/atoms/skeleton/skeleton';
 import { InputDirective } from '../../../../shared/ui/atoms/forms/input';
+import { CheckboxDirective } from '../../../../shared/ui/atoms/forms/checkbox';
 import { TextareaDirective } from '../../../../shared/ui/atoms/forms/textarea';
+import { ServiceAreaEditor, ServiceAreaEditorSaveEvent } from '../../../../shared/ui/organisms/service-area-editor/service-area-editor';
 import { Location } from '../../../../core/services/location.service';
 import { MediaService } from '../../../../core/services/media.service';
 
@@ -48,11 +55,15 @@ export interface IEditBusinessForm {
   longitude: number | null;
   primaryCategoryId: string;
   secondaryCategoryIds: string[];
+  serviceModes: ServiceMode[];
+  serviceAreas: IBaseServiceArea[];
 }
+
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-edit-business',
-  imports: [FormField, AppFormField, MediaSelector, LocationPicker, LucideLoaderCircle, CategoryPicker, Button, Skeleton, InputDirective, TextareaDirective],
+  imports: [FormField, AppFormField, MediaSelector, LocationPicker, LucideLoaderCircle, LucideGlobe, CategoryPicker, Button, Skeleton, InputDirective, TextareaDirective, CheckboxDirective, ServiceAreaEditor, LucideCheck, LucideEdit2, LucidePlus, LucideEye, LucideEyeOff, TitleCasePipe],
   templateUrl: './edit-business.html',
   styleUrl: './edit-business.css',
 })
@@ -72,6 +83,19 @@ export class EditBusiness implements OnInit {
   readonly selectedCountryCode = signal<CountryCode | undefined>(undefined);
 
   readonly categories = signal<ICategory[]>([]);
+
+  // Service Area Editor State
+  readonly isServiceAreaModalOpen = signal(false);
+  readonly editingServiceArea = signal<IBaseServiceArea | null>(null);
+  readonly editingServiceAreaIndex = signal<number | null>(null);
+
+  readonly availableServiceModes: { value: ServiceMode; label: string }[] = [
+    { value: 'AT_LOCATION', label: 'Visit our location' },
+    { value: 'DELIVERY', label: 'Delivery' },
+    { value: 'PICKUP', label: 'Pickup' },
+    { value: 'MOBILE', label: 'Mobile service' },
+    { value: 'REMOTE', label: 'Online/Remote' },
+  ];
 
   ngOnInit() {
   }
@@ -128,6 +152,8 @@ export class EditBusiness implements OnInit {
     longitude: null,
     primaryCategoryId: '',
     secondaryCategoryIds: [],
+    serviceModes: [],
+    serviceAreas: [],
   });
 
   readonly businessForm = form(this.model, (f) => {
@@ -220,6 +246,8 @@ export class EditBusiness implements OnInit {
           longitude: biz.longitude ?? null,
           primaryCategoryId: biz.primaryCategoryId ?? '',
           secondaryCategoryIds: biz.secondaryCategoryIds ?? [],
+          serviceModes: biz.serviceModes ?? [],
+          serviceAreas: biz.serviceAreas ?? [],
         });
       }
     });
@@ -243,6 +271,89 @@ export class EditBusiness implements OnInit {
 
   onCoverRemoved(): void {
     this.coverFile.set(null);
+  }
+
+  toggleServiceMode(mode: ServiceMode): void {
+    this.model.update((m) => {
+      const current = m.serviceModes;
+      if (current.includes(mode)) {
+        return { ...m, serviceModes: current.filter((x) => x !== mode) };
+      }
+      return { ...m, serviceModes: [...current, mode] };
+    });
+  }
+
+  openServiceAreaModal(area?: IBaseServiceArea, index?: number): void {
+    this.editingServiceArea.set(area ?? null);
+    this.editingServiceAreaIndex.set(index ?? null);
+    this.isServiceAreaModalOpen.set(true);
+  }
+
+  closeServiceAreaModal(): void {
+    this.isServiceAreaModalOpen.set(false);
+    this.editingServiceArea.set(null);
+    this.editingServiceAreaIndex.set(null);
+  }
+
+  onSaveServiceArea(event: ServiceAreaEditorSaveEvent): void {
+    this.model.update((m) => {
+      const currentAreas = [...m.serviceAreas];
+      const idx = this.editingServiceAreaIndex();
+      if (idx !== null) {
+        currentAreas[idx] = event.area;
+      } else {
+        currentAreas.push(event.area);
+      }
+      return { ...m, serviceAreas: currentAreas };
+    });
+    this.closeServiceAreaModal();
+  }
+
+  onDeleteServiceArea(): void {
+    const idx = this.editingServiceAreaIndex();
+    if (idx !== null) {
+      this.model.update((m) => {
+        const currentAreas = [...m.serviceAreas];
+        currentAreas.splice(idx, 1);
+        return { ...m, serviceAreas: currentAreas };
+      });
+    }
+    this.closeServiceAreaModal();
+  }
+
+  toggleServiceAreaEnabled(index: number): void {
+    this.model.update((m) => {
+      const currentAreas = [...m.serviceAreas];
+      const area = currentAreas[index];
+      if (area) {
+        currentAreas[index] = { ...area, enabled: !area.enabled };
+      }
+      return { ...m, serviceAreas: currentAreas };
+    });
+  }
+
+  getEnabledServiceAreas(): IBaseServiceArea[] {
+    return this.model().serviceAreas.filter(a => a.enabled !== false);
+  }
+
+  formatServiceAreaText(area: IBaseServiceArea): string {
+    if (area.type === 'RADIUS') return `${area.radiusKm} km around my business`;
+    if (area.type === 'ADMIN_REGION') return `Specific places (${area.administrativeRegionId})`;
+    if (area.type === 'NATIONWIDE') return `Anywhere in ${this.locationCountryName()}`;
+    if (area.type === 'REMOTE') return 'Online / Remote';
+    return 'Inherited';
+  }
+
+  locationCountryName(): string {
+    // Basic mapping for MVP, could use a real library for CountryCode -> Name
+    const cc = this.selectedCountryCode();
+    if (cc === 'NG') return 'Nigeria';
+    if (cc === 'US') return 'United States';
+    if (cc === 'GB') return 'United Kingdom';
+    if (cc === 'GH') return 'Ghana';
+    if (cc === 'KE') return 'Kenya';
+    if (cc === 'ZA') return 'South Africa';
+    return cc || 'your country';
   }
 
   async onSubmit(event: Event): Promise<void> {
@@ -269,6 +380,8 @@ export class EditBusiness implements OnInit {
         ...(this.model().longitude !== null && { longitude: this.model().longitude }),
         primaryCategoryId: this.model().primaryCategoryId,
         ...(this.model().secondaryCategoryIds.length > 0 && { secondaryCategoryIds: this.model().secondaryCategoryIds }),
+        serviceModes: this.model().serviceModes,
+        serviceAreas: this.model().serviceAreas,
       };
 
       try {

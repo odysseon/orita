@@ -1,5 +1,6 @@
 export type ListingStatus = 'DRAFT' | 'PUBLISHED' | 'PAUSED' | 'ARCHIVED';
 export type ListingAvailability = 'IN_STOCK' | 'OUT_OF_STOCK' | 'PRE_ORDER';
+import { IBaseServiceArea } from '../business.interface';
 
 export interface IListingPrice {
   minPrice: number | null;
@@ -22,6 +23,7 @@ export interface IListing {
   isNegotiable: boolean;
   categoryId: string | null;
   attributes: Record<string, unknown> | null;
+  serviceAreas?: IBaseServiceArea[];
   createdAt: string;
   updatedAt: string;
 }
