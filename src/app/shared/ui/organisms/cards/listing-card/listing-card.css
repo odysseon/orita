@@ -13,6 +13,10 @@
   box-shadow: var(--shadow-md);
 }
 
+.ui-listing-card:hover ui-cover-media .ui-cover-media__img {
+  transform: scale(1.05);
+}
+
 .ui-listing-card__media-link {
   display: block;
   text-decoration: none;
@@ -41,6 +45,23 @@
   font-size: var(--font-size-md);
   color: var(--text-primary);
   line-height: var(--line-height-tight);
+}
+
+.ui-listing-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--size-8);
+}
+
+.ui-listing-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--size-8);
+}
+
+.ui-listing-card__primary {
+  flex: 1;
 }
 
 
