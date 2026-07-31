@@ -77,7 +77,7 @@
                   slug: item.business.slug,
                   logoUrl: item.business.logoUrl,
                   isVerified: !!$any(item.business).isVerified
-                } : null
+                } : undefined
               }"
               (saveToggle)="onSaveToggle(item.listing.id, $event)"
             />

@@ -18,29 +18,32 @@
       }
     </div>
 
-    <div class="ui-listing-card__footer">
+    <div class="ui-listing-card__actions">
       @if (showMessage() && listing().business) {
-        <ui-message-button
-          [businessId]="listing().business.id"
-          embedType="LISTING"
-          [targetId]="listing().id"
-        />
+        <div class="ui-listing-card__primary">
+          <ui-message-button
+            [businessId]="listing().business!.id"
+            embedType="LISTING"
+            [targetId]="listing().id"
+            [fullWidth]="true"
+          />
+        </div>
       }
       @if (showShare()) {
         <ui-share-button size="sm" (share)="showShareModal.set(true)" />
       }
     </div>
   </div>
-
-  @if (showShare()) {
-    <ui-share-modal
-      [isOpen]="showShareModal()"
-      (close)="showShareModal.set(false)"
-      embedType="LISTING"
-      [targetId]="listing().id"
-      [targetSlug]="listing().slug || undefined"
-      [title]="listing().title"
-      [imageUrl]="listing().coverUrl || undefined"
-    />
-  }
 </app-card>
+
+@if (showShare()) {
+  <ui-share-modal
+    [isOpen]="showShareModal()"
+    (close)="showShareModal.set(false)"
+    embedType="LISTING"
+    [targetId]="listing().id"
+    [targetSlug]="listing().slug || undefined"
+    [title]="listing().title"
+    [imageUrl]="listing().coverUrl || undefined"
+  />
+}

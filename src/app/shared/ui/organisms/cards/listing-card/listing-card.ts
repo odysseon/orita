@@ -38,7 +38,7 @@ export class ListingCard {
     price?: number;
     availability?: string;
     isSaved?: boolean;
-    business: {
+    business?: {
       id: string;
       name: string;
       slug?: string | null;

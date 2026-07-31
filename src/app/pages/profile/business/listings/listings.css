@@ -107,28 +107,6 @@
 /* ACTIONS */
 .listing-item__actions { display: flex; align-items: center; gap: var(--size-4); flex-shrink: 0; }
 
-.listing-item__action {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--size-32);
-  height: var(--size-32);
-  border: none;
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: background var(--transition-fast), color var(--transition-fast);
-
-  svg { width: var(--size-15); height: var(--size-15); }
-  &:hover:not(:disabled) { background: var(--surface-container-high); color: var(--text-primary); }
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
-}
-
-.listing-item__action--danger {
-  &:hover:not(:disabled) { background: var(--clr-error-container); color: var(--clr-error); }
-}
-
 .listing-item__spinner { animation: spin 0.8s linear infinite; }
 
 /* FORM */

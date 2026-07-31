@@ -1,11 +1,11 @@
 import { Component, input, output } from '@angular/core';
 import { Button, ButtonAppearance, ButtonShape, ButtonSize } from '../../atoms/button/button';
-import { LucideSend } from '@lucide/angular';
+import { LucideShare2 } from '@lucide/angular';
 
 @Component({
   selector: 'ui-share-button',
   standalone: true,
-  imports: [Button, LucideSend],
+  imports: [Button, LucideShare2],
   template: `
     <button app-button 
       [appearance]="appearance()"
@@ -15,7 +15,7 @@ import { LucideSend } from '@lucide/angular';
       (click)="share.emit()"
       type="button"
       aria-label="Share">
-      <svg lucideSend aria-hidden="true"></svg>
+      <svg lucideShare2 aria-hidden="true" style="width: 18px; height: 18px;"></svg>
     </button>
   `,
   styles: [`
