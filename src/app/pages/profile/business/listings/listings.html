@@ -116,43 +116,43 @@
         <a
           app-button
           appearance="plain"
-          class="listing-item__action"
+          size="icon"
           [routerLink]="['/profile/business/listings', listing.id, 'edit']"
           title="Edit Details & Media"
         >
-          <svg lucidePencil aria-hidden="true"></svg>
+          <svg lucidePencil aria-hidden="true" style="width: 18px; height: 18px;"></svg>
         </a>
         <button
           app-button
           appearance="plain"
-          class="listing-item__action"
+          size="icon"
           type="button"
           [title]="listing.status === 'PUBLISHED' ? 'Set to draft' : 'Publish'"
           [disabled]="togglingId() === listing.id"
           (click)="toggleStatus(listing)"
         >
           @if (togglingId() === listing.id) {
-          <svg lucideLoaderCircle class="listing-item__spinner" aria-hidden="true"></svg>
+          <svg lucideLoaderCircle class="listing-item__spinner" aria-hidden="true" style="width: 18px; height: 18px;"></svg>
           } @else if (listing.status === 'PUBLISHED') {
-          <svg lucideEyeOff aria-hidden="true"></svg>
+          <svg lucideEyeOff aria-hidden="true" style="width: 18px; height: 18px;"></svg>
           } @else {
-          <svg lucideEye aria-hidden="true"></svg>
+          <svg lucideEye aria-hidden="true" style="width: 18px; height: 18px;"></svg>
           }
         </button>
         <button
           app-button
           appearance="plain"
           intent="danger"
-          class="listing-item__action listing-item__action--danger"
+          size="icon"
           type="button"
           title="Delete listing"
           [disabled]="deletingId() === listing.id"
           (click)="deleteListing(listing)"
         >
           @if (deletingId() === listing.id) {
-          <svg lucideLoaderCircle class="listing-item__spinner" aria-hidden="true"></svg>
+          <svg lucideLoaderCircle class="listing-item__spinner" aria-hidden="true" style="width: 18px; height: 18px;"></svg>
           } @else {
-          <svg lucideTrash2 aria-hidden="true"></svg>
+          <svg lucideTrash2 aria-hidden="true" style="width: 18px; height: 18px;"></svg>
           }
         </button>
       </div>

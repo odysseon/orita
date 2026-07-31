@@ -13,6 +13,7 @@ import { MessagingFacade } from '../../../../core/services/messaging.facade';
       [appearance]="appearance()"
       [size]="size()"
       [shape]="shape()"
+      [fullWidth]="fullWidth()"
       [disabled]="disabled() || !businessId()"
       (click)="$event.stopPropagation(); $event.preventDefault(); onMessage()"
       type="button"
@@ -42,6 +43,7 @@ export class MessageButton {
   appearance = input<ButtonAppearance>('outline');
   size = input<ButtonSize>('sm');
   shape = input<ButtonShape>('default');
+  fullWidth = input<boolean>(false);
   disabled = input<boolean>(false);
   
   showIcon = input<boolean>(true);

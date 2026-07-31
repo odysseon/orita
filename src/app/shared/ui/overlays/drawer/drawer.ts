@@ -25,7 +25,6 @@ import { Button } from '../../atoms/button/button';
 export type { DrawerSize };
 
 @Component({
-
   selector: 'ui-drawer, app-drawer',
   imports: [Button],
 

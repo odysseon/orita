@@ -50,7 +50,7 @@
   line-height: var(--line-height-tight);
 }
 
-.ui-listing-card__footer {
+.ui-listing-card__actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -58,6 +58,12 @@
   margin-top: var(--size-8);
   padding-top: var(--size-8);
   border-top: var(--size-1) solid var(--border-subtle);
+}
+
+.ui-listing-card__primary {
+  flex: 1;
+  display: flex;
+  align-items: center;
 }
 
 ui-save-button,
