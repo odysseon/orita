@@ -29,6 +29,7 @@ export class MediaSelector {
   accept = input<string>('image/*');
   maxSizeMb = input<number>(5);
   initialUrls = input<string[] | string>([]);
+  id = input<string>();
 
   readonly filesChanged = output<File[]>();
   readonly mediaRemoved = output<string>();

@@ -12,5 +12,33 @@
       [verificationStatus]="business().isVerified ? 'verified' : 'unverified'"
       [link]="getLink()"
     />
+
+    <div class="ui-business-card__actions">
+      @if (showFollow()) {
+        <div class="ui-business-card__follow">
+          <ui-follow-button
+            [isFollowed]="business().isFollowed ?? false"
+            [fullWidth]="true"
+            size="sm"
+            (toggle)="followToggle.emit($event)"
+          ></ui-follow-button>
+        </div>
+      }
+      @if (showShare()) {
+        <ui-share-button size="sm" (share)="showShareModal.set(true)" />
+      }
+    </div>
   </div>
 </app-card>
+
+@if (showShare()) {
+  <ui-share-modal
+    [isOpen]="showShareModal()"
+    (close)="showShareModal.set(false)"
+    embedType="BUSINESS"
+    [targetId]="business().id"
+    [targetSlug]="business().slug || undefined"
+    [title]="business().name"
+    [imageUrl]="business().logoUrl || undefined"
+  />
+}

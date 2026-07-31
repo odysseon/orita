@@ -3,15 +3,22 @@ import { RouterLink } from '@angular/router';
 import { CoverMedia } from '../../../surfaces/cover-media/cover-media';
 import { Card } from '../../../atoms/card/card';
 import { ListingMeta } from '../../../molecules/listing-meta/listing-meta';
+import { SaveButton } from '../../../actions/save-button/save-button';
+import { MessageButton } from '../../../actions/message-button/message-button';
+import { ShareButton } from '../../../actions/share-button/share-button';
+import { ShareModalComponent } from '../../share-modal/share-modal';
 
 @Component({
   selector: 'ui-listing-card',
-  standalone: true,
   imports: [
     CoverMedia,
     Card,
     RouterLink,
     ListingMeta,
+    SaveButton,
+    MessageButton,
+    ShareButton,
+    ShareModalComponent,
   ],
   templateUrl: './listing-card.html',
   styleUrl: './listing-card.css',

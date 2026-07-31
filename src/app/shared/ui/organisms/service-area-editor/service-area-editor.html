@@ -81,7 +81,7 @@
 
         @if (isCustomRadius()) {
           <div class="custom-radius-input">
-            <input app-input type="number" min="1" max="1000" [value]="radiusKm()" (input)="onCustomRadiusChange($event)" placeholder="e.g. 15">
+            <input app-input type="number" min="1" max="1000" [value]="radiusKm()" (input)="onCustomRadiusChange($event)" placeholder="e.g. 15" aria-label="Custom Radius in Kilometers">
             <span class="unit">km</span>
           </div>
         }
@@ -97,7 +97,7 @@
           <span class="crumb">{{ businessCountry() }}</span>
           <span class="crumb-separator">></span>
           
-          <select class="admin-select" (change)="selectedState.set($any($event.target).value)">
+          <select class="admin-select" (change)="selectedState.set($any($event.target).value)" aria-label="Select State">
             <option value="">Select State</option>
             <option value="Osun" [selected]="selectedState() === 'Osun'">Osun</option>
             <option value="Oyo" [selected]="selectedState() === 'Oyo'">Oyo</option>
@@ -106,7 +106,7 @@
           
           @if (selectedState()) {
             <span class="crumb-separator">></span>
-            <select class="admin-select" (change)="selectedLga.set($any($event.target).value)">
+            <select class="admin-select" (change)="selectedLga.set($any($event.target).value)" aria-label="Select LGA (Optional)">
               <option value="">Select LGA (Optional)</option>
               <option value="Ife Central" [selected]="selectedLga() === 'Ife Central'">Ife Central</option>
               <option value="Ibadan North" [selected]="selectedLga() === 'Ibadan North'">Ibadan North</option>
@@ -149,10 +149,10 @@
 
   <div drawer-footer class="sa-editor-footer">
     @if (areaToEdit() && allowDelete()) {
-      <button app-button intent="danger" variant="ghost" (click)="delete.emit()">Delete</button>
+      <button app-button intent="danger" appearance="ghost" (click)="delete.emit()">Delete</button>
     }
     <div style="flex: 1"></div>
-    <button app-button variant="outline" (click)="close.emit()">Cancel</button>
+    <button app-button appearance="outline" (click)="close.emit()">Cancel</button>
     <button app-button intent="primary" (click)="onSave()">Save Service Area</button>
   </div>
 </ui-drawer>
