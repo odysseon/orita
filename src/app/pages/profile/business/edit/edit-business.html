@@ -174,6 +174,7 @@
 
           <app-form-field label="Location Address" fieldId="location">
             <ui-location-picker
+              id="location"
               [currentAddress]="model().location || undefined"
               triggerLabel="Set Location"
               (confirmed)="onLocationPicked($event)"
@@ -206,14 +207,14 @@
         <div class="panel__body edit-biz-panel-body">
           <div class="service-areas-list">
             @for (area of model().serviceAreas; track $index) {
-              <div class="service-area-card" [class.disabled]="!area.enabled">
+              <div class="service-area-card" [class.disabled]="area.enabled === false">
                 <div class="sa-card-content">
                   <div class="sa-card-header">
                     <span class="sa-card-title">{{ area.name || formatServiceAreaText(area) }}</span>
                   </div>
                   <div class="sa-card-subtitle">
                     <span class="sa-type">{{ area.type.replace('_', ' ') | titlecase }}</span>
-                    @if (!area.enabled) {
+                    @if (area.enabled === false) {
                       <span class="sa-status-badge disabled">Disabled</span>
                     } @else {
                       <span class="sa-status-badge enabled">Enabled</span>
@@ -222,7 +223,7 @@
                 </div>
                 <div class="sa-card-actions">
                   <button type="button" class="sa-action-btn" (click)="toggleServiceAreaEnabled($index)">
-                    @if (area.enabled) {
+                    @if (area.enabled !== false) {
                       <svg lucideEyeOff></svg> Disable
                     } @else {
                       <svg lucideEye></svg> Enable
@@ -265,6 +266,7 @@
         <div class="panel__body edit-biz-panel-body">
           <app-form-field label="Logo / Avatar" fieldId="logo">
             <app-media-selector
+              id="logo"
               [multiple]="false"
               [initialUrls]="business.value()?.avatarUrl || ''"
               (filesChanged)="onAvatarChanged($event)"
@@ -274,6 +276,7 @@
 
           <app-form-field label="Cover Photo" fieldId="cover">
             <app-media-selector
+              id="cover"
               [multiple]="false"
               [initialUrls]="business.value()?.coverUrl || ''"
               (filesChanged)="onCoverChanged($event)"

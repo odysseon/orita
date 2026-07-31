@@ -326,7 +326,7 @@ export class EditBusiness implements OnInit {
       const currentAreas = [...m.serviceAreas];
       const area = currentAreas[index];
       if (area) {
-        currentAreas[index] = { ...area, enabled: !area.enabled };
+        currentAreas[index] = { ...area, enabled: area.enabled === false };
       }
       return { ...m, serviceAreas: currentAreas };
     });

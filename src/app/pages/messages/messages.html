@@ -45,7 +45,7 @@
             <ui-conversation-view
               [conversation]="messaging.activeConversation()"
               [messages]="messaging.activeMessages()"
-              [status]="messaging.conversationStatus()[activeConversationId()!] || 'loading'"
+              [status]="activeConversationId() ? (messaging.conversationStatus()[activeConversationId()!] || 'loading') : 'loaded'"
               [viewerParticipantId]="viewerParticipantId()"
               (back)="onBackToSidebar()"
               (send)="onSendMessage($event)"

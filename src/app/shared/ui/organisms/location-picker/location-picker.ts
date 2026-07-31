@@ -16,7 +16,6 @@ import { FollowButton } from '../../actions/follow-button/follow-button';
 
 @Component({
   selector: 'ui-location-picker',
-  standalone: true,
   imports: [
     Drawer, LocationGpsButton, LucideMapPin, FollowButton, Button, 
     Combobox, ComboboxInput, ComboboxList, ComboboxOption, SearchBar, InputDirective
@@ -28,6 +27,7 @@ export class LocationPicker {
   readonly open = model<boolean>(false);
   readonly triggerLabel = input<string>('Set Location');
   readonly currentAddress = input<string>();
+  readonly id = input<string>();
 
   readonly displayAddress = computed(() => {
     const addr = this.currentAddress();

@@ -12,7 +12,6 @@ export interface ServiceAreaEditorSaveEvent {
 
 @Component({
   selector: 'ui-service-area-editor',
-  standalone: true,
   imports: [Drawer, Button, InputDirective, AppFormField, LucideMapPin, LucideGlobe, LucideMap],
   templateUrl: './service-area-editor.html',
   styleUrl: './service-area-editor.css',

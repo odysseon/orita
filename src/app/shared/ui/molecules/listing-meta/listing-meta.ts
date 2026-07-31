@@ -3,7 +3,6 @@ import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'ui-listing-meta',
-  standalone: true,
   imports: [CurrencyPipe],
   template: `
     <span class="ui-listing-meta__price">

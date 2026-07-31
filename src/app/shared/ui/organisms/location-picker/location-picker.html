@@ -1,4 +1,4 @@
-<button app-button appearance="ghost" class="location-picker__trigger" (click)="open.set(true)">
+<button app-button appearance="ghost" class="location-picker__trigger" [id]="id() || ''" (click)="open.set(true)">
   <svg lucideMapPin aria-hidden="true"></svg>
   <span class="location-picker__label">{{ displayAddress() }}</span>
 </button>
