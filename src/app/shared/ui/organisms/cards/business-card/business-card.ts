@@ -1,8 +1,5 @@
 import { Component, input, output, signal, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FollowButton } from '../../../actions/follow-button/follow-button';
-import { ShareButton } from '../../../actions/share-button/share-button';
-import { ShareModalComponent } from '../../share-modal/share-modal';
 import { CoverMedia } from '../../../surfaces/cover-media/cover-media';
 import { BusinessIdentity } from '../../../identity/business-identity/business-identity';
 import { Card } from '../../../atoms/card/card';
@@ -11,9 +8,6 @@ import { Card } from '../../../atoms/card/card';
   selector: 'ui-business-card',
   standalone: true,
   imports: [
-    FollowButton,
-    ShareButton,
-    ShareModalComponent,
     CoverMedia,
     Card,
     RouterLink,

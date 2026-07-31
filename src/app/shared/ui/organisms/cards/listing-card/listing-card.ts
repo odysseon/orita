@@ -2,10 +2,6 @@ import { Component, input, output, signal, ViewEncapsulation } from '@angular/co
 import { RouterLink } from '@angular/router';
 import { CoverMedia } from '../../../surfaces/cover-media/cover-media';
 import { Card } from '../../../atoms/card/card';
-import { ShareButton } from '../../../actions/share-button/share-button';
-import { ShareModalComponent } from '../../share-modal/share-modal';
-import { MessageButton } from '../../../actions/message-button/message-button';
-import { SaveButton } from '../../../actions/save-button/save-button';
 import { ListingMeta } from '../../../molecules/listing-meta/listing-meta';
 
 @Component({
@@ -14,11 +10,7 @@ import { ListingMeta } from '../../../molecules/listing-meta/listing-meta';
   imports: [
     CoverMedia,
     Card,
-    ShareButton,
-    ShareModalComponent,
-    MessageButton,
     RouterLink,
-    SaveButton,
     ListingMeta,
   ],
   templateUrl: './listing-card.html',
