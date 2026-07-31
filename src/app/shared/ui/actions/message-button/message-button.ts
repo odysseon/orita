@@ -18,10 +18,10 @@ import { MessagingFacade } from '../../../../core/services/messaging.facade';
       (click)="$event.stopPropagation(); $event.preventDefault(); onMessage()"
       type="button"
       aria-label="Message">
-      @if (showIcon()) {
-        <svg lucideMessageCircle [style.margin-right]="showLabel() ? 'var(--size-4)' : '0'" aria-hidden="true"></svg>
+      @if (display() === 'icon' || display() === 'icon-text') {
+        <svg lucideMessageCircle [style.margin-right]="display() === 'icon-text' ? 'var(--size-4)' : '0'" aria-hidden="true"></svg>
       }
-      @if (showLabel()) {
+      @if (display() === 'text' || display() === 'icon-text') {
         {{ label() }}
       }
     </button>
@@ -46,8 +46,8 @@ export class MessageButton {
   fullWidth = input<boolean>(false);
   disabled = input<boolean>(false);
   
-  showIcon = input<boolean>(true);
-  showLabel = input<boolean>(true);
+  display = input<'icon' | 'text' | 'icon-text'>('icon-text');
+
   label = input<string>('Message');
 
   onMessage(): void {
