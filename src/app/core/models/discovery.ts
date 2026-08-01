@@ -30,7 +30,14 @@ export interface NearbyItemDto {
   };
   media: { url: string; mimeType: string }[];
   expiresAt?: string;
+  editableUntil?: string;
   createdAt: string;
+  capabilities?: {
+    canReply: boolean;
+    canEdit: boolean;
+    canDelete: boolean;
+    canComplete: boolean;
+  };
 }
 
 export interface NearbyResultPageDto {
