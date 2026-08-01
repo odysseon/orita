@@ -1,9 +1,10 @@
 import { Component, inject, OnInit, OnDestroy, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { DiscoveryService } from '../../core/services/discovery.service';
 import { LocationService } from '../../core/services/location.service';
 import { ToastService } from '../../core/services/toast';
+import { MessagingApiService } from '../../core/services/messaging-api.service';
 import { NearbyItemDto } from '../../core/models/discovery';
 import { Subject, timer, Subscription, switchMap, filter, of, Observable } from 'rxjs';
 import { catchError, debounceTime, tap } from 'rxjs/operators';
@@ -30,6 +31,8 @@ export class NearbyPage implements OnInit, OnDestroy {
   #discovery = inject(DiscoveryService);
   #location = inject(LocationService);
   #toast = inject(ToastService);
+  #messaging = inject(MessagingApiService);
+  #router = inject(Router);
 
   items = signal<NearbyItemDto[]>([]);
   loading = signal(true);
@@ -104,6 +107,22 @@ export class NearbyPage implements OnInit, OnDestroy {
 
   openNewPostSheet() {
     this.showNewPostSheet.set(true);
+  }
+
+  handleReply(item: NearbyItemDto) {
+    if (item.capabilities?.canReply) {
+      this.loading.set(true);
+      this.#messaging.openConversation('OPPORTUNITY', item.id).subscribe({
+        next: (conv) => {
+          this.loading.set(false);
+          this.#router.navigate(['/messages', conv.id]);
+        },
+        error: (err) => {
+          this.loading.set(false);
+          this.#toast.error('Messaging Error', 'Failed to start conversation. Please try again later.');
+        }
+      });
+    }
   }
 
   #fetchLocation(): Observable<{lat: number, lng: number} | null> {

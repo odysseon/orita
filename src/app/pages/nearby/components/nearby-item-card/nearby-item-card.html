@@ -41,9 +41,15 @@
 
     <!-- Actions -->
     <div class="feed-card__actions">
-      <button app-button appearance="soft" size="sm" class="feed-card__cta" type="button" (click)="actionClicked.emit(item)">
-        Reply
-      </button>
+      @if (item.capabilities?.canReply !== false) {
+        <button app-button appearance="soft" size="sm" class="feed-card__cta" type="button" (click)="actionClicked.emit(item)">
+          Reply
+        </button>
+      } @else if (item.capabilities?.canEdit || item.capabilities?.canComplete || item.capabilities?.canDelete) {
+        <button app-button appearance="soft" size="sm" class="feed-card__cta" type="button" (click)="actionClicked.emit(item)">
+          Manage
+        </button>
+      }
     </div>
   </div>
 </article>
