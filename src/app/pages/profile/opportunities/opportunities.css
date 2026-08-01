@@ -1,0 +1,20 @@
+.opportunities-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.skeleton-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm);
+}
+
+.skeleton-card__media {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: var(--radius-md);
+}

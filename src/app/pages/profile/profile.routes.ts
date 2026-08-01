@@ -39,6 +39,11 @@ export const profileRoutes: Route[] = [
         data: { title: 'Library' },
         loadComponent: () => import('./saved/saved').then((m) => m.Saved),
       },
+      {
+        path: 'opportunities',
+        data: { title: 'My Opportunities' },
+        loadComponent: () => import('./opportunities/opportunities').then((m) => m.MyOpportunities),
+      },
       ...businessRoutes,
     ],
   },
