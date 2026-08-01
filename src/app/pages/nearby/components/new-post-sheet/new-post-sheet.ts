@@ -7,8 +7,9 @@ import { ToastService } from '../../../../core/services/toast';
 import { Drawer } from '../../../../shared/ui/overlays/drawer/drawer';
 
 import { Button } from '../../../../shared/ui/atoms/button/button';
-import { SelectDirective } from '../../../../shared/ui/atoms/forms/select';
-import { LucideX, LucideLoaderCircle } from '@lucide/angular';
+import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
+import { SelectDirective, TextareaDirective, InputDirective } from '../../../../shared/ui/atoms/forms';
+import { LucideX } from '@lucide/angular';
 
 interface NewPostModel {
   type: string;
@@ -19,7 +20,17 @@ interface NewPostModel {
 @Component({
   selector: 'app-new-post-sheet',
   standalone: true,
-  imports: [Drawer, FormField, FormRoot, Button, SelectDirective, LucideX, LucideLoaderCircle],
+  imports: [
+    Drawer,
+    FormField,
+    FormRoot,
+    Button,
+    AppFormField,
+    SelectDirective,
+    TextareaDirective,
+    InputDirective,
+    LucideX,
+  ],
   templateUrl: './new-post-sheet.html',
   styleUrls: ['./new-post-sheet.css'],
 })

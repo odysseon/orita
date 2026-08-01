@@ -21,7 +21,7 @@ export class MessagingApiService {
     return this.#http.post<IConversation>(`${this.#apiUrl}/conversations`, dto);
   }
 
-  openConversation(targetType: 'USER' | 'BUSINESS', targetId: string): Observable<IConversation> {
+  openConversation(targetType: 'USER' | 'BUSINESS' | 'OPPORTUNITY', targetId: string): Observable<IConversation> {
     return this.#http.post<IConversation>(`${this.#apiUrl}/conversations/open`, { targetType, targetId });
   }
 
