@@ -13,6 +13,7 @@ import {
   LucideDynamicIcon,
   LucideList,
   LucideIconInput,
+  LucideMapPin,
 } from '@lucide/angular';
 import { IProfile } from './profile.interface';
 import { AuthService } from '../../core/services/auth.service';
@@ -74,6 +75,13 @@ const MY_BUSINESS: NavItem = {
   route: '/profile/business',
 };
 
+const MY_OPPORTUNITIES: NavItem = {
+  icon: LucideMapPin,
+  label: 'My Opportunities',
+  description: 'Manage your local posts and requests',
+  route: '/profile/opportunities',
+};
+
 const START_BUSINESS: NavItem = {
   icon: LucideBuilding2,
   label: 'Start a Business',
@@ -117,7 +125,7 @@ export class Profile {
     return [
       {
         title: 'Workspace',
-        items: [businessItem, SAVED_ITEM],
+        items: [businessItem, MY_OPPORTUNITIES, SAVED_ITEM],
       },
       {
         title: 'Account Settings',

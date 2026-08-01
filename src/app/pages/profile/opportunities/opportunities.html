@@ -1,0 +1,55 @@
+<app-page-header title="My Opportunities"></app-page-header>
+
+<div class="opportunities-page" style="padding: var(--space-md);">
+  @if (loading()) {
+    <ui-grid cols="2 md:3 lg:4" gap="sm">
+      @for (i of [1,2,3]; track i) {
+        <div class="skeleton-card">
+          <app-skeleton class="skeleton-card__media"></app-skeleton>
+        </div>
+      }
+    </ui-grid>
+  } @else if (error()) {
+    <ui-empty-state
+      title="Couldn't load your opportunities"
+      description="There was an error loading your posts. Please try again."
+    ></ui-empty-state>
+  } @else if (items().length === 0) {
+    <ui-empty-state
+      title="No opportunities yet"
+      description="You haven't posted any opportunities."
+    ></ui-empty-state>
+  } @else {
+    <ui-grid cols="2 md:3 lg:4" gap="sm">
+      @for (item of items(); track item.id) {
+        <app-nearby-item-card 
+          [item]="item" 
+          (actionClicked)="handleActionClick($event)" 
+        />
+      }
+    </ui-grid>
+  }
+
+  @if (selectedItem()) {
+    <ui-drawer [(open)]="showActionSheet" position="bottom" size="sm" title="Manage Post" (dismissed)="closeActionSheet()">
+      <div style="display: flex; flex-direction: column; gap: var(--space-sm); padding: var(--space-md);">
+        @if (selectedItem()?.capabilities?.canEdit) {
+          <!-- We can add Edit functionality later -->
+          <button app-button appearance="outline" (click)="closeActionSheet()">
+            Edit Opportunity <span style="font-size: 0.85em; opacity: 0.7;">{{ getEditTimeRemaining(selectedItem()) }}</span>
+          </button>
+        }
+        @if (selectedItem()?.capabilities?.canComplete) {
+          <button app-button appearance="outline" (click)="completeOpportunity()">
+            Mark as Completed
+          </button>
+        }
+        @if (selectedItem()?.capabilities?.canDelete) {
+          <button app-button appearance="outline" intent="danger" (click)="deleteOpportunity()">
+            Delete Opportunity
+          </button>
+        }
+      </div>
+    </ui-drawer>
+  }
+</div>
