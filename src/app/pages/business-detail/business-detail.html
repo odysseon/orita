@@ -164,23 +164,27 @@
     } @if (listings.hasValue() && listings.value()!.items.length > 0) {
     <ui-grid cols="2 md:3 lg:4" gap="sm">
       @for (item of listings.value()!.items; track item.id) {
-      <ui-listing-card [listing]="{
-        id: item.id,
-        slug: item.slug,
-        title: item.title,
-        coverUrl: item.coverUrl,
-        business: {
-          id: biz.id,
-          name: biz.name,
-          slug: biz.slug,
-          logoUrl: biz.avatarUrl,
-          isVerified: biz.verificationStatus === 'VERIFIED'
+        @defer (on viewport; prefetch on idle) {
+          <ui-listing-card [listing]="{
+            id: item.id,
+            slug: item.slug,
+            title: item.title,
+            coverUrl: item.coverUrl,
+            business: {
+              id: biz.id,
+              name: biz.name,
+              slug: biz.slug,
+              logoUrl: biz.avatarUrl,
+              isVerified: biz.verificationStatus === 'VERIFIED'
+            }
+          }" [routerLink]="['/l', item.slug]" style="cursor: pointer;">
+            <div card-meta>
+              <span style="font-weight: var(--font-weight-semibold); color: var(--clr-primary);">{{ formatPrice(item) }}</span>
+            </div>
+          </ui-listing-card>
+        } @placeholder {
+          <app-skeleton class="biz-listing-skeleton"></app-skeleton>
         }
-      }" [routerLink]="['/l', item.slug]" style="cursor: pointer;">
-        <div card-meta>
-          <span style="font-weight: var(--font-weight-semibold); color: var(--clr-primary);">{{ formatPrice(item) }}</span>
-        </div>
-      </ui-listing-card>
       }
     </ui-grid>
     }
@@ -197,22 +201,28 @@
 
     <ui-grid cols="2 md:3 lg:4" gap="sm">
       @for (tour of tours.value()!.items; track tour.id) {
-      <ui-store-tour-card [tour]="{
-        id: tour.id,
-        title: tour.title,
-        thumbnailUrl: tour.media?.[0]?.url,
-        business: {
-          id: biz.id,
-          name: biz.name,
-          slug: biz.slug,
-          logoUrl: biz.avatarUrl,
-          isVerified: biz.verificationStatus === 'VERIFIED'
+        @defer (on viewport; prefetch on idle) {
+          <ui-store-tour-card [tour]="{
+            id: tour.id,
+            title: tour.title,
+            thumbnailUrl: tour.media?.[0]?.url,
+            business: {
+              id: biz.id,
+              name: biz.name,
+              slug: biz.slug,
+              logoUrl: biz.avatarUrl,
+              isVerified: biz.verificationStatus === 'VERIFIED'
+            }
+          }" [routerLink]="['/tours', tour.id]" style="cursor: pointer;">
+            <div card-summary>
+              <span>{{ tour.visitDate | date:'mediumDate' }}</span>
+            </div>
+          </ui-store-tour-card>
+        } @placeholder {
+          <div class="skeleton-card">
+            <app-skeleton class="skeleton-card__media"></app-skeleton>
+          </div>
         }
-      }" [routerLink]="['/tours', tour.id]" style="cursor: pointer;">
-        <div card-summary>
-          <span>{{ tour.visitDate | date:'mediumDate' }}</span>
-        </div>
-      </ui-store-tour-card>
       }
     </ui-grid>
   </section>
@@ -226,13 +236,15 @@
   }
 </div>
 
-<ui-share-modal
-  [isOpen]="showShareModal()"
-  (close)="showShareModal.set(false)"
-  embedType="BUSINESS"
-  [targetId]="biz.id"
-  [title]="biz.name"
-  [subtitle]="biz.location || ''"
-  [imageUrl]="biz.coverUrl || biz.avatarUrl"
-/>
+@defer (when showShareModal()) {
+  <ui-share-modal
+    [isOpen]="showShareModal()"
+    (close)="showShareModal.set(false)"
+    embedType="BUSINESS"
+    [targetId]="biz.id"
+    [title]="biz.name"
+    [subtitle]="biz.location || ''"
+    [imageUrl]="biz.coverUrl || biz.avatarUrl"
+  />
+}
 }

@@ -36,35 +36,39 @@
   </div>
   } @if (followedBusinesses.hasValue() && followedBusinesses.value()!.length > 0) {
   <div class="saved-list">
-    @for (saved of followedBusinesses.value()!; track saved.id) {
-    <div class="saved-item">
-      <a class="saved-item__link" [routerLink]="['/b', saved.business.slug]">
-        <div class="saved-item__avatar">
-          @if (saved.business.media?.[0]?.url) {
-          <img [src]="saved.business.media![0].url" [alt]="saved.business.name" loading="lazy" />
-          } @else {
-          <svg lucideStore aria-hidden="true"></svg>
-          }
-        </div>
-        <div class="saved-item__text">
-          <span class="saved-item__title">{{ saved.business.name }}</span>
-          @if (saved.business.description) {
-          <span class="saved-item__subtitle">{{ saved.business.description }}</span>
-          }
-        </div>
-      </a>
-      <button
-        app-button
-        appearance="plain"
-        class="saved-item__remove"
-        [disabled]="removingId() === saved.businessId"
-        (click)="unfollowBusiness(saved.businessId)"
-        type="button"
-        aria-label="Unfollow"
-      >
-        <svg lucideX aria-hidden="true"></svg>
-      </button>
-    </div>
+    @defer (on viewport; prefetch on idle) {
+      @for (saved of followedBusinesses.value()!; track saved.id) {
+      <div class="saved-item">
+        <a class="saved-item__link" [routerLink]="['/b', saved.business.slug]">
+          <div class="saved-item__avatar">
+            @if (saved.business.media?.[0]?.url) {
+            <img [src]="saved.business.media![0].url" [alt]="saved.business.name" loading="lazy" />
+            } @else {
+            <svg lucideStore aria-hidden="true"></svg>
+            }
+          </div>
+          <div class="saved-item__text">
+            <span class="saved-item__title">{{ saved.business.name }}</span>
+            @if (saved.business.description) {
+            <span class="saved-item__subtitle">{{ saved.business.description }}</span>
+            }
+          </div>
+        </a>
+        <button
+          app-button
+          appearance="plain"
+          class="saved-item__remove"
+          [disabled]="removingId() === saved.businessId"
+          (click)="unfollowBusiness(saved.businessId)"
+          type="button"
+          aria-label="Unfollow"
+        >
+          <svg lucideX aria-hidden="true"></svg>
+        </button>
+      </div>
+      }
+    } @placeholder {
+      <div style="padding: 16px;">Loading businesses...</div>
     }
   </div>
   } }
@@ -83,29 +87,33 @@
   </div>
   } @if (savedListings.hasValue() && savedListings.value()!.items.length > 0) {
   <div class="saved-list">
-    @for (saved of savedListings.value()!.items; track saved.id) {
-    <div class="saved-item">
-      <a class="saved-item__link" [routerLink]="['/l', saved.listing.slug]">
-        <div class="saved-item__avatar">
-          <svg lucidePackage aria-hidden="true"></svg>
-        </div>
-        <div class="saved-item__text">
-          <span class="saved-item__title">{{ saved.listing.title }}</span>
-          <span class="saved-item__price">{{ formatPrice(saved.listing) }}</span>
-        </div>
-      </a>
-      <button
-        app-button
-        appearance="plain"
-        class="saved-item__remove"
-        [disabled]="removingId() === saved.listingId"
-        (click)="unsaveListing(saved.listingId)"
-        type="button"
-        aria-label="Remove from saved"
-      >
-        <svg lucideX aria-hidden="true"></svg>
-      </button>
-    </div>
+    @defer (on viewport; prefetch on idle) {
+      @for (saved of savedListings.value()!.items; track saved.id) {
+      <div class="saved-item">
+        <a class="saved-item__link" [routerLink]="['/l', saved.listing.slug]">
+          <div class="saved-item__avatar">
+            <svg lucidePackage aria-hidden="true"></svg>
+          </div>
+          <div class="saved-item__text">
+            <span class="saved-item__title">{{ saved.listing.title }}</span>
+            <span class="saved-item__price">{{ formatPrice(saved.listing) }}</span>
+          </div>
+        </a>
+        <button
+          app-button
+          appearance="plain"
+          class="saved-item__remove"
+          [disabled]="removingId() === saved.listingId"
+          (click)="unsaveListing(saved.listingId)"
+          type="button"
+          aria-label="Remove from saved"
+        >
+          <svg lucideX aria-hidden="true"></svg>
+        </button>
+      </div>
+      }
+    } @placeholder {
+      <div style="padding: 16px;">Loading listings...</div>
     }
   </div>
   } }

@@ -42,13 +42,17 @@
   }
 
   @if (tour.media && tour.media.length > 0) {
-    <div class="tour-gallery">
-      @for (media of tour.media; track media.id) {
-        <div class="tour-gallery__item">
-          <img [src]="media.url" [alt]="tour.title" loading="lazy" />
-        </div>
-      }
-    </div>
+    @defer (on viewport; prefetch on idle) {
+      <div class="tour-gallery">
+        @for (media of tour.media; track media.id) {
+          <div class="tour-gallery__item">
+            <img [src]="media.url" [alt]="tour.title" loading="lazy" />
+          </div>
+        }
+      </div>
+    } @placeholder {
+      <div style="height: 300px;"></div>
+    }
   } @else {
     <div class="tour-no-media">
       <svg lucideImage aria-hidden="true"></svg>
@@ -57,26 +61,32 @@
   }
 
   @if (tour.highlights && tour.highlights.length > 0) {
-    <div class="tour-highlights">
-      <h2>Highlights</h2>
-      <ul class="highlights-list">
-        @for (hl of tour.highlights; track hl.id) {
-          <li>
-            <svg lucideCheckCircle aria-hidden="true"></svg>
-            <span>{{ hl.value }}</span>
-          </li>
-        }
-      </ul>
-    </div>
+    @defer (on viewport; prefetch on idle) {
+      <div class="tour-highlights">
+        <h2>Highlights</h2>
+        <ul class="highlights-list">
+          @for (hl of tour.highlights; track hl.id) {
+            <li>
+              <svg lucideCheckCircle aria-hidden="true"></svg>
+              <span>{{ hl.value }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    } @placeholder {
+      <div style="height: 150px;"></div>
+    }
   }
 
-  <ui-share-modal
-    [isOpen]="showShareModal()"
-    (close)="showShareModal.set(false)"
-    embedType="TOUR"
-    [targetId]="tour.id"
-    [title]="tour.title"
-    [subtitle]="$any(tour).business?.name"
-    [imageUrl]="tour.media?.[0]?.url"
-  />
+  @defer (when showShareModal()) {
+    <ui-share-modal
+      [isOpen]="showShareModal()"
+      (close)="showShareModal.set(false)"
+      embedType="TOUR"
+      [targetId]="tour.id"
+      [title]="tour.title"
+      [subtitle]="$any(tour).business?.name"
+      [imageUrl]="tour.media?.[0]?.url"
+    />
+  }
 }

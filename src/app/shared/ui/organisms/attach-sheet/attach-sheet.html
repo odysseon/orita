@@ -18,10 +18,12 @@
     </div>
 
     @if (activeTab() === 'ORITA') {
-      <ui-attach-sheet-orita-tab
-        [isOpen]="isOpen()"
-        (itemSelected)="onItemSelected($event)"
-      />
+      @defer (when activeTab() === 'ORITA') {
+        <ui-attach-sheet-orita-tab
+          [isOpen]="isOpen()"
+          (itemSelected)="onItemSelected($event)"
+        />
+      }
     } @else {
       <!-- Media Tab -->
       <div class="tab-content media-tab">

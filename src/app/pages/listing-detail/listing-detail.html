@@ -80,27 +80,41 @@
 
   <!-- Category Attributes -->
   @if (attributesResource.hasValue() && attributesResource.value()!.length > 0) {
-  <app-listing-attributes [attributes]="attributesResource.value()!" />
+    @defer (on viewport; prefetch on idle) {
+      <app-listing-attributes [attributes]="attributesResource.value()!" />
+    } @placeholder {
+      <div style="height: 100px;"></div>
+    }
   }
 
   <!-- Business card -->
   @if (business.hasValue()) { @let biz = business.value()!;
-  <app-listing-business-card [biz]="biz" [listingId]="item.id" />
+    @defer (on viewport; prefetch on idle) {
+      <app-listing-business-card [biz]="biz" [listingId]="item.id" />
+    } @placeholder {
+      <div style="height: 150px;"></div>
+    }
   }
 
   <!-- Reviews -->
   @if (item.reviews && item.reviews.length > 0) {
-  <app-listing-reviews [reviews]="item.reviews" />
+    @defer (on viewport; prefetch on idle) {
+      <app-listing-reviews [reviews]="item.reviews" />
+    } @placeholder {
+      <div style="height: 200px;"></div>
+    }
   }
 </div>
 
-<ui-share-modal
-  [isOpen]="showShareModal()"
-  (close)="showShareModal.set(false)"
-  embedType="LISTING"
-  [targetId]="item.id"
-  [title]="item.title"
-  [subtitle]="business.value()?.name"
-  [imageUrl]="item.coverUrl"
-/>
+@defer (when showShareModal()) {
+  <ui-share-modal
+    [isOpen]="showShareModal()"
+    (close)="showShareModal.set(false)"
+    embedType="LISTING"
+    [targetId]="item.id"
+    [title]="item.title"
+    [subtitle]="business.value()?.name"
+    [imageUrl]="item.coverUrl"
+  />
+}
 }
