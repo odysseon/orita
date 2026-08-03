@@ -3,7 +3,7 @@
     pageHeaderStart
     [user]="headerUser()"
     [showUsername]="false"
-    [interactive]="true"
+    [interactive]="!!headerUser().username"
     size="md"
   />
 

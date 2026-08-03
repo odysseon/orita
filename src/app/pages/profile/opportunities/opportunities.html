@@ -40,7 +40,7 @@
         @for (item of items(); track item.id) {
           @defer (on viewport; prefetch on idle) {
             <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
-              <app-post-card 
+              <ui-post-card 
                 [item]="item" 
                 appearance="plain"
                 (actionClicked)="handleActionClick($event)" 
