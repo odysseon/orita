@@ -22,7 +22,7 @@ export class ChatHeader {
     return {
       id: conv?.id || 'default',
       displayName: conv?.title || conv?.participants?.[0]?.displayName || 'User',
-      username: conv?.participants?.[0]?.username || '',
+      username: conv?.participants?.[0]?.username || conv?.participants?.[0]?.participantId || '',
       avatarUrl: conv?.avatarUrl || conv?.participants?.[0]?.avatarUrl || null,
       status: (conv?.status || 'online') as AvatarStatus
     };
