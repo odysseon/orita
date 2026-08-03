@@ -5,7 +5,7 @@
         <svg lucideArrowLeft aria-hidden="true"></svg>
       </button>
       <div class="header-actions">
-        <button app-button appearance="ghost" shape="circle" class="btn-icon" (click)="shareProfile()" aria-label="Share profile" [disabled]="state() !== 'loaded'">
+        <button app-button appearance="ghost" shape="circle" class="btn-icon" (click)="openShareModal()" aria-label="Share profile" [disabled]="state() !== 'loaded'">
           <svg lucideShare aria-hidden="true"></svg>
         </button>
       </div>
@@ -73,6 +73,19 @@
                 </button>
               } @else {
                 <button 
+                  app-button
+                  appearance="outline"
+                  class="profile-action-btn"
+                  [disabled]="messagingLoading()"
+                  (click)="startConversation()">
+                  @if (messagingLoading()) {
+                    <span class="spinner"></span>
+                  } @else {
+                    <span class="follow-status-icon"><svg lucideMessageCircle aria-hidden="true"></svg></span>
+                    <span>Message</span>
+                  }
+                </button>
+                <button 
                   app-button 
                   [intent]="p.isFollowing ? 'secondary' : 'primary'"
                   [appearance]="p.isFollowing ? 'soft' : 'solid'"
@@ -132,12 +145,16 @@
             
             <ui-grid cols="1 sm:2 md:3" gap="md">
               @for (business of p.businesses; track business.id) {
-                <ui-business-card [business]="{
-                  id: business.id,
-                  name: business.name,
-                  slug: business.slug,
-                  isVerified: true
-                }"></ui-business-card>
+                @defer (on viewport; prefetch on idle) {
+                  <ui-business-card [business]="{
+                    id: business.id,
+                    name: business.name,
+                    slug: business.slug,
+                    isVerified: true
+                  }"></ui-business-card>
+                } @placeholder {
+                  <app-skeleton class="skeleton-card"></app-skeleton>
+                }
               }
             </ui-grid>
           </section>
@@ -145,4 +162,19 @@
       }
     }
   </main>
+
+  @defer (when showShareModal()) {
+    @if (state() === 'loaded' && profile(); as p) {
+      <ui-share-modal
+        [isOpen]="showShareModal()"
+        (close)="showShareModal.set(false)"
+        embedType="USER"
+        [targetId]="p.id"
+        [targetSlug]="p.username"
+        [title]="p.displayName || p.username"
+        [subtitle]="p.bio || ''"
+        [imageUrl]="p.avatarUrl || ''"
+      />
+    }
+  }
 </div>

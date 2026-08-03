@@ -1,16 +1,17 @@
 import { Component, inject, OnInit, signal, computed, effect } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { LucideShare,  LucideBriefcase, LucideArrowLeft, LucideChevronRight, LucideUserCheck, LucideUserPlus, LucideAlertCircle } from '@lucide/angular';
+import { LucideShare,  LucideBriefcase, LucideArrowLeft, LucideChevronRight, LucideUserCheck, LucideUserPlus, LucideAlertCircle, LucideMessageCircle } from '@lucide/angular';
 import { PublicUserService, PublicUserProfile } from '../../core/services/public-user.service';
 import { AuthService } from '../../core/services/auth.service';
-import { ShareService } from '../../core/services/share.service';
+import { MessagingApiService } from '../../core/services/messaging-api.service';
 import { Avatar } from '../../shared/ui/identity/avatar/avatar';
 
 import { Button } from '../../shared/ui/atoms/button/button';
 import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 import { BusinessCard } from '../../shared/ui/organisms/cards/business-card/business-card';
 import { Grid } from '../../shared/ui/layouts/grid/grid';
+import { ShareModalComponent } from '../../shared/ui/organisms/share-modal/share-modal';
 
 @Component({
   selector: 'app-public-profile',
@@ -24,10 +25,12 @@ import { Grid } from '../../shared/ui/layouts/grid/grid';
     LucideUserCheck,
     LucideUserPlus,
     LucideAlertCircle,
+    LucideMessageCircle,
     Button,
     Skeleton,
     BusinessCard,
     Grid,
+    ShareModalComponent
   ],
   templateUrl: './public-profile.html',
   styleUrl: './public-profile.css'
@@ -37,11 +40,14 @@ export class PublicProfile implements OnInit {
   #router = inject(Router);
   #publicUserService = inject(PublicUserService);
   #authService = inject(AuthService);
-  #shareService = inject(ShareService);
+  #messagingApi = inject(MessagingApiService);
 
   readonly state = signal<'loading' | 'loaded' | 'error'>('loading');
   readonly profile = signal<PublicUserProfile | null>(null);
   readonly toggleFollowLoading = signal<boolean>(false);
+  readonly messagingLoading = signal<boolean>(false);
+  
+  readonly showShareModal = signal(false);
 
   readonly isCurrentUser = computed(() => {
     const p = this.profile();
@@ -78,14 +84,29 @@ export class PublicProfile implements OnInit {
     history.back();
   }
 
-  shareProfile() {
+  openShareModal() {
+    this.showShareModal.set(true);
+  }
+
+  startConversation() {
     const p = this.profile();
     if (!p) return;
     
-    this.#shareService.share({
-      title: `${p.displayName || p.username} on Orita`,
-      text: p.bio || `Check out ${p.username}'s profile on Orita.`,
-      url: window.location.href
+    if (!this.#authService.token()) {
+      this.#router.navigate(['/auth/login'], { queryParams: { returnUrl: this.#router.url } });
+      return;
+    }
+
+    this.messagingLoading.set(true);
+    this.#messagingApi.openConversation('USER', p.id).subscribe({
+      next: (conv) => {
+        this.messagingLoading.set(false);
+        this.#router.navigate(['/messages', conv.id]);
+      },
+      error: () => {
+        this.messagingLoading.set(false);
+        // Could show a toast here if we had one injected, but failing silently or just console logging is safe for now
+      }
     });
   }
 
