@@ -58,7 +58,7 @@
       <section class="section">
         <ui-grid cols="2 md:3 lg:4" gap="sm">
           @for (item of items(); track item.id) {
-            <app-nearby-item-card [item]="item" (actionClicked)="handleReply($event)" />
+            <app-nearby-item-card [item]="item" (actionClicked)="handleAction($event)" />
           }
         </ui-grid>
       </section>

@@ -21,7 +21,6 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 
 @Component({
   selector: 'app-nearby',
-  standalone: true,
   imports: [RouterModule, NearbyItemCard, NewPostSheet, RootHeader, Button, Fab, Grid, EmptyState, ScrollHideDirective, LucideMapPin, LucidePlus, Skeleton],
   templateUrl: './nearby.html',
   styleUrls: ['./nearby.css'],
@@ -109,10 +108,10 @@ export class NearbyPage implements OnInit, OnDestroy {
     this.showNewPostSheet.set(true);
   }
 
-  handleReply(item: NearbyItemDto) {
-    if (item.capabilities?.canReply) {
+  handleAction(event: { item: NearbyItemDto, action: 'reply' | 'manage' }) {
+    if (event.action === 'reply' && event.item.capabilities?.canReply) {
       this.loading.set(true);
-      this.#messaging.openConversation('OPPORTUNITY', item.id).subscribe({
+      this.#messaging.openConversation('OPPORTUNITY', event.item.id).subscribe({
         next: (conv) => {
           this.loading.set(false);
           this.#router.navigate(['/messages', conv.id]);
@@ -122,6 +121,8 @@ export class NearbyPage implements OnInit, OnDestroy {
           this.#toast.error('Messaging Error', 'Failed to start conversation. Please try again later.');
         }
       });
+    } else if (event.action === 'manage') {
+      this.#router.navigate(['/profile/opportunities']);
     }
   }
 
