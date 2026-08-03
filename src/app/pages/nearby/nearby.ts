@@ -8,12 +8,12 @@ import { MessagingApiService } from '../../core/services/messaging-api.service';
 import { NearbyItemDto } from '../../core/models/discovery';
 import { Subject, timer, Subscription, switchMap, filter, of, Observable } from 'rxjs';
 import { catchError, debounceTime, tap } from 'rxjs/operators';
-import { NearbyItemCard } from './components/nearby-item-card/nearby-item-card';
+import { PostCard } from '../../shared/ui/organisms/cards/post-card/post-card';
 import { NewPostSheet } from './components/new-post-sheet/new-post-sheet';
 import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
+import { List, ListItem } from '../../shared/ui/surfaces/list/list';
 import { Button } from '../../shared/ui/atoms/button/button';
 import { Fab } from '../../shared/ui/actions/fab/fab';
-import { Grid } from '../../shared/ui/layouts/grid/grid';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { LucideMapPin, LucidePlus } from '@lucide/angular';
@@ -21,7 +21,7 @@ import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 
 @Component({
   selector: 'app-nearby',
-  imports: [RouterModule, NearbyItemCard, NewPostSheet, RootHeader, Button, Fab, Grid, EmptyState, ScrollHideDirective, LucideMapPin, LucidePlus, Skeleton],
+  imports: [RouterModule, PostCard, List, ListItem, NewPostSheet, RootHeader, Button, Fab, EmptyState, ScrollHideDirective, LucideMapPin, LucidePlus, Skeleton],
   templateUrl: './nearby.html',
   styleUrls: ['./nearby.css'],
 })
