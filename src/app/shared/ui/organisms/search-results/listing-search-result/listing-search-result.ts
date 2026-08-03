@@ -1,15 +1,14 @@
 import { Component, input, output, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ListItem } from '../../../surfaces/list/list';
-import { CoverMedia } from '../../../surfaces/cover-media/cover-media';
+import { Avatar } from '../../../identity/avatar/avatar';
 import { SaveButton } from '../../../actions/save-button/save-button';
 import { CurrencyPipe } from '@angular/common';
 import { resolveEmbedRoute } from '../../../../utils/embed.utils';
 
 @Component({
   selector: 'ui-listing-search-result',
-  standalone: true,
-  imports: [RouterLink, ListItem, CoverMedia, SaveButton, CurrencyPipe],
+  imports: [RouterLink, ListItem, Avatar, SaveButton, CurrencyPipe],
   templateUrl: './listing-search-result.html',
   styleUrl: './listing-search-result.css',
   encapsulation: ViewEncapsulation.None,

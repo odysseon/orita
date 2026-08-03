@@ -40,12 +40,12 @@ ui-list .ui-listing-search-result-row {
   box-sizing: border-box;
 }
 
+.ui-listing-search-result__main-link:hover .ui-listing-search-result__title {
+  text-decoration: underline;
+  color: var(--clr-primary, var(--text-primary));
+}
+
 .ui-listing-search-result__thumbnail {
-  width: var(--size-48);
-  height: var(--size-48);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  background: var(--surface-container-high);
   flex-shrink: 0;
 }
 
