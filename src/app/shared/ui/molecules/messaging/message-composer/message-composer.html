@@ -58,9 +58,9 @@
       />
     </div>
 
-    <ui-share-button
+    <ui-send-button
       [disabled]="!content().trim() && draftEmbeds().length === 0 && attachments().length === 0"
-      (share)="onSend()"
+      (send)="onSend()"
     />
   </div>
 </div>
