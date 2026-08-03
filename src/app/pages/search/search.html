@@ -74,7 +74,7 @@
       (followToggle)="store.onFollowToggle($any($event.type), $event.id, $event.wantToFollow)"
     />
 
-    } @else if (store.isDebouncing() || store.listingsResource.isLoading() || store.businessesResource.isLoading() || store.locationsResource.isLoading()) {
+    } @else if (store.isDebouncing() || store.usersResource.isLoading() || store.listingsResource.isLoading() || store.businessesResource.isLoading() || store.locationsResource.isLoading()) {
     <div class="loading-state">
       <div class="spinner"></div>
       <p>Searching...</p>
