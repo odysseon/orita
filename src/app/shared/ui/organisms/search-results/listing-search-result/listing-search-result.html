@@ -7,13 +7,14 @@
 
   <a [routerLink]="getListingLink()" class="ui-listing-search-result__main-link">
     @if (!hideThumbnail() && listing().thumbnailUrl) {
-    <div class="ui-listing-search-result__thumbnail">
-      <ui-cover-media
+      <app-avatar
+        class="ui-listing-search-result__thumbnail"
         [src]="listing().thumbnailUrl || null"
-        aspectRatio="square"
-        fallbackIcon="package"
-      ></ui-cover-media>
-    </div>
+        [fallback]="listing().title ? listing().title.charAt(0) : ''"
+        shape="rounded"
+        size="md"
+        loading="lazy"
+      ></app-avatar>
     }
 
     <div class="ui-listing-search-result__content">
