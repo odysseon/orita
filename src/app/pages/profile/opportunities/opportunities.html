@@ -31,7 +31,7 @@
   }
 
   @if (selectedItem()) {
-    <ui-drawer [(open)]="showActionSheet" position="bottom" size="sm" title="Manage Post" (dismissed)="closeActionSheet()">
+    <ui-drawer [open]="showActionSheet()" (openChange)="showActionSheet.set($event)" position="bottom" size="sm" title="Manage Post" (dismissed)="closeActionSheet()">
       <div style="display: flex; flex-direction: column; gap: var(--space-sm); padding: var(--space-md);">
         @if (selectedItem()?.capabilities?.canEdit) {
           <!-- We can add Edit functionality later -->

@@ -1,7 +1,7 @@
 import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { OpportunityService } from '../../../core/services/opportunity.service';
 import { NearbyItemDto } from '../../../core/models/discovery';
-import { Subject, switchMap, catchError, of, tap } from 'rxjs';
+import { Subject, switchMap, catchError, of, tap, takeUntil } from 'rxjs';
 import { PageHeader } from '../../../shared/ui/organisms/page-header/page-header';
 import { NearbyItemCard } from '../../nearby/components/nearby-item-card/nearby-item-card';
 import { Grid } from '../../../shared/ui/layouts/grid/grid';
@@ -12,7 +12,6 @@ import { Button } from '../../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-my-opportunities',
-  standalone: true,
   imports: [PageHeader, NearbyItemCard, Grid, EmptyState, Skeleton, Drawer, Button],
   templateUrl: './opportunities.html',
   styleUrls: ['./opportunities.css']
@@ -32,7 +31,11 @@ export class MyOpportunities implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.#refresh$.pipe(
-      tap(() => this.loading.set(true)),
+      takeUntil(this.#destroy$),
+      tap(() => {
+        this.loading.set(true);
+        this.error.set(false);
+      }),
       switchMap(() => this.#opportunity.getMyPosts().pipe(
         catchError(() => {
           this.error.set(true);
@@ -52,8 +55,8 @@ export class MyOpportunities implements OnInit, OnDestroy {
     this.#destroy$.complete();
   }
 
-  handleActionClick(item: NearbyItemDto) {
-    this.selectedItem.set(item);
+  handleActionClick(event: { item: NearbyItemDto, action: 'reply' | 'manage' }) {
+    this.selectedItem.set(event.item);
     this.showActionSheet.set(true);
   }
 
@@ -66,6 +69,7 @@ export class MyOpportunities implements OnInit, OnDestroy {
     if (!item?.editableUntil) return '';
     const now = new Date().getTime();
     const target = new Date(item.editableUntil).getTime();
+    if (!Number.isFinite(target)) return '';
     const diffMs = target - now;
     if (diffMs <= 0) return '(Edit window closed)';
     
