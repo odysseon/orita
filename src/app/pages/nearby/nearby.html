@@ -63,7 +63,7 @@
           @for (item of items(); track item.id) {
             @defer (on viewport; prefetch on idle) {
               <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
-                <app-post-card [item]="item" appearance="plain" (actionClicked)="handleAction($event)" style="width: 100%;" />
+                <ui-post-card [item]="item" appearance="plain" (actionClicked)="handleAction($event)" style="width: 100%;" />
               </div>
             } @placeholder {
               <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">

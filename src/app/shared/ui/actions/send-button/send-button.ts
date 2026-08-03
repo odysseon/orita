@@ -4,7 +4,6 @@ import { LucideSend } from '@lucide/angular';
 
 @Component({
   selector: 'ui-send-button',
-  standalone: true,
   imports: [Button, LucideSend],
   template: `
     <button app-button 

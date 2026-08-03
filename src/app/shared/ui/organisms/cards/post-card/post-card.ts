@@ -1,14 +1,15 @@
-import { Component, input, output, computed } from '@angular/core';
+import { Component, input, output, computed, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Button } from '../../../atoms/button/button';
 import { Card, CardAppearance } from '../../../atoms/card/card';
 import { NearbyItemDto } from '../../../../../core/models/discovery';
 
 @Component({
-  selector: 'app-post-card',
+  selector: 'ui-post-card',
   imports: [DatePipe, Button, Card],
   templateUrl: './post-card.html',
   styleUrls: ['./post-card.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PostCard {
   item = input.required<NearbyItemDto>();
