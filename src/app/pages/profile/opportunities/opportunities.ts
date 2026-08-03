@@ -2,9 +2,8 @@ import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { OpportunityService } from '../../../core/services/opportunity.service';
 import { NearbyItemDto } from '../../../core/models/discovery';
 import { Subject, switchMap, catchError, of, tap, takeUntil } from 'rxjs';
-import { PageHeader } from '../../../shared/ui/organisms/page-header/page-header';
-import { NearbyItemCard } from '../../nearby/components/nearby-item-card/nearby-item-card';
-import { Grid } from '../../../shared/ui/layouts/grid/grid';
+import { PostCard } from '../../../shared/ui/organisms/cards/post-card/post-card';
+import { List, ListItem } from '../../../shared/ui/surfaces/list/list';
 import { EmptyState } from '../../../shared/empty-state/empty-state';
 import { Skeleton } from '../../../shared/ui/atoms/skeleton/skeleton';
 import { Drawer } from '../../../shared/ui/overlays/drawer/drawer';
@@ -12,7 +11,7 @@ import { Button } from '../../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-my-opportunities',
-  imports: [PageHeader, NearbyItemCard, Grid, EmptyState, Skeleton, Drawer, Button],
+  imports: [PostCard, List, ListItem, EmptyState, Skeleton, Drawer, Button],
   templateUrl: './opportunities.html',
   styleUrls: ['./opportunities.css']
 })

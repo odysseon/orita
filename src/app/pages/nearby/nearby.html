@@ -13,24 +13,27 @@
         </ui-empty-state>
       </div>
     } @else if (loading()) {
-      <div class="feed-container">
-        <ui-grid cols="2 md:3 lg:4" gap="sm">
+      <div style="max-width: 600px; margin: 0 auto;">
+        <ui-list [bordered]="false" [dividers]="true" [padding]="true" [radius]="false">
           @for (i of [1,2,3,4,5,6]; track i) {
-          <div class="skeleton-card">
-            <app-skeleton class="skeleton-card__media"></app-skeleton>
-            <div class="skeleton-card__header">
-              <app-skeleton shape="circle" class="skeleton-card__avatar"></app-skeleton>
-              <div class="skeleton-card__lines">
-                <app-skeleton shape="text" style="height: 12px; width: 40%"></app-skeleton>
+            <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
+              <div class="post-card" style="width: 100%;">
+                <div class="post-card__avatar">
+                  <app-skeleton shape="circle" style="width: 100%; height: 100%;"></app-skeleton>
+                </div>
+                <div class="post-card__content">
+                  <header class="post-card__header">
+                    <app-skeleton shape="text" style="width: 40%; height: 15px;"></app-skeleton>
+                  </header>
+                  <div class="post-card__body">
+                    <app-skeleton shape="text" style="width: 90%; height: 14px; margin-top: 8px;"></app-skeleton>
+                    <app-skeleton shape="text" style="width: 60%; height: 14px; margin-top: 4px;"></app-skeleton>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="skeleton-card__lines">
-              <app-skeleton shape="text" style="height: 16px; width: 70%"></app-skeleton>
-              <app-skeleton shape="text" style="height: 14px; width: 90%"></app-skeleton>
-            </div>
-          </div>
           }
-        </ui-grid>
+        </ui-list>
       </div>
     } @else {
       <div class="feed-container">
@@ -55,28 +58,58 @@
         </div>
       }
 
-      <section class="section">
-        <ui-grid cols="2 md:3 lg:4" gap="sm">
+      <section class="section" style="max-width: 600px; margin: 0 auto;">
+        <ui-list [bordered]="false" [dividers]="true" [padding]="true" [radius]="false">
           @for (item of items(); track item.id) {
             @defer (on viewport; prefetch on idle) {
-              <app-nearby-item-card [item]="item" (actionClicked)="handleAction($event)" />
+              <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
+                <app-post-card [item]="item" appearance="plain" (actionClicked)="handleAction($event)" style="width: 100%;" />
+              </div>
             } @placeholder {
-              <div class="skeleton-card">
-                <app-skeleton class="skeleton-card__media"></app-skeleton>
+              <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
+                <div class="post-card" style="width: 100%;">
+                  <div class="post-card__avatar">
+                    <app-skeleton shape="circle" style="width: 100%; height: 100%;"></app-skeleton>
+                  </div>
+                  <div class="post-card__content">
+                    <header class="post-card__header">
+                      <app-skeleton shape="text" style="width: 40%; height: 15px;"></app-skeleton>
+                    </header>
+                    <div class="post-card__body">
+                      <app-skeleton shape="text" style="width: 90%; height: 14px; margin-top: 8px;"></app-skeleton>
+                      <app-skeleton shape="text" style="width: 60%; height: 14px; margin-top: 4px;"></app-skeleton>
+                    </div>
+                  </div>
+                </div>
               </div>
             }
           }
-        </ui-grid>
+        </ui-list>
       </section>
 
       @if (loading()) {
-        <ui-grid cols="2 md:3 lg:4" gap="sm">
-          @for (i of [1,2,3]; track i) {
-          <div class="skeleton-card">
-            <app-skeleton class="skeleton-card__media"></app-skeleton>
-          </div>
-          }
-        </ui-grid>
+        <div style="max-width: 600px; margin: 0 auto;">
+          <ui-list [bordered]="false" [dividers]="true" [padding]="true" [radius]="false">
+            @for (i of [1,2,3]; track i) {
+              <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
+                <div class="post-card" style="width: 100%;">
+                  <div class="post-card__avatar">
+                    <app-skeleton shape="circle" style="width: 100%; height: 100%;"></app-skeleton>
+                  </div>
+                  <div class="post-card__content">
+                    <header class="post-card__header">
+                      <app-skeleton shape="text" style="width: 40%; height: 15px;"></app-skeleton>
+                    </header>
+                    <div class="post-card__body">
+                      <app-skeleton shape="text" style="width: 90%; height: 14px; margin-top: 8px;"></app-skeleton>
+                      <app-skeleton shape="text" style="width: 60%; height: 14px; margin-top: 4px;"></app-skeleton>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </ui-list>
+        </div>
       }
 
       @if (hasMore() && !loading() && !error()) {

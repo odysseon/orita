@@ -1,14 +1,29 @@
-<app-page-header title="My Opportunities"></app-page-header>
+
 
 <div class="opportunities-page" style="padding: var(--space-md);">
   @if (loading()) {
-    <ui-grid cols="2 md:3 lg:4" gap="sm">
-      @for (i of [1,2,3]; track i) {
-        <div class="skeleton-card">
-          <app-skeleton class="skeleton-card__media"></app-skeleton>
-        </div>
-      }
-    </ui-grid>
+    <div style="max-width: 600px; margin: 0 auto;">
+      <ui-list [bordered]="false" [dividers]="true" [padding]="true" [radius]="false">
+        @for (i of [1,2,3]; track i) {
+          <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
+            <div class="post-card" style="width: 100%;">
+              <div class="post-card__avatar">
+                <app-skeleton shape="circle" style="width: 100%; height: 100%;"></app-skeleton>
+              </div>
+              <div class="post-card__content">
+                <header class="post-card__header">
+                  <app-skeleton shape="text" style="width: 40%; height: 15px;"></app-skeleton>
+                </header>
+                <div class="post-card__body">
+                  <app-skeleton shape="text" style="width: 90%; height: 14px; margin-top: 8px;"></app-skeleton>
+                  <app-skeleton shape="text" style="width: 60%; height: 14px; margin-top: 4px;"></app-skeleton>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </ui-list>
+    </div>
   } @else if (error()) {
     <ui-empty-state
       title="Couldn't load your opportunities"
@@ -20,18 +35,39 @@
       description="You haven't posted any opportunities."
     ></ui-empty-state>
   } @else {
-    <ui-grid cols="2 md:3 lg:4" gap="sm">
-      @defer (on viewport; prefetch on idle) {
+    <div style="max-width: 600px; margin: 0 auto;">
+      <ui-list [bordered]="false" [dividers]="true" [padding]="true" [radius]="false">
         @for (item of items(); track item.id) {
-          <app-nearby-item-card 
-            [item]="item" 
-            (actionClicked)="handleActionClick($event)" 
-          />
+          @defer (on viewport; prefetch on idle) {
+            <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
+              <app-post-card 
+                [item]="item" 
+                appearance="plain"
+                (actionClicked)="handleActionClick($event)" 
+                style="width: 100%;"
+              />
+            </div>
+          } @placeholder {
+            <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
+              <div class="post-card" style="width: 100%;">
+                <div class="post-card__avatar">
+                  <app-skeleton shape="circle" style="width: 100%; height: 100%;"></app-skeleton>
+                </div>
+                <div class="post-card__content">
+                  <header class="post-card__header">
+                    <app-skeleton shape="text" style="width: 40%; height: 15px;"></app-skeleton>
+                  </header>
+                  <div class="post-card__body">
+                    <app-skeleton shape="text" style="width: 90%; height: 14px; margin-top: 8px;"></app-skeleton>
+                    <app-skeleton shape="text" style="width: 60%; height: 14px; margin-top: 4px;"></app-skeleton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
         }
-      } @placeholder {
-        <div style="padding: 16px;">Loading opportunities...</div>
-      }
-    </ui-grid>
+      </ui-list>
+    </div>
   }
 
   @if (selectedItem()) {
