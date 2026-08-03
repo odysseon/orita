@@ -56,23 +56,27 @@
         </div>
         } @else if (searchResults().length > 0) {
         <ui-list [bordered]="false" [dividers]="false">
-          @for (user of searchResults(); track user.id) {
-          <button type="button" uiListItem class="user-item-row" (click)="toggleRecipient(user)">
-            <div uiListItemStart>
-              <app-avatar [src]="user.avatarUrl" [alt]="user.displayName || user.username" [fallback]="(user.displayName || user.username) ? (user.displayName || user.username)!.charAt(0).toUpperCase() : ''" size="md"></app-avatar>
-            </div>
-            <div uiListItemContent>
-              <div uiListItemTitle>{{ user.displayName || user.username }}</div>
-              <div uiListItemDescription>{{ '@' + user.username }}</div>
-            </div>
-            <div uiListItemEnd>
-              @if (isSent(user.id)) {
-                <span class="sent-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: var(--font-size-sm); color: var(--clr-primary);"><svg lucideCheck aria-hidden="true"></svg> Sent</span>
-              } @else {
-                <input type="checkbox" app-checkbox shape="circle" appearance="ghost" [checked]="isSelected(user.id)" (click)="$event.stopPropagation(); toggleRecipient(user)" />
-              }
-            </div>
-          </button>
+          @defer (on viewport; prefetch on idle) {
+            @for (user of searchResults(); track user.id) {
+            <button type="button" uiListItem class="user-item-row" (click)="toggleRecipient(user)">
+              <div uiListItemStart>
+                <app-avatar [src]="user.avatarUrl" [alt]="user.displayName || user.username" [fallback]="(user.displayName || user.username) ? (user.displayName || user.username)!.charAt(0).toUpperCase() : ''" size="md"></app-avatar>
+              </div>
+              <div uiListItemContent>
+                <div uiListItemTitle>{{ user.displayName || user.username }}</div>
+                <div uiListItemDescription>{{ '@' + user.username }}</div>
+              </div>
+              <div uiListItemEnd>
+                @if (isSent(user.id)) {
+                  <span class="sent-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: var(--font-size-sm); color: var(--clr-primary);"><svg lucideCheck aria-hidden="true"></svg> Sent</span>
+                } @else {
+                  <input type="checkbox" app-checkbox shape="circle" appearance="ghost" [checked]="isSelected(user.id)" (click)="$event.stopPropagation(); toggleRecipient(user)" />
+                }
+              </div>
+            </button>
+            }
+          } @placeholder {
+            <div style="padding: 16px;">Loading results...</div>
           }
         </ui-list>
         } @else {
@@ -83,23 +87,27 @@
       <div class="section">
         <h4 class="section-title">Suggested</h4>
         <ui-list [bordered]="false" [dividers]="false">
-          @for (user of suggested(); track user.userId) {
-          <button type="button" uiListItem class="user-item-row" (click)="toggleRecipient(user)">
-            <div uiListItemStart>
-              <app-avatar [src]="user.avatarUrl" [alt]="user.displayName || user.username" [fallback]="(user.displayName || user.username) ? (user.displayName || user.username)!.charAt(0).toUpperCase() : ''" size="md"></app-avatar>
-            </div>
-            <div uiListItemContent>
-              <div uiListItemTitle>{{ user.displayName || user.username }}</div>
-              <div uiListItemDescription>{{ '@' + user.username }}</div>
-            </div>
-            <div uiListItemEnd>
-              @if (isSent(user.userId)) {
-                <span class="sent-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: var(--font-size-sm); color: var(--clr-primary);"><svg lucideCheck aria-hidden="true"></svg> Sent</span>
-              } @else {
-                <input type="checkbox" app-checkbox shape="circle" appearance="ghost" [checked]="isSelected(user.userId)" (click)="$event.stopPropagation(); toggleRecipient(user)" />
-              }
-            </div>
-          </button>
+          @defer (on viewport; prefetch on idle) {
+            @for (user of suggested(); track user.userId) {
+            <button type="button" uiListItem class="user-item-row" (click)="toggleRecipient(user)">
+              <div uiListItemStart>
+                <app-avatar [src]="user.avatarUrl" [alt]="user.displayName || user.username" [fallback]="(user.displayName || user.username) ? (user.displayName || user.username)!.charAt(0).toUpperCase() : ''" size="md"></app-avatar>
+              </div>
+              <div uiListItemContent>
+                <div uiListItemTitle>{{ user.displayName || user.username }}</div>
+                <div uiListItemDescription>{{ '@' + user.username }}</div>
+              </div>
+              <div uiListItemEnd>
+                @if (isSent(user.userId)) {
+                  <span class="sent-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: var(--font-size-sm); color: var(--clr-primary);"><svg lucideCheck aria-hidden="true"></svg> Sent</span>
+                } @else {
+                  <input type="checkbox" app-checkbox shape="circle" appearance="ghost" [checked]="isSelected(user.userId)" (click)="$event.stopPropagation(); toggleRecipient(user)" />
+                }
+              </div>
+            </button>
+            }
+          } @placeholder {
+            <div style="padding: 16px;">Loading suggestions...</div>
           }
         </ui-list>
       </div>
@@ -137,10 +145,12 @@
         (click)="onNativeShare()">
         <svg lucideShare aria-hidden="true"></svg>
       </button>
-      <ui-share-button
+      <button app-button class="send-btn" type="button"
         [disabled]="selectedRecipients().size === 0 || isSending()"
-        (share)="onSend()"
-      />
+        (click)="onSend()">
+        <svg lucideSend class="send-icon" aria-hidden="true"></svg>
+        Send
+      </button>
     </div>
     }
   </div>

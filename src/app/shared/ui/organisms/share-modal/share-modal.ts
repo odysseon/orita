@@ -8,11 +8,10 @@ import { resolveEmbedRoute } from '../../../../shared/utils/embed.utils';
 import { Drawer } from '../../overlays/drawer/drawer';
 import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../surfaces/list/list';
 import { SearchBar } from '../../molecules/search-bar/search-bar';
-import { LucideX, LucideCheck, LucideShare } from '@lucide/angular';
+import { LucideX, LucideCheck, LucideShare, LucideSend } from '@lucide/angular';
 import { InputDirective, CheckboxDirective } from '../../atoms/forms';
 import { Avatar } from '../../identity/avatar/avatar';
 import { Button } from '../../atoms/button/button';
-import { ShareButton as UiShareButton } from '../../actions/share-button/share-button';
 
 @Component({
   selector: 'ui-share-modal',
@@ -20,15 +19,15 @@ import { ShareButton as UiShareButton } from '../../actions/share-button/share-b
     Drawer, 
     List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd,
     SearchBar,
-    LucideX, LucideCheck, LucideShare, 
-    Avatar, InputDirective, CheckboxDirective, Button, UiShareButton
+    LucideX, LucideCheck, LucideShare, LucideSend,
+    Avatar, InputDirective, CheckboxDirective, Button
   ],
   templateUrl: './share-modal.html',
   styleUrl: './share-modal.css',
 })
 export class ShareModalComponent implements OnInit {
   isOpen = input<boolean>(false);
-  embedType = input.required<'BUSINESS' | 'LISTING' | 'TOUR' | 'LOCATION'>();
+  embedType = input.required<'BUSINESS' | 'LISTING' | 'TOUR' | 'LOCATION' | 'USER'>();
   targetId = input.required<string>();
   targetSlug = input<string>();
   canonicalUrl = input<string>();
