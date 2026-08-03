@@ -9,7 +9,6 @@ import { EmptyState } from '../../../../shared/empty-state/empty-state';
 
 @Component({
   selector: 'app-search-results-people',
-  standalone: true,
   imports: [List, ListItem, ListItemContent, ListItemEnd, UserIdentity, FollowButton, Button, EmptyState],
   template: `
     <ui-list [bordered]="false" [radius]="false" [dividers]="true">
