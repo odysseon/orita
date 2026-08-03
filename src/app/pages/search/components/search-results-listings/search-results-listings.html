@@ -9,11 +9,15 @@
     }
   </div>
   <ui-list [bordered]="false" [radius]="false" [dividers]="true">
-    @for (item of items(); track item.id) {
-      <ui-listing-search-result
-        [listing]="{ id: item.id, title: item.title, thumbnailUrl: $any(item).media?.[0]?.url || $any(item).imageUrl || $any(item).coverUrl, price: +($any(item).minPrice || 0), isSaved: item.isSaved }"
-        (saveToggle)="onSaveToggle(item.id, $event)"
-      />
+    @defer (on viewport; prefetch on idle) {
+      @for (item of items(); track item.id) {
+        <ui-listing-search-result
+          [listing]="{ id: item.id, slug: item.slug, title: item.title, thumbnailUrl: $any(item).media?.[0]?.url || $any(item).imageUrl || $any(item).coverUrl, price: +($any(item).minPrice || 0), isSaved: item.isSaved }"
+          (saveToggle)="onSaveToggle(item.id, $event)"
+        />
+      }
+    } @placeholder {
+      <div style="padding: 16px;">Loading listings...</div>
     }
   </ui-list>
 </section>

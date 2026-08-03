@@ -21,18 +21,22 @@ import { EmptyState } from '../../../../shared/empty-state/empty-state';
         }
       </div>
       <ui-list [bordered]="false" [radius]="false" [dividers]="true">
-        @for (biz of items(); track biz.id) {
-        <label uiListItem>
-          <div uiListItemContent>
-            <ui-business-identity [business]="biz"></ui-business-identity>
-          </div>
-          <div uiListItemEnd>
-            <ui-follow-button
-              [isFollowed]="biz.isFollowed ?? false"
-              (toggle)="followToggle.emit({ id: biz.id, wantToFollow: $event })"
-            ></ui-follow-button>
-          </div>
-        </label>
+        @defer (on viewport; prefetch on idle) {
+          @for (biz of items(); track biz.id) {
+          <label uiListItem>
+            <div uiListItemContent>
+              <ui-business-identity [business]="biz"></ui-business-identity>
+            </div>
+            <div uiListItemEnd>
+              <ui-follow-button
+                [isFollowed]="biz.isFollowed ?? false"
+                (toggle)="followToggle.emit({ id: biz.id, wantToFollow: $event })"
+              ></ui-follow-button>
+            </div>
+          </label>
+          }
+        } @placeholder {
+          <div style="padding: 16px;">Loading businesses...</div>
         }
       </ui-list>
     </section>
