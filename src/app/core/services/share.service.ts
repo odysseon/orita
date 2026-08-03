@@ -36,7 +36,7 @@ export interface ShareableSearchResult {
 }
 
 export interface InternalShareDto {
-  embedType: 'BUSINESS' | 'LISTING' | 'TOUR' | 'LOCATION';
+  embedType: 'USER' | 'BUSINESS' | 'LISTING' | 'TOUR' | 'LOCATION';
   targetId: string;
   recipientIds: string[];
   content?: string;
