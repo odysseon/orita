@@ -50,50 +50,56 @@
       }
       <ui-grid cols="2 md:3 lg:4" gap="sm">
         @for (item of group.items; track item.id) {
-          @if (item.itemType === 'TOUR' && item.tour) {
-            <ui-store-tour-card [tour]="{
-              id: item.tour.id,
-              title: item.tour.title,
-              thumbnailUrl: item.tour.media?.[0]?.url,
-              business: {
-                id: item.businessProfileId,
-                name: item.business?.name || '',
-                slug: item.business?.slug,
-                logoUrl: item.business?.logoUrl,
-                isVerified: !!$any(item.business).isVerified
-              }
-            }" />
-          } @else if (item.itemType === 'LISTING' && item.listing) {
-            <ui-listing-card
-              [listing]="{
-                id: item.listing.id,
-                slug: item.listing.slug,
-                title: item.listing.title,
-                coverUrl: item.listing.media?.[0]?.url,
-                isSaved: isSaved(item.listing),
-                business: item.business ? {
-                  id: item.businessProfileId || item.business.id,
-                  name: item.business.name || '',
+          @defer (on viewport; prefetch on idle) {
+            @if (item.itemType === 'TOUR' && item.tour) {
+              <ui-store-tour-card [tour]="{
+                id: item.tour.id,
+                title: item.tour.title,
+                thumbnailUrl: item.tour.media?.[0]?.url,
+                business: {
+                  id: item.businessProfileId,
+                  name: item.business?.name || '',
+                  slug: item.business?.slug,
+                  logoUrl: item.business?.logoUrl,
+                  isVerified: !!$any(item.business).isVerified
+                }
+              }" />
+            } @else if (item.itemType === 'LISTING' && item.listing) {
+              <ui-listing-card
+                [listing]="{
+                  id: item.listing.id,
+                  slug: item.listing.slug,
+                  title: item.listing.title,
+                  coverUrl: item.listing.media?.[0]?.url,
+                  isSaved: isSaved(item.listing),
+                  business: item.business ? {
+                    id: item.businessProfileId || item.business.id,
+                    name: item.business.name || '',
+                    slug: item.business.slug,
+                    logoUrl: item.business.logoUrl,
+                    isVerified: !!$any(item.business).isVerified
+                  } : undefined
+                }"
+                (saveToggle)="onSaveToggle(item.listing.id, $event)"
+              />
+            } @else if (item.itemType === 'BUSINESS' && item.business) {
+              <ui-business-card
+                [business]="{
+                  id: item.business.id,
+                  name: item.business.name,
                   slug: item.business.slug,
                   logoUrl: item.business.logoUrl,
-                  isVerified: !!$any(item.business).isVerified
-                } : undefined
-              }"
-              (saveToggle)="onSaveToggle(item.listing.id, $event)"
-            />
-          } @else if (item.itemType === 'BUSINESS' && item.business) {
-            <ui-business-card
-              [business]="{
-                id: item.business.id,
-                name: item.business.name,
-                slug: item.business.slug,
-                logoUrl: item.business.logoUrl,
-                isVerified: !!$any(item.business).isVerified,
-                isFollowed: isFollowed(item.business)
-              }"
-              [coverUrl]="item.business.coverUrl"
-              (followToggle)="onFollowToggle('business', item.business.id, $event)"
-            />
+                  isVerified: !!$any(item.business).isVerified,
+                  isFollowed: isFollowed(item.business)
+                }"
+                [coverUrl]="item.business.coverUrl"
+                (followToggle)="onFollowToggle('business', item.business.id, $event)"
+              />
+            }
+          } @placeholder {
+            <div class="skeleton-card">
+              <app-skeleton class="skeleton-card__media"></app-skeleton>
+            </div>
           }
         }
       </ui-grid>
