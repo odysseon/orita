@@ -9,6 +9,7 @@ import { NearbyItemDto } from '../../core/models/discovery';
 import { Subject, timer, Subscription, switchMap, filter, of, Observable } from 'rxjs';
 import { catchError, debounceTime, tap } from 'rxjs/operators';
 import { PostCard } from '../../shared/ui/organisms/cards/post-card/post-card';
+import { PostCardSkeleton } from '../../shared/ui/organisms/cards/post-card/post-card-skeleton';
 import { NewPostSheet } from './components/new-post-sheet/new-post-sheet';
 import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
 import { List, ListItem } from '../../shared/ui/surfaces/list/list';
@@ -17,11 +18,10 @@ import { Fab } from '../../shared/ui/actions/fab/fab';
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
 import { LucideMapPin, LucidePlus } from '@lucide/angular';
-import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
 
 @Component({
   selector: 'app-nearby',
-  imports: [RouterModule, PostCard, List, ListItem, NewPostSheet, RootHeader, Button, Fab, EmptyState, ScrollHideDirective, LucideMapPin, LucidePlus, Skeleton],
+  imports: [RouterModule, PostCard, PostCardSkeleton, List, ListItem, NewPostSheet, RootHeader, Button, Fab, EmptyState, ScrollHideDirective, LucideMapPin, LucidePlus],
   templateUrl: './nearby.html',
   styleUrls: ['./nearby.css'],
 })
