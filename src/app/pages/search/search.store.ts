@@ -80,7 +80,6 @@ export class SearchStore {
       q: this.searchQuery().trim(),
       lat: this.appliedLat(),
       lng: this.appliedLng(),
-      radius: this.appliedRadius(),
       categoryId: this.appliedCategoryId(),
       sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
       limit: this.searchType() === 'all' ? 5 : this.appliedLimit() !== 20 ? this.appliedLimit() : undefined,
@@ -97,7 +96,6 @@ export class SearchStore {
       q: this.searchQuery().trim(),
       lat: this.appliedLat(),
       lng: this.appliedLng(),
-      radius: this.appliedRadius(),
       categoryId: this.appliedCategoryId(),
       sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
       limit: this.searchType() === 'all' ? 5 : this.appliedLimit() !== 20 ? this.appliedLimit() : undefined,
@@ -120,7 +118,6 @@ export class SearchStore {
       q: this.searchQuery().trim(),
       lat: this.appliedLat(),
       lng: this.appliedLng(),
-      radius: this.appliedRadius(),
       sort: this.appliedSort() !== 'relevance' ? this.appliedSort() : undefined,
       limit: this.searchType() === 'all' ? 5 : this.appliedLimit() !== 20 ? this.appliedLimit() : undefined,
     };
