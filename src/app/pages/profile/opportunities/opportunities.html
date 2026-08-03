@@ -6,20 +6,7 @@
       <ui-list [bordered]="false" [dividers]="true" [padding]="true" [radius]="false">
         @for (i of [1,2,3]; track i) {
           <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
-            <div class="post-card" style="width: 100%;">
-              <div class="post-card__avatar">
-                <app-skeleton shape="circle" style="width: 100%; height: 100%;"></app-skeleton>
-              </div>
-              <div class="post-card__content">
-                <header class="post-card__header">
-                  <app-skeleton shape="text" style="width: 40%; height: 15px;"></app-skeleton>
-                </header>
-                <div class="post-card__body">
-                  <app-skeleton shape="text" style="width: 90%; height: 14px; margin-top: 8px;"></app-skeleton>
-                  <app-skeleton shape="text" style="width: 60%; height: 14px; margin-top: 4px;"></app-skeleton>
-                </div>
-              </div>
-            </div>
+            <ui-post-card-skeleton appearance="plain" />
           </div>
         }
       </ui-list>
@@ -49,20 +36,7 @@
             </div>
           } @placeholder {
             <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
-              <div class="post-card" style="width: 100%;">
-                <div class="post-card__avatar">
-                  <app-skeleton shape="circle" style="width: 100%; height: 100%;"></app-skeleton>
-                </div>
-                <div class="post-card__content">
-                  <header class="post-card__header">
-                    <app-skeleton shape="text" style="width: 40%; height: 15px;"></app-skeleton>
-                  </header>
-                  <div class="post-card__body">
-                    <app-skeleton shape="text" style="width: 90%; height: 14px; margin-top: 8px;"></app-skeleton>
-                    <app-skeleton shape="text" style="width: 60%; height: 14px; margin-top: 4px;"></app-skeleton>
-                  </div>
-                </div>
-              </div>
+              <ui-post-card-skeleton appearance="plain" />
             </div>
           }
         }

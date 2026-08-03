@@ -3,15 +3,15 @@ import { OpportunityService } from '../../../core/services/opportunity.service';
 import { NearbyItemDto } from '../../../core/models/discovery';
 import { Subject, switchMap, catchError, of, tap, takeUntil } from 'rxjs';
 import { PostCard } from '../../../shared/ui/organisms/cards/post-card/post-card';
+import { PostCardSkeleton } from '../../../shared/ui/organisms/cards/post-card/post-card-skeleton';
 import { List, ListItem } from '../../../shared/ui/surfaces/list/list';
 import { EmptyState } from '../../../shared/empty-state/empty-state';
-import { Skeleton } from '../../../shared/ui/atoms/skeleton/skeleton';
 import { Drawer } from '../../../shared/ui/overlays/drawer/drawer';
 import { Button } from '../../../shared/ui/atoms/button/button';
 
 @Component({
   selector: 'app-my-opportunities',
-  imports: [PostCard, List, ListItem, EmptyState, Skeleton, Drawer, Button],
+  imports: [PostCard, PostCardSkeleton, List, ListItem, EmptyState, Drawer, Button],
   templateUrl: './opportunities.html',
   styleUrls: ['./opportunities.css']
 })
