@@ -1,0 +1,54 @@
+<app-card 
+  class="post-card" 
+  [appearance]="appearance()" 
+  [padding]="appearance() === 'plain' ? 'none' : 'md'" 
+  [radius]="appearance() === 'plain' ? 'none' : 'lg'"
+>
+  <div class="post-card__avatar">
+    @if (item().author?.avatarUrl) {
+      <img [src]="item().author.avatarUrl" [alt]="item().author.displayName || item().author.username" />
+    } @else {
+      <div class="avatar-placeholder">{{ (item().author?.displayName || item().author?.username || 'U').charAt(0) }}</div>
+    }
+  </div>
+  
+  <div class="post-card__content">
+    <header class="post-card__header">
+      <div class="post-card__meta">
+        <span class="post-card__name">{{ item().author?.displayName || item().author?.username || 'Unknown' }}</span>
+        <span class="post-card__time">· {{ item().createdAt | date:'shortTime' }}</span>
+        @if (item().location?.name) {
+          <span class="post-card__location">· {{ item().location.name }}</span>
+        }
+      </div>
+    </header>
+
+    @if (item().title) {
+      <h3 class="post-card__title">{{ item().title }}</h3>
+    }
+    
+    @if (item().body) {
+      <p class="post-card__body">{{ item().body }}</p>
+    }
+
+    @if (hasMedia()) {
+      <div class="post-card__media">
+        <img [src]="item().media[0].url" alt="Media" />
+      </div>
+    }
+
+    <div class="post-card__actions">
+      @if (item().capabilities?.canReply) {
+        <button app-button appearance="soft" size="sm" type="button" (click)="actionClicked.emit({ item: item(), action: 'reply' })">
+          Reply
+        </button>
+      }
+      
+      @if (item().capabilities?.canEdit || item().capabilities?.canDelete || item().capabilities?.canComplete) {
+        <button app-button appearance="soft" size="sm" type="button" (click)="actionClicked.emit({ item: item(), action: 'manage' })">
+          Manage
+        </button>
+      }
+    </div>
+  </div>
+</app-card>
