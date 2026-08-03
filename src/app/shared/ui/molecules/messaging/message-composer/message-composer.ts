@@ -21,7 +21,7 @@ interface ComposerAttachment {
 }
 
 import { Button } from '../../../atoms/button/button';
-import { ShareButton as UiShareButton } from '../../../actions/share-button/share-button';
+import { SendButton } from '../../../actions/send-button/send-button';
 import { ListingSearchResult } from '../../../organisms/search-results/listing-search-result/listing-search-result';
 
 @Component({
@@ -33,7 +33,7 @@ import { ListingSearchResult } from '../../../organisms/search-results/listing-s
     LucideVideo,
     AttachSheetComponent,
     Button,
-    UiShareButton,
+    SendButton,
     AttachButton,
     ListingSearchResult,
   ],
