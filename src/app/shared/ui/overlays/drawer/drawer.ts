@@ -82,9 +82,9 @@ export class Drawer implements OnInit, OnDestroy {
 
     if (pos === 'left' || pos === 'right') {
       const widthMap: Record<DrawerSize, string> = {
-        sm: 'var(--size-320, 320px)',
+        sm: 'var(--size-320, var(--size-320))',
         md: 'var(--size-400, 400px)',
-        lg: 'var(--size-560, 560px)',
+        lg: 'var(--size-560, var(--size-560))',
         full: '100vw',
       };
       base['width'] = widthMap[s] ?? 'var(--size-400, 400px)';
@@ -103,7 +103,7 @@ export class Drawer implements OnInit, OnDestroy {
     } else {
       const widthMap: Record<DrawerSize, string> = {
         sm: 'var(--size-360, 360px)',
-        md: 'var(--size-480, 480px)',
+        md: 'var(--size-480, var(--size-480))',
         lg: 'var(--size-640, 640px)',
         full: '95vw',
       };
@@ -113,7 +113,7 @@ export class Drawer implements OnInit, OnDestroy {
         lg: '85vh',
         full: '95vh',
       };
-      base['width'] = widthMap[s] ?? 'var(--size-480, 480px)';
+      base['width'] = widthMap[s] ?? 'var(--size-480, var(--size-480))';
       base['max-width'] = '90vw';
       base['max-height'] = maxHeightMap[s] ?? '75vh';
       base['border-radius'] = 'var(--radius-lg)';

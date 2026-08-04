@@ -132,7 +132,7 @@
   display: flex;
   align-items: center;
   gap: var(--size-6);
-  min-height: var(--size-40); /* was implicit ~32px via padding */
+  min-height: var(--size-40); /* was implicit ~var(--size-32) via padding */
   background: var(--clr-primary);
   color: var(--clr-on-primary);
   border: none;

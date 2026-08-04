@@ -11,7 +11,7 @@ import { Component, signal } from '@angular/core';
       <ui-search-bar (clear)="onClear()">
         <input app-input type="text" placeholder="Search locations..." [value]="query()" (input)="query.set($any($event.target).value)" />
       </ui-search-bar>
-      <p style="margin-top: 1rem; color: var(--text-muted); font-size: 14px;">
+      <p style="margin-top: 1rem; color: var(--text-muted); font-size: var(--size-14);">
         Current Query: <strong>{{ query() || 'empty' }}</strong>
       </p>
     </div>

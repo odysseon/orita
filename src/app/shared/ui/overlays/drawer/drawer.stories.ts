@@ -40,7 +40,7 @@ import { Button } from '../../atoms/button/button';
     <!-- The single dynamic Drawer instance -->
     <app-drawer [(open)]="isOpen" [position]="currentPosition()" [size]="currentSize()" [dismissible]="isDismissible()">
       @if (storyMode() === 'scrolling') {
-        <header style="flex-shrink: 0; padding: 1rem; border-bottom: 1px solid var(--border-subtle); position: sticky; top: 0; background: var(--surface-card); z-index: 10; display: flex; justify-content: space-between; align-items: center;">
+        <header style="flex-shrink: 0; padding: 1rem; border-bottom: var(--size-1) solid var(--border-subtle); position: sticky; top: 0; background: var(--surface-card); z-index: 10; display: flex; justify-content: space-between; align-items: center;">
           <h2 style="margin: 0; font-family: sans-serif; font-size: 1.25rem;">Terms & Conditions</h2>
           <button app-button appearance="ghost" shape="circle" (click)="isOpen.set(false)" aria-label="Close">×</button>
         </header>

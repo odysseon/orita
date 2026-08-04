@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--size-8);
   border: none;
   background: var(--clr-primary);
   color: var(--clr-on-primary);
@@ -15,18 +15,18 @@
   border-radius: 9999px; /* Fully rounded by default */
   /* Fixed positioning so it stays on screen */
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: var(--size-24);
+  right: var(--size-24);
   z-index: 50;
 }
 
 :host-context(.app-layout--with-bottom-nav) {
-  bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(var(--size-80) + env(safe-area-inset-bottom, var(--size-0)));
 }
 
 :host:hover {
   box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
+  transform: translateY(-var(--size-2));
 }
 
 :host:active {
@@ -35,8 +35,8 @@
 }
 
 :host:focus-visible {
-  outline: 2px solid var(--clr-primary);
-  outline-offset: 2px;
+  outline: var(--size-2) solid var(--clr-primary);
+  outline-offset: var(--size-2);
 }
 
 :host[disabled] {
@@ -48,31 +48,31 @@
 
 /* Sizes */
 :host.size-sm {
-  height: 40px;
-  min-width: 40px;
+  height: var(--size-40);
+  min-width: var(--size-40);
   padding: 0;
   font-size: 0.875rem;
 }
 :host.size-sm.is-extended {
-  padding: 0 16px;
+  padding: 0 var(--size-16);
 }
 :host.size-sm ::ng-deep svg {
-  width: 20px;
-  height: 20px;
+  width: var(--size-20);
+  height: var(--size-20);
 }
 
 :host.size-md {
-  height: 56px;
-  min-width: 56px;
+  height: var(--size-56);
+  min-width: var(--size-56);
   padding: 0;
   font-size: 1rem;
 }
 :host.size-md.is-extended {
-  padding: 0 24px;
+  padding: 0 var(--size-24);
 }
 :host.size-md ::ng-deep svg {
-  width: 24px;
-  height: 24px;
+  width: var(--size-24);
+  height: var(--size-24);
 }
 
 :host.size-lg {
@@ -82,16 +82,16 @@
   font-size: 1.125rem;
 }
 :host.size-lg.is-extended {
-  padding: 0 32px;
+  padding: 0 var(--size-32);
 }
 :host.size-lg ::ng-deep svg {
-  width: 32px;
-  height: 32px;
+  width: var(--size-32);
+  height: var(--size-32);
 }
 
 /* Intents */
 :host.intent-primary.appearance-solid { background: var(--clr-primary); color: var(--clr-on-primary); }
-:host.intent-secondary.appearance-solid { background: var(--surface-container-high); color: var(--text-primary); border: 1px solid var(--border-color); }
+:host.intent-secondary.appearance-solid { background: var(--surface-container-high); color: var(--text-primary); border: var(--size-1) solid var(--border-color); }
 :host.intent-success.appearance-solid { background: var(--clr-success); color: white; }
 :host.intent-warning.appearance-solid { background: var(--clr-warning); color: white; }
 :host.intent-danger.appearance-solid { background: var(--clr-error); color: white; }
@@ -99,9 +99,9 @@
 /* Glass Appearance */
 :host.appearance-glass {
   background: color-mix(in oklch, var(--text-on-dark) 25%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid color-mix(in oklch, var(--text-on-dark) 20%, transparent);
+  backdrop-filter: blur(var(--size-8));
+  -webkit-backdrop-filter: blur(var(--size-8));
+  border: var(--size-1) solid color-mix(in oklch, var(--text-on-dark) 20%, transparent);
   color: #ffffff;
 }
 

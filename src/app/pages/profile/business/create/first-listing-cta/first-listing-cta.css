@@ -13,7 +13,7 @@
 @keyframes slide-down {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-var(--size-10));
   }
   to {
     opacity: 1;

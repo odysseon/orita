@@ -112,8 +112,8 @@ export const Interactive: Story = {
       onAttach: () => console.log('Attach clicked'),
     },
     template: `
-      <div style="display: flex; flex-direction: column; gap: 20px; padding: 20px; align-items: center;">
-        <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+      <div style="display: flex; flex-direction: column; gap: var(--size-20); padding: var(--size-20); align-items: center;">
+        <div style="display: flex; gap: var(--size-20); align-items: center; flex-wrap: wrap;">
           <ui-attach-button
             [disabled]="disabled"
             [loading]="loading"
@@ -121,9 +121,9 @@ export const Interactive: Story = {
             (attach)="onAttach()"
           />
         </div>
-        <div style="font-size: 14px; color: #666;">
+        <div style="font-size: var(--size-14); color: #666;">
           <p>Click the button to trigger the attach event</p>
-          <p style="margin-top: 8px;">Current state:
+          <p style="margin-top: var(--size-8);">Current state:
             <strong>{{ disabled ? 'Disabled' : 'Enabled' }}</strong> |
             <strong>{{ loading ? 'Loading' : 'Idle' }}</strong> |
             Appearance: <strong>{{ appearance }}</strong>
@@ -137,15 +137,15 @@ export const Interactive: Story = {
 export const InMessageComposer: Story = {
   render: () => ({
     template: `
-      <div style="display: flex; gap: 12px; padding: 16px; background: #f8f9fa; border-radius: 12px; max-width: 500px; align-items: center; border: 1px solid #e9ecef;">
+      <div style="display: flex; gap: var(--size-12); padding: var(--size-16); background: #f8f9fa; border-radius: var(--size-12); max-width: 500px; align-items: center; border: var(--size-1) solid #e9ecef;">
         <ui-attach-button (attach)="console.log('Attach clicked')" />
         <input
           type="text"
           placeholder="Type a message..."
-          style="flex: 1; padding: 8px 12px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 14px;"
+          style="flex: 1; padding: var(--size-8) var(--size-12); border: var(--size-1) solid #dee2e6; border-radius: var(--size-6); font-size: var(--size-14);"
         />
         <button
-          style="padding: 8px 20px; background: #0066ff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500;"
+          style="padding: var(--size-8) var(--size-20); background: #0066ff; color: white; border: none; border-radius: var(--size-6); cursor: pointer; font-size: var(--size-14); font-weight: 500;"
         >
           Send
         </button>

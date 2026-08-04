@@ -9,7 +9,7 @@
   font-weight: var(--font-weight-medium);
   background: var(--comp-container);
   color: var(--comp-on-container);
-  border: 1px solid transparent;
+  border: var(--size-1) solid transparent;
   transition:
     background var(--transition-fast),
     border-color var(--transition-fast),

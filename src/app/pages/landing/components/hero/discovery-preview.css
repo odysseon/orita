@@ -15,7 +15,7 @@
 
   background: var(--surface-card);
 
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
 
   box-shadow: var(--shadow-xl);
 
@@ -51,7 +51,7 @@
 
   border-radius: 1.25rem;
 
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
 }
 
 .business-card__cover {
@@ -131,6 +131,6 @@
   }
 
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-var(--size-10));
   }
 }

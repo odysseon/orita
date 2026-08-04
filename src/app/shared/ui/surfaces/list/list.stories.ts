@@ -34,12 +34,12 @@ const meta: Meta<List> = {
       ],
     },
     template: `
-      <div style="max-width: 400px; padding: 20px; background: var(--surface-container); border-radius: var(--radius-xl);">
-        <h3 style="margin-bottom: 16px; font-size: 14px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Dynamic List Example</h3>
+      <div style="max-width: 400px; padding: var(--size-20); background: var(--surface-container); border-radius: var(--radius-xl);">
+        <h3 style="margin-bottom: var(--size-16); font-size: var(--size-14); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Dynamic List Example</h3>
         <ui-list [bordered]="bordered" [dividers]="dividers" [padding]="padding" [radius]="radius">
           <button uiListItem>
             <div uiListItemStart>
-              <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--clr-primary-container); color: var(--clr-on-primary-container); display: flex; align-items: center; justify-content: center;">
+              <div style="width: var(--size-40); height: var(--size-40); border-radius: var(--size-10); background: var(--clr-primary-container); color: var(--clr-on-primary-container); display: flex; align-items: center; justify-content: center;">
                 <svg lucideSettings></svg>
               </div>
             </div>
@@ -54,7 +54,7 @@ const meta: Meta<List> = {
           
           <button uiListItem>
             <div uiListItemStart>
-              <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--clr-primary-container); color: var(--clr-on-primary-container); display: flex; align-items: center; justify-content: center;">
+              <div style="width: var(--size-40); height: var(--size-40); border-radius: var(--size-10); background: var(--clr-primary-container); color: var(--clr-on-primary-container); display: flex; align-items: center; justify-content: center;">
                 <svg lucideShieldCheck></svg>
               </div>
             </div>
@@ -69,7 +69,7 @@ const meta: Meta<List> = {
           
           <button uiListItem>
             <div uiListItemStart>
-              <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--clr-primary-container); color: var(--clr-on-primary-container); display: flex; align-items: center; justify-content: center;">
+              <div style="width: var(--size-40); height: var(--size-40); border-radius: var(--size-10); background: var(--clr-primary-container); color: var(--clr-on-primary-container); display: flex; align-items: center; justify-content: center;">
                 <svg lucidePalette></svg>
               </div>
             </div>

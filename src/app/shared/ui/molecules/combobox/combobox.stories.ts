@@ -8,25 +8,25 @@ import { Component, computed, signal } from '@angular/core';
   selector: 'app-combobox-demo',
   imports: [Combobox, ComboboxInput, ComboboxList, ComboboxOption, SearchBar, InputDirective],
   template: `
-    <div style="max-width: 400px; padding: 20px; border: 1px solid var(--border-default); border-radius: var(--radius-md);">
+    <div style="max-width: 400px; padding: var(--size-20); border: var(--size-1) solid var(--border-default); border-radius: var(--radius-md);">
       
       <ui-combobox [value]="selected()" (selected)="onSelect($event)">
         <ui-search-bar>
           <input uiComboboxInput app-input type="text" placeholder="Search cities..." [value]="query()" (input)="query.set($any($event.target).value)" />
         </ui-search-bar>
 
-        <ui-combobox-list style="margin-top: 8px;">
+        <ui-combobox-list style="margin-top: var(--size-8);">
           @for (option of filteredOptions(); track option.id) {
             <button uiComboboxOption [value]="option">
               {{ option.name }}
             </button>
           } @empty {
-            <div style="padding: 12px; color: var(--text-muted);">No results found.</div>
+            <div style="padding: var(--size-12); color: var(--text-muted);">No results found.</div>
           }
         </ui-combobox-list>
       </ui-combobox>
 
-      <div style="margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--border-subtle); font-size: 14px;">
+      <div style="margin-top: var(--size-20); padding-top: var(--size-12); border-top: var(--size-1) solid var(--border-subtle); font-size: var(--size-14);">
         <strong>Selected:</strong> {{ selected()?.name || 'None' }}
       </div>
     </div>

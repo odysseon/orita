@@ -7,7 +7,7 @@
 
   padding: 2rem;
 
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
 
   border-radius: var(--radius-xl);
 
@@ -20,7 +20,7 @@
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-var(--size-4));
 
   border-color: var(--clr-primary);
 

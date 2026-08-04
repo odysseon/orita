@@ -51,7 +51,7 @@
         @if (store.appliedCategoryId()) {
         <span class="filter-chip">
           Category applied
-          <button app-button appearance="plain" class="clear-btn" style="position: static; margin-left: 4px"
+          <button app-button appearance="plain" class="clear-btn" style="position: static; margin-left: var(--size-4)"
             (click)="clearCategory()" aria-label="Clear category">
             <svg icon lucideX aria-hidden="true"></svg>
           </button>

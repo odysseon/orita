@@ -83,7 +83,7 @@
 
 .media-previews-grid--multiple {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(var(--size-80), 1fr));
   gap: var(--size-8);
   justify-content: start;
 }
@@ -103,7 +103,7 @@
 
 .media-previews-grid--multiple .media-preview-card {
   width: 100%;
-  height: 80px;
+  height: var(--size-80);
 }
 
 .media-preview-image {

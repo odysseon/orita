@@ -150,8 +150,8 @@
 .drawer-panel:focus-visible,
 .drawer-close:focus-visible,
 .drawer-drag-handle:focus-visible {
-  outline: 2px solid var(--clr-primary);
-  outline-offset: 2px;
+  outline: var(--size-2) solid var(--clr-primary);
+  outline-offset: var(--size-2);
 }
 
 /* Reduced motion */

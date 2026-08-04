@@ -9,7 +9,7 @@
 
 .welcome-container {
   width: 100%;
-  max-width: 480px;
+  max-width: var(--size-480);
   background-color: var(--clr-bg-base);
   border-radius: var(--radius-lg);
   padding: var(--size-32);
@@ -21,7 +21,7 @@
 @keyframes slide-up {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(var(--size-20));
   }
   to {
     opacity: 1;
@@ -77,19 +77,19 @@
 
 .welcome-btn--explore:hover {
   background-color: var(--clr-primary-hover);
-  transform: translateY(-2px);
+  transform: translateY(-var(--size-2));
 }
 
 .welcome-btn--create {
   background-color: var(--clr-bg-subtle);
   color: var(--clr-text-main);
-  border: 1px solid var(--clr-border-subtle);
+  border: var(--size-1) solid var(--clr-border-subtle);
 }
 
 .welcome-btn--create:hover {
   background-color: var(--clr-bg-hover);
   border-color: var(--clr-border-strong);
-  transform: translateY(-2px);
+  transform: translateY(-var(--size-2));
   box-shadow: var(--shadow-sm);
 }
 
@@ -134,7 +134,7 @@
 .welcome-interests-browser {
   max-height: 400px;
   overflow-y: auto;
-  border: 1px solid var(--clr-border-subtle);
+  border: var(--size-1) solid var(--clr-border-subtle);
   border-radius: var(--radius-md);
   padding: var(--size-8);
 }

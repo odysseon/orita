@@ -35,7 +35,7 @@ import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItem
     @if (businessSummary()) {
       <div class="panel">
         <h2 class="panel__title">Here's what customers see</h2>
-        <div class="panel__body" style="padding: 0; max-width: 320px; margin: 0 auto; width: 100%;">
+        <div class="panel__body" style="padding: 0; max-width: var(--size-320); margin: 0 auto; width: 100%;">
           <ui-business-card 
             [business]="businessSummary()!" 
             [coverUrl]="business().coverUrl"
@@ -105,7 +105,7 @@ import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItem
           </div>
           @if (business().location) {
             <div uiListItem>
-              <svg uiListItemStart lucideMapPin aria-hidden="true" style="width: 16px; height: 16px;"></svg>
+              <svg uiListItemStart lucideMapPin aria-hidden="true" style="width: var(--size-16); height: var(--size-16);"></svg>
               <div uiListItemContent>
                 <div uiListItemTitle>Address</div>
                 <div uiListItemDescription style="white-space: normal;">{{ business().location }}</div>
@@ -114,7 +114,7 @@ import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItem
           }
           @if (business().contactEmail) {
             <div uiListItem>
-              <svg uiListItemStart lucideMail aria-hidden="true" style="width: 16px; height: 16px;"></svg>
+              <svg uiListItemStart lucideMail aria-hidden="true" style="width: var(--size-16); height: var(--size-16);"></svg>
               <div uiListItemContent>
                 <div uiListItemTitle>Email</div>
                 <div uiListItemDescription>{{ business().contactEmail }}</div>
@@ -123,7 +123,7 @@ import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItem
           }
           @if (business().contactPhone) {
             <div uiListItem>
-              <svg uiListItemStart lucidePhone aria-hidden="true" style="width: 16px; height: 16px;"></svg>
+              <svg uiListItemStart lucidePhone aria-hidden="true" style="width: var(--size-16); height: var(--size-16);"></svg>
               <div uiListItemContent>
                 <div uiListItemTitle>Phone</div>
                 <div uiListItemDescription>{{ business().contactPhone }}</div>
@@ -132,7 +132,7 @@ import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItem
           }
           @if (business().websiteUrl) {
             <div uiListItem>
-              <svg uiListItemStart lucideGlobe aria-hidden="true" style="width: 16px; height: 16px;"></svg>
+              <svg uiListItemStart lucideGlobe aria-hidden="true" style="width: var(--size-16); height: var(--size-16);"></svg>
               <div uiListItemContent>
                 <div uiListItemTitle>Website</div>
                 <div uiListItemDescription>

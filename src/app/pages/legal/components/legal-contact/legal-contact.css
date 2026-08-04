@@ -2,7 +2,7 @@
   margin-top: var(--size-48);
   padding: var(--size-32);
   background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
   border-radius: var(--radius-xl);
 }
 .legal-contact h2 {

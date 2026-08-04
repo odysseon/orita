@@ -57,7 +57,7 @@
   gap: var(--size-1);
   background: var(--border-subtle);
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
   overflow: hidden;
 }
 

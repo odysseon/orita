@@ -1,6 +1,6 @@
 .visibility-score {
   background: var(--clr-bg-base);
-  border: 1px solid var(--clr-border-subtle);
+  border: var(--size-1) solid var(--clr-border-subtle);
   border-radius: var(--radius-lg);
   padding: var(--size-24);
   margin-top: var(--size-24);
@@ -62,7 +62,7 @@
   border-radius: var(--radius-md);
   color: var(--clr-text-main);
   text-decoration: none;
-  border: 1px solid transparent;
+  border: var(--size-1) solid transparent;
   cursor: pointer;
   width: 100%;
   text-align: left;

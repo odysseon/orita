@@ -25,7 +25,7 @@ const meta: Meta<ChatHeader> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="max-width: 500px; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden; background: var(--surface-card);">
+      <div style="max-width: 500px; border: var(--size-1) solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden; background: var(--surface-card);">
         <ui-chat-header [conversation]="conversation" (back)="onBack()" />
       </div>
     `,

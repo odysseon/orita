@@ -15,7 +15,7 @@ import { LucideShare2 } from '@lucide/angular';
       (click)="share.emit()"
       type="button"
       aria-label="Share">
-      <svg lucideShare2 aria-hidden="true" style="width: 18px; height: 18px;"></svg>
+      <svg lucideShare2 aria-hidden="true" style="width: var(--size-18); height: var(--size-18);"></svg>
     </button>
   `,
   styles: [`

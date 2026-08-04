@@ -24,7 +24,7 @@ const meta: Meta<ShareButton> = {
   render: (args) => ({
     props: args,
     template: `
-      <div [style.padding]="appearance === 'glass' ? '32px' : '16px'" 
+      <div [style.padding]="appearance === 'glass' ? 'var(--size-32)' : 'var(--size-16)'" 
            [style.background]="appearance === 'glass' ? 'url(https://images.unsplash.com/photo-1520975954732-57dd22299614?auto=format&fit=crop&q=80&w=600) center/cover' : 'var(--surface-page)'"
            [style.border-radius]="appearance === 'glass' ? 'var(--radius-lg)' : 'none'"
            [style.display]="'inline-block'">

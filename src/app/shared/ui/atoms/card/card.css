@@ -75,26 +75,26 @@
 
 /* Interactive Hover rules per appearance */
 .card--plain.is-interactive:not(.is-disabled):hover {
-  transform: translateY(-4px);
+  transform: translateY(-var(--size-4));
   background: var(--surface-container);
   box-shadow: var(--shadow-md);
 }
 
 .card--filled.is-interactive:not(.is-disabled):hover {
-  transform: translateY(-4px);
+  transform: translateY(-var(--size-4));
   background: var(--surface-container-high);
   box-shadow: var(--shadow-md);
 }
 
 .card--outlined.is-interactive:not(.is-disabled):hover {
-  transform: translateY(-4px);
+  transform: translateY(-var(--size-4));
   background: var(--surface-container);
   border-color: var(--border-strong);
   box-shadow: var(--shadow-md);
 }
 
 .card--elevated.is-interactive:not(.is-disabled):hover {
-  transform: translateY(-4px);
+  transform: translateY(-var(--size-4));
   box-shadow: var(--shadow-lg);
 }
 

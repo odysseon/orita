@@ -14,13 +14,13 @@ const meta: Meta<Fab> = {
     },
     template: `
       <!-- Container to demonstrate positioning relative to screen, though FAB uses fixed positioning -->
-      <div style="position: relative; width: 100%; height: 300px; background: var(--surface-container); border: 1px dashed var(--border-subtle); border-radius: var(--radius-xl); overflow: hidden;">
+      <div style="position: relative; width: 100%; height: 300px; background: var(--surface-container); border: var(--size-1) dashed var(--border-subtle); border-radius: var(--radius-xl); overflow: hidden;">
         
         @if (appearance === 'glass') {
           <img src="https://images.unsplash.com/photo-1520975954732-57dd22299614?auto=format&fit=crop&q=80&w=600" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" />
         }
         
-        <button ui-fab [intent]="intent" [appearance]="appearance" [size]="size" [disabled]="disabled" [extended]="extended" style="position: absolute; bottom: 24px; right: 24px;">
+        <button ui-fab [intent]="intent" [appearance]="appearance" [size]="size" [disabled]="disabled" [extended]="extended" style="position: absolute; bottom: var(--size-24); right: var(--size-24);">
           <svg lucidePlus></svg>
           @if (extended) {
             <span>Create</span>

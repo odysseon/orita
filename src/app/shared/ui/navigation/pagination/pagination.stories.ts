@@ -41,7 +41,7 @@ import { Pagination } from './pagination';
 
       <section>
         <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-family: sans-serif;">Mobile Emulation (Collapses siblings)</h3>
-        <div style="width: 375px; padding: 1rem; border: 1px dashed var(--border-strong);">
+        <div style="width: 375px; padding: 1rem; border: var(--size-1) dashed var(--border-strong);">
           <app-pagination 
             [currentPage]="page4()" 
             [totalPages]="40" 

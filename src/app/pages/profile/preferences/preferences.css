@@ -1,25 +1,25 @@
 .preferences-container {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: var(--size-32);
   max-width: 600px;
 }
 
 .preferences-header {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--size-8);
 }
 
 .preferences-title {
-  font-size: 24px;
+  font-size: var(--size-24);
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
 }
 
 .preferences-subtitle {
-  font-size: 15px;
+  font-size: var(--size-15);
   color: var(--color-text-secondary);
   line-height: 1.5;
   margin: 0;
@@ -28,30 +28,30 @@
 .preferences-content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--size-24);
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  padding: 24px;
+  border: var(--size-1) solid var(--color-border);
+  border-radius: var(--size-16);
+  padding: var(--size-24);
 }
 
 .preferences-actions {
   display: flex;
   justify-content: flex-end;
-  padding-top: 16px;
-  border-top: 1px solid var(--color-border);
+  padding-top: var(--size-16);
+  border-top: var(--size-1) solid var(--color-border);
 }
 
 .btn-save {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
+  gap: var(--size-8);
+  padding: var(--size-12) var(--size-24);
   background: var(--color-primary);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 15px;
+  border-radius: var(--size-8);
+  font-size: var(--size-15);
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s;
@@ -67,6 +67,6 @@
 }
 
 .btn-icon {
-  width: 18px;
-  height: 18px;
+  width: var(--size-18);
+  height: var(--size-18);
 }

@@ -110,7 +110,7 @@
   position: relative;
   display: inline-block;
   width: 44px;
-  height: 24px;
+  height: var(--size-24);
   flex-shrink: 0;
 
   input {
@@ -134,8 +134,8 @@
   &::before {
     position: absolute;
     content: "";
-    height: 18px;
-    width: 18px;
+    height: var(--size-18);
+    width: var(--size-18);
     left: 3px;
     bottom: 3px;
     background-color: white;
@@ -150,7 +150,7 @@ input:checked + .toggle-slider {
 }
 
 input:checked + .toggle-slider::before {
-  transform: translateX(20px);
+  transform: translateX(var(--size-20));
 }
 
 /* ACTIONS */
@@ -185,7 +185,7 @@ input:checked + .toggle-slider::before {
 .category-chip {
   padding: var(--size-6) var(--size-12);
   background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
   border-radius: var(--radius-full);
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
@@ -230,7 +230,7 @@ input:checked + .toggle-slider::before {
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  border: 1px solid var(--border-default);
+  border: var(--size-1) solid var(--border-default);
   border-radius: var(--radius-md);
   background: var(--surface-container);
 }
@@ -317,8 +317,8 @@ input:checked + .toggle-slider::before {
 
 .sa-action-btn lucide-edit-2,
 .sa-action-btn lucide-trash-2 {
-  width: 14px;
-  height: 14px;
+  width: var(--size-14);
+  height: var(--size-14);
 }
 
 .add-area-btn {
@@ -328,7 +328,7 @@ input:checked + .toggle-slider::before {
   gap: 0.5rem;
   padding: 1rem;
   background: none;
-  border: 1px dashed var(--border-default);
+  border: var(--size-1) dashed var(--border-default);
   border-radius: var(--radius-md);
   color: var(--text-secondary);
   cursor: pointer;
@@ -345,7 +345,7 @@ input:checked + .toggle-slider::before {
 .search-preview {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--border-default);
+  border-top: var(--size-1) solid var(--border-default);
 }
 
 .search-preview h4 {

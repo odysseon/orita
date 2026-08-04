@@ -11,9 +11,9 @@ import { Skeleton } from './skeleton';
       
       <section>
         <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-family: sans-serif;">Basic Example (Card)</h3>
-        <div style="padding: 1rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); max-width: 300px;">
+        <div style="padding: 1rem; border: var(--size-1) solid var(--border-subtle); border-radius: var(--radius-md); max-width: 300px;">
           <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
-            <app-skeleton shape="circle" width="40px" height="40px"></app-skeleton>
+            <app-skeleton shape="circle" width="var(--size-40)" height="var(--size-40)"></app-skeleton>
             <div style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1;">
               <app-skeleton width="70%" height="1rem"></app-skeleton>
               <app-skeleton width="40%" height="0.8rem"></app-skeleton>

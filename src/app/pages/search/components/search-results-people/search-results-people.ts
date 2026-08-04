@@ -40,7 +40,7 @@ import { EmptyState } from '../../../../shared/empty-state/empty-state';
             </label>
           }
         } @placeholder {
-          <div style="padding: 16px;">Loading people...</div>
+          <div style="padding: var(--size-16);">Loading people...</div>
         }
       </ui-list>
     </section>

@@ -4,7 +4,7 @@
   padding: var(--size-16);
   border-radius: var(--radius-md);
   background: var(--comp-container);
-  border: 1px solid var(--comp-border);
+  border: var(--size-1) solid var(--comp-border);
   color: var(--comp-on-container);
   font-family: var(--font-sans);
   line-height: var(--line-height-normal);
@@ -51,7 +51,7 @@
   color: var(--comp-base);
   cursor: pointer;
   text-decoration: underline;
-  text-underline-offset: 4px;
+  text-underline-offset: var(--size-4);
 }
 
 .alert__action:hover {

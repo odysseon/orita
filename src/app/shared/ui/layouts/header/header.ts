@@ -49,7 +49,7 @@ export class HeaderEnd {}
       top: 0;
     }
     :host([data-bordered="true"]) {
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: var(--size-1) solid var(--border-subtle);
     }
     .ui-header-start, .ui-header-end {
       display: flex;

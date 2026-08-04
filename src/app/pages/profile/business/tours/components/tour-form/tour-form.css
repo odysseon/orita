@@ -12,7 +12,7 @@
       background: var(--surface-1);
       padding: var(--size-24);
       border-radius: var(--radius-lg);
-      border: 1px solid var(--border-color);
+      border: var(--size-1) solid var(--border-color);
     }
     .form-section h3 {
       margin: 0;

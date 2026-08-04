@@ -12,19 +12,19 @@
 .badge--solid {
   background: var(--comp-base);
   color: var(--comp-on-base);
-  border: 1px solid transparent;
+  border: var(--size-1) solid transparent;
 }
 
 .badge--soft {
   background: var(--comp-container);
   color: var(--comp-on-container);
-  border: 1px solid transparent;
+  border: var(--size-1) solid transparent;
 }
 
 .badge--outline {
   background: transparent;
   color: var(--comp-base);
-  border: 1px solid var(--comp-border);
+  border: var(--size-1) solid var(--comp-border);
 }
 
 /* Sizes */

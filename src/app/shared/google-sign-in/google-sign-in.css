@@ -12,7 +12,7 @@
   --google-btn-width: var(--size-320);
 }
 
-@media (max-width: 480px) {
+@media (max-width: var(--size-480)) {
   .google-btn-wrapper {
     --google-btn-width: var(--size-200);
   }

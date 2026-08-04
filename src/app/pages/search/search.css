@@ -1,14 +1,14 @@
 .search-page {
-  padding-bottom: 80px;
+  padding-bottom: var(--size-80);
 }
 
 .search-header {
   padding: 1rem;
   background-color: var(--surface);
   position: sticky;
-  top: 64px; /* default, when app-header is visible */
+  top: var(--size-64); /* default, when app-header is visible */
   z-index: 10;
-  border-bottom: 1px solid var(--border);
+  border-bottom: var(--size-1) solid var(--border);
   transition: top 0.3s cubic-bezier(0.2, 0, 0, 1);
 }
 
@@ -32,7 +32,7 @@
 
 .filter-toggle-btn {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: var(--size-1) solid var(--border);
   border-radius: var(--radius-md);
   padding: 0.5rem;
   display: flex;
@@ -57,7 +57,7 @@
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.5rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border);
+  border: var(--size-1) solid var(--border);
   background-color: var(--background);
   font-size: 1rem;
   transition: border-color 0.2s;
@@ -136,7 +136,7 @@
   align-items: center;
   gap: 0.375rem;
   background-color: var(--surface);
-  border: 1px solid var(--border);
+  border: var(--size-1) solid var(--border);
   padding: 0.25rem 0.5rem;
   border-radius: var(--radius-full);
   font-size: 0.75rem;

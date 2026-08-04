@@ -68,7 +68,7 @@
               </div>
               <div uiListItemEnd>
                 @if (isSent(user.id)) {
-                  <span class="sent-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: var(--font-size-sm); color: var(--clr-primary);"><svg lucideCheck aria-hidden="true"></svg> Sent</span>
+                  <span class="sent-badge" style="display: inline-flex; align-items: center; gap: var(--size-4); font-size: var(--font-size-sm); color: var(--clr-primary);"><svg lucideCheck aria-hidden="true"></svg> Sent</span>
                 } @else {
                   <input type="checkbox" app-checkbox shape="circle" appearance="ghost" [checked]="isSelected(user.id)" (click)="$event.stopPropagation(); toggleRecipient(user)" />
                 }
@@ -76,7 +76,7 @@
             </button>
             }
           } @placeholder {
-            <div style="padding: 16px;">Loading results...</div>
+            <div style="padding: var(--size-16);">Loading results...</div>
           }
         </ui-list>
         } @else {
@@ -99,7 +99,7 @@
               </div>
               <div uiListItemEnd>
                 @if (isSent(user.userId)) {
-                  <span class="sent-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: var(--font-size-sm); color: var(--clr-primary);"><svg lucideCheck aria-hidden="true"></svg> Sent</span>
+                  <span class="sent-badge" style="display: inline-flex; align-items: center; gap: var(--size-4); font-size: var(--font-size-sm); color: var(--clr-primary);"><svg lucideCheck aria-hidden="true"></svg> Sent</span>
                 } @else {
                   <input type="checkbox" app-checkbox shape="circle" appearance="ghost" [checked]="isSelected(user.userId)" (click)="$event.stopPropagation(); toggleRecipient(user)" />
                 }
@@ -107,7 +107,7 @@
             </button>
             }
           } @placeholder {
-            <div style="padding: 16px;">Loading suggestions...</div>
+            <div style="padding: var(--size-16);">Loading suggestions...</div>
           }
         </ui-list>
       </div>

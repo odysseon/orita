@@ -9,7 +9,7 @@
 }
 
 .ui-listing-card-container:hover {
-  transform: translateY(-2px);
+  transform: translateY(-var(--size-2));
   box-shadow: var(--shadow-md);
 }
 

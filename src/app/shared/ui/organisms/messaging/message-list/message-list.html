@@ -1,11 +1,11 @@
 <div class="message-list-container" #scrollContainer>
       @if (status() === 'loading' && messages().length === 0) {
         <div class="message-list-skeleton">
-          <app-skeleton style="height: 40px; width: 55%; border-radius: var(--radius-lg); align-self: flex-start; margin-bottom: 12px;"></app-skeleton>
-          <app-skeleton style="height: 40px; width: 65%; border-radius: var(--radius-lg); align-self: flex-end; margin-bottom: 12px;"></app-skeleton>
-          <app-skeleton style="height: 56px; width: 70%; border-radius: var(--radius-lg); align-self: flex-start; margin-bottom: 12px;"></app-skeleton>
-          <app-skeleton style="height: 40px; width: 50%; border-radius: var(--radius-lg); align-self: flex-end; margin-bottom: 12px;"></app-skeleton>
-          <app-skeleton style="height: 40px; width: 60%; border-radius: var(--radius-lg); align-self: flex-start; margin-bottom: 12px;"></app-skeleton>
+          <app-skeleton style="height: var(--size-40); width: 55%; border-radius: var(--radius-lg); align-self: flex-start; margin-bottom: var(--size-12);"></app-skeleton>
+          <app-skeleton style="height: var(--size-40); width: 65%; border-radius: var(--radius-lg); align-self: flex-end; margin-bottom: var(--size-12);"></app-skeleton>
+          <app-skeleton style="height: var(--size-56); width: 70%; border-radius: var(--radius-lg); align-self: flex-start; margin-bottom: var(--size-12);"></app-skeleton>
+          <app-skeleton style="height: var(--size-40); width: 50%; border-radius: var(--radius-lg); align-self: flex-end; margin-bottom: var(--size-12);"></app-skeleton>
+          <app-skeleton style="height: var(--size-40); width: 60%; border-radius: var(--radius-lg); align-self: flex-start; margin-bottom: var(--size-12);"></app-skeleton>
         </div>
       } @else if (messages().length === 0) {
         <div class="empty-view">

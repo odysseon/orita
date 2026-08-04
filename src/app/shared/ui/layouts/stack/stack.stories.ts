@@ -22,7 +22,7 @@ const meta: Meta<Stack> = {
   render: (args) => ({
     props: args,
     template: `
-      <ui-stack [gap]="gap" [align]="align" [justify]="justify" style="min-height: 200px; background: var(--surface-card); padding: 1rem; border: 1px dashed var(--border-default);">
+      <ui-stack [gap]="gap" [align]="align" [justify]="justify" style="min-height: var(--size-200); background: var(--surface-card); padding: 1rem; border: var(--size-1) dashed var(--border-default);">
         <div style="background: var(--clr-primary-container); color: var(--clr-on-primary-container); padding: 0.5rem 1rem; border-radius: var(--radius-sm);">Item 1</div>
         <div style="background: var(--clr-primary-container); color: var(--clr-on-primary-container); padding: 0.5rem 1rem; border-radius: var(--radius-sm);">Item 2</div>
         <div style="background: var(--clr-primary-container); color: var(--clr-on-primary-container); padding: 0.5rem 1rem; border-radius: var(--radius-sm);">Item 3</div>

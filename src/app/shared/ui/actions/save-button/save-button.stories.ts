@@ -14,7 +14,7 @@ const meta: Meta<SaveButton> = {
     props: args,
     template: `
       <!-- If glass, show over a background to test the blur effect -->
-      <div [style.padding]="appearance === 'glass' ? '32px' : '0'"
+      <div [style.padding]="appearance === 'glass' ? 'var(--size-32)' : '0'"
            [style.background]="appearance === 'glass' ? 'url(https://images.unsplash.com/photo-1520975954732-57dd22299614?auto=format&fit=crop&q=80&w=600) center/cover' : 'transparent'"
            [style.border-radius]="appearance === 'glass' ? 'var(--radius-lg)' : 'none'">
 

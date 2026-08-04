@@ -28,14 +28,14 @@ const meta: Meta<StoreTourCard> = {
         <style>
           .duration-badge {
             position: absolute;
-            bottom: 8px;
-            right: 8px;
+            bottom: var(--size-8);
+            right: var(--size-8);
             background: color-mix(in oklch, var(--surface-ink) 80%, transparent);
             color: white;
-            font-size: 12px;
+            font-size: var(--size-12);
             font-weight: 500;
-            padding: 2px 6px;
-            border-radius: 4px;
+            padding: var(--size-2) var(--size-6);
+            border-radius: var(--size-4);
           }
         </style>
         
@@ -43,7 +43,7 @@ const meta: Meta<StoreTourCard> = {
           <!-- Media Overlay Slot -->
           <div card-media-overlay>
             <button ui-fab appearance="glass" intent="primary" size="sm" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-              <svg lucidePlay style="width: 20px; height: 20px; fill: white; margin-left: 2px;"></svg>
+              <svg lucidePlay style="width: var(--size-20); height: var(--size-20); fill: white; margin-left: var(--size-2);"></svg>
             </button>
             <div class="duration-badge">12:45</div>
           </div>
@@ -54,9 +54,9 @@ const meta: Meta<StoreTourCard> = {
           </div>
           
           <!-- Actions Slot -->
-          <div card-actions style="display: flex; width: 100%; align-items: center; gap: 8px;">
-            <div style="display: flex; align-items: center; gap: 4px; color: var(--text-secondary); font-size: 13px; flex-grow: 1;">
-              <svg lucideCalendar style="width: 14px; height: 14px;"></svg>
+          <div card-actions style="display: flex; width: 100%; align-items: center; gap: var(--size-8);">
+            <div style="display: flex; align-items: center; gap: var(--size-4); color: var(--text-secondary); font-size: 13px; flex-grow: 1;">
+              <svg lucideCalendar style="width: var(--size-14); height: var(--size-14);"></svg>
               <span>Oct 12 • 2:00 PM</span>
             </div>
             <button uiButton intent="secondary" size="sm" appearance="ghost">Set Reminder</button>

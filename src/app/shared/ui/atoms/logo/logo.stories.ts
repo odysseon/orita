@@ -8,7 +8,7 @@ const meta: Meta<Logo> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="padding: 24px; background: var(--surface-container-lowest); display: flex; align-items: center;">
+      <div style="padding: var(--size-24); background: var(--surface-container-lowest); display: flex; align-items: center;">
         <ui-logo [variant]="variant" [size]="size"></ui-logo>
       </div>
     `,

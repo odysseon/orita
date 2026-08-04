@@ -1,13 +1,13 @@
 .post-card {
   display: flex;
-  gap: var(--size-12, 12px);
+  gap: var(--size-12, var(--size-12));
   width: 100%;
 }
 
 .post-card__avatar {
   flex-shrink: 0;
-  width: var(--size-40, 40px);
-  height: var(--size-40, 40px);
+  width: var(--size-40, var(--size-40));
+  height: var(--size-40, var(--size-40));
   border-radius: var(--radius-full, 50%);
   overflow: hidden;
   background: var(--surface-container, #f0f0f0);
@@ -26,7 +26,7 @@
   align-items: center;
   justify-content: center;
   font-weight: var(--font-weight-semibold, 600);
-  font-size: var(--font-size-md, 16px);
+  font-size: var(--font-size-md, var(--size-16));
   color: var(--text-muted, #666);
   text-transform: uppercase;
 }
@@ -36,7 +36,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--size-4, 4px);
+  gap: var(--size-4, var(--size-4));
 }
 
 .post-card__header {
@@ -47,10 +47,10 @@
 
 .post-card__meta {
   display: flex;
-  gap: var(--size-4, 4px);
+  gap: var(--size-4, var(--size-4));
   align-items: center;
   color: var(--text-muted, #666);
-  font-size: var(--font-size-sm, 14px);
+  font-size: var(--font-size-sm, var(--size-14));
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -59,7 +59,7 @@
 .post-card__name {
   font-weight: var(--font-weight-semibold, 600);
   color: var(--text-primary, #000);
-  font-size: var(--font-size-base, 15px);
+  font-size: var(--font-size-base, var(--size-15));
 }
 
 .post-card__time,
@@ -70,13 +70,13 @@
 .post-card__body {
   display: flex;
   flex-direction: column;
-  gap: var(--size-4, 4px);
-  margin-top: var(--size-4, 4px);
+  gap: var(--size-4, var(--size-4));
+  margin-top: var(--size-4, var(--size-4));
 }
 
 .post-card__title {
   margin: 0;
-  font-size: var(--font-size-base, 15px);
+  font-size: var(--font-size-base, var(--size-15));
   font-weight: var(--font-weight-medium, 500);
   color: var(--text-primary, #000);
   line-height: var(--line-height-tight, 1.2);
@@ -84,16 +84,16 @@
 
 .post-card__text {
   margin: 0;
-  font-size: var(--font-size-sm, 14px);
+  font-size: var(--font-size-sm, var(--size-14));
   color: var(--text-secondary, #444);
   line-height: var(--line-height-normal, 1.5);
 }
 
 .post-card__media {
-  margin-top: var(--size-12, 12px);
-  border-radius: var(--radius-md, 12px);
+  margin-top: var(--size-12, var(--size-12));
+  border-radius: var(--radius-md, var(--size-12));
   overflow: hidden;
-  border: 1px solid var(--border-default, #eee);
+  border: var(--size-1) solid var(--border-default, #eee);
 }
 
 .post-card__media img {
@@ -105,17 +105,17 @@
 
 .post-card__actions {
   display: flex;
-  gap: var(--size-8, 8px);
-  margin-top: var(--size-12, 12px);
+  gap: var(--size-8, var(--size-8));
+  margin-top: var(--size-12, var(--size-12));
 }
 
 @media (max-width: 479px) {
   .post-card {
-    padding: var(--size-12, 12px);
-    gap: var(--size-8, 8px);
+    padding: var(--size-12, var(--size-12));
+    gap: var(--size-8, var(--size-8));
   }
   .post-card__avatar {
-    width: var(--size-32, 32px);
-    height: var(--size-32, 32px);
+    width: var(--size-32, var(--size-32));
+    height: var(--size-32, var(--size-32));
   }
 }

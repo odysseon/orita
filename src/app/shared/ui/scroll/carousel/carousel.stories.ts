@@ -11,7 +11,7 @@ const meta: Meta<Carousel> = {
       imports: [CarouselItem],
     },
     template: `
-      <div style="max-width: 400px; border: 1px solid var(--border-default); overflow: hidden; background: var(--surface-default);">
+      <div style="max-width: 400px; border: var(--size-1) solid var(--border-default); overflow: hidden; background: var(--surface-default);">
         <ui-carousel>
           <ui-carousel-item style="width: 80%;">
             <div style="height: 150px; background: var(--clr-primary-container); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--clr-on-primary-container); font-weight: bold;">Card 1</div>

@@ -14,7 +14,7 @@ import { LucideSend } from '@lucide/angular';
       (click)="send.emit()"
       type="button"
       aria-label="Send">
-      <svg lucideSend aria-hidden="true" style="width: 18px; height: 18px;"></svg>
+      <svg lucideSend aria-hidden="true" style="width: var(--size-18); height: var(--size-18);"></svg>
     </button>
   `,
   styles: [`

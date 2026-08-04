@@ -19,7 +19,7 @@ import { Component, Directive, ViewEncapsulation, input, computed } from '@angul
     }
     
     ui-list.ui-list--bordered {
-      border: 1px solid var(--border-subtle);
+      border: var(--size-1) solid var(--border-subtle);
     }
 
     ui-list.ui-list--radius {
@@ -69,7 +69,7 @@ import { Component, Directive, ViewEncapsulation, input, computed } from '@angul
 
     ui-list.ui-list--dividers .ui-list-item + .ui-list-item,
     ui-list.ui-list--dividers > :not(:first-child) > .ui-list-item {
-      border-top: 1px solid var(--border-subtle);
+      border-top: var(--size-1) solid var(--border-subtle);
     }
 
     .ui-list-item-start {

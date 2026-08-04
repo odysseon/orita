@@ -1,6 +1,6 @@
 .legal-header {
   margin-bottom: var(--size-40);
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: var(--size-1) solid var(--border-subtle);
   padding-bottom: var(--size-32);
 }
 .legal-header__title {
