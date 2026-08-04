@@ -155,7 +155,7 @@
 }
 .btn--link:not(:disabled):hover {
   text-decoration: underline;
-  text-underline-offset: 4px;
+  text-underline-offset: var(--size-4);
 }
 
 .btn--plain {
@@ -170,9 +170,9 @@
 
 .btn--glass {
   background: color-mix(in oklch, var(--text-on-dark) 25%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid color-mix(in oklch, var(--text-on-dark) 20%, transparent);
+  backdrop-filter: blur(var(--size-8));
+  -webkit-backdrop-filter: blur(var(--size-8));
+  border: var(--size-1) solid color-mix(in oklch, var(--text-on-dark) 20%, transparent);
   color: #ffffff;
 }
 .btn--glass:not(:disabled):hover {

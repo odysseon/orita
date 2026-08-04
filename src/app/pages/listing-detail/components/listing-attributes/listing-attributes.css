@@ -16,7 +16,7 @@
   gap: var(--size-12);
   background: var(--surface-card);
   padding: var(--size-16);
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
   border-radius: var(--radius-md);
 }
 

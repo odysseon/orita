@@ -13,7 +13,7 @@
   text-align: left;
   padding: 0.75rem 1rem;
   background: var(--surface, var(--surface-card));
-  border: 1px solid var(--border);
+  border: var(--size-1) solid var(--border);
   border-radius: var(--radius-md);
   cursor: pointer;
   display: flex;

@@ -8,11 +8,11 @@
 
 .divider--horizontal {
   width: 100%;
-  height: 1px;
+  height: var(--size-1);
 }
 
 .divider--vertical {
-  width: 1px;
+  width: var(--size-1);
   height: 100%;
   display: inline-block;
   vertical-align: middle;
@@ -27,18 +27,18 @@
   background: none;
 }
 .divider--horizontal.divider--dashed {
-  border-top: 1px dashed var(--border-subtle);
+  border-top: var(--size-1) dashed var(--border-subtle);
 }
 .divider--vertical.divider--dashed {
-  border-left: 1px dashed var(--border-subtle);
+  border-left: var(--size-1) dashed var(--border-subtle);
 }
 
 .divider--dotted {
   background: none;
 }
 .divider--horizontal.divider--dotted {
-  border-top: 1px dotted var(--border-subtle);
+  border-top: var(--size-1) dotted var(--border-subtle);
 }
 .divider--vertical.divider--dotted {
-  border-left: 1px dotted var(--border-subtle);
+  border-left: var(--size-1) dotted var(--border-subtle);
 }

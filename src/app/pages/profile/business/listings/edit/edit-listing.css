@@ -108,7 +108,7 @@
 }
 
 .availability-section {
-  border-top: 1px solid var(--border-default);
+  border-top: var(--size-1) solid var(--border-default);
   padding-top: var(--space-md);
 }
 
@@ -125,7 +125,7 @@
   background: var(--surface-container);
   padding: var(--space-md);
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-default);
+  border: var(--size-1) solid var(--border-default);
 }
 
 .service-area-card {
@@ -134,7 +134,7 @@
   justify-content: space-between;
   padding: 0.75rem;
   background: var(--surface-default);
-  border: 1px solid var(--border-default);
+  border: var(--size-1) solid var(--border-default);
   border-radius: var(--radius-sm);
 }
 
@@ -146,8 +146,8 @@
 
 .sa-card-icon {
   color: var(--clr-primary);
-  width: 16px;
-  height: 16px;
+  width: var(--size-16);
+  height: var(--size-16);
 }
 
 .sa-card-text {
@@ -181,13 +181,13 @@
 
 .sa-action-btn lucide-edit-2,
 .sa-action-btn lucide-trash-2 {
-  width: 12px;
-  height: 12px;
+  width: var(--size-12);
+  height: var(--size-12);
 }
 
 .add-area-btn {
   background: none;
-  border: 1px dashed var(--border-default);
+  border: var(--size-1) dashed var(--border-default);
   padding: 0.75rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -211,7 +211,7 @@
   padding: 0.75rem;
   background: var(--surface-container);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-default);
+  border: var(--size-1) solid var(--border-default);
 }
 
 .inherited-title {

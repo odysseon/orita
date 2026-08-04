@@ -62,7 +62,7 @@ const meta: Meta<MessageComposer> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="max-width: 550px; padding: 1rem; border-top: 1px solid var(--border-subtle); background: var(--surface-card);">
+      <div style="max-width: 550px; padding: 1rem; border-top: var(--size-1) solid var(--border-subtle); background: var(--surface-card);">
         <ui-message-composer [conversationId]="conversationId" />
       </div>
     `,

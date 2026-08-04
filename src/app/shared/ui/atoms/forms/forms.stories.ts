@@ -100,7 +100,7 @@ import { AppFormField } from '../form-field/form-field';
         </div>
 
         <h4 style="margin-bottom: 1rem; color: var(--text-secondary);">Checkbox Regression Grid: Shapes & Appearances</h4>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; background: var(--surface-card); padding: 1.5rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; background: var(--surface-card); padding: 1.5rem; border: var(--size-1) solid var(--border-subtle); border-radius: var(--radius-lg);">
           <div style="display: flex; flex-direction: column; gap: 0.75rem;">
             <span style="font-size: 0.85rem; font-weight: bold; color: var(--text-muted);">Solid (Default)</span>
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">

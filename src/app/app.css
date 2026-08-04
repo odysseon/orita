@@ -20,37 +20,37 @@
   We must pad the main content to the right so it doesn't overlap. 
 */
 .app-layout--with-side-nav .app-main {
-  padding-left: 80px;
+  padding-left: var(--size-80);
 }
 
 /* 
   When the bottom nav is active (mobile), the nav bar is fixed at the bottom.
   We must pad the bottom of the main content.
-  The ui-nav-list is about 64px tall + safe area.
+  The ui-nav-list is about var(--size-64) tall + safe area.
 */
 .app-layout--with-bottom-nav .app-main {
-  padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  padding-bottom: calc(var(--size-64) + env(safe-area-inset-bottom));
 }
 
 app-badge.nav-badge,
 .nav-badge {
   background-color: var(--clr-error, #ef4444);
   color: var(--clr-on-error, #ffffff);
-  font-size: 10px;
+  font-size: var(--size-10);
   font-weight: 700;
-  height: 18px;
-  min-width: 18px;
-  padding: 0 4px;
+  height: var(--size-18);
+  min-width: var(--size-18);
+  padding: 0 var(--size-4);
   border-radius: var(--radius-pill, 9999px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: var(--size-6);
+  right: var(--size-6);
   box-sizing: border-box;
-  box-shadow: 0 0 0 2px var(--surface-card);
+  box-shadow: 0 0 0 var(--size-2) var(--surface-card);
 }
 
 /* Root App Navigation using Tabs */
@@ -61,23 +61,23 @@ app-badge.nav-badge,
   right: 0;
   z-index: var(--z-nav, 50);
   background-color: var(--surface-card);
-  border-top: var(--size-1, 1px) solid var(--border-subtle, #e5e7eb);
-  padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+  border-top: var(--size-1, var(--size-1)) solid var(--border-subtle, #e5e7eb);
+  padding: var(--size-6) var(--size-8) calc(var(--size-6) + env(safe-area-inset-bottom));
 }
 
 .root-app-navigation--bottom ui-tab-list {
   display: flex;
   justify-content: space-around;
   width: 100%;
-  gap: var(--space-2xs, 4px);
+  gap: var(--space-2xs, var(--size-4));
   border: none;
 }
 
 .root-app-navigation--bottom .nav-tab-button {
   flex-direction: column;
   height: auto;
-  padding: var(--size-6, 6px) var(--size-4, 4px);
-  gap: var(--size-2, 2px);
+  padding: var(--size-6, var(--size-6)) var(--size-4, var(--size-4));
+  gap: var(--size-2, var(--size-2));
   font-size: var(--font-size-xs, 0.75rem);
   flex: 1;
   position: relative;
@@ -88,11 +88,11 @@ app-badge.nav-badge,
   top: 0;
   left: 0;
   bottom: 0;
-  width: 80px;
+  width: var(--size-80);
   z-index: var(--z-nav, 50);
   background-color: var(--surface-card);
-  border-right: var(--size-1, 1px) solid var(--border-subtle, #e5e7eb);
-  padding: var(--space-md, 16px) var(--space-sm, 8px);
+  border-right: var(--size-1, var(--size-1)) solid var(--border-subtle, #e5e7eb);
+  padding: var(--space-md, var(--size-16)) var(--space-sm, var(--size-8));
   display: flex;
   flex-direction: column;
 }
@@ -100,14 +100,14 @@ app-badge.nav-badge,
 .root-app-navigation--side ui-tab-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm, 8px);
+  gap: var(--space-sm, var(--size-8));
   border: none;
 }
 
 .root-app-navigation--side .nav-tab-button {
   flex-direction: column;
-  height: var(--size-48, 48px);
-  width: var(--size-48, 48px);
+  height: var(--size-48, var(--size-48));
+  width: var(--size-48, var(--size-48));
   padding: 0;
   justify-content: center;
   align-items: center;

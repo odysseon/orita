@@ -14,8 +14,8 @@
     <app-skeleton shape="text" style="width: 70%;"></app-skeleton>
   </div>
   <div style="display: flex; gap: var(--size-16); margin-top: var(--size-24);">
-    <app-skeleton style="height: 40px; flex: 1; border-radius: var(--radius-md);"></app-skeleton>
-    <app-skeleton style="height: 40px; flex: 1; border-radius: var(--radius-md);"></app-skeleton>
+    <app-skeleton style="height: var(--size-40); flex: 1; border-radius: var(--radius-md);"></app-skeleton>
+    <app-skeleton style="height: var(--size-40); flex: 1; border-radius: var(--radius-md);"></app-skeleton>
   </div>
 </div>
 } @if (business.error()) {
@@ -149,7 +149,7 @@
     <h2 class="biz-section__title">
       <svg lucidePackage aria-hidden="true"></svg>
       Listings @if (listings.hasValue()) {
-      <app-badge intent="neutral" style="min-width: 20px; height: 20px; display: inline-flex; justify-content: center;">{{ listings.value()!.total }}</app-badge>
+      <app-badge intent="neutral" style="min-width: var(--size-20); height: var(--size-20); display: inline-flex; justify-content: center;">{{ listings.value()!.total }}</app-badge>
       }
     </h2>
 
@@ -196,7 +196,7 @@
     <h2 class="biz-section__title">
       <svg lucideImage aria-hidden="true"></svg>
       Store Tours
-      <app-badge intent="neutral" style="min-width: 20px; height: 20px; display: inline-flex; justify-content: center;">{{ tours.value()!.total }}</app-badge>
+      <app-badge intent="neutral" style="min-width: var(--size-20); height: var(--size-20); display: inline-flex; justify-content: center;">{{ tours.value()!.total }}</app-badge>
     </h2>
 
     <ui-grid cols="2 md:3 lg:4" gap="sm">

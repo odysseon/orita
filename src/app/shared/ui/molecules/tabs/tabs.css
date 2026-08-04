@@ -59,7 +59,7 @@
 }
 
 .app-tab:focus-visible {
-  box-shadow: 0 0 0 2px var(--surface-page), 0 0 0 4px var(--clr-primary);
+  box-shadow: 0 0 0 var(--size-2) var(--surface-page), 0 0 0 var(--size-4) var(--clr-primary);
   border-radius: var(--tab-radius);
 }
 
@@ -75,14 +75,14 @@
 
 /* Line */
 .app-tabs--line {
-  border-bottom: 2px solid var(--tabs-border);
+  border-bottom: var(--size-2) solid var(--tabs-border);
   gap: var(--size-16);
 }
 
 .app-tabs--line .app-tab,
 .app-tabs--line .btn.app-tab {
-  border: 2px solid transparent;
-  margin-bottom: -2px; /* Overlap the container border */
+  border: var(--size-2) solid transparent;
+  margin-bottom: -var(--size-2); /* Overlap the container border */
   border-radius: var(--tab-radius) var(--tab-radius) 0 0;
   padding-left: var(--size-4);
   padding-right: var(--size-4);

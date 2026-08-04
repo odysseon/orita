@@ -16,7 +16,7 @@ const meta: Meta<CoverMedia> = {
       imports: [LucideImage],
     },
     template: `
-      <div style="max-width: 400px; border-radius: 12px; overflow: hidden;" class="demo-card">
+      <div style="max-width: 400px; border-radius: var(--size-12); overflow: hidden;" class="demo-card">
         <style>
           .demo-card:hover .ui-cover-media__img {
             transform: scale(1.05);
@@ -28,8 +28,8 @@ const meta: Meta<CoverMedia> = {
           [aspectRatio]="aspectRatio" 
           [overlayGradient]="overlayGradient"
         >
-          <svg cover-placeholder lucideImage style="width: 32px; height: 32px; opacity: 0.3;"></svg>
-          <div style="position: absolute; top: 12px; right: 12px; background: color-mix(in oklch, var(--surface-ink) 50%, transparent); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">
+          <svg cover-placeholder lucideImage style="width: var(--size-32); height: var(--size-32); opacity: 0.3;"></svg>
+          <div style="position: absolute; top: var(--size-12); right: var(--size-12); background: color-mix(in oklch, var(--surface-ink) 50%, transparent); color: white; padding: var(--size-4) var(--size-8); border-radius: var(--size-4); font-size: var(--size-12);">
             Overlay Content
           </div>
         </ui-cover-media>

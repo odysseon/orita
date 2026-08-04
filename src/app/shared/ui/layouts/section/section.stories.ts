@@ -13,7 +13,7 @@ const meta: Meta<Section> = {
     props: args,
     template: `
       <ui-section [title]="title" [description]="description">
-        <div style="background: var(--surface-card); height: 100px; border: 1px dashed var(--border-default); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+        <div style="background: var(--surface-card); height: 100px; border: var(--size-1) dashed var(--border-default); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
           Projected Content Goes Here
         </div>
       </ui-section>

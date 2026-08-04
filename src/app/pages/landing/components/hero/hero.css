@@ -126,7 +126,7 @@
 
   border-radius: 2rem;
 
-  border: 1px dashed var(--border-subtle);
+  border: var(--size-1) dashed var(--border-subtle);
 
   display: flex;
   align-items: center;

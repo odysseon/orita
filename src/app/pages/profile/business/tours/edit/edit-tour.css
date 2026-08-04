@@ -7,7 +7,7 @@
 .form-section,
 .media-section {
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  border: var(--size-1) solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   margin-bottom: var(--spacing-xl);
@@ -44,7 +44,7 @@
   aspect-ratio: 1;
   border-radius: var(--radius-md);
   overflow: hidden;
-  border: 1px solid var(--color-border);
+  border: var(--size-1) solid var(--color-border);
   background: var(--color-background);
 }
 
@@ -61,9 +61,9 @@
   right: var(--spacing-xs);
   background: color-mix(in oklch, var(--surface-ink) 50%, transparent);
   color: white;
-  width: 28px;
-  height: 28px;
-  backdrop-filter: blur(4px);
+  width: var(--size-28);
+  height: var(--size-28);
+  backdrop-filter: blur(var(--size-4));
   border: none;
 }
 
@@ -72,13 +72,13 @@
 }
 
 .delete-btn svg {
-  width: 14px;
-  height: 14px;
+  width: var(--size-14);
+  height: var(--size-14);
 }
 
 .media-upload-placeholder {
   aspect-ratio: 1;
-  border: 2px dashed var(--color-border);
+  border: var(--size-2) dashed var(--color-border);
   border-radius: var(--radius-md);
   transition: all 0.2s;
 }
@@ -105,17 +105,17 @@
 }
 
 .media-upload-placeholder svg {
-  width: 24px;
-  height: 24px;
+  width: var(--size-24);
+  height: var(--size-24);
   color: var(--color-primary);
 }
 
 .visually-hidden {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: var(--size-1);
+  height: var(--size-1);
   padding: 0;
-  margin: -1px;
+  margin: -var(--size-1);
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
@@ -130,7 +130,7 @@
 }
 
 .skeleton-input {
-  height: 40px;
+  height: var(--size-40);
   border-radius: var(--radius-md);
 }
 
@@ -140,6 +140,6 @@
 }
 
 .skeleton-box {
-  height: 200px;
+  height: var(--size-200);
   border-radius: var(--radius-md);
 }

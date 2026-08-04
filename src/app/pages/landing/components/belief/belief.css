@@ -9,7 +9,7 @@
 
   padding: 2rem;
 
-  border-inline-start: 4px solid var(--clr-primary);
+  border-inline-start: var(--size-4) solid var(--clr-primary);
 
   background: var(--surface-container);
 

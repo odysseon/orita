@@ -20,7 +20,7 @@
   gap: var(--size-10);
   padding: var(--size-12) var(--size-14);
   background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
   border-left: 3px solid var(--text-muted);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-md);
@@ -31,7 +31,7 @@
 @keyframes toast-enter {
   from {
     opacity: 0;
-    transform: translateX(16px);
+    transform: translateX(var(--size-16));
   }
   to {
     opacity: 1;
@@ -51,7 +51,7 @@
   }
   to {
     opacity: 0;
-    transform: translateX(16px);
+    transform: translateX(var(--size-16));
   }
 }
 

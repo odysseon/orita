@@ -46,4 +46,4 @@
     .btn-icon:hover {
       color: var(--error);
     }
-    svg { width: 16px; height: 16px; }
+    svg { width: var(--size-16); height: var(--size-16); }

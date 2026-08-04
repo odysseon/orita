@@ -38,7 +38,7 @@
   } @else {
     <div class="feed-container">
       @if (error()) {
-        <div class="surface-container" style="padding: var(--space-sm); border-radius: var(--radius-sm); color: var(--clr-error); margin-bottom: var(--space-md); text-align: center; border: 1px solid var(--clr-error-container); display: flex; flex-direction: column; gap: var(--space-xs); align-items: center;">
+        <div class="surface-container" style="padding: var(--space-sm); border-radius: var(--radius-sm); color: var(--clr-error); margin-bottom: var(--space-md); text-align: center; border: var(--size-1) solid var(--clr-error-container); display: flex; flex-direction: column; gap: var(--space-xs); align-items: center;">
           <strong style="font-weight: 500;">{{ error()!.title }}</strong>
           <span>{{ error()!.message }}</span>
           <button app-button appearance="ghost" size="sm" (click)="loadMore()">Retry</button>

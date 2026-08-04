@@ -40,11 +40,11 @@
 app-badge.tab-pill-badge {
   background-color: var(--clr-error);
   color: var(--clr-on-error);
-  font-size: 10px;
+  font-size: var(--size-10);
   font-weight: 700;
-  height: 18px;
-  min-width: 18px;
-  padding: 0 4px;
+  height: var(--size-18);
+  min-width: var(--size-18);
+  padding: 0 var(--size-4);
   border-radius: var(--radius-pill);
   display: inline-flex;
   align-items: center;

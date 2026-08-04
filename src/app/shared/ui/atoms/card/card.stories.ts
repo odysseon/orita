@@ -33,7 +33,7 @@ const meta: Meta<Card> = {
         [disabled]="disabled"
         [fullWidth]="fullWidth"
       >
-        <h3 style="margin: 0 0 4px 0;">John Doe</h3>
+        <h3 style="margin: 0 0 var(--size-4) 0;">John Doe</h3>
         <p style="margin: 0; color: var(--text-secondary);">Software Engineer</p>
       </app-card>
     `,

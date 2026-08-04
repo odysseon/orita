@@ -64,8 +64,8 @@
   left: var(--size-12);
   top: 50%;
   transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
+  width: var(--size-18);
+  height: var(--size-18);
   color: var(--text-tertiary);
 }
 
@@ -73,8 +73,8 @@
   width: 100%;
   box-sizing: border-box;
   height: 44px;
-  padding: 0 var(--size-12) 0 calc(var(--size-12) * 2 + 18px);
-  border: 1px solid var(--border-default);
+  padding: 0 var(--size-12) 0 calc(var(--size-12) * 2 + var(--size-18));
+  border: var(--size-1) solid var(--border-default);
   border-radius: var(--radius-lg);
   background-color: var(--surface-subtle);
   font-size: var(--text-sm);
@@ -82,7 +82,7 @@
 }
 
 .drawer-search-results {
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
   border-radius: var(--radius-lg);
   overflow: hidden;
   max-height: 300px;
@@ -97,7 +97,7 @@
   padding: var(--size-12);
   background: none;
   border: none;
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: var(--size-1) solid var(--border-subtle);
   cursor: pointer;
   text-align: left;
   color: var(--text-primary);

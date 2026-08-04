@@ -31,7 +31,7 @@ const meta: Meta<BusinessCard> = {
           <div card-description>
             We sell the best vintage leather jackets in town. Visit our store to find your perfect fit.
           </div>
-          <div card-stats style="display: flex; gap: 16px; font-size: 14px; color: var(--text-secondary); margin-top: 8px;">
+          <div card-stats style="display: flex; gap: var(--size-16); font-size: var(--size-14); color: var(--text-secondary); margin-top: var(--size-8);">
             <span><strong style="color: var(--text-primary);">1.2k</strong> Followers</span>
             <span><strong style="color: var(--text-primary);">45</strong> Listings</span>
           </div>

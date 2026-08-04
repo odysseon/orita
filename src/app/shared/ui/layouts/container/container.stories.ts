@@ -15,7 +15,7 @@ const meta: Meta<Container> = {
     props: args,
     template: `
       <ui-container [size]="size">
-        <div style="background: var(--surface-card); border: 1px dashed var(--border-default); padding: var(--size-24); text-align: center; border-radius: var(--radius-md);">
+        <div style="background: var(--surface-card); border: var(--size-1) dashed var(--border-default); padding: var(--size-24); text-align: center; border-radius: var(--radius-md);">
           Container Content
         </div>
       </ui-container>

@@ -1,38 +1,38 @@
 .category-browser {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--size-16);
   width: 100%;
 }
 
 .category-browser-loading,
 .category-browser-empty {
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: var(--size-14);
   text-align: center;
-  padding: 24px 0;
+  padding: var(--size-24) 0;
 }
 
 .category-header {
-  margin-bottom: 8px;
+  margin-bottom: var(--size-8);
 }
 
 .category-back-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--size-8);
   background: none;
   border: none;
   color: var(--text-primary);
-  font-size: 16px;
+  font-size: var(--size-16);
   font-weight: 600;
-  padding: 8px 0;
+  padding: var(--size-8) 0;
   cursor: pointer;
 }
 
 .category-icon {
-  width: 20px;
-  height: 20px;
+  width: var(--size-20);
+  height: var(--size-20);
   color: var(--text-secondary);
 }
 
@@ -43,17 +43,17 @@
 .category-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--size-8);
 }
 
 .category-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: var(--size-12) var(--size-16);
   background: var(--surface-card);
-  border: 1px solid var(--border-default);
-  border-radius: 12px;
+  border: var(--size-1) solid var(--border-default);
+  border-radius: var(--size-12);
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -65,22 +65,22 @@
 .category-info {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--size-12);
 }
 
 .category-name {
-  font-size: 15px;
+  font-size: var(--size-15);
   color: var(--text-primary);
 }
 
 .category-checkbox-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: var(--size-12);
+  padding: var(--size-12) var(--size-16);
   background: var(--surface-card);
-  border: 1px solid var(--border-default);
-  border-radius: 12px;
+  border: var(--size-1) solid var(--border-default);
+  border-radius: var(--size-12);
   cursor: pointer;
   transition: background-color 0.2s;
   position: relative;
@@ -102,17 +102,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  border: 2px solid var(--border-default);
-  border-radius: 6px;
+  width: var(--size-24);
+  height: var(--size-24);
+  border: var(--size-2) solid var(--border-default);
+  border-radius: var(--size-6);
   background: var(--surface-card);
   transition: all 0.2s;
 }
 
 .checkbox-icon {
-  width: 14px;
-  height: 14px;
+  width: var(--size-14);
+  height: var(--size-14);
   color: white;
   opacity: 0;
   transform: scale(0.5);
@@ -139,7 +139,7 @@
 }
 
 .category-divider {
-  height: 1px;
+  height: var(--size-1);
   background: var(--border-default);
-  margin: 8px 0;
+  margin: var(--size-8) 0;
 }

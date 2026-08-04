@@ -20,5 +20,5 @@
 .app-tooltip--neutral {
   background: var(--surface-container-high);
   color: var(--text-primary);
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
 }

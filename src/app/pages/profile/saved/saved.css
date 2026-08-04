@@ -15,7 +15,7 @@
  * ============================================================ */
 .saved-tabs {
   display: flex;
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: var(--size-1) solid var(--border-subtle);
   gap: var(--size-4);
 }
 
@@ -26,8 +26,8 @@
   padding: var(--size-10) var(--size-14);
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
+  border-bottom: var(--size-2) solid transparent;
+  margin-bottom: -var(--size-1);
   font-family: var(--font-sans);
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-medium);
@@ -118,7 +118,7 @@
   flex-direction: column;
   gap: var(--size-1);
   background: var(--border-subtle);
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
   border-radius: var(--radius-md);
   overflow: hidden;
 }

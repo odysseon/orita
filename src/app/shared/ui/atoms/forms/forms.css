@@ -9,7 +9,7 @@
   font-size: var(--font-size-md);
   color: var(--text-primary);
   background: var(--surface-card);
-  border: 1px solid var(--border-default);
+  border: var(--size-1) solid var(--border-default);
   border-radius: var(--radius-sm);
   padding: var(--size-8) var(--size-12);
   width: 100%;
@@ -41,7 +41,7 @@
 .app-radio:focus-visible,
 .app-switch:focus-visible {
   border-color: var(--clr-primary);
-  box-shadow: 0 0 0 4px var(--clr-primary-container);
+  box-shadow: 0 0 0 var(--size-4) var(--clr-primary-container);
 }
 
 /* Error State via aria-invalid */
@@ -60,7 +60,7 @@
 .app-checkbox[aria-invalid="true"]:focus-visible,
 .app-radio[aria-invalid="true"]:focus-visible,
 .app-switch[aria-invalid="true"]:focus-visible {
-  box-shadow: 0 0 0 4px var(--clr-danger-container);
+  box-shadow: 0 0 0 var(--size-4) var(--clr-danger-container);
 }
 
 /* Select specifics */
@@ -81,8 +81,8 @@
 .app-select-chevron {
   position: absolute;
   right: var(--size-12);
-  width: 16px;
-  height: 16px;
+  width: var(--size-16);
+  height: var(--size-16);
   pointer-events: none;
   background-color: var(--text-secondary);
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -101,7 +101,7 @@
 .app-switch {
   appearance: none;
   margin: 0;
-  border: 1px solid var(--border-default);
+  border: var(--size-1) solid var(--border-default);
   background: var(--surface-card);
   outline: none;
   cursor: pointer;
@@ -115,27 +115,27 @@
 .app-switch::after {
   content: '';
   position: absolute;
-  inset: -10px;
+  inset: -var(--size-10);
   z-index: -1;
 }
 
 /* Checkbox specific */
 .app-checkbox {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
+  width: var(--size-20);
+  height: var(--size-20);
+  border-radius: var(--size-4);
 }
 
 .app-checkbox.app-checkbox--sm {
-  width: 16px;
-  height: 16px;
+  width: var(--size-16);
+  height: var(--size-16);
   border-radius: 3px;
 }
 
 .app-checkbox.app-checkbox--lg {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
+  width: var(--size-24);
+  height: var(--size-24);
+  border-radius: var(--size-6);
 }
 
 .app-checkbox.app-checkbox--circle {
@@ -174,10 +174,10 @@
   position: absolute;
   inset: 0;
   background-color: var(--clr-on-primary);
-  mask-size: 14px;
+  mask-size: var(--size-14);
   mask-repeat: no-repeat;
   mask-position: center;
-  -webkit-mask-size: 14px;
+  -webkit-mask-size: var(--size-14);
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
   opacity: 0;
@@ -198,8 +198,8 @@
 
 /* Radio specific */
 .app-radio {
-  width: 20px;
-  height: 20px;
+  width: var(--size-20);
+  height: var(--size-20);
   border-radius: 50%;
 }
 
@@ -213,8 +213,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  width: 10px;
-  height: 10px;
+  width: var(--size-10);
+  height: var(--size-10);
   border-radius: 50%;
   background-color: var(--clr-primary);
   transition: transform var(--transition-fast);
@@ -227,7 +227,7 @@
 /* Switch specific */
 .app-switch {
   width: 44px;
-  height: 24px;
+  height: var(--size-24);
   border-radius: 999px;
   background-color: var(--surface-container-high);
   border-color: transparent;
@@ -240,18 +240,18 @@
 .app-switch::before {
   content: '';
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 18px;
-  height: 18px;
+  top: var(--size-2);
+  left: var(--size-2);
+  width: var(--size-18);
+  height: var(--size-18);
   border-radius: 50%;
   background-color: var(--surface-card);
-  box-shadow: 0 1px 3px color-mix(in oklch, var(--surface-ink) 20%, transparent);
+  box-shadow: 0 var(--size-1) 3px color-mix(in oklch, var(--surface-ink) 20%, transparent);
   transition: transform var(--transition-fast);
 }
 
 .app-switch:checked::before {
-  transform: translateX(20px);
+  transform: translateX(var(--size-20));
 }
 
 /* Forced Colors Fallbacks */
@@ -271,7 +271,7 @@
     background-color: canvasText;
   }
   .app-switch {
-    border: 1px solid canvasText;
+    border: var(--size-1) solid canvasText;
   }
 }
 
@@ -312,5 +312,5 @@
 
 .app-input-toggle:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--clr-primary);
+  box-shadow: 0 0 0 var(--size-2) var(--clr-primary);
 }

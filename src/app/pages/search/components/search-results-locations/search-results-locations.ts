@@ -24,7 +24,7 @@ import { LucideMapPin } from '@lucide/angular';
         @for (loc of items(); track loc.id || loc.externalId) {
         <label uiListItem>
           <div uiListItemStart>
-            <svg lucideMapPin aria-hidden="true" style="color: var(--text-muted); width: 20px; height: 20px"></svg>
+            <svg lucideMapPin aria-hidden="true" style="color: var(--text-muted); width: var(--size-20); height: var(--size-20)"></svg>
           </div>
           <div uiListItemContent>
             <div uiListItemTitle class="truncate">{{ loc.name || loc.formattedAddress || 'Location' }}</div>

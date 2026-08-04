@@ -1,7 +1,7 @@
 <section class="listing-reviews">
   <h2 class="listing-reviews__title">
     Reviews
-    <app-badge intent="neutral" style="min-width: 20px; height: 20px; display: inline-flex; justify-content: center;">{{ reviews().length }}</app-badge>
+    <app-badge intent="neutral" style="min-width: var(--size-20); height: var(--size-20); display: inline-flex; justify-content: center;">{{ reviews().length }}</app-badge>
   </h2>
   <div class="listing-reviews__list">
     @for (review of reviews(); track review.id) {

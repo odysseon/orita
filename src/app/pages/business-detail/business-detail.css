@@ -16,7 +16,7 @@
 }
 
 .skeleton--banner {
-  height: 140px;
+  height: var(--size-140);
 }
 
 .skeleton--avatar {
@@ -41,7 +41,7 @@
  * BANNER
  * ============================================================ */
 .biz-banner {
-  height: 140px;
+  height: var(--size-140);
   border-radius: var(--radius-lg);
   background: var(--surface-container);
   overflow: hidden;
@@ -221,14 +221,14 @@
 }
 
 .biz-listing-skeleton {
-  height: 140px;
+  height: var(--size-140);
 }
 
 .biz-listing-card {
   display: flex;
   flex-direction: column;
   background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
   border-radius: var(--radius-md);
   overflow: hidden;
   text-decoration: none;

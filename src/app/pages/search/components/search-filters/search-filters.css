@@ -11,7 +11,7 @@
 
 input[uiComboboxInput] {
   width: 100%;
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: var(--size-12);
   background: var(--surface-container);
@@ -42,7 +42,7 @@ input[uiComboboxInput]:focus {
   display: flex;
   gap: 1rem;
   padding: 1.5rem;
-  border-top: 1px solid var(--border);
+  border-top: var(--size-1) solid var(--border);
   background: var(--surface, var(--surface-card));
 }
 
@@ -58,7 +58,7 @@ input[uiComboboxInput]:focus {
 
 .btn-outline {
   background: transparent;
-  border: 1px solid var(--border);
+  border: var(--size-1) solid var(--border);
   color: var(--text);
 }
 
@@ -68,7 +68,7 @@ input[uiComboboxInput]:focus {
 
 .btn-primary {
   background: var(--primary, var(--clr-primary));
-  border: 1px solid var(--primary, var(--clr-primary));
+  border: var(--size-1) solid var(--primary, var(--clr-primary));
   color: var(--primary-foreground, var(--clr-on-primary));
 }
 

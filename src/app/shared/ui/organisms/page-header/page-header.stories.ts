@@ -19,7 +19,7 @@ const meta: Meta<PageHeader> = {
             <svg lucideMoreVertical></svg>
           </button>
         </app-page-header>
-        <div style="padding: 20px; color: var(--text-secondary);">
+        <div style="padding: var(--size-20); color: var(--text-secondary);">
           Page content goes here...
         </div>
       </div>

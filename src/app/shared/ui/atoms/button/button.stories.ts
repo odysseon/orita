@@ -134,7 +134,7 @@ export const Glass: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="padding: 32px; background: url('https://images.unsplash.com/photo-1520975954732-57dd22299614?auto=format&fit=crop&q=80&w=600') center/cover; border-radius: var(--radius-lg);">
+      <div style="padding: var(--size-32); background: url('https://images.unsplash.com/photo-1520975954732-57dd22299614?auto=format&fit=crop&q=80&w=600') center/cover; border-radius: var(--radius-lg);">
         <button app-button [intent]="intent" [appearance]="appearance" [size]="size" [shape]="shape" [disabled]="disabled" [loading]="loading" [fullWidth]="fullWidth">Glass Button</button>
       </div>
     `

@@ -125,13 +125,13 @@
   justify-content: center;
   list-style: none;
   margin-top: var(--size-16);
-  max-width: 560px;
+  max-width: var(--size-560);
 }
 
 .category-chip {
   padding: var(--size-6) var(--size-14);
   border-radius: var(--radius-pill);
-  border: 1px solid var(--border-subtle);
+  border: var(--size-1) solid var(--border-subtle);
   background: color-mix(in oklch, var(--surface-card) 60%, transparent);
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
@@ -150,7 +150,7 @@
 }
 
 .hero-image-wrapper:hover {
-  transform: perspective(1000px) rotateX(0deg) translateY(-10px);
+  transform: perspective(1000px) rotateX(0deg) translateY(-var(--size-10));
 }
 
 .hero-image {
@@ -162,7 +162,7 @@
 
 @media (min-width: 768px) {
   .hero-title {
-    font-size: 56px;
+    font-size: var(--size-56);
   }
 
   .hero-subtitle {

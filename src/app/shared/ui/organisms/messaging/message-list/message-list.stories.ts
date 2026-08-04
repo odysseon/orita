@@ -22,7 +22,7 @@ const meta: Meta<MessageList> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="height: 500px; max-width: 500px; border: 1px solid var(--border-subtle); background: var(--surface-page); display: flex; flex-direction: column;">
+      <div style="height: 500px; max-width: 500px; border: var(--size-1) solid var(--border-subtle); background: var(--surface-page); display: flex; flex-direction: column;">
         <ui-message-list [messages]="messages" [viewerParticipantId]="viewerParticipantId" style="flex: 1; overflow-y: auto;" />
       </div>
     `,

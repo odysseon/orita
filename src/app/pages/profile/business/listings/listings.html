@@ -120,7 +120,7 @@
           [routerLink]="['/profile/business/listings', listing.id, 'edit']"
           title="Edit Details & Media"
         >
-          <svg lucidePencil aria-hidden="true" style="width: 18px; height: 18px;"></svg>
+          <svg lucidePencil aria-hidden="true" style="width: var(--size-18); height: var(--size-18);"></svg>
         </a>
         <button
           app-button
@@ -132,11 +132,11 @@
           (click)="toggleStatus(listing)"
         >
           @if (togglingId() === listing.id) {
-          <svg lucideLoaderCircle class="listing-item__spinner" aria-hidden="true" style="width: 18px; height: 18px;"></svg>
+          <svg lucideLoaderCircle class="listing-item__spinner" aria-hidden="true" style="width: var(--size-18); height: var(--size-18);"></svg>
           } @else if (listing.status === 'PUBLISHED') {
-          <svg lucideEyeOff aria-hidden="true" style="width: 18px; height: 18px;"></svg>
+          <svg lucideEyeOff aria-hidden="true" style="width: var(--size-18); height: var(--size-18);"></svg>
           } @else {
-          <svg lucideEye aria-hidden="true" style="width: 18px; height: 18px;"></svg>
+          <svg lucideEye aria-hidden="true" style="width: var(--size-18); height: var(--size-18);"></svg>
           }
         </button>
         <button
@@ -150,9 +150,9 @@
           (click)="deleteListing(listing)"
         >
           @if (deletingId() === listing.id) {
-          <svg lucideLoaderCircle class="listing-item__spinner" aria-hidden="true" style="width: 18px; height: 18px;"></svg>
+          <svg lucideLoaderCircle class="listing-item__spinner" aria-hidden="true" style="width: var(--size-18); height: var(--size-18);"></svg>
           } @else {
-          <svg lucideTrash2 aria-hidden="true" style="width: 18px; height: 18px;"></svg>
+          <svg lucideTrash2 aria-hidden="true" style="width: var(--size-18); height: var(--size-18);"></svg>
           }
         </button>
       </div>

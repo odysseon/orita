@@ -43,9 +43,9 @@
   color: var(--clr-on-primary, #ffffff);
   font-size: 11px;
   font-weight: var(--font-weight-bold);
-  min-width: 18px;
-  height: 18px;
-  padding: 0 4px;
+  min-width: var(--size-18);
+  height: var(--size-18);
+  padding: 0 var(--size-4);
   border-radius: 9px;
   flex-shrink: 0;
 }

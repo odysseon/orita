@@ -23,7 +23,7 @@
   padding: 0 var(--size-8);
   border-radius: var(--radius-sm);
   background: transparent;
-  border: 1px solid transparent;
+  border: var(--size-1) solid transparent;
   color: var(--text-secondary);
   font-size: var(--font-size-md);
   font-family: inherit;
@@ -39,7 +39,7 @@
 }
 
 .pagination-btn:focus-visible {
-  box-shadow: 0 0 0 2px var(--surface-page), 0 0 0 4px var(--clr-primary);
+  box-shadow: 0 0 0 var(--size-2) var(--surface-page), 0 0 0 var(--size-4) var(--clr-primary);
 }
 
 .pagination-btn:disabled {
