@@ -64,7 +64,7 @@
 .pagination-btn--nav svg {
   width: var(--size-18);
   height: var(--size-18);
-  stroke-width: 2.5px;
+  stroke-width: calc(var(--size-1) * 2.5);
 }
 
 .pagination-ellipsis {

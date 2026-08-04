@@ -66,7 +66,7 @@ export class HeaderEnd {}
       justify-content: center;
       flex: 2;
       min-width: 0;
-      max-width: calc(100% - 110px);
+      max-width: calc(100% - calc(var(--size-10) * 11));
       text-align: center;
       font-weight: var(--font-weight-semibold);
       font-size: var(--font-size-md);

@@ -27,7 +27,7 @@ const meta: Meta<Header> = {
           <button app-button size="sm">Save</button>
         </div>
       </ui-header>
-      <div style="height: 500px; padding: 2rem; background: var(--surface-container); margin-top: 1rem;">
+      <div style="height: calc(var(--size-10) * 50); padding: 2rem; background: var(--surface-container); margin-top: 1rem;">
         <p>Scroll down to see the sticky behavior (if enabled).</p>
       </div>
     `,

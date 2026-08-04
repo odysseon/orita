@@ -11,19 +11,19 @@ const meta: Meta<Carousel> = {
       imports: [CarouselItem],
     },
     template: `
-      <div style="max-width: 400px; border: var(--size-1) solid var(--border-default); overflow: hidden; background: var(--surface-default);">
+      <div style="max-width: 25rem; border: var(--size-1) solid var(--border-default); overflow: hidden; background: var(--surface-default);">
         <ui-carousel>
           <ui-carousel-item style="width: 80%;">
-            <div style="height: 150px; background: var(--clr-primary-container); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--clr-on-primary-container); font-weight: bold;">Card 1</div>
+            <div style="height: calc(var(--size-10) * 15); background: var(--clr-primary-container); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--clr-on-primary-container); font-weight: bold;">Card 1</div>
           </ui-carousel-item>
           <ui-carousel-item style="width: 80%;">
-            <div style="height: 150px; background: var(--clr-secondary-container); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--clr-on-secondary-container); font-weight: bold;">Card 2</div>
+            <div style="height: calc(var(--size-10) * 15); background: var(--clr-secondary-container); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--clr-on-secondary-container); font-weight: bold;">Card 2</div>
           </ui-carousel-item>
           <ui-carousel-item style="width: 80%;">
-            <div style="height: 150px; background: var(--surface-container-high); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-weight: bold;">Card 3</div>
+            <div style="height: calc(var(--size-10) * 15); background: var(--surface-container-high); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-weight: bold;">Card 3</div>
           </ui-carousel-item>
           <ui-carousel-item style="width: 80%;">
-            <div style="height: 150px; background: var(--surface-container-highest); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-weight: bold;">Card 4</div>
+            <div style="height: calc(var(--size-10) * 15); background: var(--surface-container-highest); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-weight: bold;">Card 4</div>
           </ui-carousel-item>
         </ui-carousel>
       </div>

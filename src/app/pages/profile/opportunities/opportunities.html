@@ -2,7 +2,7 @@
 
 <div class="opportunities-page" style="padding: var(--space-md);">
   @if (loading()) {
-    <div style="max-width: 600px; margin: 0 auto;">
+    <div style="max-width: 37.5rem; margin: 0 auto;">
       <ui-list [bordered]="false" [dividers]="true" [padding]="true" [radius]="false">
         @for (i of [1,2,3]; track i) {
           <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
@@ -22,7 +22,7 @@
       description="You haven't posted any opportunities."
     ></ui-empty-state>
   } @else {
-    <div style="max-width: 600px; margin: 0 auto;">
+    <div style="max-width: 37.5rem; margin: 0 auto;">
       <ui-list [bordered]="false" [dividers]="true" [padding]="true" [radius]="false">
         @for (item of items(); track item.id) {
           @defer (on viewport; prefetch on idle) {

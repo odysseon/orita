@@ -184,7 +184,7 @@
 }
 
 /* -- Tablet / desktop: stop being a full-bleed sheet -------------- */
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .attach-sheet-content {
     max-width: var(--size-480);
     margin-inline: auto;

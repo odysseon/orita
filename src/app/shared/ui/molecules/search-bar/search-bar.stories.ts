@@ -7,7 +7,7 @@ import { Component, signal } from '@angular/core';
   selector: 'app-search-bar-demo',
   imports: [SearchBar, InputDirective],
   template: `
-    <div style="max-width: 400px;">
+    <div style="max-width: 25rem;">
       <ui-search-bar (clear)="onClear()">
         <input app-input type="text" placeholder="Search locations..." [value]="query()" (input)="query.set($any($event.target).value)" />
       </ui-search-bar>

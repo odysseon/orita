@@ -15,12 +15,12 @@ export type ContainerSize = 'sm' | 'md' | 'lg' | 'fluid';
       padding-left: var(--size-16);
       padding-right: var(--size-16);
     }
-    :host([data-size="sm"]) { max-width: 640px; }
-    :host([data-size="md"]) { max-width: 768px; }
-    :host([data-size="lg"]) { max-width: 1024px; }
+    :host([data-size="sm"]) { max-width: 40rem; }
+    :host([data-size="md"]) { max-width: 48rem; }
+    :host([data-size="lg"]) { max-width: 64rem; }
     :host([data-size="fluid"]) { max-width: 100%; }
 
-    @media (min-width: 768px) {
+    @media (min-width: 48rem) {
       :host {
         padding-left: var(--size-24);
         padding-right: var(--size-24);

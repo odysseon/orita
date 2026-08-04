@@ -58,7 +58,7 @@
 
   height: 2rem;
 
-  border-radius: 999px;
+  border-radius: calc(var(--size-1) * 999);
 
   font-weight: 700;
 }
@@ -75,7 +75,7 @@
   color: var(--clr-success);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .comparison {
     grid-template-columns: 1fr;
   }

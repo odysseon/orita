@@ -88,7 +88,7 @@ export class Pagination {
     const destroyRef = inject(DestroyRef);
 
     if (isPlatformBrowser(platformId)) {
-      const mql = window.matchMedia('(max-width: 600px)');
+      const mql = window.matchMedia('(max-width: 37.5rem)');
       this.isMobile.set(mql.matches);
       const listener = (e: MediaQueryListEvent) => this.isMobile.set(e.matches);
       mql.addEventListener('change', listener);

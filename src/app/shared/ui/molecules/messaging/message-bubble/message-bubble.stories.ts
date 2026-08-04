@@ -22,7 +22,7 @@ const meta: Meta<MessageBubble> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 500px; padding: 1.5rem; background: var(--surface-page);">
+      <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 31.25rem; padding: 1.5rem; background: var(--surface-page);">
         <ui-message-bubble [message]="message" [isMine]="isMine" />
       </div>
     `,

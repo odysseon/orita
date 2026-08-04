@@ -90,8 +90,8 @@
 
 .media-preview-card {
   position: relative;
-  width: 96px;
-  height: 96px;
+  width: calc(var(--size-1) * 96);
+  height: calc(var(--size-1) * 96);
   border-radius: var(--radius-sm);
   overflow: hidden;
   display: flex;

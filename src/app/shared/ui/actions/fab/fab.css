@@ -12,7 +12,7 @@
   font-weight: 600;
   text-decoration: none;
   outline: none;
-  border-radius: 9999px; /* Fully rounded by default */
+  border-radius: calc(var(--size-1) * 9999); /* Fully rounded by default */
   /* Fixed positioning so it stays on screen */
   position: fixed;
   bottom: var(--size-24);
@@ -76,8 +76,8 @@
 }
 
 :host.size-lg {
-  height: 72px;
-  min-width: 72px;
+  height: calc(var(--size-1) * 72);
+  min-width: 4.5rem;
   padding: 0;
   font-size: 1.125rem;
 }

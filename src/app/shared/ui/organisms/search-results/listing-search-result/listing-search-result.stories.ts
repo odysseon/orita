@@ -19,7 +19,7 @@ const meta: Meta<ListingSearchResult> = {
       imports: [SaveButton, List]
     },
     template: `
-      <ui-list style="max-width: 400px; display: block;">
+      <ui-list style="max-width: 25rem; display: block;">
         <ui-listing-search-result [listing]="listing"></ui-listing-search-result>
       </ui-list>
     `

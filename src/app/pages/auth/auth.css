@@ -93,5 +93,5 @@
   text-transform: uppercase;
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  letter-spacing: 0.5px;
+  letter-spacing: calc(var(--size-1) * 0.5);
 }

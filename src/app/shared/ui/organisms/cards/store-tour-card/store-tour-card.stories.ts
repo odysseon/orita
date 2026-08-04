@@ -24,7 +24,7 @@ const meta: Meta<StoreTourCard> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="max-width: 360px;">
+      <div style="max-width: 22.5rem;">
         <style>
           .duration-badge {
             position: absolute;
@@ -55,7 +55,7 @@ const meta: Meta<StoreTourCard> = {
           
           <!-- Actions Slot -->
           <div card-actions style="display: flex; width: 100%; align-items: center; gap: var(--size-8);">
-            <div style="display: flex; align-items: center; gap: var(--size-4); color: var(--text-secondary); font-size: 13px; flex-grow: 1;">
+            <div style="display: flex; align-items: center; gap: var(--size-4); color: var(--text-secondary); font-size: calc(var(--size-1) * 13); flex-grow: 1;">
               <svg lucideCalendar style="width: var(--size-14); height: var(--size-14);"></svg>
               <span>Oct 12 • 2:00 PM</span>
             </div>

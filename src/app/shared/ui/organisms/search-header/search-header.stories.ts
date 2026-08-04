@@ -28,7 +28,7 @@ const meta: Meta<SearchHeader> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="height: 300px; background: var(--surface-container-low); margin: -1rem;">
+      <div style="height: calc(var(--size-10) * 30); background: var(--surface-container-low); margin: -1rem;">
         <app-search-header 
           [sticky]="sticky"
           [placeholder]="placeholder"

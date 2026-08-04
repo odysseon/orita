@@ -6,7 +6,7 @@
 }
 
 .tour-skeleton__cover {
-  height: 400px;
+  height: calc(var(--size-10) * 40);
   border-radius: var(--radius-lg);
 }
 
@@ -82,7 +82,7 @@
   object-fit: cover;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .tour-gallery {
     flex-direction: row;
     flex-wrap: wrap;

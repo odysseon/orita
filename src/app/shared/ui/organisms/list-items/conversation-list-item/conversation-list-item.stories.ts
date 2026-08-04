@@ -12,7 +12,7 @@ const meta: Meta<ConversationListItem> = {
       imports: [List],
     },
     template: `
-      <div style="max-width: 400px; height: 500px; background: var(--surface-default); border-radius: var(--radius-xl); overflow: hidden; border: var(--size-1) solid var(--border-subtle);">
+      <div style="max-width: 25rem; height: calc(var(--size-10) * 50); background: var(--surface-default); border-radius: var(--radius-xl); overflow: hidden; border: var(--size-1) solid var(--border-subtle);">
         <div style="padding: var(--size-16); font-weight: var(--font-weight-semibold); font-size: var(--font-size-lg); border-bottom: var(--size-1) solid var(--border-subtle);">Chats</div>
         <!-- Inbox Style List: No outer border, no radius, just dividers -->
         <ui-list [bordered]="false" [radius]="false" [dividers]="true">

@@ -13,7 +13,7 @@ const meta: Meta<PageHeader> = {
       imports: [Button, LucideMoreVertical],
     },
     template: `
-      <div style="height: 300px; background: var(--surface-container-low); margin: -1rem;">
+      <div style="height: calc(var(--size-10) * 30); background: var(--surface-container-low); margin: -1rem;">
         <app-page-header [title]="title" [back]="back" [sticky]="sticky">
           <button app-button appearance="ghost" size="icon" shape="circle" aria-label="Options">
             <svg lucideMoreVertical></svg>

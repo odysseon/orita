@@ -90,7 +90,7 @@
 
 .msg-embed-img {
   width: 100%;
-  height: 120px; /* not on the size scale — image aspect, intentionally left as a literal */
+  height: calc(var(--size-10) * 12); /* not on the size scale — image aspect, intentionally left as a literal */
   object-fit: cover;
   border-radius: var(--radius-sm);
 }

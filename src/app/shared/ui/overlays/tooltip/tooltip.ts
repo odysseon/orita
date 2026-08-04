@@ -25,8 +25,8 @@ let nextId = 0;
     'class': 'app-tooltip',
     '[class]': '"app-tooltip--" + intent()',
     'role': 'tooltip',
-    '[style.top.px]': 'pos()?.top ?? 0',
-    '[style.left.px]': 'pos()?.left ?? 0',
+    '[style.top]': '`calc(var(--size-1) * ${pos()?.top ?? 0})`',
+    '[style.left]': '`calc(var(--size-1) * ${pos()?.left ?? 0})`',
     '[style.opacity]': 'pos() ? 1 : 0',
     '[style.pointer-events]': 'pos() ? "auto" : "none"',
   }

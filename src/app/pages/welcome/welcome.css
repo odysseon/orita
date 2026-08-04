@@ -132,7 +132,7 @@
 }
 
 .welcome-interests-browser {
-  max-height: 400px;
+  max-height: 25rem;
   overflow-y: auto;
   border: var(--size-1) solid var(--clr-border-subtle);
   border-radius: var(--radius-md);

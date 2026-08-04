@@ -19,13 +19,13 @@ export type GridGap = '0' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     :host([data-gap="lg"]) { gap: var(--size-24); }
     :host([data-gap="xl"]) { gap: var(--size-32); }
 
-    @media (min-width: 768px) {
+    @media (min-width: 48rem) {
       :host {
         grid-template-columns: repeat(var(--grid-cols-md, var(--grid-cols, 1)), minmax(0, 1fr));
       }
     }
 
-    @media (min-width: 1024px) {
+    @media (min-width: 64rem) {
       :host {
         grid-template-columns: repeat(var(--grid-cols-lg, var(--grid-cols-md, var(--grid-cols, 1))), minmax(0, 1fr));
       }

@@ -18,12 +18,12 @@
 
 .tours-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(calc(var(--size-10) * 28), 1fr));
   gap: 1rem;
 }
 
 .tour-skeleton {
-  height: 280px;
+  height: calc(var(--size-10) * 28);
   border-radius: var(--radius-lg);
 }
 
@@ -160,7 +160,7 @@
   border-radius: var(--radius-lg);
   padding: 1.5rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 25rem;
   box-shadow: var(--shadow-xl);
   display: flex;
   flex-direction: column;

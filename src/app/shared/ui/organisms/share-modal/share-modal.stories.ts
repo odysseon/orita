@@ -52,7 +52,7 @@ const meta: Meta<ShareModalComponent> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="min-height: 500px; padding: 1rem; background: var(--surface-page);">
+      <div style="min-height: 31.25rem; padding: 1rem; background: var(--surface-page);">
         <button type="button" class="btn" (click)="isOpen = true">Open Share Modal</button>
         <ui-share-modal
           [isOpen]="isOpen"

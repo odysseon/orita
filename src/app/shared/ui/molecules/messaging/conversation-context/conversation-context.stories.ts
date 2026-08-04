@@ -8,7 +8,7 @@ const meta: Meta<ConversationContext> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="max-width: 500px; padding: 1rem; background: var(--surface-page); display: flex; flex-direction: column; gap: 1rem;">
+      <div style="max-width: 31.25rem; padding: 1rem; background: var(--surface-page); display: flex; flex-direction: column; gap: 1rem;">
         <ui-conversation-context [anchor]="anchor" />
       </div>
     `,

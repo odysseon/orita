@@ -34,7 +34,7 @@ const meta: Meta<List> = {
       ],
     },
     template: `
-      <div style="max-width: 400px; padding: var(--size-20); background: var(--surface-container); border-radius: var(--radius-xl);">
+      <div style="max-width: 25rem; padding: var(--size-20); background: var(--surface-container); border-radius: var(--radius-xl);">
         <h3 style="margin-bottom: var(--size-16); font-size: var(--size-14); color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Dynamic List Example</h3>
         <ui-list [bordered]="bordered" [dividers]="dividers" [padding]="padding" [radius]="radius">
           <button uiListItem>

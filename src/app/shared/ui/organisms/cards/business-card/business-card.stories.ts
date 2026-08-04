@@ -26,7 +26,7 @@ const meta: Meta<BusinessCard> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="max-width: 500px;">
+      <div style="max-width: 31.25rem;">
         <ui-business-card [business]="business" [coverUrl]="coverUrl">
           <div card-description>
             We sell the best vintage leather jackets in town. Visit our store to find your perfect fit.

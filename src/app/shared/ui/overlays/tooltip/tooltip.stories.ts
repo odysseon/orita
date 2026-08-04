@@ -39,7 +39,7 @@ import { Button } from '../../atoms/button/button';
 
       <section style="text-align: center; margin-top: 5rem;">
         <h3 style="margin-bottom: 2rem; color: var(--text-primary); font-family: sans-serif;">Collision Detection</h3>
-        <p style="margin-bottom: 2rem; color: var(--text-secondary); max-width: 400px; font-family: sans-serif;">
+        <p style="margin-bottom: 2rem; color: var(--text-secondary); max-width: 25rem; font-family: sans-serif;">
           Scroll this view or resize the window so the button below is near an edge, then hover over it. The tooltip should flip to stay within the viewport.
         </p>
         <button app-button intent="primary" appTooltip="This is a long tooltip that will definitely collide if placed near an edge" position="bottom-start">

@@ -12,7 +12,7 @@ import { LucideUser, LucideSettings, LucideLogOut } from '@lucide/angular';
   template: `
     <div style="padding: 4rem; display: flex; flex-direction: column; gap: 4rem; background: var(--surface-page); align-items: center; min-height: 100vh;">
       
-      <section style="text-align: center; width: 100%; max-width: 600px;">
+      <section style="text-align: center; width: 100%; max-width: 37.5rem;">
         <h3 style="margin-bottom: 2rem; color: var(--text-primary); font-family: sans-serif;">Basic Menu Dropdown</h3>
         <button app-button [appDropdownTrigger]="menu1" position="bottom-center">
           Open Menu
@@ -37,7 +37,7 @@ import { LucideUser, LucideSettings, LucideLogOut } from '@lucide/angular';
         </ng-template>
       </section>
 
-      <section style="text-align: center; width: 100%; max-width: 600px;">
+      <section style="text-align: center; width: 100%; max-width: 37.5rem;">
         <h3 style="margin-bottom: 2rem; color: var(--text-primary); font-family: sans-serif;">Long Menu (Scrollable)</h3>
         <button app-button appearance="outline" [appDropdownTrigger]="menu2" position="bottom-start">
           Open Long Menu
@@ -55,7 +55,7 @@ import { LucideUser, LucideSettings, LucideLogOut } from '@lucide/angular';
         </p>
       </section>
 
-      <section style="text-align: center; width: 100%; max-width: 600px; margin-top: auto; padding-top: 5rem;">
+      <section style="text-align: center; width: 100%; max-width: 37.5rem; margin-top: auto; padding-top: 5rem;">
         <h3 style="margin-bottom: 2rem; color: var(--text-primary); font-family: sans-serif;">Collision Detection (Bottom Edge)</h3>
         <button app-button intent="primary" [appDropdownTrigger]="menu3" position="bottom-end">
           I'm near the bottom
