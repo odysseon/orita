@@ -1,10 +1,10 @@
 <app-card 
-  class="post-card" 
   [appearance]="appearance()" 
   [padding]="appearance() === 'plain' ? 'none' : 'md'" 
   [radius]="appearance() === 'plain' ? 'none' : 'lg'"
 >
-  <div class="post-card__avatar">
+  <div class="post-card">
+    <div class="post-card__avatar">
     @if (item().author?.avatarUrl) {
       <img [src]="item().author.avatarUrl" [alt]="item().author.displayName || item().author.username || ''" />
     } @else {
@@ -51,6 +51,7 @@
           Manage
         </button>
       }
+    </div>
     </div>
   </div>
 </app-card>
