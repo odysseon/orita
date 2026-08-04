@@ -53,7 +53,7 @@
 
   padding: 0.6rem 1rem;
 
-  border-radius: 999px;
+  border-radius: calc(var(--size-1) * 999);
 
   background: color-mix(in oklch, var(--text-on-dark) 90%, transparent);
 
@@ -108,7 +108,7 @@
   align-items: center;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 60rem) {
   .tour {
     grid-template-columns: 1fr;
   }

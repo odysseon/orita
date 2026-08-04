@@ -4,7 +4,7 @@
 }
 
 /* Hide back button on desktop screens where conversation sidebar is visible */
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   :host ::ng-deep button[aria-label="Go Back"] {
     display: none;
   }

@@ -8,7 +8,7 @@ import { Component, computed, signal } from '@angular/core';
   selector: 'app-combobox-demo',
   imports: [Combobox, ComboboxInput, ComboboxList, ComboboxOption, SearchBar, InputDirective],
   template: `
-    <div style="max-width: 400px; padding: var(--size-20); border: var(--size-1) solid var(--border-default); border-radius: var(--radius-md);">
+    <div style="max-width: 25rem; padding: var(--size-20); border: var(--size-1) solid var(--border-default); border-radius: var(--radius-md);">
       
       <ui-combobox [value]="selected()" (selected)="onSelect($event)">
         <ui-search-bar>

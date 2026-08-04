@@ -18,7 +18,7 @@ import { Divider } from './divider';
 
       <section>
         <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Vertical</h3>
-        <div style="display: flex; align-items: center; height: 50px; gap: 1rem;">
+        <div style="display: flex; align-items: center; height: calc(var(--size-10) * 5); gap: 1rem;">
           <span style="color: var(--text-secondary);">Left</span>
           <app-divider orientation="vertical"></app-divider>
           <span style="color: var(--text-secondary);">Right</span>

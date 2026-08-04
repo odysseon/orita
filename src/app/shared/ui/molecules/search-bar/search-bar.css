@@ -46,7 +46,7 @@
   justify-content: center;
   width: var(--size-24);
   height: var(--size-24);
-  border-radius: 999px;
+  border-radius: calc(var(--size-1) * 999);
   border: none;
   background: transparent;
   color: var(--text-muted);

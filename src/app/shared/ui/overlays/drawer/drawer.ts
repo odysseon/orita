@@ -68,7 +68,7 @@ export class Drawer implements OnInit, OnDestroy {
   readonly backdropOpacity = computed(() => {
     if (!this.dragService.isDragging()) return this.isOpenPhase() ? 1 : 0;
     const delta = Math.abs(this.dragService.dragDelta());
-    const size = this.drawerSizePx();
+    const size = this.drawerSize();
     if (size === 0) return 1;
     return Math.max(0, 1 - delta / size);
   });
@@ -83,11 +83,11 @@ export class Drawer implements OnInit, OnDestroy {
     if (pos === 'left' || pos === 'right') {
       const widthMap: Record<DrawerSize, string> = {
         sm: 'var(--size-320, var(--size-320))',
-        md: 'var(--size-400, 400px)',
+        md: 'var(--size-400)',
         lg: 'var(--size-560, var(--size-560))',
         full: '100vw',
       };
-      base['width'] = widthMap[s] ?? 'var(--size-400, 400px)';
+      base['width'] = widthMap[s] ?? 'var(--size-400)';
       base['max-width'] = '100vw';
       base['height'] = '100%';
     } else if (pos === 'top' || pos === 'bottom') {
@@ -102,9 +102,9 @@ export class Drawer implements OnInit, OnDestroy {
       base['max-height'] = maxHeightMap[s] ?? 'min(65vh, 65dvh)';
     } else {
       const widthMap: Record<DrawerSize, string> = {
-        sm: 'var(--size-360, 360px)',
+        sm: 'var(--size-360)',
         md: 'var(--size-480, var(--size-480))',
-        lg: 'var(--size-640, 640px)',
+        lg: 'var(--size-640)',
         full: '95vw',
       };
       const maxHeightMap: Record<DrawerSize, string> = {
@@ -134,7 +134,7 @@ export class Drawer implements OnInit, OnDestroy {
       isCenter: this.isCenter,
       isVertical: this.isVertical,
       dismissible: this.dismissible,
-      drawerSizePx: () => this.drawerSizePx(),
+      drawerSize: () => this.drawerSize(),
       requestClose: () => this.requestClose(),
     });
 
@@ -240,7 +240,7 @@ export class Drawer implements OnInit, OnDestroy {
     this.closed.emit();
   }
 
-  private drawerSizePx(): number {
+  private drawerSize(): number {
     return this.panelRef()?.nativeElement[this.isVertical() ? 'offsetHeight' : 'offsetWidth'] ?? 0;
   }
 }

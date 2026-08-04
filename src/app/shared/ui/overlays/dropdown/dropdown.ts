@@ -48,7 +48,7 @@ export class DropdownTrigger implements OnDestroy {
     const destroyRef = inject(DestroyRef);
 
     if (isPlatformBrowser(platformId)) {
-      const mql = window.matchMedia('(max-width: 600px)');
+      const mql = window.matchMedia('(max-width: 37.5rem)');
       this.isMobile.set(mql.matches);
       const listener = (e: MediaQueryListEvent) => {
         this.isMobile.set(e.matches);
@@ -153,8 +153,8 @@ export class DropdownTrigger implements OnDestroy {
   template: `<ng-container *ngTemplateOutlet="template()"></ng-container>`,
   host: {
     'class': 'app-dropdown-overlay',
-    '[style.top.px]': 'pos()?.top ?? 0',
-    '[style.left.px]': 'pos()?.left ?? 0',
+    '[style.top]': '`calc(var(--size-1) * ${pos()?.top ?? 0})`',
+    '[style.left]': '`calc(var(--size-1) * ${pos()?.left ?? 0})`',
     '[style.opacity]': 'pos() ? 1 : 0',
     '[style.pointer-events]': 'pos() ? "auto" : "none"',
   }

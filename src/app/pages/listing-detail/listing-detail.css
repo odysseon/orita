@@ -16,7 +16,7 @@
 }
 
 .skeleton--cover {
-  height: 220px;
+  height: calc(var(--size-10) * 22);
 }
 
 .skeleton--title {
@@ -39,7 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 220px;
+  height: calc(var(--size-10) * 22);
   border-radius: var(--radius-lg);
   background: var(--surface-container);
   color: var(--text-muted);

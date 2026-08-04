@@ -41,7 +41,7 @@ import { Pagination } from './pagination';
 
       <section>
         <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-family: sans-serif;">Mobile Emulation (Collapses siblings)</h3>
-        <div style="width: 375px; padding: 1rem; border: var(--size-1) dashed var(--border-strong);">
+        <div style="width: calc(var(--size-1) * 375); padding: 1rem; border: var(--size-1) dashed var(--border-strong);">
           <app-pagination 
             [currentPage]="page4()" 
             [totalPages]="40" 
@@ -50,7 +50,7 @@ import { Pagination } from './pagination';
           </app-pagination>
         </div>
         <p style="margin-top: 0.5rem; font-family: sans-serif; font-size: 0.85rem; color: var(--text-muted);">
-          Note: Mobile collapse is based on actual window.matchMedia('(max-width: 600px)'). Resize your browser to see it snap to showing 0 siblings (only First, Last, Current).
+          Note: Mobile collapse is based on actual window.matchMedia('(max-width: 37.5rem)'). Resize your browser to see it snap to showing 0 siblings (only First, Last, Current).
         </p>
       </section>
 

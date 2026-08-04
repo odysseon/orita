@@ -5,7 +5,7 @@
   right: 0;
   bottom: 0;
   background: color-mix(in oklch, var(--surface-ink) 95%, transparent);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(calc(var(--size-1) * 5));
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -34,7 +34,7 @@
 .viewer-counter {
   font-size: 1rem;
   font-weight: 500;
-  text-shadow: 0 var(--size-1) 3px color-mix(in oklch, var(--surface-ink) 50%, transparent);
+  text-shadow: 0 var(--size-1) calc(var(--size-1) * 3) color-mix(in oklch, var(--surface-ink) 50%, transparent);
 }
 
 .btn-icon {

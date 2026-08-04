@@ -82,7 +82,7 @@ export class App {
 
   constructor() {
     if (isPlatformBrowser(this.#platformId)) {
-      const mediaQuery = window.matchMedia('(min-width: 768px)');
+      const mediaQuery = window.matchMedia('(min-width: 48rem)');
       this.isDesktop.set(mediaQuery.matches);
 
       mediaQuery.addEventListener('change', (e) => {

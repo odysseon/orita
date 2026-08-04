@@ -13,7 +13,7 @@
         </ui-empty-state>
       </div>
     } @else if (loading()) {
-      <div style="max-width: 600px; margin: 0 auto;">
+      <div style="max-width: 37.5rem; margin: 0 auto;">
         <ui-list [bordered]="false" [dividers]="true" [padding]="true" [radius]="false">
           @for (i of [1,2,3,4,5,6]; track i) {
             <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">
@@ -45,7 +45,7 @@
         </div>
       }
 
-      <section class="section" style="max-width: 600px; margin: 0 auto;">
+      <section class="section" style="max-width: 37.5rem; margin: 0 auto;">
         <ui-list [bordered]="false" [dividers]="true" [padding]="true" [radius]="false">
           @for (item of items(); track item.id) {
             @defer (on viewport; prefetch on idle) {
@@ -62,7 +62,7 @@
       </section>
 
       @if (loading()) {
-        <div style="max-width: 600px; margin: 0 auto;">
+        <div style="max-width: 37.5rem; margin: 0 auto;">
           <ui-list [bordered]="false" [dividers]="true" [padding]="true" [radius]="false">
             @for (i of [1,2,3]; track i) {
               <div uiListItem style="align-items: flex-start; cursor: default; width: 100%;">

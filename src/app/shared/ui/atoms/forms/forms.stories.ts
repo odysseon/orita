@@ -12,7 +12,7 @@ import { AppFormField } from '../form-field/form-field';
     AppFormField
   ],
   template: `
-    <div style="padding: 2rem; display: flex; flex-direction: column; gap: 3rem; background: var(--surface-page); font-family: sans-serif; max-width: 600px;">
+    <div style="padding: 2rem; display: flex; flex-direction: column; gap: 3rem; background: var(--surface-page); font-family: sans-serif; max-width: 37.5rem;">
       
       <section>
         <h3 style="margin-bottom: 1.5rem; color: var(--text-primary);">1. Text Input</h3>

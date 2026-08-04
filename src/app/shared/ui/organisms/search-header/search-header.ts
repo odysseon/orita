@@ -61,7 +61,7 @@ import { AuthService } from '../../../../core/services/auth.service';
     :host { display: block; width: 100%; }
     .search-container {
       width: 100%;
-      max-width: 600px;
+      max-width: 37.5rem;
     }
   `]
 })

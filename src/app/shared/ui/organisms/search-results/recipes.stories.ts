@@ -28,7 +28,7 @@ const meta: Meta = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="display: flex; flex-direction: column; gap: 2rem; max-width: 500px; font-family: sans-serif;">
+      <div style="display: flex; flex-direction: column; gap: 2rem; max-width: 31.25rem; font-family: sans-serif;">
         <ui-list [bordered]="true" [dividers]="true">
           
           <div style="padding: var(--size-12) var(--size-16); font-weight: var(--font-weight-semibold); font-size: var(--font-size-md); border-bottom: var(--size-1) solid var(--border-subtle); background: var(--surface-container-low);">

@@ -12,7 +12,7 @@
 
 .listing-attributes__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(calc(var(--size-10) * 18), 1fr));
   gap: var(--size-12);
   background: var(--surface-card);
   padding: var(--size-16);

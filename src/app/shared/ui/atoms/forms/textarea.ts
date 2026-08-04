@@ -7,7 +7,7 @@ import { Directive, ElementRef, HostListener, DoCheck, inject } from '@angular/c
     '[class.app-textarea]': 'true',
     '[style.resize]': '"none"',
     '[style.overflow]': '"hidden"',
-    '[style.min-height.px]': '40'
+    '[style.min-height]': '`calc(var(--size-1) * ${40})`'
   }
 })
 export class TextareaDirective implements DoCheck {
@@ -31,6 +31,6 @@ export class TextareaDirective implements DoCheck {
     const textarea = this.el.nativeElement;
     // Reset height to auto to get the correct scrollHeight if it shrank
     textarea.style.height = 'auto';
-    textarea.style.height = `${textarea.scrollHeight}px`;
+    textarea.style.height = `calc(var(--size-1) * ${textarea.scrollHeight})`;
   }
 }

@@ -16,7 +16,7 @@ const meta: Meta<CoverMedia> = {
       imports: [LucideImage],
     },
     template: `
-      <div style="max-width: 400px; border-radius: var(--size-12); overflow: hidden;" class="demo-card">
+      <div style="max-width: 25rem; border-radius: var(--size-12); overflow: hidden;" class="demo-card">
         <style>
           .demo-card:hover .ui-cover-media__img {
             transform: scale(1.05);

@@ -34,7 +34,7 @@ const meta: Meta<ListingCard> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="max-width: 340px;">
+      <div style="max-width: 21.25rem;">
         <ui-listing-card [listing]="listing">
           <!-- Meta Slot -->
           <div card-meta>

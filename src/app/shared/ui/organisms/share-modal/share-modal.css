@@ -177,7 +177,7 @@
 }
 
 /* -- Small phones: tighten density ------------------------------- */
-@media (max-width: 380px) {
+@media (max-width: 23.75rem) {
   .target-image,
   .target-image-placeholder {
     width: var(--size-40);
@@ -190,7 +190,7 @@
 }
 
 /* -- Tablet / desktop: stop being a full-bleed sheet -------------- */
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .share-modal-content {
     max-width: var(--size-480);
     margin-inline: auto;

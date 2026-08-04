@@ -64,7 +64,7 @@ const meta: Meta<AttachSheetComponent> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="min-height: 500px; padding: 1rem; background: var(--surface-page);">
+      <div style="min-height: 31.25rem; padding: 1rem; background: var(--surface-page);">
         <button type="button" class="btn" (click)="isOpen = true">Open Attach Sheet</button>
         <ui-attach-sheet
           [isOpen]="isOpen"

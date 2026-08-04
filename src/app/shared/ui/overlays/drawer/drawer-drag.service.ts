@@ -26,7 +26,7 @@ export class DrawerDragService {
   private isCenter!: Signal<boolean>;
   private isVertical!: Signal<boolean>;
   private dismissible!: Signal<boolean>;
-  private drawerSizePx!: () => number;
+  private drawerSize!: () => number;
   private requestClose!: () => void;
 
   init(config: {
@@ -34,14 +34,14 @@ export class DrawerDragService {
     isCenter: Signal<boolean>;
     isVertical: Signal<boolean>;
     dismissible: Signal<boolean>;
-    drawerSizePx: () => number;
+    drawerSize: () => number;
     requestClose: () => void;
   }): void {
     this.position = config.position;
     this.isCenter = config.isCenter;
     this.isVertical = config.isVertical;
     this.dismissible = config.dismissible;
-    this.drawerSizePx = config.drawerSizePx;
+    this.drawerSize = config.drawerSize;
     this.requestClose = config.requestClose;
   }
 
@@ -51,13 +51,13 @@ export class DrawerDragService {
     const pos = this.position();
     switch (pos) {
       case 'left':
-        return `translateX(${Math.min(delta, 0)}px)`;
+        return `translateX(calc(var(--size-1) * ${Math.min(delta, 0)}))`;
       case 'right':
-        return `translateX(${Math.max(delta, 0)}px)`;
+        return `translateX(calc(var(--size-1) * ${Math.max(delta, 0)}))`;
       case 'top':
-        return `translateY(${Math.min(delta, 0)}px)`;
+        return `translateY(calc(var(--size-1) * ${Math.min(delta, 0)}))`;
       case 'bottom':
-        return `translateY(${Math.max(delta, 0)}px)`;
+        return `translateY(calc(var(--size-1) * ${Math.max(delta, 0)}))`;
       default:
         return '';
     }
@@ -98,7 +98,7 @@ export class DrawerDragService {
     const delta = Math.abs(this.pointer.currentDelta);
     const elapsed = event.timeStamp - this.pointer.startTime;
     const velocity = elapsed > 0 ? delta / elapsed : 0;
-    const size = this.drawerSizePx();
+    const size = this.drawerSize();
 
     const pastDistance = size > 0 && delta / size > DISTANCE_THRESHOLD;
     const pastVelocity = velocity > VELOCITY_THRESHOLD;

@@ -135,7 +135,7 @@
   color: var(--text-secondary);
 }
 
-@media (max-width: 960px) {
+@media (max-width: 60rem) {
   .hero__content {
     grid-template-columns: 1fr;
     text-align: center;

@@ -75,7 +75,7 @@
   font-size: var(--font-size-sm);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .footer__top {
     flex-direction: column;
   }

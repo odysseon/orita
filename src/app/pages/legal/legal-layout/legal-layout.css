@@ -15,7 +15,7 @@
 
 .legal-layout__container {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: calc(var(--size-10) * 24) 1fr;
   gap: var(--size-64);
   align-items: flex-start;
 }
@@ -63,7 +63,7 @@
 }
 
 .legal-layout__content {
-  max-width: 800px;
+  max-width: 50rem;
   background: var(--surface-card);
   padding: var(--size-48);
   border-radius: var(--radius-xl);
@@ -112,7 +112,7 @@
   color: var(--text-primary);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 56.25rem) {
   .legal-layout__container {
     grid-template-columns: 1fr;
     gap: var(--size-32);

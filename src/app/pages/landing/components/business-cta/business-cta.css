@@ -67,7 +67,7 @@
 .profile__chips span {
   padding: 0.5rem 1rem;
 
-  border-radius: 999px;
+  border-radius: calc(var(--size-1) * 999);
 
   background: var(--surface-container);
 }
@@ -128,7 +128,7 @@
   font-weight: 600;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 60rem) {
   .business {
     grid-template-columns: 1fr;
   }

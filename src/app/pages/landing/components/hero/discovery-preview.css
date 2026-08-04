@@ -31,7 +31,7 @@
 
   padding: 0.9rem 1rem;
 
-  border-radius: 999px;
+  border-radius: calc(var(--size-1) * 999);
 
   background: var(--surface-page);
 }
@@ -87,7 +87,7 @@
 .store-tour {
   padding: 0.35rem 0.75rem;
 
-  border-radius: 999px;
+  border-radius: calc(var(--size-1) * 999);
 
   background: var(--clr-primary-container);
 
@@ -117,7 +117,7 @@
 .product-chip {
   padding: 0.45rem 0.9rem;
 
-  border-radius: 999px;
+  border-radius: calc(var(--size-1) * 999);
 
   background: var(--surface-page);
 

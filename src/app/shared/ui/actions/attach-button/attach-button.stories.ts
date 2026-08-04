@@ -137,7 +137,7 @@ export const Interactive: Story = {
 export const InMessageComposer: Story = {
   render: () => ({
     template: `
-      <div style="display: flex; gap: var(--size-12); padding: var(--size-16); background: #f8f9fa; border-radius: var(--size-12); max-width: 500px; align-items: center; border: var(--size-1) solid #e9ecef;">
+      <div style="display: flex; gap: var(--size-12); padding: var(--size-16); background: #f8f9fa; border-radius: var(--size-12); max-width: 31.25rem; align-items: center; border: var(--size-1) solid #e9ecef;">
         <ui-attach-button (attach)="console.log('Attach clicked')" />
         <input
           type="text"

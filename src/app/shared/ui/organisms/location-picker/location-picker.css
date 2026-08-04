@@ -33,7 +33,7 @@
   max-width: var(--size-200);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .location-picker__label {
     max-width: var(--size-320);
   }
@@ -67,7 +67,7 @@
 }
 
 .location-picker__results {
-  max-height: 250px;
+  max-height: 15.625rem;
   overflow-y: auto;
   margin-top: var(--size-8);
 }

@@ -11,7 +11,7 @@ import { Skeleton } from './skeleton';
       
       <section>
         <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-family: sans-serif;">Basic Example (Card)</h3>
-        <div style="padding: 1rem; border: var(--size-1) solid var(--border-subtle); border-radius: var(--radius-md); max-width: 300px;">
+        <div style="padding: 1rem; border: var(--size-1) solid var(--border-subtle); border-radius: var(--radius-md); max-width: 18.75rem;">
           <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
             <app-skeleton shape="circle" width="var(--size-40)" height="var(--size-40)"></app-skeleton>
             <div style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1;">
@@ -30,9 +30,9 @@ import { Skeleton } from './skeleton';
       <section>
         <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-family: sans-serif;">Shapes</h3>
         <div style="display: flex; gap: 1rem; align-items: center;">
-          <app-skeleton shape="text" width="100px" height="1.2rem"></app-skeleton>
-          <app-skeleton shape="rect" width="100px" height="60px"></app-skeleton>
-          <app-skeleton shape="circle" width="60px" height="60px"></app-skeleton>
+          <app-skeleton shape="text" width="calc(var(--size-10) * 10)" height="1.2rem"></app-skeleton>
+          <app-skeleton shape="rect" width="calc(var(--size-10) * 10)" height="calc(var(--size-10) * 6)"></app-skeleton>
+          <app-skeleton shape="circle" width="calc(var(--size-10) * 6)" height="calc(var(--size-10) * 6)"></app-skeleton>
         </div>
       </section>
 

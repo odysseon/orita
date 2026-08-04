@@ -41,7 +41,7 @@ app-badge.nav-badge,
   height: var(--size-18);
   min-width: var(--size-18);
   padding: 0 var(--size-4);
-  border-radius: var(--radius-pill, 9999px);
+  border-radius: var(--radius-pill);
   display: inline-flex;
   align-items: center;
   justify-content: center;

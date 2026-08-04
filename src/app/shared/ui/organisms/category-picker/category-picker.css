@@ -72,7 +72,7 @@
 .drawer-search-input {
   width: 100%;
   box-sizing: border-box;
-  height: 44px;
+  height: calc(var(--size-1) * 44);
   padding: 0 var(--size-12) 0 calc(var(--size-12) * 2 + var(--size-18));
   border: var(--size-1) solid var(--border-default);
   border-radius: var(--radius-lg);
@@ -85,7 +85,7 @@
   border: var(--size-1) solid var(--border-subtle);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  max-height: 300px;
+  max-height: 18.75rem;
   overflow-y: auto;
 }
 

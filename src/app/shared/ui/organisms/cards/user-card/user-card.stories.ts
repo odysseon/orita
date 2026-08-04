@@ -12,7 +12,7 @@ const meta: Meta<UserCard> = {
       imports: [FollowButton],
     },
     template: `
-      <div style="max-width: 400px;">
+      <div style="max-width: 25rem;">
         <ui-user-card [user]="user" [bio]="bio">
             <!-- Actions Slot -->
             <div card-actions>

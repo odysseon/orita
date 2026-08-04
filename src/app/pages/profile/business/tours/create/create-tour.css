@@ -6,7 +6,7 @@
       padding: var(--size-24) var(--size-16);
     }
     .content-wrapper {
-      max-width: 800px;
+      max-width: 50rem;
       margin: 0 auto;
     }
     .page-header {

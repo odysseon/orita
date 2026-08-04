@@ -27,7 +27,7 @@
   gap: var(--space-lg);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .edit-container {
     grid-template-columns: 2fr 1fr;
   }
@@ -82,7 +82,7 @@
   gap: var(--space-sm);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .attributes-grid {
     grid-template-columns: 1fr 1fr;
   }

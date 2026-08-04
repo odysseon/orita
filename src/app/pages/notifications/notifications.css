@@ -1,6 +1,6 @@
 .notifications-page {
-  padding: var(--space-md) var(--space-md) calc(var(--bottom-nav-height, 70px) + var(--space-xl));
-  max-width: var(--size-640, 640px);
+  padding: var(--space-md) var(--space-md) calc(var(--bottom-nav-height) + var(--space-xl));
+  max-width: var(--size-640);
   margin: 0 auto;
 }
 

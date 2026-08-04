@@ -30,7 +30,7 @@ import { Component } from '@angular/core';
       margin-right: calc(var(--size-16) * -1);
     }
     
-    @media (min-width: 768px) {
+    @media (min-width: 48rem) {
       .ui-carousel-scroll-area {
         padding-left: var(--size-24);
         padding-right: var(--size-24);
@@ -57,7 +57,7 @@ export class Carousel {}
       flex-shrink: 0;
     }
     
-    @media (min-width: 768px) {
+    @media (min-width: 48rem) {
       :host {
         scroll-snap-align: start;
       }

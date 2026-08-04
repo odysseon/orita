@@ -26,7 +26,7 @@
               [src]="item.url" 
               [alt]="item.alt || 'Media viewer image'"
               class="viewer-media image"
-              [style.transform]="'scale(' + scale() + ') translate(' + translateX() + 'px, ' + translateY() + 'px)'"
+              [style.transform]="'scale(' + scale() + ') translate(calc(var(--size-1) * ' + translateX() + '), calc(var(--size-1) * ' + translateY() + '))'"
               [style.transition]="isSwiping ? 'none' : 'transform 0.2s ease-out'"
             />
           } @else if (item.kind === 'VIDEO') {

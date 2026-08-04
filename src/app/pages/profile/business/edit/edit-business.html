@@ -3,7 +3,7 @@
     <div class="edit-biz-skeleton">
       <app-skeleton class="skeleton--title"></app-skeleton>
       <app-skeleton class="skeleton--text"></app-skeleton>
-      <app-skeleton class="skeleton--text" style="height: 120px;"></app-skeleton>
+      <app-skeleton class="skeleton--text" style="height: calc(var(--size-10) * 12);"></app-skeleton>
     </div>
   } @else if (business.hasValue()) {
     <form (submit)="onSubmit($event)" class="edit-biz-form">
