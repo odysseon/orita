@@ -3,9 +3,9 @@ import { provideRouter, ActivatedRoute } from '@angular/router';
 import { UserIdentity } from '../../identity/user-identity/user-identity';
 import { BusinessIdentity } from '../../identity/business-identity/business-identity';
 import { ListingSearchResult } from './listing-search-result/listing-search-result';
-import { CheckboxDirective } from '../../atoms/forms';
+import { CheckboxDirective } from 'ur-ui';
 import { FollowButton } from '../../actions/follow-button/follow-button';
-import { ListItem, ListItemStart, ListItemContent, ListItemEnd, List } from '../../surfaces/list/list';
+import { ListItem, ListItemStart, ListItemContent, ListItemEnd, List } from 'ur-ui';
 
 const meta: Meta = {
   title: 'Organisms/SearchResults/Recipes',

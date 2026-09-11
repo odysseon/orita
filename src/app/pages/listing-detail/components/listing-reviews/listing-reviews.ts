@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { LucideStar } from '@lucide/angular';
-import { Badge } from '../../../../shared/ui/atoms/badge/badge';
+import { Badge } from 'ur-ui';
 
 @Component({
   selector: 'app-listing-reviews',

@@ -1,15 +1,15 @@
 import { Component, input, output, signal, computed, effect, inject, resource } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
-import { Drawer } from '../../../../shared/ui/overlays/drawer/drawer';
+import { Drawer } from 'ur-ui';
 
-import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
+import { AppFormField } from 'ur-ui';
 import { CategoryService } from '../../../../core/services/category.service';
 import { LocationPicker } from '../../../../shared/ui/organisms/location-picker/location-picker';
 import { Location } from '../../../../core/services/location.service';
-import { Button } from '../../../../shared/ui/atoms/button/button';
-import { SelectDirective } from '../../../../shared/ui/atoms/forms/select';
-import { InputDirective } from '../../../../shared/ui/atoms/forms/input';
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from '../../../../shared/ui/molecules/combobox';
+import { Button } from 'ur-ui';
+import { SelectDirective } from 'ur-ui';
+import { InputDirective } from 'ur-ui';
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from 'ur-ui';
 
 export interface SearchFilterState {
   locationName: string | null;

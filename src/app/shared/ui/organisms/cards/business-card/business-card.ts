@@ -1,8 +1,8 @@
 import { Component, input, output, signal, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CoverMedia } from '../../../surfaces/cover-media/cover-media';
+import { CoverMedia } from 'ur-ui';
 import { BusinessIdentity } from '../../../identity/business-identity/business-identity';
-import { Card } from '../../../atoms/card/card';
+import { Card } from 'ur-ui';
 import { FollowButton } from '../../../actions/follow-button/follow-button';
 import { ShareButton } from '../../../actions/share-button/share-button';
 import { ShareModalComponent } from '../../share-modal/share-modal';

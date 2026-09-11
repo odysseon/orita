@@ -5,13 +5,13 @@ import { UserSearchResult } from '../../../../core/types/share.types';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { AuthService } from '../../../../core/services/auth.service';
 import { resolveEmbedRoute } from '../../../../shared/utils/embed.utils';
-import { Drawer } from '../../overlays/drawer/drawer';
-import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../surfaces/list/list';
-import { SearchBar } from '../../molecules/search-bar/search-bar';
+import { Drawer } from 'ur-ui';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from 'ur-ui';
+import { SearchBar } from 'ur-ui';
 import { LucideX, LucideCheck, LucideShare, LucideSend } from '@lucide/angular';
-import { InputDirective, CheckboxDirective } from '../../atoms/forms';
-import { Avatar } from '../../identity/avatar/avatar';
-import { Button } from '../../atoms/button/button';
+import { InputDirective, CheckboxDirective } from 'ur-ui';
+import { Avatar } from 'ur-ui';
+import { Button } from 'ur-ui';
 
 @Component({
   selector: 'ui-share-modal',

@@ -1,7 +1,7 @@
 import { Component, input, output, computed, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Button } from '../../../atoms/button/button';
-import { Card, CardAppearance } from '../../../atoms/card/card';
+import { Button } from 'ur-ui';
+import { Card, CardAppearance } from 'ur-ui';
 import { NearbyItemDto } from '../../../../../core/models/discovery';
 
 @Component({

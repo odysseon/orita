@@ -17,11 +17,11 @@ import { ToastService } from '../../../../core/services/toast';
 import { IListing, ICategory, ICreateListing } from './listing.interface';
 import { environment } from '../../../../../environments/environment';
 import { IBusinessProfile } from '../business.interface';
-import { Button } from '../../../../shared/ui/atoms/button/button';
-import { Skeleton } from '../../../../shared/ui/atoms/skeleton/skeleton';
+import { Button } from 'ur-ui';
+import { Skeleton } from 'ur-ui';
 
-import { AppFormField } from '../../../../shared/ui/atoms/form-field/form-field';
-import { Drawer } from '../../../../shared/ui/overlays/drawer/drawer';
+import { AppFormField } from 'ur-ui';
+import { Drawer } from 'ur-ui';
 
 import { CompletionNudge } from '../../../../shared/completion-nudge/completion-nudge';
 import { ListingService } from '../../../../core/services/listing.service';

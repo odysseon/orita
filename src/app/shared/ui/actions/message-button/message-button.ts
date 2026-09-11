@@ -1,5 +1,5 @@
 import { Component, input, inject } from '@angular/core';
-import { Button, ButtonAppearance, ButtonIntent, ButtonSize, ButtonShape } from '../../atoms/button/button';
+import { Button, ButtonAppearance, ButtonIntent, ButtonSize, ButtonShape } from 'ur-ui';
 import { LucideMessageCircle } from '@lucide/angular';
 import { MessagingFacade } from '../../../../core/services/messaging.facade';
 

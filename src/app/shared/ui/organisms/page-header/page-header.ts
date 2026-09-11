@@ -1,8 +1,8 @@
 import { Component, input, output, inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { Header, HeaderStart, HeaderCenter, HeaderEnd } from '../../layouts/header/header';
-import { Button } from '../../atoms/button/button';
+import { Header, HeaderStart, HeaderCenter, HeaderEnd } from 'ur-ui';
+import { Button } from 'ur-ui';
 import { LucideArrowLeft } from '@lucide/angular';
 
 @Component({

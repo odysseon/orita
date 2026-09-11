@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { StoreTourCard } from '../../../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
-import { Grid } from '../../../../shared/ui/layouts/grid/grid';
-import { Button } from '../../../../shared/ui/atoms/button/button';
+import { Grid } from 'ur-ui';
+import { Button } from 'ur-ui';
 import { EmptyState } from '../../../../shared/empty-state/empty-state';
 
 @Component({

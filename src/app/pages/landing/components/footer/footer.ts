@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Divider } from '../../../../shared/ui/atoms/divider/divider';
+import { Divider } from 'ur-ui';
 
 interface FooterLink {
   readonly label: string;

@@ -1,7 +1,7 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { StoreTourCard } from './store-tour-card';
 import { LucidePlay, LucideCalendar } from '@lucide/angular';
-import { Button } from '../../../atoms/button/button';
+import { Button } from 'ur-ui';
 import { Fab } from '../../../actions/fab/fab';
 import { ShareService } from '../../../../../core/services/share.service';
 

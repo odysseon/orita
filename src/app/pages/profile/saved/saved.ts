@@ -11,8 +11,8 @@ import {
 import { ISavedListingItem, IFollowedBusinessItem, IPaginated } from './saved.interface';
 import { environment } from '../../../../environments/environment';
 import { ToastService } from '../../../core/services/toast';
-import { Button } from '../../../shared/ui/atoms/button/button';
-import { Skeleton } from '../../../shared/ui/atoms/skeleton/skeleton';
+import { Button } from 'ur-ui';
+import { Skeleton } from 'ur-ui';
 
 type SavedTab = 'following' | 'listings';
 

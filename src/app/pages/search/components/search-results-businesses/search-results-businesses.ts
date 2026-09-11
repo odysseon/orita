@@ -1,10 +1,10 @@
 import { Component, input, output } from '@angular/core';
 import {
   List, ListItem, ListItemContent, ListItemEnd,
-} from '../../../../shared/ui/surfaces/list/list';
+} from 'ur-ui';
 import { BusinessIdentity } from '../../../../shared/ui/identity/business-identity/business-identity';
 import { FollowButton } from '../../../../shared/ui/actions/follow-button/follow-button';
-import { Button } from '../../../../shared/ui/atoms/button/button';
+import { Button } from 'ur-ui';
 import { EmptyState } from '../../../../shared/empty-state/empty-state';
 
 @Component({

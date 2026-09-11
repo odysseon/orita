@@ -18,11 +18,11 @@ import {
   LucideImage,
   LucideInfo,
 } from '@lucide/angular';
-import { Badge } from '../../shared/ui/atoms/badge/badge';
-import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
-import { Avatar } from '../../shared/ui/identity/avatar/avatar';
-import { CoverMedia } from '../../shared/ui/surfaces/cover-media/cover-media';
-import { Grid } from '../../shared/ui/layouts/grid/grid';
+import { Badge } from 'ur-ui';
+import { Skeleton } from 'ur-ui';
+import { Avatar } from 'ur-ui';
+import { CoverMedia } from 'ur-ui';
+import { Grid } from 'ur-ui';
 import { ListingCard } from '../../shared/ui/organisms/cards/listing-card/listing-card';
 import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
 import { IBaseServiceArea } from '../profile/business/business.interface';

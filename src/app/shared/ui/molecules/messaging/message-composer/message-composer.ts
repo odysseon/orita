@@ -20,7 +20,7 @@ interface ComposerAttachment {
   kind: 'IMAGE' | 'VIDEO' | 'AUDIO' | 'FILE';
 }
 
-import { Button } from '../../../atoms/button/button';
+import { Button } from 'ur-ui';
 import { SendButton } from '../../../actions/send-button/send-button';
 import { ListingSearchResult } from '../../../organisms/search-results/listing-search-result/listing-search-result';
 

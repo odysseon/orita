@@ -1,9 +1,9 @@
 import { Component, input, output } from '@angular/core';
 import {
   List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd,
-} from '../../../../shared/ui/surfaces/list/list';
+} from 'ur-ui';
 import { FollowButton } from '../../../../shared/ui/actions/follow-button/follow-button';
-import { Button } from '../../../../shared/ui/atoms/button/button';
+import { Button } from 'ur-ui';
 import { EmptyState } from '../../../../shared/empty-state/empty-state';
 import { LucideMapPin } from '@lucide/angular';
 

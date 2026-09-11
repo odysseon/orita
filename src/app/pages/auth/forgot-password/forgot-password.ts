@@ -6,7 +6,7 @@ import { ToastService } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
 import { LucideArrowLeft } from '@lucide/angular';
 
-import { Button } from '../../../shared/ui/atoms/button/button';
+import { Button } from 'ur-ui';
 
 @Component({
   selector: 'app-forgot-password',

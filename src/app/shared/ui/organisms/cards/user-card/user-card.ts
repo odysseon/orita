@@ -1,7 +1,7 @@
 import { Component, input, ViewEncapsulation } from '@angular/core';
 import { UserIdentity } from '../../../identity/user-identity/user-identity';
 
-import { Card } from '../../../atoms/card/card';
+import { Card } from 'ur-ui';
 
 @Component({
   selector: 'ui-user-card',

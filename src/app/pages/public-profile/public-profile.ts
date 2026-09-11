@@ -5,12 +5,12 @@ import { LucideShare,  LucideBriefcase, LucideArrowLeft, LucideChevronRight, Luc
 import { PublicUserService, PublicUserProfile } from '../../core/services/public-user.service';
 import { AuthService } from '../../core/services/auth.service';
 import { MessagingApiService } from '../../core/services/messaging-api.service';
-import { Avatar } from '../../shared/ui/identity/avatar/avatar';
+import { Avatar } from 'ur-ui';
 
-import { Button } from '../../shared/ui/atoms/button/button';
-import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
+import { Button } from 'ur-ui';
+import { Skeleton } from 'ur-ui';
 import { BusinessCard } from '../../shared/ui/organisms/cards/business-card/business-card';
-import { Grid } from '../../shared/ui/layouts/grid/grid';
+import { Grid } from 'ur-ui';
 import { ShareModalComponent } from '../../shared/ui/organisms/share-modal/share-modal';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, input, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Header, HeaderStart, HeaderCenter, HeaderEnd } from '../../layouts/header/header';
-import { Avatar } from '../../identity/avatar/avatar';
+import { Header, HeaderStart, HeaderCenter, HeaderEnd } from 'ur-ui';
+import { Avatar } from 'ur-ui';
 
 import { AuthService } from '../../../../core/services/auth.service';
 

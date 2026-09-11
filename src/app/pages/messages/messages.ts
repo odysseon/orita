@@ -12,10 +12,10 @@ import { DraftMessageService } from '../../core/services/draft-message.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { NotificationsPage } from '../notifications/notifications';
 import { LucideTriangleAlert } from '@lucide/angular';
-import { Button } from '../../shared/ui/atoms/button/button';
-import { Badge } from '../../shared/ui/atoms/badge/badge';
+import { Button } from 'ur-ui';
+import { Badge } from 'ur-ui';
 
-import { Tabs, TabList, TabTrigger } from '../../shared/ui/molecules/tabs';
+import { Tabs, TabList, TabTrigger } from 'ur-ui';
 
 @Component({
   selector: 'app-messages',

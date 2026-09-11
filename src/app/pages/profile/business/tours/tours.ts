@@ -5,7 +5,7 @@ import { httpResource } from '@angular/common/http';
 import { LucidePlus, LucideTrash2, LucideEdit3 } from '@lucide/angular';
 import { environment } from '../../../../../environments/environment';
 import { IPaginated } from '../../../home/home.interface';
-import { Button } from '../../../../shared/ui/atoms/button/button';
+import { Button } from 'ur-ui';
 import { BusinessTourService, IBusinessTour } from '../../../../core/services/business-tour.service';
 import { ToastService } from '../../../../core/services/toast';
 

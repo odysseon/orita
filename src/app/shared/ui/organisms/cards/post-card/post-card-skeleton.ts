@@ -1,6 +1,6 @@
 import { Component, input, ViewEncapsulation } from '@angular/core';
-import { Card, CardAppearance } from '../../../atoms/card/card';
-import { Skeleton } from '../../../atoms/skeleton/skeleton';
+import { Card, CardAppearance } from 'ur-ui';
+import { Skeleton } from 'ur-ui';
 
 @Component({
   selector: 'ui-post-card-skeleton',

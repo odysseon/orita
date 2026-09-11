@@ -1,7 +1,7 @@
 import { Component, input, computed, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucideMapPin } from '@lucide/angular';
-import { Card } from '../../atoms/card/card';
+import { Card } from 'ur-ui';
 
 @Component({
   selector: 'ui-location-identity',

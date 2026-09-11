@@ -1,8 +1,8 @@
 import { Component, input, output } from '@angular/core';
-import { List, ListItem, ListItemContent, ListItemEnd } from '../../../../shared/ui/surfaces/list/list';
+import { List, ListItem, ListItemContent, ListItemEnd } from 'ur-ui';
 import { UserIdentity } from '../../../../shared/ui/identity/user-identity/user-identity';
 import { FollowButton } from '../../../../shared/ui/actions/follow-button/follow-button';
-import { Button } from '../../../../shared/ui/atoms/button/button';
+import { Button } from 'ur-ui';
 import { EmptyState } from '../../../../shared/empty-state/empty-state';
 
 @Component({

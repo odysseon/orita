@@ -12,11 +12,11 @@ import {
 import { environment } from '../../../../../../environments/environment';
 import { ToastService } from '../../../../../core/services/toast';
 import { form, FormField, required } from '@angular/forms/signals';
-import { AppFormField } from '../../../../../shared/ui/atoms/form-field/form-field';
-import { Skeleton } from '../../../../../shared/ui/atoms/skeleton/skeleton';
+import { AppFormField } from 'ur-ui';
+import { Skeleton } from 'ur-ui';
 import { BusinessTourService, IBusinessTour, BusinessTourStatus, IBusinessTourMediaItem } from '../../../../../core/services/business-tour.service';
-import { Button } from '../../../../../shared/ui/atoms/button/button';
-import { SelectDirective } from '../../../../../shared/ui/atoms/forms/select';
+import { Button } from 'ur-ui';
+import { SelectDirective } from 'ur-ui';
 
 @Component({
   selector: 'app-edit-tour',

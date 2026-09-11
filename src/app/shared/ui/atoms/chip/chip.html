@@ -1,8 +1,0 @@
-<span class="chip__content">
-  <ng-content></ng-content>
-</span>
-@if (removable() && !isInteractiveRoot()) {
-  <button type="button" class="chip__remove" (click)="onRemove($event)" aria-label="Remove" [disabled]="disabled()">
-    <svg lucideX aria-hidden="true"></svg>
-  </button>
-}

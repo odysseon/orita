@@ -7,7 +7,7 @@ import {
 import { SaveService } from '../../../../../core/services/save.service';
 import { FollowService } from '../../../../../core/services/follow.service';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
-import { SearchBar } from '../../../molecules/search-bar/search-bar';
+import { SearchBar } from 'ur-ui';
 import {
   List,
   ListItem,
@@ -16,9 +16,9 @@ import {
   ListItemTitle,
   ListItemDescription,
   ListItemEnd,
-} from '../../../surfaces/list/list';
+} from 'ur-ui';
 import { ListingSearchResult } from '../../search-results/listing-search-result/listing-search-result';
-import { CheckboxDirective, InputDirective } from '../../../atoms/forms';
+import { CheckboxDirective, InputDirective } from 'ur-ui';
 import { LucideStore, LucideImage, LucideMapPin } from '@lucide/angular';
 
 export interface AttachSheetOritaItemSelected {

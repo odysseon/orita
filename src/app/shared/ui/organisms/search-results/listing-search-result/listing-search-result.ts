@@ -1,7 +1,7 @@
 import { Component, input, output, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ListItem } from '../../../surfaces/list/list';
-import { Avatar } from '../../../identity/avatar/avatar';
+import { ListItem } from 'ur-ui';
+import { Avatar } from 'ur-ui';
 import { SaveButton } from '../../../actions/save-button/save-button';
 import { CurrencyPipe } from '@angular/common';
 import { resolveEmbedRoute } from '../../../../utils/embed.utils';

@@ -1,11 +1,11 @@
 import { Component, input, output, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ConversationListItem } from '../../list-items/conversation-list-item/conversation-list-item';
-import { List } from '../../../surfaces/list/list';
-import { SearchBar } from '../../../molecules/search-bar/search-bar';
-import { InputDirective } from '../../../atoms/forms';
+import { List } from 'ur-ui';
+import { SearchBar } from 'ur-ui';
+import { InputDirective } from 'ur-ui';
 import { IConversationPreview } from '../../../../../core/services/messaging.types';
-import { Button } from '../../../atoms/button/button';
+import { Button } from 'ur-ui';
 
 @Component({
   selector: 'ui-conversation-sidebar',

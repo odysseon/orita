@@ -1,7 +1,7 @@
 import { Component, input, output, ViewEncapsulation } from '@angular/core';
 import { ListingSearchResult } from '../../../../shared/ui/organisms/search-results/listing-search-result/listing-search-result';
-import { List } from '../../../../shared/ui/surfaces/list/list';
-import { Button } from '../../../../shared/ui/atoms/button/button';
+import { List } from 'ur-ui';
+import { Button } from 'ur-ui';
 import { EmptyState } from '../../../../shared/empty-state/empty-state';
 
 @Component({

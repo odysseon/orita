@@ -3,12 +3,12 @@ import { LucideX, LucideMapPin } from '@lucide/angular';
 import { SearchStore } from './search.store';
 import { SearchFilterState } from './components/search-filters/search-filters';
 import { SearchHeader } from '../../shared/ui/organisms/search-header/search-header';
-import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
-import { Tabs, TabList, TabTrigger } from '../../shared/ui/molecules/tabs';
+import { ScrollHideDirective } from 'ur-ui';
+import { Tabs, TabList, TabTrigger } from 'ur-ui';
 import { SearchFiltersComponent } from './components/search-filters/search-filters';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { EmptyState } from '../../shared/empty-state/empty-state';
-import { Button } from '../../shared/ui/atoms/button/button';
+import { Button } from 'ur-ui';
 
 import { SearchEmptyDashboard } from './components/search-empty-dashboard/search-empty-dashboard';
 import { SearchResultsListings } from './components/search-results-listings/search-results-listings';

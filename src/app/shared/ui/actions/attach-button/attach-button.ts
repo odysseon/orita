@@ -1,5 +1,5 @@
 import { Component, input, output, computed, inject } from '@angular/core';
-import { Button, ButtonAppearance } from '../../atoms/button/button';
+import { Button, ButtonAppearance } from 'ur-ui';
 import { LucidePaperclip } from '@lucide/angular';
 import { ATTACH_BUTTON_I18N } from './attach-button.config';
 

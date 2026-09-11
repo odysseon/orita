@@ -1,12 +1,12 @@
 import { Component, input, output } from '@angular/core';
 import {
   List, ListItem, ListItemContent, ListItemEnd,
-} from '../../../../shared/ui/surfaces/list/list';
+} from 'ur-ui';
 import { BusinessIdentity } from '../../../../shared/ui/identity/business-identity/business-identity';
 import { FollowButton } from '../../../../shared/ui/actions/follow-button/follow-button';
 import { RecentSearches } from '../recent-searches/recent-searches';
 import { TrendingCategories } from '../trending-categories/trending-categories';
-import { Skeleton } from '../../../../shared/ui/atoms/skeleton/skeleton';
+import { Skeleton } from 'ur-ui';
 
 @Component({
   selector: 'app-search-empty-dashboard',

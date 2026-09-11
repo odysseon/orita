@@ -21,8 +21,8 @@ import { ListingReviews } from './components/listing-reviews/listing-reviews';
 import { ListingAttributes } from './components/listing-attributes/listing-attributes';
 import { ListingBusinessCard } from './components/listing-business-card/listing-business-card';
 
-import { Button } from '../../shared/ui/atoms/button/button';
-import { CoverMedia } from '../../shared/ui/surfaces/cover-media/cover-media';
+import { Button } from 'ur-ui';
+import { CoverMedia } from 'ur-ui';
 
 @Component({
   selector: 'app-listing-detail',

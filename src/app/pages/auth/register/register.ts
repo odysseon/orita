@@ -4,12 +4,12 @@ import { AuthService } from '../../../core/services/auth.service';
 import { IRegister } from './register.interface';
 
 import { AppAuthCard } from '../../../shared/auth-card/auth-card';
-import { AppFormField } from '../../../shared/ui/atoms/form-field/form-field';
-import { PasswordField } from '../../../shared/ui/molecules/password-field';
+import { AppFormField } from 'ur-ui';
+import { PasswordField } from 'ur-ui';
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
 import { ValidationService } from '../../../core/services/validation.service';
 
-import { Button } from '../../../shared/ui/atoms/button/button';
+import { Button } from 'ur-ui';
 
 @Component({
   selector: 'app-register',

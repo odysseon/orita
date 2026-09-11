@@ -19,13 +19,13 @@ import { IProfile } from './profile.interface';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 import { CreateBusiness } from './business/create/create-business';
-import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../shared/ui/surfaces/list/list';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from 'ur-ui';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { PageHeader } from '../../shared/ui/organisms/page-header/page-header';
-import { Avatar } from '../../shared/ui/identity/avatar/avatar';
+import { Avatar } from 'ur-ui';
 
-import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
-import { Button } from '../../shared/ui/atoms/button/button';
+import { Skeleton } from 'ur-ui';
+import { Button } from 'ur-ui';
 
 interface NavItem {
   icon: LucideIconInput;

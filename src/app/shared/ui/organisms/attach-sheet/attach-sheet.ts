@@ -1,9 +1,9 @@
 import { Component, input, signal, inject, output, effect, ViewChild } from '@angular/core';
 import { DraftMessageService } from '../../../../core/services/draft-message.service';
 import { AttachmentSelection } from '../../../../core/services/messaging.types';
-import { Drawer } from '../../overlays/drawer/drawer';
-import { Tabs, TabList, TabTrigger } from '../../molecules/tabs';
-import { Button } from '../../atoms/button/button';
+import { Drawer } from 'ur-ui';
+import { Tabs, TabList, TabTrigger } from 'ur-ui';
+import { Button } from 'ur-ui';
 import {
   LucideCamera,
   LucideFileImage,

@@ -5,8 +5,8 @@ import {
   ListItemContent, 
   ListItemTitle, 
   ListItemDescription 
-} from '../../../surfaces/list/list';
-import { Avatar } from '../../../identity/avatar/avatar';
+} from 'ur-ui';
+import { Avatar } from 'ur-ui';
 
 import { DatePipe } from '@angular/common';
 

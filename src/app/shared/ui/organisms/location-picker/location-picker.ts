@@ -3,13 +3,13 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { of, firstValueFrom } from 'rxjs';
 import { LucideMapPin } from '@lucide/angular';
-import { Drawer } from '../../overlays/drawer/drawer';
+import { Drawer } from 'ur-ui';
 
 import { LocationGpsButton } from '../../molecules/location-gps-button/location-gps-button';
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from '../../molecules/combobox';
-import { SearchBar } from '../../molecules/search-bar/search-bar';
-import { InputDirective } from '../../atoms/forms';
-import { Button } from '../../atoms/button/button';
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from 'ur-ui';
+import { SearchBar } from 'ur-ui';
+import { InputDirective } from 'ur-ui';
+import { Button } from 'ur-ui';
 import { LocationService, Location } from '../../../../core/services/location.service';
 import { FollowService } from '../../../../core/services/follow.service';
 import { FollowButton } from '../../actions/follow-button/follow-button';

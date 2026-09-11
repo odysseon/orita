@@ -8,8 +8,8 @@ import { LucideLoaderCircle } from '@lucide/angular';
 import { ToastService } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
 import { IProfile } from '../profile.interface';
-import { AppFormField } from '../../../shared/ui/atoms/form-field/form-field';
-import { Button } from '../../../shared/ui/atoms/button/button';
+import { AppFormField } from 'ur-ui';
+import { Button } from 'ur-ui';
 import { MediaSelector } from '../../../shared/media-selector/media-selector';
 import { MediaService } from '../../../core/services/media.service';
 

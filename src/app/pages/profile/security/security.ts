@@ -16,13 +16,13 @@ import { RouterLink } from '@angular/router';
 import { ToastService } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
 import { IProfile } from '../profile.interface';
-import { Drawer } from '../../../shared/ui/overlays/drawer/drawer';
+import { Drawer } from 'ur-ui';
 
-import { AppFormField } from '../../../shared/ui/atoms/form-field/form-field';
-import { Button } from '../../../shared/ui/atoms/button/button';
+import { AppFormField } from 'ur-ui';
+import { Button } from 'ur-ui';
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
 import { ValidationService } from '../../../core/services/validation.service';
-import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../../shared/ui/surfaces/list/list';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from 'ur-ui';
 
 interface IChangePassword {
   currentPassword: string;

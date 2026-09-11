@@ -2,7 +2,7 @@ import { Component, output, inject, signal, input } from '@angular/core';
 import { LucideMapPin } from '@lucide/angular';
 import { LocationService, Location } from '../../../../core/services/location.service';
 import { firstValueFrom } from 'rxjs';
-import { Button } from '../../atoms/button/button';
+import { Button } from 'ur-ui';
 
 @Component({
   selector: 'ui-location-gps-button',

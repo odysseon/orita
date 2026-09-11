@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Header, HeaderStart, HeaderCenter, HeaderEnd } from '../../layouts/header/header';
-import { Button } from '../../atoms/button/button';
+import { Header, HeaderStart, HeaderCenter, HeaderEnd } from 'ur-ui';
+import { Button } from 'ur-ui';
 import { Logo } from '../../atoms/logo/logo';
 
 @Component({

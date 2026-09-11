@@ -14,8 +14,8 @@ import {
   ListItemTitle,
   ListItemDescription,
   ListItemEnd,
-} from '../../../shared/ui/surfaces/list/list';
-import { RadioDirective } from '../../../shared/ui/atoms/forms/radio';
+} from 'ur-ui';
+import { RadioDirective } from 'ur-ui';
 import { ThemeService, ThemePreference } from '../../../core/services/theme.service';
 
 interface ThemeOption {

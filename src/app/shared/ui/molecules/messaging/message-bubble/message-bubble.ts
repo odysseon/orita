@@ -7,8 +7,8 @@ import { MediaGalleryComponent } from '../../../../components/media-gallery/medi
 import { MediaGalleryItem } from '../../../../components/media-viewer/media-viewer.types';
 import { AttachmentPreviewService } from '../../../../../core/services/attachment-preview.service';
 
-import { Button } from '../../../atoms/button/button';
-import { Avatar } from '../../../identity/avatar/avatar';
+import { Button } from 'ur-ui';
+import { Avatar } from 'ur-ui';
 
 
 @Component({

@@ -4,8 +4,8 @@ import { DatePipe } from '@angular/common';
 import { NotificationService } from '../../core/services/notification.service';
 import { NotificationView } from '../../core/services/notification.types';
 import { LucideBell, LucideTag } from '@lucide/angular';
-import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '../../shared/ui/surfaces/list/list';
-import { Button } from '../../shared/ui/atoms/button/button';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from 'ur-ui';
+import { Button } from 'ur-ui';
 
 @Component({
   selector: 'app-notifications',

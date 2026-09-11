@@ -2,10 +2,10 @@ import { Component, input, output, computed } from '@angular/core';
 import { LucideMoreVertical } from '@lucide/angular';
 import { IConversation, IConversationPreview } from '../../../../../core/services/messaging.types';
 
-import { Button } from '../../../atoms/button/button';
+import { Button } from 'ur-ui';
 import { PageHeader } from '../../../organisms/page-header/page-header';
 import { UserIdentity } from '../../../identity/user-identity/user-identity';
-import { AvatarStatus } from '../../../identity/avatar/avatar';
+import { AvatarStatus } from 'ur-ui';
 
 @Component({
   selector: 'ui-chat-header',

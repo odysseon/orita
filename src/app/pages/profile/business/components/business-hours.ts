@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { LucideClock } from '@lucide/angular';
 import { IBusinessProfile } from '../business.interface';
-import { List, ListItem, ListItemContent, ListItemTitle, ListItemDescription } from '../../../../shared/ui/surfaces/list/list';
+import { List, ListItem, ListItemContent, ListItemTitle, ListItemDescription } from 'ur-ui';
 
 @Component({
   selector: 'app-business-hours',

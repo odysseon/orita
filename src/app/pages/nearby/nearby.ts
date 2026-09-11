@@ -12,11 +12,11 @@ import { PostCard } from '../../shared/ui/organisms/cards/post-card/post-card';
 import { PostCardSkeleton } from '../../shared/ui/organisms/cards/post-card/post-card-skeleton';
 import { NewPostSheet } from './components/new-post-sheet/new-post-sheet';
 import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
-import { List, ListItem } from '../../shared/ui/surfaces/list/list';
-import { Button } from '../../shared/ui/atoms/button/button';
+import { List, ListItem } from 'ur-ui';
+import { Button } from 'ur-ui';
 import { Fab } from '../../shared/ui/actions/fab/fab';
 import { EmptyState } from '../../shared/empty-state/empty-state';
-import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
+import { ScrollHideDirective } from 'ur-ui';
 import { LucideMapPin, LucidePlus } from '@lucide/angular';
 
 @Component({

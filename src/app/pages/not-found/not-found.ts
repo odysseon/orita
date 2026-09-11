@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { LucideFileQuestion } from '@lucide/angular';
-import { Button } from '../../shared/ui/atoms/button/button';
+import { Button } from 'ur-ui';
 
 @Component({
   selector: 'app-not-found',

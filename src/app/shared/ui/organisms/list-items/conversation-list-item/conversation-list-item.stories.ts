@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/angular';
 import { ConversationListItem } from './conversation-list-item';
-import { List } from '../../../surfaces/list/list';
+import { List } from 'ur-ui';
 
 const meta: Meta<ConversationListItem> = {
   title: 'Organisms/ListItems/ConversationListItem',

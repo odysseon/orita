@@ -10,14 +10,14 @@ import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/s
 import { EmptyState } from '../../shared/empty-state/empty-state';
 import { RootHeader } from '../../shared/ui/organisms/root-header/root-header';
 import { LocationPicker } from '../../shared/ui/organisms/location-picker/location-picker';
-import { ScrollHideDirective } from '../../shared/directives/scroll-hide.directive';
-import { Grid } from '../../shared/ui/layouts/grid/grid';
+import { ScrollHideDirective } from 'ur-ui';
+import { Grid } from 'ur-ui';
 import { FeedService, FeedItemView } from '../../core/services/feed.service';
 import { ToastService } from '../../core/services/toast';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { ExplorationService } from '../../core/services/exploration.service';
-import { Skeleton } from '../../shared/ui/atoms/skeleton/skeleton';
-import { Button } from '../../shared/ui/atoms/button/button';
+import { Skeleton } from 'ur-ui';
+import { Button } from 'ur-ui';
 import { FollowService, FollowType } from '../../core/services/follow.service';
 import { SaveService } from '../../core/services/save.service';
 

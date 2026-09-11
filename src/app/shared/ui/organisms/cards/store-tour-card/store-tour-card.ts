@@ -1,6 +1,6 @@
 import { Component, input, output, ViewEncapsulation } from '@angular/core';
-import { CoverMedia } from '../../../surfaces/cover-media/cover-media';
-import { Card } from '../../../atoms/card/card';
+import { CoverMedia } from 'ur-ui';
+import { Card } from 'ur-ui';
 import { BusinessIdentity } from '../../../identity/business-identity/business-identity';
 import { SaveButton } from '../../../actions/save-button/save-button';
 import { ShareButton } from '../../../../share-button/share-button';
