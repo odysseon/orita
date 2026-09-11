@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { PageHeader } from './page-header';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 import { LucideMoreVertical } from '@lucide/angular';
 
 const meta: Meta<PageHeader> = {

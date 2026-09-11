@@ -1,6 +1,6 @@
 import { Component, input, ViewEncapsulation } from '@angular/core';
-import { Card, CardAppearance } from 'ur-ui';
-import { Skeleton } from 'ur-ui';
+import { Card, CardAppearance } from '@odysseon/ur-ui';
+import { Skeleton } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'ui-post-card-skeleton',

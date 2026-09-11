@@ -3,7 +3,7 @@ import { form, FormField, required } from '@angular/forms/signals';
 import { TourFormHighlights } from '../tour-form-highlights/tour-form-highlights';
 import { MediaSelector } from '../../../../../../shared/media-selector/media-selector';
 import { CreateBusinessTourDto, UpdateBusinessTourDto, IBusinessTour, BusinessTourStatus } from '../../../../../../core/services/business-tour.service';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-tour-form',

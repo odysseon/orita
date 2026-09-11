@@ -4,12 +4,12 @@ import { form, FormField, required, email, pattern } from '@angular/forms/signal
 import { AuthService } from '../../../core/services/auth.service';
 
 import { AppAuthCard } from '../../../shared/auth-card/auth-card';
-import { AppFormField } from 'ur-ui';
-import { PasswordField } from 'ur-ui';
+import { AppFormField } from '@odysseon/ur-ui';
+import { PasswordField } from '@odysseon/ur-ui';
 import { AppGoogleSignIn } from '../../../shared/google-sign-in/google-sign-in';
 import { ValidationService } from '../../../core/services/validation.service';
 
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-login',

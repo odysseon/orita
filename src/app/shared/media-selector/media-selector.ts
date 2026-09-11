@@ -8,7 +8,7 @@ import {
   DestroyRef,
 } from '@angular/core';
 import { LucideUpload, LucideX } from '@lucide/angular';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 export interface IMediaPreview {
   url: string;

@@ -1,5 +1,5 @@
 import { Component, input, output, computed, inject } from '@angular/core';
-import { Button, ButtonSize, ButtonLayout } from 'ur-ui';
+import { Button, ButtonSize, ButtonLayout } from '@odysseon/ur-ui';
 import { FOLLOW_BUTTON_I18N } from './follow-button.config';
 
 @Component({

@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { LucidePaperclip } from '@lucide/angular';
 import { AttachButton } from './attach-button';
 import { ATTACH_BUTTON_I18N } from './attach-button.config';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 const meta: Meta<AttachButton> = {
   title: 'Actions/AttachButton',

@@ -1,7 +1,7 @@
 import { Component, input, inject, computed } from '@angular/core';
 import { LucideShare } from '@lucide/angular';
 import { ShareService } from '../../core/services/share.service';
-import { Button, ButtonAppearance, ButtonIntent, ButtonShape, ButtonSize } from 'ur-ui';
+import { Button, ButtonAppearance, ButtonIntent, ButtonShape, ButtonSize } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-share-button',

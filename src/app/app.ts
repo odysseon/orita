@@ -4,11 +4,11 @@ import { RouterOutlet, Router, ActivatedRoute, NavigationEnd } from '@angular/ro
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
 import { ToastContainer } from './core/components/toast-container/toast-container';
-import { Tabs, TabList, TabTrigger } from 'ur-ui';
-import { Button } from 'ur-ui';
+import { Tabs, TabList, TabTrigger } from '@odysseon/ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
-import { ScrollHideDirective } from 'ur-ui';
-import { Badge } from 'ur-ui';
+import { ScrollHideDirective } from '@odysseon/ur-ui';
+import { Badge } from '@odysseon/ur-ui';
 import { LucideHouse, LucideSearch, LucideCompass, LucideMessageCircle, LucideMapPin } from '@lucide/angular';
 import { AuthService } from './core/services/auth.service';
 import { NotificationService } from './core/services/notification.service';

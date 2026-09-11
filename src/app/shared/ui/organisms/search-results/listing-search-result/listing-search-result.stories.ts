@@ -2,7 +2,7 @@ import { Meta, StoryObj, applicationConfig } from '@storybook/angular';
 import { provideRouter } from '@angular/router';
 import { ListingSearchResult } from './listing-search-result';
 import { SaveButton } from '../../../actions/save-button/save-button';
-import { List } from 'ur-ui';
+import { List } from '@odysseon/ur-ui';
 
 const meta: Meta<ListingSearchResult> = {
   title: 'Organisms/SearchResults/ListingSearchResult',

@@ -18,15 +18,15 @@ import {
   ICreateBusinessResponse,
 } from './create-business.interface';
 import { environment } from '../../../../../environments/environment';
-import { AppFormField } from 'ur-ui';
-import { InputDirective } from 'ur-ui';
-import { TextareaDirective } from 'ur-ui';
-import { Drawer } from 'ur-ui';
+import { AppFormField } from '@odysseon/ur-ui';
+import { InputDirective } from '@odysseon/ur-ui';
+import { TextareaDirective } from '@odysseon/ur-ui';
+import { Drawer } from '@odysseon/ur-ui';
 
 import { LocationPicker } from '../../../../shared/ui/organisms/location-picker/location-picker';
 import { Location } from '../../../../core/services/location.service';
 import { CategoryPicker } from '../../../../shared/ui/organisms/category-picker/category-picker';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 import { ICategory } from '../../../home/home.interface';
 
 

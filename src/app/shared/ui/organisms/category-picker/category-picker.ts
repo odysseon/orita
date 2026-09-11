@@ -1,8 +1,8 @@
 import { Component, input, model, computed, signal, inject, ViewEncapsulation } from '@angular/core';
-import { InputDirective } from 'ur-ui';
+import { InputDirective } from '@odysseon/ur-ui';
 import { LucideSearch, LucideChevronDown, LucideLoaderCircle } from '@lucide/angular';
 import { CategoryService } from '../../../../core/services/category.service';
-import { Drawer } from 'ur-ui';
+import { Drawer } from '@odysseon/ur-ui';
 
 
 @Component({

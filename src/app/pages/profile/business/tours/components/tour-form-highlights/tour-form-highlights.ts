@@ -1,7 +1,7 @@
 import { Component, input, output, signal } from '@angular/core';
 
 import { LucidePlus, LucideX } from '@lucide/angular';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-tour-form-highlights',

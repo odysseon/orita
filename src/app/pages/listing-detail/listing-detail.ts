@@ -21,8 +21,8 @@ import { ListingReviews } from './components/listing-reviews/listing-reviews';
 import { ListingAttributes } from './components/listing-attributes/listing-attributes';
 import { ListingBusinessCard } from './components/listing-business-card/listing-business-card';
 
-import { Button } from 'ur-ui';
-import { CoverMedia } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
+import { CoverMedia } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-listing-detail',

@@ -3,7 +3,7 @@ import { LucidePhone, LucideMessageCircle } from '@lucide/angular';
 import { MessagingFacade } from '../../../../core/services/messaging.facade';
 import { FollowService } from '../../../../core/services/follow.service';
 import { ToastService } from '../../../../core/services/toast';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 import { BusinessCard } from '../../../../shared/ui/organisms/cards/business-card/business-card';
 import { MessageButton } from '../../../../shared/ui/actions/message-button/message-button';
 

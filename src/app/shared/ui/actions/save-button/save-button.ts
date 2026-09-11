@@ -1,5 +1,5 @@
 import { Component, input, output, computed, inject } from '@angular/core';
-import { Button, ButtonAppearance } from 'ur-ui';
+import { Button, ButtonAppearance } from '@odysseon/ur-ui';
 import { LucideBookmark } from '@lucide/angular';
 import { SAVE_BUTTON_I18N } from './save-button.config';
 

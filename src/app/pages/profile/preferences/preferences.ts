@@ -1,7 +1,7 @@
 import { Component, inject, signal, effect } from '@angular/core';
 import { LucideSave } from '@lucide/angular';
 import { CategoryBrowser } from '../../../shared/ui/organisms/category-browser/category-browser';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 import { UserService } from '../../../core/services/user.service';
 import { ToastService } from '../../../core/services/toast';
 import { httpResource } from '@angular/common/http';

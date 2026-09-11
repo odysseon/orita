@@ -1,9 +1,9 @@
 import { Component, input, output, signal, effect, computed, inject } from '@angular/core';
 import { IBaseServiceArea, ServiceAreaType } from '../../../../pages/profile/business/business.interface';
-import { Drawer } from 'ur-ui';
-import { Button } from 'ur-ui';
-import { InputDirective } from 'ur-ui';
-import { AppFormField } from 'ur-ui';
+import { Drawer } from '@odysseon/ur-ui';
+import { Button } from '@odysseon/ur-ui';
+import { InputDirective } from '@odysseon/ur-ui';
+import { AppFormField } from '@odysseon/ur-ui';
 import { LucideX, LucideMapPin, LucideGlobe, LucideMap } from '@lucide/angular';
 
 export interface ServiceAreaEditorSaveEvent {

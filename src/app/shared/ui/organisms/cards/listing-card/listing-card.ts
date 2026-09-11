@@ -1,7 +1,7 @@
 import { Component, input, output, signal, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CoverMedia } from 'ur-ui';
-import { Card } from 'ur-ui';
+import { CoverMedia } from '@odysseon/ur-ui';
+import { Card } from '@odysseon/ur-ui';
 import { ListingMeta } from '../../../molecules/listing-meta/listing-meta';
 import { SaveButton } from '../../../actions/save-button/save-button';
 import { MessageButton } from '../../../actions/message-button/message-button';

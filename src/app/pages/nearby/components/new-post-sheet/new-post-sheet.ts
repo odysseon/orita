@@ -4,11 +4,11 @@ import { form, required, FormField, FormRoot, SchemaPathTree, FieldTree } from '
 import { OpportunityService, CreateOpportunityDto } from '../../../../core/services/opportunity.service';
 import { LocationService } from '../../../../core/services/location.service';
 import { ToastService } from '../../../../core/services/toast';
-import { Drawer } from 'ur-ui';
+import { Drawer } from '@odysseon/ur-ui';
 
-import { Button } from 'ur-ui';
-import { AppFormField } from 'ur-ui';
-import { SelectDirective, TextareaDirective, InputDirective } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
+import { AppFormField } from '@odysseon/ur-ui';
+import { SelectDirective, TextareaDirective, InputDirective } from '@odysseon/ur-ui';
 import { LucideX } from '@lucide/angular';
 
 interface NewPostModel {

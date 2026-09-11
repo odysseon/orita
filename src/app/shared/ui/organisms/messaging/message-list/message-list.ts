@@ -1,6 +1,6 @@
 import { Component, input, output, ViewChild, ElementRef, AfterViewChecked, effect } from '@angular/core';
 import { MessageBubble } from '../../../molecules/messaging/message-bubble/message-bubble';
-import { Skeleton } from 'ur-ui';
+import { Skeleton } from '@odysseon/ur-ui';
 import { IMessage } from '../../../../../core/services/messaging.types';
 
 @Component({

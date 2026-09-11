@@ -4,8 +4,8 @@ import { IBusinessProfile, IDashboardStats } from '../business.interface';
 import { IBusinessSummary } from '../../../home/home.interface';
 import { BusinessCard } from '../../../../shared/ui/organisms/cards/business-card/business-card';
 import { VisibilityScore } from '../../../../shared/visibility-score/visibility-score';
-import { Skeleton } from 'ur-ui';
-import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription } from 'ur-ui';
+import { Skeleton } from '@odysseon/ur-ui';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-business-overview',

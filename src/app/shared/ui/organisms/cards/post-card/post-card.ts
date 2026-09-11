@@ -1,7 +1,7 @@
 import { Component, input, output, computed, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Button } from 'ur-ui';
-import { Card, CardAppearance } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
+import { Card, CardAppearance } from '@odysseon/ur-ui';
 import { NearbyItemDto } from '../../../../../core/models/discovery';
 
 @Component({

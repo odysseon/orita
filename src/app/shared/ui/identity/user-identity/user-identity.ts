@@ -1,6 +1,6 @@
 import { Component, input, computed, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Avatar, AvatarSize, AvatarStatus } from 'ur-ui';
+import { Avatar, AvatarSize, AvatarStatus } from '@odysseon/ur-ui';
 import { IdentityLink } from '../identity.model';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Button, ButtonAppearance, ButtonShape, ButtonSize } from 'ur-ui';
+import { Button, ButtonAppearance, ButtonShape, ButtonSize } from '@odysseon/ur-ui';
 import { LucideShare2 } from '@lucide/angular';
 
 @Component({

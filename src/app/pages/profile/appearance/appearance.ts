@@ -14,8 +14,8 @@ import {
   ListItemTitle,
   ListItemDescription,
   ListItemEnd,
-} from 'ur-ui';
-import { RadioDirective } from 'ur-ui';
+} from '@odysseon/ur-ui';
+import { RadioDirective } from '@odysseon/ur-ui';
 import { ThemeService, ThemePreference } from '../../../core/services/theme.service';
 
 interface ThemeOption {

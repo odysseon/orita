@@ -18,11 +18,11 @@ import {
   LucideImage,
   LucideInfo,
 } from '@lucide/angular';
-import { Badge } from 'ur-ui';
-import { Skeleton } from 'ur-ui';
-import { Avatar } from 'ur-ui';
-import { CoverMedia } from 'ur-ui';
-import { Grid } from 'ur-ui';
+import { Badge } from '@odysseon/ur-ui';
+import { Skeleton } from '@odysseon/ur-ui';
+import { Avatar } from '@odysseon/ur-ui';
+import { CoverMedia } from '@odysseon/ur-ui';
+import { Grid } from '@odysseon/ur-ui';
 import { ListingCard } from '../../shared/ui/organisms/cards/listing-card/listing-card';
 import { StoreTourCard } from '../../shared/ui/organisms/cards/store-tour-card/store-tour-card';
 import { IBaseServiceArea } from '../profile/business/business.interface';

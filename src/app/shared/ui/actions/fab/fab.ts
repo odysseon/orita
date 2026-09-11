@@ -1,5 +1,5 @@
 import { Component, input, HostBinding } from '@angular/core';
-import { ButtonIntent } from 'ur-ui';
+import { ButtonIntent } from '@odysseon/ur-ui';
 
 export type FabSize = 'sm' | 'md' | 'lg';
 export type FabAppearance = 'solid' | 'glass';

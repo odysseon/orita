@@ -1,12 +1,12 @@
 import { Component, input, output } from '@angular/core';
 import {
   List, ListItem, ListItemContent, ListItemEnd,
-} from 'ur-ui';
+} from '@odysseon/ur-ui';
 import { BusinessIdentity } from '../../../../shared/ui/identity/business-identity/business-identity';
 import { FollowButton } from '../../../../shared/ui/actions/follow-button/follow-button';
 import { RecentSearches } from '../recent-searches/recent-searches';
 import { TrendingCategories } from '../trending-categories/trending-categories';
-import { Skeleton } from 'ur-ui';
+import { Skeleton } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-search-empty-dashboard',

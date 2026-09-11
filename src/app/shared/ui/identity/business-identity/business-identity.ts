@@ -1,6 +1,6 @@
 import { Component, input, computed, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Avatar, AvatarSize, AvatarShape } from 'ur-ui';
+import { Avatar, AvatarSize, AvatarShape } from '@odysseon/ur-ui';
 import { LucideBadgeCheck } from '@lucide/angular';
 import { IdentityLink } from '../identity.model';
 

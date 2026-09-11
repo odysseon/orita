@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { applicationConfig } from '@storybook/angular';
 import { RootHeader } from './root-header';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 import { LucideBell } from '@lucide/angular';
 import { LocationPicker } from '../location-picker/location-picker';
 import { provideRouter, ActivatedRoute } from '@angular/router';

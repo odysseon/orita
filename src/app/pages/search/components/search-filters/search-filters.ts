@@ -1,15 +1,15 @@
 import { Component, input, output, signal, computed, effect, inject, resource } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
-import { Drawer } from 'ur-ui';
+import { Drawer } from '@odysseon/ur-ui';
 
-import { AppFormField } from 'ur-ui';
+import { AppFormField } from '@odysseon/ur-ui';
 import { CategoryService } from '../../../../core/services/category.service';
 import { LocationPicker } from '../../../../shared/ui/organisms/location-picker/location-picker';
 import { Location } from '../../../../core/services/location.service';
-import { Button } from 'ur-ui';
-import { SelectDirective } from 'ur-ui';
-import { InputDirective } from 'ur-ui';
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
+import { SelectDirective } from '@odysseon/ur-ui';
+import { InputDirective } from '@odysseon/ur-ui';
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption } from '@odysseon/ur-ui';
 
 export interface SearchFilterState {
   locationName: string | null;

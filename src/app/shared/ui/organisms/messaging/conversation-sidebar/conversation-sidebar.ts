@@ -1,11 +1,11 @@
 import { Component, input, output, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ConversationListItem } from '../../list-items/conversation-list-item/conversation-list-item';
-import { List } from 'ur-ui';
-import { SearchBar } from 'ur-ui';
-import { InputDirective } from 'ur-ui';
+import { List } from '@odysseon/ur-ui';
+import { SearchBar } from '@odysseon/ur-ui';
+import { InputDirective } from '@odysseon/ur-ui';
 import { IConversationPreview } from '../../../../../core/services/messaging.types';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'ui-conversation-sidebar',

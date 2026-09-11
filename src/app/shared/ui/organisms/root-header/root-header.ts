@@ -1,7 +1,7 @@
 import { Component, input, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Header, HeaderStart, HeaderCenter, HeaderEnd } from 'ur-ui';
-import { Avatar } from 'ur-ui';
+import { Header, HeaderStart, HeaderCenter, HeaderEnd } from '@odysseon/ur-ui';
+import { Avatar } from '@odysseon/ur-ui';
 
 import { AuthService } from '../../../../core/services/auth.service';
 

@@ -4,10 +4,10 @@ import { NearbyItemDto } from '../../../core/models/discovery';
 import { Subject, switchMap, catchError, of, tap, takeUntil } from 'rxjs';
 import { PostCard } from '../../../shared/ui/organisms/cards/post-card/post-card';
 import { PostCardSkeleton } from '../../../shared/ui/organisms/cards/post-card/post-card-skeleton';
-import { List, ListItem } from 'ur-ui';
+import { List, ListItem } from '@odysseon/ur-ui';
 import { EmptyState } from '../../../shared/empty-state/empty-state';
-import { Drawer } from 'ur-ui';
-import { Button } from 'ur-ui';
+import { Drawer } from '@odysseon/ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-my-opportunities',

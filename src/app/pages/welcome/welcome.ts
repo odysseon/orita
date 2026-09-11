@@ -10,7 +10,7 @@ import { SeoComponent } from '../../shared/seo/seo.component';
 import { Logo } from '../../shared/ui/atoms/logo/logo';
 import { CategoryBrowser } from '../../shared/ui/organisms/category-browser/category-browser';
 import { UserService } from '../../core/services/user.service';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-welcome',

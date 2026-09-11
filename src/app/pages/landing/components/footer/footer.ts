@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Divider } from 'ur-ui';
+import { Divider } from '@odysseon/ur-ui';
 
 interface FooterLink {
   readonly label: string;

@@ -1,7 +1,7 @@
 import { Component, output } from '@angular/core';
 
 import { LucidePartyPopper } from '@lucide/angular';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-first-listing-cta',

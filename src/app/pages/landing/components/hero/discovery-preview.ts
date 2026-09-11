@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { LucideSearch, LucideMapPin } from '@lucide/angular';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-discovery-preview',

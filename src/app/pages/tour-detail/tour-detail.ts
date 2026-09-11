@@ -10,7 +10,7 @@ import { LucideImage, LucideCalendar, LucideCheckCircle } from '@lucide/angular'
 import { LayoutPage } from '../../shared/layout/sub-layout/layout-page.interface';
 
 import { environment } from '../../../environments/environment';
-import { Button } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-tour-detail',

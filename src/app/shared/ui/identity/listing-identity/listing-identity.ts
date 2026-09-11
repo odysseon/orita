@@ -1,6 +1,6 @@
 import { Component, input, computed, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CoverMedia } from 'ur-ui';
+import { CoverMedia } from '@odysseon/ur-ui';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({

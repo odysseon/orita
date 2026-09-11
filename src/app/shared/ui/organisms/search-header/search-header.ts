@@ -1,11 +1,11 @@
 import { Component, input, output, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Header, HeaderStart, HeaderCenter, HeaderEnd } from 'ur-ui';
-import { Avatar } from 'ur-ui';
+import { Header, HeaderStart, HeaderCenter, HeaderEnd } from '@odysseon/ur-ui';
+import { Avatar } from '@odysseon/ur-ui';
 
-import { SearchBar } from 'ur-ui';
-import { InputDirective } from 'ur-ui';
-import { Button } from 'ur-ui';
+import { SearchBar } from '@odysseon/ur-ui';
+import { InputDirective } from '@odysseon/ur-ui';
+import { Button } from '@odysseon/ur-ui';
 import { LucideFilter } from '@lucide/angular';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';

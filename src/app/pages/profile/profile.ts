@@ -19,13 +19,13 @@ import { IProfile } from './profile.interface';
 import { AuthService } from '../../core/services/auth.service';
 import { environment } from '../../../environments/environment';
 import { CreateBusiness } from './business/create/create-business';
-import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from 'ur-ui';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle, ListItemDescription, ListItemEnd } from '@odysseon/ur-ui';
 import { SeoComponent } from '../../shared/seo/seo.component';
 import { PageHeader } from '../../shared/ui/organisms/page-header/page-header';
-import { Avatar } from 'ur-ui';
+import { Avatar } from '@odysseon/ur-ui';
 
-import { Skeleton } from 'ur-ui';
-import { Button } from 'ur-ui';
+import { Skeleton } from '@odysseon/ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 interface NavItem {
   icon: LucideIconInput;

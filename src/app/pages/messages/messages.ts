@@ -12,10 +12,10 @@ import { DraftMessageService } from '../../core/services/draft-message.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { NotificationsPage } from '../notifications/notifications';
 import { LucideTriangleAlert } from '@lucide/angular';
-import { Button } from 'ur-ui';
-import { Badge } from 'ur-ui';
+import { Button } from '@odysseon/ur-ui';
+import { Badge } from '@odysseon/ur-ui';
 
-import { Tabs, TabList, TabTrigger } from 'ur-ui';
+import { Tabs, TabList, TabTrigger } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-messages',

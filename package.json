@@ -30,7 +30,7 @@
     "rxjs": "~7.8.2",
     "socket.io-client": "^4.8.3",
     "tslib": "^2.8.1",
-    "ur-ui": "file:../ur-ui/dist/ur-ui"
+    "@odysseon/ur-ui": "file:../ur-ui/dist/ur-ui"
   },
   "devDependencies": {
     "@angular/build": "^22.0.7",

@@ -5,8 +5,8 @@ import {
   ListItemContent, 
   ListItemTitle, 
   ListItemDescription 
-} from 'ur-ui';
-import { Avatar } from 'ur-ui';
+} from '@odysseon/ur-ui';
+import { Avatar } from '@odysseon/ur-ui';
 
 import { DatePipe } from '@angular/common';
 

@@ -1,10 +1,10 @@
 import { Component, computed, input, output } from '@angular/core';
 import { LucideXCircle, LucideAlertTriangle } from '@lucide/angular';
 import { PublicationIssue } from '../../core/services/business-profile.service';
-import { Drawer } from 'ur-ui';
+import { Drawer } from '@odysseon/ur-ui';
 
-import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle } from 'ur-ui';
-import { Button } from 'ur-ui';
+import { List, ListItem, ListItemStart, ListItemContent, ListItemTitle } from '@odysseon/ur-ui';
+import { Button } from '@odysseon/ur-ui';
 
 @Component({
   selector: 'app-publication-readiness',
